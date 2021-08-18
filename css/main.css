@@ -22,3 +22,12 @@
     top:50%;
     margin:-400px 0 0 -300px;
 }
+
+.centercourses {
+    width:1000px;
+    height:800px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin:-400px 0 0 -480px;
+}

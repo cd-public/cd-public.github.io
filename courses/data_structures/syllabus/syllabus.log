@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  19 AUG 2021 10:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  19 AUG 2021 11:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -639,26 +639,29 @@ LaTeX Font Warning: Font shape `OMS/pplx/m/n' undefined
 
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
 (Font)              Font shape `T1/pplx/b/n' tried instead on input line 133.
-[2] [3] 
+[2] [3] (./college.tex [4]) [5] 
 AED: lastpage setting LastPage
-[4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 233.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 233.
+[6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 235.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 235.
  (./syllabus.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 233.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 233.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 235.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 235.
 Package rerunfilecheck Info: File `syllabus.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 8717 strings out of 492166
- 125222 string characters out of 6120587
- 253634 words of memory out of 5000000
- 12908 multiletter control sequences out of 15000+600000
+ 8728 strings out of 492166
+ 125331 string characters out of 6120587
+ 254634 words of memory out of 5000000
+ 12909 multiletter control sequences out of 15000+600000
  39125 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,12n,45p,1039b,385s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -669,10 +672,10 @@ cm/cmsy10.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/public/
 cm-super/sftt1095.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1
 /urw/palatino/uplb8a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/ty
 pe1/urw/palatino/uplr8a.pfb>
-Output written on syllabus.pdf (4 pages, 85131 bytes).
+Output written on syllabus.pdf (6 pages, 90744 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
+ 77 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
+ 25 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

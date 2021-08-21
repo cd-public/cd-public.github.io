@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  19 AUG 2021 11:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  20 AUG 2021 12:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -83,6 +83,36 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks17
 \@floatcapt=\box28
 )
+(d:/General Utilities/texlive/2019/texmf-dist/tex/latex/quoting/quoting.sty
+Package: quoting 2014/01/28 v0.1c Consolidated environment for displayed text
+
+(d:/General Utilities/texlive/2019/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count92
+)
+(d:/General Utilities/texlive/2019/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+(d:/General Utilities/texlive/2019/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+(d:/General Utilities/texlive/2019/texmf-dist/tex/generic/oberdiek/kvsetkeys.st
+y
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+(d:/General Utilities/texlive/2019/texmf-dist/tex/generic/oberdiek/infwarerr.st
+y
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+(d:/General Utilities/texlive/2019/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+(d:/General Utilities/texlive/2019/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+))))
+\quo@toppartop=\skip44
+)
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/mathpazo.sty
 Package: mathpazo 2005/04/12 PSNFSS-v9.2a Palatino w/ Pazo Math (D.Puga, WaS) 
 \symupright=\mathgroup4
@@ -97,10 +127,6 @@ LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/datetime/datetime.sty
 Package: datetime 2015/03/20 v2.60 Date Time Package
 
-(d:/General Utilities/texlive/2019/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count92
-)
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/fmtcount/fmtcount.sty
 Package: fmtcount 2017/12/24 v3.05
 
@@ -192,8 +218,8 @@ Package: multicol 2019/03/01 v1.8w multicolumn formatting (FMi)
 \page@free=\dimen116
 \premulticols=\dimen117
 \postmulticols=\dimen118
-\multicolsep=\skip44
-\multicolbaselineskip=\skip45
+\multicolsep=\skip45
+\multicolbaselineskip=\skip46
 \partial@page=\box31
 \last@line=\box32
 \maxbalancingoverflow=\dimen119
@@ -231,15 +257,15 @@ Package: multicol 2019/03/01 v1.8w multicolumn formatting (FMi)
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
 s
-\f@nch@headwidth=\skip46
-\f@nch@O@elh=\skip47
-\f@nch@O@erh=\skip48
-\f@nch@O@olh=\skip49
-\f@nch@O@orh=\skip50
-\f@nch@O@elf=\skip51
-\f@nch@O@erf=\skip52
-\f@nch@O@olf=\skip53
-\f@nch@O@orf=\skip54
+\f@nch@headwidth=\skip47
+\f@nch@O@elh=\skip48
+\f@nch@O@erh=\skip49
+\f@nch@O@olh=\skip50
+\f@nch@O@orh=\skip51
+\f@nch@O@elf=\skip52
+\f@nch@O@erf=\skip53
+\f@nch@O@olf=\skip54
+\f@nch@O@orf=\skip55
 )
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/lastpage/lastpage.sty
 Package: lastpage 2015/03/29 v1.2m Refers to last page's name (HMM; JPG)
@@ -260,15 +286,14 @@ Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 ic.sty
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package hobsub Info: Skipping package `ifluatex' (already loaded).
 Package hobsub Info: Skipping package `ifvtex' (already loaded).
 Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
 Package hobsub Info: Skipping package `ifpdf' (already loaded).
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package hobsub Info: Skipping package `etexcmds' (already loaded).
+Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 Package: pdftexcmds 2019/07/25 v0.30 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -294,12 +319,10 @@ Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
-(d:/General Utilities/texlive/2019/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
-)
 \@linkdim=\dimen123
 \Hy@linkcounter=\count134
 \Hy@pagecounter=\count135
+
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2019/09/28 v7.00a Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -350,11 +373,11 @@ Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip55
+\Hy@SectionHShift=\skip56
 )
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2019/04/01 v2.17c AMS math features
-\@mathmargin=\skip56
+\@mathmargin=\skip57
 
 For additional information on amsmath, use the `?' option.
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -399,8 +422,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
 \totwidth@=\dimen133
 \lineht@=\dimen134
 \@envbody=\toks25
-\multlinegap=\skip57
-\multlinetaggap=\skip58
+\multlinegap=\skip58
+\multlinetaggap=\skip59
 \mathdisplay@stack=\toks26
 LaTeX Info: Redefining \[ on input line 2855.
 LaTeX Info: Redefining \] on input line 2856.
@@ -445,8 +468,8 @@ Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \ar@mcellbox=\box58
 \extrarowheight=\dimen136
 \NC@list=\toks27
-\extratabsurround=\skip59
-\backup@length=\skip60
+\extratabsurround=\skip60
+\backup@length=\skip61
 \ar@cellbox=\box59
 )
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/xcolor/xcolor.sty
@@ -466,27 +489,27 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 65.
-Package hyperref Info: Option `breaklinks' set `true' on input line 65.
+Package hyperref Info: Option `colorlinks' set `true' on input line 69.
+Package hyperref Info: Option `breaklinks' set `true' on input line 69.
  (./syllabus.aux)
 \openout1 = `syllabus.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Trying to load font information for T1+pplx on input line 6
-7.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Trying to load font information for T1+pplx on input line 7
+1.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/t1pplx.fd
 File: t1pplx.fd 2004/09/06 font definitions for T1/pplx.
@@ -564,9 +587,9 @@ File: fc-english.def 2016/01/12
 )
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 67.
+(lastpage)             ! on input line 71.
 \AtBeginShipoutBox=\box61
-Package hyperref Info: Link coloring ON on input line 67.
+Package hyperref Info: Link coloring ON on input line 71.
  (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 
@@ -576,77 +599,77 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count193
 )
-LaTeX Info: Redefining \ref on input line 67.
-LaTeX Info: Redefining \pageref on input line 67.
-LaTeX Info: Redefining \nameref on input line 67.
+LaTeX Info: Redefining \ref on input line 71.
+LaTeX Info: Redefining \pageref on input line 71.
+LaTeX Info: Redefining \nameref on input line 71.
  (./syllabus.out) (./syllabus.out)
 \@outlinefile=\write3
 \openout3 = `syllabus.out'.
 
 LaTeX Font Info:    Trying to load font information for OT1+pplx on input line 
-70.
+74.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/ot1pplx.fd
 File: ot1pplx.fd 2004/09/06 font definitions for OT1/pplx.
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-70.
+74.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-70.
+74.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-70.
+74.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-70.
+74.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
-8.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 8
+2.
 
 (d:/General Utilities/texlive/2019/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 78.
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 82.
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 91.
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 95.
 
 [1
 
 {d:/General Utilities/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 }]
 LaTeX Font Info:    Trying to load font information for OMS+pplx on input line 
-117.
-LaTeX Font Info:    No file OMSpplx.fd. on input line 117.
+121.
+LaTeX Font Info:    No file OMSpplx.fd. on input line 121.
 
 
 LaTeX Font Warning: Font shape `OMS/pplx/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 117.
+(Font)              for symbol `textbullet' on input line 121.
 
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <12> not available
-(Font)              Font shape `T1/pplx/b/n' tried instead on input line 131.
-[2] [3] 
+(Font)              Font shape `T1/pplx/b/n' tried instead on input line 135.
+[2] [3] [4] (./college.tex [5] [6]) 
 AED: lastpage setting LastPage
-[4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 229.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 229.
+[7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 225.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 225.
  (./syllabus.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 229.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 229.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 225.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 225.
 Package rerunfilecheck Info: File `syllabus.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -655,24 +678,25 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 8717 strings out of 492166
- 125222 string characters out of 6120587
- 253636 words of memory out of 5000000
- 12908 multiletter control sequences out of 15000+600000
- 39125 words of font info for 73 fonts, out of 8000000 for 9000
+ 8819 strings out of 492166
+ 127472 string characters out of 6120587
+ 255628 words of memory out of 5000000
+ 12974 multiletter control sequences out of 15000+600000
+ 41186 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,12n,45p,1039b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,11n,45p,1039b,385s stack positions out of 5000i,500n,10000p,200000b,80000s
 {d:/General Utilities/texlive/2019/texmf-dist/fonts/enc/dvips/base/8r.enc}{d:
 /General Utilities/texlive/2019/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1
 .enc}<d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/public/
 cm-super/sftt1095.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1
 /urw/palatino/uplb8a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/ty
-pe1/urw/palatino/uplr8a.pfb>
-Output written on syllabus.pdf (4 pages, 85088 bytes).
+pe1/urw/palatino/uplr8a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts
+/type1/urw/palatino/uplri8a.pfb>
+Output written on syllabus.pdf (7 pages, 110001 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
+ 94 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
+ 29 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

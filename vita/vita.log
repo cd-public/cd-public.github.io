@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  21 AUG 2021 09:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  18 NOV 2021 13:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -363,39 +363,67 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 307.
 
+
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 416.
+
 [1
 
 {d:/General Utilities/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map
-}] 
-AED: lastpage setting LastPage
+}]
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 511.
+
 [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 487.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 487.
+
+Package lastpage Warning: Rerun to get the references right on input line 520.
+
+
+AED: lastpage setting LastPage
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 520.
+
+[3]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 520.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 520.
  (./vita.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 487.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 487.
-Package rerunfilecheck Info: File `vita.out' has not changed.
-(rerunfilecheck)             Checksum: E6D7A99481E61BEE08CD130CFEEA2E4B;467.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 487.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 520.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 520.
+
+
+Package rerunfilecheck Warning: File `vita.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `vita.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  2305F603B895C7C92AE853AE042EEFE3;597.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 520.
  ) 
 Here is how much of TeX's memory you used:
- 6215 strings out of 492166
- 92241 string characters out of 6120587
- 200738 words of memory out of 5000000
- 10511 multiletter control sequences out of 15000+600000
+ 6218 strings out of 492166
+ 92233 string characters out of 6120587
+ 200609 words of memory out of 5000000
+ 10502 multiletter control sequences out of 15000+600000
  22439 words of font info for 26 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
- 31i,13n,45p,225b,374s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,13n,45p,225b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
 {d:/General Utilities/texlive/2019/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:
-/General Utilities/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
-0.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/urw/times/utmb8
-a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/urw/times/utmr8
-a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/urw/times/utmri
-8a.pfb>
-Output written on vita.pdf (2 pages, 61198 bytes).
+/General Utilities/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/urw/ti
+mes/utmb8a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/urw/ti
+mes/utmr8a.pfb><d:/General Utilities/texlive/2019/texmf-dist/fonts/type1/urw/ti
+mes/utmri8a.pfb>
+Output written on vita.pdf (3 pages, 71265 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
+ 119 PDF objects out of 1000 (max. 8388607)
  107 compressed objects within 2 object streams
- 20 named destinations out of 1000 (max. 500000)
- 65 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 32 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

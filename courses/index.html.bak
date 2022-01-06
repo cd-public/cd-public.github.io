@@ -16,7 +16,7 @@
     <table cellpadding=0>
       <tr>
 	<td valign="middle" align="right">
-	<p><a href="intor/151s22.html">
+	<p><a href="intro/151s22.html">
 	  <div class="frame">
 	  <img src="../photos/intro.png" width=320px>
 	  <center>
@@ -27,11 +27,11 @@
 	  </p>
 	</td>
 	<td valign="middle" style="padding:0 10px 0 0" rowspan=3>  
-	<p><a href="data_structures/241f21.html">
+	<p><a href="structures/241s22.html">
 	  <div class="frame">
 	    <img src="../photos/data_structures.png" width=320px>
 		<center>
-		<h1 style="font-size:1.5vw">Data Structures</h1>
+		<h1 style="font-size:1.5vw">Structures/Abstractions</h1>
 		CS 241: Data Structures
 		</center>
 		</div>
@@ -42,7 +42,7 @@
 	  <div class="frame">
 	  <img src="../photos/sys.png" width=320px>
 	  <center>
-		<h1 style="font-size:1.5vw">Networks & Systems</h1>
+		<h1 style="font-size:1.5vw">Systems</h1>
 	  CS 399: Topics: Networks & Systems
 	  </center>
 	  </div>

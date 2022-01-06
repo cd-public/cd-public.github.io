@@ -14,9 +14,9 @@
 
 % Modify Course title, instructor name, semester here %%%%%%%%
 
-\title{CS-241: Data Structures}
+\title{CS-151: Introduction to Programming in Python}
 \author{Calvin Deutschbein (they)}
-\date{Willamette University, Fall 2021}
+\date{Willamette University, Spring 2022}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,7 +55,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\rhead{\footnotesize Data Structures}
+\rhead{\footnotesize Intro}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,13 +79,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.github.io/courses/data_structures/241f21.html}{\tt\bf cd-public.github.io/}  \\
+E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.github.io/courses/intro/151s22.html}{\tt\bf cd-public.github.io/}  \\
 
- Office Hours: By Appt. \& TBA  &  Lecture MWF 8:00-9:00 AM \\
+ Office Hours: By Appt. \& TBA  &  Lecture MWF 9:10-10:10 AM \\
 
- Office: Zoom, Ford 206 & Lecture Hall: Ford 204 \\
+ Office: Zoom, Ford 206 & Lecture Hall: "Salem TBA" \\
  & \\
-Lab Room: Ford 202 & Lab Hours: MWF 9:10-10:10 AM \\
 &  \\
 \hline
 \end{tabular*}
@@ -96,20 +95,22 @@ Lab Room: Ford 202 & Lab Hours: MWF 9:10-10:10 AM \\
 
 \section*{Course Description}
 
-Theoretical and practical study of programming and abstract data types including lists, stacks, queues, trees and algorithms used on these data structures. The course includes object implementation of structures and sharpens programming skills learned in previous courses.
+An introduction to computer science using Python. Introduces students to the fundamental concepts of programming and computational problem solving. Students will study and create programs that perform various tasks, including text and file manipulation, internet scraping, data structures, and testing. Topics will include general programming idioms such as variables, logic and loops as well as Python specific idioms such as list comprehension and generators. Object-oriented programming will be introduced. 
 
 % Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Required Materials}
 
-Required materials will be available on the course webpage under \href{https://cd-public.github.io/courses/data_structures/r-241f21.html}{resources}.
+Lecture materials will be available on the course webpage under \href{https://cd-public.github.io/courses/intro/s-151f22.html}{schedule}.
+
+The textbook is available online at \href{https://willamette.edu/~esroberts/cs151/reader/CS151-Reader.pdf}{this link} and additional documentation on the PGL library we use for graphics is available at \href{https://willamette.edu/~esroberts/python/pgldoc/}{this link}
 
 
 % Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Prerequisites}
 
-This class is meant for computer science students who have completed introductory coursework in programming. The prerequisites are CS 141 or CS 151 (though CS 151 is recommended as the course will primarily use Python).
+This class is meant to open to all students.
 
 \section*{Accessability}
 
@@ -118,15 +119,18 @@ I will make every effort to ensure all coursework and materials are accessible t
 % Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Course Objectives}
-This course will teach you how to organize the data used in computer programs so that manipulation of that data can be done efficiently on large problems and large data instances.  This course will address both how to use the data structures found in the libraries of programming languages, and how those libraries are constructed and why the items that are included in them are there (and why some are excluded). 
+To gain the skills, knowledge, and confidence necessary to write, test, and debug Python programs requiring several hundred lines of code.
+
+Doing so will require that students be able to:
 \begin{itemize}
-\item You will gain familiarity with important categories of problems that are commonly encountered in software development, and will learn what data organizations will allow practical and efficient solutions to those problems. 
-\item You will learn the basics of how to describe and analyze the performance and efficiency of your algorithms; this will prepare you for the upper level course in algorithms. 
-\item You will demonstrate the concepts you learn by encoding them in correct Python programs. 
-\item You will gain more proficiency in basic programming and in constructing larger programs than you have been doing in your intro classes. 
-\item You will practice the induction proof methods to reason about your programs, and to argue in support of them.  
+\item implement algorithms,
+\item decompose complex problems,
+\item use recursion, 
+\item design programming structures,
+\item do each of: design, implement, test and debug,  
+\item argue that computer science is more than programming.
 \end{itemize}
-Competency of the data structures taught in this course will prepare you to study higher level areas where those data structures are heavily used: operating systems, networking, graphics, vision, compilers, databases, and security.
+Competency of the techniques of scientific inquiry and programming taught in this course will prepare you to study higher level areas where computation is applied to fundamental problems in the arts, sciences, and humanities.
 
 % Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -136,33 +140,18 @@ The course will be composed of lectures, labs, homeworks, midterms, and a final 
 
 \subsection*{Lecture Structure}
 
-Lectures are scheduled for Mondays, Wednesdays, and Fridays at 8:00 AM in Ford 204. The schedule
-of lectures will be available on the course webpage under \href{https://cd-public.github.io/courses/data_structures/s-241f21.html}{schedule}.
+Lectures are scheduled for Mondays, Wednesdays, and Fridays at 9:10 AM in "Salem TBA". The schedule
+of lectures will be available on the course webpage under \href{https://cd-public.github.io/courses/intro/151f22.html}{schedule}.
 
 \bigskip
 \noindent Lectures will be primarily on the white board, with some coding. I will support a remote option
 for all lectures, likely through a streaming platform or Zoom, and will post recordings of lectures
 on the course website. While I will make every effort to follow best practices for accessible teaching, I will make mistakes! Please, if you find some material is inaccessible for any reason
-do not hesitate to reach out.
+do not hesitate to reach out. I am currently working to develop better ways from my writing to visible on Zoom, and please let me know if you have any ideas!
 
-\subsection*{Lab Structure}
+\subsection*{Sections}
 
-In addition to lecture, you must also sign up for the associated laboratory component of the
-class, which would ordinarily meet in Ford 202 in the scheduling slot immediately
-following the lecture (9:10 to 10:10 AM). I will follow the established practices
-for operating labratory sessions:
-\begin{itemize}
-\item The labs will be open during the scheduled hours, so that you can use the lab computers
-to complete the assignments.
-\item I will be available via Zoom or in person in my office in Ford 206 during the labs to answer
-questions and help you when you get stuck.
-\item You may do the lab work on your own computer and need not attend the lab sessions at
-the scheduled times.
-\item On weeks when assignments or projects or not due, I reserve the right to assign labs. You are responsible for submitting the the required materials for a lab session by the deadline at
-11:10 AM on Fridays.
-\item There will be no lab assignments during the weeks that assignments are due, to encourage
-you to use lab sessions to work on the projects.
-\end{itemize}
+In addition to three days of lecture, there will also be weekly meetings in smaller groups led by student peer mentors called sections. This sections will prepare you to apply the material taught in class to the assignments.
 
 \subsection*{Homework Structure}
 
@@ -170,12 +159,11 @@ Feedback will be provided on homework assignments. Homework assignments will be 
 
 \bigskip
 \noindent Homeworks will consist of programming assignments to be completed outside of class and submitted
-for feedback. There will be a ``Homework 0'' at the beginning of the semester to get used to
-programming and assignment submission, then four homework assignments throughout the semester.
-You will always have at least two weeks to complete homework assignments.
+for feedback. There will be be both Problem Sets, which are meant to cover specific techniques from class,
+and Projects, which are meant to cultivate the skills of assembly larger programs.
 
 \bigskip
-\noindent Homework assignment will be due at 8:00 AM on Fridays so we can discuss them in class on the 
+\noindent Homework assignment will be due at 9:10 AM on Fridays so we can discuss them in class on the 
 day they are due.
 
 \bigskip
@@ -195,7 +183,7 @@ Feedback will be provided on midterm exams.  Midterm exams will be considered wh
 \bigskip
 \noindent There will be two written midterm final exams, intended to be completed individual
 without access to notes or documentation. The midterms are intended to achieve a learning
-focus of reasoning about data structures in isolation from coding environments,
+focus of reasoning about computing in isolation from coding environments,
 as well provide me as an instructor with greater insight into how effective course
 instruction has been.
 
@@ -203,17 +191,15 @@ instruction has been.
 
 Feedback will be provided on the final project. The final project will be considered when determining grades for this course.
 
-
 There will be a final project that will be similar in format but distinct in content from
 homeworks. Whereas homeworks will including programming assignments for which there is
 some correct answer that may be measured against an answer key and notions of coding
-style, the project will be a student-centered exploration of data structures meant to
+style, the project will be a student-centered exploration of computation meant to
 give you an opportunity to apply what you've learned in the course while still receiving
 support from an instructor.
 
 \bigskip
-\noindent The final project will be released as soon as the final homework is due,
-on November 12, and will be due at the time of the final examination as set 
+\noindent The final project will be released as soon as the final homework is due, and will be due at the time of the final examination as set 
 by the registrar.
 
 \subsection*{Feedback and Grading}
@@ -221,7 +207,7 @@ Feedback will be provided on assignments, midterms, and the final project using 
 This 100 point scale is intended to be familiar to established grading standards, such as letter grades. To provide aggregate feedback for the whole course, these feedback scores will be combined as follows:
 \begin{itemize}
 	\item \underline{\textbf{40\%}} of your grade will be determined by homework assignments
-	\subitem \underline{\textbf{10\%}} each for the four highest scored assignments (out of five).
+	\subitem \underline{\textbf{20\%}} each for problem sets and projects
 	\item \underline{\textbf{40\%}} of your grade will be determined by midterm exams.
 	\subitem \underline{\textbf{20\%}} each for the two midterms.
 	\item \underline{\textbf{20\%}} of your grade will be determined by the final project.

@@ -46,7 +46,7 @@
 <tr>
 <td style="background-color:#00DDDD">Starting C</td>
 <td style="background-color:#00DDDD">Syllabus</td>
-<td style="background-color:#00DDDD">Standard I/O</td>
+<td style="background-color:#00DDDD">Git</td>
 <td style="background-color:#00DDDD">Arrays</td>
 <td style="background-color:#00DDDD">HW0: xSort</td>
 </tr>
@@ -60,7 +60,7 @@
 <tr>
 <td style="background-color:#00DDDD">Python</td>
 <td style="background-color:#FF0000">Memory Allocation</td>
-<td style="background-color:#00DDDD">Valgrind</td>
+<td style="background-color:#00DDDD">Standard I/O</td>
 <td style="background-color:#00DDDD">Structs</td>
 <td style="background-color:#00DDDD"></td>
 </tr>
@@ -87,9 +87,9 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Parallelism</td>
-<td style="background-color:#00DDDD">POSIX Threads</td>
+<td style="background-color:#00DDDD">PythonicList Review</td>
 <td style="background-color:#00DDDD">Signals</td>
-<td style="background-color:#00DDDD">Liveness</td>
+<td style="background-color:#00DDDD">POSIX Threads</td>
 <td style="background-color:#00DDDD"></td>
 </tr>
 <tr>
@@ -101,7 +101,7 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Memory</td>
-<td style="background-color:#00DDDD">ServerClient Review</td>
+<td style="background-color:#00DDDD">Race Conditions</td>
 <td style="background-color:#00DDDD">Locality</td>
 <td style="background-color:#00DDDD">Caches</td>
 <td style="background-color:#00DDDD">HW2: ServerClient</td>
@@ -114,9 +114,9 @@
 <td> </td>
 </tr>
 <tr>
-<td style="background-color:#00DDDD">Drivers of Cost</td>
+<td style="background-color:#00DDDD">Performance</td>
+<td style="background-color:#00DDDD">ServerClient Review</td>
 <td style="background-color:#00DDDD">Instruction Costs</td>
-<td style="background-color:#00DDDD">Access Costs</td>
 <td style="background-color:#00DDDD">Overhead Costs</td>
 <td style="background-color:#00DDDD">EC1: MatrixMult</td>
 </tr>
@@ -142,11 +142,11 @@
 <td> </td>
 </tr>
 <tr>
-<td style="background-color:#00DDDD">Lists Week 1</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch6_4.html">Strings Part 4</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch7_1.html">Lists Part 1</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch7_2.html">Lists Part 2</a></td>
-<td style="background-color:#00DDDD">Problem Set 4</td>
+<td style="background-color:#00DDDD">Command Line</td>
+<td style="background-color:#00DDDD">gdb</a></td>
+<td style="background-color:#00DDDD">Valgrind</td>
+<td style="background-color:#00DDDD">gcc</td>
+<td style="background-color:#00DDDD"></td>
 </tr>
 <tr>
 <td>9</td>
@@ -156,11 +156,11 @@
 <td> </td>
 </tr>
 <tr>
-<td style="background-color:#00DDDD">Lists Week 2</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch7_3.html">Lists Part 3</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch7_4.html">Lists Part 4</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch7_5.html">Lists Part 5</a></td>
-<td style="background-color:#00DDDD">Project 2</td>
+<td style="background-color:#00DDDD">Assembly</td>
+<td style="background-color:#00DDDD">Embedded Assembly</td>
+<td style="background-color:#00DDDD">RISC</td>
+<td style="background-color:#00DDDD">AMD64</td>
+<td style="background-color:#00DDDD">HW3: MergeSort</td>
 </tr>
 <tr>
 <td>10</td>
@@ -171,10 +171,10 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Objects</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch9_1.html">Objects Part 1</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch9_2.html">Objects Part 2</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch9_3.html">Objects Part 3</a></td>
-<td style="background-color:#00DDDD">PS5</td>
+<td style="background-color:#00DDDD">Kernel</td>
+<td style="background-color:#00DDDD">ioctl</td>
+<td style="background-color:#00DDDD">insmod</td>
+<td style="background-color:#00DDDD">EC2: WinSort</td>
 </tr>
 <tr>
 <td>11</td>
@@ -198,11 +198,11 @@
 <td> </td>
 </tr>
 <tr>
-<td style="background-color:#00DDDD">Inheritance</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch10_2.html">Inheritance Part 1</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch10_3.html">Inheritance Part 2</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch11_1.html">Hashing Part 1</a></td>
-<td style="background-color:#00DDDD">PS5</td>
+<td style="background-color:#00DDDD">Network Theory</td>
+<td style="background-color:#00DDDD"><a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf">Distributed Consensus</a></td>
+<td style="background-color:#00DDDD"><a href="https://lamport.azurewebsites.net/pubs/byz.pdf">Byzantine Generals</a></td>
+<td style="background-color:#00DDDD"><a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf">Paxos</a></td>
+<td style="background-color:#00DDDD"></td>
 </tr>
 <tr>
 <td>13</td>
@@ -211,11 +211,11 @@
 <td>4/8</td>
 <td> </td>
 </tr>
-<td style="background-color:#00DDDD">Structures</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch11_2.html">Hashing Part 2</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch12_1.html">Structures Part 1</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch12_2.html">Structures Part 2</a></td>
-<td style="background-color:#00DDDD">Project 3</td>
+<td style="background-color:#00DDDD">System Theory</td>
+<td style="background-color:#00DDDD"><a href="http://retis.sssup.it/~giorgio/paps/1994/rtss94.pdf">EDF</a></td>
+<td style="background-color:#00DDDD"><a href="https://users.ece.cmu.edu/~aavgerin/papers/mayhem-oakland-12.pdf">Binaries</a></td>
+<td style="background-color:#00DDDD"><a href="https://hovav.net/ucsd/dist/geometry.pdf">ROP Gadgets</a></td>
+<td style="background-color:#00DDDD">HW4: KernelMod</td>
 </tr>
 <tr>
 <td>14</td>
@@ -225,7 +225,7 @@
 <td> </td>
 </tr>
 <tr>
-<tr><td style="background-color:#DDDDDD">Midterm 1</td>
+<tr><td style="background-color:#DDDDDD">Midterm 2</td>
 <td style="background-color:#DDDDDD">Reserved</td>
 <td style="background-color:#FF0000">Research Fair</td>
 <td style="background-color:#DDDDDD">Reserved</td>
@@ -240,10 +240,10 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Efficiency</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch_Sets.html">Sets</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch8_1.html">Efficiency Part 1</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch8_2.html">Efficiency Part 2</a></td>
-<td style="background-color:#00DDDD">Project 4</td>
+<td style="background-color:#00DDDD">Vector Instructions</td>
+<td style="background-color:#00DDDD">Micro-ops</td>
+<td style="background-color:#00DDDD">Specialized ops</td>
+<td style="background-color:#00DDDD"></td>
 <tr>
 <td>16</td>
 <td>4/25</td>
@@ -253,10 +253,10 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Enrichment</td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch8_3.html">Efficiency Part 3</a></td>
-<td style="background-color:#00DDDD"><a href="slides/slides/Ch_FunLibraries.html">Libraries</a></td>
+<td style="background-color:#00DDDD">C++ Part 1</td>
+<td style="background-color:#00DDDD">C++ Part 2</td>
 <td style="background-color:#FF0000">Study Days</td>
-<td style="background-color:#00DDDD"><a href="pdf/final_project.pdf">Final Project (Due 5/5)</a></td>
+<td style="background-color:#00DDDD"><a href="pdf/final_project.pdf">Final Project (REPL) (Due 5/3)</a></td>
 </tr>
 </tbody></table>
 </div> <!--end content-schedule-->

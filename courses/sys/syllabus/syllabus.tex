@@ -14,9 +14,9 @@
 
 % Modify Course title, instructor name, semester here %%%%%%%%
 
-\title{CS-451: Computer Security}
+\title{CS-399: Networks \& Systems}
 \author{Calvin Deutschbein (they)}
-\date{Willamette University, Fall 2021}
+\date{Willamette University, Spring 2022}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -94,13 +94,15 @@ E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.git
 
 \section*{Course Description}
 
-Cybersecurity can be understood as a mindset or approach rather than a subfield of computer science, such as secure mobile computing, network and operating system security, secure data bases, and secure cryptography algorithms. This course prepares a general computer science audience familiar with writing and understanding code to incorporate security concepts and ethics into the systems they develop or manage.
+ Networks \& systems form the boundry between abstractions firmly rooted in language and deeper questions in computing regarding the implementation of thinking machines at engineering and physical levels. This course will prepare computer scientists to reason at and across this abstraction boundry to more fully embrace the power of computation.
+
+Students will learn low level languages of C and assembly, use command line tools to study these languages, use features of the operating system including parallelism and networking, and learn how to make changes to operating systems. 
 
 % Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Required Materials}
 
-Required materials will be available on the course webpage under \href{https://cd-public.github.io/courses/computer_security/r-451f21.html}{resources}.
+Required materials will be available on the \href{https://cd-public.github.io/courses/computer_security/399s22.html}{course webpage}.
 
 
 % Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,13 +120,13 @@ I will make every effort to ensure all coursework and materials are accessible t
 \section*{Course Objectives}
 This course will teach you techniques for reasoning about information and computing and controlled accesses to these resources. As a survey course of the broad discipline of computer security, it will focus on different abstraction levels, from cryptographic code at a low level to the cultural and economic implications of secure and insecure data access at a high level.
 \begin{itemize}
-\item You will practice styles of thinking used by security researchers to contextualize their work in the broader context of computing and society.
-\item You will gain experience working with common coding practices for security, especially in the context of network and internet security.
-\item You will learn some historical efforts to attack and defend various computing systems, and discuss the implications of the state of computer security as a discipline and as deployed in practice..
-\item You will learn some theoretical background in formulating notions of security (the ``logical foundations'' of computer security).
+\item You will practice using low level languages of C and assembly that do not fully obscure underlying hardware and operating system design decisions.
+\item You will gain experience working with command line tools to better understand computation.
+\item You will learn some historical efforts to develop and refine computing systems.
+\item You will learn about the constitution technologies that compose networks, including the Internet, and facilitate distributed computing.
 \item You will be exposed to state-of-the-art security research specific to hardware designs, including computer processors, as an example of ongoing research efforts.
 \end{itemize}
-This course will equip you apply notions of computer security to your other coursework, within computer science as well as within the college, and empower you to be a responsible computer scientist and member of an increasingly computer reliant society.
+This course will equip you apply notions of computer systems to your other coursework, within computer science as well as within the college, and empower you to be a responsible computer scientist and member of an increasingly computer reliant society.
 
 % Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -134,18 +136,8 @@ The course will be composed of lectures, labs, homeworks, midterms, and a final 
 
 \subsection*{Class Structure}
 
-Lectures are scheduled for Mondays, Wednesdays, and Fridays at 11:30 AM in Ford 204. The schedule
-of lectures will be available on the course webpage under \href{https://cd-public.github.io/courses/computer_security/s-451f21.html}{schedule}.
-
-The course will be composed of two parts. In the first part of the course, class will be used for lecture on low level security concepts. In the second part of the course, class will be used for discussion of high level implications of computer security.
-
-Lectures will be a combination of white board work and demonstrations. I will support a remote option
-for all lectures, likely through a streaming platform or Zoom, and will post recordings of lectures
-on the course website. While I will make every effort to follow best practices for accessible teaching, I will make mistakes! Please, if you find some material is inaccessible for any reason
-do not hesitate to reach out.
-
-Discussions will be conducted in a format to be agreed upon by the class, whether in person, hybrid, or Zoom. Participation in lecture will be required and will be considered in course grades, both during class and in advance.
-
+Lectures are scheduled for Mondays, Wednesdays, and Fridays at 12:20 AM in "Salem TBD". The schedule
+of lectures will be available on the course webpage under \href{https://cd-public.github.io/courses/computer_security/s-399s22.html}{schedule}.
 
 \subsection*{Homework Structure}
 
@@ -156,7 +148,7 @@ for feedback. There will be a ``Homework 0'' at the beginning of the semester to
 programming and assignment submission, then two homework assignments throughout the semester.
 You will always have at least two weeks to complete homework assignments.
 
-Homework assignment will be due at 11:30 AM on Fridays so we can discuss them in class on the 
+Homework assignment will be due at 10:20 AM on Fridays so we can discuss them in class on the
 day they are due.
 
 As a rule, I encourage students to submit their assignment as-is at the due date and not to
@@ -177,26 +169,11 @@ focus of reasoning about data structures in isolation from coding environments,
 as well provide me as an instructor with greater insight into how effective course
 instruction has been.
 
-\subsection*{Discussion Participation}
-
-Discussion participation will be considered when determining grades for this course.
-
-Discussion participation will be intermediate between homework assignments and discussion class
-sessions. Discussion class will be driven by reviewing primary or secondary source documents relevant to some prominent case of a security breech of secure systems. Students will be expected to review these materials prior to class, and a submit a 1 or 2 paragraph reflection on the reading no latter than midnight before class, to be submitted by email (to give me time to read them before moderating discussion).
-
-If you will be unable to attend class for any reason, be submit a reflection prior to the deadline and not you will not be able to attend.
-
-Beginning the week of November 1, topics and readings will be chosen by a student and discussion will be moderated by that student. A list of potential topics will be provided, or students may chose their own topic in consultation with the instructor.
-
 \subsubsection*{Final Project}
 
 Feedback will be provided on the final project. The final project will be considered when determining grades for this course.
 
-There will be a final project that will be similar in format but distinct in content from
-discussions. Final projects are intended to be undertaken collaboratively with other 
-students and provide a detailed overview of an important topics in computer security and 
-society. Projects will be presented beginning the week of November 29 after submitting a 
-project proposal by (Friday) October 29.
+The final project will be similar to the homeworks but more comprehensive and extensible in nature.
 
 
 \subsection*{Feedback and Grading}
@@ -204,12 +181,9 @@ Feedback will be provided on assignments, midterms, and the final project using 
 Discussions will be graded by participation.
 This 100 point scale is intended to be familiar to established grading standards, such as letter grades. To provide aggregate feedback for the whole course, these feedback scores will be combined as follows:
 \begin{itemize}
-	\item \underline{\textbf{20\%}} of your grade will be determined by homework assignments
-	\subitem \underline{\textbf{10\%}} each for the two highest scored assignments (out of three).
+	\item \underline{\textbf{40\%}} of your grade will be determined by homework assignments
 	\item \underline{\textbf{40\%}} of your grade will be determined by midterm exams.
 	\subitem \underline{\textbf{20\%}} each for the two midterms.
-	\item \underline{\textbf{20\%}} of your grade will be determined by discussion participation.
-	\subitem \underline{\textbf{10\%}} each for leading a discussion and participating in other discussions.
 	\item \underline{\textbf{20\%}} of your grade will be determined by the final project.
 \end{itemize}
 

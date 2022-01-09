@@ -48,7 +48,7 @@
 <td style="background-color:#00DDDD">Syllabus</td>
 <td style="background-color:#00DDDD">Git</td>
 <td style="background-color:#00DDDD">Arrays</td>
-<td style="background-color:#00DDDD">HW0: xSort</td>
+<td style="background-color:#00DDDD"><a href="https://github.com/cd-public/399s22/blob/main/hw0/x_sort.c">HW0: x_sort</a></td>
 </tr>
 <tr>
 <td>2</td>
@@ -59,7 +59,7 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Python</td>
-<td style="background-color:#FF0000">Memory Allocation</td>
+<td style="background-color:#FF0000"><a href="https://www.marxists.org/archive/lenin/works/1917/staterev/">Labor Day</a></td>
 <td style="background-color:#00DDDD">Standard I/O</td>
 <td style="background-color:#00DDDD">Structs</td>
 <td style="background-color:#00DDDD"></td>
@@ -75,7 +75,7 @@
 <td style="background-color:#00DDDD">Networking</td>
 <td style="background-color:#00DDDD">Network Layers</td>
 <td style="background-color:#00DDDD">Sockets</td>
-<td style="background-color:#00DDDD">Fork()</td>
+<td style="background-color:#00DDDD">PythonicList Review</td>
 <td style="background-color:#00DDDD">HW1: PythonicList</td>
 </tr>
 <tr>
@@ -87,7 +87,7 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Parallelism</td>
-<td style="background-color:#00DDDD">PythonicList Review</td>
+<td style="background-color:#00DDDD">Fork()</td>
 <td style="background-color:#00DDDD">Signals</td>
 <td style="background-color:#00DDDD">POSIX Threads</td>
 <td style="background-color:#00DDDD"></td>
@@ -101,9 +101,9 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Memory</td>
-<td style="background-color:#00DDDD">Race Conditions</td>
 <td style="background-color:#00DDDD">Locality</td>
 <td style="background-color:#00DDDD">Caches</td>
+<td style="background-color:#00DDDD">ServerClient Review</td>
 <td style="background-color:#00DDDD">HW2: ServerClient</td>
 </tr>
 <tr>
@@ -115,7 +115,7 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Performance</td>
-<td style="background-color:#00DDDD">ServerClient Review</td>
+<td style="background-color:#00DDDD">Race Conditions</td>
 <td style="background-color:#00DDDD">Instruction Costs</td>
 <td style="background-color:#00DDDD">Overhead Costs</td>
 <td style="background-color:#00DDDD">EC1: MatrixMult</td>
@@ -157,9 +157,9 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Assembly</td>
-<td style="background-color:#00DDDD">Embedded Assembly</td>
-<td style="background-color:#00DDDD">RISC</td>
-<td style="background-color:#00DDDD">AMD64</td>
+<td style="background-color:#00DDDD">Embedded Assembly 1</td>
+<td style="background-color:#00DDDD">Running Assembly</td>
+<td style="background-color:#00DDDD">MergeSort Review</td>
 <td style="background-color:#00DDDD">HW3: MergeSort</td>
 </tr>
 <tr>

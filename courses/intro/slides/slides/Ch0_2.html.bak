@@ -28,26 +28,17 @@
 
 <section id="title-slide">
   <h1 class="title">Controlling Karel</h1>
-  <p class="author">Jed Rembold</p>
-  <p class="date">September 1, 2021</p>
+  <p class="author">Calvin (Deutschbein)<br> Slides by Jed Rembold</p>
+  <p class="date">14 January 2021</p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
-<li>Scheduling Tweaks!
+<li>Schedule Updates!
 <ul>
-<li>Mondays will be our day off lab</li>
-<li>Section meetings will be over Wednesdays and Thursdays</li>
-<li>Fridays we will have organized labs</li>
-<li>Homework deadlines are pushed until the end of the day on <em>Monday</em>, so that you can ask last minute questions after class.</li>
-</ul></li>
-<li>Short lab today, largely to make sure Python is working for everyone</li>
-<li>Problem Set 0 is posted and due Monday night</li>
-<li>Sections should start next week. Poll about your availability will go out by tomorrow.</li>
-<li>Polling starts today! <a href="http://rembold-class.ddns.net/">rembold-class.ddns.net</a>
-<ul>
-<li>I don’t need the full name, but include enough that I can identify you!</li>
+<li>PS0 set for next Friday</li>
+<li>Section meetings should happen by then and help you get started.</li>
 </ul></li>
 </ul>
 </section>

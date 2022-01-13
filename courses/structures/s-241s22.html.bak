@@ -45,9 +45,9 @@
 </tr>
 <tr>
 <td style="background-color:#00DDDD">Review</td>
-<td style="background-color:#00DDDD"><a href="syllabus/syllabus.pdf" target="_blank">Syllabus</a></td>
-<td style="background-color:#00DDDD">Data/Methods</td>
-<td style="background-color:#00DDDD"><a href="https://www.youtube.com/watch?v=PZQ-lOUUc00">Classes</a></td>
+<td style="background-color:#00DDDD">Syllabus[<a href="https://www.youtube.com/watch?v=jMgjMDk5U3c">v</a>]</td>
+<td style="background-color:#00DDDD">Data/Functions [<a href="https://www.youtube.com/watch?v=qdXASb4rKZM">v</a>]</td>
+<td style="background-color:#00DDDD">Classes[<a href="https://www.youtube.com/watch?v=PZQ-lOUUc00">v_old</a>]</td>
 <td style="background-color:#00DDDD"></td>
 </tr>
 <tr>
@@ -61,7 +61,7 @@
 
 <td style="background-color:#00DDDD">Recursion</td>
 <td style="background-color:#FF0000"><a href="https://www.marxists.org/archive/lenin/works/1917/staterev/">Labor Day</a></td>
-<td style="background-color:#00DDDD">>Fibonacci</td>
+<td style="background-color:#00DDDD">Fibonacci</td>
 <td style="background-color:#00DDDD"><a href="https://www.youtube.com/watch?v=PmF3Ny6bwEA">Natural Numbers</a></td>
 <td style="background-color:#00DDDD">Sortable</td>
 </tr>

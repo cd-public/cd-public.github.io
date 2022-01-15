@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/html4/loose.dtd"> 
 <html>
 <head>
-<title>CS 241 PROGRAMMING STRUCTURES AND ABSTRACTIONS</title>
+<title>CS 241 STRUCTURES</title>
 
 <!--<link rel="stylesheet" type="text/css" media="screen" href="https://cs.unc.edu/~csturton/css/csturton.css" />-->
 <link rel="stylesheet" type="text/css" media="screen" href="../../css/csturton.css"/>
@@ -45,7 +45,7 @@ Theoretical and practical study of programming and abstract data types including
 This class is meant for computer science students who have completed introductory coursework in programming. The prerequisites is CS 151.
 <h4>Key Dates</h4>
 Week of 2/21: Midterm Exam 1 (tentative)<br/>
-Week of 4/1: Midterm Exam 2 (tentative)<br/>
+Week of 4/11: Midterm Exam 2 (tentative)<br/>
 Week of 5/3: Final (set by Registrar)<br/>
 
 <h4>Grading</h4>

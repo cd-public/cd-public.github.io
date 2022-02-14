@@ -28,8 +28,8 @@
 
 <section id="title-slide">
   <h1 class="title">10 Representations</h1>
-  <p class="author">Jed Rembold</p>
-  <p class="date">February 24, 2021</p>
+  <p class="author">Calvin (Deutschbein)<br> Slides by Jed Rembold</p>
+  <p class="date">14 February 2022</p>
 </section>
 
 <section id="announcements" class="slide level2">
@@ -38,56 +38,50 @@
 <li><strong>Be working on Project 1!</strong>
 <ul>
 <li>If you aren’t done with Milestone 2 yet, you really need to get on things.</li>
-<li>If you are getting stuck or having issues, don’t hesitate to contact me or your section leader for some help!</li>
+<li>Don't get stuck, do get help.</li>
 </ul></li>
-<li>Lab today on complex shapes.</li>
-<li>CS Tea tomorrow:
+<li>CS Tea TODAY:
 <ul>
-<li>11:30am, Zoom link on Discord</li>
-<li>Lilly Irani talking about incorporating more democratic control over the digital networks and constructs that are engrained in everyday modern life.</li>
-</ul></li>
-<li>Polling: <a href="http://rembold-class.ddns.net">rembold-class.ddns.net</a></li>
+<li>4:15 PM, In this very room!</li>
+<li>Lab Section Leader Lani and other students in computing will talk jobs & internships</li>
+</ul>
+<li>Announcement from <a href="https://twitter.com/RAICESTEXAS/status/1492916038891094017">RAICES Texas</a></li>
 </ul>
 </section>
 <section id="review-question" class="slide level2">
 <h2>Review Question</h2>
-<div class="cols">
-<div class="col">
-<p>Which of the below blocks of code will create the image to the right? The window measures 500 x 200 pixels.</p>
-</div>
-<div class="col">
-<figure>
-<img data-src="../images/GArc_RevQ.png" style="width:60.0%" alt=" " /><figcaption aria-hidden="true"> </figcaption>
-</figure>
-</div>
-</div>
+<p>Which of the functions has an integer argument and return type?</p>
+
 <div class="cols">
 <div class="col">
 <div class="block" name="A">
-<pre ><code class="python">d = 150
-x, y = 250 - d / 2, 100 - d / 2
-a1 = GArc(x, y, d, d, 90, -180)
-gw.add(a1)</code></pre>
+<pre ><code class="python">def double():
+    x = int(input())
+    x *= 2
+    print(x)
+</code></pre>
 </div>
 <div class="block" name="C">
-<pre ><code class="python">d = 150
-x, y = 250 - d, 100 - d
-a1 = GArc(x, y, d, d, -180, 90)
-gw.add(a1)</code></pre>
+<pre ><code class="python">def double(x):
+    if type(x) != type(123):
+        exit()
+    x *= 2
+    print(x)</code></pre>
 </div>
 </div>
 <div class="col">
 <div class="block" name="B">
-<pre ><code class="python">d = 150
-x, y = 250 - d / 2, 100 - d / 2
-a1 = GArc(x, y, d, d, 90, 180)
-gw.add(a1)</code></pre>
+<pre ><code class="python">def double():
+    x = int(input())
+    x *= 2
+    return x</code></pre>
 </div>
 <div class="block" name="D">
-<pre ><code class="python">d = 150
-x, y = 250 - d / 2, 100 - d / 2
-a1 = GArc(x, y, d, 180, -90)
-gw.add(a1)</code></pre>
+<pre ><code class="python">def double(x):
+    if type(x) != type(123):
+        exit()
+    x *= 2
+    return x</code></pre>
 </div>
 </div>
 </div>
@@ -124,15 +118,18 @@ gw.add(a1)</code></pre>
 <ul>
 <li>Binary notation is an old idea
 <ul>
-<li>Described by German mathematician Leibniz back in 1703</li>
+<li>White settlers customarily attribute to German mathematician Leibniz</li>
 </ul></li>
-<li>Leibniz describes his use of binary notation in an easy to follow style</li>
-<li>Leibniz’s paper notes that the Chinese had discovered binary arithmetic 2000 years earlier, as illustrated by the patterns of lines in the <em>I Ching</em>!</li>
+<li>Scholars in China employed binary arithmetic no fewer than 2 millenia earlier, as illustrated by the patterns of lines in the <em>I Ching (易經)</em>!
+<ul>
+<li>I Ching is usually translated as "Book of Changes" or "Classic of Changes"
+<li>Leibniz cited the I Ching</li>
+</ul></li></li>
 </ul>
 </div>
 <div class="col">
 <figure>
-<img data-src="../images/Leibniz.jpg" style="width:70.0%" alt="Gottfried Wilhelm von Leibniz" /><figcaption aria-hidden="true">Gottfried Wilhelm von Leibniz</figcaption>
+<img data-src="../images/Yijing.jpg" style="width:70.0%" alt="I Ching (Yijing)" /><figcaption aria-hidden="true">I Ching (Yijing)</figcaption>
 </figure>
 </div>
 </div>
@@ -1067,9 +1064,6 @@ gw.add(a1)</code></pre>
 </ul></li>
 </ul>
 </section>
-<section id="binary-clocks" class="slide level2" data-background-iframe="https://jeffreypierce.net/binary-clock/" data-background-interactive="true">
-<h2 data-background-iframe="https://jeffreypierce.net/binary-clock/" data-background-interactive="true">Binary Clocks</h2>
-</section>
 <section id="other-bases" class="slide level2">
 <h2>Other Bases</h2>
 <ul>
@@ -1191,6 +1185,7 @@ print(A == B)</code></pre>
 </ul></li>
 <li>First widely adopted character encoding was ASCII (American Standard Code for Information Interchange)</li>
 <li>With only 256 possible characters, ASCII proved inadequate in the international world, and has therefore been superseded by Unicode.</li>
+<li>It cannot represent the name of the I Ching, 易經</li>
 </ul>
 </section>
     </div>

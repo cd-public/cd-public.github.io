@@ -42,7 +42,7 @@
 <h1 id="components">Components</h1>
 <p>I implemented snek.c by decomposing the problem into 4 main subproblems. I divided the coding work based on whether it occured server side or client side, with some helper functions usable across both. I additionally divided the coding working into being related to either networking or to gameplay. The most intensive of these four tasks was server side gameplay, which I divided into a memory task, and printing task, and command processing task. Lastly, there was general upkeep to contextualize each of these tasks within snek.c, including a main method and general file setup.</p>
 
-<p>I recommend constructing independent programs that implement, loosely speaking, the functionalities of each of these sub-tasks, then composing them into a comprohensive program that implements the snake game.</p>
+<p>I recommend constructing independent programs that implement, loosely speaking, the functionalities of each of these sub-tasks, then composing them into a comprehensive program that implements the snake game.</p>
 
 <ul>
   <li>Main et al.</li>
@@ -109,7 +109,7 @@ We have already shown a main function handler for a .c file to implement server 
 srand(time(NULL));   // Initialization, should only be called once.
 int r = rand();      // A pseudo-random integer in [0,RAND_MAX]</code></pre>
 
-<p>You may wish to initialize random number generation in main.c to ensure it only runs once, and the reference implementation does so, though there are many other implementation options, including implementations that don't use <a href="https://man7.org/linux/man-pages/man3/rand.3.html"><code>rand()</code></a> at all.</p>
+<p>You may wish to initialize random number generation in <code>main()</code> to ensure it only runs once, and the reference implementation does so, though there are many other implementation options, including implementations that don't use <a href="https://man7.org/linux/man-pages/man3/rand.3.html"><code>rand()</code></a> at all.</p>
 
 <p>Speaking of including libraries, the reference implementation uses quite a few of them, and most would be difficult to do without, as well as defining a number of constants.</p>
 

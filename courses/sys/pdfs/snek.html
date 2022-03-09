@@ -318,30 +318,6 @@ The role of the <code>server()</code> function is primarily to configure a socke
 
 The gameplay server is perhaps the most intensive part of this project as it requires maintaining an internal state and responding to input over network. To make it more manageable, I decomposed it into three sub-tasks of roughly equal intensity, that are then composed within the <code>sloop()</code> function called from <code>server()</code>.
 
-<p>The primary role of gameplay on the client side is to read in user input and prepare it to be transmitted over the network. There are a variety of ways to implement this task, but all must contend with the central challenge that a message must be sent once per second, so the system may not naively block on a <code>fgets()</code> or similar blocking input call, and at some point the user input must compared against some acceptable list of inputs. In the reference implementation, the most recent valid input is maintained, and updated if a new valid input is provided. This is the single byte that is sent over the network every second. Of the valid inputs, only one, the quit input, yields any specific actions on the client.</p>
-
-<p>You are welcome to choose what inputs you would like to use for snek, but minimally must support four directional inputs. The reference implementation supports six, the four directions, and quit, and a restart.<p>
-
-<p>The core tension in the client is that gameplay wants to be interrupt (that is, user) driven, and networking wants to be timer driven. We can resolve this in part by configuring reads from <code>stdin</code> to be <i>non-blocking</i> - that is, to always return within one second of being called, and simply return with no new data if there is no new data to return. There are plenty of ways to do this. The <a href="https://man7.org/linux/man-pages/man2/fcntl.2.html"><code>fnctl()</code></a> function is used in the reference implementation to configure <code>stdin</code> to be non-blocking. <a href="https://stackoverflow.com/questions/717572/how-do-you-do-non-blocking-console-i-o-on-linux-in-c">Read more here.</a></p>
-
-<pre><code>char buf[20];
-fcntl(0, F_SETFL, fcntl(0, F_GETFL) | O_NONBLOCK);
-sleep(4);
-int numRead = read(0, buf, 4);
-if (numRead > 0) {
-	printf("You said: %s", buf);
-}</code></pre>
-
-<p>Synchronization could be handled in networking components of either the client or the server, or handled at display time on the server, but client side gameplay was the simpliest and earliest site to resolve the interrupt/timing conflict, and allowed the rest of the code to proceed using standard blocking calls. An early version of the reference implementation used <code>setsockopt()</code> to configure the socket used by the server to capture commands from the client, but this implementation yielded undesirable complexity on server side.</p>
-
-<h4 id="check4">Check-in 4</h4>
-
-</p>To test that your client is ready to support gameplay independently of the networking implementation, just configure it to print to console, once per second, the most recent input character. Play around with it a bit and get a sense for how the console works, especially with respect to input lines of text and the enter key. Once you can accept input at any time, and generate output on a timer, you simply can connect the gameplay and networking elements and have a client that transmits game inputs to the game server.In the reference implementation, this was implemented as a single client-specific function with the following declaration:</p>
-
-<pre><code>int cloop(int *sock);</code></pre>
-
-Additionally, one small helper function was used to maintain the input buffer in <code>cloop()</code> but a string library function such as <a href="https://man7.org/linux/man-pages/man3/memset.3.html"><code>memset()</code></a> would also be suitable. <code>cloop()</code> contains a single <code>while(1)</code> loop containing two main if statements. Using functions from <code>&lt;time.h&gt;</code>, the loop ran at least once per second and whenever receiving new user input. If the loop ran one second or more since last sending a message to the client, a new message would be sent to the server.</p>
-
 <h1 id="fin">To be continued.</h1>
 
 </body>

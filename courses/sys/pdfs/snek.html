@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>snek.html</title>
+	
+	<style type="text/css" media="screen">
+	
+		body {
+			line-height: 140%;
+			margin: 50px;
+			width: 650px;
+		}
+		code {font-size: 120%;}
+		
+		
+		pre code {
+			background-color: #eee;
+			border: 1px solid #999;
+			display: block;
+			padding: 20px;
+		}
+		
+	</style>
+	
+</head>
+
+<body>
+	
+<h1 id="preamble">Project: 'snek.c'</h1>
+<p>"snek.c" is an ambitious console based snake game implementation using networking, numerous systems calls, data structures, standard I/O, and more in one cohesive project. This page will serve as your guide through this challenging assignment.</p>
+
+<p>My "snek.c" example implementation uses 373 lines of C code compiled over 5 real-time days and a total of about 4 hours of development. If I were to completely adhere to my personal coding style, I would've factored the project into multiple .c and .h files, but 373 lines is a manageable length and I will leave the file structure to student discretion.</p>
+
+<p>For those of you not familiar with snake, there is a much cuter version available from 
+<a href="https://www.google.com/fbx?fbx=snake_arcade">Google</a> and I will additionally distribute
+(and maintain as bugs are discovered) a reference binary so you can see how an example solution could run without being "spoiled" with source access.</p>
+
+<h1 id="components">Components</h1>
+<p>I implemented snek.c by decomposing the problem into 4 main subproblems. I divided the coding work based on whether it occured server side or client side, with some helper functions usable across both. I additionally divided the coding working into being related to either networking or to gameplay. The most intensive of these four tasks was server side gameplay, which I divided into a memory task, and printing task, and command processing task. Lastly, there was general upkeep to contextualize each of these tasks within snek.c, including a main method and general file setup.</p>
+
+<p>I recommend constructing independent programs that implement, loosely speaking, the functionalities of each of these sub-tasks, then composing them into a comprohensive program that implements the snake game.</p>
+
+<ul>
+  <li>Main et al.</li>
+  <li>Client
+    <ul>
+      <li>Networking</li>
+      <li>Gameplay</li>
+    </ul>
+  </li>
+  <li>Server</li>
+    <ul>
+      <li>Networking</li>
+      <li>Gameplay</li>
+      <ul>
+        <li>Memory</li>
+        <li>Printing</li>
+        <li>Commands</li>
+      </ul>
+    </ul>
+</ul>
+
+<p>Among other things, I believe it is helpful to maintain gameplay state on the server for forward compatability with multiplayer.</p>
+
+<h2 id="main">Main et al.</h1>
+
+We have already shown a main function handler for a .c file to implement server and client operations.
+
+<pre><code>int main(int argc, char const *argv[])
+{
+    printf("%s, expects (1) arg, %d provided", argv[0], argc-1);
+    if (argc == 2)
+    {
+        printf(": \"%s\".\n", argv[1]);
+    } else {
+        printf(".\n");
+        return 1;
+    }
+    
+    if (argv[1][1] == 's')
+    {
+        printf("Starting server...\n");
+    }
+    
+    if (argv[1][1] == 'c')
+    {
+        printf("Starting client...\n");
+    }
+    
+    if (argv[1][1] == 'h')
+    {
+        printf("HELP: Usage:  -s for server, -c for client\n");
+    }
+    
+    return 0;
+}</code></pre>
+
+<p>This main is fairly full featured, but you may wish to include some additional operations in it. For example, in the traditional variant of snake, while the snakes position is completely deterministic based on user inputs, the location of snacks that the snake must eat to grow larger and yield a correspondingly high in game score are placed randomly. Customarily, random number generation in C is performed using <a href="https://man7.org/linux/man-pages/man3/rand.3.html"><code>rand()</code></a> after setting a random 'seed' using the current time. <a href="https://stackoverflow.com/questions/822323/how-to-generate-a-random-int-in-c">Read more here.</a></p>
+
+<p><b>DO NOT USE <code>rand()</code> FOR SECURITY BASED APPLICATIONS.</b></p>
+
+<pre><code>#include &lt;time.h&gt;
+#include &lt;stdlib.h&gt;
+
+srand(time(NULL));   // Initialization, should only be called once.
+int r = rand();      // A pseudo-random integer in [0,RAND_MAX]</code></pre>
+
+<p>You may wish to initialize random number generation in main.c to ensure it only runs once, and the reference implementation does so, though there are many other implementation options, including implementations that don't use <a href="https://man7.org/linux/man-pages/man3/rand.3.html"><code>rand()</code></a> at all.</p>
+
+<p>Speaking of including libraries, the reference implementation uses quite a few of them, and most would be difficult to do without, as well as defining a number of constants.</p>
+
+<pre><code>#include &lt;sys/socket.h&gt; // for socket()
+#include &lt;arpa/inet.h&gt;  // for add6
+#include &lt;stdio.h&gt;      // for printf()
+#include &lt;unistd.h&gt;     // for read()
+#include &lt;stdlib.h&gt;     // for malloc()
+#include &lt;string.h&gt;     // for strlen()
+#include &lt;time.h&gt;       // for time()
+#include &lt;fcntl.h&gt;      // for fcntl()
+
+// sockets
+#define PORT 0xC399     // get it? CS 399?
+#define DOMAIN AF_INET6 // ipv6
+#define LOOPBACK "::1"  // "loopback" ipv6 - network locally
+
+// debug
+#define VERBOSE 1
+#define BUFF 16
+
+// booleans
+#define TRUE 1
+#define FALS 0
+typedef int bool;
+
+// gameplay
+#define HIGH 23
+#define WIDE 80
+
+#define SNAK '&'
+#define SNEK 'O'
+
+#define REDO 'r'
+#define QUIT 'q'
+
+#define FORE 'w'
+#define BACK 's'
+#define LEFT 'a'
+#define RITE 'd'
+
+// shorter names for addresses and casts
+typedef struct sockaddr_in6 *add6;
+typedef struct sockaddr *add4;</code></pre>
+
+<p>Of these, &lt;string.h&gt; is probably the most optionally, but offers a variety of niceties when trying to read user input.  &lt;fcntl.h&gt; is the only one we haven't used before, and will play a critical role in the client implementation, though this role can be accomplished by alternative implementations (most likely with regard to sockets).</p>
+
+<p>These defines are fairly well decomposed into networking and gameplay roles, though some features, like booleans, are just generally useful.</p>
+
+<p>Once you have a main function that you can demonstrate does the required work of conditionally calling different functions based on command line arguments, you have a basis from which to develop the remaining functionalities of snek.c, and can always return to include, define, or initialize anything else you may need.
+
+<h2 id="main">Client</h1>
+
+<p>For this project, the role of the client is to capture user input in separate console window from where the game is displayed and transmit this user input to the gameplay server. Doing so offers a number of synchronization challenges, and doing so well can greatly reduce the challenges of implementing the gameplay server.</p>
+
+<h3 id="main">Networking (Client-side)</h1>
+
+The primary role of networking on the client side is to send the appropriate inputs to the server. There are a variety of ways to implement this task, but the reference implementation sends a messages to the server as close to one second after the previous message as possible that contains a single byte encoding the ascii value of the most recently input valid command.
+
+This is similar in spirit to the provided sample code in client.c:
+
+<pre><code>int sock;
+struct sockaddr_in6 address; 
+
+sock = socket(DOMAIN, SOCK_STREAM, 0);
+
+address.sin6_family = DOMAIN; 
+// "...only the port field needs to be formatted with htons()"
+address.sin6_port = htons(PORT); 
+// "::1" is IPv^ "loopback" address
+inet_pton(DOMAIN, "::1", &address.sin6_addr); 
+
+connect(sock, &address, sizeof(address));
+
+write(sock, argv[1], strlen(argv[1]));</code></pre>
+
+<p>This code implements a single write-to-socket event, and writes a string of arbitrary length. However,
+it is otherwise similar to required tasks of the client.</p>
+
+<p>While this code is provided as is, it could be improved in many ways - in the reference implementation, the socket, once created, is passed to a second function that handles the repeated sends in a loop, in which case the socket either needs to be malloc'ed or the looping function must be nested. Similarly, many of the setup operations here are common with the server and may be suitable for code factorization. Further, this code contains a number of lines triggering gcc warnings that should be addressed with casts. Lastly, many of the socket library functions can return error cases and may which to be error checked, to exit gracefully rather than drawing a segmentation fault. While a suitable base implementation, this sample code should be taken more as an inspiration than as a partial solution.</p>
+
+
+<h3 id="main">Gameplay (Client-side)</h1>
+
+<p>The primary role of gameply on the client side is to read in user input and prepare it to be transmitted over the network. There are a variety of ways to implement this task, but all must contend with the central challenge that a message must be sent once per second, so the system may not naively block on a <code>fgets()</code> or similar blocking input call, and at some point the user input must compared against some acceptable list of inputs. In the reference implementation, the most recent valid input is maintained, and updated if a new valid input is provided. This is the single byte that is sent over the network every second. Of the valid inputs, only one, the quit input, yields and specific actions on the client.</p>
+
+<p>You are welcome to choose what inputs you would like to use for snek, but minimally must support four directional inputs. The reference implementation supports six, the four directions, and quit, and a restart.<p>
+
+<p>The core tension in the client is that gameplay wants to be interrupt (that is, user) driven, and networking wants to be timer driven. We can resolve this in part by configuring reads from <code>stdin</code> to be <i>non-blocking</i> - that is, to always return within one second of being called, and simply return with no new data if there is no new data to return. There are plenty of ways to do this, by <a href="https://man7.org/linux/man-pages/man2/fcntl.2.html"><code>fnctl()</code></a> is used in the reference implementation. <a href="https://stackoverflow.com/questions/717572/how-do-you-do-non-blocking-console-i-o-on-linux-in-c">Read more here.</a></p>
+
+<pre><code>char buf[20];
+fcntl(0, F_SETFL, fcntl(0, F_GETFL) | O_NONBLOCK);
+sleep(4);
+int numRead = read(0, buf, 4);
+if (numRead > 0) {
+	printf("You said: %s", buf);
+}</code></pre>
+
+</p>To test that your client is ready to support gameplay independently of the networking implementation, just configure it to print to console, once per second, the most recent input character. Play around with it a bit and get a sense for how the console works, especially with respect to input lines of text and the enter key. Once you can accept input at any time, and generate output on a timer, you simply can connect the gameplay and networking elements and have a client that transmits game inputs to the game server.</p>
+
+
+<h1 id="main">To be continued.</h1>
+
+</body>
+</html>

@@ -44,20 +44,19 @@
  body {
         counter-reset: h1counter;
     }
-    h1:before {
-        content: counter(h1counter) ".\0000a0\0000a0";
-        counter-increment: h1counter;
-        counter-reset: h1counter;
+    h1 {
+        counter-reset: h2counter;
+    }
+    h2 {
+        counter-reset: h3counter;
     }
     h1:before {
         content: counter(h1counter) ".\0000a0\0000a0";
         counter-increment: h1counter;
-        counter-reset: h2counter;
     }
     h2:before {
         content: counter(h1counter) "." counter(h2counter) ".\0000a0\0000a0";
         counter-increment: h2counter;
-        counter-reset: h3counter;
     }
     h3:before {
         content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
@@ -89,9 +88,9 @@
       <li><a href="#snet">Networking</a></li>
       <li><a href="#sgame">Gameplay</a></li>
       <ul>
-        <li><a href="#mem">Memory</a></li>
+        <li><a href="#state">Game State</a></li>
         <li><a href="#cmd">Commands</a></li>
-        <li><a href="#print">Printing</a></li>
+        <li><a href="#display">Display</a></li>
       </ul>
     </ul>
 </ul>
@@ -259,7 +258,7 @@ if (numRead > 0) {
 
 <h4 id="check2">Check-in 2</h4>
 
-</p>To test that your client is ready to support gameplay independently of the networking implementation, just configure it to print to console, once per second, the most recent input character. Play around with it a bit and get a sense for how the console works, especially with respect to input lines of text and the enter key. Once you can accept input at any time, and generate output on a timer, you simply can connect the gameplay and networking elements and have a client that transmits game inputs to the game server.In the reference implementation, this was implemented as a single client-specific function with the following declaration:</p>
+</p>To test that your client is ready to support gameplay independently of the networking implementation, just configure it to print to console, once per second, the most recent input character. Play around with it a bit and get a sense for how the console works, especially with respect to input lines of text and the enter key. Once you can accept input at any time, and generate output on a timer, you simply can connect the gameplay and networking elements and have a client that transmits game inputs to the game server. In the reference implementation, this was implemented as a single client-specific function with the following declaration:</p>
 
 <pre><code>int cloop(int *sock);</code></pre>
 
@@ -304,19 +303,84 @@ it is otherwise similar to required tasks of the client. Compositionally, this c
 
 <h4 id="check3">Check-in 3</h4>
 
-</p>To test that your server is ready to support networking independently of the gameplay implementation, just configure it to print received messages and verify that it can do so at approximately a rate of once per second. You can use the sample client.c socket provided for the course as a way to show information is being passed over a socket. In the reference implementation, this was implemented as a single server-specific function with the following declaration:</p>
+<p>To test that your server is ready to support networking independently of the gameplay implementation, just configure it to print received messages and verify that it can do so at approximately a rate of once per second. You can use the sample client.c socket provided for the course as a way to show information is being passed over a socket. In the reference implementation, this was implemented as a single server-specific function with the following declaration:</p>
 
 <pre><code>int server();</code></pre>
 
-Additionally, the client and server networking tasks shared a common utility function:
+<p>Additionally, the client and server networking tasks shared a common utility function:</p>
 
 <pre><code>void get_sock(int *sock, add6 address, bool is_server);</code></pre>
 
-The role of the <code>server()</code> function is primarily to configure a socket and receive a connection that is passed as the sole argument to the client gameplay loop function <code>sloop()</code>.
+<p>The role of the <code>server()</code> function is primarily to configure a socket and receive a connection that is passed as the sole argument to the client gameplay loop function <code>sloop()</code>.</p>
 
 <h2 id="sgame">Gameplay (Network-side)</h1>
 
-The gameplay server is perhaps the most intensive part of this project as it requires maintaining an internal state and responding to input over network. To make it more manageable, I decomposed it into three sub-tasks of roughly equal intensity, that are then composed within the <code>sloop()</code> function called from <code>server()</code>.
+<p>The gameplay server is perhaps the most intensive part of this project as it requires maintaining an internal state and responding to input over network. To make it more manageable, I decomposed it into three sub-tasks of roughly equal intensity, that are then composed within the <code>sloop()</code> function called from <code>server()</code>, which we can think of as producing the gameplay window, an example of which is seen below:</p>
+
+<pre><code>|------------------------------------------------------------------------------|
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                             O                |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                               &                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|------------------------------------------------------------------------------|</code></pre>
+
+<p>In brief, the snake is directed by the player to "eat" the food on the screen, which causes the snake to increase in size. The goal of the game is for the player to direct the snake to increase in size until filling the entire game window without causing the snake to collide with either a boundary or the snake's own tail.</p>
+
+<p>The standard snake gameplay requires maintaining of elements of gameplay state in order to latter determine the effect of an command and to render the current gameplay state to console. The traditional snake implementation proceeds on simple two-dimensional grid. This grid can initially be thought of as a sparse n-by-m matrix which for this project is intended to be traditional console size is 80-by-23 with the last, 24th line left unpopulated so as not to clip the gameplay with a final, terminating new line. In this matrix, there are a number of gameplay elements:<p>
+
+<ul>
+  <li>Bounding elements</li>
+    <ul>
+      <li>Left/right bounds, denoted with "|"</li>
+      <li>Top/bottom bounds, denoted with "-"</li>
+    </ul>
+  </li>
+  <li>Food item elements, denoted with "&"</li>
+  <li>Snake elements, denoted with "O"</li>
+</ul>
+
+<p>Each of these elements is subject to certain requirements.</p>
+
+<p>Bounding elements are statically maintained in the highest and lowest indexed each of both rows and columns, and unalterable through gameplay. Food item and snake elements may not occupy any space wherein a bounding element is present. Food item elements, placed by the gameplay server, must be restricted not to be placed in the same grid location as a bounding element. Snake elements, as they are directed by user input, may be directed into grid locations in which bounding elements are present, but doing so results in the game terminating in a loss for the player.</p>
+
+<p>Food item elements are placed randomly at any point within the grid unoccupied by another gameplay element, whether a bounding elements or a snake element. Snake elements, as they are directed by user input, may be directed into grid locations in which a food item element is present. If a snake element is moved onto the grid location of a food element, the gameplay state is updated in the following way: a new snake element is created at the location of the food element, and all other snake elements are maintained in their current location. Additionally, a new food element is created at a randomized location where no other gameplay elements are present. If there are no locations in the grid that are unoccupied by either bounding or snake elements, the game concludes with a victory for the player.</p>
+
+<p>Snake elements placed initially by the gameplay server in either a fixed or randomized starting location at from that point on set according to user input. Each time the gameplay server updates, the snake elements should be updated as follows: a new snake element should be created relative to the most recently added snake element, either in the same row and an adjacent column, or the same column and an adjacent row, according to whether the snake is directed to move up, down, left, or right. If this snake element would be created in a grid space already occupied by an existing bounding or snake element, the game terminates in a loss for the player. If this snake element would be created in a grid space occupied by a food item element, the food item element is displaced and the game state update concludes. If this snake element would be created in a currently empty grid space, the least recently placed snake element is removed from the game state.</p>
+
+<h3 id="state">Game State</h1>
+
+<p>As bounding elements are static, in the reference implementation their location is only considered during rendering, and all gameplay is modelled as if occuring in a 78-by-21 sized grid with no bounding elements present.</p>
+
+<p>In the reference implementation, the food item location is maintained as a single integer array of length two capturing the coordinates the food item in the game space.</p>
+
+<p>In the reference implementation, the location of all snake elements is maintained in a linked list where the most recently added element is at the head of the list and the least recently added element is at the tail of the list. Doing so enables tracking which elements should be updated. Like the food item element, snake elements are tracked as integer array of length two.</p>
+
+<p>With bounding elements untracked, the reference implementation maintains the entire gameplay state in a single data structure holding both the location of the food item as an integer array of length two and the location of the snake as a custom linked list structure. For the snake, this means all state updates can be performed with head append and tail pop operations.</p>
+
+<h4 id="check4">Check-in 4</h4>
+
+<p>To test that your server is ready to maintain gamestate, you should implement some data structure capable of maintaining all required gameplay elements. A list that implements head append, tail pop, and contains checks meets all the needs for game state storage. This is a subset of the operations supported by Pythonic Lists, so the function templates and testing functions used for <code>&lt;plist.h&gt;</code> may all see reuse here, though the contains check in plist will have to be modified not to exit on failure.</p>
+
+<pre><code>#include &lt;plist.h&gt; // for insert(0) (head append), pop(), index() (contains)</code></pre>
+
+<p>Of note, an integer array of length two is the same size as a void pointer on most modern computers.</p>
 
 <h1 id="fin">To be continued.</h1>
 

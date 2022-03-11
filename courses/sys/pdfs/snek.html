@@ -315,7 +315,91 @@ it is otherwise similar to required tasks of the client. Compositionally, this c
 
 <h2 id="sgame">Gameplay (Network-side)</h1>
 
-<p>The gameplay server is perhaps the most intensive part of this project as it requires maintaining an internal state and responding to input over network. To make it more manageable, I decomposed it into three sub-tasks of roughly equal intensity, that are then composed within the <code>sloop()</code> function called from <code>server()</code>, which we can think of as producing the gameplay window, an example of which is seen below:</p>
+<p>The gameplay server is perhaps the most intensive part of this project as it requires maintaining an internal state and responding to input over network. To make it more manageable, I decomposed it into three sub-tasks of roughly equal intensity, that are then composed within the <code>sloop()</code> function called from <code>server()</code></p> which we can think of as producing the gameplay window given both user commands and internal state.</p>
+
+<p>In brief, the snake is directed by the player to "eat" the food on the screen, which causes the snake to increase in size. The goal of the game is for the player to direct the snake to increase in size until filling the entire game window without causing the snake to collide with either a boundary or the snake's own tail.</p>
+
+<p>The standard snake gameplay requires maintaining of elements of gameplay state in order to latter determine the effect of an command and to render the current gameplay state to console which displays a number of gameplay elements:<p>
+
+<ul>
+  <li>Bounding elements</li>
+  <li>Food item elements</li>
+  <li>Snake elements</li>
+</ul>
+
+<p>Each of these elements is subject to certain requirements.</p>
+
+<p>Bounding elements are statically maintained in the highest and lowest indexed each of both rows and columns, and unalterable through gameplay. Food item and snake elements may not occupy any space wherein a bounding element is present. Food item elements, placed by the gameplay server, must be restricted not to be placed in the same grid location as a bounding element. Snake elements, as they are directed by user input, may be directed into grid locations in which bounding elements are present, but doing so results in the game terminating in a loss for the player.</p>
+
+<p>Food item elements are placed randomly at any point within the grid unoccupied by another gameplay element, whether a bounding elements or a snake element. Snake elements, as they are directed by user input, may be directed into grid locations in which a food item element is present. If a snake element is moved onto the grid location of a food element, the gameplay state is updated in the following way: a new snake element is created at the location of the food element, and all other snake elements are maintained in their current location. Additionally, a new food element is created at a randomized location where no other gameplay elements are present. If there are no locations in the grid that are unoccupied by either bounding or snake elements, the game concludes with a victory for the player.</p>
+
+<p>Snake elements placed initially by the gameplay server in either a fixed or randomized starting location at from that point on set according to user input and then translate through the space in accordance with the user input direction. While moving, the snake may move through grid spaces with food items in order for the snake to grow larger (by adding a single snake element) but may not move through spaces already occupied by snake or boundary elements.</p>
+
+<h3 id="state">Game State</h1>
+
+<p>As bounding elements are static, in the reference implementation their location is only considered during rendering, and all gameplay is modelled as if occuring in a 78-by-21 sized grid with no bounding elements present.</p>
+
+<p>In the reference implementation, the food item location is maintained as a single integer array of length two capturing the coordinates the food item in the game space.</p>
+
+<p>In the reference implementation, the location of all snake elements is maintained in a linked list where the most recently added element is at the head of the list and the least recently added element is at the tail of the list. Doing so enables tracking which elements should be updated. Like the food item element, snake elements are tracked as integer array of length two.</p>
+
+<p>With bounding elements untracked, the reference implementation maintains the entire gameplay state in a single data structure holding both the location of the food item as an integer array of length two and the location of the snake as a custom linked list structure. For the snake, this means all state updates can be performed with head append and tail pop operations.</p>
+
+<h4 id="check4">Check-in 4</h4>
+
+<p>To test that your server is ready to maintain gamestate, implement some data structure capable of maintaining all required gameplay elements. A list that implements head append, tail pop, and contains checks meets all the needs for game state storage. This is a subset of the operations supported by Pythonic Lists, so the function templates and testing functions used for <code>&lt;plist.h&gt;</code> may all see reuse here, though the contains check in plist would have to be modified not to exit on failure or other gameplay stages could be modified not to rely on contains checks.</p>
+
+<pre><code>#include &lt;plist.h&gt; // for insert(0) (head append), pop(), index() (contains)</code></pre>
+
+<p>Of note, an integer array of length two is the same size as a void pointer on most modern computers. If you do not wish to use <code>&lt;plist.h&gt;</code>, here are the function declarations from the reference implementation:</p>
+<pre><code>typedef struct list_struct *list;
+struct list_struct
+{
+	int pair[2];
+	list rest;
+};
+
+// head append
+list cons(int *pair, list rest);
+
+bool isin(int x, int y, list head);
+
+// game state is the x,y's of a snek and the x, y value of a snak
+// this would be the same thing as the list
+typedef list game;
+
+// pop tail
+void popt(game curr);</code></pre>
+
+<h3 id="state">Commands</h1>
+
+<p>The reference snek implementation supports six total commands: four directional commands, a quit command, and a restart command.  By default, these are mapped to "wasdqr" but are implemented using <code>#define</code> for customizability. The directions correspond to changes within the game state, and the other correspond to changes to the program state.</p>
+
+<p>If the game state is not initialized, the previous game state was a player win or loss, or a restart command is received, the existing game state is discarding and random locations for the food item element and a single snake item element are set. In the reference implementation is factored into an <code>init()</code> function. As a nicety in the reference implementation, the food item is placed randomly of all game spaces and the snake is placed randomly within the subset of the gamespace closer to the center point than to the boundary elements.</p>
+
+<p>If the quit command is received, the program exits gracefully by returning up the call stack to main, which should return <code>0</code>. When this occurs, the client should already have exited gracefully in the same manner immediately after transmitting the quit code.</p>
+
+<p>Each time the gameplay server updates, the snake elements should be updated as follows: a new snake element should be created relative to the most recently added snake element, either in the same row and an adjacent column, or the same column and an adjacent row, according to whether the snake is directed to move up, down, left, or right. There are three cases that then must be checked:
+<ul>
+<li>If the new snake element would be created in a currently empty grid space, the least recently placed snake element is removed from the game state.</li>
+<li>If the new snake element would be created in a grid space already occupied by an existing bounding or snake element, the game terminates in a loss for the player and the state is reinitialized.</li>
+<li>If the new snake element would be created in a grid space occupied by a food item element, the food item element is set to a new, randomized location and the game state update concludes. If additionally there are no available locations for a new food item, the game concludes in a victory for the player and the state is reinitialized.</li>
+</ul></p>
+
+<h4 id="check5">Check-in 5</h4>
+
+<p>To test that your server is ready to process commands is the most non-trivial of the standalone tasks, but can be implemented using <code>pl_print</code> as a temporary rendering solution prior to implementing the gameplay display if using the plist implementation. In this case, commands can be captured at the command line directly in the gameplay loop, rather than from a network socket, and the internal gamestate can be monitored in response to certain input directions. The command processing task is complete when internal data structures can be updated conditionally based on both internal game state and input commands.</p>
+
+<p>In the reference implementation, the main body was implemented in a single <code>move()</code> with a helper <code>init()</code> function.
+
+<pre><code>game init();
+game move(char dirc, game curr);</code></pre>
+
+<p><code>init()</code> contains only random number generation and two calls to <code>cons()</code> to return a randomized starting game state. <code>move()</code> contains two if blocks: the first which calculates the new head location of the snake given inputs, and the second which calculates the updates to snake and food item elements (including gameplay loss or victory) based on this new location.</p>
+
+<h3 id="display">Display</h1>
+
+<p>The reference snek implementation renders the gamestate in a console window of the historical default console size, 80 characters wide by 24 characters tall.</p>
 
 <pre><code>|------------------------------------------------------------------------------|
 |                                                                              |
@@ -341,48 +425,64 @@ it is otherwise similar to required tasks of the client. Compositionally, this c
 |                                                                              |
 |------------------------------------------------------------------------------|</code></pre>
 
-<p>In brief, the snake is directed by the player to "eat" the food on the screen, which causes the snake to increase in size. The goal of the game is for the player to direct the snake to increase in size until filling the entire game window without causing the snake to collide with either a boundary or the snake's own tail.</p>
-
-<p>The standard snake gameplay requires maintaining of elements of gameplay state in order to latter determine the effect of an command and to render the current gameplay state to console. The traditional snake implementation proceeds on simple two-dimensional grid. This grid can initially be thought of as a sparse n-by-m matrix which for this project is intended to be traditional console size is 80-by-23 with the last, 24th line left unpopulated so as not to clip the gameplay with a final, terminating new line. In this matrix, there are a number of gameplay elements:<p>
+<p>The traditional snake implementation proceeds on simple two-dimensional grid. This grid can initially be thought of as a sparse n-by-m matrix which for this project is intended to be traditional console size is 80-by-23 with the last, 24th line left unpopulated so as not to clip the gameplay with a final, terminating new line. In the reference implementation, these gameplay elements are displayed as follows:<p>
 
 <ul>
   <li>Bounding elements</li>
     <ul>
-      <li>Left/right bounds, denoted with "|"</li>
-      <li>Top/bottom bounds, denoted with "-"</li>
+      <li>Left/right bounds, denoted with "<code>|</code>"</li>
+      <li>Top/bottom bounds, denoted with "<code>-</code>"</li>
     </ul>
   </li>
-  <li>Food item elements, denoted with "&"</li>
-  <li>Snake elements, denoted with "O"</li>
+  <li>Food item elements, denoted with "<code>&</code>"</li>
+  <li>Snake elements, denoted with "<code>O</code>"</li>
 </ul>
 
-<p>Each of these elements is subject to certain requirements.</p>
+<h4 id="check6">Check-in 6</h4>
 
-<p>Bounding elements are statically maintained in the highest and lowest indexed each of both rows and columns, and unalterable through gameplay. Food item and snake elements may not occupy any space wherein a bounding element is present. Food item elements, placed by the gameplay server, must be restricted not to be placed in the same grid location as a bounding element. Snake elements, as they are directed by user input, may be directed into grid locations in which bounding elements are present, but doing so results in the game terminating in a loss for the player.</p>
+<p>To test that your server is ready to display game state, is suffices to implement a single function that takes as input a gamestate and renders it to console with one or more call to <code>printf()</code>. This can be implement in part before considering gamestate storage as a <code>NULL</code> gamestate should be renderable, simply without displaying any snake and food item elements.</p>
 
-<p>Food item elements are placed randomly at any point within the grid unoccupied by another gameplay element, whether a bounding elements or a snake element. Snake elements, as they are directed by user input, may be directed into grid locations in which a food item element is present. If a snake element is moved onto the grid location of a food element, the gameplay state is updated in the following way: a new snake element is created at the location of the food element, and all other snake elements are maintained in their current location. Additionally, a new food element is created at a randomized location where no other gameplay elements are present. If there are no locations in the grid that are unoccupied by either bounding or snake elements, the game concludes with a victory for the player.</p>
+<p>In the reference implementation, a single function used a doubly nested loop that assembled and then printed the game window line-by-line to console with a single internal working buffer large enough to hold one line at a time. However, many alterative implementations would also suffice and could make other aspects of the gameplay server implementation simpler.</p>
 
-<p>Snake elements placed initially by the gameplay server in either a fixed or randomized starting location at from that point on set according to user input. Each time the gameplay server updates, the snake elements should be updated as follows: a new snake element should be created relative to the most recently added snake element, either in the same row and an adjacent column, or the same column and an adjacent row, according to whether the snake is directed to move up, down, left, or right. If this snake element would be created in a grid space already occupied by an existing bounding or snake element, the game terminates in a loss for the player. If this snake element would be created in a grid space occupied by a food item element, the food item element is displaced and the game state update concludes. If this snake element would be created in a currently empty grid space, the least recently placed snake element is removed from the game state.</p>
+<pre><code>void show(game curr);</code></pre>
 
-<h3 id="state">Game State</h1>
+<h1 >Completion</h1>
 
-<p>As bounding elements are static, in the reference implementation their location is only considered during rendering, and all gameplay is modelled as if occuring in a 78-by-21 sized grid with no bounding elements present.</p>
+<p>With all functionalities of the snake game implemented, the final stages are to compose the elements together create a single cohesive gameplay experience.</p>
 
-<p>In the reference implementation, the food item location is maintained as a single integer array of length two capturing the coordinates the food item in the game space.</p>
+<p>In the reference implementation, the client proceeds from <code>main()</code> to <code>client()</code> which uses <code>void get_sock();</code> to create a socket that is passed to <code>cloop()</code>. In the reference implementation, these are nested as return calls, such that <code>cloop()</code> returns when encountering a quit command, <code>client()</code> returns the return value of <code>cloop()</code>, and <code>main()</code> returns the return value of <code>client()</code>. This also allows non-zero return values, denoting errors, to be passed up the call stack.</p>
 
-<p>In the reference implementation, the location of all snake elements is maintained in a linked list where the most recently added element is at the head of the list and the least recently added element is at the tail of the list. Doing so enables tracking which elements should be updated. Like the food item element, snake elements are tracked as integer array of length two.</p>
+<p>In the reference implementation, the server proceeds similarly, from <code>main()</code> to <code>server()</code> which uses <code>void get_sock();</code> to create a connection that is passed to <code>sloop()</code>. These are nested as return calls as well. <code>sloop()</code> calls an intermediate helper function:</p>
 
-<p>With bounding elements untracked, the reference implementation maintains the entire gameplay state in a single data structure holding both the location of the food item as an integer array of length two and the location of the snake as a custom linked list structure. For the snake, this means all state updates can be performed with head append and tail pop operations.</p>
+<pre><code>game play(char dirc, game curr);</pre></code>
 
-<h4 id="check4">Check-in 4</h4>
+<p>And <code>play()</code> organizes the calls to <code>init()</code>, <code>move()</code>, and <code>show()</code>.</p>
 
-<p>To test that your server is ready to maintain gamestate, you should implement some data structure capable of maintaining all required gameplay elements. A list that implements head append, tail pop, and contains checks meets all the needs for game state storage. This is a subset of the operations supported by Pythonic Lists, so the function templates and testing functions used for <code>&lt;plist.h&gt;</code> may all see reuse here, though the contains check in plist will have to be modified not to exit on failure.</p>
+<p>This project is well suited to extensions, such as adjustable framework, multiplayer support, multi-food / power-up items, non-rectangular game worlds, non-euclidean spaces, and more. Innovate to your hearts desire!</p>
+<pre><code>|------------------------------------------------------------------------------|
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                            &                                 |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         OOOOOOOOOOOO                                         |
+|------------------------------------------------------------------------------|</pre></code>
 
-<pre><code>#include &lt;plist.h&gt; // for insert(0) (head append), pop(), index() (contains)</code></pre>
-
-<p>Of note, an integer array of length two is the same size as a void pointer on most modern computers.</p>
-
-<h1 id="fin">To be continued.</h1>
 
 </body>
 </html>

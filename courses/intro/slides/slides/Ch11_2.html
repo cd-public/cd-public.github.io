@@ -28,50 +28,47 @@
 
 <section id="title-slide">
   <h1 class="title">#Hashes</h1>
-  <p class="author">Jed Rembold</p>
-  <p class="date">November 12, 2021</p>
+  <p class="author">Calvin (Deutschbein)<br> Slides by Jed Rembold</p>
+  <p class="date">04 April 2022</p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
-<li>Keep making progress on Project 4!</li>
-<li>Lab today is about dictionaries</li>
-<li>I think we will <strong>not</strong> have a lab next Friday, but rather I’ll just keep things open for last minute Enigma questions</li>
-<li>Polling: <a href="http://rembold-class.ddns.net">rembold-class.ddns.net</a></li>
+<li>Keep making progress on Project 3!</li>
 </ul>
 </section>
 <section id="review-question" class="slide level2" data-notes="Solution: [100,167,173,204]">
 <h2 data-notes="Solution: [100,167,173,204]">Review Question</h2>
 <p>What is the printed value of the below code?</p>
 <pre ><code class="python">A = [
-    {'name': 'Jill',  'weight':125, 'height':62},
-    {'name': 'Sam',   'weight':156, 'height':68},
-    {'name': 'Bobby', 'weight':173, 'height':72},
+    {'name': 'Wuzza',  'weight':19, 'length':21},
+    {'name': 'Fluffer',   'weight':10, 'length':24},
+    {'name': 'Evie', 'weight':14, 'length':16},
 ]
-A.append({'weight':204, 'height':70, 'name':'Jim'})
+A.append({'weight':8, 'length':19, 'name':'Juniper'})
 B= A[1]
-B['weight'] = 167
+B['weight'] = 12
 A[0].clear()
-print([d.get('weight',100) for d in A])</code></pre>
+print([d.get('weight',11) for d in A])</code></pre>
 <div class="cols">
 <div class="col poll">
 <ol>
 <li>
-<code class="python">[100,156,173,204]</code>
+<code class="python">[11,10,14,8]</code>
 </li>
 <li>
-<code class="python">[156,173,204]</code>
+<code class="python">[10,14,8]</code>
 </li>
 </ol>
 </div>
 <div class="col poll">
 <ol style="counter-reset: li 2">
 <li>
-<code class="python">[100,167,173,204]</code>
+<code class="python">[11,12,14,8]</code>
 </li>
 <li>
-<code class="python">[125,167,173,204]</code>
+<code class="python">[19,12,14,8]</code>
 </li>
 </ol>
 </div>

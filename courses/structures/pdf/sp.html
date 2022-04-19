@@ -24,7 +24,7 @@ for v, d in tnts:
 			dsts[i] = (v, d, curr)
 			</code></pre>
 
-For example, if the current node Boise is marked with a distance of 25, and the edge connecting it with a neighbor Salt Lake City has length 5, then the distance to SLC through Boise will be 25 + 5 = 30. If Salt Lake City was previously marked with a distance greater than 30 then change it to 30. Otherwise, the current value will be kept.
+For example, if the current node Boise is marked with a distance of 25, and the edge connecting it with a neighbor Salt Lake City has length 5, then the distance to SLC through Boise will be 25 + 5 = 30. If Salt Lake City was previously marked with a distance greater than 30 then change it to 30. Otherwise, the current value will be kept.<br>
 <li>When we are done considering all of the unvisited neighbors of the current node, mark the current node as visited and remove it from the unvisited set. A visited node will never be checked again.<pre><code>
 unvs -= {curr}
 			</code></pre></li>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="pandoc">
+	<meta name="author" content="Jed Rembold">
+	<meta name="dcterms.date" content="2021-08-30">
+	<title>k-anon</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+	<link rel="stylesheet" href="../html_srcs/reveal.js/dist/reset.css">
+	<link rel="stylesheet" href="../html_srcs/reveal.js/dist/reveal.css">
+	<style>
+	code{white-space: pre-wrap;}
+	span.smallcaps{font-variant: small-caps;}
+	span.underline{text-decoration: underline;}
+	div.column{display: inline-block; vertical-align: top; width: 50%;}
+	div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+	ul.task-list{list-style: none;}
+	</style>
+	<link rel="stylesheet" href="../html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+	<link rel="stylesheet" href="../html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+	<div class="reveal">
+	<div class="slides">
+
+<section id="title-slide">
+	<h1 class="title"><i>k</i>-anonymity</h1>
+	<p class="author">Calvin Deutschbein<br></p>
+	<p class="date">04 May 2022</p>
+</section>
+
+<section id="about-me" class="slide level2">
+<h2>About Me</h2>
+<dl>
+<dt>Name</dt>
+<dd>Calvin (Deutschbein) 
+</dd>
+<dt>Office</dt>
+<dd><strong>Ford</strong> 206
+</dd>
+<dt>Background</dt>
+<dd>Ph.D. Computer Science - UNC Chapel Hill<br>
+"Mining Secure Behavior of Hardware Designs"
+</dd>
+<dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+</dd>
+</dl>
+</section>
+<section id="background" class="slide level2">
+<h2>Background</h2>
+<dl>
+<p>Large amount of person-specific data has been collected in recent years</p>
+<ul><li>Both by public and by private entities</li></ul>
+<p>Data and knowledge extracted from it enrich our society</p>
+<ul><li>Formulating human-centric policies</li>
+<li>Supporting community-building in digital spaces</li></ul>
+<p>Laws and regulations require that some collected data must be made public</p>
+<ul><li>For example, campaign donations.
+</section>
+<section id="privacy" class="slide level2">
+<h2>What About Privacy?</h2>
+<div class="block" name="Primary Objective">
+<p>How can we keep individuals safe while still benefitting as a society?</div>
+<p>One technique: anonymize data.</p><br>
+<p><strong>But how?</strong><br><br>
+<p>Remove “personally identifying information” (PII)</p>
+<ul><li>Name, SSN, phone, email, address… what else?</li>
+<li>Anything that identifies an individual directly</li></ul>
+<p>Is this enough?
+</section>
+<section id="squad-goals" class="slide level2">
+<h2>Unmask by linking data sets</h2>
+<p>Consider a zipcode with only two people.</p>
+<ul><li>Some census data...</li>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Zipcode</th>
+		<th>DOB</th>
+	</tr>
+	<tr>
+		<td>Calvin</td>
+		<td>97301</td>
+		<td>1992</td>
+	</tr>
+	<tr>
+		<td>Jameson</td>
+		<td>97301</td>
+		<td>1975</td>
+	</tr>
+</table>
+<li>... and an Instagram post from a networking event.</li></ul>
+<table>
+	<tr>
+		<th>Zipcode</th>
+		<th>DOB</th>
+		<th>Embarrassing Secret</th>
+	</tr>
+	<tr>
+		<td>97301</td>
+		<td>1992</td>
+		<td>Enjoys oatmilk mochas</td>
+	</tr>
+	<tr>
+		<td>97301</td>
+		<td>1975</td>
+		<td>Surfs (almost) every Friday</td>
+	</tr>
+</table>
+<p>Are the secrets of people in this zipcode protected?<p>
+</section>
+<section id="latanya1" class="slide level2">
+<h2>Latanya Sweeney’s "Attack" (1997)</h2>
+<figure>
+<img data-src="../images/Latanya-Sweeney.jpg" style="width:60.0%" alt="Dr. Latanya Sweeney" /><figcaption aria-hidden="true">Latanya Sweeney<br>Daniel Paul Professor of the Practice of Government and Technology<br>Harvard University</figcaption>
+</figure>
+</section>
+<section id="latanya2" class="slide level2">
+<h2>Latanya Sweeney’s "Attack" (1997)</h2>
+<p>In 1997, Mass. Governor and future Libertarian Vice Presidential nominee Bill Weld released hospital visit information by all state employees but assured employees the data was anonymized.
+<figure>
+<img data-src="../images/latanya.png" style="width:60.0%" alt="The Data" /><figcaption aria-hidden="true">It wasn't.</figcaption>
+</figure>
+</section>
+<section id="latanya3" class="slide level2">
+<h2>Happy Endings</h2>
+<p>Then-governor Weld was hospitalized for influenza in 1996. Once the data set was released, Latanya Sweeney purchased voter rolls for $20, de-anonymized Bill Weld, and mailed him a copy of his private medical records!<figure>
+<img data-src="../images/billweld.jpg" style="width:60.0%" alt="Bill Weld" /><figcaption aria-hidden="true">Bill Weld (R-MA) -> (L)</figcaption>
+</figure>
+</section>
+<section id="latanya4" class="slide level2">
+<h2>Happy Endings</h2>
+<p>Latanya Sweeney's paper introducing the concept of <textit>k</i>-anonymity has been cited over 8000 times!<figure>
+<img data-src="../images/citations.png" style="width:60.0%" alt="The Paper" /><figcaption aria-hidden="true">The full text is available for free via epic.org.</figcaption>
+</figure>
+</section>
+<section id="quasi" class="slide level2">
+<h2>Quasi-Identifiers</h2>
+<dl>
+<p>Key attributes</p>
+<ul><li>Name, address, phone number - uniquely identifying!</li>
+<li>(Should) always be removed before release.</li></ul>
+<p>Quasi-identifiers</p>
+<ul><li>Zip, dob, state gender marker uniquely identifies 87% of the U.S.!</li>
+<li>Can be used for linking anonymized dataset with other datasets...</li></ul>
+<p>Recall: some collected data must be made public by law!</p>
+</section>
+<section id="classes" class="slide level2">
+<h2>Classification of Attributes</h2>
+<p>Sensitive attributes</p>
+<ul><li>Personal medical or family information, student records, etc.</li>
+<li>May be released for society to benefit from discoverable knowledge.</li></ul>
+<img data-src="../images/attributes.png" style="width:60.0%" alt="The MA data set" /><figcaption aria-hidden="true">The MA data set</figcaption>
+</figure>
+</section>
+<section id="intuition" class="slide level2">
+<h2>K-Anonymity: Intuition</h2>
+<p>The information for each person contained in the released table cannot be distinguished from at least k-1 individuals whose information also appears in the release</p>
+<ul><li>Example: you try to identify a person in the released table, but the only information you have is their birth date and state gender marker. There are k people in the table with the same birth date and gender.</li></ul>
+<p>Any quasi-identifier present <strong>must appear in at least k records.</strong></p>
+</section>
+<section id="model" class="slide level2">
+<h2>K-Anonymity: Protection Model</h2>
+<p>Given a:
+<ul><li>PT: Private table (that contains sensitive information)</li>
+<li>RT: Released ("anonymized") table: RT</li>
+<li>A<sub>n</sub>: Attributes A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub></li></ul>
+<p>Any quasi-identifier present <strong>must appear in at least k records.</strong></p>
+<img data-src="../images/kanon.png" style="width:60.0%" alt="The MA data set" />
+</figure>
+</section>
+<section id="generalization" class="slide level2">
+<h2>Generalization</h2>
+<p>Goal of k-Anonymity:
+<ul><li>Each record is indistinguishable from at least k-1 other records</li>
+<li>These k records form an equivalence class</li></ul>
+<p><strong>Generalization:</strong>  replace quasi-identifiers with less specific, but semantically consistent values</p>
+<pre ><code class="python" style="max-height:800px">>>> zip_codes = ["47677", "47602", "47678"]
+>>> zip_codes = [z[:3] + "**" for z in zip_codes]
+>>> zip_codes
+["476**", "476**", "476**"]
+</code></pre>
+</section>
+<section id="achieve" class="slide level2">
+<h2>Achieving k-Anonymity</h2>
+<p>Generalization
+<ul><li>Each specific quasi-identifiers to less specific values to get k identical values</li>
+<li>Partition ordered-value domains into intervals</li></ul>
+<p>Suppression
+<ul><li>When generalization causes too much information loss</li>
+<ul><li>This is common with “outliers”</li></ul></ul>
+<p>Many algorithms exist
+<ul><li>Aim to produce “useful” anonymizations</li>
+<li>...usually without any clear notion of utility</li></ul>
+</section>
+<section id="achieve" class="slide level2">
+<h2>Achieving k-Anonymity</h2>
+<p>Generalization
+<ul><li>Each specific quasi-identifiers to less specific values to get k identical values</li>
+<li>Partition ordered-value domains into intervals</li></ul>
+<p>Suppression
+<ul><li>When generalization causes too much information loss</li>
+<ul><li>This is common with “outliers”</li></ul></ul>
+<p>Many algorithms exist
+<ul><li>Aim to produce “useful” anonymizations</li>
+<li>...usually without any clear notion of utility</li></ul>
+</section>
+<section id="kequal2" class="slide level2">
+<h2>Example of a 2-Anonymous Table</h2>
+<p>
+<figure><img data-src="../images/kequals2.png" style="width:60.0%" alt="The MA data set" /><figcaption aria-hidden="true">Example of k-anonymity with k=2<br>QI={Race Marker, Birth Year, Gender Marker, Zip}</figcaption>
+</figure>
+</section>
+<section id="ex1" class="slide level2">
+<h2>How does generalizaton work?</h2>
+<p>
+<figure><img data-src="../images/unmasking.png" style="width:8	0.0%" alt="The MA data set" /><figcaption aria-hidden="true">Andre's personal health records are remain partially anonymized.</figcaption>
+</figure>
+</section>
+<section id="dims" class="slide level2">
+<h2>Limitations: Dimensionality</h2>
+<p>Generalization fundamentally relies on <strong>spatial locality</strong>
+<ul><li>Each record must have k close neighbors</li></ul>
+<p>Real-world datasets may be very sparse
+<ul><li>Many attributes (dimensions)</li>
+<ul><li>Netflix Prize (2009) dataset: 17,000 dimensions</li>
+<li>Amazon customer records: several million dimensions</li></ul>
+<li>“Nearest neighbor” is very far</li></ul>
+<p>If projection to low dimensions is lossy then k-anonymized datasets lose value.
+</section>
+<section id="dims" class="slide level2">
+<h2>Limitations: Harms</h2>
+<p>Syntactic
+<ul><li>Focuses on data transformation, not on what can be learned from the anonymized dataset</li>
+<li>“k-anonymous” dataset can leak sensitive information</li></ul>
+<p>“Quasi-identifier” fallacy
+<ul><li>Assumes a priori that attacker will not know certain information about their target</li></ul>
+<p>Relies on locality
+<ul><li>Destroys utility of many real-world datasets</li></ul>
+</section>
+<p> 
+	</div>
+	</div>
+
+	<script src="../html_srcs/reveal.js/dist/reveal.js"></script>
+
+	// reveal.js plugins
+	<script src="../html_srcs/reveal.js/plugin/notes/notes.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/search/search.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/math/math.js"></script>
+	<script src="../html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+	<script>
+
+		// Full list of configuration options available at:
+		// https://revealjs.com/config/
+		Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+		// Display controls in the bottom right corner
+		controls: true,
+		// Help the user learn the controls by providing hints, for example by
+		// bouncing the down arrow when they first encounter a vertical slide
+		controlsTutorial: true,
+		// Determines where controls appear, "edges" or "bottom-right"
+		controlsLayout: 'bottom-right',
+		// Visibility rule for backwards navigation arrows; "faded", "hidden"
+		// or "visible"
+		controlsBackArrows: 'faded',
+		// Display a presentation progress bar
+		progress: true,
+		// Display the page number of the current slide
+		slideNumber: true,
+		// Add the current slide number to the URL hash so that reloading the
+		// page/copying the URL will return you to the same slide
+		hash: true,
+		// Push each slide change to the browser history
+		history: true,
+		// Enable keyboard shortcuts for navigation
+		keyboard: true,
+		// Enable the slide overview mode
+		overview: true,
+		// Vertical centering of slides
+		center: false,
+		// Enables touch navigation on devices with touch input
+		touch: true,
+		// Loop the presentation
+		loop: false,
+		// Change the presentation direction to be RTL
+		rtl: false,
+		// see https://revealjs.com/vertical-slides/#navigation-mode
+		navigationMode: 'default',
+		// Randomizes the order of slides each time the presentation loads
+		shuffle: false,
+		// Turns fragments on and off globally
+		fragments: true,
+		// Flags whether to include the current fragment in the URL,
+		// so that reloading brings you to the same fragment position
+		fragmentInURL: true,
+		// Flags if the presentation is running in an embedded mode,
+		// i.e. contained within a limited portion of the screen
+		embedded: false,
+		// Flags if we should show a help overlay when the questionmark
+		// key is pressed
+		help: true,
+		// Flags if speaker notes should be visible to all viewers
+		showNotes: false,
+		// Global override for autoplaying embedded media (video/audio/iframe)
+		// - null: Media will only autoplay if data-autoplay is present
+		// - true: All media will autoplay, regardless of individual setting
+		// - false: No media will autoplay, regardless of individual setting
+		autoPlayMedia: true,
+		// Global override for preloading lazy-loaded iframes
+		// - null: Iframes with data-src AND data-preload will be loaded when within
+		//	 the viewDistance, iframes with only data-src will be loaded when visible
+		// - true: All iframes with data-src will be loaded when within the viewDistance
+		// - false: All iframes with data-src will be loaded only when visible
+		preloadIframes: null,
+		// Number of milliseconds between automatically proceeding to the
+		// next slide, disabled when set to 0, this value can be overwritten
+		// by using a data-autoslide attribute on your slides
+		autoSlide: 0,
+		// Stop auto-sliding after user input
+		autoSlideStoppable: true,
+		// Use this method for navigation when auto-sliding
+		autoSlideMethod: null,
+		// Specify the average time in seconds that you think you will spend
+		// presenting each slide. This is used to show a pacing timer in the
+		// speaker view
+		defaultTiming: null,
+		// Enable slide navigation via mouse wheel
+		mouseWheel: false,
+		// Hide cursor if inactive
+		hideInactiveCursor: true,
+		// Time before the cursor is hidden (in ms)
+		hideCursorTime: 5000,
+		// Opens links in an iframe preview overlay
+		previewLinks: false,
+		// Transition style
+		transition: 'slide', // none/fade/slide/convex/concave/zoom
+		// Transition speed
+		transitionSpeed: 'default', // default/fast/slow
+		// Transition style for full page slide backgrounds
+		backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+		// Number of slides away from the current that are visible
+		viewDistance: 3,
+		// Number of slides away from the current that are visible on mobile
+		// devices. It is advisable to set this to a lower number than
+		// viewDistance in order to save resources.
+		mobileViewDistance: 2,
+		// The "normal" size of the presentation, aspect ratio will be preserved
+		// when the presentation is scaled to fit different resolutions. Can be
+		// specified using percentage units.
+		width: 1920,
+		height: 1200,
+		// The display mode that will be used to show slides
+		display: 'block',
+		math: {
+			<!--mathjax: '../html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+			<!--config: 'tex-mml-chtml',-->
+			<!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+			<!--},-->
+			CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+		// reveal.js plugins
+		plugins: [
+			RevealMath,
+			RevealHighlight,
+			RevealNotes,
+			RevealSearch,
+			RevealZoom,
+			RevealChart,
+			RevealChalkboard,
+		],
+		chalkboard: {
+		boardmarkerWidth: 4,
+		chalkWidth: 7,
+		boardmarkers : [
+				{ color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+				{ color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+				{ color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+				{ color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+				{ color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+				{ color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+				{ color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+		],
+		chalks: [
+				{ color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+				{ color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+				{ color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+				{ color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+				{ color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+				{ color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+				{ color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+		]
+		},
+		dependencies: [
+			{ src: "../html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"../html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "../html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+		});
+	</script>
+	</body>
+</html>

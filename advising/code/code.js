@@ -317,7 +317,7 @@ const list =
     "Start": 1020,
     "End": 1120,
     "CSreq": 0,
-    "MATHreq": 0,
+    "MATHreq": 2,
     "Specialreq": "",
     "CSrank": 5,
     "DSrank": 4

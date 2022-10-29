@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>
+		WU S23 CSDATA
+	</title>
+	
+	<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+	</script>
+</head>
+
+<body style = "text-align:center;" id = "body">
+	
+	<p>Course Recommender. <a href="index.html">Return to advising home.</a></p>
+
+	<p>Denote Completion of Prior Coursework.</p>
+	
+	<div class="range-wrap"> 
+	  <label>COMPUTER SCIENCE</label><br>
+	  <input id="csrange" type="range" name="csrange" min="0" max="2" ><br>
+	  <label id="csdisplay" name="csdisplay">No Computer Science</label><br>
+	</div><br>
+	
+	<div class="range-wrap"> 
+	  <label>CALCULUS</label><br>
+	  <input id="calcrange" type="range" name="calcrange" min="0" max="2" ><br>
+	  <label id="calcdisplay" name="calcdisplay">No Calculus</label><br>
+	</div>
+	
+	<p id="debug"><p>
+	
+	<tr align="left">
+		<td>
+			<input type="checkbox" id="138" name="138" value="MATH138">
+			<label style="font-family: monospace; text-align: left" for="scales">MATH-138 or DATA-152 or AP Stats</label>
+		</td>
+		<td >
+			<input type="checkbox" id="151" name="151" value="DATA151">
+			<label style="font-family: monospace; text-align: left" for="scales">DATA-151 : Intro to Data Science</label>
+		</td><br>
+		<td >
+			<input type="checkbox" id="251" name="251" value="MATH251">
+			<label style="font-family: monospace; text-align: left" for="scales">MATH-251W: Fndn of Advanced Math</label>
+		</td >
+		<td>
+			<input type="checkbox" id="280" name="280" value="MATH280">
+			<label style="font-family: monospace; text-align: left" for="scales">MATH-280 : Math for Data Science</label>
+		</td><br>
+	</tr>
+	
+	<p>I sort by how required they are, then by course number.</p>
+	
+	<table align = "center"
+			id="table" border="1">
+	</table>
+	
+	<script type="text/javascript" src="code/code.js"></script>
+</body>
+
+</html>

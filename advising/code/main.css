@@ -1,0 +1,38 @@
+body{
+	background-color: #000000 ;
+	color="#00bfb2" ;
+}
+
+#dbug{
+	position: fixed ; 
+	top: 0% ; 
+	left: 0% ; 
+	background-color: #FFFFFF ;
+	color="#000000" ;
+}
+
+#range-wrap {
+  position: relative;
+}
+
+input[type=range] {
+  width: 200px;
+}
+
+#range-bars {
+  width: 1px;
+  height: 10px;
+  border-right: 2px solid black;
+  position: absolute;
+  top: 13px;
+  left: 47px;
+}
+
+#range-bars-two {
+  width: 1px;
+  height: 10px;
+  border-right: 2px solid black;
+  position: absolute;
+  top: 13px;
+  left: 157px;
+}

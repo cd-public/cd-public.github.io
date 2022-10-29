@@ -1,4 +1,4 @@
-"Courses" : [
+[
   {
     "Prefix": "CS",
     "Number": 151,
@@ -9,7 +9,7 @@
     "CSreq": 0,
     "MATHreq": 0,
     "Specialreq": "",
-    "CSrank": 3,
+    "CSrank": 1,
     "DSrank": 2
   },
   {
@@ -22,7 +22,7 @@
     "CSreq": 0,
     "MATHreq": 0,
     "Specialreq": "",
-    "CSrank": 3,
+    "CSrank": 1,
     "DSrank": 2
   },
   {
@@ -35,7 +35,7 @@
     "CSreq": 1,
     "MATHreq": 0,
     "Specialreq": "",
-    "CSrank": 2,
+    "CSrank": 1,
     "DSrank": 3
   },
   {
@@ -48,7 +48,7 @@
     "CSreq": 2,
     "MATHreq": 0,
     "Specialreq": "",
-    "CSrank": 1,
+    "CSrank": 2,
     "DSrank": 4
   },
   {
@@ -58,9 +58,9 @@
     "Days": "MW",
     "Start": 1430,
     "End": 1600,
-    "CSreq": 0,
+    "CSreq": 1,
     "MATHreq": 0,
-    "Specialreq": "",
+    "Specialreq": "DATA151",
     "CSrank": 4,
     "DSrank": 4
   },
@@ -149,9 +149,9 @@
     "Days": "MW",
     "Start": 1430,
     "End": 1600,
-    "CSreq": 0,
+    "CSreq": 1,
     "MATHreq": 0,
-    "Specialreq": "",
+    "Specialreq": "DATA151",
     "CSrank": 5,
     "DSrank": 3
   },
@@ -228,7 +228,7 @@
     "Start": 1020,
     "End": 1120,
     "CSreq": 0,
-    "MATHreq": 0,
+    "MATHreq": 2,
     "Specialreq": "",
     "CSrank": 5,
     "DSrank": 4
@@ -241,7 +241,7 @@
     "Start": 1240,
     "End": 1340,
     "CSreq": 0,
-    "MATHreq": 0,
+    "MATHreq": 2,
     "Specialreq": "",
     "CSrank": 5,
     "DSrank": 4
@@ -254,7 +254,7 @@
     "Start": 1020,
     "End": 1120,
     "CSreq": 0,
-    "MATHreq": 0,
+    "MATHreq": 2,
     "Specialreq": "",
     "CSrank": 5,
     "DSrank": 4
@@ -266,10 +266,10 @@
     "Days": "MWF",
     "Start": 910,
     "End": 1010,
-    "CSreq": 1,
+    "CSreq": 0,
     "MATHreq": 1,
     "Specialreq": "",
-    "CSrank": 5,
+    "CSrank": 1,
     "DSrank": 4
   },
   {

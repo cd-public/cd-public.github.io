@@ -1,32 +1,33 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-
-<head>
-	<title>
+<head>	<title>
 		WU S23 CSDATA
 	</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+	</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="code/main.css">
 </head>
+<body>
 
-<body style = "text-align:center;" id = "body">
+	<a href="index.html" align="center">Return to advising home.</a></p>	
+<div class="split left">
+  <div class="centered">
 	
-	<p>Course Recommender. <a href="index.html">Return to advising home.</a></p>
+	<p id="debug"></p>
 
-	<p>Denote Completion of Prior Coursework.</p>
+	<b>DENOTE COMPLETION OF COURSEWORK</b><br>
 	
 	<div class="range-wrap"> 
-	  <label>COMPUTER SCIENCE</label><br>
 	  <input id="csrange" type="range" name="csrange" min="0" max="2" ><br>
 	  <label id="csdisplay" name="csdisplay">No Computer Science</label><br>
 	</div><br>
 	
 	<div class="range-wrap"> 
-	  <label>CALCULUS</label><br>
 	  <input id="calcrange" type="range" name="calcrange" min="0" max="2" ><br>
 	  <label id="calcdisplay" name="calcdisplay">No Calculus</label><br>
-	</div>
-	
-	<p id="debug"><p>
+	</div><br>
 	
 	<tr align="left">
 		<td>
@@ -44,16 +45,44 @@
 		<td>
 			<input type="checkbox" id="280" name="280" value="MATH280">
 			<label style="font-family: monospace; text-align: left" for="scales">MATH-280 : Math for Data Science</label>
-		</td><br>
+		</td><br><br>
 	</tr>
+			
+	<b>DENOTE MAJOR / PREFERENCES</b>
 	
-	<p>I sort by how required they are, then by course number.</p>
-	
-	<table align = "center"
+	<div class="range-wrap"> 
+	  <input id="majrange" type="range" name="majrange" min="0" max="2" ><br>
+	  <label id="majdisplay" name="majdisplay">Computer Science</label><br>
+	</div><br>
+	<tr align="left">
+		<td>
+			<input type="checkbox" id="excs__" name="excs__" value="MATHexcs__">
+			<label style="font-family: monospace; text-align: left" for="scales">Exclude CS__</label>
+		</td><span style="margin-left:2em"></span>
+		<td >
+			<input type="checkbox" id="exdata" name="exdata" value="DATAexdata">
+			<label style="font-family: monospace; text-align: left" for="scales">Exclude DATA</label>
+		</td><br>
+		<td >
+			<input type="checkbox" id="exmath" name="exmath" value="MATH251">
+			<label style="font-family: monospace; text-align: left" for="scales">Exclude MATH</label>
+		</td><span style="margin-left:2em"></span>
+		<td>
+			<input type="checkbox" id="exrest" name="exrest" value="MATHexrest">
+			<label style="font-family: monospace; text-align: left" for="scales">Exclude rest</label>
+		</td><br><br>
+	</tr>
+	</tr>
+  </div>
+</div>
+
+<div class="split right">
+  <div class="centered">
+<table align = "center"
 			id="table" border="1">
 	</table>
-	
+  </div>
+</div>
 	<script type="text/javascript" src="code/code.js"></script>
 </body>
-
-</html>
+</html> 

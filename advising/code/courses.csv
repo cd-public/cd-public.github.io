@@ -1,0 +1,29 @@
+Prefix,Number,Name,Days,Start,End,CSreq,MATHreq,Specialreq,CSrank,DSrank
+CS,151,Intro Programming With Python,MWF,910,1010,0,0,,4,1
+CS,151,Intro Programming With Python,MWF,1020,1120,0,0,,4,1
+CS,152,Data Structures,TR,800,930,1,0,,3,0
+CS,261,Software Development,MWF,910,1010,2,0,,2,0
+CS,299,Top Human-Comp. Interaction,MW,1430,1600,1,0,DATA151,0,0
+CS,370,Fundamentals of Data Science,TR,1250,1420,1,0,,0,0
+CS,399,Top Computing 4 Social Good,TR,940,1110,1,0,,0,0
+DATA,151,Intro to Data Science with R,TR,1250,1420,0,0,,0,1
+DATA,152,Inferential Statistics With R,TR,940,1110,0,0,,0,1
+DATA,152,Inferential Statistics With R,TR,1250,1420,0,0,,0,1
+DATA,252,Models and Machine Learning,TR,1430,1600,0,0,MATH280,0,1
+DATA,299,Top Data in the Cosmos,MW,1430,1600,1,0,DATA151,0,0
+DATA,352,Ethics/Teamwork/Communication,MW,1250,1420,1,0,DATA151,1,1
+MATH,138,Statistics and Applications,MWF,910,1010,0,0,,0,1
+MATH,138,Statistics and Applications,MWF,1020,1120,0,0,,0,1
+MATH,152,Calculus II,MWF,1020,1120,0,1,,0,0
+MATH,152,Calculus II,MWF,1240,1340,0,1,,0,0
+MATH,153,Sequences and Series,MWF,1020,1120,0,2,,0,-1
+MATH,153,Sequences and Series,MWF,1240,1340,0,2,,0,-1
+MATH,249,Multivariable Calculus,MWF,1020,1120,0,2,,0,0
+MATH,251,Foundations of Advanced Math,MWF,910,1010,0,1,,3,-1
+MATH,251,Foundations of Advanced Math,TR,1250,1420,1,1,,3,-1
+MATH,253,Linear Algebra,TR,940,1110,0,2,,0,0
+MATH,376,"Top Probability, Computing",TR,1250,1420,0,0,MATH251,0,0
+MATH,376,Top Adv. Linear Algebra,MWF,910,1010,0,0,MATH251,0,0
+ENVS,250,Geographic Information Systems,TR,1250,1600,0,0,,0,0
+PHYS,346,Nonlinear Dynamics and Chaos,MWF,1020,1120,0,1,,0,0
+PHIL,140,Symbolic Logic,MWF,1240,1340,0,0,,0,-1

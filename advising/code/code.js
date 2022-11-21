@@ -49,13 +49,6 @@ box251.oninput = function() {
 	constructTable('#table') ;
 }
 
-const box280 = document.getElementById("280");
-
-box280.oninput = function() {
-	table.innerHTML = "" ;
-	constructTable('#table') ;
-}
-
 const boxexdata = document.getElementById("exdata");
 
 const boxexcs__ = document.getElementById("excs__");
@@ -225,7 +218,7 @@ const list =
    "End": 1600,
    "CSreq": 0,
    "MATHreq": 0,
-   "Specialreq": "MATH280",
+   "Specialreq": "MATH138",
    "CSrank": 0,
    "DSrank": 1
  },
@@ -492,12 +485,11 @@ function screen(list)
 	}	
 	if (box151.checked && list["Name"] == "Intro to Data Science with R") { return 0 ; }
 	if (box251.checked && list["Name"] == "Foundations of Advanced Math") { return 0 ; }
-	if (box280.checked && list["Name"] == "Math for Data Science") { return 0 ; }
 	
 	// Specials
 	if (list["Specialreq"] == "DATA151" && box151.checked) { return 1 ; } 
+	if (list["Specialreq"] == "MATH138" && box138.checked) { return 1 ; } 
 	if (list["Specialreq"] == "MATH251" ) { return (box251.checked ? 1 : 0 ) ; }
-	if (list["Specialreq"] == "MATH280" ) { return (box280.checked ? 1 : 0 ) ; }
 	
 	// CS1 to get into MATH 251W
 	if (list["Name"] == "Foundations of Advanced Math" && csslider.value > 0) { return 1 ; }

@@ -50,7 +50,7 @@
 </ul></li>
 <li>Homework
 <ul>
-<li>The first homework, "Threat Modeling" will be posted to Discord after class, due next Wednesday, 1/18</li>
+<li>The first homework, "Threat Modeling" will be presented at the beginning of next class, due next Wednesday, 1/18</li>
 </ul></li>
 </ul>
 </section>
@@ -69,6 +69,9 @@
 <dd>Tuesdays and Thursdays are better.
 </dd>
 <dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+</dd>
+<dt>Website:</dt>
 <dd>ckdeutschbein@willamette.edu
 </dd>
 </dl>
@@ -175,7 +178,7 @@ verify that modules, SoCs, and CPUs have secure information flow.
 <li>What does "security" mean to you?</li>
 <li>What about "secure" as an adjective?</li>
 <li>What about "secure" as a verb?</li>
-<li>Do you like Antonio Banderas?</li>
+<li>Form groups of 2-4 and create a definiton of "secure" and "security". [5-10 min]</li>
 </ul>
 </div>
 <div class="col">
@@ -213,7 +216,7 @@ verify that modules, SoCs, and CPUs have secure information flow.
 <li>When caught again, they lied about how many times they did it.</li>
 <li>We still don't know <b>if</b> we know the extent of illegal access.</li>
 </ul></li>
-<li>How can we address this environment as scientists of data and computing?</li>
+<li>Form groups of 2-4 and discuss: How can we address this environment as scientists of data and computing? [5 min]</li>
 </ul>
 </div>
 <div class="col">
@@ -272,91 +275,251 @@ verify that modules, SoCs, and CPUs have secure information flow.
 </tbody>
 </table>
 </section>
-<!--
-## Getting the right mindset
-::: {.columns}
-:::: {.column}
-- Katherine Johnson worked as a "computer" at NASA, when the term still referred to humans doing the calculations.
-    - One of the three black women portrayed in the 2016 film _Hidden Figures_
-    - Awarded the Presidential Medal of Freedom in 2015
-    - Passed away in February of this year at the age of 101
-::::
-:::: {.column}
-![](../images/katherine_johnson.jpg){width=500px}
-::::
-:::
-
----
-
-## Data Types
-- Generally, the data processed by computers can take on many forms
-- A _data type_ defines the common characteristics of some data values that have a certain form or purpose.
-    - Ex: a whole number or integer has certain characteristics
-- A data type has a _domain_, which is the set of all potential values that would belong to that type.
-    - Ex: 0,1,2,3,4,5,6,7,...
-- A data type has a _set of operations_ that define how those values can be manipulated
-    - Ex: You can add two whole numbers (5+2)
-
-## Numeric Types
-- Initially, we'll just focus on the numeric types
-- Python has 3 data types for numbers:
-    - `int`{.python} for integers and whole numbers
-
-        ```python
-        1, 2, 3, 10, 1001010101
-        ```
-
-    - `float`{.python} for numbers containing a decimal point
-
-        ```python
-        1.23, 3.14, 10.001, 0.0
-        ```
-
-    - `complex`{.python} for numbers with an imaginary component (which we won't deal with)
-
----
-
-## Expressions
-- Like most languages, Python describes computation using _arithmetic expressions_, which consist of _terms_ joined by _operators_
-    - Very similar to how a logical English sentence has nouns connected by verbs
-- A term in an expression can be:
-    - an explicit numeric value (1 or 3.14)
-    - a variable name serving as a placeholder to a value
-    - a value resulting from the output of a function call
-    - another expression enclosed in parentheses
-- Operators are mostly the common ones found from arithmetic, but with a few extras, as we'll see on the next slide
-- The result of an expression will have a data type that generally depends on both the operation done and the input data types
-
----
-
-## Integer and Float Operations
-- `i + j`  the _sum_ of `i` and `j`[留]{.orange}
-- `i - j`  the _difference_ between `i` and `j`[留]{.orange}
-- `i * j`  the _product_ of `i` and `j`[留]{.orange}
-- `i // j`  the _floor division_ of `i` by `j`[留]{.orange}
-- `i / j`  the _division_ of `i` by `j`[†]{.orange}
-- `i % j`  the _remainder_ when `i` is divided by `j`[留]{.orange}
-- `i ** j`  `i` to the _power_ of `j`[留]{.orange}
-
-<br>
-<hr>
-<br>
-[留]{.orange} -- Returns `int` if both `i` and `j` are integers, `float` otherwise
-
-[†]{.orange} -- Returns `float` always
-
----
-
-## Order of Operations
-- Basic order of operations applies just like in math!
-- Operations in parentheses done first
-- Without parentheses, order of operations proceeds as:
-    - `**` (exponents)
-    - `-n` (negative numbers)
-    - `*`, `/`, `//`, `%`, executed from left to right
-    - `+` and `-`, executed from left to right
--->
+<section id="loopbackexample" class="slide level2">
+<h2>A messaging service</h2>
+<p>For our messaging service...</p>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><b>What?</b></td>
+<td style="text-align: left;">A way for users to send one another messages...</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><b>For whom?</b></td>
+<td style="text-align: left;">...such that only the sender and intended receipient may read the content...</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><b>From whom?</b></td>
+<td style="text-align: left;">...yet third parties, such as other users, the service provider, and law enforcement may not...</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><b>Any limitations?</b></td>
+<td style="text-align: left;">though it may be possible to determine who is sending messages and when.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><b>How?</b></td>
+<td style="text-align: left;">To be continued!</td>
+</tr>
+</tbody>
+</table>
 </section>
+<section id="artifacts" class="slide level2">
+<h2>Artifacts</h2>
+<p>That slide had <b>too many words</b>.</p>
+<p>We can instead proceed in <b>four steps</b>.</p>
+<ul>
+<li><b>Diagram:</b> What are we building?</li>
+<li><b>Identify threats:</b> What could go wrong?</li>
+<li><b>Mitigate:</b>What are we doing to defend against threats?</li>
+<li><b>Validate:</b> Have we acted on each of the previous steps?</li>
+</ul>
+</section>
+<section id="process" class="slide level2">
+<h2>Process</h2>
+<p>I think of this as a procedural way to go from an idea, to an idea where the threats are modelled.</p>
+<ul>
+<li>First, we draw a diagram of our idea.</li>
+<li>Then we supplement with the risks or threats.</li>
+<li>Then we explain how each is addressed.</li>
+<li>The last stage, validation, is completed after implementing the idea by testing and studying the service.</li>
+</section>
+<section id="signal" class="slide level2">
+<h2>Signal</h2>
+<p>"Signal is a cross-platform encrypted instant messaging service... Users can send one-to-one and group messages, which can include files, voice notes, images, and videos."</p>
+<p><img data-src="../images/signal.png" style="width:80.0%; background-color:white;" /></p>
+</section>
+<section id="abe" class="slide level2">
+<h2>ABE</h2><div class="cols">
+<div class="col">
+<ul>
+<li>There is a traditional approach.
+<ul>
+<li><b>Alice</b> is used to denote "user A"</li>
+<li><b>Bob</b> is used to denote "user B"</li>
+<li><b>Eve</b> is used to denote an "eavesdropper"</li>
+</ul></li>
+<li>An aside: What do we think about the choice of these names?</li><ul>
+<li>What if <b>Calvin</b> is used to denote "user C"?</li>
+</ul></li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/protocol.png" style="width:65.0%" /></p>
+</div>
+</div>
+<p>source: xkcd.com/1323</p>
+</section>
+<section id="im" class="slide level2">
+<h2>Diagram</h2>
+<p>Signal is a... instant messaging service.</p>
+<p><img data-src="../images/im.png" style="width:65.0%" /></p>
+</section>
+<section id="enc" class="slide level2">
+<h2>Diagram</h2>
+<p>Signal is a... encrypted instant messaging service.</p>
+<p><img data-src="../images/enc.png" style="width:65.0%" /></p>
+</section>
+<section id="cross" class="slide level2">
+<h2>Diagram</h2>
+<p>Signal is a cross-platform encrypted instant messaging service.</p>
+<p><img data-src="../images/cross.png" style="width:65.0%" /></p>
+</section><section id="identify" class="slide level2">
+<h2>Identify Threats</h2>
+<p>What could go wrong?</p>
+<p><img data-src="../images/attack.png" style="width:65.0%" /></p>
+</section>
+</section><section id="identify2" class="slide level2">
+<h2>Identify Threats</h2>
+<p>Some thoughts</p>
+<ul>
+<li>Is the encryption secure?</li>
+<li>Is the device on which unencrypted messages are read/written secure?</li>
+<li>Are messages encrypted on one platform readable on another platform?</li>
+<li>Is encryption too computationally intense to work on a mobile device?</li>
+</ul>
+</section>
+<section id="next" class="slide level2">
+<h2>Mitigation and Validation</h2>
+<p>These things are <b>hard</b> - but we must first ask the right questions.</p>
+<ul>
+<li>Signal is open source, and subject to community scrutiny.</li>
+<li>Signal has been demonstrated and is used by many users.</li>
+<li>Signal is recommended by privacy, technology, and activist communities.</li>
+<li>Is this enough?</li>
+</ul>
+</section>
+<section id="best" class="slide level2">
+<h2>Best Practices</h2>
+<p>Five techniques for success</p>
+<ul>
+<li><b>Define the scope</b> and depth of analysis.</li>
+<li>Gain a <b>visual understanding</b> of what you’re threat modeling.</li>
+<li>Visually <b>model</b> the attack possibilities.</li>
+<li><b>Identify</b> threats.</li>
+<li><b>Document</b> of missing or weak security controls.</li>
+</ul>
+</section>
+<section id="define" class="slide level2">
+<h2>Define the Scope</h2>
+<ul>
+<li>Determine <b>stakeholders</b>
+<ul>
+<li>Who uses the service?</li>
+<li>Who provides the service?</li>
+<li>Who benefits from the service?</li>
+<li>Who does not benefit from the service?</li>
+</ul></li>
+<li>Who can answer these questions?<ul>
+<li>Are they the same or different people?</li>
+<li>Should you do this by yourself?</li>
+<li>What do you do if you need help?</li>
+</ul></li>
+</ul>
+</section>
+<section id="vis" class="slide level2">
+<h2>Visual Understanding</h2>
+<p>I made this in draw.io</p>
+<p><img data-src="../images/attack.png" style="width:65.0%" /></p>
+</section>
+<section id="id" class="slide level2">
+<h2>Identify Threats</h2>
+<p>Who do you not want reading your messages?</p>
+<p><img data-src="../images/metadata.png" style="width:45.0%" /></p>
+</section>
+<section id="doc" class="slide level2">
+<h2>Document</h2>
+<p>There are established norms for secure code - what about other services?</p>
+<p><img data-src="../images/sig.png" style="width:75.0%" /></p>
+</section>
+<section id="airliner" class="slide level2">
+<h2>Now consider</h2>
+<p>A <b>commercial airliner</b>:
+<ul>
+<li>Serves both a <b>crew</b> and <b>passengers</b>.</li>
+<li>Has a <b>flight deck.</b></li>
+<li>Has a <b>service station</b> which is for both crew and passengers.</li>
+<li>Crew and passengers <b>both</b> must have access to the service station.</li>
+<li>Crew <b>only</b> must have access to the flight deck.</li>
+<li>Passengers must not have access to the flight deck.</li>
+</ul>
+</section>
+<section id="artref" class="slide level2">
+<h2>Artifacts</h2>
+<p>We can instead proceed in <b>four steps</b>.</p>
+<ul>
+<li><b>Diagram:</b> What are we building?</li>
+<li><b>Identify threats:</b> What could go wrong?</li>
+<li><b>Mitigate:</b>What are we doing to defend against threats?</li>
+<li><b>Validate:</b> Have we acted on each of the previous steps?</li>
+</ul>
+</section>
+<section id="modelref" class="slide level2">
+<h2>Model</h2>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Informally</th>
+<th style="text-align: left;">Formally</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><b>What?</b></td>
+<td style="text-align: left;">Description of the subject to be modeled</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><b>For whom?</b></td>
+<td style="text-align: left;">A way of validating the model and threats, and verification of success of actions taken</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><b>From whom?</b></td>
+<td style="text-align: left;">Potential threats to the system</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><b>Any limitations?</b></td>
+<td style="text-align: left;">Assumptions that can be checked or challenged in the future as the threat landscape changes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><b>How?</b></td>
+<td style="text-align: left;">Actions that can be taken to mitigate each threat</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="yourturn" class="slide level2">
+<h2>Your turn!</h2>
+<p>A commercial airliner threat model:
+<ul>
+<li>Concerns  <b>crew</b> and <b>passengers</b>, a <b>flight deck</b> and a <b>service station</b>.</li>
+<li>Should answer <b>What?</b>, <b>For whom?</b>, <b>From whom?</b>, <b>Any limitations?</b></li>
+<li>Should include a <b>a diagram</b> and <b>identify threats</b>.</li>
+</ul>
+<p>Form groups of 2-4 and create 3-5 slides. [30-45 min]</p>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Identify something in your life (an app, a work thing, a building, a company) with security features.
+<ul>
+<li>Construct a 3-5 slide threat model including <b>at least one</b> diagram.</li>
+<li>Discuss at least <b>2 limitations</b> of the existing systems.</li>
+<li>Discuss at a high level how you would address, fully or partially, <b>at least 1</b> of these limitations.</li>
+</ul>
+</section>
+
     </div>
   </div>
 

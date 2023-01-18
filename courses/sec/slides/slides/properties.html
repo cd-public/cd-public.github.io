@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jed Rembold">
+  <meta name="dcterms.date" content="2021-08-30">
+  <title>Properties</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Properties</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">18 January 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>You should have a 3-5 slide threat model.
+<ul>
+<li>Sit tight! We will go over these as a class!
+<ul>
+<li>We'll work out the tech as we go.</li>
+</ul></li>
+<li>We will use Discord by default but may improvise.</li>
+</li></ul></li>
+<li>But first, properties.
+<ul>
+<li>We want to place our threat models in context.</li>
+</ul></li>
+</ul>
+</section>
+<section id="review" class="slide level2">
+<h2>Review Question</h2>
+<p>Which of the following is <b>not</b> one of the five questions answered by a threat model?</p>
+<div class="poll">
+<ol>
+<li>What?</li>
+<li>Who?</li>
+<li>Any limitations?</li>
+<li>How?</li>
+</ol>
+</div>
+<p>Consider your answer. What would threat models look like if any answer was correct?</p>
+</section>
+<section id="properties" class="slide level2">
+<h2>Properties</h2>
+<ul>
+<li>An <b>security policy</b> may have <b>properties</b>.</li>
+<li>These <b>security policies</b> are distinct from the <b>what?</b> of a threat model</li>
+<li>Rather the <b>security policy</b> is the <b>how?</b> of a threat model</li>
+</ul>
+<p>A security policy could have the property of being <b>correct</b> if the threats of a threat model are mitigated</p>
+</section>
+<section id="traceprops" class="slide level2">
+<h2>Trace Properties</h2>
+<ul>
+<li>I think of properties in terms of <b>traces</b></li>
+<li>A <b>trace</b> is the sequence of states through which a system passes over time.
+<ul>
+<li>A <b>sequence</b> is an ordering of something. So traces are <b>in order</b>.</li>
+<li>A <b>state</b> is the configuration of a system at some specific time point.</li>
+<li>A <b>system</b> here is the entity that implements the security policy</li>
+<li>We emphasize the notion of <b>over time</b>. Traces a <b>time-based</b></li></ul></li>
+</section>
+<section id="trafficlight" class="slide level2">
+<h2>Traffic Light</h2>
+<ul>
+<li>Think of a <b>traffic light</b>.
+<ul>
+<li>In what <b>states</b> may a traffic light be?</li>
+<li>In what <b>sequence</b> may these states occur?</li>
+<li>Does a traffic light implement a <b>security policy</b></li>
+<li>Do traffic lights <b>change over time</b>?</li>
+</ul></li></ul>
+<p><img data-src="../images/traffic.png" style="width:45.0%" /></p>
+</section>
+<section id="statemachine" class="slide level2">
+<h2>Theory break (sorry!)</h2>
+<p>A traffic light is an example of a <b>state machine</b>.</p>
+<div class="block" name="Definition">
+<p>A <b>state machine</b> is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time.</p>
+</div>
+<p><img data-src="../images/traffic.png" style="width:45.0%" /></p>
+</section>
+<section id="atrace" class="slide level2">
+<h2>Trace Properties</h2>
+<div class="cols">
+<div class="col">
+<p>We can denote the state of a traffic light by the lit color. A trace may appear as:</p>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="samples" class="slide level2">
+<h2>Some Examples</h2>
+<div class="cols">
+<div class="col">
+<p>Let's review some traces and see if they are from a traffic light system that is operating properly.</p>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="start" class="slide level2">
+<h2>Start</h2>
+<p>Does <b>starting state</b> matter?</p>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="end" class="slide level2">
+<h2>End</h2>
+<p>Does <b>ending state</b> matter?</p>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="len" class="slide level2">
+<h2>Length</h2>
+<p>Does <b>length</b> matter?</p>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="unique" class="slide level2">
+<h2>Unique</h2>
+<p>Does the number of <b>unique states</b> matter?</p>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="order" class="slide level2">
+<h2>order</h2>
+<p>Does <b>order</b> matter?</p>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "GREEN_",
+    "YELLOW"
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "RED___",
+    "YELLOW",
+]</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:900px">trace = [
+    "GREEN_",
+    "RED___"
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="setofsequences" class="slide level2">
+<h2>Sets of Traces</h2>
+<div class="block" name="Definition">
+<p>A <b>trace property</b> is a set of traces.</p>
+</div>
+<p>The variable "property" is a list of traces.
+<pre ><code class="python" style="max-height:900px">property[0] = ["GREEN_"]
+property[1] = ["YELLOW"]
+property[2] = ["RED__"]
+property[3] = ["GREEN", "YELLOW"]
+</code></pre>
+</section>
+<section id="havingproperties" class="slide level2">
+<h2>System Properties</h2>
+<ul>
+<li>A <b>security policy</b> has some given <b>property</b> if all possible traces produced by a system following said security policy are traces within the given property.</li>
+<li>This may be an infinite number of traces or include traces of infinite length.</li>
+<li>Systems may have more than one property.</li>
+</ul>
+<p><b>Logics of specification</b> are used to specify properties - more on that latter.</p>
+</section>
+<section id="tracesecurity" class="slide level2">
+<h2>On Security</h2>
+<ul>
+<p>Properties provide a way to answer the "How?" after asking:</p>
+<ul>
+<li><b>What</b> is secure?</li>
+<li><b>For whom</b> is the 'what' secure?</li>
+<li><b>From whom</b> is the 'what' secure?</li></ul>
+<p>Now let's look at threat models again!</p>
+</section>
+<section id="artref" class="slide level2">
+<h2>Artifacts (Review)</h2>
+<p>We can instead proceed in <b>four steps</b>.</p>
+<ul>
+<li><b>Diagram:</b> What are we building?</li>
+<li><b>Identify threats:</b> What could go wrong?</li>
+<li><b>Mitigate:</b>What are we doing to defend against threats?</li>
+<li><b>Validate:</b> Have we acted on each of the previous steps?</li>
+</ul>
+</section>
+<section id="modelref" class="slide level2">
+<h2>Model (Review)</h2>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Informally</th>
+<th style="text-align: left;">Formally</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><b>What?</b></td>
+<td style="text-align: left;">Description of the subject to be modeled</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><b>For whom?</b></td>
+<td style="text-align: left;">A way of validating the model and threats, and verification of success of actions taken</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><b>From whom?</b></td>
+<td style="text-align: left;">Potential threats to the system</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><b>Any limitations?</b></td>
+<td style="text-align: left;">Assumptions that can be checked or challenged in the future as the threat landscape changes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><b>How?</b></td>
+<td style="text-align: left;">Actions that can be taken to mitigate each threat</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="best" class="slide level2">
+<h2>Best Practices (Review)</h2>
+<p>Five techniques for success</p>
+<ul>
+<li><b>Define the scope</b> and depth of analysis.</li>
+<li>Gain a <b>visual understanding</b> of what you’re threat modeling.</li>
+<li>Visually <b>model</b> the attack possibilities.</li>
+<li><b>Identify</b> threats.</li>
+<li><b>Document</b> of missing or weak security controls.</li>
+</ul>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework (Review)</h2>
+<p>Identify something in your life (an app, a work thing, a building, a company) with security features.
+<ul>
+<li>Construct a 3-5 slide threat model including <b>at least one</b> diagram.</li>
+<li>Discuss at least <b>2 limitations</b> of the existing systems.</li>
+<li>Discuss at a high level how you would address, fully or partially, <b>at least 1</b> of these limitations.</li>
+</ul>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework (Discussion)</h2>
+<p>Brave* volunteers** will present their threat models.
+<ul>
+<li>In what <b>states</b> may the discussed system be?</li>
+<li>In what <b>sequence</b> may these states occur?</li>
+<li>Does the discussed system implement a <b>security policy</b></li>
+<li>Does the system <b>change over time</b>?</li>
+<li>What is a non-trivial example and counterexample of a trace?</li>
+</ul>
+</section>
+
+    </div>
+  </div>
+
+  <script src="../html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="../html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: '../html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "../html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"../html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "../html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

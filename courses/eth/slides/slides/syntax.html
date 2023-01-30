@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jed Rembold">
+  <meta name="dcterms.date" content="2021-08-30">
+  <title>Syntax</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Syntax</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">30 January 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>We are 5/7 through the timing window on HTML-ify assignment.
+<ul>
+<li>We'll touch on it a bit today, but that is not the focus.
+<ul>
+<li>Pause for questions.</li>
+</ul></li>
+</ul></li>
+<li>Homework
+<ul>
+<li>No pull requests, just update your github.io page.</li>
+</ul>
+<li>I'll use version history to see what you had live at 12:50 PM
+<ul><li>No extensions ; just submit your best effort (for measurement reasons)</li></ul></li></ul></li></ul>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>What is the atomic unit of well-formed HTML5?</p>
+<div class="poll">
+<ol>
+<li>Content</li>
+<li>Element</li>
+<li>Sentence</li>
+<li>Tag</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>The atomic units of HTML may take two forms.  What are they?</p>
+<div class="poll">
+<ol>
+<li>Content, Void</li>
+<li>Element, Tag</li>
+<li>End, Start</li>
+<li>Start, Void</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>What is the atomic unit of disambiguated English?</p>
+<div class="poll">
+<ol>
+<li>Word</li>
+<li>Phrase</li>
+<li>Clause</li>
+<li>Paragraph</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Which of the following is not a default HTML element?</p>
+<div class="poll">
+<ol>
+<li>Header</li>
+<li>Line</li>
+<li>Paragraph</li>
+<li>Sentence</li>
+</ol>
+</div>
+</section>
+<section id="ptml" class="slide level2">
+<h2>PTML</h2>
+<p>To organize our thoughts, we introduce "Plain Text Markup Language"</p>
+<div class="cols">
+<div class="col">
+<p>PTML</p>
+<ul>
+<li>Synthesizes words into sentences </li>
+<li>Governed by English grammar</li>
+<li>Readable by humans</li>
+<li>Teaches writing</li>
+</ul>
+</div>
+<div class="col">
+<p>HTML</p>
+<ul>
+<li>Synthesizes content into elements</li>
+<li>Governed by HTML Living Standard</li>
+<li>Renderably by browsers</li>
+<li>Teaches data & computing</li>
+</ul>
+</div>
+</div>
+<div class="cols">
+<div class="col"></div>
+<div class="col">
+<p>Both</p>
+<ul><li>Use HTML style tags</ul></ul>
+</div>
+<div class="col"></div>
+</section>
+<section id="process" class="slide level2">
+<h2>Process</h2>
+<p>To convert plain text to PTML we:</p>
+<ol>
+<li>Tag words (with syntactic categories)</li>
+<li>Identifying intermediate phrases (syntactic words to syntactic phrases)</li>
+<li>Re-type words if needed (e.g. verb to noun via gerund)</li>
+<li>Compose subjects, predicates, and conditionally objects into sentence</li>
+</ol>
+<p>Can you automate this process?</p>
+</section>
+<section id="words" class="slide level2">
+<h2>Word Tags</h2>
+<p>To tag words we identify a word as one of:</p>
+<ul>
+<li>Noun</li>
+<li>Verb</li>
+<li>Adjective</li>
+<li>Adposition</li>
+<li>Adverb</li>
+<li>Conjunction</li>
+</ul>
+<p>These categories seem sufficient to capture all writing controlling of certain tones.</p>
+</section>
+<section id="thesis" class="slide level2">
+<h2>Thesis Tags</h2>
+<div class="block" name="Calvin Deutschbein's *TML Thesis" >
+<p><font size="+40">*TML, as languages intentionally constructed for shared communication, constitute a valuable tool for teaching writing in a holistic curriculum emphasizing generalizable skills such as peer revision, authorial best practices, and clarity of personal thought.</font></p></div>
+<table>
+<colgroup>
+<col style="width: 15%; background-color:grey" />
+<col style="width: 15%" />
+<col style="width: 15%; background-color:grey" />
+<col style="width: 15%" />
+<col style="width: 15%; background-color:grey" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Word</th>
+<th style="text-align: left;">Tag</th>
+<th style="text-align: left;">Word</th>
+<th style="text-align: left;">Tag</th>
+<th style="text-align: left;">Word</th>
+<th style="text-align: left;">Tag</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">*TML</td>
+<td style="text-align: left;">noun</td>
+<td style="text-align: left;">as</td>
+<td style="text-align: left;">adposition</td>
+<td style="text-align: left;">languages</td>
+<td style="text-align: left;">noun</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">intentionally</td>
+<td style="text-align: left;">adverb</td>
+<td style="text-align: left;">constructed</td>
+<td style="text-align: left;">adjective</td>
+<td style="text-align: left;">for</td>
+<td style="text-align: left;">adposition</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">shared</td>
+<td style="text-align: left;">adjective</td>
+<td style="text-align: left;">communication</td>
+<td style="text-align: left;">noun</td>
+<td style="text-align: left;">constitute</td>
+<td style="text-align: left;">verb</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a</td>
+<td style="text-align: left;">adjective</td>
+<td style="text-align: left;">valuable</td>
+<td style="text-align: left;">adjective</td>
+<td style="text-align: left;">tool</td>
+<td style="text-align: left;">noun</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">for</td>
+<td style="text-align: left;">adposition</td>
+<td style="text-align: left;">teaching</td>
+<td style="text-align: left;">noun</td>
+<td style="text-align: left;">writing</td>
+<td style="text-align: left;">noun</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="document" class="slide level2">
+<h2>Build a PTML Document</h2>
+<p>You can inline this if you want of course, but it can obscure structure.
+<pre ><code class="html" style="max-height:900px"><noun>
+  *TML,
+</noun> 
+<adposition>
+  as
+</adposition>
+<noun>
+  languages
+</noun> 
+<adverb>
+  intentionally
+</adverb>
+<adjective>
+  constructed
+</adjective></code></pre>
+</section>
+<section id="sentences" class="slide level2">
+<h2>Sentence Tags</h2>
+<p>Sentences are composed of either</p>
+<ul>
+<li>Both a subject and a predicate, or
+<ul><li>Subjects are composed of a
+<ul><li>Noun or noun phrase</li></ul></li>
+<li>Predicates are composed of a
+<ul><li>A verb or verb phrase, and potentially</li>
+<li>An object - a noun or noun phrase.</ul></li></ul>
+<li>A sentence, a conjunction, and another sentence.</li>
+</ul>
+<p>There may be phrases for each type of word (e.g. adjective phrase) and objects</p>
+<ul><li>Adposition phrases and verb phrases for transitive verbs require objects, a type of noun phrase.</ul></li>
+</section>
+<section id="phrase" class="slide level2">
+<h2>Phrases</h2>
+<p>Yawn</p>
+<ul>
+<li>A noun phrase contains at least a noun and may contain adjectives or adjective phrases and adpositional phrases.</li>
+<li>A verb phrase contains at least a verb and may contain an object, a special type of noun phrase, adverbs or adverb phrases, adpositional phrases.</li>
+<li>An adjective phrase contains at least a adjective and may contain an adverb or adverb phrase.</li>
+<li>An adposition phrase contains at least an adjective and an object, a special type of noun phrase.</li>
+<li>An adverb phrase contains at least an adverb and may additionally contain another adverb or adverb phrase.</li>
+<li>Any of these phrases may composed of multiple subphrases joined by a conjunction.</li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Calvin enjoys grammar.</h2>
+<pre ><code class="html" style="max-height:900px"><sentence>
+  <subject>
+    <noun>
+      Calvin
+    </noun> 
+  </subject>
+  <predicate>
+    <verb>
+      enjoys
+    </verb>
+    <object>
+      <noun>
+        grammar.
+      </noun>
+    </object>
+  </predicate>
+</sentence>
+	</code></pre>
+</section>
+<section id="example2" class="slide level2">
+<h2>(Allyson) Felix runs quickly.</h2>
+<pre ><code class="html" style="max-height:900px"><sentence>
+  <subject>
+    <noun>Felix</noun> 
+  </subject>
+  <predicate>
+    <verbphrase>
+      <verb>runs</verb>
+      <adverb>quickly.</adverb>
+    </verbphrase>
+  </predicate>
+</sentence>
+	</code></pre>
+</section>
+<section id="example3" class="slide level2">
+<h2>We are in Smullin 222.</h2>
+<pre ><code class="html" style="max-height:900px"><sentence>
+  <subject>
+    <noun>We</noun> 
+  </subject>
+  <predicate>
+    <verbphrase>
+      <verb>are</verb>
+      <adpositionphrase>
+        <adposition>in</adposition>
+        <object>
+          <noun>
+            Smullin 222.
+          </noun>
+        </object>
+      </adpositionphrase>
+    </verbphrase>
+  </predicate>
+</sentence>
+	</code></pre>
+</section>
+<section id="example4" class="slide level2">
+<h2>I love teaching this class.</h2>
+<pre ><code class="html" style="max-height:900px"><sen>
+  <sbj>I</sbj>
+  <prd>
+    love
+    <obj>
+      <gerund>
+        teaching
+        <obj>
+          class.
+          <adj>this</adj>
+        </obj>
+      </gerund>
+    </obj>
+  </prd>
+</sen>
+	</code></pre>
+</section>
+<section id="example5" class="slide level2">
+<h2>Mochas contain coffee and chocolate.</h2>
+<pre ><code class="html" style="max-height:900px"><sen>
+  <sbj>Mochas</sbj>
+  <prd>
+    contain
+    <cnjphr>
+      <obj>coffee</obj>
+      <cnj>and</cnj>
+      <obj>chocolate</obj>
+    </cnjphr>
+  </prd>
+</sen></code></pre>
+<p>Make sure the two things a conjunction joins are the same kind of thing (not verb and object, for example).
+</section>
+<section id="tricks" class="slide level2">
+<h2>Your turn</h2>
+<p>Some thoughts.</p>
+<ul>
+<li>We don't need to tag a xxx inside a xxx-phrase, leave at top level.</li>
+<li>Treat subjects and objects as noun phrases.</li>
+<li>Demonstrative pronouns (this, that) often function as adjectives.</li>
+<li>Gerunds are nouns but transitive verbs form noun phrases that themselves have objects.</li>
+<li>The exericse to follow is maximally specified to reduce ambiguitiy.</li>
+<li>This should make you reflect especially on "clear" and "concise".</li>
+</ul>
+</section>
+<section id="groups" class="slide level2">
+<h2>Your turn</h2>
+<p>Get into groups.</p>
+<pre ><code class="python" style="max-height:900px">['Simon', 'Henry', 'Leo']
+['Douglas', 'Will', 'Aaron']
+['Mitch', 'Charlie', 'Hayden']
+['Paul', 'Eric', 'Greg']
+['Alex B', 'Ty', 'Saul']
+['Pachie', 'Landon', 'Tahj']
+['Marcus', 'Malie', 'Faye']
+['Matthew', 'Ciel', 'Alex W']
+['Mary', 'Shouvik', 'Ryan']
+['Paxton', 'Maddie']</code></pre>
+<p>These are in Discord!</p>
+</section>
+<section id="tasks" class="slide level2">
+<h2>Your turn</h2>
+<p>Group tasks</p>
+<ul>
+<li>Examine the <a href="https://github.com/cd-public/eths23/blob/main/ptml/example.html">example</a>.
+<ul><li>If you think I'm wrong, fix and pull request.</li></ul></li>
+<li>Complete the <a href="https://github.com/cd-public/eths23/blob/main/ptml/exercise.html">exercise</a>.
+<ul><li><em>It has been brought to my attention that you are of the opinion that a legal name is necessary for the identification of unique individuals.</em></li>
+<li>Create a fork replacing TODOs with the correct terms as groupname.html.</li>
+<li>You may propose structure changes to exercise.html via pull request.</li></ul>
+<li>Get your assigned sentence in Discord and PTML-ify it.
+<ul><li>Pull request as first_three_words.html.</li></ul></li></ul>
+<p>You may consult with other groups for the first two tasks. And the third I guess, but that will help less.</p>
+</section>
+    </div>
+  </div>
+
+  <script src="../html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="../html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: '../html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "../html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"../html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "../html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

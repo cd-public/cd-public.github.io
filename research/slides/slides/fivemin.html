@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="cd">
+  <meta name="dcterms.date" content="2021-08-30">
+  <title>FiveMin</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="../html_srcs/reveal.js/dist/theme/night.css" id="theme">
+  <link rel="stylesheet" href="../html_srcs/reveal.js/plugin/highlight/zenburn.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Security Data Mining</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">Willamette University</p>
+  <p><img data-src="../images/heat.png" style="width:50.0%" /></p>
+</section>
+<section id="my-vitals" class="slide level2">
+<h2>About Me</h2>
+<dl>
+<dt>Name</dt>
+<dd>Calvin (Deutschbein) 
+</dd>
+<dt>Pronouns</dt>
+<dd>they/them
+</dd>
+<dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+</dd>
+<dt>Website:</dt>
+<dd>cd-public.github.io
+</dd>
+<dt>Quals</dt>
+<dd>Ph.D. Computer Science, UNC Chapel Hill, 2021
+</dd>
+<dd>M.S. Computer Science, UNC Chapel Hill, 2017
+</dd>
+<dd>B.A. Mathematics, UChicago, 2015
+</dd>
+<dd>B.S. Computer Science, UChicago, 2015
+</dd>
+</dl>
+</section>
+<section id="my-bkgd" class="slide level2">
+<h2>Background</h2>
+<dl>
+<dt>Thesis Title</dt>
+<dd>Mining Secure Behavior of Hardware Designs
+</dd>
+<dt>Plain English</dt>
+<dd>Just as there are bugs in code that makes <strong>software</strong>, modern <strong>hardware</strong> is also written in code and therefore may contain bugs. I find these bugs.
+</dd>
+<dt>Thesis</dt>
+<dd>Specification mining can discover properties that can be used to verify 
+<ul>
+<li>the secure
+behavior of <strong>closed source CISC</strong> CPU designs, </li><li> properties that can be used to verify
+the <strong>temporal correctness</strong> of CPU designs, and </li><li>hyperproperties that can be used to
+verify that modules, SoCs, and CPUs have <strong>secure information flow</strong>.
+</dd>
+<dt>Some partners</dt>
+<dd>Intel Corporation, Semiconductor Research Corporation, Synopsys, MITRE, Cycuity
+</dd>
+</dl>
+</section>
+<section id="moore" class="slide level2">
+<h2>Moore's Law</h2>
+<p>Processor size doubles every few years - and has for decades.</p>
+<center><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Moore%27s_Law_Transistor_Count_1970-2020.png/800px-Moore%27s_Law_Transistor_Count_1970-2020.png?20201229220243" style="width:65.0%" /></center>
+</section>
+<section id="haunting" class="slide level2">
+<h2>A Spectre Haunting</h2>
+<p>In 2018, the Spectre/Meltdown vulnerability was discovered in virtually all computer processors.</p>
+<center><img data-src="https://imgs.xkcd.com/comics/meltdown_and_spectre.png" style="width:45.0%" /></center>
+<p>Oh no!</p>
+</section>
+<section id="data" class="slide level2">
+<h2>Computing & Data</h2>
+<p>The solution is simple:  Compute the values of billions of transitors...</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/1/15/Table_of_x86_Registers_svg.svg" style="width:50.0%" /><br>
+<p>...record every bit of data they hold...</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Screenshot_of_GTKWave_showing_an_example_VCD_file..png/800px-Screenshot_of_GTKWave_showing_an_example_VCD_file..png?20210918195649" style="width:50.0%" /><br>
+<p>Record what billions of transitors do...</p>
+</section>
+<section id="computing" class="slide level2">
+<h2>Computing & Data</h2>
+<p>The solution is simple:  Compute the values of billions of transitors...</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/1/15/Table_of_x86_Registers_svg.svg" style="width:50.0%" /><br>
+<p>...record every bit of data they hold...</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Screenshot_of_GTKWave_showing_an_example_VCD_file..png/800px-Screenshot_of_GTKWave_showing_an_example_VCD_file..png?20210918195649" style="width:50.0%" /><br>
+<p>Record what billions of transitors do...</p>
+</section>
+<section id="research" class="slide level2">
+<h2>Computing & Data</h2>
+<p>...then simply* find all relationships between all transitors.</p>
+<p><img data-src="../images/4stage.png" style="width:65.0%" /></p><br>
+<p>*It turns out this isn't simple. But each part is!</p>
+</section>
+<section id="systems" class="slide level2">
+<h2>Openings</h2>
+<p>I need researchers to (1) run experiments to create recordings.</p>
+<div style="bgcolor=white"><pre style="bgcolor=white"><h4 id="2022-05-25">2022-05-25</h4>
+<p>Starting from Ubuntu 20.04</p>
+<p>Following <a href="https://github.com/pulp-platform/pulp-runtime/blob/master/README.md">https://github.com/pulp-platform/pulp-runtime/blob/master/README.md</a></p>
+<pre><code>$ sudo apt install git python3-pip gawk texinfo libgmp-<span class="hljs-built_in">dev</span> libmpfr-<span class="hljs-built_in">dev</span> libmpc-<span class="hljs-built_in">dev</span>
+$ sudo pip3 install pyelftools
+</code></pre><p>Cloning repositories into jldey@ubuntu:~/Repos/pulp</p>
+<pre><code>$ git <span class="hljs-keyword">clone</span> <span class="hljs-title">--recursive</span> https://github.com/pulp-platform/pulp-riscv-gnu-toolchain
+</code></pre><p>so now we should have the toolchain installed, if all&#39;s well. Now, toolchain 
+dependencies:</p>
+<pre><code>$ sudo apt-<span class="hljs-built_in">get</span> install autoconf automake autotools-<span class="hljs-built_in">dev</span> curl libmpc-<span class="hljs-built_in">dev</span> libmpfr-<span class="hljs-built_in">dev</span> 
+  libgmp-<span class="hljs-built_in">dev</span> gawk build-essential bison flex texinfo gperf libtool patchutils bc 
+  zlib1g-<span class="hljs-built_in">dev</span>
+</code></pre></pre>
+</section>
+<section id="python" class="slide level2">
+<h2>Openings</h2>
+<p>I need researchers to (2) write Python that can read these recordings.</p><pre ><code class="python" style="max-height:900px">def make_decls(key):
+	to_write = open("universal.decls","w")
+	prefix = "input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n" # this is just how daikon works
+	suf_int = "\n	var-kind variable\n	rep-type int\n	dec-type int\n	comparability 1 \n"
+	suf_str = "\n	var-kind variable\n	rep-type string\n	dec-type char*\n	comparability 4 \n"
+	to_write.write(prefix)
+	# make key by cutting up the header
+	last = "" # using staggered traversal
+	strings = []
+	for point in ["ppt ..tick():::ENTER\n  ppt-type enter\n","\nppt ..tick():::EXIT0\n  ppt-type subexit\n"]:
+		to_write.write(point)
+		for reg in key:	
+			# only write a single var for each register, regardless of bit length, to decls
+			if reg[2] != last:
+				# prevent daikon for looking for relationships between IFT and original design state
+				# so this doesn't work because we actually need to remove the shadows from the header
+				if "shadow" not in reg[2]:
+					suf = suf_int # ususally we encode as int
+					if "[" in reg[3] and "]" in reg[3] and ":" not in reg[3]:
+						if int(reg[3].replace("[","").replace("]","")) > 31: # but not if we overflow
+							suf = suf_str
+							strings.append(reg[2])
+					to_write.write("  variable " + reg[2] + suf)
+				last = reg[2]
+	to_write.close()
+	for reg in key:
+		# continue to store bits separately internally for vcd reading
+		if len(reg) > 4:
+			reg[2] = reg[2] + " " + reg[3]	
+		while len(reg) > 3:
+			reg.remove(reg[3])
+	for i in range(len(key)):
+		# populate starting value as uninitialized
+		key[i] = key[i] + ["x"]
+	# key a list of 4 tuples
+	# one tuple per register or derived value
+	# the tuple is size, vcd_name, plaintext name, starting value
+	# strings is the list of registers that have to be encoded as strings due to overflow
+	return [key, strings]</code></pre>
+</section>
+<section id="viz" class="slide level2">
+<h2>Openings</h2>
+<p>I need researchers to (3) create data visualizations summarizing the findings.</p><pre ><code class="python" style="max-height:900px">import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set()
+distro = [[3,2,12,4,7,5,10],
+[2,10,0,0,6,0,0],
+[2,2,12,5,4,11,10],
+[9,9,51,27,36,35,48],
+[6,23,20,10,27,15,17],
+[18,16,96,40,55,65,78],
+[14,25,68,31,69,53,64]]
+distro.reverse()
+ax = sns.heatmap(distro, cmap='Blues', annot=True)
+labels = ['GLOB', 'S PORT', 'C PORT', 'M PORT', 'CNFG', 'M INT', 'CNTRL']
+ax.set_xticklabels(labels)
+labels.reverse()  
+ax.set_yticklabels(labels)  
+plt.xlabel("Source Group")
+plt.ylabel("Sink Group")
+plt.yticks(rotation=45)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig('heat.png')</code></pre>
+<p>This created the heatmap on the title slide.</p>
+</section>
+<section id="ty" class="slide level2">
+  <h1 class="title">Security Data Mining</h1>
+  <p class="author">Thank you!<br></p>
+  <p><img data-src="../images/heat.png" style="width:50.0%" /></p>
+</section>
+    </div>
+  </div>
+
+  <script src="../html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="../html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="../html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an strongbedded mode,
+        // i.e. contained within a limited portion of the screen
+        strongbedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying strongbedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlidstrongethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: '../html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlinstrongath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "../html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"../html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "../html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

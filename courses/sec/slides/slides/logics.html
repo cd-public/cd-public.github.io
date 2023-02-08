@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="cd">
+  <meta name="dcterms.date" content="2023-02-07">
+  <title>Logics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Logics</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">08 Feb 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>You should have a Kripke Structure to share.</li>
+<li>Depending on pacing, we'll have new ways of specifying for next time.</li>
+</ul></li>
+</ul>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>Which of the following traces would be accepted by this structure?
+<div class="poll">
+<ol>
+<li><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></li>
+<li><code>{p  }, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></li>
+<li><code>{q  }, {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, ...</code></li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>Which of the following traces would be accepted by this structure?
+<div class="poll">
+<ol>
+<li><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></li>
+<li><code>{p,q}, {q  }, {p, }, {q  }, {p  }, {p  }, {p  }, ...</code></li>
+<li><code>{p,q}, {p  }, {q, }, {p,q}, {q  }, {p  }, {p  }, ...</code></li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>Which of the following traces would be accepted by this structure?
+<div class="poll">
+<ol>
+<li><code>{p,q}, {q  }, {p,q}, {q  }, {p,q}, {q  }, {q  }, ...</code></li>
+<li><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {q  }, {p  }, ...</code></li>
+<li><code>{p,q}, {q  }, {p  }, {p  }, {p  }, {p  }, {p  }, ...</code></li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>What describes (labels) <em>S</em> ?
+<div class="poll">
+<ol>
+<li><code>{ {p,q}, {q  }, {p  } }</code></li>
+<li><code>{ {p,q} }</code></li>
+<li><code>{ {p  }, {q  } }</code></li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>What describes (labels) <em>I</em> ?
+<div class="poll">
+<ol>
+<li><code>{ {p,q}, {q  }, {p  } }</code></li>
+<li><code>{ {p,q} }</code></li>
+<li><code>{ {p  }, {q  } }</code></li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>What is <em>AP</em> ?
+<div class="poll">
+<ol>
+<li><code>{ {p,q}, {q  }, {p  } }</code></li>
+<li><code>{ {p,q} }</code></li>
+<li><code>{ {p  }, {q  } }</code></li>
+</ol>
+</div>
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>What describes (labels) <em>R</em> ?
+<div class="poll">
+<ol>
+<li><code>{ {q}  &rarr; {p  }, {p}  &rarr; {p,q} }</code></li>
+<li><code>{ {p,q}  &rarr; {{q  }}, {q}  &rarr; {{p,q},{p  }}, {p}  &rarr; {{p  }} }</code></li>
+</ol>
+</div>
+</section>
+<section id="limitations" class="slide level2">
+<h2>Limitations</h2>
+<p>Kripke Structures are better than enumeration, but...<ul>
+<li>Representation in text is difficult to understand</li>
+<li>Showing equivalence to traces can be difficult</li></ul></li>
+<img style="width:50%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZyXOm5FuHroH2uEG4BZupE8XNYP0scFZAyQ&usqp=CAU">
+<p>We will introduce a better way to write out relations, then look at our Kripke Structures.
+</section>
+<section id="example" class="slide level2">
+<h2>An example</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>The following statements are true of traces accepted by this structure:<ul>
+<li><code>p</code> and <code>q</code> are true initially.</li>
+<li>Once <code>q</code> becomes false, it never becomes true again.</li>
+<li>Once <code>q</code> becomes false, <code>p</code> stays true forever.</li>
+<li><code>p</code> goes from false to true when <code>q</code> goes from true to true false.</li>
+</section>
+<section id="concrete" class="slide level2">
+<h2>A concretization</h2>
+<p>Consider the following representation:<ul>
+<li>Take <code>p</code> to be "password checking is blocked/secured"</li>
+<li>Take <code>q</code> to be "system access is blocked/secured"</li></ul>
+<p>A passwording service <strong>must</strong> disclose if an entered password is correct.<ul>
+<li><code>p</code> and <code>q</code> are true initially.<ul>
+<li>No checking, no access</li></ul>
+<li>Once <code>q</code> becomes false, it never becomes true again.<ul>
+<li>Once logged in, we can no longer guess passwords.</li></ul>
+<li>Once <code>q</code> becomes false, <code>p</code> stays true forever.<ul>
+<li>Once logged in, access is not revoked.</li></ul></li></ul>
+<p>Infinite guesses (bad), but persistent users may not look up passwords (good).</p>
+</section>
+<section id="goals" class="slide level2">
+<h2>Goals</h2>
+<p>We have:<ul>
+<li>A way to describe the current state of the system (<em>AP</em>)</li></ul>
+<p>We need:<ul>
+<li>A way to describe relations between atomic propositions over time.</li></ul>
+<p>Consider:</p>
+<ul>
+<li><code>p</code> and <code>q</code> are true <strong>initially</strong>.
+<li>Once <code>q</code> becomes false, it never becomes true again.<ul>
+<li><code>q</code> until not <code>q</code></li></ul>
+<li>Once <code>q</code> becomes false, <code>p</code> stays true forever.<ul>
+<li><code>q</code> until not <code>q</code></li></ul>
+<li><code>p</code> goes from false to true when <code>q</code> goes from true to true false.</p>
+</section>
+<section id="ltl1" class="slide level2">
+<h2>Next and Until</h2>
+<p>It often suffices to define two temporal operators:</p><ul>
+<li><strong>X</strong>: “next” </li>
+<li><strong>U</strong>: “until”</li></ul>
+<p>Along with existing logical operators:<ul>
+<li><strong>&not;</strong>: “not” </li>
+<li><strong>&or;</strong>: “or” </li></ul>
+<p>We need apply this over atomic propositions in <em>AP</em> to describe the security requirements of a system.</p>>
+</section>
+<section id="ltl2" class="slide level2">
+<h2>Composition</h2>
+<p>With logical negation (not) and disjunction (or) we can generate other logical connectives.</p>
+<table style="width: 100%; text-align: left;">
+<thead>
+<tr class="header">
+<th style=""><em>p</em></th>
+<th><em>q</em></th>
+<th><strong>&not;</strong><em>p</em></th>
+<th><em>p</em><strong>&or;</strong><em>q</em></th>
+<th><strong>&not;</strong><em>p</em><strong>&or;</strong><strong>&not;</strong><em>q</em></th>
+<th><strong>&not;</strong>(<strong>&not;</strong><em>p</em><strong>&or;</strong><strong>&not;</strong><em>q</em>)&equiv;<em>p</em><strong>&and;</strong><em>q</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="color:green">True</td>
+<td style="color:green">True</td>
+<td style="color:red">False</td>
+<td style="color:green">True</td><td style="color:red">False</td>
+<td style="color:green">True</td>
+</tr>
+<tr class="even">
+<td style="color:green">True</td><td style="color:red">False</td><td style="color:red">False</td>
+<td style="color:green">True</td>
+<td style="color:green">True</td><td style="color:red">False</td>
+</tr>
+<tr class="odd"><td style="color:red">False</td>
+<td style="color:green">True</td>
+<td style="color:green">True</td>
+<td style="color:green">True</td>
+<td style="color:green">True</td><td style="color:red">False</td>
+</tr>
+<tr class="even"><td style="color:red">False</td><td style="color:red">False</td>
+<td style="color:green">True</td><td style="color:red">False</td>
+<td style="color:green">True</td><td style="color:red">False</td>
+</tbody>
+</table>
+<p>For example, "and" or conjunction over two atomic propositions is equivalent to the negation or "not" of the "or" or disjunction over the negation or "not" of the two atomic propositions.</p>
+</section>
+<section id="ltl3" class="slide level2">
+<h2>Next and Until</h2>
+<img src="../images/xu.png">
+<p><strong>X</strong> <em>a</em></p>
+<ul><li>* &rarr; <em>a</em> &rarr; * &rarr; ...</li></ul>
+<p><em>a</em> <strong>U</strong> <em>b</em> </p>
+<ul><li><em>a</em><strong>&and;</strong><strong>&not;</strong><em>b</em> &rarr; <em>b</em> &rarr; * &rarr; ...</li>
+<li><em>a</em><strong>&and;</strong><strong>&not;</strong><em>b</em> &rarr; <em>a</em><strong>&and;</strong><strong>&not;</strong><em>b</em> &rarr; <em>b</em> &rarr; * &rarr; ...</li></ul>
+</section>
+<section id="ltl4" class="slide level2">
+<h2>Linear Temporal Logic Composition</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Usage</th>
+<th>Meaning</th>
+<th>Equivalencies</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="background-color:gray">
+<td>neXt</td>
+<td><strong>X</strong> <em>p</em></td>
+<td><em>p</em> holds in the next time</td>
+<td><strong>X</strong> <em>p</em></td>
+</tr>
+<tr class="even">
+<td>Future</td>
+<td><strong>F</strong> <em>p</em></td>
+<td><em>p</em> holds in some future time</td>
+<td><span style="color:green">True</span><strong>U</strong><em>p</em></td>
+</tr>
+<tr class="odd">
+<td>Global(ly)</td>
+<td><strong>G</strong> <em>p</em></td>
+<td><em>p</em> holds in all future times</td>
+<td><strong>&not;</strong>(<span style="color:green">True</span><strong>U</strong><strong>&not;</strong><em>p</em>)</td>
+</tr>
+<tr class="even" style="background-color:gray">
+<td>Until</td>
+<td><em>p</em> <strong>U</strong> <em>q</em></td>
+<td><em>p</em> holds unless <em>q</em>, and <em>q</em> must hold at some point in the future</td>
+<td><em>p</em> <strong>U</strong> <em>q</em></td>
+</tr>
+<tr class="odd">
+<td>Release</td>
+<td><em>p</em> <strong>R</strong> <em>q</em></td>
+<td><em>q</em> holds up to and including when <em>p</em> holds</td>
+<td><strong>&not;</strong>(<strong>&not;</strong><em>p</em> <strong>U</strong> <strong>&not;</strong><em>q</em>)</td>
+</tr>
+<tr class="even">
+<td>Weak until</td>
+<td><em>p</em> <strong>W</strong> <em>q</em></td>
+<td><em>p</em> holds up to when <em>q</em> holds</td>
+<td>(<em>p</em> <strong>U</strong> <em>q</em>) &or; <strong>G</strong> <em>p</em></td>
+</tr>
+<tr class="odd">
+<td>Mighty release</td>
+<td><em>p</em> <strong>M</strong> <em>q</em></td>
+<td><em>q</em> holds up to and including when <em>p</em> holds, and <em>p</em> must hold at some point in the future</td>
+<td><em>q</em> <strong>U</strong> (<em>p</em> <strong>&or;</strong><em>q</em>)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ltl5" class="slide level2">
+<h2>Linear Temporal Logic Exercise</h2>
+<p>Populate this table in groups of <em>n</em>.  Likely 15-20 minutes.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Trace 1</th>
+<th>Trace 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X</strong> <em>p</em></td>
+<td>* &rarr; <em>p</em> &rarr; * &rarr; ...</td>
+</tr>
+<tr class="even">
+<td><strong>F</strong> <em>p</em></td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr class="odd">
+<td><strong>G</strong> <em>p</em></td>
+<td>?</td>
+</tr>
+<tr class="even">
+<td><em>p</em> <strong>U</strong> <em>q</em></td>
+<td><em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> &rarr; <em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> &rarr; <em>q</em> &rarr; * &rarr; ...</td>
+</tr>
+<tr class="odd">
+<td><em>p</em> <strong>R</strong> <em>q</em></td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr class="even">
+<td><em>p</em> <strong>W</strong> <em>q</em></td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr class="odd">
+<td><em>p</em> <strong>M</strong> <em>q</em></td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ltl6" class="slide level2">
+<h2>Linear Temporal Logic Traces</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Trace 1</th>
+<th>Trace 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X</strong> <em>p</em></td>
+<td>* &rarr; <em>p</em> &rarr; * &rarr; ...</td>
+</tr>
+<tr class="even">
+<td><strong>F</strong> <em>p</em></td>
+<td>* &rarr; <em>p</em> &rarr; * &rarr; ...</td>
+<td>* &rarr; * &rarr; <em>p</em> &rarr; * &rarr; ...</td>
+</tr>
+<tr class="odd">
+<td><strong>G</strong> <em>p</em></td>
+<td><em>p</em> &rarr; <em>p</em> &rarr; <em>p</em> &rarr; ...</td>
+</tr>
+<tr class="even">
+<td><em>p</em> <strong>U</strong> <em>q</em></td>
+<td><em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> &rarr; <em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> &rarr; <em>q</em> &rarr; * &rarr; ...</td>
+</tr>
+<tr class="odd">
+<td><em>p</em> <strong>R</strong> <em>q</em></td>
+<td><em>q</em> &rarr; <em>q</em> &rarr; <em>p</em> <strong>&and;</strong> <em>q</em> &rarr; * &rarr; ...</td>
+<td><em>q</em> &rarr; <em>q</em> &rarr; <em>q</em> &rarr; ...</td>
+</tr>
+<tr class="even">
+<td><em>p</em> <strong>W</strong> <em>q</em></td>
+<td><em>p</em> &rarr; <em>p</em> &rarr; <em>q</em> &rarr; * &rarr; ...</td>
+<td><em>p</em> &rarr; <em>p</em> &rarr; <em>p</em> &rarr; ...</td>
+</tr>
+<tr class="odd">
+<td><em>p</em> <strong>M</strong> <em>q</em></td>
+<td><em>q</em> &rarr; <em>q</em> &rarr; <em>p</em> <strong>&and;</strong> <em>q</em> &rarr; * &rarr; ...</td>
+</tr>
+</tbody>
+</table>
+</section><section id="hwr" class="slide level2">
+<h2>Homework (Review)</h2>
+<p>Identify something in your life (an app, a work thing, a building, a company) with security features.
+<ul>
+<li>It may be the same or a different thing.</li>
+<li>You may wish to focus on a small part of your previous example, in the case of more complex systems.</li>
+<li>Update you diagram to be a Kripke Structure.</li>
+<li>Fully specify each of {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>}</li>
+</ul>
+</section>
+<section id="hwd" class="slide level2">
+<h2>Homework (Discussion)</h2>
+<p>Brave* volunteers** will present their Kripke Structures.
+<ul>
+<li>In what <b>states</b> may the discussed system be?</li>
+<li>In what <b>sequence</b> may these states occur?</li>
+<li>Does the discussed system implement a <b>security policy</b></li>
+<li>Does the system <b>change over time</b>?</li>
+<li>What is a non-trivial example and counterexample of a trace?</li>
+<li style="font-weight:bold">What Linear Temporal Logic properties partially or completely describe the system.</li>
+</ul>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

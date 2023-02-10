@@ -1,7 +1,9 @@
 
 body {
-  font-family: Arial;
-  color: black;
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 50%;
+	font-family:monospace;
 }
 
 .split {

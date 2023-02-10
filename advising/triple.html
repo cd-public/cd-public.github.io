@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<title>
+			On CS__/DATA/MATH
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			body {
+				margin-left: auto; 
+				margin-right: auto; 
+				width: 50%;
+				font-family:monospace;
+			}
+
+			/* (A) FIXED WRAPPER */
+			.hwrap {
+				overflow: hidden; /* HIDE SCROLL BAR */
+				background: #FFFFFF;
+			}
+			 
+			/* (B) MOVING TICKER WRAPPER */
+			.hmove { display: flex; }
+
+			/* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
+			.hitem {
+				flex-shrink: 0;
+				width: 100%;
+				box-sizing: border-box;
+				text-align: center;
+			}
+			 
+			/* (D) ANIMATION - MOVE ITEMS FROM RIGHT TO LEFT */
+			/* 4 ITEMS -400%, CHANGE THIS IF YOU ADD/REMOVE ITEMS */
+			@keyframes tickerh {
+				0% { transform: translate3d(0%, 0, 0); }
+				100% { transform: translate3d(-100%, 0, 0); }
+			}
+			.hmove { animation: tickerh linear 15s infinite; }
+			.hmove:hover { animation-play-state: paused; }
+		</style>
+	</head>
+	<body>
+
+		<a href="index.html" align="center">Return to advising home.</a></p>	
+		<h1 style="text-align:center">On CS__/DATA/MATH</h1>
+		<h2 style="text-indent:-5%">Courses</h2>
+		<p>
+			The Committee of Studies on Computing and Data Programs (CoS), collaboratively with the College of Arts and Sciences (CAS), incidentally supports, as a result of established policies, a 19-course plan-of-study that completes all requirements for Bachelors of Science in Computer Science, Data Science, and Mathematics. Of these, 15 courses are specific, required courses and 4 are electives for the Mathematics major<span title="MATH prefixed courses may also count as electives toward the Computer Science major.">*</span>.
+			</p>
+		
+		<p>
+			In all cases sort coursees alphabetically by major then numerically by course number for numbered courses, then 100-level for electives. Course names will be in mouseover text.
+		</p>
+		
+		<table style="width:100%">
+			<caption style="font-style: italic;">The specific courses, of which there are 5 each in each of the 3 majors.</caption>
+			<thead>
+				<tr>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="width=100%; background-color:#FFCCCB">
+					<td title="Intro to Programming">CS__ 151_</td>
+					<td title="Data Structures">CS__ 152_</td>
+					<td title="Software Development">CS__ 261_</td>
+					<td title="Networks & Systems">CS__ 271_</td>
+					<td title="Analysis of Algorithms">CS__ 351_</td>
+				</tr>
+				<tr style="background-color:#90EE90">
+					<td title="Introduction to Data Science">DATA 151_</td>
+					<td title="Statistics for Data Science">DATA 152_</td>
+					<td title="Models and Machine Learning">DATA 252_</td>
+					<td title="Data Management with SQL">DATA 351_</td>
+					<td title="Ethics, Teamwork, and Communication">DATA 352W</td>
+				</tr>
+				<tr style="background-color:#ADD8E6">
+					<td title="Fndns of Adv. Math">MATH 251W</td>
+					<td title="Linear Algebra">MATH 253_</td>
+					<td title="Math for Data Scientists">MATH 280_ </td>
+					<td title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+					<td title="Senior Seminar in Mathematics">MATH 499W</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<table style="width:100%">
+			<caption style="font-style: italic;">4 electives remain for Mathematics, with required 100-levels.</caption>
+			<thead>
+				<tr>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+				</tr>
+			</thead>
+				<tr style="background-color:#ADD8E6">
+					<td >MATH 200+</td>
+					<td >MATH 300+</td>
+					<td >MATH 300+</td>
+					<td >MATH 400+</td>
+					<td style="background-color:#FFFFFF"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<h2 style="text-indent:-5%">Requirements</h2>
+		<h3 >Computing and Data Programs</h3>
+		<p>
+			Two majors offered by the Computing and Data programs, Computer Science and Data Science, both are comprised of 7 required courses and 3 electives, which may be chosen from among any Computer Science of Data Science course<span title="MATH prefixed courses may also count as electives toward the Computer Science major. MATH 253 is an approved Data Science elective.">*</span>.
+		</p>
+		<h4>Computer Science</h4>
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="width=100%; background-color:#FFCCCB">
+					<td title="Intro to Programming">CS__ 151_</td>
+					<td title="Data Structures">CS__ 152_</td>
+					<td title="Software Development">CS__ 261_</td>
+					<td title="Networks & Systems">CS__ 271_</td>
+					<td title="Analysis of Algorithms">CS__ 351_</td>
+					<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+					<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+				</tr>
+			</tbody>
+		</table>
+		<h4>Data Science</h4>
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+					<th style="width:10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="width=100%; background-color:#90EE90">
+					<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+					<td title="Introduction to Data Science">DATA 151_</td>
+					<td title="Statistics for Data Science">DATA 152_</td>
+					<td title="Models and Machine Learning">DATA 252_</td>
+					<td title="Data Management with SQL">DATA 351_</td>
+					<td title="Ethics, Teamwork, and Communication">DATA 352W</td>
+					<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_ </td>
+				</tr>
+			</tbody>
+		</table>		
+		<h3>College of Arts and Sciences, Department of Mathematics</h3>
+		
+		<p>
+			The Department of Mathematics offers one major, in Mathematics, comprised of 3 required courses, 2 distribution requirements, and 5 electives with minimum requirements over 100-levels.
+		</p>
+		
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+					<th style="width:15%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="background-color:#ADD8E6">
+					<td style="background-color:#FFFFFF">Requirements</td>
+					<td title="Fndns of Adv. Math">MATH 251W</td>
+					<td title="Linear Algebra">MATH 253_</td>
+					<td title="Senior Seminar in Mathematics">MATH 499W</td>
+				</tr>				
+				<tr style="background-color:#ADD8E6">
+					<td style="background-color:#FFFFFF">Distributions</td>
+					<td title="Real Analysis I or Abstract Algebra I">MATH 446 xor MATH 456</td>
+					<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151 xor CS 200+</td>
+				</tr>
+				<tr style="background-color:#ADD8E6">
+					<td style="background-color:#FFFFFF">Electives</td>
+					<td >MATH 200+</td>
+					<td >MATH 200+</td>
+					<td >MATH 300+</td>
+					<td >MATH 300+</td>
+					<td >MATH 400+</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		
+		<h2 style="text-indent:-5%">Satisfying Arrangements</h2>
+		<h3>Bachelors of Science in Computer Science and Data Science, CoS</h3>
+		<p>
+			Considering the major requirements for both Computer Science and Data Science, we note that <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> and <span style="background-color:#90EE90"title="Ethics, Teamwork, and Communication">DATA 352W</span> are required for both majors. So each major requires 5 unique courses and shares 2 courses, totaling 12. These 12 unique required courses form a 12-course double major in Computer Science and Data Science wherein courses required for one major, but not another, may be counted as electives for the second major. There are 40 satisfying arrangements of courses to requirements, of which this is one:
+		</p>
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th style="width:35%">Course</th>
+					<th style="width:35%">CS__ Relation</th>
+					<th style="width:35%">DATA Relation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+					<td>Required</td>
+					<td>Required</td>
+				</tr>				
+				<tr>
+					<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+					<td>Required</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+					<td>Required</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+					<td>Required</td>
+					<td>None, Could be: Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+					<td>Required</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+					<td>None, Could be: Elective</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+					<td>Elective</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+					<td>Elective</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+					<td>Elective</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+					<td>Required</td>
+					<td>None</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_ </td>
+					<td>None, Could be: Elective</td>
+					<td>Required</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>
+			We may project courses into Computer-Science-to-Data-Science space.
+		</p>
+		<table style="width:100%">
+			<thead>
+				<tr style="background-color:#000000">
+					<th style="width:15%;color:red">CS__ Reqr/CS__ ONLY</th>
+					<th style="width:15%;color:orange">CS__ Reqr/DATA Elec</th>
+					<th style="width:15%;color:yellow">CS__ Reqr/DATA Reqr</th>
+					<th style="width:15%;color:#9ACD32">DATA Reqr/CS__ Elec</th>
+					<th style="width:15%;color:#66FF00">DATA Reqr/DATA ONLY</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr >
+					<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+					<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+					<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+					<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+					<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+					<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+					<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+					<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+					<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_ </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+					<td></td>
+					<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>
+			Of note, <span style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</span> is not counted toward the Data Science major, though is a valid Data Science elective, and <span style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</span> and <span style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_ </span><span title="MATH prefixed courses may also count as electives toward the Computer Science major.">*</span> are not counted toward the Computer Science major, though are valid Computer Science electives.
+		</p>		
+		<p>
+			Of note, Data Science majors will necessarily take a writing-centered course to fulfill their non-major graduation requirements, as two are required for general education requirements and only one, <span style="background-color:#90EE90"title="Ethics, Teamwork, and Communication">DATA 352W</span>, is required to complete the major. Computer Science majors and double majors satisfy this requirement with <span style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</span>. The marginal cost of a Computer Science major to an prospective Data Science major who has completed no electives is 1 course.
+		</p>
+		<p>
+			Looking forward, 3 of these courses can count toward the Mathematics major. <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> and <span style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</span> are major requirements for Mathematics, and <span style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</span> may count toward the 200-level elective requirement.
+		</p>
+		<h3>Bachelors of Science in Computer Science and Data Science (CoS) and Bachelors of Science in Mathematics (CAS)</h3>
+		<p>
+			Considering the major requirements for both Computer Science and Mathematics, we note that <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> and <span style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</span> are required for both majors. Considering the major requirements for both Data Science and Mathematics, we note that <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> and <span style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</span> are required for both majors.
+		</p>
+		<p>
+			While <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> fulfills a major requirement for all three majors, we may exercise the narrow distribution in the Mathematics major to count another Computer Science course numbered 200 or higher toward the requirement, such as <span style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</span>.
+		</p>
+		<p>
+			We can represent this across the three majors on a cyclic gradient. In the special case of Computing and Data Programs where a course is a major requirement for one major and an elective for another major, take "greater than" such as <span style="background-color:#000000;color:red">CS__&#62;DATA</span> to denote, in this case, Computer Science major requirement and a Data Science elective. For simplicity, conflate electives and requirements for the Mathematics major.
+		</p>
+		<p>
+			First we consider the case were we treat the Mathematics major as a 7-course addition to the 12-course double major program.  Term this "12+7" or "6+6+7".
+		</p>
+		<div class="hwrap">
+			<div class="hmove">
+				<div class="hitem">		
+					<table style="width:100%">
+							<thead>
+							<tr style="background-color:#000000">
+								<th style="width:10%;color:red">CS__&#62;DATA</th>
+								<th style="width:10%;color:orange">CS__=DATA</th>
+								<th style="width:10%;color:yellow">CS__&#60;DATA</th>
+								<th style="width:10%;color:#66FF00">DATA only</th>
+								<th style="width:10%;color:#7FFFD4">DATA=MATH</th>
+								<th style="width:10%;color:#0096FF">MATH only</th>
+								<th style="width:10%;color:#BF40BF">CS__=MATH</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr >
+								<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+								<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+								<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+								<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+								<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</td>
+								<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+								<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+								<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+								<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 200+</td>
+								<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 400+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="hitem">	
+					<table style="width:100%">
+						<thead>
+							<tr style="background-color:#000000">
+								<th style="width:10%;color:red">CS__&#62;DATA</th>
+								<th style="width:10%;color:orange">CS__=DATA</th>
+								<th style="width:10%;color:yellow">CS__&#60;DATA</th>
+								<th style="width:10%;color:#66FF00">DATA only</th>
+								<th style="width:10%;color:#7FFFD4">DATA=MATH</th>
+								<th style="width:10%;color:#0096FF">MATH only</th>
+								<th style="width:10%;color:#BF40BF">CS__=MATH</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr >
+								<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+								<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+								<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+								<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+								<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</td>
+								<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+								<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+								<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+								<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 200+</td>
+								<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 400+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+							</tr>
+						</tbody>
+					</table>				
+				</div>
+			</div>
+		</div>
+		<p>
+			We can also consider an alternative arrangement where the Computer Science major uses Mathematics courses as electives, rather than Data Science courses. Here we treat the Data Science major as a 4-course addition to a 15-course double major program. This eliminates the <span style="background-color:#000000;color:yellow">CS__&#60;DATA</span> category. Term this "15+4". Not that in practice, existing majors in Mathematics and Computer Science rarely may add a Data Science degree in only 4 courses, as they likely took a 200-level course other than <span style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</span>, so this often functions as a "15+5".
+		</p>
+		<div class="hwrap">
+			<div class="hmove">
+				<div class="hitem">		
+					<table style="width:100%">
+							<thead>
+							<tr style="background-color:#000000">
+								<th style="width:10%;color:red">CS__&#62;DATA</th>
+								<th style="width:10%;color:orange">CS__=DATA</th>
+								<th style="width:10%;color:#66FF00">DATA only</th>
+								<th style="width:10%;color:#7FFFD4">DATA=MATH</th>
+								<th style="width:10%;color:#0096FF">MATH only</th>
+								<th style="width:10%;color:#BF40BF">CS__=MATH</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr >
+								<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+								<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+								<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+								<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</td>
+								<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+								<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+								<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+								<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 200+</td>
+								<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" >MATH 400+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="hitem">	
+					<table style="width:100%">
+						<thead>
+							<tr style="background-color:#000000">
+								<th style="width:10%;color:red">CS__&#62;DATA</th>
+								<th style="width:10%;color:orange">CS__=DATA</th>
+								<th style="width:10%;color:#66FF00">DATA only</th>
+								<th style="width:10%;color:#7FFFD4">DATA=MATH</th>
+								<th style="width:10%;color:#0096FF">MATH only</th>
+								<th style="width:10%;color:#BF40BF">CS__=MATH</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr >
+								<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+								<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+								<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+								<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</td>
+								<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+								<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+								<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+								<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 200+</td>
+								<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+							</tr>
+							<tr>
+								<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" >MATH 400+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+							</tr>
+						</tbody>
+					</table>				
+				</div>
+			</div>
+		</div>
+		<p>
+			We can represent both the 12+7 and the 15+4, but we can also present markedly more balanced programs which captures the learning intent of intensive undergraduate study in the mathematical sciences.
+		</p>
+		<p>
+			Take the following Computer Science electives over both <span style="background-color:#90EE90">DATA</span> and <span style="background-color:#ADD8E6">MATH</span> prefixes.
+			<ul>
+				<li><span style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</span>, a course with a <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> requirement.</li>
+				<li><span style="background-color:#ADD8E6" title="Probability Theory">MATH 376_</span> Topics: Probability Theory or another discrete course that is a pre-existing Computer Science elective.
+				<li><span style="background-color:#ADD8E6" title="Real Analysis I">MATH 446_</span> xor <span style="background-color:#ADD8E6" title="bstract Algebra I">MATH 456_</span> recognizing the historical calculus requirement for the Computer Science major.</li>
+			</ul>
+		</p>
+		<p>
+			Take the following Data Science electives over both <span style="background-color:#FFCCCB">CS__</span> and <span style="background-color:#ADD8E6">MATH</span> prefixes.
+			<ul>
+				<li><span style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</span>, a Data Science approved elective.</li>
+			</ul>
+		</p>
+		<p>Additionally, apply requirements such that no course counts more than two majors. Represent this final plan-of-study in major-space:</p>
+				<div class="hwrap">
+			<div class="hmove">
+				<div class="hitem">		
+					<table style="width:100%">
+						<thead>
+							<tr style="background-color:#000000">
+								<th style="width:10%;color:red">CS__ only</th>
+								<th style="width:10%;color:orange">CS__&#62;DATA</th>
+								<th style="width:10%;color:yellow">CS__=DATA</th>
+								<th style="width:10%;color:#9ACD32">CS__&#60;DATA</th>
+								<th style="width:10%;color:#66FF00">DATA only</th>
+								<th style="width:10%;color:#7FFFD4">DATA=MATH</th>
+								<th style="width:10%;color:#0096FF">MATH only</th>
+								<th style="width:10%;color:#BF40BF">CS__=MATH</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr >
+								<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+								<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+								<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+								<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+								<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+								<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</td>
+								<td style="background-color:#ADD8E6" >MATH 200+</td>
+								<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+								<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+								<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" >MATH 400+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+								<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="hitem">	
+					<table style="width:100%">
+						<thead>
+							<tr style="background-color:#000000">
+								<th style="width:10%;color:red">CS__ only</th>
+								<th style="width:10%;color:orange">CS__&#62;DATA</th>
+								<th style="width:10%;color:yellow">CS__=DATA</th>
+								<th style="width:10%;color:#9ACD32">CS__&#60;DATA</th>
+								<th style="width:10%;color:#66FF00">DATA only</th>
+								<th style="width:10%;color:#7FFFD4">DATA=MATH</th>
+								<th style="width:10%;color:#0096FF">MATH only</th>
+								<th style="width:10%;color:#BF40BF">CS__=MATH</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr >
+								<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+								<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+								<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+								<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+								<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+								<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</td>
+								<td style="background-color:#ADD8E6" >MATH 200+</td>
+								<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+								<td style="background-color:#90EE90" title="Ethics, Teamwork, and Communication">DATA 352W</td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+								<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+								<td></td>
+								<td style="background-color:#ADD8E6" >MATH 300+</td>
+								<td style="background-color:#ADD8E6" >MATH 400+</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+								<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+							</tr>
+						</tbody>
+					</table>				
+				</div>
+			</div>
+		</div>
+		<p>Represent this final plan-of-study formulated for the registrar:</p>
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th style="width:25%">Course</th>
+					<th style="width:25%">CS__ Relation</th>
+					<th style="width:25%">DATA Relation</th>
+					<th style="width:25%">MATH Relation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</td>
+					<td>Required</td>
+					<td>Required</td>
+					<td>None, Could be: Distribution</td>
+				</tr>				
+				<tr>
+					<td style="background-color:#FFCCCB" title="Data Structures">CS__ 152_</td>
+					<td>Required</td>
+					<td>Elective</td>
+					<td>None</td>
+				</tr>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Software Development">CS__ 261_</td>
+					<td>Required</td>
+					<td>Elective</td>
+					<td>None, Could be: Distribution</td>
+				</tr>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</td>
+					<td>Required</td>
+					<td>None, Could be: Elective</td>
+					<td>None, Could be: Distribution</td>
+				</tr>
+				<tr>
+					<td style="background-color:#FFCCCB" title="Analysis of Algorithms">CS__ 351_</td>
+					<td>Required</td>
+					<td>None, Could be: Elective</td>
+					<td>Distribution</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</td>
+					<td>None, Could be: Elective</td>
+					<td>Required</td>
+					<td>None</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Statistics for Data Science">DATA 152_</td>
+					<td>None, Could be: Elective</td>
+					<td>Required</td>
+					<td>None</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Models and Machine Learning">DATA 252_</td>
+					<td>None, Could be: Elective</td>
+					<td>Required</td>
+					<td>None</td>
+				</tr>
+				<tr>
+					<td style="background-color:#90EE90" title="Data Management with SQL">DATA 351_</td>
+					<td>Elective</td>
+					<td>Required</td>
+					<td>None</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</td>
+					<td>Required</td>
+					<td>None</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</td>
+					<td>None, Could be: Elective</td>
+					<td>Elective</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_ </td>
+					<td>None, Could be: Elective</td>
+					<td>Required</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Real Analysis I (or MATH 456 Abstract Algebra I)">MATH 446*</td>
+					<td>Elective</td>
+					<td>None</td>
+					<td>Distribution</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6" title="Senior Seminar in Mathematics">MATH 499W</td>
+					<td>None, Could be: Elective</td>
+					<td>None</td>
+					<td>Required</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6">MATH 200+</td>
+					<td>None, Could be: Elective</td>
+					<td>None</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6">MATH 300+</td>
+					<td>Elective</td>
+					<td>None</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6">MATH 300+</td>
+					<td>None, Could be: Elective</td>
+					<td>None</td>
+					<td>Elective</td>
+				</tr>
+				<tr>
+					<td style="background-color:#ADD8E6">MATH 400+</td>
+					<td>None, Could be: Elective</td>
+					<td>None</td>
+					<td>Elective</td>
+				</tr>
+			</tbody>
+		</table>
+		<h2 style="text-indent:-5%">Considerations</h2>
+		<p>
+			I offer the following editorial comments.
+		<h3>On "triple-counting"</h3>
+		<p>
+			No satisfying arrangement of triple-majors requires any course to count toward more than two majors.
+		</p>
+		<p>
+			A considerable number of policy changes would be necessary to require triple-counting. The +7 Mathematics specifically exercises two courses in the Computer Science and one course in the Data Science major that otherwise counted uniquely toward that major. Further, only a single Mathematics course other than the required courses may be counted toward the Data Science major, and the Data Science major requires no additional electives in the +7 case. Currently, all 19 courses in the triple-major may be counted toward Computer Science major requirements, allowing extreme flexibility to avoid any triple-counting conditions.
+		</p>
+		<h4>On <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span></h3>
+		<p>
+			In the common case, <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> counts toward all three majors as an enumerated requirement. Historically it has been my personal preference to do so (and the preference of the registrar), but it may be counted toward solely Computer Science and Data Science by applying the distribution allowed in the Mathematics major. 
+		</p>
+		<h4>On <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span></h3>
+		<p>
+			Historical class <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span> may raise some interesting questions with regards to triple-counting. With respect to requirements, it fulfills a similar position to <span style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</span>, an unusually high-value class in that it is a Data Science major requirement (or was, prior to the 2023 catalog) and may count as an elective toward the Mathematics major at 200-level.
+			<ul>
+				<li>The most similar course in terms of requirements and department, <span style="background-color:#ADD8E6" title="Math for Data Scientists">MATH 280_</span> is not triple-counted, does not need to be triple-counted, and is often not counted at all in the 15+5 track.</li>
+				<li>The most similar course in terms of learning objectives per the <a href="https://cd-public.github.io/advising/pdfs/ds.pdf">"Guidelines for Advising Curriculum Transition"</a>, <span style="background-color:#90EE90" title="Introduction to Data Science">DATA 151_</span>, is not double-counted nor triple-counted under 12+7, 14+5, or balanced arrangements.</li>
+				<li>The next most similar course in terms of requirements and department, <span style="background-color:#ADD8E6" title="Linear Algebra">MATH 253_</span>, is double-counted under the balanced arrangement but single-counted under 12+7 and 14+5 arrangements.</li>
+				<li>Generally, without triple-counting the Computer Science major has access to 7 courses which can be counted as electives and are only counted toward a single major, so any arrangement in which <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span> is triple-counted should be resolvable by removing <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span> from the Computer Science major and making any replacement.</li>
+			</ul>
+		</p>
+		<h4>On Other Multiple Majors</h3>
+		<p>
+			&#8707; a 18-course triple-major with Economics that utilizes no triple-counting, primarily due to the Economics major requiring only 8 courses. If the Economics department does not apply the substitutions recommended by the <a href="https://cd-public.github.io/advising/pdfs/ds.pdf">"Guidelines for Advising Curriculum Transition"</a>, this is raised to a 19-course triple-major with the retirement of <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span>. This is known to students, but among our majors most are opting for the Mathematics program instead.
+		</p>
+		<p>
+			&#8707; a 21-course triple-major with Public Health that utilizes no triple-counting. If the Public Health department does not apply the substitutions recommended by the <a href="https://cd-public.github.io/advising/pdfs/ds.pdf">"Guidelines for Advising Curriculum Transition"</a>, this is raised to a 19-course triple-major with the retirement of <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span>. I believe we should offer an ethics distribution within our majors that accepts PHEAL 301 Public Health Ethics and drops this to a 20-course triple-major, where PHEAL 499W Senior Seminar in Public Health fulfills the upper-level writing requirement.
+		</p>
+		<p>
+			&#8707; 23-course (CS__/DATA) and 24-course (CS__/MATH) triple-majors with Physics that become impossible without triple-counting, as <span style="background-color:#FFCCCB" title="Intro to Programming">CS__ 151_</span> is a requirement for all three majors. There exist undeclared first-years considering this track, which may also become impossible due to scheduling conflicts between courses or lack of general education offerings that span multiple requirements.
+		</p>
+		<p>
+			&#8707; a 25-course quadruple major that requires no triple-counting.
+		</p>
+		<p>
+			&#8707; synthetic triple-majors that require fewer than 19 courses using a combination of the the 2022 Catalog, the <a href="https://cd-public.github.io/advising/pdfs/ds.pdf">"Guidelines for Advising Curriculum Transition"</a>, and novel policies around capstones and electives, that ambigiously contain triple-counting depending on how course substitutions are applied. This track is primarily eliminated by the new 2023 requirement of <span style="background-color:#FFCCCB" title="Networks & Systems">CS__ 271_</span> within the Computer Science major, and will remain inactive so long as all three majors have five or more unique requirements (which they do as of 2023).
+		</p>
+		<h3>On Computer Science elective credit for Mathematics courses</h3>
+		<p>
+			The 12+7 track demonstrates that a 19-course triple-major without triple-counting is possible regardless of whether Mathematics courses bear Computer Science elective credit. My assessment of the primary impact of standarizing Mathematics credit is to equalize opportunity with respect to the 15-course double major for students experiencing different topics scheduling after they have completed <span style="background-color:#ADD8E6" title="Fndns of Adv. Math">MATH 251W</span>.
+		</p>
+		<p>
+			A 15-course double major is consistent with other CAS double majors with mathematical requirements, such as Economics/Philosophy (15) or Public Health/Environmental Science (16).
+		</p>
+		<h3>On Policy Changes</h3>
+		<p>
+			The 12+7 track is unaffected any of the three following conditions or their combinations:
+			<ul>
+				<li>Allowing Computer Science credit for Mathematics courses</li>
+				<li>Offering <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span></li>
+				<li>Allowing triple-counting.</li>
+			</ul>
+			Should Mathematics courses no longer bear Computer Science elective credit, historical class <span title="Statistical Learning with R" style="background-color:#ADD8E6">MATH 239_</span> will be reduced from having a minimum of 7 to having a minimum of 1 alternatives for Computer Science major elective credit, but still not necessitate triple-counting.
+		</p>
+		<h3>On Rigor</h3>
+		<h4>Individuals</h4>
+		<p>
+			I am not unaware of concerns that a 19-course triple-major may be considered to demonstrate a lack of rigor in the major requirements. I differ from that assessment. I believe the triple-major is a path to rigor while under University conditions, which include staffing and general education considerations, that make offering the level of rigor our students aspire to within a single field. Rather, the 19-course triple-major provides students with a framework within which they can delve deeply into mathematical sciences, a difficult subject area for specialization at the undergraduate level. They emerge with strong preparation in Computer Science, Data Science, or Mathematics, and as competitive candidates for industry or graduate-level study in any of these fields. While it is out of scope for this discussion, I question concerns about rigor when a student takes 19-courses, if there are not accompanying concerns for the rigor of the education of a student that takes 10-course major. Even the 12-course double major, an unusually challenging 12-courses due to major requirements, offers a much higher floor for rigor.
+		</p>
+		<p>
+			In my assessment, students completing our program, compared to their peers from similar institutions as well as research institutions, are graduating as more competitive scholars. Willamette triple-majors are credibly competitive with technically-focused R1 scholars while additionally bearing the benefits of a liberal arts education - we may simply consider the number of hours of technical instruction they receive. I believe it is unreasonable to claim one of our triple-majors has not demonstrated the capacities that would be expected of a single-major Mathematics major, a single-major Data Science major, or a single-major Computer Science major. We are developing exceptional interdiscplinary scholars, who are exactly what is needed within our field today.
+		</p>
+		<h4>Populations</h4>
+		<p>
+			At population level, the popularity of multi-major plans-of-study elevates the expected quality of students from our program. Simply put, faculty have the opportunity to deliver more instructional hours in computing and data as students pursue more majors. Without more information, it is is difficult to conclude if we have arrived at the optimal arrangements for maximizing expected instructional hours, so I will make no claims to optimality but will say I have been pleased with the reception our program has received and the popularity of these plans-of-study among our students.
+		</p>
+		<h4>Access & Equity</h4>
+		<p>
+			It is my position that the existing 19-course triple-major is more rigorous than pre-existing configurations possible under earlier versions of the catalog. In fact, less demanding majors were possible as recently as the 2022 catalog. The rising popularity of the triple-major is not the result of a decrease in the rigor of our program, therefore, but necessarily some other factor. As a supporting line of argument, consider the depth of discussion that has surrounded the demanding 12+7 triple-major, with a 12+6 triple-major with Economics is virtually unutilized. Students are selecting into more rigorous programs as they develop the skills to succeed in more challenging classes over time.
+		</p>
+		<p>
+			I find the rising popularity of the triple-major is consistent with our access goals as a program and our current advising model, which is markedly more accessible, I believe, than any of our peer majors at Willamette or, in fact, a liberal arts colleges generally. It is my view that in 2022 and earlier catalog years, subgroups within the student population discovered and enacted plans-of-study that satisfied the requirements of three majors with less rigor than students following the 2023 12+7 track. Students in these subgroups had significant unearned advantages entering Willamette that they then compounded by garnering additional credentials compared to their no-less-brilliant but less-advantaged peers. These same students have seen stunning career success, and while this must be attributed to initial advantages in part, appears correlated with the quality of instruction they received through intensive, multi-major study.
+		</p>
+	</body>
+</html> 

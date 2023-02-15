@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="cd">
+  <meta name="dcterms.date" content="2023-02-15">
+  <title>Büchi Automata</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Büchi Automata</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">15 February 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>There was no homework due this week.
+<ul>
+<li>Not to worry! I have something for next week.</li><ul>
+</li></ul></li>
+</ul>
+<li>Let's talk about how to specify properties for the third week in a row.</li>
+</ul></li>
+</ul>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following trace:</p>
+<pre><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></pre>
+<p>Which of the following LTL expressions would describe this trace?
+<div class="poll">
+<ol>
+<li><strong>G</strong> <em>p</em><strong>&or;</strong><em>q</em></li>
+<li><strong>G</strong> <em>p</em><strong>&or;</strong><strong>&not;</strong><em>q</em></li>
+<li><strong>G</strong> <strong>&not;</strong><em>p</em><strong>&or;</strong><em>q</em></li>
+<li><strong>G</strong> <strong>&not;</strong><em>p</em><strong>&or;</strong><strong>&not;</strong><em>q</em></li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following trace:</p>
+<pre><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></pre>
+<p>Which of the following LTL expressions would describe this trace?
+<div class="poll">
+<ol>
+<li><strong>G</strong>(<em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> <strong>&rarr;</strong><strong>X</strong><em>p</em>)</li>
+<li><strong>G</strong>(<em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> <strong>&rarr;</strong><strong>X</strong><strong>&not;</strong><em>p</em>)</li>
+<li><strong>G</strong>(<em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> <strong>&rarr;</strong><strong>X</strong><em>q</em>)</li>
+<li><strong>G</strong>(<em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> <strong>&rarr;</strong><strong>X</strong><strong>&not;</strong><em>q</em>)</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2><p>Consider the following trace:</p>
+<pre><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></pre>
+<p>Which of the following LTL expressions would describe this trace?
+<div class="poll">
+<ol>
+<li><strong>&not;</strong><strong>X</strong><sup>1</sup><em>q</em></li>
+<li><strong>&not;</strong><strong>X</strong><sup>2</sup><em>q</em></li>
+<li><strong>&not;</strong><strong>X</strong><sup>3</sup><em>q</em></li>
+<li><strong>&not;</strong><strong>X</strong><sup>4</sup><em>q</em></li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2><p>Consider the following trace:</p>
+<pre><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></pre>
+<p>Which of the following LTL expressions would describe this trace?
+<div class="poll">
+<ol>
+<li><em>q</em> <strong>U</strong> <strong>G</strong><em>p</em></li>
+<li><em>q</em> <strong>R</strong> <strong>G</strong><em>p</em></li>
+<li><em>q</em> <strong>W</strong> <strong>G</strong><em>p</em></li>
+<li><em>q</em> <strong>M</strong> <strong>G</strong><em>p</em></li>
+</ol>
+</div>
+<p>Check your notes or the slides!</p>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>Which of the following LTL expressions would describe this structure?</p>
+<div class="poll">
+<ol>
+<li><em>q</em> <strong>U</strong> <strong>G</strong><em>p</em></li>
+<li><em>q</em> <strong>R</strong> <strong>G</strong><em>p</em></li>
+<li><em>q</em> <strong>W</strong> <strong>G</strong><em>p</em></li>
+<li><em>q</em> <strong>M</strong> <strong>G</strong><em>p</em></li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>Which of the following LTL expressions would would describe this structure?</p>
+<div class="poll">
+<ol>
+<li><strong>X</strong><sup>1</sup><em>q</em></li>
+<li><strong>X</strong><sup>2</sup><em>q</em></li>
+<li><strong>X</strong><sup>3</sup><em>q</em></li>
+<li><strong>X</strong><sup>4</sup><em>q</em></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<p>Consider the following Kripke Structure:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+<p>10-15 min: In small groups, define an equivalent LTL expression to this structure.</p>
+</section>
+<section id="properties" class="slide level2">
+<h2>Properties</h2>
+<ul>
+<li>Some security properties are about bad things not happening: <ul>
+<li><strong>G</strong><strong>&not;</strong><em>bad</em></li>
+<li>Term this "safety"</li></ul>
+<li>Some security properties are about good things happening someday:  <ul>
+<li><strong>F</strong><em>good</em></li>
+<li>Term this "liveness"</li></li></ul>
+<li>These <b>security policies</b> are distinct but difficult to differentiate in Kripke Structures.</li>
+<li>For non-experts, it may be helpful to formulate security properties that differentiate these.</li>
+</ul>
+<p>"I want to be able to access my apartment sometimes but I don't want adversaries to be able to access it ever."</p>
+</section>
+<section id="buchi" class="slide level2">
+<h2>Büchi Automata</h2>
+<ul>
+<li>Logicians use Büchi Automata to define <b>safety</b> and <b>liveness</b> more formally.</li>
+<li>Büchi Automata are more expressive than Kripke Structures</li>
+<li>Deterministic Büchi Automata are equivalent to LTL<ul>
+<li>What would it mean for a Kripke Structure to be deterministic?</li>
+<li>What would it mean for LTL not to be deterministic?</li>
+</ul></li></ul>
+<p>We define Büchi Automata as we did Kripke Structures, then show their usefulness.</p>
+</section>
+<section id="buchi0" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton either accepts or rejects infinite inputs (traces).</p>
+</section>
+<section id="buchi11" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, ...} that accepts traces.</p>
+<ul>
+<li><em>Q</em> is a finite set.<ul>
+<li>We term the elements of <em>Q</em> to be the states of <em>A</em></li>
+<li>The states of <em>A</em> may be distinct from the unique states found within a trace.</li>
+<li>Traces of infinite length can be considered.</li></ul>
+<li><em>Q</em> is circles in our diagram.</li></ul>
+</section>
+<section id="buchi21" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>,...} that accepts traces.</p>
+<ul>
+<li><em>Σ</em> (sigma) is a finite set.<ul>
+<li>We term <em>Σ</em> the alphabet of <em>A</em></li>
+<li><em>Σ</em> is the unique states found within a trace.</li>
+<li>We use <em>Σ</em> <sup>ω</sup> (upper case sigma raised to lower case omega) to denote infinite traces</li>
+<li>These are the possible states of a trace; I term them letters.</li></ul></li>
+</section>
+<section id="buchi22" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>,...} that accepts traces <em>Σ</em> <sup>ω</sup>.</p>
+<ul>
+<li><em>Q</em> is a finite set: the states of <em>A</em>.</li>
+<li><em>Σ</em> is a finite set: the alphabet of <em>A</em>.</li></ul>
+<p>We studied example traces earlier, for these:</p>
+<pre><code>Σ = { {'p', 'q'}, {'p'}, {'q'} }</code></pre>
+<p>We cannot yet generate something that looks like <em>Q</em>, but it is similar to</p>
+<pre><code>Q ≈ {'s_1', 's_2', 's_3'}</code></pre>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg">
+</section>
+<section id="buchi3" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>, <em>δ</em>, ...} that accepts traces <em>Σ</em> <sup>ω</sup>.</p>
+<ul>
+<li><em>δ</em> is a function.<ul>
+<li>We term <em>δ</em> (lower case delta) the transition function of <em>A</em>.
+<li><em>δ</em> maps combinations of states and letters to other states.</li> 
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em>, or </li>
+<li><em>δ</em> &sube; (<em>Q</em> × <em>Σ</em> ) × <em>Q</em></li></ul>
+<li><em>δ</em> is like Kripke <em>R</em> except that it has to check both <em>Q</em> (model) and <em>Σ</em> (trace).</li>
+<li><em>δ</em> takes a circle in the diagram and an observation and tells you the new circle in the diagram.</li>
+<li><em>Σ</em> labels arrows between circles in the diagram.</li>
+</section>
+<section id="buchi31" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>, <em>δ</em>,...} that accepts traces.</p>
+<ul>
+<li><em>Q</em> is a finite set: the states of <em>A</em>.</li>
+<li><em>Σ</em> is a finite set: the alphabet of <em>A</em>.</li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> is a function: the transition function of <em>A</em>.</li></ul>
+</section>
+<section id="buchi41" class="slide level2">
+<h2>Büchi Automata</h2>
+<p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>,...} that accepts traces <em>Σ</em> <sup>ω</sup>.</p>
+<ul>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em> (say: q-naut is an element of the seq Q)<ul>
+<li>We term <em>q<sub>0</sub></em> the initial state of <em>A</em>.</li>
+<li><em>q<sub>0</sub></em> is like <em>I</em> but Büchi Automata have only a single starting state.<ul>
+<li>This is because Büchi Automata have no atomic proposition labels on states, only on transitions.</li></ul></li><ul></li><ul>
+</section>
+<section id="buchi42" class="slide level2">
+<h2>Büchi Automata</h2><p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>,...} that accepts traces <em>Σ</em> <sup>ω</sup>.</p>
+<ul>
+<li><em>Q</em> is a finite set: the states of <em>A</em>.</li>
+<li><em>Σ</em> is a finite set: the alphabet of <em>A</em>.</li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> is a function: the transition function of <em>A</em>.</li>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em>: is a state: the initial state of <em>A</em></ul>
+</section>
+<section id="buchi5" class="slide level2">
+<h2>Büchi Automata</h2><p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } that accepts traces <em>Σ</em> <sup>ω</sup>.</p>
+<ul>
+<li><strong>F</strong> &sube; <em>Q</em> is a non-strict subset.<ul>
+<li>We term <strong>F</strong> the acceptance condition.</li>
+<li>This one looks a bit odd on slides, it looks clearer standard formatting.<ul>
+<li><strong>F</strong> is bolded</li>
+<li><em>Q</em> is italicized</li>
+<li><span style="background-color:white; color:black; font-size:1.5em"><span style="font-weight:900;">F</span> &sube; <span style="font-style:italic">Q</span><span style="color:white">|</span></span></li></ul>
+<li>An infinite trace must visit states in <strong>F</strong> an infinite number of times to be accepted.</li>
+<li>We can think of finite traces as infinitely repeated their last state, which must be in <strong>F</strong>.</li></ul>
+</section>
+<section id="buchi51" class="slide level2">
+<h2>Büchi Automata</h2><p>A deterministic Büchi Automaton <em>A</em> is a tuple {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } that accepts traces <em>Σ</em> <sup>ω</sup>.</p>
+<ul>
+<li><em>Q</em> is a finite set: the states of <em>A</em>.</li>
+<li><em>Σ</em> is a finite set: the alphabet of <em>A</em>.</li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> is a function: the transition function of <em>A</em>.</li>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em>: is a state: the initial state of <em>A</em></li>
+<li><strong>F</strong> &sube; <em>Q</em> is a non-strict subset: the acceptance condition</li></ul>
+</section>
+<section id="diagrams1" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p style = "text-align: center;">Kripke Structures</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/1/12/Kripke_model.png" style="width:100.0%"/>
+</div>
+<div class="col">
+<p style = "text-align: center;">Büchi Automata</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg" style="width:100.0%"/>
+</div>
+</div>
+<ul>
+<li>Both (graphs) have a circles (nodes) and arrows (edges)<ul>
+<li>Kripke Structures label circles (nodes)</li>
+<li>Büchi Automata label arrows (edges)</li></ul>
+</section>
+<section id="diagrams2" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> : the states of <em>A</em>.</li>
+<li><em>Σ</em> : the alphabet of <em>A</em>.</li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> : transition function.</li>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em> : the initial state of <em>A</em></li>
+<li><strong>F</strong> &sube; <em>Q</em> : the acceptance condition</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="diagrams3" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col"> 
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> = { <em>q<sub>0</sub>, q<sub>1</sub>, q<sub>2</sub></em>} <span style="color:#00ffff">in cyan</span></li>
+<li><em>Σ</em> : the alphabet of <em>A</em>.</li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> : transition function.</li>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em> : the initial state of <em>A</em></li>
+<li><strong>F</strong> &sube; <em>Q</em> : the acceptance condition</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi2.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="diagrams4" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> = { <em>q<sub>0</sub>, q<sub>1</sub>, q<sub>2</sub></em>} <span style="background-color:white;color:#00ffff">in cyan</span></li>
+<li><em>Σ</em> = {<em>red, green, yellow</em>} <span style="background-color:white;color:#ff00ff">in magenta</span></li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> : transition function.</li>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em> : the initial state of <em>A</em></li>
+<li><strong>F</strong> &sube; <em>Q</em> : the acceptance condition</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi3.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="diagrams5" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> = { <em>q<sub>0</sub>, q<sub>1</sub>, q<sub>2</sub></em>} <span style="background-color:white;color:#00ffff">in cyan</span></li>
+<li><em>Σ</em> = {<em>red, green, yellow</em>} <span style="background-color:white;color:#ff00ff">in magenta</span></li>
+<li><em>δ</em> : <em>Q</em> × <em>Σ</em> <strong>&rarr;</strong> <em>Q</em> <span style="background-color:white;color:#0000ff">in blue</span><ul>
+<li>Take ((<em>q<sub>0</sub>, red</em>), <em>q<sub>0</sub></em>) as <code>0R0</code> </li>
+<li><em>δ</em> =<code>{0R0,0G1,1G1,1Y2,2Y2,2R0}</code></li></ul></li>
+<li><em>q<sub>0</sub></em> &in;  <em>Q</em> : the initial state of <em>A</em></li>
+<li><strong>F</strong> &sube; <em>Q</em> : the acceptance condition</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi4.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="diagrams6" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> = {<em>0, 1, 2</em> } <span style="background-color:white;color:#00ffff">in cyan</span></li>
+<li><em>Σ</em> = {<em>R, G, Y</em> } <span style="background-color:white;color:#ff00ff">in magenta</span></li>
+<li><em>δ</em> = <code class="lisp" >{R0G1,G1Y2,Y2R0}</code> <span style="background-color:white;color:#0000ff">in blue</span></li>
+<li><em>q<sub>0</sub></em> or <em>0</em> : <span style="background-color:white;color:#FFA500">in orange</span></li>
+<li><strong>F</strong> &sube; <em>Q</em> : the acceptance condition</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi5.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="diagrams7" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> = {<em>0, 1, 2</em> } <span style="background-color:white;color:#00ffff">in cyan</span></li>
+<li><em>Σ</em> = {<em>R, G, Y</em> } <span style="background-color:white;color:#ff00ff">in magenta</span></li>
+<li><em>δ</em> = <code class="lisp">{R0G1,G1Y2,Y2R0}</code> <span style="background-color:white;color:#0000ff">in blue</span></li>
+<li><em>q<sub>0</sub></em> or <em>0</em> <span style="background-color:white;color:#FFA500">in orange</span></li>
+<li><strong>F</strong> = {<em>q<sub>0</sub></em>} or {<em>0</em>} <span style="background-color:white;color:black">in black</span></li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi5.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="sandl" class="slide level2">
+<h2>Safety and Liveness</h2><div class="cols">
+<div class="col">
+<p style = "text-align: center;">Safety</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="safety" class="slide level2">
+<h2>Safety</h2><div class="cols">
+<div class="col">
+<ul>
+<li>Some security properties are about bad things not happening: <ul>
+<li><strong>G</strong><strong>&not;</strong><em>bad</em></li>
+<li>Term this "safety"</li></ul>
+<li>If a Büchi Automata is a safety property...<ul>
+<li>If the bad things happens, the system is unrecoverable.</li>
+<li>Therefore, any failures result from "falling off" the diagram.</li>
+<li>Therefore, all states are accepting states (no failures based on ending).</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Safety</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="safety2" class="slide level2">
+<h2>Safety</h2><div class="cols">
+<div class="col">
+<div class="block" name="Definition">
+<p>The <b>closure</b> of Büchi Automaton given by <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } is <em>cl(A)</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <em>Q</em> }. <br><br>That is, <em>cl(A)</em> is equivalent to <em>A</em> if the set of accepting states <strong>F</strong> is expanded to include all of the states of <em>A</em></p>
+</div>
+<<div class="block" name="Definition">
+<p>A <b>safety property</b> is a property given by a Büchi Automaton <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } such that all traces accepted by <em>A</em> are also accepted by its <em>cl(A)</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <em>Q</em> }.</p>
+</div>
+</div>
+<div class="col">
+<p style = "text-align: center;">Safety</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="safety3" class="slide level2">
+<h2>Safety</h2><div class="cols">
+<div class="col">
+<ul>
+<li>This means, we can develop safety properties from arrows (edges), or from <em>δ</em><ul>
+<li>We see that yellow is always preceded by green or yellow.</li>
+<li>Yellow is never preceded by red.</li>
+<li>So we can say that the bad thing is red with yellow next</li>
+<li><strong>G</strong><strong>&not;</strong>(<em>red</em>&and;<strong>X</strong><em>yellow</em> )</li>
+<li><strong>G</strong><strong>&not;</strong>(<em>green</em>&and;<strong>X</strong><em>red</em> )</li>
+<li><strong>G</strong><strong>&not;</strong>(<em>yellow</em>&and;<strong>X</strong><em>green</em> )</li></ul></li></ul></li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Safety</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="safetyex" class="slide level2">
+<h2>Safety</h2><div class="cols">
+<div class="col">
+<ul>
+<p>Could we argue that only <strong>G</strong><strong>&not;</strong>(<em>green</em>&and;<strong>X</strong><em>red</em> ) is a safety property?</p>
+<br>
+<p>15-20 min: In small groups, define the Büchi Automaton that captures *only* this safety property.</p>
+<br>
+<p>A diagram is sufficient, but think about <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<br>
+<p>Be prepared to demonstrate that you have created a safety property!</p>
+</div>
+<div class="col">
+<p style = "text-align: center;">Safety</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="liveness" class="slide level2">
+<h2>Liveness</h2><div class="cols">
+<div class="col">
+<ul>
+<li>Some security properties are about good things happening someday:  <ul>
+<li><strong>F</strong><em>good</em></li>
+<li>Term this "liveness"</li></li></ul>
+<li>If a Büchi Automata is a liveness property...<ul>
+<li>No matter what happens, the system is recoverable.</li>
+<li>Therefore, any failures result from not reaching accepting states.</li>
+<li>Therefore, all states should have outgoing edges covering all letters of the trace alphabet.</li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="liveness2" class="slide level2">
+<h2>Liveness</h2><div class="cols">
+<div class="col">
+<div class="block" name="Definition">
+<p>The <b>closure</b> of Büchi Automaton given by <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } is <em>cl(A)</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <em>Q</em> }. <br><br>That is, <em>cl(A)</em> is equivalent to <em>A</em> if the set of accepting states <strong>F</strong> is expanded to include all of the states of <em>A</em></p>
+</div>
+<<div class="block" name="Definition">
+<p>A <b>liveness property</b> is a property given by a Büchi Automaton <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } such that <em>cl(A)</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <em>Q</em> } accepts all possible traces in <em>Σ</em> <sup>ω</sup>.</p>
+</div>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="liveness3" class="slide level2">
+<h2>Liveness</h2><div class="cols">
+<div class="col">
+<ul>
+<li>This means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.<ul>
+<li>We see that <em>q<sub>1</sub></em> has an outgoing edge labelled "yellow".</li>
+<li>We add an edge from <em>q<sub>1</sub></em> to itself that is labelled "not yellow".</ul></li>
+<li>As a convenience, we say the "good thing" is the light turning green<ul>
+<li>We mark <em>q<sub>1</sub></em> as the accepting state, since it is reached when the light turns green.</li>
+</ul></li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="livenessex" class="slide level2">
+<h2>Liveness</h2><div class="cols">
+<div class="col">
+<ul>
+<p>Could we argue that only <strong>F</strong><em>green</em> is a Liveness property?</p>
+<br>
+<p>10-15 min: In small groups, define the Büchi Automaton that captures *only* this liveness property.</p>
+<br>
+<p>A diagram is sufficient, but think about <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p><br>
+<p>Be prepared to demonstrate that you have created a safety property!</p>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="yourturn" class="slide level2">
+<h2>Your turn!</h2>
+<p>Do we have time for an airliner with safety (flight deck protect) and liveness (service station access)?</p>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Extend your model!
+<ul>
+<li>Convert (extend?) your Kripke Structure to a Büchi Automaton.</li>
+<li>Decompose into minimally one safety and one liveness property.</li>
+<li>Demonstrate the safety and liveness properties validity using closures.</li>
+<li>Specify the overall model, safety, and liveness with LTL.</li>
+<li>Fully specify each of {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</li>
+<li>Think about good shorthand for especially <em>δ</em>.</li>
+</ul>
+<p>Be ready to ask good questions on 22 Feb and to present your document on 1 Mar!</p>
+<br>
+<p>This is the midterm-adjacent homework and will prepare you for in-class assessment.</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

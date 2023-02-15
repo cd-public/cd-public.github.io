@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jed Rembold">
+  <meta name="dcterms.date" content="2021-08-30">
+  <title>CSS</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">CSS</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">15 February 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Faculty visits have concluded, likely for this year.
+<ul>
+<li>Submit your Google forms to the hiring committee, and thank Prof. Kitada Smalley.
+<li>Submit any other comments to committee chair Jameson.
+<ul>
+<li>Jameson likes concise emails. Target 2 theses at most.</li>
+<li>I confirmed that "Jameson" is his preferred way to be addressed.</li>
+</ul></li>
+</ul></li>
+<li>Homework
+<ul>
+<li>New assignment going out today.<ul>
+<li>Resume workshop next week.</li>
+</ul>
+<li>Do we have Monday off?</li></ul>
+</section>
+<section id="collect" class="slide level2">
+<h2>Collect our thoughts</h2>
+<p>Target ~15 minute exercise</p>
+<ul>
+<li>5 minutes alone, write 3 theses, 1 each on:
+<ul>
+<li>What did you learn about <em>applying/interviewing</em>.</li>
+<li>What did you learn about <em>evaluating/hiring</em>.</li>
+<li>What did you learn about <em>higher education</em>, including your own.</li>
+</ul></li>
+<li>10 minutes in small groups, read each other's theses, amend your theses.
+<ul>
+<li>Did you learn anything new in these groups?</li>
+<li>Did you realize something you had learned but didn't recognize?</li>
+<li>Does your assessment differ from your peers?</li>
+</ul></li></ul>
+</section>
+<section id="fdbk" class="slide level2">
+<h2>Homework Feedback</h2>
+<ol>
+<li>There is a tendency to open, and then re-open rather than close, elements.
+<pre><code>Like &#60;em&#62;this&#60;em&#62; instead of &#60;em&#62;this&#60;/em&#62;</code></pre>
+</li>
+<li>There is a tendency to not use indentation, which I think drives (1).
+<pre><code>Like &#60;p&#62;this&#60;p&#62; instead of 
+&#60;p&#62;
+  this
+&#60;/p&#62;</code></pre>
+</li>
+<li>There is a tendency to not use linebreaks around non-text elements, which looks "bad".
+<pre><code>Like &#60;img src="img.png" alt="this"&#62; instead of 
+&#60;br&#62;
+&#60;img src="img.png" alt="this"&#62; </code></pre>
+</li>
+</ul>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>&#60;p style="font-weight:bold"&#62;</code>?</p>
+<div class="poll">
+<ol>
+<li>A tag</li>
+<li>An attribute</li>
+<li>An element</li>
+<li>The content</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>style="font-weight:bold"</code>?</p>
+<div class="poll">
+<ol>
+<li>A tag</li>
+<li>An attribute</li>
+<li>An element</li>
+<li>The content</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>Coffee</code>?</p>
+<div class="poll">
+<ol>
+<li>A tag</li>
+<li>An attribute</li>
+<li>An element</li>
+<li>The content</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>&#60;/p&#62;</code>?</p>
+<div class="poll">
+<ol>
+<li>A tag</li>
+<li>An attribute</li>
+<li>An element</li>
+<li>The content</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>font-weight</code>?</p>
+<div class="poll">
+<ol>
+<li>Trick question</li>
+<li>Trick question</li>
+<li>Trick question</li>
+<li>Trick question</li>
+</ol>
+</div>
+</section>
+<section id="HTML" class="slide level2">
+<h2>HTML</h2>
+<p>HTML is a mark-up language. It was meant to:
+<ul>
+<li>Hold content</li>
+<li>Describe relationships between content</li>
+</ul>
+<p>It was not meant to:
+<ul>
+<li>Define the appearance of content</li>
+<li>Describe a webpage, rather than webpage contents</li>
+</ul>
+<p>Consider the following HTML snippet</p>
+<pre><code>&#60;p&#62;&#60;strong&#62;Coffee&#60;/strong&#62;&#60;/p&#62; </code></pre>
+<p>Are <code>&#60;p&#62;</code> and <code>&#60;strong&#62;</code> the same kind of thing?</p>
+</section>
+<section id="uses" class="slide level2">
+<h2>Style and Atomicity</h2>
+<p>HTML styling threatened the atomicity of elements, by conflating holding content with styling content.</p>
+<div class="cols">
+<div class="col">
+<p>Content-holding elements</p>
+<ul>
+<li><code>&#60;p &#62;</code> paragraphs</li>
+<li><code>&#60;h1&#62;</code> headers </li>
+<li><code>&#60;ul&#62;</code> lists </li>
+<li><code>&#60;li&#62;</code> list items </li>
+<li><code>&#60;tr&#62;</code> table rows</li>
+</ul>
+<p>And more, of course.</p>
+</div>
+<div class="col">
+<p>Style-denoting elements</p>
+<ul>
+<li><code>&#60;b&#62;</code> bold</li>
+<li><code>&#60;i&#62;</code> italics </li>
+<li><code>&#60;em&#62;</code> emphasis </li>
+<li><code>&#60;strong&#62;</code> strong emphasis </li>
+<li><code>&#60;br&#62;</code> line break</li>
+</ul>
+<p>And more, of course.</p>
+</div>
+</div>
+</section>
+<section id="attributes" class="slide level2">
+<h2>Attributes</h2>
+<p>Attributes differ in functionality</p>
+<ul>
+<li><code>href</code> and <code>src</code> are mandatory for their elements <code>&#60;a&#62;</code> and <code>&#60;img&#62;</code>.</li>
+<li><code>width</code> is an attribute for some elements yet may be used within a <code>style</code>.</li>
+<li><code>&#60;p style="font-weight:bold"&#62;</code> seems redundant with <code>&#60;b&#62;</code> and <code>&#60;strong&#62;</code>.</li>
+<li><code>&#60;p style="font-weight:bold"&#62;</code> seems redundant with <code>&#60;b&#62;</code> and <code>&#60;strong&#62;</code>.</li>
+<li><code>style</code> is never necessary, yet always valid.</li>
+<li><code>style</code> is an attribute and an element.</li>
+</ul>
+<p>What is the pattern here?</p>
+</section>
+<section id="style" class="slide level2">
+<h2>Style</h2>
+<p>Style plays by its own rules.</p>
+<ul>
+<li>Styles may be specified inline with elements, or in a head style element.</li>
+<li>Styles have an internal notation style using colons and semicolons, as well as keywords.</li>
+<li>Styles almost appear to be <em>written in another language</em></li>
+<pre><code>Do we really need &#60;span style="font-weight:bold;color:magenta;"&#62;this&#60;/span&#62; and &#60;b&#62;this&#60;/b&#62;?</code></pre>
+</ul>
+<p>That is: Do we really need <span style="font-weight:bold;color:magenta;">this</span> and <b>this</b>?</p>
+<p style="font-style:italic">Pretend I got the colors the same.</p>
+</section>
+<section id="CSS" class="slide level2">
+<h2>CSS</h2>
+<p>Style attributes and elements are written in <em>CSS</em>, or "Cascading Style Sheets"</p>
+<ul>
+<li>The atomic unit of CSS is a rule, which contains
+<ul>
+<li>A selector, which references an HTML element, and</li>
+<li>A declaration block surrounded with by curly braces, which contains<ul>
+<li>Declarations, terminated by semi-colons, which contain:<ul>
+<li>Properties, punctuated by colons, and,</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+<p>When we write CSS inside HTML:</p>
+<ul><li>In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
+<li>In style elements, we write full CSS rules.</li>
+</section>
+<section id="CSSattr" class="slide level2">
+<h2>Style Attributes</h2>
+<p>Consider the following HTML snippet with a style attribute.
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<ul>
+<li>Recall: In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
+<li>Recall: A declaration block... contains<ul>
+<li>Declarations, terminated by semi-colons, which contain:<ul>
+<li>Properties, punctuated by colons, and,</li>
+<li>Values</li>
+</ul></li></ul></li></ul>
+</section>
+<section id="preview1" class="slide level2">
+<h2>Preview Question 1</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>style="font-weight:bold"</code>?</p>
+<div class="poll">
+<ol>
+<li>A CSS declaration block</li>
+<li>A CSS rule</li>
+<li>A CSS selector</li>
+<li>An HTML attribute</li>
+</ol>
+</div>
+</section>
+<section id="preview2" class="slide level2">
+<h2>Preview Question 2</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>font-weight:bold</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="preview3" class="slide level2">
+<h2>Preview Question 3</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code><span style="font-weight:bold;color:magenta;">this</span></code></pre>
+<p>What is <code>font-weight:bold;color:magenta;</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="preview4" class="slide level2">
+<h2>Preview Question 4</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code><span style="font-weight:bold;color:magenta;">this</span></code></pre>
+<p>What is <code>font-weight:bold;</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="preview5" class="slide level2">
+<h2>Preview Question 5</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code><span style="font-weight:bold;color:magenta;">this</span></code></pre>
+<p>What is <code>font-weight</code>?</p>
+<div class="poll">
+<ol>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="preview6" class="slide level2">
+<h2>Preview Question 6</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code><span style="font-weight:bold;color:magenta;">this</span></code></pre>
+<p>What is <code>bold</code>?</p>
+<div class="poll">
+<ol>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="CSSelem" class="slide level2">
+<h2>Style elements</h2>
+<p>Consider the following HTML file with a style element.
+<pre><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;This page is just a demo.&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<ul>
+<li>Recall: The atomic unit of CSS is a rule, which contains
+<ul>
+<li>A selector, which references an HTML element, and</li>
+<li>A declaration block surrounded with by curly braces</li></ul></li></ul>
+</section>
+<section id="preview7" class="slide level2">
+<h2>Preview Question 7</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>p { background: blue; color: white; }</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="preview8" class="slide level2">
+<h2>Preview Question 8</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>p</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="preview9" class="slide level2">
+<h2>Preview Question 9</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>{ background: blue; color: white; }</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="previewa" class="slide level2">
+<h2>Preview Question A</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>background: blue;</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="previewb" class="slide level2">
+<h2>Preview Question B</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>background</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="previewc" class="slide level2">
+<h2>Preview Question C</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>blue</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="CSSreview" class="slide level2">
+<h2>CSS</h2>
+<ul>
+<li>Rule
+<ul>
+<li>Selector</li>
+<li>{Declaration block}<ul>
+<li>Declarations;<ul>
+<li>Properties:</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+</section>
+<section id="selectors" class="slide level2">
+<h2>CSS</h2>
+<p>Selectors can also be more sophisticated than referring to an html element.
+<ul>
+<li>A selector may refer to a comma-separated list of html elements</li>
+<pre><code>p, h1 { background: gray; color: white; }</code></pre>
+<li>A selector may refer to a <em>class</em> of html elements using a "." prefix</li>
+<pre><code>.bluebold { color: blue; font-weight: bold; }</code></pre>
+<li>A selector may refer to an <em>id</em> of an html element using a "#" prefix</li>
+<pre><code>#bookname { font-style: italics; }</code></pre>
+<li>Using a <a href="https://www.w3schools.com/cssref/css_selectors.php">complex syntax</a>, a selector may refer to any combination of these.</li>
+</ul>
+</ul></li></ul></li></ul></li></ul>
+<p>Selectors for <em>class</em> and <em>id</em> refer to HTML elements with a relevant <em>class</em> and <em>id</em> attribute.
+</section>
+<section id="CSSreview2" class="slide level2">
+<h2>CSS</h2>
+<ul>
+<li>Rule
+<ul>
+<li>Selector, a comma separated list of <ul>
+<li>HTML tag names, <ul>
+<li>HTML class attribute names, and </li>
+<li>HTML id attribute names, among other things</li>
+</ul></li></ul>
+<li>{Declaration block}<ul>
+<li>Declarations;<ul>
+<li>Properties:</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+</section>
+<section id="selectorex" class="slide level2">
+<h2>Selector Example</h2>
+<p>Consider the following HTML file with a style element.
+<pre><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+   .invert { background: white; color: blue; }
+   #fancy { font-style: italics; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p class="invert" id="fancy"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<p>This enumerates all selectors individually, and applies multiple attributes to "Both", or...
+</section>
+<section id="selectorex2" class="slide level2">
+<h2>Selector Example</h2>
+<p>Consider the following HTML file with a style element.
+<pre><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+   .invert, #both { background: white; color: blue; }
+   #fancy, #both { font-style: italics; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p id="fancy"&#62;Fancy&#60;/p&#62;
+  &#60;p id="both"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<p>This enumerates all selectors individually, and applies multiple attributes to "Both", or...
+</section>
+<section id="dotcss" class="slide level2">
+<h2>Standalone CSS</h2>
+<p>It is most common to write CSS separately, in a .css file.</p><ul>
+<li>Good aesthetics: Uniform style across pages</li>
+<li>Good coding: Factorization</li>
+</ul>
+<p>Simply reference the relevant stylesheet using the following in the HTML head:</p>
+<pre><code><link rel="stylesheet" href="./filename.css"/></code></pre>
+</section>
+<section id="dotex" class="slide level2">
+<p>page.html</p>
+<pre><code class="html" style="max-height:900px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  <link rel="stylesheet" href="./filename.css"/>
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p id="fancy"&#62;Fancy&#60;/p&#62;
+  &#60;p id="both"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<p>filename.css</p>
+<pre><code class="html">   p { background: blue; color: white; }
+   .invert, #both { background: white; color: blue; }
+   #fancy, #both { font-style: italics; }</code></pre>
+</section>
+<section id="dotstyle" class="slide level2">
+<pre><code class="html" style="max-height:900px">p { 
+	background: blue; 
+	color: white; 
+}
+   
+.invert, #both { 
+	background: white; 
+	color: blue; 
+}
+
+#fancy, #both { 
+	font-style: italics; 
+}</code></pre>
+</section>
+<section id="hw" class="slide level2">
+<h2>HOMEWORK</h2>
+<p>Create a CSS formatted resume page.</p>
+<ul>
+<li>Use and extend as needed the Zagreb stylesheet on <a href="https://github.com/zagreb-ethf23/zagreb-ethf23.github.io/blob/main/html/styles.css">Github</a>
+<ul>
+<li>Include a 140-280 personal statement with CSS emphasis on important words.</li>
+<li>Include real-or-imagined contact info.</li>
+<li>Include real-or-imagined educational info.<ul>
+<li>Do you wish to set a target graduation date? Major? GPA? Skills?</li></ul></li>
+<li>Include real-or-imagined work history.<ul>
+<li>Target minimum "3x3" - 3 work-ish things with 3 bullet points</li></ul></li>
+<li>Include all other well-formed HTML components.</li>
+<li>Have no linebreaks in plaintext - cut or shorten longer phrases.</li><ul>
+</ul></li></ul></ul>
+<p>By Wednesday, 22 February, either webhost a real version or share a local copy with me with real info for feedback.</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

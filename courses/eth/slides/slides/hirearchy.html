@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Hire-Archy</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Hire-Archy</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">22 February 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>You should have a resume.
+<ul>
+<li>REU recruitment is in full swing - Harvey Mudd is currently recruiting
+<li>I can usually write letters with as few as 48 hours notice.
+</ul></li>
+<li>Today we'll touch on some CSS hacks and then look at resumes.
+<li>Homework for Wednesday
+<ul>
+<li>Read <a href="https://shsdavisapes.pbworks.com/f/Omelas.pdf">“The Ones Who Walk Away From Omelas”</a>.  It's 5 pages.
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
+</ul>
+<li>JavaScript on Monday (tentative)</li></ul>
+</section>
+<section id="collect" class="slide level2">
+<h2>Collect our thoughts</h2>
+<p>Target ~15 minute exercise</p>
+<ul>
+<li>5 minutes alone, write 3 theses, 1 each on:
+<ul>
+<li>What did you learn about <em>constructing a personal web presence</em>.</li>
+<li>What did you learn about <em>writing a personal statement</em>.</li>
+<li>What did you learn about <em>your professional experiences</em>.</li>
+</ul></li>
+<li>10 minutes in small groups, read each other's theses, amend your theses.
+<ul>
+<li>Did you learn anything new in these groups?</li>
+<li>Did you realize something you had learned but didn't recognize?</li>
+<li>Does your assessment differ from your peers?</li>
+</ul></li></ul>
+</section>
+<section id="fdbk" class="slide level2">
+<h2>Homework Feedback</h2>
+<ul>
+<li>You have already graduated high school. Leadership roles only, no coursework, and include nothing if you aren't a 1st year.<ul>
+<li>You are all professionally accomplished as undergraduates.</li>
+<li>1st years situationally include leadership roles in organizations.</li>
+</ul>
+<li>Varying degrees of comfort talking about yourself. Practice makes perfect.<ul>
+<li>Branding: "I love working with data because I want to help people."</li></ul>
+</li>
+<li>There is a tendency to use weak verbs supported by adjectives.<ul>
+<li>"Lead" over "was in charge of", "collaborated" over "worked closely with".
+<li>Think about the main verb of your predicate. What does it communicate?
+</li>
+</ul>
+</li>
+<li>Keep bullet points to a single line</li>
+</ul>
+</section><section id="CSSelem" class="slide level2">
+<h2>Style elements</h2>
+<p>Consider the following HTML file with a style element.
+<pre><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;This page is just a demo.&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>p { background: blue; color: white; }</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration or declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>p</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration or declaration block</li>
+<li>A property</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>{ background: blue; color: white; }</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>background: blue;</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>background</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is <code>blue</code>?</p>
+<div class="poll">
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</div>
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>style="font-weight:bold"</code>?</p>
+<div class="poll">
+<ol>
+<li>A CSS declaration block</li>
+<li>A CSS rule</li>
+<li>A CSS selector</li>
+<li>An HTML attribute</li>
+</ol>
+</div>
+</section>
+<section id="review8" class="slide level2">
+<h2>Review Question 8</h2>
+<p>Consider the following HTML snippet.</p>
+<pre><code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code></pre>
+<p>What is <code>&#60;p style="font-weight:bold"&#62;</code>?</p>
+<div class="poll">
+<ol>
+<li>A tag</li>
+<li>An attribute</li>
+<li>An element</li>
+<li>The content</li>
+</ol>
+</div>
+</section>
+<section id="HTML" class="slide level2">
+<h2>HTML/CSS</h2>
+<p>HTML/CSS style uses hierarchies, specifically a specificity hierarchy.
+<ul>
+<li>CSS styling can be more or less specific</li>
+<li>In case of contradiction, more specific wins</li>
+</ul>
+<p>We can use this to:
+<ul>
+<li>Apply style broadly</li>
+<li>Make local design choices</li>
+<li>Impose special conditions based on page conditions</li>
+</ul>
+<p>Consider the following HTML snippet:</p>
+<pre><code class="html">&#60;b&#62;Some coffee &#60;span style="font-weight:normal"&#62;isn't&#60;/span&#62; bold but some is.&#60;/b&#62;</code></pre>
+<p><b>Some coffee <span style="font-weight:normal;color:white;">isn't</span> bold but some is.</b></p>
+</section>
+<section id="uses" class="slide level2">
+<h2>HTML and CSS</h2>
+<p>HTML elements and CSS rules are similarly vertically structured.</p>
+<div class="cols">
+<div class="col">
+<p>HTML is a</p>
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute value</li>
+<li>Attribute name</li></li></li></ul></li></ul>
+<li>Content</li>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></li></ul></li></ul></li></ul>
+</div>
+<div class="col">
+<p>CSS is a</p>
+<ul>
+<li>Rule<ul>
+<li>Selector(s)</li>
+<li>Declaration Block<ul>
+<li>Declaration<ul>
+<li>Property</li>
+<li>Value</li></li></ul></li></ul></li></ul></li>
+<li>Attribute Value<ul>
+<li>Declaration Block<ul>
+<li>...</li></li></ul></li></ul></li></ul></li></ul></li>
+</div>
+</div>
+</section>
+<section id="usefulness" class="slide level2">
+<h2>Functionalities</h2>
+<p>Introduce the media attribute.</p>
+<ul>
+<li>In a <code>style</code> element, we can set the <code>media</code> attribute to <code>print</code>.</li>
+<code>&#60;style type="text/css" media="print"&#62;</code>
+<li>We can then use specificity to change how a page will print.</li>
+<pre><code>a {
+	color: black;
+	text-decoration-line: none;
+}</code></pre>
+<li>We could change font-types, from monitor-friendly to print-friendly, colors to print in grayscale, etc.</li>
+<li>We can use accessibility features, such as for braille devices.</li>
+<li>We can use custom layouts, such as for handhelds and televisions.</li>
+</ul>
+</section>
+
+<section id="CSSelem2" class="slide level2">
+<h2>Style elements</h2>
+<p>Consider the following CSS excerpt with a style element.
+<pre><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+	&#60;head&#62;
+		&#60;title&#62;Sample page&#60;/title&#62;
+		&#60;link rel="stylesheet" href="./styles.css"/&#62;		
+		&#60;style type="text/css" media="print"&#62;
+			.page_outer{
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		&#60;/style&#62;
+	&#60;/head&#62;</code></pre>
+<ul>
+<li>Recall: Specificity wins.
+<ul>
+<li>We have a general CSS stylesheet for web-render</li>
+<li>We have a specific style element for print media</li></ul></li></ul>
+</section>
+<section id="ex1" class="slide level2">
+<h2>Consider Zagreb</h2>
+<p>We seem to be looking at a piece of paper...</p>
+<img src="../images/rend1.png" style="width:100.0%"/>
+</section>
+<section id="ex2" class="slide level2">
+<h2>Consider Zagreb</h2>
+<p>But when we try to print - ew!</p>
+<img src="../images/rend2.png" style="width:100.0%"/>
+</section>
+<section id="ex3" class="slide level2">
+<h2>Consider Zagreb</h2>
+<p>We restyle.</p>
+<pre><code class="html">&#60;style type="text/css" media="print"&#62;
+	.page_outer{
+		box-shadow: none;
+	}
+	a {
+		color: black;
+		text-decoration-line: none;
+	}
+&#60;/style&#62;</code></pre>
+</section>
+<section id="ex4" class="slide level2">
+<h2>Consider Zagreb</h2>
+<p>Web looks the same...</p>
+<img src="../images/rend1.png" style="width:100.0%"/>
+</section>
+<section id="ex5" class="slide level2">
+<h2>Consider Zagreb</h2>
+<p>But printing looks great*!</p>
+<img src="../images/rend3.png" style="width:100.0%"/>
+</section>
+<section id="work" class="slide level2">
+<h2>Work time</h2>
+<ul>
+<li>You may want to push updates, including for print and handheld.</li>
+<code>&#60;style type="text/css" media="handheld"&#62;</code>
+<li>You may want to add links to your resume from your main page.</li>
+<code>&#60;a href="resume.html"&#62;My CV&#60;/a&#62;</code>
+<li>You may want to edit passive or non-specific verbs to active or specific.</li>
+<li>You may want to fragment or revise to avoid linebreaks.</li>
+<li>You may have questions for me.</li>
+</ul>
+</section>
+<section id="hw" class="slide level2">
+<h2>Work time</h2>
+<p>Homework for Wednesday
+<ul>
+<li>Read <a href="https://shsdavisapes.pbworks.com/f/Omelas.pdf">“The Ones Who Walk Away From Omelas”</a>.  It's 5 pages.</li>
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.<ul>
+<li>You don't have to write just 15 theses, but I would.</li>
+<li><b>Bold</b> a main thesis that summarizes your thoughts.</li>
+<li>Aim for between 30% and 70% to be discussion-provoking questions.</li>
+<li>These can be like my abstract responses, for example.</li></ul>
+<li>Webhost at *.github.io/omelas.html no latter than Monday at Midnight AOE</li>
+<li>Read at least 3 of your peers' documents before class.</li>
+<li>I reserve the right to deliver a written in-class examination on the contents for Omelas during the Wednesday class.</li>
+</ul>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

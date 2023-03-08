@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>Utilator</title>
+  <title>AI & Access</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -25,229 +25,124 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Utilator</h1>
+  <h1 class="title">AI & Access</h1>
   <p class="author">Calvin (Deutschbein)<br></p>
-  <p class="date">6 March 2023</p>
+  <p class="date">8 March 2023</p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
-<li>You should have read AI & Accessibility texts and be formulating a response.
-<ul>
-<li>Have a response paper written and posted by this evening.
-<li>Read your peer's responses tomorrow.
-</ul></li>
-<li>Today we'll show some more fun tricks.
+<li>You should have read AI & Accessibility texts, formulated a response, and read three of your peers responses.
+<li>Today we'll show canvas then discuss.
 <li>Homework for Wednesday
 <ul>
-<li>Read <a href="https://medium.com/the-neuro/how-ai-is-improving-accessibility-510f6c70177c">“How AI Is Improving Accessibility”</a>.</li>
-<li>Read at least one cited work, in the case of InnerVoice read the "about" page.</li>
+<li>Read <a href="https://medium.com/@nickiwashington/when-are-we-gonna-have-a-serious-conversation-about-how-unserious-and-problematic-sigcse-is-839c4f28cc1b">“When Are We Gonna Have a Serious Conversation About How Unserious (and Problematic) SIGCSE Is?”</a>.</li>
 <li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
 </ul>
-<li>Discussion section Wednesday</li></ul>
+<li>Discussion section next Wednesday</li></ul>
 </section>
-<section id="fdbk" class="slide level2">
-<h2>Initial Feedback</h2>
+<section id="collect" class="slide level2">
+<h2>Reflect</h2>
 <ul>
-<li>This is a writing class.<ul>
-<li>Please don't capitalize random words in the middle of sentences.</li>
-</ul>
-<br>
-<li>This is a technical class.<ul>
-<li>You must meet the requirements for creating webpages with .js elements.</li></ul>
-</li>
-<br>
-<li>Think about what else you may want to bring to discussion.<ul>
-<li>Has technical improved life collectively for all, most, or some people?
-<li>Who are the winners and losers of technological advancements?
-</li>
-</ul>
-</li>
-</ul>
-</section><section id="jsex" class="slide level2">
+<li>10 minutes in small groups, reflect on Omelas.
+<ul>
+<li>Now what do you think LeGuin was trying to communicate with Omelas, one week latter?</li>
+<li>What do you think about LeGuin's thesis, whatever it may be?</li>
+<li>How can you apply this to questions of AI & Access.</li>
+</ul></li></ul>
+</section>
+<section id="jsex" class="slide level2">
 <h2>Script elements</h2>
 <pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
 &#60;html&#62;
-  &#60;body&#62;
-    &#60;p id="showEle"&#62;1&#60;/p&#62;
-    &#60;button onclick="update()"&#62;Click me&#60;/button&#62;    
+  &#60;body onload="draw();"&#62;
     &#60;script&#62;
-      let val = 1 ;
-      const showVar = document.getElementById("showEle") ;
-      function update() 
+      function draw()
       {
-        val = 2 * val ;
-        showVar.innerText = val.toString() ;
+        const plot = document.getElementById("plot") ;
+        const ctx = plot.getContext("2d");  
+        ctx.fillRect(50, 50, 50, 50) ;
       }
     &#60;/script&#62;
+    &#60;canvas id="plot"&#62;&#60;/canvas&#62;
   &#60;/body&#62;
 &#60;/html&#62;</code></pre>
 </section>
 <section id="review1" class="slide level2">
-<h2>~Review Question 1</h2>
+<h2>Review Question 1</h2>
 <p>Consider the following HTML excerpt.</p>
-<pre><code class="html">&#60;p id="showEle"&#62;1&#60;/p&#62;</code></pre>
+<pre><code class="html">&#60;body onload="draw();"&#62;</code></pre>
 <p>In the overall sample code shown, what was the usefulness of the the <code>id</code> attribute?</p>
 <div class="poll">
 <ol>
-<li>It signifies in HTML what type of content is being held.</li>
-<li>It signifies for a CSS stylesheet how to style the content.</li>
-<li>It signifies for a JavaScript script or function to interact with this element.</li>
-<li>It signifies to the developer some information, akin to a comment.</li>
+<li>HTML: This is an HTML-only attribute.</li>
+<li>CSS: This allows references to this element by a CSS rule.</li>
+<li>.js: This allows references to this element by a .js function or script.</li>
+<li>Text: It signifies to the developer some information, akin to a comment.</li>
 </ol>
 </div>
 </section>
 <section id="review2" class="slide level2">
-<h2>~Review Question 2</h2>
+<h2>Review Question 2</h2>
 <p>Consider the following HTML excerpt.</p>
-<pre><code class="html">&#60;button onclick="update()"&#62;Click me&#60;/button&#62; </code></pre>
-<p>In the overall sample code shown, what was the usefulness of the the <code>onclick</code> attribute?</p>
+<pre><code class="html">&#60;canvas id="plot"&#62;&#60;/canvas&#62;</code></pre>
+<p>In the overall sample code shown, what was the usefulness of the the <code>id</code> attribute?</p>
 <div class="poll">
 <ol>
-<li>It signifies in HTML what type of content is being held.</li>
-<li>It signifies for a CSS stylesheet how to style the content.</li>
-<li>It signifies for a JavaScript script or function to interact with this element.</li>
-<li>It signifies to the developer some information, akin to a comment.</li>
+<li>HTML: This is an HTML-only attribute.</li>
+<li>CSS: This allows references to this element by a CSS rule.</li>
+<li>.js: This allows references to this element by a .js function or script.</li>
+<li>Text: It signifies to the developer some information, akin to a comment.</li>
 </ol>
 </div>
-</section><section id="jsex2" class="slide level2">
-<h2>Script elements</h2>
-<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
-&#60;html&#62;
-  &#60;body&#62;
-    &#60;p id="showEle"&#62;1&#60;/p&#62;
-    &#60;button onclick="update()"&#62;Click me&#60;/button&#62;    
-    &#60;script&#62;
-      let val = 1 ;
-      const showVar = document.getElementById("showEle") ;
-      function update() 
-      {
-        val = 2 * val ;
-        showVar.innerText = val.toString() ;
-      }
-    &#60;/script&#62;
-  &#60;/body&#62;
-&#60;/html&#62;</code></pre>
 </section>
 <section id="review3" class="slide level2">
-<h2>~Review Question 3</h2>
+<h2>Review Question 3</h2>
 <p>Consider the following JavaScript excerpt from within the HTML document.</p>
-<pre><code class="js">let val = 1 ;</code></pre>
-<p>This line is written outside of a function code block. This line:</p>
+<pre><code class="js">const plot = document.getElementById("plot") ;</code></pre>
+<p>This line contains the word "plot" twice.</p>
 <div class="poll">
 <ol>
-<li>JS: Initializes a value to be used as the same starting value each time a function runs.</li>
-<li>JS: Holds a global value that is updates each time a function runs.</li>
-<li>HTML: Initializes a value to be used when loading the HTML document to be rendered.</li>
-<li>HTML: Holds a global value that will be rendered in HTML for which changes to the value will correspond to rendered changes.</li>
+<li>Both 'plots' are the same .js object.</li>
+<li>Both 'plots' are the same HTML element.</li>
+<li>One 'plot is a .js object and one is, in some way, an HTML element.</li>
+<li>Both 'plots' are .js objects or both HTML elements, but of different types.</li>
 </ol>
 </div>
 </section>
 <section id="review4" class="slide level2">
-<h2>~Review Question 4</h2>
+<h2>Review Question 4</h2>
 <p>Consider the following JavaScript excerpt from within the HTML document.</p>
-<pre><code class="js">const showVar = document.getElementById("showEle") ;</code></pre>
-<p>This line is written outside of a function code block. This line:</p>
+<pre><code class="js">const ctx = plot.getContext("2d"); </code></pre>
+<p>This line uses object oriented notation with respect to 'plot'. What is "ctx"?</p>
 <div class="poll">
 <ol>
-<li>JS: Initializes a value to be used as the same starting value each time a function runs.</li>
-<li>JS: Holds a global value that is updates each time a function runs.</li>
-<li>HTML: Initializes a value to be used when loading the HTML document to be rendered.</li>
-<li>HTML: Holds a global value that will be rendered in HTML for which changes to the value will correspond to rendered changes.</li>
+<li>a property of a .js object that refers to an HTML attribute.</li>
+<li>a property of an HTML element that refers to an HTML attribute.</li>
+<li>a property of a .js object that refers to the content of an HTML element.</li>
+<li>a property of an HTML element that refers to the content of that HTML element.</li>
 </ol>
 </div>
 </section>
 <section id="review5" class="slide level2">
-<h2>~Review Question 5</h2>
+<h2>Review Question 6</h2>
 <p>Consider the following JavaScript function from within the HTML document.</p>
-<pre><code class="js">function update() 
-{
-  val = 2 * val ;
-  showVar.innerText = val.toString() ;
-}</code></pre>
+<pre><code class="js">      function draw()
+      {
+        const plot = document.getElementById("plot") ;
+        const ctx = plot.getContext("2d");  
+        ctx.fillRect(50, 50, 50, 50) ;
+      }</code></pre>
 <p>Consider the first line <code class="js">function update()</code></p>
 <div class="poll">
 <ol>
-<li>This uses .js keyword "update" to create an procedure named "function".</li>
-<li>This uses .js keyword "function" to create an procedure named "update".</li>
-<li>One or both of the words "function" or "update" are defined here and may be changed without issue.</li>
+<li>This uses .js keyword "draw" to create an procedure named "function".</li>
+<li>This uses .js keyword "function" to create an procedure named "draw".</li>
+<li>One or both of the words "function" or "draw" are defined here and may be changed without issue.</li>
 <li>Both words are keywords in either .js or HTML.</li>
 </ol>
 </div>
-</section>
-<section id="review6" class="slide level2">
-<h2>~Review Question 6</h2>
-<p>Consider the following JavaScript function from within the HTML document.</p>
-<pre><code class="js">function update() 
-{
-  val = 2 * val ;
-  showVar.innerText = val.toString() ;
-}</code></pre>
-<p>Consider the line <code class="js">val = 2 * val ;</code></p>
-<div class="poll">
-<ol>
-<li>This is a built-in .js arithmetic operation over an integer.</li>
-<li>This is a built-in .js arithmetic operation over an float.</li>
-<li>This is an error because it defines a variable without <code class="js">let</code></li>
-<li>This is a HTML technology to update an element's content or attributes.</li>
-</ol>
-</div>
-</section>
-<section id="review7" class="slide level2">
-<h2>~Review Question 7</h2>
-<p>Consider the following JavaScript function from within the HTML document.</p>
-<pre><code class="js">function update() 
-{
-  val = 2 * val ;
-  showVar.innerText = val.toString() ;
-}</code></pre>
-<p>Consider the excerpt <code class="js">showVar.innerText</code></p>
-<div class="poll">
-<ol>
-<li>showVar is an HTML element, and innerText is an HTML attribute of that element</li>
-<li>showVar is an HTML element, and innerText is the content of that element</li>
-<li>showVar is a .js object, and innerText is a property of that object.</li>
-<li>showVar is a .js object corresponding to an HTML element, and innerText is an HTML attribute of that element.</li>
-</ol>
-</div>
-</section>
-<section id="review8" class="slide level2">
-<h2>~Review Question 8</h2>
-<p>Consider the following JavaScript function from within the HTML document.</p>
-<pre><code class="js">function update() 
-{
-  val = 2 * val ;
-  showVar.innerText = val.toString() ;
-}</code></pre>
-<p>Consider the excerpt <code class="js">val.toString()</code></p>
-<div class="poll">
-<ol>
-<li>val is an HTML element, and toString() is a .js function of that element</li>
-<li>val is an HTML element, and toString() is a CSS function of that element</li>
-<li>val is a .js object, and toString() is a method of that object.</li>
-<li>val is a .js object corresponding to an HTML element, and toString() is a function of that element.</li>
-</ol>
-</div>
-</section>
-<section id="HTML" class="slide level2">
-<h2>HTML/CSS</h2>
-<p>HTML/CSS styles pages.
-<ul>
-<li>If it shows on a page, HTML or CSS is doing it.</li>
-<li>HTML holds content.</li>
-<li>CSS styles content.</li>
-</ul>
-<p>JavaScript allows changes to HTML/CSS without reloads.
-<ul>
-<li>.js can relink HTML to different CSS styles</li>
-<li>.js can rewrite HTML content within a styled element</li>
-</ul>
-<p>HTML/CSS/JavaScript have firm separation.</p>
-<ul>
-<li>.js may refer to HTML or CSS styles, but these are distinct from HTML elements or CSS rules.</li>
-<li>HTML attributes may refer to (call) .js functions, but these are attributes are distinct from functions themselves.</li>
-</ul>
 </section>
 <section id="morejs" class="slide level2">
 <h2>More Scripting</h2>
@@ -258,30 +153,6 @@
 <li>We will use scripting to write <em>Utilator</em>, an essay of sorts in response to the anti-utilitarian reading of <em>Omelas</em>.</li>
 </ul>
 </section>
-<section id="process" class="slide level2">
-<h2>Writing Process</h2>
-<p>We understand the following:</p>
-<ul>
-<li>&exist; a reading of <em>Omelas</em> such that the text's thesis is claimed to be a refutation of utilitarianism.
-<li>&exist; other readings of <em>Omelas</em> on e.g. the arts, equality, etc.
-<li>&exist; numerical claims: Utilitarianism is premised on utilitarian calculus, such as of <em>hedons</em>, <em>dolors</em>, and <em>utils</em>
-<li>&exist; scientific claims: Utilitarianism claims to be scientific, and LeGuin claims to be in conversation with scientists.
-<li>&exist; numerical tests we may apply scientifically to <em>Omelas</em> to test for consistency with utilitarian calculus under different assumption sets.
-</section>
-<section id="hypothesis" class="slide level2">
-<h2>My Hypothesis</h2>
-<p>Omelas is an attempted proof-by-contradiction* for the necessity of equality under utilitarianism. It proceeds roughly as follows.</p>
-<ul>
-<li>A utilitarian utopia maximizing utility by all persons receiving equal utility.
-<li>Assume by contradiction, there is a community of <em>n</em> persons such that<ul>
-<li><em>n - 1</em> persons are receiving <em>m > 0</em> utils of utility.
-<li><em>1</em> person is receiving <em>m' &#60; m</em> utils of utility.
-<li>It may be the case the we wise to argue, say <em>1</em> person is receiving <em>m' = -n * m</em> utils.</ul>
-<li>LeGuin relies on a visceral reaction to a textual description of <em>m'</em>
-<li>I will instead attempt to formulate a mathematical argument.
-</ul>
-<br><p>*I don't remember how proofs work.
-</section>
 <section id="keys" class="slide level2">
 <h2>Key Insights</h2>
 <p>My key insights are as follows.</p>
@@ -291,39 +162,6 @@
 </ul>
 <p>Loss aversion was first described by name in 1979, 6 years after <em>Omelas</em> was written.
 <p>I personally read LeGuin as anti-Marxist, but attribute this to the medium and not to the philosophy.
-</section>
-<section id="aversion" class="slide level2">
-<h2>Loss Aversion</h2>
-<p>Loss aversion: the tendency to prefer avoiding losses to acquiring equivalent gains.</p>
-<img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Loss_Aversion.png" style="width:50.0%">
-</section>
-<section id="aversion1" class="slide level2">
-<h2>Loss Aversion</h2>
-<p>Imagine: You have 0 USD and a clean bill of health. Consider:</p>
-<ul>
-<li>You may maintain the status quo, or
-<li>You may learn you require 400 USD of emergency medical care, but get a 400 USD gift certificate to Applebee's.
-</ul>
-<p>In both scenarios, you have net 0 USD in credits and debits, but one may feel preferable to you.<br>
-<img src="https://www.fsrmagazine.com/sites/default/files/styles/homepage_carousel_2x_640x476/public/story-images/applebee039s-unveils-seasonal-menu-starring-vidalia-onions.jpg?itok=4xJ3CqyM" style="width:30.0%">
-</section>
-<section id="aversion2" class="slide level2">
-<h2>Loss Aversion</h2>
-<p>We can formulate this in other ways. Consider the following:</p>
-<ul>
-<li>A study that did not pass ethical review offers to do 400 USD of damage to your person or property in exchange for a 400 USD Applebee's gift card.
-</ul>
-<p>Do you accept?<br>
-<img src="https://olo-images-live.imgix.net/30/30954e8a1897412c8eefe030a9183786.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=187f1843bbafeef79d41ad0291f3628a" style="width:50.0%">
-</section>
-<section id="aversion3" class="slide level2">
-<h2>Loss Aversion</h2>
-<p>Some economist claim* that many people will accept tradeoffs under more favorable conditions.</p>
-<ul>
-<li>A study that did not pass ethical review offers to do 4 USD of damage to your person or property in exchange for a 400 USD Applebee's gift card.
-</ul>
-<p>Do you accept?<br>
-<img src="https://olo-images-live.imgix.net/cb/cbc8307ac27047c4924e048c9997024f.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=c05f46f140ac958653d0384c10e1a1e5" style="width:50.0%">
 </section>
 <section id="aversion4" class="slide level2">
 <h2>Loss Aversion</h2>
@@ -416,7 +254,7 @@
 </section>
 <section id="canvas3" class="slide level2">
 <h2>SIDEBAR: Canvas</h2>
-<p>Let's increase line thickness to 2 pixels and transpose the plot so all positive values to be up and to the right.</p>
+<p>Let's increase line thickness to 2 pixels and transpose the plot so all positive values are up and to the right.</p>
 <pre><code class="js">	for (let i = 0 ; i &#60; size ; i++ )
 	{
 		let j = size - utility(i)
@@ -652,6 +490,30 @@ if (Math.abs(j - ks[i+1]) < closer)
 <h2>Full source code</h2>
 <p><a href="https://github.com/cd-public/eths23/blob/main/html/utilator.html">https://github.com/cd-public/eths23/blob/main/html/utilator.html</a></p>
 </section>
+<section id="discuss" class="slide level2">
+<h2>Discussion</h2>
+<p>“<a href="https://medium.com/the-neuro/how-ai-is-improving-accessibility-510f6c70177c">“How AI Is Improving Accessibility”</a>” for the Neuro "a student-led organization that aims to promote education and exposure to the fields of neuroscience and psychology among fellow high school students." was recommended as a piece of writing to motivate discussion in this class on access.</p>
+<br>
+<p>Who are the winners and losers of AI policies today?</p>
+<br>
+<p>Does AI policy pass the test of "nothing about us without us"?</p>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Homework for Wednesday (that's when SIGCSE is)
+<ul>
+<li>Read <a href="https://medium.com/@nickiwashington/when-are-we-gonna-have-a-serious-conversation-about-how-unserious-and-problematic-sigcse-is-839c4f28cc1b">“When Are We Gonna Have a Serious Conversation About How Unserious (and Problematic) SIGCSE Is?”</a></li>
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.<ul>
+<li>You don't have to write just 15 theses, but I would.</li>
+<li><b>Bold</b> a main thesis that summarizes your thoughts.</li>
+<li>Aim for between 30% and 70% to be discussion-provoking questions.</li>
+<li>Include a canvas element with something drawn on it - doesn't have to be complicated.</li></ul>
+<li>Webhost at *.github.io/sigcse.html no latter than Monday at Midnight AOE</li>
+<li>Read at least 3 of your peers' documents before class.</li>
+</ul>
+</ul>
+</section>
+
     </div>
   </div>
   

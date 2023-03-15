@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cryptography</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Cryptography</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">15 March 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>We have completed the specification portion of class.
+<ul>
+<li>I will offer some closing comments.</li><ul>
+</li></ul></li></ul></li>
+<li>The is <b>NO CLASS</b> on 22 March (next week).<ul>
+<li>This is an effective 2 week spring break.</li>
+<li>I'll introduce cryptography today, then we'll learn it in the last <em>n</em> classes.<ul>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following LTL expression:</p>
+<p><em>a</em> <strong>X</strong> <em>b</em> <strong>X</strong> <em>c</em></p>
+<p>Which of the following traces is described by this relation?</p>
+<div class="poll">
+<ol>
+<li><pre><code>ababa</code></pre></li>
+<li><pre><code>abcba</code></pre></li>
+<li><pre><code>babab</code></pre></li>
+<li><pre><code>bbaab</code></pre></li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following LTL expression:</p>
+<p><em>a</em> <strong>&not;</strong> <em>b</em> <strong>&not;</strong> <em>c</em></p>
+<p>Which of the following traces is described by this relation?</p>
+<div class="poll">
+<ol>
+<li><pre><code>ababa</code></pre></li>
+<li><pre><code>abcba</code></pre></li>
+<li><pre><code>babab</code></pre></li>
+<li><pre><code>bbaab</code></pre></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Which of the following is liveness?</p>
+<div class="poll">
+<ol>
+<li><em>a</em></li>
+<li><strong>X</strong> <em>a</em></li>
+<li><strong>G</strong> <em>b</em></li>
+<li><strong>F</strong> <em>b</em></li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Which of the following is liveness?</p>
+<div class="poll">
+<ol>
+<li><strong>&not;</strong><em>a</em></li>
+<li><strong>&not;</strong><strong>X</strong> <em>a</em></li>
+<li><strong>&not;</strong><strong>G</strong> <em>b</em></li>
+<li><strong>&not;</strong><strong>F</strong> <em>b</em></li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Which of the following is liveness?</p>
+<div class="poll">
+<ol>
+<li><strong>&not;</strong><em>a</em></li>
+<li><strong>X</strong> <strong>&not;</strong><em>a</em></li>
+<li><strong>G</strong> <strong>&not;</strong><em>b</em></li>
+<li><strong>F</strong> <strong>&not;</strong><em>b</em></li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Which of the following is liveness?</p>
+<div class="poll">
+<ol>
+<li><strong>&not;</strong><strong>&not;</strong><em>a</em></li>
+<li><strong>&not;</strong><strong>X</strong> <strong>&not;</strong><em>a</em></li>
+<li><strong>&not;</strong><strong>G</strong> <strong>&not;</strong><em>b</em></li>
+<li><strong>&not;</strong><strong>F</strong> <strong>&not;</strong><em>b</em></li>
+</ol>
+</div>
+</section>
+<section id="properties" class="slide level2">
+<h2>Closing Out LTL</h2>
+<p>We still are not good at differentiating unary and binary LTL operators.</p>
+<ul>
+<li>Negation (<b>&not;</b>) and neXt (<b>X</b>) are unary. (1-to-1)
+<li>Disjunction (<b>&or;</b>) and Until (<b>U</b>) are binary. (2-to-1)
+<li>All other LTL operators are composed of these operators.
+</ul>
+<p>As a rule, remembering negation in unary is fine. There isn't a great parallel to arithmetic.
+<ul>
+<li>Addition (<b>+</b>) and subtraction (<b>-</b>) are binary arithmetic operators (2-to-1).
+<li>Negation (<b>-</b>) is a unary arithmetic operator. (1-to-1).
+<li>The only unary operator shares the same symbol as a binary operator.
+<li>I am only mentioning this to note that it is confusing.
+</section>
+<section id="ltlr1" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>We can model traces in R by using lists, a form of sequence.
+</div>
+<div class="col">
+<pre><code class='R'>t = list('a','a','a','b')
+</code></pre><pre><code class='R'>t
+</code></pre><pre><code class='R' style="background:dimgrey">    'a'
+    'a'
+    'a'
+    'b'
+</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlr2" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>In the event we have states that aren't described by a single label, but perhaps multiple labels, we simple use a list of lists.<br>
+<p>Really, it should be a sequence (list) of sets (sets), but we use lists for simplicity.
+</div>
+<div class="col">
+<pre><code class='R'>t = list(
+  list('a'),
+  list('a'),
+  list('a'),
+  list('a','b'))
+</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlr3" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>However, this requires some sophisticated addressing, so we will assume the flattened list variation and simply concatenate labels. 
+</div>
+<div class="col">
+<pre><code class='R'>t = list('a','a','a','ab')
+</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlr4" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>While this is not a great coding style, we do it here to help denote sequences and sets differently, to use helpful built-in functions in R for educational purposes, and to make traces easier to type out.
+</div>
+<div class="col"><pre><code class='R'>t
+</code></pre>
+</code></pre><pre><code class='R' style="background:dimgrey">    'a'
+    'a'
+    'a'
+    'ab'
+</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlr5" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>It is a simple enough matter to develop linear temporal logic expressions over these traces, starting with atomic propositions.
+</div>
+<div class="col" >
+<pre><code class='R' style="width:1100px">ap <-function(p)
+{
+  f <- function(t)
+  {
+    return(grepl(p, t[1], fixed=TRUE))
+  }
+  return(f)
+}
+</code></pre>
+
+</div>
+</div>
+</section>
+<section id="ltlr6" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>We can use "ap" to a create a function that is true when p holds over t, and then apply this function to t.
+</div>
+<div class="col" >
+<pre><code class='R'>a = ap('a')</code></pre>
+<pre><code class='R'>a(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>ap('b')(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    FALSE</code></pre>
+<pre><code class='R'>ap('c')(list('c','c'))</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlr7" class="slide level2">
+<h2>LTL in R</h2>
+<p>Takeaway: LTL expressions and atomic propositions are basically functions over traces that return true or false.
+<ul><li>Recall LTL is composed of only four base operations (negation, disjunction, neXt, Until) that may be applied to atomic propositions or to other expressions.
+</section>
+<section id="ltlr8" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>We have atomic propositions - now let's go for neXt, the most basic temporal operation. We want to see if an ap holds not immediately, but in the next trace point.
+</div>
+<div class="col" >
+<pre><code class='R' style="width:1000px;max-height:1000px">neXt <-function(exp)
+{
+  f <- function(t)
+  {
+    l = length(t)
+    if (l > 1)
+    {
+      return(exp(t[2:l]))
+    } else {
+      # these traces are infinite
+      # if finite trace ends, loop.
+      return(exp(t))
+    }
+  }
+  return(f)
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlr9" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>In theory, neXt could apply to both atomic propositions and to other expressions - let's demonstrate that.
+</div>
+<div class="col" >
+<pre><code class='R'>neXt(a)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>Xa = neXt(a)</code></pre>
+<pre><code class='R'>neXt(Xa)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>neXt(neXt(ap('b')))(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    FALSE</code></pre>
+<pre><code class='R'>neXt(neXt(neXt(ap('b'))))(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlra" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>It is a simple enough matter to implement multi-next.
+</div>
+<div class="col" >
+<pre><code class='R' style="width:1000px;max-height:1400px">neXt <-function(exp,sub=1)
+{
+  f <- function(t)
+  {
+    l = length(t)
+    if (l > sub)
+    {
+      return(exp(t[(sub+1):l]))
+    } else {
+      return(exp(t[l:l]))
+    }
+  }
+  return(f)
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlrb" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>In theory, neXt could apply to both atomic propositions and to other expressions - let's demonstrate that.
+</div>
+<div class="col" >
+<pre><code class='R'>neXt(ap('b'),3)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>neXt(ap('b'),2)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    FALSE</code></pre>
+<pre><code class='R'>neXt(ap('b'),4)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>neXt(ap('b'),400)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlrc" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>Recall LTL is composed of only four base operations (negation, disjunction, neXt, Until) that may be applied to atomic propositions or to other expressions. 
+<p>We have neXt, and now most generate the others, starting with negation.
+</div>
+<div class="col" >
+<pre><code class='R' style="width:1000px;max-height:1400px">negation <-function(exp)
+{
+  f <- function(t)
+  {
+    return(!exp(t))
+  }
+  return(f)
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlrd" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>In theory, negation could apply to both atomic propositions and to other expressions - let's demonstrate that.
+</div>
+<div class="col" >
+<pre><code class='R'>negation(neXt(ap('b')))(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>negation(Xa)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    FALSE</code></pre>
+<pre><code class='R'>neXt(negation(ap('b')))(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlre" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>Like neXt, negation is a unary operator - it accepts a single expression as input, which it then evaluates over a trace. 
+<p>This is not the case with disjunction and Until.
+<p>We begin with disjunction.
+</div>
+<div class="col" >
+<pre><code class='R' style="width:1000px;max-height:1400px">disjunction <-function(exp1,exp2)
+{
+  f <- function(t)
+  {
+    return(exp1(t) | exp2(t))
+  }
+  return(f)
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="ltlrf" class="slide level2">
+<h2>LTL in R</h2>
+<pre><code class='R'>NXaDNXb = disjunction(negation(neXt(ap('b'))),negation(Xa))</code></pre>
+<pre><code class='R'>NXaDNXb(t) # !Xb | !Xa # !Xb | !Xa</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>neXt(NXaDNXb,2)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    FALSE</code></pre>
+<pre><code class='R'>neXt(NXaDNXb,1)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+</section>
+<section id="ltlrg" class="slide level2">
+<h2>LTL in R</h2>
+<p>Until is more sophisticated, because it does not apply at a single time point. Rather, we check the first expression at each trace point, then, when false, check the second and return whether it holds or not.
+</section>
+<section id="ltlrg" class="slide level2">
+<h2>LTL in R</h2>
+<pre><code class='R' style="max-height:1400px">Until <-function(exp1,exp2)
+{
+  f <- function(t)
+  {
+    l = length(t)
+    if (l > 1 & exp1(t))
+    {
+      # if exp1 holds, study rest of the trace
+      return(Until(exp1,exp2)(t[(2):l]))
+    } else {
+      # otherwise, exp2 holds or the until is false
+      return(exp2(t))
+    }
+  }
+  return(f)
+}</code></pre>
+</section>
+<section id="ltlrh" class="slide level2">
+<h2>LTL in R</h2><div class="cols">
+<div class="col">
+<p>In theory, Until could apply to pairs of both atomic propositions and/or expressions - let's demonstrate that.
+</div>
+<div class="col" >
+<pre><code class='R'>Until(a,ap('b'))(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<pre><code class='R'>Until(a,negation(a))(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    FALSE</code></pre></div></div>
+</section>
+<section id="ltlri" class="slide level2">
+<h2>LTL in R</h2>
+<p>We now show the "silliness" of <em>a</em> <b>X</b> <em>b</em>.
+<pre><code class='R'>b = ap('b')</code></pre>
+<p>To denote, <em>a</em> <b>U</b> <em>b</em>, we do <code>Until(a,b)</code>.
+<pre><code class='R'>Until(a,b)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
+<p>To denote, <em>a</em> <b>X</b> <em>b</em>, we do <code>neXt(a,b)</code>.
+<pre><code class='R'>neXt(a,b)(t)</code></pre>
+<pre><code class='R' style="background:dimgrey">    Error in l > sub: comparison (>) is possible only for atomic and list types
+Traceback:
+
+1. neXt(a, b)(t)</code></pre>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Due 22 March at 9:50 PM via Colab share. Groups ok.
+<ul>
+<li>Take a look at the R notebook <a href="https://colab.research.google.com/drive/1JTZbZzxzPCOXbtvV6E-2GnEDB3jGftuD?usp=sharing">here</a>. Make a copy with your name(s).</li>
+<li>It includes negation, disjunction, neXt, and Until.</li>
+<li>Write the following logical connectives:<ul>
+<li>conjunction (and): <b>∧</b></li>
+<li>implies, or "material implication" (if...then): <b>→</b></li></ul></li>
+<li>Write the following temporal operators:<ul>
+<li><b>G</b>lobally</li>
+<li><b>F</b>inally</li>
+<li><b>R</b>elease</li>
+<li><b>W</b>eak_until</li>
+<li><b>M</b>ighty_release</li><ul></li>
+</section>
+<section id="crypto" class="slide level2">
+<h2>Cryptography</h2>
+<p>Ok, time to move on.
+<ul>
+<li>We started with logic to build up to safety and liveness.<ul>
+<li>Safety: bad things don't happen.</li>
+<li>Liveness: good things happen eventually.</li>
+<li>We rigorously defined both with closures.</li></ul></li>
+<li>We placed this within CIA<ul>
+<li>Confidentiality: Secrets stay secret (safety: bad thing is unsecrecy)</li>
+<li>Integrity: Agents are who they say they are (safety: bad thing is impersonation)</li>
+<li>Availability: Good thing happens eventually (basically liveness)</li>
+<li>No we must rigorously differentiate C and I.</li>
+</section>
+<section id="hash" class="slide level2">
+<h2>Problem space</h2>
+<p>So we need to differentiate C and I. We will define them mathematically.
+<ul>
+<li>We will use the notion of hashing.
+<div class="block" name="Definition">
+<p><b>Hashing</b> is a technique to convert numerical value of arbitrary size (that is, with no maximum value) to a numerical value of a fixed size (that is, with some maximum value).</p>
+</div>
+<li>The most basic form of hashing is modular arithmetic, or taking remainders.
+<pre><code class='R' style="max-height:1400px">min_hash <-function(n, max)
+{
+  return(n %% max)
+}</code></pre>
+</section>
+<section id="def" class="slide level2">
+<h2>Hashing</h2>
+<p>Multiple values may hash to the same value.
+<pre><code class='R' style="max-height:1400px">min_hash(11,10) == min_hash(21,10)</code></pre>
+<p>One-way hashing is associated with integrity, similar to signatures.
+<div class="block" name="Definition">
+<p>A <b>hash-based signature</b> is a technique were a numerical value of small size is computed from a large amount of numerical data in such a manner that, if the overall data is changed, the hash is highly likely to change.</p></div>
+<ul>
+<li>Hash-based signatures are often used to allow us to validate executables online.
+<li>Programs are numerical data, and we wish to downloaded unaltered programs for security purposes.
+<li>Signatures, specifically "SHA256SUMS" can be seen when downloading <a href="http://releases.ubuntu.com/22.10/">Ubuntu"</a>.
+</section>
+<section id="use" class="slide level2">
+<h2>Use case</h2>
+<p>Consider you wish to have a new operating system.
+<ol>
+<li>You navigate to ubuntu.com and download a file.<ul>
+<li>We assume you trust Ubuntu, but do you trust your connection? The file itself?</ul>
+<li>You additionally download a hash-based signature.
+<li>On your own device, which you trust, you compute what the hash-based signature of your downloaded file is.<ul>
+<li>We can imagine Ubuntu ran <code>hash("ubuntu.exe")</code>, and we do the same.
+<li>If the hash is the same, there is only a 1-in-hashmax chance the code was altered.</ul>
+<li>If the hashes are the same, open the file.</ol>
+<p>This is how we verify the integrity of a file!
+</section>
+<section id="exercise" class="slide level2">
+<h2>Your turn</h2>
+<p>Construct a hashing function. Imagine it accepts <b>text</b> and a numerical <b>maximum</b>
+<ol>
+<li>First, you will need to convert text to numbers - check the entropy slides.
+<li>Then, you will need to compute a non-trivial hash.<ul>
+<li>Increasing the input value by one should alter the output hash by an indeterminate amount
+<li>Be prepared to argue convincing for this probability.</ol>
+<p>Create a R file with function <code>text_to_numbers(s)</code> that accepts a string <code>s</code> and produces an integer <code>n</code>, and function <code>nt_hash(n, m)</code> that accepts a numerical value <code>n</code> and a maximum value <code>m</code> and produces a value <code>h</code> &lt; <code>m</code> s.t. <pre><code>p(nt_hash(n) + 1 == nt_hash(n + 1)) = 1 / max</code></pre>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

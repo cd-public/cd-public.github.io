@@ -300,7 +300,7 @@
 <section id="ltlrb" class="slide level2">
 <h2>LTL in R</h2><div class="cols">
 <div class="col">
-<p>In theory, neXt could apply to both atomic propositions and to other expressions - let's demonstrate that.
+<p>In theory, neXt could apply to the finite or infinite portion of a trace.
 </div>
 <div class="col" >
 <pre><code class='R'>neXt(ap('b'),3)(t)</code></pre>
@@ -318,7 +318,7 @@
 <h2>LTL in R</h2><div class="cols">
 <div class="col">
 <p>Recall LTL is composed of only four base operations (negation, disjunction, neXt, Until) that may be applied to atomic propositions or to other expressions. 
-<p>We have neXt, and now most generate the others, starting with negation.
+<p>We have neXt, and now must generate the others, starting with negation.
 </div>
 <div class="col" >
 <pre><code class='R' style="width:1000px;max-height:1400px">negation <-function(exp)
@@ -369,7 +369,7 @@
 <section id="ltlrf" class="slide level2">
 <h2>LTL in R</h2>
 <pre><code class='R'>NXaDNXb = disjunction(negation(neXt(ap('b'))),negation(Xa))</code></pre>
-<pre><code class='R'>NXaDNXb(t) # !Xb | !Xa # !Xb | !Xa</code></pre>
+<pre><code class='R'>NXaDNXb(t) # !Xa | !Xb</code></pre>
 <pre><code class='R' style="background:dimgrey">    TRUE</code></pre>
 <pre><code class='R'>neXt(NXaDNXb,2)(t)</code></pre>
 <pre><code class='R' style="background:dimgrey">    FALSE</code></pre>

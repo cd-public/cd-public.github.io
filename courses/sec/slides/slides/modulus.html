@@ -2,10 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="pandoc">
-  <meta name="author" content="Jed Rembold">
-  <meta name="dcterms.date" content="2021-10-04">
-  <title>Stringy Pythons</title>
+  <title>Modulus</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -27,102 +24,312 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Stringy Pythons</h1>
-  <p class="author">Calvin (Deutschbein)<br> Slides by Jed Rembold</p>
-  <p class="date">16 February 2022</p>
+  <h1 class="title">Modulus</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">5 Apr 2023</p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
-<li><strong>Project 1 due Friday (Midnight)!</strong>
+<li>Welcome back to DATA-599: Cybersecurity!</li>
+<li>The LTL in R looks good - more feedback on that soon&trade;
 <ul>
-<li>I’ll do my best to be on Discord, and believe most of your section leaders will be around.</li>
-</ul></li>
-
+<li>I will offer some closing comments.</li><ul>
+</li></ul></li></ul></li>
+<li>Then we continue cryptography.<ul>
 </section>
-<section id="review" class="slide level2" data-notes="Solution: 00101000">
-<h2 data-notes="Solution: 00101000">Review!</h2>
-<p>How would you represent the number <span class="math display">\[28_{16}\]</span> in binary?</p>
-<div class="poll">
-<ol>
-<li><span class="math inline">\(01101101_2\)</span></li>
-<li><span class="math inline">\(10101010_2\)</span></li>
-<li><span class="math inline">\(00111010_2\)</span></li>
-<li><span class="math inline">\(00101000_2\)</span></li>
-</ol>
-</div>
-<!--
-## Representation
-- Sequences of bits have no intrinsic meaning!
-    - Just the representations we assign to them by convention or by building certain operations into hardware
-    - A 32-bit sequence represents an integer only because we have designed hardware to manipulate those sequences arithmetically: applying operations like addition, subtraction, etc
-- By choosing an appropriate representation, you can use bits to represent any value you could imagine!
-    - Characters represented by numeric character codes
-    - Floating-point representations to support real numbers
-    - Two-dimensional arrays of bits representing images
-    - Sequences of images representing video, etc
-- To be useful though, everyone needs to agree on a representation!
--->
-</section>
-<section id="representation-pitfalls" class="slide level2">
-<h2>Representation Pitfalls</h2>
+<section id="fdbk" class="slide level2">
+<h2>General Feedback</h2>
 <div class="cols">
 <div class="col">
-<pre ><code class="python">A = 1
-B = 0
-for i in range(10):
-    B += 0.1
-print(A == B)</code></pre>
-</div>
-<div class="col" style="flex-grow:1.25">
+
+<p>For X, U, OR, NOT I always:
 <ul>
-<li>The left code will print out <code class="python">False</code>!</li>
-<li>Python represents floating point (fractional) numbers using two integers
-<ul>
-<li>One to represent the significant digits</li>
-<li>One to represent the exponent</li>
-</ul></li>
+<li>Did a test that should return TRUE.</li>
+<li>Did a test that should return FALSE.</li>
+<li>Did a test over an atomic proposition.</li>
+<li>Did a test over an another LTL expression.</li>
+<li>Used the new function in another LTL expression.</li>
 </ul>
+<p>I claim: I should have seen all these tests from you as well.</p>
 </div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>"""We claimed that next could apply to both atomic propositions and to other expressions - let's demonstrate that."""
+
+Xa = neXt(a)
+
+neXt(Xa)(t)
+
+neXt(neXt(ap('b')))(t)
+
+neXt(neXt(neXt(ap('b'))))(t)
+</code></pre>
 </div>
-<ul>
-<li><span class="math inline">\(1\frac{1}{4}\)</span> Example
-<ul>
-<li>In decimal: <span class="math inline">\(\quad\displaystyle 1\frac{1}{4} = \frac{1}{1} + \frac{2}{10} + \frac{5}{100} = 1.25 = (125, -2)\)</span></li>
-<li>In binary: <span class="math inline">\(\quad\displaystyle 1\frac{1}{4} = \frac{1}{1} + \frac{0}{2} + \frac{1}{4} = 1.01 = (101, -10)\)</span></li>
-</ul></li>
-</ul>
-</section>
-<section id="floating-binary" class="slide level2">
-<h2>Floating Binary</h2>
-<div>
-<ul>
-<li class="fragment">Say we wanted to convert the value <span class="math inline">\(\tfrac{7}{8}\)</span> to a binary floating point representation: <span class="math display">\[\frac{7}{8} = \frac{0}{1} + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} = 0.111 = (111, -11)\]</span></li>
-<li class="fragment">Now how would we convert <span class="math inline">\(\frac{1}{10}\)</span> to binary??
-<ul>
-<li class="fragment">We run into a problem! An infinitely repeating sequence! <span class="math display">\[\frac{1}{10} = \frac{0}{1} + \frac{0}{2} + \frac{0}{8} + \frac{1}{16} + \frac{1}{32} + \frac{0}{64} + \frac{0}{128} + \frac{1}{256} +  \cdots = 0.0001100110011\ldots\]</span></li>
-<li class="fragment">Have to stop the sequence somewhere and approximate it: <span class="math display">\[\frac{3}{32} = 0.09375\quad\text{or}\quad\frac{25}{256} = 0.09765625\]</span></li>
-</ul></li>
-<li class="fragment">Note that we have the same issues in decimal, writing out ratios like <span class="math inline">\(\frac{1}{3}\)</span></li>
-</ul>
 </div>
 </section>
-<section id="consequences" class="slide level2">
-<h2>Consequences</h2>
+
+<section id="ltl4" class="slide level2">
+<h2>Linear Temporal Logic Composition</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Usage</th>
+<th>Meaning</th>
+<th>Equivalencies</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="background-color:gray">
+<td>neXt</td>
+<td><strong>X</strong> <em>p</em></td>
+<td><em>p</em> holds in the next time</td>
+<td><strong>X</strong> <em>p</em></td>
+</tr>
+<tr class="even">
+<td>Future</td>
+<td><strong>F</strong> <em>p</em></td>
+<td><em>p</em> holds in some future time</td>
+<td><span style="color:green">True</span><strong>U</strong><em>p</em></td>
+</tr>
+<tr class="odd">
+<td>Global(ly)</td>
+<td><strong>G</strong> <em>p</em></td>
+<td><em>p</em> holds in all future times</td>
+<td><strong>&not;</strong>(<span style="color:green">True</span><strong>U</strong><strong>&not;</strong><em>p</em>)</td>
+</tr>
+<tr class="even" style="background-color:gray">
+<td>Until</td>
+<td><em>p</em> <strong>U</strong> <em>q</em></td>
+<td><em>p</em> holds unless <em>q</em>, and <em>q</em> must hold at some point in the future</td>
+<td><em>p</em> <strong>U</strong> <em>q</em></td>
+</tr>
+<tr class="odd">
+<td>Release</td>
+<td><em>p</em> <strong>R</strong> <em>q</em></td>
+<td><em>q</em> holds up to and including when <em>p</em> holds</td>
+<td><strong>&not;</strong>(<strong>&not;</strong><em>p</em> <strong>U</strong> <strong>&not;</strong><em>q</em>)</td>
+</tr>
+<tr class="even">
+<td>Weak until</td>
+<td><em>p</em> <strong>W</strong> <em>q</em></td>
+<td><em>p</em> holds up to when <em>q</em> holds</td>
+<td>(<em>p</em> <strong>U</strong> <em>q</em>) &or; <strong>G</strong> <em>p</em></td>
+</tr>
+<tr class="odd">
+<td>Mighty release</td>
+<td><em>p</em> <strong>M</strong> <em>q</em></td>
+<td><em>q</em> holds up to and including when <em>p</em> holds, and <em>p</em> must hold at some point in the future</td>
+<td><em>q</em> <strong>U</strong> (<em>p</em> <strong>&or;</strong><em>q</em>)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
 <ul>
-<li>Most languages end up taking the first 53 significant digits <span class="math display">\[\frac{3602879701896397}{2^{55}} = 0.10000000000000000555111512312578270\]</span></li>
-<li>When doing operations on these numbers, extra decimals will sometimes get rounded off, suddenly making the number look precise, but you might always have a tiny bit of this rounding error showing up in floating point values.</li>
-<li>So be <em>careful</em> using <code class="python">==</code> for numeric comparisons! Rounding might result in unexpected falsehoods
+<li>Write the following logical connectives:<ul>
+<li>conjunction (and): <b>∧</b></li>
+<li>implies, or "material implication" (if...then): <b>→</b></li></ul></li>
+<li>Write the following temporal operators:<ul>
+<li><b>G</b>lobally</li>
+<li><b>F</b>inally</li>
+<li><b>R</b>elease</li>
+<li><b>W</b>eak_until</li>
+<li><b>M</b>ighty_release</li><ul></li>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the case of a social media account of a journalist who is sharing public information for which it is important that the public may access the information, and that the information be vetted.</p>
+<p>Which of the following does the journalist <b>NOT</b> require?</p>
+<div class="poll">
+<ol>
+<li>Confidentiality</li>
+<li>Integrity</li>
+<li>Availability</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the case of a whistleblower who, given the opportuntiy, would share information with a media outlet, but who does not want to be surveiled while sharing the information?</p>
+<p>Which of the following does the whistleblower <b>most strongly</b> require?</p>
+<div class="poll">
+<ol>
+<li>Confidentiality</li>
+<li>Integrity</li>
+<li>Availability</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Two of the following can be guaranteed mathematically in the context of a single transfer of information.  Which cannot?</p>
+<div class="poll">
+<ol>
+<li>Confidentiality</li>
+<li>Integrity</li>
+<li>Availability</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Which of the following is like liveness?</p>
+<div class="poll">
+<ol>
+<li>Confidentiality</li>
+<li>Integrity</li>
+<li>Availability</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Which of the following are like safety?</p>
+<div class="poll">
+<ol>
+<li>Confidentiality and Integrity</li>
+<li>Confidentiality and Availability</li>
+<li>Integrity and Availability</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 6</h2>
+<p>What is a hash-based signature?</p>
+<div class="poll">
+<ol>
+<li>A numerical value of a fixed size, that may be computed over numerical data of a fixed size.</li>
+<li>A numerical value of a any size, that may be computed over numerical data of any size.</li>
+<li>A numerical value of a fixed size, that may be computed over numerical data of any size.</li>
+<li>A numerical value of any size, that may be computed over numerical data of fixed size.</li>
+</ol>
+</div>
+</section>
+<section id="crypto" class="slide level2">
+<h2>Cryptography</h2>
 <ul>
-<li>Far better to check if two numbers are within a small margin of one another, or greater or less than the other</li>
+<li>We started with logic to build up to safety and liveness.<ul>
+<li>Safety: bad things don't happen.</li>
+<li>Liveness: good things happen eventually.</li>
+<li>We rigorously defined both with closures.</li></ul></li>
+<li>We placed this within CIA<ul>
+<li>Confidentiality: Secrets stay secret (safety: bad thing is unsecrecy)</li>
+<li>Integrity: Agents are who they say they are (safety: bad thing is impersonation)</li>
+<li>Availability: Good thing happens eventually (basically liveness)</li>
+<li>No we must rigorously differentiate C and I.</li>
+</section>
+<section id="hash" class="slide level2">
+<h2>Problem space</h2>
+<p>So we need to differentiate C and I. We will define them mathematically.
+<ul>
+<li>We will use the notion of hashing.
+<div class="block" name="Definition">
+<p><b>Hashing</b> is a technique to convert numerical value of arbitrary size (that is, with no maximum value) to a numerical value of a fixed size (that is, with some maximum value).</p>
+</div>
+<li>The most basic form of hashing is modular arithmetic, or taking remainders.
+<pre><code class='R' style="max-height:1400px">min_hash <-function(n, max)
+{
+  return(n %% max)
+}</code></pre>
+</section>
+<section id="def" class="slide level2">
+<h2>Hashing</h2>
+<p>Multiple values may hash to the same value.
+<pre><code class='R' style="max-height:1400px">min_hash(11,10) == min_hash(21,10)</code></pre>
+<p>One-way hashing is associated with integrity, similar to signatures.
+<div class="block" name="Definition">
+<p>A <b>hash-based signature</b> is a technique were a numerical value of small size is computed from a large amount of numerical data in such a manner that, if the overall data is changed, the hash is highly likely to change.</p></div>
+<ul>
+<li>Hash-based signatures are often used to allow us to validate executables online.
+<li>Programs are numerical data, and we wish to downloaded unaltered programs for security purposes.
+<li>Signatures, specifically "SHA256SUMS" can be seen when downloading <a href="http://releases.ubuntu.com/22.10/">Ubuntu</a>.
+</section>
+<section id="use" class="slide level2">
+<h2>Use case</h2>
+<p>Consider you wish to have a new operating system.
+<ol>
+<li>You navigate to ubuntu.com and download a file.<ul>
+<li>We assume you trust Ubuntu, but do you trust your connection? The file itself?</ul>
+<li>You additionally download a hash-based signature.
+<li>On your own device, which you trust, you compute what the hash-based signature of your downloaded file is.<ul>
+<li>We can imagine Ubuntu ran <code>hash("ubuntu.exe")</code>, and we do the same.
+<li>If the hash is the same, there is only a 1-in-hashmax chance the code was altered.</ul>
+<li>If the hashes are the same, open the file.</ol>
+<p>This is how we verify the integrity of a file!
+</section>
+<section id="old" class="slide level2">
+<h2>Recall</h2>
+<p>I asked you to construct a hashing function. Imagine it accepts <b>text</b> and a numerical <b>maximum</b>
+<ol>
+<li>First, you will need to convert text to numbers - check the entropy slides.
+<li>Then, you will need to compute a non-trivial hash.<ul>
+<li>Increasing the input value by one should alter the output hash by an indeterminate amount
+<li>Be prepared to argue convincing for this probability.</ol>
+<p>Create a R file with function <code>text_to_numbers(s)</code> that accepts a string <code>s</code> and produces an integer <code>n</code>, and function <code>nt_hash(n, m)</code> that accepts a numerical value <code>n</code> and a maximum value <code>m</code> and produces a value <code>h</code> &lt; <code>m</code> s.t. <pre><code>p(nt_hash(n) + 1 == nt_hash(n + 1)) = 1 / max</code></pre>
+</section>
+
+<section id="bits" class="slide level2">
+<h2>Bits</h2>
+<p>For entropy, we used heads-or-tails, now we use bits.</p>
+<ul>
+<li>Bits are variables that take a value in {0,1}.</li>
+<li>We can map letters to bits: 
+<ul><li><em>L</em> ⊂ <math>{0,1}<sup>5</sup></math> → <math>{a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}</math></li></ul>
+</ul>
+<pre><code class="python">labs <- c("00000"="a",
+          "00001"="b",
+          "00010"="c",
+          "00011"="d",... 
+          "11010"="z",
+          "11011"=NULL,...)</code></pre>
+</section>
+<section id="encoding" class="slide level2">
+<h2>Bit Encoding</h2>
+<p>A <strong>bit string</strong> <math>{0,1}<sup><em>n</em></sup></math> is just an integer.</p>
+<ul>
+<li>We can show the equivalence with a dictionary</li>
+<li><em>L</em> ⊂ <math>{0,1}<sup><em>n</em></sup></math> → ℤ: integers</li>
+</ul>
+<pre><code class="python">labs <- c("00000"=0,
+          "00001"=1,
+          "00010"=2,
+          "00011"=3,... 
+          "11010"=26,
+          "11011"=27,...)</code></pre>
+</section>
+<section id="func" class="slide level2">
+<h2>Bit Encoding</h2>
+<p>A <strong>bit string</strong> <math>{0,1}<sup><em>n</em></sup></math> is just an integer.</p>
+<ul>
+<li>We can show the equivalence with a function</li>
+<li><em>L</em> ⊂ <math>{0,1}<sup><em>n</em></sup></math> → ℤ: integers</li>
+</ul>
+<pre><code class="r">numToBits <- function(val) {
+  paste(tail(rev(as.integer(intToBits(val))), n=5), collapse="")
+}</code></pre>
+<pre><code class="r">c(numToBits(0), numToBits(1), numToBits(2), numToBits(26), numToBits(27))</code></pre>
+<pre><code class="r">'00000''00001''00010''11010''11011'</code></pre>
+</section>
+<section id="representation" class="slide level2">
+<h2>Representation</h2>
+<ul>
+<li>Sequences of bits have no intrinsic meaning!
+<ul>
+<li>Just like a series of coin flips.</li>
 </ul></li>
-<li>Errors will usually average out over being a bit too large or two small
+<li>You can use bits to represent any value you could imagine!
 <ul>
-<li>Repeated calculation of some types can sometimes accumulate errors in the same direction and cause more of an issue</li>
+<li>Characters represented by numeric character codes</li>
+<li>Two-dimensional arrays of bits representing images</li>
+<li><em>Sequences</em> of images representing video, etc</li>
 </ul></li>
+<li>To be useful though, everyone needs to agree on a representation!</li>
 </ul>
 </section>
+
 <section id="representing-characters" class="slide level2">
 <h2>Representing Characters</h2>
 <ul>
@@ -2643,16 +2850,14 @@ print(A == B)</code></pre>
 <h2>Meeting <code class="python">intToUtf8</code> and <code class="python">utf8ToInt</code></h2>
 <ul>
 <li>Python includes two build in functions to simplify conversion between an integer and the corresponding Unicode character</li>
-<li><code class="python">intToUtf8</code> takes a base-10 integer and returns the corresponding Unicode character as a string
+<li><code class="python">intToUtf8</code> takes an integer and returns the corresponding Unicode-8 character as a string
 <ul>
 <li><code class="python">intToUtf8(65)</code> gives <code class="python">"A"</code> (capital A)</li>
-<li><code class="python">intToUtf8(960)</code> gives <code class="python">"π"</code> (Greek letter pi)</li>
 </ul></li>
-<li><code class="python">utf8ToInt</code> goes the other direction, taking a single character string and returning the corresponding base-10 integer of that character in Unicode
+<li><code class="python">utf8ToInt</code> goes the other direction, taking a single character string and returning the corresponding integer of that character in Unicode
 <ul>
 <li><code class="python">utf8ToInt("B")</code> gives 66</li>
 <li><code class="python">utf8ToInt(" ")</code> gives 32</li>
-<li><code class="python">utf8ToInt("π")</code> gives 960</li>
 </ul></li>
 </ul>
 </section>
@@ -2665,7 +2870,7 @@ print(A == B)</code></pre>
 <ul>
 <li>Better to think of the string as a single abstract unit</li>
 </ul></li>
-<li>Python emphasizes this abstract view by defining a built-in string class that already defines a selection of higher-level operations on string objects</li>
+<li>R emphasizes this abstract view by defining a built-in string class that already defines a selection of higher-level operations on string objects</li>
 </ul>
 </section>
 <section id="picking-characters" class="slide level2">
@@ -2673,67 +2878,210 @@ print(A == B)</code></pre>
 <ul>
 <li>A string is an <em>ordered</em> collection of characters
 <ul>
-<li>Character positions in the string are identified by an <em>index</em>, which <strong>starts at 0</strong></li>
+<li>Character positions in the string are identified by an <em>index</em>, which <strong>starts at 1</strong></li>
 </ul></li>
 </ul>
-<p><img data-src="../images/svg_cache/d11dffd92f008b339586ee2ad299867371f1609a.svg" style="width:70.0%" /></p>
 <ul>
-<li><p>You can select individual characters from the string using the syntax</p>
-<pre ><code class="python">string[k]</code></pre>
-<p>where <code class="python">string</code> is the variable assigned to the desired string and <code class="python">k</code> is the index integer of the character you want</p>
-<pre ><code class="python-repl">>>> s = "spaghetti sauce"
->>> print(s[5])
-e</code></pre></li>
+<li><p>You can select individual characters from the string using substring</p>
+<pre ><code class="python">substring("hello",1,1)</code></pre>
+<pre ><code class="python">h</code></pre>
 </ul>
 </section>
-<section id="back-it-up" class="slide level2">
-<h2>Back it Up</h2>
-<ul>
-<li>Sometimes it is more useful to count from the end of the string, not the beginning</li>
-<li>Python gives you a convenient way to do this, using negative indexes</li>
-</ul>
-<p><br></p>
-<p><img data-src="../images/svg_cache/538f0111ca5dc337b6e8220a5135961769db4efb.svg" style="width:70.0%" /></p>
-<ul>
-<li><p>A common use case is to grab the last character of the string, using</p>
-<pre ><code class="python">s[-1]</code></pre>
-<p>which is shorthand for</p>
-<pre ><code class="python">s[len(s)-1]</code></pre></li>
-</ul>
+<section id="strings1" class="slide level2">
+<h2>Converting Strings</h2>
+<p>Given a string, we can extract a numerical value for each character in the string.
+<pre><code class="python" style="max-height:1100px;max-width:2500px">ind_to_num <- function(str, i)
+{
+  return(utf8ToInt(substring(str,i,i)))
+}</code></pre>
+<p>Given these values, we can them create a single numerical value for any given string.
 </section>
-<section id="slicing" class="slide level2">
-<h2>Slicing</h2>
-<ul>
-<li><p>Often, you may want more than a single character</p></li>
-<li><p>Python allows you to specify a starting and an ending index through an operation known as <em>slicing</em></p></li>
-<li><p>The syntax looks like:</p>
-<pre ><code class="python">string_variable[start : limit]</code></pre>
-<p>where <code class="python">start</code> is the first index to be included and everything up to but <strong>not including</strong> the <code class="python">limit</code> is included</p></li>
-<li><p><code class="python">start</code> and <code class="python">limit</code> are actually optional (but the <code class="python">:</code> is not)</p>
-<ul>
-<li>If <code class="python">start</code> omitted, the slice will begin at the start of the string</li>
-<li>If <code class="python">limit</code> omitted, the slice will proceed to the end of the string</li>
-</ul></li>
-</ul>
+<section id="strings3" class="slide level2">
+<h2>Converting Strings</h2>
+<p>Many* groups sought to convert numerical values using summation.
+<pre><code class="python" style="max-height:1100px;max-width:2500px">text_to_num <- function(str)
+{
+  retVal = 0 ;
+  for (i in 1:nchar(str)) 
+  {
+    retVal = retVal + utf8ToInt(substring(str,i,i))
+  }
+  return(retVal)
+}</code></pre>
+<pre ><code class="python">text_to_num("hello")</code></pre>
+<pre ><code class="python">532</code></pre>
 </section>
-<section id="and-dicing" class="slide level2">
-<h2>and Dicing</h2>
+<section id="strings4" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We should be suspicious of this output - 532 is a very small value for a string of length 5.
 <ul>
-<li>Can add a third component to the slice syntax, called a <em>stride</em></li>
+<li>How many strings of length 5 are there?
+<li>How many strings of length 5 are alphabetically before "hello"?
+<li>How many strings of length less than 5 are there?
 </ul>
-<pre ><code class="python">string_variable[start : limit : stride]</code></pre>
-<ul>
-<li>Specifies how large the steps are between each included index</li>
-<li>Can also make the stride negative to proceed backwards through a string</li>
-</ul>
-<pre ><code class="python-repl">>>> s = "spaghetti sauce"
->>> s[4:8]
-hett
->>> s[10:]
-sauce
->>> s[:10:2]
-sahti</code></pre>
+<p>We can find precise answers to these questions.
 </section>
+<section id="strings5" class="slide level2">
+<h2>Converting Strings</h2>
+<p>How many strings of length less than 5 are there?
+<ul>
+<li>utf-8 is an 8-bit character set
+<li>So each character is one of 2^8 possible characters.
+<li>There are 2^8 strings of length one
+<li>There is 1 string of length zero ("")
+</ul>
+<p>There are 2^8 * 2^8 = 2^16 strings of length 2.
+<p>There are 2^16 + 2^8 + 2^0 strings of less than length 3.
+<p><em>There are 65793 strings of length less than length 3, but we numbered a string of length 5 as string number 532.</em></p>
+</section>
+<section id="strings6" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We can determine what the 532nd string is.
+<ul>
+<li>First, we find out how long it is.
+<li>532 is greater than 2^8+1, and less than 2^16, so it is of length 2.
+<li>Then we figure out what each character is.
+<li>Character 0 is intToUtf8(0)
+<pre ><code class="python">text_to_num("hello")</code></pre>
+<pre ><code class="python">''</code></pre>
+</ul>
+<p>Wait a minute!  That's no character at all - that means we don't need to do all that addition.
+<p>There are not 2^16 + 2^8 + 2^0 strings of less than length 3.
+<p>There are 2^16  strings of less than 3.
+<p><em>There are 2^16 - 2^8 strings of exactly length 2</em></p>
+</section>
+<section id="strings7" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We can determine what the 532nd string is.
+<ul>
+<li>First, we find out how long it is.
+<li>532 is greater than 2^8+1, and less than 2^16, so it is of length 2.
+<li>Then we figure out what each character is.
+<li>Character 0 is intToUtf8(0)
+<pre ><code class="python">text_to_num("hello")</code></pre>
+<pre ><code class="python">''</code></pre>
+</ul>
+<p>Wait a minute!  That's no character at all - that means we don't need to do all that addition.
+<p>There are not 2^16 + 2^8 + 2^0 strings of less than length 3.
+<p>There are 2^16  strings of less than 3.
+<p><em>There are 2^16 - 2^8 strings of exactly length 2</em></p>
+</section>
+<section id="strings8" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We can determine what the 532nd string is.
+<ul>
+<li>532 won't start with zeroth character, 532 is greater than 2^8.
+<li>532 won't start with oneth character either
+<ul>
+<li>There are 2^8 strings that start with the oneth character
+<li>There are 2 * 2^8 strings that start with 0th or 1th
+<li>There are 2 * 2^8 = 512.
+<li>532 is in the twoth clump of size 256, so it starts with the twoth character.
+</ul></ul>
+<pre ><code class="python">intToUtf8(2)</code></pre>
+<pre ><code class="python">'\002'</code></pre>
+<p>Well, that doesn't look a normal character, but it is printable at least.
+</section>
+<section id="strings9" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We can determine what the 532nd string is.
+<ul>
+<li>532 starts with <code class="python">'\002'</code>
+<li>The first string to start with that code is string number 2^8 * 2 = 512
+<ul>
+<li>Strings 0 to 255 start with '', the nothing character (also called <code>NUL</code>)
+<li>Strings 256 to 511 start with whatever the oneth character is (probably <code class="python">'\001'</code>)
+<li>String 512 is a <code class="python">'\002'</code> followed by a <code>NUL</code>
+<li>532 is in the 20th string to start with <code class="python">'\002'</code>, so it starts with
+</ul></ul>
+<pre ><code class="python">intToUtf8(532 - (2 * 2^8))</code></pre>
+<pre ><code class="python">'\024'</code></pre>
+<p>It probably doesn't do thinking about that too much, but this character is also called "device control 4"
+<p>Challenge problem - why is it denoted as 024?
+</section>
+<section id="stringsa" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We can determine what the 532nd string is.
+<ul>
+<li>The 532nd string is of length 2
+<li>The 532nd string starts with <code class="python">'\002'</code>
+<li>The 532nd string ends with <code class="python">'\024'</code>
+<li>The 532nd string is '\002\024' - not 'hello'.
+<pre ><code class="python">paste(intToUtf8(2), intToUtf8(20), sep = "")</code></pre>
+<pre ><code class="python">'\002\024'</code></pre>
+</section>
+<section id="stringsb" class="slide level2">
+<h2>RECALL: Converting Strings</h2>
+<p>We should be suspicious of this output - 532 is a very small value for a string of length 5.
+<ul>
+<li>How many strings of length 5 are there?
+<li>How many strings of length 5 are alphabetically before "hello"?
+<li>How many strings of length less than 5 are there?
+</ul>
+<p>We can find precise answers to these questions.
+</section>
+<section id="stringsc" class="slide level2">
+<h2>RECALL: Converting Strings</h2>
+<p>We should be suspicious of this output - 532 is a very small value for a string of length 5.
+<ul>
+<li>How many strings of length 5 are there?
+<ul><li>(2 ^ 8) ^ 5 = 2 ^ 40 = 1099511627776</li>
+<li>The numerical code for "hello" should be less than that.</li></ul>
+<li>How many strings of length less than 5 are there?
+<ul><li>(2 ^ 8) ^ 4 = 2 ^ 32 = 4294967296</li>
+<li>The numerical code for "hello" should be greater than that.</li></ul>
+<li>How many strings of length 5 are alphabetically before "hello"?
+<ul><li>This one is a little more complicated.</li></ul>
+</ul>
+<p>"hello" is the nth string - but what is n?
+</section>
+<section id="stringsd" class="slide level2">
+<h2>Converting Strings</h2>
+<p>When we found string 532, we did something sneaky.
+<ul>
+<li>We counted how many 2^8's were in 532 (2)
+<li>We counted how much was left in 532 with those 2^8's gone (20)
+<li>Let's right some code that does this.
+</ul>
+<p>We will call this function num_to_text.
+</section>
+<section id="stringse" class="slide level2">
+<h2>Converting Strings</h2>
+<p>We will call this function num_to_text.
+<pre><code class="python" style="max-height:1100px;max-width:2500px">num_to_text <- function(n)
+{
+  retStr = ''
+  char1 = as.integer(n / (2 ^ 8))
+  retStr = paste(retStr, intToUtf8(char1), sep='')
+  char2 = n - (char1 * (2 ^ 8))
+  retStr = paste(retStr, intToUtf8(char2), sep='')
+  return(retStr)
+}</code></pre>
+</section>
+<section id="modulus" class="slide level2">
+<h2>Modulus</h2>
+<p>Instead, we use modulo arithmetic, which in R is expressed using <code>%%</code>
+<pre><code class="python" style="max-height:1100px;max-width:2500px">num_to_text <- function(n)
+{
+  retStr = ''
+  char1 = as.integer(n /  (2 ^ 8))
+  retStr = paste(retStr, intToUtf8(char1), sep='')
+  char2 = as.integer(n %% (2 ^ 8))
+  retStr = paste(retStr, intToUtf8(char2), sep='')
+  return(retStr)
+}</code></pre>
+</section>
+<section id="exercise" class="slide level2">
+<h2>Exercise</h2>
+<p>Complete <code>text_to_num</code> and <code>num_to_text</code>.
+<ul>
+<li>It must be the case that &forall; <math>n</math> &in; &#8469;, <code>num_to_text(text_to_num(n)) == n</code>
+<li>It must be the case that &forall; <math>s</math> &in; <em>Σ</em><sup>ω</sup>, <code>text_to_num(num_to_text(s)) == s</code>
+<li>Increasing the input value by one should alter the output hash by an indeterminate amount
+<li>Be prepared to argue convincing for this probability.</ul>
+<p>Create a R file with function <code>text_to_num</code> and <code>num_to_text</code> and additionally a testing function that generates both random strings and random numbers and checks that the required equalities hold. The testing function should allow a user to specify to the size and number of tested inputs.
+</section>
+
     </div>
   </div>
 
@@ -2809,7 +3157,7 @@ sahti</code></pre>
         // - null: Media will only autoplay if data-autoplay is present
         // - true: All media will autoplay, regardless of individual setting
         // - false: No media will autoplay, regardless of individual setting
-        autoPlayMedia: null,
+        autoPlayMedia: true,
         // Global override for preloading lazy-loaded iframes
         // - null: Iframes with data-src AND data-preload will be loaded when within
         //   the viewDistance, iframes with only data-src will be loaded when visible

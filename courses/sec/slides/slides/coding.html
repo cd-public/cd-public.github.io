@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>RSA</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">RSA</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">12 Apr 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Today we will be doing RSA, our first deployable cryptography algorithm.</li>
+</ul>
+</section>
+<section id="ttn" class="slide level2">
+<h2>textToNum</h2>
+<div class="cols">
+<div class="col">
+
+<p>I implemented textToNum recursively.
+<ul>
+<li>For a string of length one, we convert using utf8ToInt
+<li>For a string of greater than length one:<ul>
+<li>textToNum the rest of the string is</li>
+<li>find the value of the current character.</li>
+<li>We multiply by 0x100 - the number of possible suffix/prefixes - and add the suffix/prefix</li>
+</ul>
+</ul>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  val = substring(s,1,1)
+  val = utf8ToInt(val)
+  cs = nchar(s)
+  if (cs > 1)
+  {
+    rst = substring(s,2,cs)
+    rst = textToNum(rst)
+    val = val + 0x100 * rst
+  }
+  return(val)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="bkwd" class="slide level2">
+<h2>If backwards</h2>
+<p>We can trivially reverse the order of composition.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  cs = nchar(s)
+  v  = substring(s,cs,cs)
+  v  = utf8ToInt(v)
+  if (cs > 1)
+  {
+    r = substring(s,1,cs-1)
+    r = textToNum(r)
+    v = val + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  cs = nchar(s)
+  v  = substring(s,1,1)
+  v  = utf8ToInt(v)
+  if (cs > 1)
+  {
+    r = substring(s,2,cs)
+    r = textToNum(r)
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="iter" class="slide level2">
+<h2>Iteratively</h2>
+<p>We can write iteratively.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  vn = 0
+  cs = nchar(s)
+  while (cs) {
+    vs = substring(s,1,1)
+    vn = vn * 0x100
+    vn = vn + utf8ToInt(vs)
+    s  = substring(s,2,cs)
+    cs = nchar(s)
+  }
+  return(vx)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  cs = nchar(s)
+  v  = substring(s,1,1)
+  v  = utf8ToInt(v)
+  if (cs > 1)
+  {
+    r = substring(s,2,cs)
+    r = textToNum(r)
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="ntt" class="slide level2">
+<h2>textToNum</h2>
+<div class="cols">
+<div class="col">
+
+<p>I implemented numToText recursively.
+<ul>
+<li>For zero, return nothing.
+<li>For non-zero:<ul>
+<li>Find the value modulo 0x100</li>
+<li>Find the corresponding character.</li>
+<li>Find the numToText of the rest.</li>
+<li><code>paste0</code></li>
+</ul>
+</ul>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="bkwd2" class="slide level2">
+<h2>If backwards</h2>
+<p>We can trivially reverse the order of composition.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(r,v))
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="iter2" class="slide level2">
+<h2>Iteratively</h2>
+<p>We can write iteratively.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  s = ''
+  while (n) 
+  {
+    v = n %% 0x100
+    n = n /  0x100
+    n = floor(n)
+    v = intToUtf8(v)
+    s = paste0(v,s)
+  }
+  return(s)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+<p>The iterative solution is only longer due to the logic hack.
+</section>
+<section id="iter3" class="slide level2">
+<h2>Iteratively</h2>
+<p>We can write iteratively without the logical return hack.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  s = ''
+  while (n) 
+  {
+    v = n %% 0x100
+    n = n /  0x100
+    n = floor(n)
+    v = intToUtf8(v)
+    s = paste0(v,s)
+  }
+  return(s)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  if (!n)
+  {
+    return()
+  }
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+<p>Fair is fair.
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following code snippet:</p>
+<p><code>cs = nchar(s)</code></p>
+<p>What do we expect the type of <code>cs</code> to be?
+<div class="poll">
+<ol>
+<li>Int</li>
+<li>Float</li>
+<li>Char</li>
+<li>String</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following code snippet:</p>
+<p><code>cs = nchar(s)</code></p>
+<p>What do we expect the type of <code>s</code> to be?
+<div class="poll">
+<ol>
+<li>Int</li>
+<li>Float</li>
+<li>Char</li>
+<li>String</li>
+</ol>
+</div>
+</section>
+<section id="sidebar" class="slide level2">
+<h2>Sidebar: Function Types</h2>
+<p>Consider the following code snippet:</p>
+<p><code>cs = nchar(s)</code></p>
+<ul>
+<li>Clearly the variables, <code>cs</code> and <code>s</code>, may have some type.
+<li>Clearly <code>nchar</code> is a function.
+<li>However, it is not enough to claim <code>nchar</code> is a function.
+<p><code>a = nchar(x)</code></p>
+<p><code>b = floor(y)</code></p>
+<p><code>c = paste(z)</code></p>
+<li><code>a</code>, <code>b</code>, and <code>c</code> are all return values from functions, but of distinct type.
+<li><code>x</code>, <code>y</code>, and <code>z</code> are all arguments functions, but of distinct type.
+</section>
+<section id="sidebar2" class="slide level2">
+<h2>Sidebar: Function Types</h2>
+<p><code>a = nchar(x)</code></p>
+<ul>
+<li><code>nchar</code> takes a string and returns an integer.
+<li>str -> int
+</ul>
+<p><code>b = floor(y)</code></p>
+<ul>
+<li><code>floor</code> takes a float and returns an integer
+<li>float -> int
+</ul>
+<p><code>c = paste(z)</code></p>
+<ul>
+<li>paste takes string(s) and returns a string
+<li>string^n -> string
+<li>(string,string) -> string
+<li>string -> string -> string
+</ul>
+</section>
+<section id="functype" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following code snippet:</p>
+<p><code>cs = nchar(s)</code></p>
+<p>What do we expect the type of <code>nchar</code> to be?
+<div class="poll">
+<ol>
+<li>int -> float</li>
+<li>float -> char</li>
+<li>char -> string</li>
+<li>string -> int</li>
+</ol>
+<p>From now on I will use the special "&rarr;" character, but using "->" instead is always fine.
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following code snippet:</p>
+<p><code>v  = substring(s,1,1)</code></p>
+<p>What do we expect the type of <code>substring</code> to be?
+<div class="poll">
+<ol>
+<li>(string, int, int) -> str</li>
+<li>str -> (string, int, int)</li>
+<li>(str, int, int) -> char</li>
+<li>char -> (char, int, int)</li>
+</ol>
+</div>
+<p>This is non-trivial!
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>I find substring tedious and confusing.</p><pre><code style="max-height:1100px;max-width:2500px" class='R'>head <- function(s)
+{
+  return(substring(s,1,1))
+}
+</code></pre>
+<p>What do we expect the type of <code>head</code> to be?
+<div class="poll">
+<ol>
+<li>(string, int, int) -> string</li>
+<li>(string, int, int) -> char</li>
+<li>string -> string</li>
+<li>string -> char</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>I find substring tedious and confusing.</p><pre><code style="max-height:1100px;max-width:2500px" class='R'>tail <- function(s)
+{
+  return(substring(s,2,nchar(s)))
+}
+</code></pre>
+<p>What do we expect the type of <code>tail</code> to be?
+<div class="poll">
+<ol>
+<li>(string, int, int) -> string</li>
+<li>(string, int, int) -> char</li>
+<li>string -> string</li>
+<li>string -> char</li>
+</ol>
+</div>
+</section>
+<section id="help" class="slide level2">
+<h2>Sidebar: Helper Functions</h2>
+<p>Some languages have built-in <code>head</code> and <code>tail</code> operations.
+<div class="cols">
+<div class="col">
+
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  v = utf8ToInt(head(s))
+  if (nchar(s) > 1)
+  {
+    r = textToNum(tail(s))
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  v = substring(s,1,1)
+  v = utf8ToInt(v)
+  cs = nchar(s)
+  if (cs > 1)
+  {
+    r = substring(s,2,cs)
+    r = textToNum(r)
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="help2" class="slide level2">
+<h2>Sidebar: Helper Functions</h2>
+<p>We can understand these better by considering types
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>head()
+
+tail()
+
+utf8ToInt()
+
+textToNum()
+
+utf8toInt(head())
+
+textToNum(tail())
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>str -> char
+
+str -> str
+
+char -> int
+
+str -> int
+
+str -> int
+
+str -> int
+</code></pre>
+</div>
+</div>
+<p>By using these helper functions, we can compose composite functions that convert strings to integers.
+</section>
+
+<section id="recurse" class="slide level2">
+<h2>Sidebar: Helper Functions</h2>
+<p>This can make recursion more clear.
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum(s) = 
+    utf8toInt(head()) 
+  + 
+      0x100
+    *
+      textToNum(tail())
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>The value of a string is
+    value of the 1st char
+  plus
+      no of possible chars
+    times
+      the value of the rest
+</code></pre>
+</div>
+</div>
+<p>By using these helper functions, we can compose composite functions that convert strings to integers.
+<ul>
+<li>This code is not complete - it omits the base case - but if we take as a given that <code>textToNum(NUL)</code> is 0, it works.
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<p><code>0x100</code> is an integer expressed in "hexadecimal", or the base 16 number system. 
+<p>What is <code>0x100</code> in base 10?
+<div class="poll">
+<ol>
+<li>100</li>
+<li>128</li>
+<li>256</li>
+<li>1024</li>
+</ol>
+</div>
+</section>
+<section id="review8" class="slide level2">
+<h2>Review Question 8</h2>
+<p><code>0x100</code> is an integer expressed in "hexadecimal", or the base 16 number system. 
+<p>What is <code>0x100</code> in base 2?
+<div class="poll">
+<ol>
+<li>0b100000000</li>
+<li>0b1000000</li>
+<li>0b1024</li>
+<li>0b256</li>
+</ol>
+</div>
+</section>
+<section id="review9" class="slide level2">
+<h2>Review Question 9</h2>
+<p>Rather than using ASCII/UTF-8, we can use an extended character set UTF-16. ASCII/UTF-8 uses 8 bits to store ~250 characters. How many times more characters can be stored in 16 bits than in 8?
+<div class="poll">
+<ol>
+<li>2x</li>
+<li>8x</li>
+<li>16x</li>
+<li>256x</li>
+</ol>
+</div>
+</section>
+<section id="review10" class="slide level2">
+<h2>Review Question 10</h2>
+<p>Rather than using ASCII/UTF-8, imagine I am implementing a standard with almost exactly a million characters. ASCII/UTF-8 uses 8 bits to store ~250 characters, how many bits will I need to store almost exactly a million characters?
+<div class="poll">
+<ol>
+<li>10</li>
+<li>16</li>
+<li>20</li>
+<li>64</li>
+</ol>
+</div>
+</section>
+<section id="reviewa" class="slide level2">
+<h2>Review Question 0xA</h2>
+<div class="cols">
+<div class="col">
+<p>I used hexadecimal <code>mult = 0x100</code> in textToNum.
+<p>Which of the following <code>mult</code> values is appropriate to use in base 10 to safely encode and decode?
+<div class="poll">
+<ol>
+<li>20</li>
+<li>100</li>
+<li>200</li>
+<li>1000</li>
+</ol>
+</div>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  mult = 0x100
+  val = substring(s,1,1)
+  val = utf8ToInt(val)
+  cs = nchar(s)
+  if (cs > 1)
+  {
+    rst = substring(s,2,cs)
+    rst = textToNum(rst)
+    val = val + mult * rst
+  }
+  return(val)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="publickey" class="slide level2">
+<h2>Problem space</h2>
+<p>So we need to differentiate C and I. We will define them mathematically.
+<ul>
+<li>We will use the notion of a public-key cryptosystem.
+<div class="block" name="Definition">
+<p>A <b>public-key cryptosystem</b> is a technique to convert message of up to fixed size (that is, with a maximum value) to "cyphertext" - a numerical value that contains the information of a message, but not in a readable manner.  To be a public-key system, any agent must be able to produce cyphertexts, but only the intended receiver may extract the original message from the cyper text.</p>
+</div>
+<div class="block" name="Definition">
+<p>A <b>public-key</b> is a numerical code used to encrypt a message such that it can only be decrypted using a private key.</p>
+</div></ul>
+<p>By far the most well-known and widely used public-key cryptosystem is RSA (Rivest–Shamir–Adleman),
+</section>
+<section id="types" class="slide level2">
+<h2>Types</h2>
+<p>We can understand RSA in terms of types.<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt()
+
+decrypt()
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>(str,int) -> int
+
+(int,int) -> str
+</code></pre>
+</div>
+</div>
+<p>But it is more helpful to point out these are different kinds of integers.<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt()
+
+decrypt()
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>(msg,pubKey) -> cypher
+
+(cypher,privKey) -> msg
+</code></pre>
+</div>
+</div>
+<p>It is worth noting the following must be preserved:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt(encrypt(msg,pubKey),privKey) = msg
+</code></pre>
+</section>
+<section id="types2" class="slide level2">
+<h2>Types</h2>
+<p>So we want to be able to create <code>encrypt</code>, <code>decrypt</code>, <code>pubKey</code>, <code>privKey</code> such that:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt(encrypt(msg,pubKey),privKey) = msg
+</code></pre>
+<p>To do so, we will create one other function:<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>keygen()</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>() -> (pubKey,privKey)
+</code></pre>
+</div>
+</div>
+<p>Now we will simply write <code>keyGen</code>, <code>encrypt</code>, <code>decrypt</code>
+</section>
+<section id="RSA" class="slide level2">
+<h2>Key Insight</h2>
+<p>There exists a key insight that underpines all of RSA.  It based on the idea of modular arithmetic.
+<ul>
+<li>For some message <code>m</code>
+<li>Some encryptor <code>e</code> (the public key)
+<li>Some decryptor <code>d</code> (the private key)
+</ul>
+<p>We can find <code>m</code>,<code>e</code>, <code>d</code> and novel value <code>n</code> such that:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>((m ^ e) ^ d) %% n == m
+</code></pre>
+<ul>
+<li><code>m</code> is the message.
+<li><code>m ^ e</code> is the cypher text
+<li><code>n</code> is the maximum value for <code>m</code>
+</ul>
+</section>
+<section id="Use" class="slide level2">
+<h2>Usefulness</h2>
+<p>Given some <code>keyGen</code>
+<ul>
+<li>I find some encryptor <code>e</code> (the public key)
+<li>I find a corresponding decryptor <code>d</code> (the private key)
+<li>I post <code>e</code> publicly.
+<li>Anyone who wishes to send me a private message may do so
+<ul>
+<li>They write a message.
+<li>They textToNum the message.
+<li>They raise the numerical value to the power <code>e</code> to get the cypher.
+<li>They send me the cypher without concern that others may read it.
+</ul>
+</section><section id="Use2" class="slide level2">
+<h2>Usefulness</h2>
+<p>Given some <code>keyGen</code>
+<ul>
+<li>I receive a cypher made using <code>e</code> (the public key)
+<li>I know the decryptor <code>d</code> - a value no one else knows.
+<ul>
+<li>I raise the cyper to the power <code>d</code>
+<li>I divide by <code>n</code> and take the remainder.
+<li>I numToText the remainder.
+<li>I read the message.
+</ul>
+</section>
+<section id="crypt" class="slide level2">
+<h2>Functions</h2>
+<p>For now we assume we'll get <code>keyGen</code> working, so we show <code>encrypt</code> and <code>decrypt</code>
+<div class="cols">
+<div class="col">
+
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt <- function(s, e)
+{
+  return(textToNum(s) ^ e)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt <- function(s, d, n)
+{
+  v = (s ^ d) %% n
+  return(numtoText(v))
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="keygen" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<p>For key generation, we follow RSA.
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<li>Compute the product of these primes <code>n</code>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>I am not sure anyone knows what that is generally, but...
+<li>...for products of primes &lambda; is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<li>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<li>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<div class="cols">
+<div class="col">
+</section>
+<section id="primes" class="slide level2">
+<h2>Two Primes</h2>
+<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<ul>
+<li>Prime generation is a rich field.
+<li>For repeated prime generation, sieve methods are used.
+<li>I will discuss sieves by request.
+</ul>
+<p>We are only generating prime<b>s</b> by a technicality - 2 is a small number.
+<ul>
+<li>Rather than doing prime generation, we will do primality testing.
+<ul>
+<li>We will generate a random number.
+<li>We will test if it is prime.
+<li>We will change the number until it is prime.
+<li>We will discuss but not show optimizations.
+</ul>
+</ul>
+</section>
+<section id="primes2" class="slide level2">
+<h2>Two Primes</h2>
+<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<ul>
+<li>Rather than doing prime generation, we will do primality testing.
+<ul>
+<li>We will generate a random number.
+</ul>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) 
+{
+  p <- sample(10 ^ s:10 ^ (s + 1), 1)
+  ...
+}
+</code></pre>
+<p><code>s</code> is the number of decimal digits.
+</section>
+<section id="primes3" class="slide level2">
+<h2>Two Primes</h2>
+<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<ul>
+<li>Rather than doing prime generation, we will do primality testing.
+<ul>
+<li>We will test if it is prime.
+<ul>
+<li>For a number to be prime, it cannot be evenly divided by any other number
+</ul>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
+{
+  i = 2
+  while (i < n)
+  {
+    if (n %% i == 0)
+    {
+      return(FALSE)
+    }
+    i = i + 1
+  }
+  return(TRUE)
+}
+</code></pre>
+</section>
+<section id="primes4" class="slide level2">
+<h2>Two Primes</h2>
+<p>In full.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
+{
+  i = 2
+  while (i < n)
+  {
+    if (n %% i == 0)
+    {
+      return(FALSE)
+    }
+    i = i + 1
+  }
+  return(TRUE)
+}
+</code></pre>
+</section>
+<section id="primes5" class="slide level2">
+<h2>Two Primes</h2>
+<p>Shorten.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
+{
+  for (i in 2:n)
+  {
+    n %% i == 0 && return(FALSE)
+  }
+  return(TRUE)
+}
+</code></pre>
+</section>
+<section id="primes6" class="slide level2">
+<h2>Two Primes</h2>
+<p>Optimize using 6k+1.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) {
+  n <= 1 && return(FALSE)
+  n <= 3 && return(TRUE)
+  !(n %% 2 && n %% 3) && return(FALSE)
+  i = 5
+  while (i*i <= n) 
+  {
+    !(n %% i && n %% (i+2)) && return (FALSE)
+    i = i + 6
+  }
+  return (TRUE)
+}
+</code></pre>
+<p>We don't need the first two lines since we will never use single digit values.
+</section>
+<section id="primes7" class="slide level2">
+<h2>Two Primes</h2>
+<p>Optimize using 6k+1.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n, i=5) {
+  !(n %% 2 && n %% 3) && return(FALSE)
+  while (i*i <= n) 
+  {
+    !(n %% i && n %% (i+2)) && return (FALSE)
+    i = i + 6
+  }
+  return (TRUE)
+}
+</code></pre>
+<p>This is (relatively) optimized code - but a <code>for</code> loop is fine.
+</section>
+<section id="primes8" class="slide level2">
+<h2>Two Primes</h2>
+<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<ul>
+<li>Rather than doing prime generation, we will do primality testing.
+<ul>
+</ul>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) 
+{
+  p <- sample(10 ^ s:10 ^ (s + 1), 1)
+  primality <- function(n) 
+  {
+    for (i in 2:n)
+    {
+      n %% i == 0 && return(FALSE)
+    }
+    return(TRUE)
+  }
+  ...
+}
+</code></pre>
+</section>
+<section id="primes9" class="slide level2">
+<h2>Two Primes</h2>
+<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<ul>
+<li>Rather than doing prime generation, we will do primality testing.
+<ul>
+<li>We will change the number until it is prime.
+</ul>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) 
+{
+  p <- sample(10 ^ s:10 ^ (s + 1), 1)
+  while (!primality(p))
+  {
+    p <- p + 1
+  }
+  return(p)
+}
+</code></pre>
+<p>We show no further optimizations - can you think of any that would be easy?
+</section>
+<section id="keygenagain" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<p>For key generation, we follow RSA.
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<li>Compute the product of these primes <code>n</code>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>I am not sure anyone knows what that is generally, but...
+<li>...for products of primes &lambda; is <code>lcm(p − 1, q − 1)</code>
+</ul>
+...
+</section>
+<section id="lambda" class="slide level2">
+<h2>Lambda</h2>
+<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
+{
+  ...
+}
+</code></pre>
+<p>LCM is "least common multiple".  We can compute this a number of ways - naive to optimized.
+</section>
+<section id="lambda2" class="slide level2">
+<h2>Lambda</h2>
+<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<p>We can find and test multiples.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
+{
+  a = max(n,m)
+  b = min(n,m)
+  r = a
+  while (r %% b)
+  {
+    r = r + a
+  }
+  return(r)
+}
+</code></pre>
+<p>However, our primes may (should) be large.
+</section>
+<section id="lambda3" class="slide level2">
+<h2>Lambda</h2>
+<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<p>We can use the following equality:
+<code>lcm(a,b) = (a * b) / gcd(a,b)</code>
+<p>Where gcd is the greatest common divisor.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
+{
+  return((n * m) / gcd(n,m))
+}
+</code></pre>
+<p>We then simply must write <code>gcd</code>.
+</section>
+<section id="lambda4" class="slide level2">
+<h2>Lambda</h2>
+<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<p>We then simply must write <code>gcd</code>.
+<ul>
+<li>Once again, we may simply start some value and iterate.
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m) 
+{
+  r = min(n,m)
+  while(r)
+  {
+    !(n %% r || m %% r) && return(r)
+    r = r - 1
+  }
+}
+</code></pre>
+<p>How would we describe what this code does?
+</section>
+<section id="euclid" class="slide level2">
+<h2>Euclidean Algorithm</h2>
+<p>Instead, we use the highly optimized Euclidean algorithm.
+<ul>
+<li>Euclid had one key insight:
+<code>a > b -> gcd(a,b) = gcd(b, a % b)</code>
+</ul>
+<p>That is, if something divides <code>a</code> and <code>b < a</code>, it divides <code>a % b</code>
+<ul>
+<li>First round:
+<ul>
+<li>a = 15, b = 10
+<li>a % b = 5
+</ul>
+<li>Second round:
+<ul>
+<li>a = 10, b = 5
+<li>a % b = 0
+</ul>
+<li>Third round:
+<ul>
+<li>a = 5, b = 0
+<li>We cannot continue with 0, so we return a
+</ul>
+<p>Why does this work?
+</section>
+<section id="euclid2" class="slide level2">
+<h2>Euclidean Algorithm</h2>
+<p>Instead, we use the highly optimized Euclidean algorithm.
+<ul>
+<li>Euclid had one key insight:
+<code>a > b -> gcd(a,b) = gcd(b, a % b)</code>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
+{
+  a = max(n,m)
+  b = min(n,m)
+  if (b == 0)
+  {
+    return(a)
+  }
+  return(gcd(b, a %% b))
+}
+</code></pre>
+<p>We can do away with the first two lines if we agree to always provide the larger value first.
+</section>
+<section id="euclid3" class="slide level2">
+<h2>Euclidean Algorithm</h2>
+<p>Instead, we use the highly optimized Euclidean algorithm.
+<ul>
+<li>Euclid had one key insight:
+<code>a > b -> gcd(a,b) = gcd(b, a % b)</code>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
+{
+  !min(n,m) && return(max(n,m))
+  return(gcd(min(n,m), max(n,m) %% min(n,m)))
+}
+</code></pre>
+<p>Or (inlined if, assume order is correct)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
+{
+  if(m) gcd(m, n %% m) else n
+}
+</code></pre>
+
+</section>
+<section id="lambda5" class="slide level2">
+<h2>Lambda</h2>
+<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<p>We then simply must write <code>lcm</code>.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
+{
+  gcd <- function(n, m)
+  {
+    if(m) gcd(m, n %% m) else n
+  }
+  (n * m) / gcd(max(n,m), min(n,m))
+}
+</code></pre>
+<p>It is extremely safe to assume the maximum is first here with an inner function.
+</section>
+<section id="lambda6" class="slide level2">
+<h2>Lambda</h2>
+<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>lambda <- function(p, q) 
+{
+  lcm <- function(n, m) { ... }
+  lcm(p - 1, q - 1)
+}
+</code></pre>
+<p>It is extremely safe to assume the maximum is first here with an inner function.
+</section>
+<section id="keygen3" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<p>For key generation, we follow RSA.
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>p  = getPrime()
+q  = getPrime()
+</code></pre>
+<li>Compute the product of these primes <code>n</code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>n  = p * q
+</code></pre>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ln = lambda(p,q)
+</code></pre>
+<li>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<li>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<div class="cols">
+<div class="col">
+</section>
+<section id="coprime" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<ul>
+<li>Be advised there is trickery afoot. That said.
+</ul>
+<p>Two values are coprime if they share no factors.  Recall primality:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
+{
+  for (i in 2:n)
+  {
+    n %% i == 0 && return(FALSE)
+  }
+  return(TRUE)
+}
+</code></pre>
+<p>We can adapt this code.
+</section>
+<section id="coprime2" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<ul>
+<li>Be advised there is trickery afoot. That said.
+</ul>
+<p>Two values are coprime if they share no factors.  Recall primality:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>coprimality <- function(n, m) 
+{
+  for (i in 2:n)
+  {
+    (n %% i == 0 && m %% i == 0) && return(FALSE)
+  }
+  return(TRUE)
+}
+</code></pre>
+<p>We can optimize this, of course.
+</section>
+<section id="coprime3" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<ul>
+<li>Be advised there is trickery afoot. That said.
+</ul>
+<p>We shorten the for loop and simplify the logical expression.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>coprimality <- function(n, m) 
+{
+  for (i in 2:min(sqrt(n),sqrt(m))
+  {
+    !(n %% i || m %% i) && return(FALSE)
+  }
+  return(TRUE)
+}
+</code></pre>
+<p>Using this, we can write <code>getCoPrime</code>
+</section>
+<section id="coprime4" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<ul>
+<li>Be advised there is trickery afoot. That said.
+</ul>
+<p>Using this, we can write <code>getCoPrime</code>.  Recall <code>getPrime</code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) 
+{
+  p <- sample(10 ^ s:10 ^ (s + 1), 1)
+  while (!primality(p))
+  {
+    p <- p + 1
+  }
+  return(p)
+}
+</code></pre>
+<p>Using this, we can write <code>getCoPrime</code>
+</section>
+<section id="coprime5" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<ul>
+<li>Be advised there is trickery afoot. That said.
+</ul>
+<p>We simply change the check to coprimality.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n, s=3) 
+{
+  p <- sample(10 ^ s:10 ^ (s + 1), 1)
+  while (!coprimality(p, n))
+  {
+    p <- p + 1
+  }
+  return(p)
+}
+</code></pre>
+<p>About that trickery.
+</section>
+<section id="coprime5" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>). Primes... are coprime.
+<ul>
+<li>2^16 + 1 is almost universally used.
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n, s=3) 
+{
+  return(65537)
+}
+</code></pre>
+<ul>
+<li>3 can be used for extremely fast performance, though is potentially less secure.
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n, s=3) 
+{
+  return(3)
+}
+</code></pre>
+</ul>
+</section>
+<section id="coprime6" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>). Primes... are coprime.
+<ul>
+<li>A happy medium.
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n, s=3) 
+{
+  r = 3
+  while (TRUE)
+  {
+    (n %% r && primality(r)) && return(r)
+    r = r + 2
+  }
+}
+</code></pre>
+<ul>
+<li>We won't use this, but we showed for educational reasons.
+</section>
+<section id="keygen4" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>p  = getPrime()
+q  = getPrime()
+</code></pre>
+<li>Compute the product of these primes <code>n</code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>n  = p * q
+</code></pre>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ln = lambda(p,q)
+</code></pre>
+<li>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>e  = 3
+</code></pre>
+<li>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<div class="cols">
+<div class="col">
+</section>
+<section id="timeout" class="slide level2">
+<h2>Anticipated time-out</h2>
+<p>If you see this slide, we are about to switch to pure colab.
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

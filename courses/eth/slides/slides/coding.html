@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>RSA</title>
+  <title>Coding</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -24,7 +24,7 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">RSA</h1>
+  <h1 class="title">Coding</h1>
   <p class="author">Calvin (Deutschbein)<br></p>
   <p class="date">12 Apr 2023</p>
 </section>
@@ -32,570 +32,346 @@
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
-<li>Today we will be doing RSA, our first deployable cryptography algorithm.</li>
+<li>Coding practice!</li>
+<li>For Monday, two readings (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.justice.gov/opa/pr/justice-department-secures-groundbreaking-settlement-agreement-meta-platforms-formerly-known">“Justice Department Secures Groundbreaking Settlement Agreement with Meta Platforms, Formerly Known as Facebook, to Resolve Allegations of Discriminatory Advertising”</a></li>
+<li><a href="https://www.npr.org/2019/03/28/707614254/hud-slaps-facebook-with-housing-discrimination-charge">“Housing Department Slaps Facebook With Discrimination Charge”</a></li></ul>
+</section>
 </ul>
 </section>
-<section id="ttn" class="slide level2">
-<h2>textToNum</h2>
-<div class="cols">
-<div class="col">
-
-<p>I implemented textToNum recursively.
+<section id="langs" class="slide level2">
+<h2>Languages</h2>
+<p>We are a three language class.
 <ul>
-<li>For a string of length one, we convert using utf8ToInt
-<li>For a string of greater than length one:<ul>
-<li>textToNum the rest of the string is</li>
-<li>find the value of the current character.</li>
-<li>We multiply by 0x100 - the number of possible suffix/prefixes - and add the suffix/prefix</li>
+<li>Python
+<li>R
+<li>JavaScript
 </ul>
-</ul>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  val = substring(s,1,1)
-  val = utf8ToInt(val)
-  cs = nchar(s)
-  if (cs > 1)
-  {
-    rst = substring(s,2,cs)
-    rst = textToNum(rst)
-    val = val + 0x100 * rst
-  }
-  return(val)
-}
-</code></pre>
-</div>
-</div>
+<p>None of us know C and we wouldn't want to lie in an ethics class.
 </section>
-<section id="bkwd" class="slide level2">
-<h2>If backwards</h2>
-<p>We can trivially reverse the order of composition.</p>
+<section id="primality" class="slide level2">
+<h2>Primality</h2>
+<p>We can compute if a value is prime in Python and R...
 <div class="cols">
 <div class="col">
-<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  cs = nchar(s)
-  v  = substring(s,cs,cs)
-  v  = utf8ToInt(v)
-  if (cs > 1)
-  {
-    r = substring(s,1,cs-1)
-    r = textToNum(r)
-    v = val + 0x100 * r
-  }
-  return(v)
-}
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  cs = nchar(s)
-  v  = substring(s,1,1)
-  v  = utf8ToInt(v)
-  if (cs > 1)
-  {
-    r = substring(s,2,cs)
-    r = textToNum(r)
-    v = v + 0x100 * r
-  }
-  return(v)
-}
-</code></pre>
-</div>
-</div>
-</section>
-<section id="iter" class="slide level2">
-<h2>Iteratively</h2>
-<p>We can write iteratively.</p>
-<div class="cols">
-<div class="col">
-<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  vn = 0
-  cs = nchar(s)
-  while (cs) {
-    vs = substring(s,1,1)
-    vn = vn * 0x100
-    vn = vn + utf8ToInt(vs)
-    s  = substring(s,2,cs)
-    cs = nchar(s)
-  }
-  return(vx)
-}
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  cs = nchar(s)
-  v  = substring(s,1,1)
-  v  = utf8ToInt(v)
-  if (cs > 1)
-  {
-    r = substring(s,2,cs)
-    r = textToNum(r)
-    v = v + 0x100 * r
-  }
-  return(v)
-}
-</code></pre>
-</div>
-</div>
-</section>
-<section id="ntt" class="slide level2">
-<h2>textToNum</h2>
-<div class="cols">
-<div class="col">
+<p><pre><code style="max-height:1100px;max-width:2500px" class='python'>def primality(n):
 
-<p>I implemented numToText recursively.
-<ul>
-<li>For zero, return nothing.
-<li>For non-zero:<ul>
-<li>Find the value modulo 0x100</li>
-<li>Find the corresponding character.</li>
-<li>Find the numToText of the rest.</li>
-<li><code>paste0</code></li>
-</ul>
-</ul>
+  for i in range(2,n):
+  
+    if n % i == 0:
+	
+      return False
+	  
+	  
+    return True
+	
+</code></pre>
 </div>
 <div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
 {
-  !n && return()
-  v = n %% 0x100
-  r = n /  0x100
-  r = floor(r)
-  v = intToUtf8(v)
-  r = numToText(r)
-  return(paste0(v,r))
+  for (i in 2:n)
+  {
+    if (n %% i == 0)
+    {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
 }
 </code></pre>
 </div>
 </div>
 </section>
-<section id="bkwd2" class="slide level2">
-<h2>If backwards</h2>
-<p>We can trivially reverse the order of composition.</p>
+<section id="primality2" class="slide level2">
+<h2>Primality</h2>
+<p>We can compute if a value is prime in R or JavaScript...
 <div class="cols">
 <div class="col">
-<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
 {
-  !n && return()
-  v = n %% 0x100
-  r = n /  0x100
-  r = floor(r)
-  v = intToUtf8(v)
-  r = numToText(r)
-  return(paste0(r,v))
+  for (i in 2:n)
+  {
+    if (n %% i == 0)
+    {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
 }
 </code></pre>
 </div>
 <div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>function primality(n)
 {
-  !n && return()
-  v = n %% 0x100
-  r = n /  0x100
-  r = floor(r)
-  v = intToUtf8(v)
-  r = numToText(r)
-  return(paste0(v,r))
+  for (let i= 2; i< n; i++)
+  {
+    if (n % i == 0)
+    {
+      return false ;
+    }
+  }
+  return true ;
 }
 </code></pre>
 </div>
 </div>
+<p>This code is, of course, highly non-optimized.
 </section>
-<section id="iter2" class="slide level2">
-<h2>Iteratively</h2>
-<p>We can write iteratively.</p>
-<div class="cols">
-<div class="col">
-<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+<section id="html" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+&#60;body&#62;
+    &#60;input type="text" id="myIn"&#62;
+    &#60;button type="button" onclick="io();"&#62;Primality&#60;/button&#62;
+    &#60;output id="myOut"&#62;Placeholder text&#60;/output&#62;
+    &#60;script&#62;...&#60;/script&#62;
+&#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">function io()
 {
-  s = ''
-  while (n) 
-  {
-    v = n %% 0x100
-    n = n /  0x100
-    n = floor(n)
-    v = intToUtf8(v)
-    s = paste0(v,s)
-  }
-  return(s)
-}
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
-{
-  !n && return()
-  v = n %% 0x100
-  r = n /  0x100
-  r = floor(r)
-  v = intToUtf8(v)
-  r = numToText(r)
-  return(paste0(v,r))
-}
-</code></pre>
-</div>
-</div>
-<p>The iterative solution is only longer due to the logic hack.
-</section>
-<section id="iter3" class="slide level2">
-<h2>Iteratively</h2>
-<p>We can write iteratively without the logical return hack.</p>
-<div class="cols">
-<div class="col">
-<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
-{
-  s = ''
-  while (n) 
-  {
-    v = n %% 0x100
-    n = n /  0x100
-    n = floor(n)
-    v = intToUtf8(v)
-    s = paste0(v,s)
-  }
-  return(s)
-}
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
-{
-  if (!n)
-  {
-    return()
-  }
-  v = n %% 0x100
-  r = n /  0x100
-  r = floor(r)
-  v = intToUtf8(v)
-  r = numToText(r)
-  return(paste0(v,r))
-}
-</code></pre>
-</div>
-</div>
-<p>Fair is fair.
+	let input  = document.getElementById("myIn")  ;
+	let output = document.getElementById("myOut") ;
+	let n = parseInt(input.value) ;
+	output.innerText = primality(n).toString() ;
+}</code></pre>
 </section>
 <section id="review1" class="slide level2">
 <h2>Review Question 1</h2>
-<p>Consider the following code snippet:</p>
-<p><code>cs = nchar(s)</code></p>
-<p>What do we expect the type of <code>cs</code> to be?
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let input  = document.getElementById("myIn")  ;</code></pre>
+<p>What is <code>input</code>?</p>
 <div class="poll">
 <ol>
-<li>Int</li>
-<li>Float</li>
-<li>Char</li>
-<li>String</li>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
 </ol>
 </div>
 </section>
 <section id="review2" class="slide level2">
 <h2>Review Question 2</h2>
-<p>Consider the following code snippet:</p>
-<p><code>cs = nchar(s)</code></p>
-<p>What do we expect the type of <code>s</code> to be?
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let input  = document.getElementById("myIn")  ;</code></pre>
+<p>To what does <code>input</code> refer?</p>
 <div class="poll">
 <ol>
-<li>Int</li>
-<li>Float</li>
-<li>Char</li>
-<li>String</li>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
 </ol>
 </div>
 </section>
-<section id="sidebar" class="slide level2">
-<h2>Sidebar: Function Types</h2>
-<p>Consider the following code snippet:</p>
-<p><code>cs = nchar(s)</code></p>
-<ul>
-<li>Clearly the variables, <code>cs</code> and <code>s</code>, may have some type.
-<li>Clearly <code>nchar</code> is a function.
-<li>However, it is not enough to claim <code>nchar</code> is a function.
-<p><code>a = nchar(x)</code></p>
-<p><code>b = floor(y)</code></p>
-<p><code>c = paste(z)</code></p>
-<li><code>a</code>, <code>b</code>, and <code>c</code> are all return values from functions, but of distinct type.
-<li><code>x</code>, <code>y</code>, and <code>z</code> are all arguments functions, but of distinct type.
-</section>
-<section id="sidebar2" class="slide level2">
-<h2>Sidebar: Function Types</h2>
-<p><code>a = nchar(x)</code></p>
-<ul>
-<li><code>nchar</code> takes a string and returns an integer.
-<li>str -> int
-</ul>
-<p><code>b = floor(y)</code></p>
-<ul>
-<li><code>floor</code> takes a float and returns an integer
-<li>float -> int
-</ul>
-<p><code>c = paste(z)</code></p>
-<ul>
-<li>paste takes string(s) and returns a string
-<li>string^n -> string
-<li>(string,string) -> string
-<li>string -> string -> string
-</ul>
-</section>
-<section id="functype" class="slide level2">
+<section id="review3" class="slide level2">
 <h2>Review Question 3</h2>
-<p>Consider the following code snippet:</p>
-<p><code>cs = nchar(s)</code></p>
-<p>What do we expect the type of <code>nchar</code> to be?
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>What is <code>input.value</code>?</p>
 <div class="poll">
 <ol>
-<li>int -> float</li>
-<li>float -> char</li>
-<li>char -> string</li>
-<li>string -> int</li>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
 </ol>
-<p>From now on I will use the special "&rarr;" character, but using "->" instead is always fine.
 </div>
 </section>
 <section id="review4" class="slide level2">
 <h2>Review Question 4</h2>
-<p>Consider the following code snippet:</p>
-<p><code>v  = substring(s,1,1)</code></p>
-<p>What do we expect the type of <code>substring</code> to be?
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>To what does <code>input.value</code> refer?</p>
 <div class="poll">
 <ol>
-<li>(string, int, int) -> str</li>
-<li>str -> (string, int, int)</li>
-<li>(str, int, int) -> char</li>
-<li>char -> (char, int, int)</li>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
 </ol>
 </div>
-<p>This is non-trivial!
 </section>
 <section id="review5" class="slide level2">
 <h2>Review Question 5</h2>
-<p>I find substring tedious and confusing.</p><pre><code style="max-height:1100px;max-width:2500px" class='R'>head <- function(s)
-{
-  return(substring(s,1,1))
-}
-</code></pre>
-<p>What do we expect the type of <code>head</code> to be?
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>What is the type of <code>input.value</code>?</p>
 <div class="poll">
 <ol>
-<li>(string, int, int) -> string</li>
-<li>(string, int, int) -> char</li>
-<li>string -> string</li>
-<li>string -> char</li>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
 </ol>
 </div>
 </section>
 <section id="review6" class="slide level2">
 <h2>Review Question 6</h2>
-<p>I find substring tedious and confusing.</p><pre><code style="max-height:1100px;max-width:2500px" class='R'>tail <- function(s)
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>What is the type of <code>n</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="html2" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+&#60;body&#62;
+    &#60;input type="text" id="myIn"&#62;
+    &#60;button type="button" onclick="io();"&#62;Primality&#60;/button&#62;
+    &#60;output id="myOut"&#62;Placeholder text&#60;/output&#62;
+    &#60;script&#62;...&#60;/script&#62;
+&#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">function io()
 {
-  return(substring(s,2,nchar(s)))
-}
-</code></pre>
-<p>What do we expect the type of <code>tail</code> to be?
-<div class="poll">
-<ol>
-<li>(string, int, int) -> string</li>
-<li>(string, int, int) -> char</li>
-<li>string -> string</li>
-<li>string -> char</li>
-</ol>
-</div>
-</section>
-<section id="help" class="slide level2">
-<h2>Sidebar: Helper Functions</h2>
-<p>Some languages have built-in <code>head</code> and <code>tail</code> operations.
-<div class="cols">
-<div class="col">
-
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  v = utf8ToInt(head(s))
-  if (nchar(s) > 1)
-  {
-    r = textToNum(tail(s))
-    v = v + 0x100 * r
-  }
-  return(v)
-}
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  v = substring(s,1,1)
-  v = utf8ToInt(v)
-  cs = nchar(s)
-  if (cs > 1)
-  {
-    r = substring(s,2,cs)
-    r = textToNum(r)
-    v = v + 0x100 * r
-  }
-  return(v)
-}
-</code></pre>
-</div>
-</div>
-</section>
-<section id="help2" class="slide level2">
-<h2>Sidebar: Helper Functions</h2>
-<p>We can understand these better by considering types
-<div class="cols">
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>head()
-
-tail()
-
-utf8ToInt()
-
-textToNum()
-
-utf8toInt(head())
-
-textToNum(tail())
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>str -> char
-
-str -> str
-
-char -> int
-
-str -> int
-
-str -> int
-
-str -> int
-</code></pre>
-</div>
-</div>
-<p>By using these helper functions, we can compose composite functions that convert strings to integers.
-</section>
-
-<section id="recurse" class="slide level2">
-<h2>Sidebar: Helper Functions</h2>
-<p>This can make recursion more clear.
-<div class="cols">
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum(s) = 
-    utf8toInt(head()) 
-  + 
-      0x100
-    *
-      textToNum(tail())
-</code></pre>
-</div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>The value of a string is
-    value of the 1st char
-  plus
-      no of possible chars
-    times
-      the value of the rest
-</code></pre>
-</div>
-</div>
-<p>By using these helper functions, we can compose composite functions that convert strings to integers.
-<ul>
-<li>This code is not complete - it omits the base case - but if we take as a given that <code>textToNum(NUL)</code> is 0, it works.
-</section>
-<section id="review7" class="slide level2">
-<h2>Review Question 7</h2>
-<p><code>0x100</code> is an integer expressed in "hexadecimal", or the base 16 number system. 
-<p>What is <code>0x100</code> in base 10?
-<div class="poll">
-<ol>
-<li>100</li>
-<li>128</li>
-<li>256</li>
-<li>1024</li>
-</ol>
-</div>
-</section>
-<section id="review8" class="slide level2">
-<h2>Review Question 8</h2>
-<p><code>0x100</code> is an integer expressed in "hexadecimal", or the base 16 number system. 
-<p>What is <code>0x100</code> in base 2?
-<div class="poll">
-<ol>
-<li>0b100000000</li>
-<li>0b1000000</li>
-<li>0b1024</li>
-<li>0b256</li>
-</ol>
-</div>
-</section>
-<section id="review9" class="slide level2">
-<h2>Review Question 9</h2>
-<p>Rather than using ASCII/UTF-8, we can use an extended character set UTF-16. ASCII/UTF-8 uses 8 bits to store ~250 characters. How many times more characters can be stored in 16 bits than in 8?
-<div class="poll">
-<ol>
-<li>2x</li>
-<li>8x</li>
-<li>16x</li>
-<li>256x</li>
-</ol>
-</div>
-</section>
-<section id="review10" class="slide level2">
-<h2>Review Question 10</h2>
-<p>Rather than using ASCII/UTF-8, imagine I am implementing a standard with almost exactly a million characters. ASCII/UTF-8 uses 8 bits to store ~250 characters, how many bits will I need to store almost exactly a million characters?
-<div class="poll">
-<ol>
-<li>10</li>
-<li>16</li>
-<li>20</li>
-<li>64</li>
-</ol>
-</div>
+	let input  = document.getElementById("myIn")  ;
+	let output = document.getElementById("myOut") ;
+	let n = parseInt(input.value) ;
+	output.innerText = primality(n).toString() ;
+}</code></pre>
 </section>
 <section id="reviewa" class="slide level2">
-<h2>Review Question 0xA</h2>
-<div class="cols">
-<div class="col">
-<p>I used hexadecimal <code>mult = 0x100</code> in textToNum.
-<p>Which of the following <code>mult</code> values is appropriate to use in base 10 to safely encode and decode?
+<h2>Review Question A</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What is the type of <code>n</code>?</p>
 <div class="poll">
 <ol>
-<li>20</li>
-<li>100</li>
-<li>200</li>
-<li>1000</li>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
 </ol>
 </div>
+</section>
+<section id="reviewb" class="slide level2">
+<h2>Review Question B</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What is the type of <code>primality(n)</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
 </div>
-<div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
-{
-  mult = 0x100
-  val = substring(s,1,1)
-  val = utf8ToInt(val)
-  cs = nchar(s)
-  if (cs > 1)
-  {
-    rst = substring(s,2,cs)
-    rst = textToNum(rst)
-    val = val + mult * rst
-  }
-  return(val)
-}
-</code></pre>
+</section>
+<section id="reviewc" class="slide level2">
+<h2>Review Question C</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What kind of thing is <code>primality(n).toString</code>?</p>
+<div class="poll">
+<ol>
+<li>function</li>
+<li>method</li>
+<li>object</li>
+<li>property</li>
+</ol>
 </div>
+</section>
+<section id="reviewd" class="slide level2">
+<h2>Review Question D</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What is the type of <code>primality(n).toString()</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+<p>Easy one cuz the last one was a real thinker.
+</section>
+<section id="reviewe" class="slide level2">
+<h2>Review Question E</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What kind of thing is <code>output</code>?</p>
+<div class="poll">
+<ol>
+<li>function</li>
+<li>method</li>
+<li>object</li>
+<li>property</li>
+</ol>
+</div>
+</section>
+<section id="reviewf" class="slide level2">
+<h2>Review Question F</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>To what does <code>output</code> refer?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="reviewg" class="slide level2">
+<h2>Review Question G</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What kind of thing is <code>output.innerText</code>?</p>
+<div class="poll">
+<ol>
+<li>function</li>
+<li>method</li>
+<li>object</li>
+<li>property</li>
+</div>
+</section>
+<section id="reviewh" class="slide level2">
+<h2>Review Question H</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+</ol>
+<p>What is the type of <code>output.innerText</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="reviewf" class="slide level2">
+<h2>Review Question F</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>To what does <code>output.innerText</code> refer?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
 </div>
 </section>
 <section id="publickey" class="slide level2">
 <h2>Problem space</h2>
-<p>So we need to differentiate C and I. We will define them mathematically.
+<p>I want you to get live-coding practice.
 <ul>
-<li>We will use the notion of a public-key cryptosystem.
+<li>We're using RSA, cuz the other thing I wanted to use requires libraries (ew).
 <div class="block" name="Definition">
 <p>A <b>public-key cryptosystem</b> is a technique to convert message of up to fixed size (that is, with a maximum value) to "cyphertext" - a numerical value that contains the information of a message, but not in a readable manner.  To be a public-key system, any agent must be able to produce cyphertexts, but only the intended receiver may extract the original message from the cyper text.</p>
 </div>
@@ -681,7 +457,7 @@ decrypt()
 <li>Anyone who wishes to send me a private message may do so
 <ul>
 <li>They write a message.
-<li>They textToNum the message.
+<li>They convert the message to numerical data in some manner.
 <li>They raise the numerical value to the power <code>e</code> to get the cypher.
 <li>They send me the cypher without concern that others may read it.
 </ul>
@@ -703,22 +479,52 @@ decrypt()
 <p>For now we assume we'll get <code>keyGen</code> working, so we show <code>encrypt</code> and <code>decrypt</code>
 <div class="cols">
 <div class="col">
-
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt <- function(s, e)
-{
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt <- function(s,e) {
   return(textToNum(s) ^ e)
+}
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt <- function(s,d,n) {
+  v = (s ^  d) %% n
+  return(numToText(v))
 }
 </code></pre>
 </div>
 <div class="col">
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt <- function(s, d, n)
-{
-  v = (s ^ d) %% n
-  return(numtoText(v))
-}
+<pre><code style="max-height:1100px;max-width:2500px" class='Python'>def encrypt(s, e):
+  return textToNum(s) ^ e
+  
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='Python'>def decrypt(s, d, n):
+  v = (s ** d) %  n
+  return numToText(v)
+  
 </code></pre>
 </div>
 </div>
+<p>For testing purposes, here is a satisfying key.
+<pre><code>[n, e, d] = [191923, 3, 127307]</code></pre>
+<p>e is supposed to be larger but I am lazy/afraid.  You should be able encrypt/decrypt "hi" with this.
+</section>
+<section id="tasks" class="slide level2">
+<h2>Tasks</h2>
+<p>Form groups and pick a language.  JavaScript will be harder but more cool.
+<ul>
+<li>MEDIUM: We need a working <code>textToNum</code>
+<li>MEDIUM: We need a working <code>numToText</code>
+<li>HARD: We want to make sure they actually work
+<ul>
+<li>Not like "oh I think it should work" work
+<li>Not "well I haven't tested it yet" work.
+</ul>
+
+<li>EASY: We need a working <code>encrypt</code>
+<li>EASY: We need a working <code>decrypt</code>
+</ul>
+<p>Even with this key, raising something to the power of 127307 will melt your PC.
+<pre><code>[n, e, d] = [191923, 3, 127307]</code></pre>
+<ul>
+<li>HARD: We need fast modular exponentiation by squares.
+</ul>
 </section>
 <section id="keygen" class="slide level2">
 <h2>Sketch: Key Generation</h2>
@@ -829,82 +635,13 @@ decrypt()
 }
 </code></pre>
 </section>
-<section id="primes6" class="slide level2">
-<h2>Two Primes</h2>
-<p>Optimize using 6k+1.
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) {
-  n <= 1 && return(FALSE)
-  n <= 3 && return(TRUE)
-  !(n %% 2 && n %% 3) && return(FALSE)
-  i = 5
-  while (i*i <= n) 
-  {
-    !(n %% i && n %% (i+2)) && return (FALSE)
-    i = i + 6
-  }
-  return (TRUE)
-}
-</code></pre>
-<p>We don't need the first two lines since we will never use single digit values.
-</section>
-<section id="primes7" class="slide level2">
-<h2>Two Primes</h2>
-<p>Optimize using 6k+1.
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n, i=5) {
-  !(n %% 2 && n %% 3) && return(FALSE)
-  while (i*i <= n) 
-  {
-    !(n %% i && n %% (i+2)) && return (FALSE)
-    i = i + 6
-  }
-  return (TRUE)
-}
-</code></pre>
-<p>This is (relatively) optimized code - but a <code>for</code> loop is fine.
-</section>
-<section id="primes8" class="slide level2">
-<h2>Two Primes</h2>
-<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<section id="tasks2" class="slide level2">
+<h2>Tasks 2</h2>
+<p>Form groups with full language coverage.
 <ul>
-<li>Rather than doing prime generation, we will do primality testing.
-<ul>
-</ul>
-</ul>
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) 
-{
-  p <- sample(10 ^ s:10 ^ (s + 1), 1)
-  primality <- function(n) 
-  {
-    for (i in 2:n)
-    {
-      n %% i == 0 && return(FALSE)
-    }
-    return(TRUE)
-  }
-  ...
-}
-</code></pre>
-</section>
-<section id="primes9" class="slide level2">
-<h2>Two Primes</h2>
-<p>Compute two prime numbers, <code>p</code> and <code>q</code> 
-<ul>
-<li>Rather than doing prime generation, we will do primality testing.
-<ul>
-<li>We will change the number until it is prime.
-</ul>
-</ul>
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) 
-{
-  p <- sample(10 ^ s:10 ^ (s + 1), 1)
-  while (!primality(p))
-  {
-    p <- p + 1
-  }
-  return(p)
-}
-</code></pre>
-<p>We show no further optimizations - can you think of any that would be easy?
+<li>EASY: We need a working <code>primality</code>
+<li>MEDIUM: We need a working <code>primality</code> in all languages
+<li>HARD: We want a working <code>primality</code> using 6k+1 in all languages.
 </section>
 <section id="keygenagain" class="slide level2">
 <h2>Sketch: Key Generation</h2>
@@ -953,142 +690,15 @@ decrypt()
 </code></pre>
 <p>However, our primes may (should) be large.
 </section>
-<section id="lambda3" class="slide level2">
-<h2>Lambda</h2>
-<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<section id="tasks3" class="slide level2">
+<h2>Tasks 3</h2>
+<p>Form groups with full language coverage.
 <ul>
-<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
-</ul>
-<p>We can use the following equality:
-<code>lcm(a,b) = (a * b) / gcd(a,b)</code>
-<p>Where gcd is the greatest common divisor.
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
-{
-  return((n * m) / gcd(n,m))
-}
-</code></pre>
-<p>We then simply must write <code>gcd</code>.
-</section>
-<section id="lambda4" class="slide level2">
-<h2>Lambda</h2>
-<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
-<ul>
-<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
-</ul>
-<p>We then simply must write <code>gcd</code>.
-<ul>
-<li>Once again, we may simply start some value and iterate.
-</ul>
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m) 
-{
-  r = min(n,m)
-  while(r)
-  {
-    !(n %% r || m %% r) && return(r)
-    r = r - 1
-  }
-}
-</code></pre>
-<p>How would we describe what this code does?
-</section>
-<section id="euclid" class="slide level2">
-<h2>Euclidean Algorithm</h2>
-<p>Instead, we use the highly optimized Euclidean algorithm.
-<ul>
-<li>Euclid had one key insight:
-<code>a > b -> gcd(a,b) = gcd(b, a % b)</code>
-</ul>
-<p>That is, if something divides <code>a</code> and <code>b < a</code>, it divides <code>a % b</code>
-<ul>
-<li>First round:
-<ul>
-<li>a = 15, b = 10
-<li>a % b = 5
-</ul>
-<li>Second round:
-<ul>
-<li>a = 10, b = 5
-<li>a % b = 0
-</ul>
-<li>Third round:
-<ul>
-<li>a = 5, b = 0
-<li>We cannot continue with 0, so we return a
-</ul>
-<p>Why does this work?
-</section>
-<section id="euclid2" class="slide level2">
-<h2>Euclidean Algorithm</h2>
-<p>Instead, we use the highly optimized Euclidean algorithm.
-<ul>
-<li>Euclid had one key insight:
-<code>a > b -> gcd(a,b) = gcd(b, a % b)</code>
-</ul>
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
-{
-  a = max(n,m)
-  b = min(n,m)
-  if (b == 0)
-  {
-    return(a)
-  }
-  return(gcd(b, a %% b))
-}
-</code></pre>
-<p>We can do away with the first two lines if we agree to always provide the larger value first.
-</section>
-<section id="euclid3" class="slide level2">
-<h2>Euclidean Algorithm</h2>
-<p>Instead, we use the highly optimized Euclidean algorithm.
-<ul>
-<li>Euclid had one key insight:
-<code>a > b -> gcd(a,b) = gcd(b, a % b)</code>
-</ul>
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
-{
-  !min(n,m) && return(max(n,m))
-  return(gcd(min(n,m), max(n,m) %% min(n,m)))
-}
-</code></pre>
-<p>Or (inlined if, assume order is correct)
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
-{
-  if(m) gcd(m, n %% m) else n
-}
-</code></pre>
-
-</section>
-<section id="lambda5" class="slide level2">
-<h2>Lambda</h2>
-<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
-<ul>
-<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
-</ul>
-<p>We then simply must write <code>lcm</code>.
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
-{
-  gcd <- function(n, m)
-  {
-    if(m) gcd(m, n %% m) else n
-  }
-  (n * m) / gcd(max(n,m), min(n,m))
-}
-</code></pre>
-<p>It is extremely safe to assume the maximum is first here with an inner function.
-</section>
-<section id="lambda6" class="slide level2">
-<h2>Lambda</h2>
-<p>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
-<ul>
-<li>...for products of primes &lambda;(<code>p * q</code>) is <code>lcm(p − 1, q − 1)</code>
-</ul>
-<pre><code style="max-height:1100px;max-width:2500px" class='R'>lambda <- function(p, q) 
-{
-  lcm <- function(n, m) { ... }
-  lcm(p - 1, q - 1)
-}
-</code></pre>
-<p>It is extremely safe to assume the maximum is first here with an inner function.
+<li>EASY: We need a working <code>lcm</code>
+<li>EASY: We need a working <code>lcm</code> in all languages
+<li>MEDIUM: We want a working <code>lcm</code> using <code>gcd</code> in all languages.
+<li>HARD: We want a working <code>lcm</code> using <code>gcd</code> in all languages implementing the Euclidean algorithm.
+<li>EASY: We want a <code>lambda</code> wrapper.
 </section>
 <section id="keygen3" class="slide level2">
 <h2>Sketch: Key Generation</h2>
@@ -1264,6 +874,21 @@ q  = getPrime()
 <section id="timeout" class="slide level2">
 <h2>Anticipated time-out</h2>
 <p>If you see this slide, we are about to switch to pure colab.
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Homework for Monday
+<ul>
+<li>Read both<ul><li><a href="https://www.justice.gov/opa/pr/justice-department-secures-groundbreaking-settlement-agreement-meta-platforms-formerly-known">“Justice Department Secures Groundbreaking Settlement Agreement with Meta Platforms, Formerly Known as Facebook, to Resolve Allegations of Discriminatory Advertising”</a></li>
+<li><a href="https://www.npr.org/2019/03/28/707614254/hud-slaps-facebook-with-housing-discrimination-charge">“Housing Department Slaps Facebook With Discrimination Charge”</a></li></ul></li>
+<li>Write an HTML/CSS/.js response paper. 500 words / ~3k chars / ~10-20 theses.<ul>
+<li>Include some kind of coded element, which counts toward your word count.
+<li>You don't have to write just 15 theses, but I would.</li>
+<li><b>Bold</b> a main thesis that summarizes your thoughts.</li>
+<li>Aim for between 30% and 70% to be discussion-provoking questions.</li></ul>
+<li>Webhost at *.github.io/hud.html no latter than Friday at Midnight AOE</li>
+<li>Read at least 3 of your peers' documents before class.</li>
+</ul>
 </section>
 
     </div>

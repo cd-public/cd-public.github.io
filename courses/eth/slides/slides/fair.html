@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fair</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Fair (Housing)</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">17 Apr 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Code Review, then</li>
+<li>Chatting</li>
+<li>For today, two readings (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.justice.gov/opa/pr/justice-department-secures-groundbreaking-settlement-agreement-meta-platforms-formerly-known">“Justice Department Secures Groundbreaking Settlement Agreement with Meta Platforms, Formerly Known as Facebook, to Resolve Allegations of Discriminatory Advertising”</a></li>
+<li><a href="https://www.npr.org/2019/03/28/707614254/hud-slaps-facebook-with-housing-discrimination-charge">“Housing Department Slaps Facebook With Discrimination Charge”</a></li></ul>
+
+<li>For next Monday, one reading (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.oregon.gov/cjc/CJC%20Document%20Library/STOP_Report_2022.pdf">“Statistical Transparency of Policing Report”</a></li>
+<li>It is a 57 page document with 28 content-bearing pages, including graphics.</li></ul>
+</section>
+<section id="review" class="slide level2">
+<h2>Code Review</h2>
+<p>You formed groups and picked a language.
+<ul>
+<li><code>textToNum</code>
+<li><code>numToText</code>
+<li>HARD: We need fast modular exponentiation by squares.
+</ul>
+</section>
+
+<section id="meeting-intToUtf8-and-utf8ToInt" class="slide level2">
+<h2>Meeting <code class="python">intToUtf8</code> and <code class="python">utf8ToInt</code></h2>
+<ul>
+<li>R includes two built-in functions to simplify conversion between an <b>number</b> and the corresponding Unicode character</li>
+<li><code class="python">intToUtf8</code> takes a base-10 <b>number</b> and returns the corresponding Unicode character as a string
+<ul>
+<li><code class="python">intToUtf8(65)</code> gives <code class="python">"A"</code> (capital A)</li>
+</ul></li>
+<li><code class="python">utf8ToInt</code> goes the other direction, taking a single character string and returning the corresponding <b>number</b> of that character in Unicode
+<ul>
+<li><code class="python">utf8ToInt("B")</code> gives 66</li>
+<li><code class="python">utf8ToInt(" ")</code> gives 32</li>
+</ul></li>
+</ul>
+</section>
+<section id="meeting-chr-and-ord" class="slide level2">
+<h2>Meeting <code class="python">chr</code> and <code class="python">ord</code></h2>
+<ul>
+<li>Python includes two built-in functions to simplify conversion between an <b>integer</b> and the corresponding Unicode character</li>
+<li><code class="python">chr</code> takes a <b>integer</b> and returns the corresponding Unicode character as a string
+<ul>
+<li><code class="python">chr(65)</code> gives <code class="python">"A"</code> (capital A)</li>
+</ul></li>
+<li><code class="python">ord</code> goes the other direction, taking a single character string and returning the corresponding <b>integer</b> of that character in Unicode
+<ul>
+<li><code class="python">ord("B")</code> gives 66</li>
+<li><code class="python">ord(" ")</code> gives 32</li>
+</ul></li>
+</ul>
+</section>
+<section id="meeting-String.fromCharCode-and-String.prototype.charCodeAt" class="slide level2">
+<h2>Meeting <code class="python">String.fromCharCode</code> and <code class="python">String.prototype.charCodeAt</code></h2>
+<ul>
+<li>JavaScript's string class includes methods to simplify conversion between a <b>number</b> and the corresponding Unicode character</li>
+<li><code class="python">String.fromCharCode</code> takes a <b>number</b> and returns the corresponding Unicode character as a string
+<ul>
+<li><code class="python">String.fromCharCode(65)</code> gives <code class="python">"A"</code> (capital A)</li>
+</ul></li>
+<li><code class="python">String.prototype.charCodeAt</code> goes the other direction, taking a single character string and returning the corresponding <b>number</b> of that character in Unicode
+<ul>
+<li><code class="python">String.prototype.charCodeAt("B")</code> gives 66</li>
+<li><code class="python">String.prototype.charCodeAt(" ")</code> gives 32</li>
+</ul></li>
+</ul>
+</section>
+<section id="chrordjs" class="slide level2">
+<h2><code class="python">chr</code> and <code class="python">ord</code> in js</h2>
+<pre><code style="max-height:1100px;max-width:2500px" class='js'>function ord(c)
+{
+	let x = c.charCodeAt(0) ;
+	let n = BigInt(x) ;
+	return n ;
+}
+
+function chr(n)
+{
+	let x = Number(n)
+	let c = String.fromCharCode(x) ;
+	return c ;
+}
+</code></pre>
+</section>
+<section id="chrordr" class="slide level2">
+<h2><code class="python">chr</code> and <code class="python">ord</code> in r</h2>
+<p>R has integers, but only up to about 1000 so we can't use them for much, so...
+<pre><code style="max-height:1100px;max-width:2500px" class='js'>ord <- function(c)
+{
+  x = utf8ToInt(c)
+  return(x)
+}
+
+chr <- function(n)
+{
+  c = intToUtf8(n)
+  return(c)
+}
+</code></pre>
+<p>We just recall functions can be assigned to variables.
+<pre><code style="max-height:1100px;max-width:2500px" class='js'>ord = utf8ToInt
+chr = intToUtf8
+</code></pre>
+</section>
+<section id="Haskell" class="slide level2">
+<h2>Meeting Haskell</h2>
+<ul>
+<li>There's a programming language named Haskell named after a person named Haskell.</li>
+<li>Google it or whatever.
+<li>In Haskell, strings are *lists* of characters.
+<li>Haskell includes two built-in functions to simplify conversion between an <b>members</b> of a list and the <b>list</b> itself.</li>
+</ul></li>
+</section>
+
+<section id="Haskell2" class="slide level2">
+<h2>Meeting Haskell</h2>
+<ul>
+<li>In Haskell, strings are *lists* of characters.
+<li>Haskell includes two built-in functions to simplify conversion between an <b>members</b> of a list and the <b>list</b> itself.</li>
+<li>We may convert between <b>characters</b> of a string and the <b>string</b> itself.</li>
+<li><code class="python">head</code> takes a <b>list</b> and returns the first <b>element</b> of the list.
+<ul>
+<li><code class="python">head "hello"</code> gives <code>'h'</code></li>
+</ul></li>
+<li><code class="python">tail</code> does rest of the work, taking a <b>list</b> and returning a new <b>list</b> containing all the same elements except the first one
+<ul>
+<li><code class="python">tail "hello"</code> gives <code>"ello"</code></li>
+</ul></li>
+<li>In Haskell, lists <code>lst</code> all satisfy the equality <code class="python">cons head lst tail lst == lst</code>
+<ul><li><code class="python">(equal (cons (car lst) (cdr lst)) lst)</code> in Lisp
+</section>
+<section id="ttn" class="slide level2">
+<h2>textToNum</h2>
+<div class="cols">
+<div class="col">
+
+<p>I implemented textToNum recursively.
+<ul>
+<li>For a string of length one, we convert using utf8ToInt
+<li>For a string of greater than length one:<ul>
+<li>textToNum the rest of the string is</li>
+<li>find the value of the current character.</li>
+<li>We multiply by 0x100 - the number of possible suffix/prefixes - and add the suffix/prefix</li>
+</ul>
+</ul>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  val = substring(s,1,1)
+  val = utf8ToInt(val)
+  cs = nchar(s)
+  if (cs > 1)
+  {
+    rst = substring(s,2,cs)
+    rst = textToNum(rst)
+    val = val + 0x100 * rst
+  }
+  return(val)
+}
+</code></pre>
+</div>
+</div>
+</section>
+
+<section id="bkwd" class="slide level2">
+<h2>If backwards</h2>
+<p>We can trivially reverse the order of composition.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  cs = nchar(s)
+  v  = substring(s,cs,cs)
+  v  = utf8ToInt(v)
+  if (cs > 1)
+  {
+    r = substring(s,1,cs-1)
+    r = textToNum(r)
+    v = val + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  cs = nchar(s)
+  v  = substring(s,1,1)
+  v  = utf8ToInt(v)
+  if (cs > 1)
+  {
+    r = substring(s,2,cs)
+    r = textToNum(r)
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="iter" class="slide level2">
+<h2>Iteratively</h2>
+<p>We can write iteratively.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  vn = 0
+  cs = nchar(s)
+  while (cs) {
+    vs = substring(s,1,1)
+    vn = vn * 0x100
+    vn = vn + utf8ToInt(vs)
+    s  = substring(s,2,cs)
+    cs = nchar(s)
+  }
+  return(vx)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  cs = nchar(s)
+  v  = substring(s,1,1)
+  v  = utf8ToInt(v)
+  if (cs > 1)
+  {
+    r = substring(s,2,cs)
+    r = textToNum(r)
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
+
+<section id="helpr" class="slide level2">
+<h2>textToNum</h2>
+<p>Use the language-agnostic helpers.
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ord = utf8ToInt
+chr = intToUtf8
+
+head <- function(s)
+{
+  return(substring(s,1,1))
+}
+
+tail <- function(s)
+{
+  cs = nchar(s)
+  s  = substring(s,2,cs)
+  return(s)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  v = ord(head(s))
+  r = tail(s)
+  if (r != '')
+  {
+    n = textToNum(r)
+    v = v + 0x100 * n
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="helpjs" class="slide level2">
+<h2>textToNum</h2>
+<p>We can do the same in js
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='js'>function head(s)
+{
+    return s[0] ;
+}
+
+function tail(s)
+{
+    return s.substring(1) ;
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>function textToNum(s)
+{
+  let v  = ord(head(s)) ;
+  let r = tail(s) ;
+  if (r)
+  {
+    let n = textToNum(r) ;
+    v = v + 0x100n * n ;
+  }
+  return BigInt(v) ;
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="both" class="slide level2">
+<h2>textToNum</h2>
+<p>These should look the same to you!
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='r'>textToNum <- function(s)
+{
+  v = ord(head(s))
+  r = tail(s)
+  if (r != '')
+  {
+    n = textToNum(r)
+    v = v + 0x100 * n
+  }
+  return(v)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='js'>function textToNum(s)
+{
+  let v  = ord(head(s)) ;
+  let r = tail(s) ;
+  if (r)
+  {
+    let n = textToNum(r) ;
+    v = v + 0x100n * n ;
+  }
+  return BigInt(v) ;
+}
+</code></pre>
+</div>
+</div>
+</section>
+
+<section id="py" class="slide level2">
+<h2>textToNum</h2>
+<p>These should look the same to you!
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='python'>def textToNum(s):
+
+  v = ord(head(s))
+  r = tail(s)
+  if r:
+  
+    n = textToNum(r)
+    v = v + 0x100 * n
+	
+  return v
+  
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='js'>function textToNum(s)
+{
+  let v  = ord(head(s)) ;
+  let r = tail(s) ;
+  if (r)
+  {
+    let n = textToNum(r) ;
+    v = v + 0x100n * n ;
+  }
+  return BigInt(v) ;
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="single" class="slide level2">
+<h2>textToNum</h2>
+<p>There are single line trenary solutions in js and py (and maybe R?)
+<pre><code style="max-height:1100px;max-width:2500px" class='py'>def textToNum(s):
+  return ord(s[0])+(256*textToNum(s[1:]) if len(s)>1 else 0)
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='py'>function textToNum(s) {
+  return BigInt(s.charCodeAt(0))+((s.length>1)?(256n*textToNum(s.substring(1))):0n)
+}
+</code></pre>
+<p>The js variant is much shorter without the BigInt conversions, but fundamentally still a bit longer due to the conversion built-in methods being, well, methods.
+</section>
+<section id="ntt" class="slide level2">
+<h2>numToText</h2>
+<div class="cols">
+<div class="col">
+
+<p>I implemented numToText recursively.
+<ul>
+<li>For zero, return nothing.
+<li>For non-zero:<ul>
+<li>Find the value modulo 0x100</li>
+<li>Find the corresponding character.</li>
+<li>Find the numToText of the rest.</li>
+<li><code>paste0</code></li>
+</ul>
+</ul>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="bkwd2" class="slide level2">
+<h2>If backwards</h2>
+<p>We can trivially reverse the order of composition.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(r,v))
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="iter2" class="slide level2">
+<h2>Iteratively</h2>
+<p>We can write iteratively.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  s = ''
+  while (n) 
+  {
+    v = n %% 0x100
+    n = n /  0x100
+    n = floor(n)
+    v = intToUtf8(v)
+    s = paste0(v,s)
+  }
+  return(s)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  !n && return()
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+<p>The iterative solution is only longer due to the logic hack.
+</section>
+<section id="iter3" class="slide level2">
+<h2>Iteratively</h2>
+<p>We can write iteratively without the logical return hack.</p>
+<div class="cols">
+<div class="col">
+<p style="text-indent: -22px;"><pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  s = ''
+  while (n) 
+  {
+    v = n %% 0x100
+    n = n /  0x100
+    n = floor(n)
+    v = intToUtf8(v)
+    s = paste0(v,s)
+  }
+  return(s)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>numToText <- function(n)
+{
+  if (!n)
+  {
+    return()
+  }
+  v = n %% 0x100
+  r = n /  0x100
+  r = floor(r)
+  v = intToUtf8(v)
+  r = numToText(r)
+  return(paste0(v,r))
+}
+</code></pre>
+</div>
+</div>
+<p>Fair is fair.
+</section>
+<section id="theses" class="slide level2">
+<h2>Combined Theses & Review</h2>
+<ul>
+<li>I am presenting my theses as review questions, then we chat.</li>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>When was the Fair Housing Act passed?</p>
+<div class="poll">
+<ol>
+<li>1964</li>
+<li>1965</li>
+<li>1968</li>
+<li>1972</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following data visualization.</p>
+<img src="../images/wage_vs_housing.png">
+<p>What is the <span style="color:red">red</span> line?</p>
+<div class="poll">
+<ol>
+<li>Wages collected by families per year</li>
+<li>Wages collected per hour by workers</li>
+<li>Value created by a family of workers with one year of labor</li>
+<li>Value created by a workers with one hour of labor</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following data visualization.</p>
+<img src="../images/wage_vs_housing.png">
+<p>What is the <span style="color:blue">blue</span> line?</p>
+<div class="poll">
+<ol>
+<li>Average house prices in dollars</li>
+<li>Average house prices in "real" dollars</li>
+<li>Average house prices indexed a year</li>
+<li>Average house costs to construct</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following data visualization.</p>
+<img src="../images/wage_vs_housing.png">
+<p>About how much have housing costs increased from 1968 to 2020?</p>
+<div class="poll">
+<ol>
+<li>1.15x</li>
+<li>1.5x</li>
+<li>15x</li>
+<li>150x</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following data visualization.</p>
+<img src="../images/wage_vs_housing.png">
+<p>About how much have wages increased from 1968 to 2020?</p>
+<div class="poll">
+<ol>
+<li>1.15x</li>
+<li>1.5x</li>
+<li>15x</li>
+<li>150x</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Housing costs increased ~22x in the 54 years from '68 to '22.</p>
+<p>On average, from 1968 to 2022, how much did housing costs increase per year?</p>
+<img src="../images/wage_vs_housing.png">
+<div class="poll">
+<ol>
+<li>22 / 54
+<li>log<sub>54</sub> 22
+<li>22 ^ (1/54)</li>
+<li>22 ^ -54</li>
+</ol>
+</div>
+</section>
+<section id="sidebar" class="slide level2">
+<h2>Arithmetic</h2>
+<p>22 ^ (1/54) ~= 1.069</p>
+<p>1.069 ^ 54 ~= 22</p>
+<p>On average, from 1968 to 2022, housing costs increased 7% per year.</p>
+<img src="../images/wage_vs_housing.png">
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<p>About how much did housing costs increase in the 3 years between HUD filing a complaint and the DoJ taking enforcement action?</p>
+<img src="../images/settlement.png">
+<div class="poll">
+<ol>
+<li>1.04x</li>
+<li>1.40x</li>
+<li>14x</li>
+<li>140x</li>
+</ol>
+</div>
+</section>
+<section id="sidebar" class="slide level2">
+<h2>Arithmetic</h2>
+<p>1.4 ^ (1/3) ~= 1.119</p>
+<p>1.119 ^ 3 ~= 1.4</p>
+<p>On average, from complain to enforcement, housing costs increased 12% per year.</p>
+<img src="../images/settlement.png">
+</section>
+<section id="review8" class="slide level2">
+<h2>Review Question 8</h2>
+<p>For the sake of argument, imagine Facebook is a technology to raise housing prices. If Facebook was deployed from 1968 to 2022 instead of 2018 to 2022, about how much higher would housing costs be at the pre-enforcement Facebook rate?</p>
+<img src="../images/settlement.png">
+<div class="poll">
+<ol>
+<li>~1.2x</li>
+<li>~2x</li>
+<li>~20x</li>
+<li>~200x</li>
+</ol>
+</div>
+</section>
+<section id="sidebar" class="slide level2">
+<h2>Arithmetic</h2>
+<p>((1.4 ^ (1/3)) ^ 54) ~= 427</p>
+<p>427 / 22 ~= 19</p>
+<p>The pre-settlement housing cost rate would've resulted in ~19x higher housing prices over the FHA timeline if maintained.</p>
+<img src="../images/settlement.png">
+</section>
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>For next Monday, one reading (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.oregon.gov/cjc/CJC%20Document%20Library/STOP_Report_2022.pdf">“Statistical Transparency of Policing Report”</a></li>
+<li>It is a 57 page document with 28 content-bearing pages, including graphics.</li></ul>
+<li>I would like ~500 words including a data driven argument with visualization</li>
+<li>If you generate the visualization yourself, it counts as words.
+<li>If you don't, describe how it can be reproduced which counts as words.
+<li>This probably means pick ~one thesis.
+<li>EDITORIAL COMMENT: Consider DTS (Decision to Stop) in context of housing.
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

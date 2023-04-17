@@ -68,6 +68,40 @@
 </div>
 </div>
 </section>
+<section id="helpr" class="slide level2">
+<h2>textToNum</h2>
+<p>Use the language-agnostic helpers.
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ord = utf8ToInt
+chr = intToUtf8
+
+head <- function(s)
+{
+  return(substring(s,1,1))
+}
+
+tail <- function(s)
+{
+  return(substring(s,2,nchar(s)))
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>textToNum <- function(s)
+{
+  v = ord(head(s))
+  if (nchar(s) > 1)
+  {
+    r = textToNum(tail(s))
+    v = v + 0x100 * r
+  }
+  return(v)
+}
+</code></pre>
+</div>
+</div>
+</section>
 <section id="bkwd" class="slide level2">
 <h2>If backwards</h2>
 <p>We can trivially reverse the order of composition.</p>

@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SHA</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">SHA</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">19 Apr 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Finish and demo RSA</li>
+<li>SHA at a high level</li>
+<li>SHA code demo</li>
+<li>Blockchain</li>
+<li>And that's a wrap!</li>
+</ul>
+<p>No final!</p>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Is the following <b>material implication</b> true:</p>
+<p><code>((a %% d == 0) && (b %% d == 0)) --> ((a %% b) %% d == 0) </code></p>
+<div class="poll">
+<ol>
+<li>Always true</li>
+<li>Sometimes true</li>
+<li>Never true</li>
+<li>Unknown/unknowable</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Is the following <b>material implication</b> true:</p>
+<p><code class="R">primality(p) && primality(q) --> coprimality(p,q)</code></p>
+<div class="poll">
+<ol>
+<li>Always true</li>
+<li>Sometimes true</li>
+<li>Never true</li>
+<li>Unknown/unknowable</li>
+</ol>
+</div>
+</section>
+<section id="functype" class="slide level2">
+<h2>Review Question 3</h2>
+<p><pre><code>primality <- function(n) {
+  for (i in 2:n) {
+    n %% i == 0 && return(FALSE)
+  }
+  return(TRUE)
+}</code></pre></p>
+<p>What do we expect the type of <code>primality</code> to be?
+<div class="poll">
+<ol>
+<li>bool -> integer</li>
+<li>bool -> double</li>
+<li>integer -> bool</li>
+<li>double -> bool</li>
+</ol>
+</div>
+</section>
+<section id="publickey" class="slide level2">
+<h2>Problem space</h2>
+<p>So we need to differentiate C and I. We will define them mathematically.
+<ul>
+<li>We will use the notion of a public-key cryptosystem.
+<div class="block" name="Definition">
+<p>A <b>public-key cryptosystem</b> is a technique to convert message of up to fixed size (that is, with a maximum value) to "cyphertext" - a numerical value that contains the information of a message, but not in a readable manner.  To be a public-key system, any agent must be able to produce cyphertexts, but only the intended receiver may extract the original message from the cyper text.</p>
+</div>
+<div class="block" name="Definition">
+<p>A <b>public-key</b> is a numerical code used to encrypt a message such that it can only be decrypted using a private key.</p>
+</div></ul>
+<p>By far the most well-known and widely used public-key cryptosystem is RSA (Rivest–Shamir–Adleman),
+</section>
+<section id="types" class="slide level2">
+<h2>Types</h2>
+<p>We can understand RSA in terms of types.<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt()
+
+decrypt()
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>(str,int) -> int
+
+(int,int) -> str
+</code></pre>
+</div>
+</div>
+<p>But it is more helpful to point out these are different kinds of integers.<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt()
+
+decrypt()
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>(msg,pubKey) -> cypher
+
+(cypher,privKey) -> msg
+</code></pre>
+</div>
+</div>
+<p>It is worth noting the following must be preserved:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt(encrypt(msg,pubKey),privKey) = msg
+</code></pre>
+</section>
+<section id="types2" class="slide level2">
+<h2>Types</h2>
+<p>So we want to be able to create <code>encrypt</code>, <code>decrypt</code>, <code>pubKey</code>, <code>privKey</code> such that:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt(encrypt(msg,pubKey),privKey) = msg
+</code></pre>
+<p>To do so, we will create one other function:<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>keygen()</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>() -> (pubKey,privKey)
+</code></pre>
+</div>
+</div>
+<p>Now we will simply write <code>keyGen</code>, <code>encrypt</code>, <code>decrypt</code>
+</section>
+<section id="RSA" class="slide level2">
+<h2>Key Insight</h2>
+<p>There exists a key insight that underpines all of RSA.  It based on the idea of modular arithmetic.
+<ul>
+<li>For some message <code>m</code>
+<li>Some encryptor <code>e</code> (the public key)
+<li>Some decryptor <code>d</code> (the private key)
+</ul>
+<p>We can find <code>m</code>,<code>e</code>, <code>d</code> and novel value <code>n</code> such that:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>((m ^ e) ^ d) %% n == m
+</code></pre>
+<ul>
+<li><code>m</code> is the message.
+<li><code>m ^ e</code> is the cypher text
+<li><code>n</code> is the maximum value for <code>m</code>
+</ul>
+</section>
+<section id="keygen" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<p>For key generation, we follow SHA.
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<li>Compute the product of these primes <code>n</code>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<ul>
+<li>I am not sure anyone knows what that is generally, but...
+<li>...for products of primes &lambda; is <code>lcm(p − 1, q − 1)</code>
+</ul>
+<li>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<li>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<div class="cols">
+<div class="col">
+</section>
+<section id="primes4" class="slide level2">
+<h2>Prime Generation</h2>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) {
+  n %% 2 == 0 && return(FALSE)
+  for (i in 1:ceiling(sqrt(n) / 2))  {
+    n %% (2 * i + 1) == 0 && return(FALSE)
+  }
+  return(TRUE)
+}
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getPrime <- function(s=3) {
+  p = 1 + 2 * sample(10 ^ s:10 ^ (s + 1), 1)
+  while (!primality(p)) {
+    p = p + 2
+  }
+  return(p)
+}
+</code></pre>
+</section>
+<section id="lcm" class="slide level2">
+<h2>Least Common Multiple</h2>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>lcm <- function(n, m) 
+{
+  gcd <- function(n, m)
+  {
+    if(m) gcd(m, n %% m) else n
+  }
+  (n * m) / gcd(max(n,m), min(n,m))
+}
+</code></pre>
+</section>
+<section id="coprime" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<ul>
+<li>Be advised there is trickery afoot. That said.
+</ul>
+<p>Coprimality lcm variant.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>coprimality <- function(n, m) 
+{
+  return(lcm(n,m) == 1)
+}
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n,s=3) {
+  p <- sample(10 ^ s:10 ^ (s + 1), 1)
+  while (!coprimality(n,p)) {
+    p <- p + 1
+  }
+  return(p)
+}
+</code></pre>
+</section>
+<section id="coprime5" class="slide level2">
+<h2>Coprime</h2>
+<p>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>). Primes... are coprime.
+<ul>
+<li>2^16 + 1 is almost universally used.
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n) 
+{
+  return(65537)
+}
+</code></pre>
+<ul>
+<li>3 can be used for extremely fast performance, though is potentially less secure.
+</ul>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>getCoPrime <- function(n) 
+{
+  return(3)
+}
+</code></pre>
+</ul>
+</section>
+<section id="keygen4" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>p  = getPrime()
+q  = getPrime()
+</code></pre>
+<li>Compute the product of these primes <code>n</code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>n  = p * q
+</code></pre>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ln = lambda(p,q)
+</code></pre>
+<li>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>e  = 3
+</code></pre>
+<li>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<div class="cols">
+<div class="col">
+</section>
+<section id="mmi" class="slide level2">
+<h2>Modular Multiciplicate Inverse</h2>
+<p>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<ul>
+<li>We know what modular means.
+<li>We know multiplicate means.
+<li>We know what inverse means.
+</ul>
+</section>
+<section id="ids" class="slide level2">
+<h2>Indentities</h2>
+<p>Inverses must be defined relative to some <b>operation</b> and <b>identity</b>
+<ul>
+<li>Addition: The additive identity is 0
+<ul><li>&forall; x, x = x + 0</li></ul></li>
+<li>Multiplication: The multiplicative identity is 1
+<ul><li>&forall; x, x = x * 1</li></li>
+</section>
+<section id="inv" class="slide level2">
+<h2>Inverse</h2>
+<p>Given an operation <code>op()</code> and an identity <code>id</code>, <code>x</code> is the inverse of <code>y</code> if
+<pre><code>op(x,y) = id</pre></code>
+<ul>
+<li>Addition:
+<pre><code>x + 0 == x</pre></code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>addInverse <- function(n) {
+  return(0-n)
+}
+</code></pre>
+<li>Multiplication:
+<pre><code>x s.t. x * y == 1</pre></code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>multInverse <- function(n) {
+  return(1/n)
+}
+</code></pre>
+</ul>
+</section>
+<section id="int" class="slide level2">
+<h2>Integers</h2>
+<p>We have a bit of problem:
+<ul>
+<li>While we can compute multiplicative inverses...
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>multInverse <- function(n) {
+  return(1/n)
+}
+</code></pre>
+<li>We wanted to work with integers. And there are no two distinct integers such that:
+<pre><code>x s.t. x * y == 1</pre></code>
+</ul>
+<p>We are working with integers because otherwise primality is meaningless etc.
+</section>
+<section id="mod" class="slide level2">
+<h2>Modular Arithmetic</h2>
+<p>Modular arithmetic resolves this tension. 
+<ul>
+<li>For some <code>m</code>, we can find integers <code>x</code> and <code>y</code>:
+<pre><code>x s.t. x * y == 1 mod m</pre></code>
+</ul>
+<p>Write a function <code>modularMultiplicativeInverse</code> or <code>mMI</code> that satisfies the following equality:
+<ul><li>&forall; <code>y</code>, <code class="R">y * modularMultiplicativeInverse(y, m) %% m == 1</code></li></ul></li>
+</section>
+<section id="mod" class="slide level2">
+<h2>Modular Arithmetic</h2>
+<p>Modular arithmetic resolves this tension. 
+<ul>
+<li>For some <code>m</code>, we can find integers <code>x</code> and <code>y</code>:
+<pre><code>x s.t. x * y == 1 mod m</pre></code>
+</ul>
+<p>Write a function <code>modularMultiplicativeInverse</code> or <code>mMI</code> that satisfies the following equality:
+<ul><li>&forall; <code>y</code>, <code class="R">y * modularMultiplicativeInverse(y, m) %% m == 1</code></li></ul></li>
+</section>
+<section id="naive" class="slide level2">
+<h2>Naive</h2>
+<p>The problem, I think, suggests the following solution. 
+<ul>
+<li>Starting at x = 1:
+<ul><li>Compute x * y
+<li>check if x * y %% m == 1
+<li>if yes, return x
+<li>else increase x by 1
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mMI <- function(n, m) 
+{
+  r = 1
+  while ((r * n) %% m != 1)
+  {
+	  r = r + 1
+  }
+  return(r)
+}
+</code></pre>
+</section>
+
+<section id="naive2" class="slide level2">
+<h2>Naive alt</h2>
+<p>"Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)"
+<ul>
+<li>The modular value should be big - that's an LCM of two large values.
+<ul><li>Start with candidate = m + 1
+<li>check if candidate %% y == 0
+<li>if yes, return candidate / y
+<li>else increase candidate by m
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mMI <- function(n, m) {
+  c = m + 1
+  while (c %% n) {
+    c = c + m
+  }
+  return(c/n)
+}
+</code></pre>
+</section>
+<section id="Bézout" class="slide level2">
+<h2>Bézout's identity</h2>
+<p>We computed extremely specific <code>e</code> and &lambda;(<code>n</code>) values.
+<ul>
+<li>We are solving for <code>e</code> * <code>d</code> %% &lambda;(<code>n</code>) == 1
+<ul><li>We are pretty good at finding gcds and lcms for example.
+<li>We know <code>e</code> and &lambda;(<code>n</code>) are coprime!
+<li>We use Bézout's identity
+<div class="block" name="Bézout's identity">
+<p>Given integer <code>a</code> and <code>b</code> s.t. <code>gcd(a,b) == d</code>, there are integers <code>x</code> and <code>y</code> s.t. <code>a*x + b*x == d</code>.</p>
+</div>
+<div class="block" name="Bézout's identity">
+<p>&forall; <code>a</code>, <code>b</code> &in; &integers; : <code>gcd(a,b) == d</code> &rarr; &exist; <code>x</code>, <code>y</code> &in; &integers; : <code>a*x + b*x == d</code>.</p>
+</div></li></ul></li></ul>
+<p>I think of this as a ~linear algebra result - all integers can be formed of linear combinations of pairs of other integers.
+</section>
+<section id="Euclid" class="slide level2">
+<h2>Extended Euclidean Algorith.</h2>
+<p>Recall we used a slick trick for gcds.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>gcd <- function(n, m)
+{
+  if(m) gcd(m, n %% m) else n
+}
+</code></pre>
+<p>This is taking linear combinations, just not perserving the co-efficients!
+</section>
+<section id="Euclid2" class="slide level2">
+<h2>Extended Euclidean Algorithm</h2>
+<p>We essential want to compute gcd but track everything we did along the way, and output co-efficents at the end.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>function extended_gcd(a, b)
+    (old_r, r) := (a, b)
+    (old_s, s) := (1, 0)
+    (old_t, t) := (0, 1)
+    
+    while r ≠ 0 do
+        quotient := old_r div r
+        (old_r, r) := (r, old_r − quotient × r)
+        (old_s, s) := (s, old_s − quotient × s)
+        (old_t, t) := (t, old_t − quotient × t)
+    
+    output "Bézout coefficients:", (old_s, old_t)
+    output "greatest common divisor:", old_r
+    output "quotients by the gcd:", (t, s)
+</code></pre>
+</section>
+<section id="exer2" class="slide level2">
+<h2>Extended Euclidean Algorithm</h2>
+<p>Create your own function <code>extendedEuclideanAlgorithm</code> or <code>eEA</code>
+<ul>
+<li>You can't do "multiple assignment" in a single line in R - how to work around.
+<li>This generates a lot of values - which ones do we care about mod what?
+<li>There is an R function, extGCD in the 'numbers' library you can check against.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>function extended_gcd(a, b)
+    (old_r, r) := (a, b)
+    (old_s, s) := (1, 0)
+    (old_t, t) := (0, 1)
+    
+    while r ≠ 0 do
+        quotient := old_r div r
+        (old_r, r) := (r, old_r − quotient × r)
+        (old_s, s) := (s, old_s − quotient × s)
+        (old_t, t) := (t, old_t − quotient × t)
+</code></pre>
+</section>
+<section id="myeuclid" class="slide level2">
+<h2>Extended Euclidean Algorithm</h2>
+<p>I followed closely but used <code>c()</code> instead of multiple variables.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mMI <- function (a, b)
+{
+  r = c(a,b)  # old, new
+  s = c(1,0)
+  t = c(0,1)
+  while (r[2])
+  {
+    q = floor(r[1] / r[2])
+    r = c(r[2], r[1] - q * r[2])
+    s = c(s[2], s[1] - q * s[2])
+    t = c(r[2], t[1] - q * t[2])
+  }
+  return(s[1] %% b)
+}
+</code></pre>
+</section>
+<section id="myeuclidbad" class="slide level2">
+<h2>Extended Euclidean Algorithm</h2>
+<p>It is also possible to do the entire loop with a single vector of course.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mMIbad<-function(a,b){
+  v=c(a,b,1,0,0,1)
+  while(v[2]){
+    v=c(v[2],v[1]-v[1]%/%v[2]*v[2],v[4],v[3]-v[1]%/%v[2]*v[4],v[2],v[5]-v[1]%/%v[2]*v[6])
+  }
+  return(v[3]%%b)
+}
+</code></pre>
+<p>One may argue that this isn't a great way to write code, but it made a good tweet (under 280 characters)
+</section>
+<section id="keygen5" class="slide level2">
+<h2>Sketch: Key Generation</h2>
+<ol>
+<li>Compute two prime numbers, <code>p</code> and <code>q</code> 
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ps = c(getPrime(),getPrime())
+</code></pre>
+<li>Compute the product of these primes <code>n</code>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>n  = ps[1] * ps[2]
+</code></pre>
+<li>Compute &lambda;(<code>n</code>) "Carmichael's totient function"
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>ln = lambda(ps[1],ps[2])
+</code></pre>
+<li>Compute a value <code>e</code> co-prime with &lambda;(<code>n</code>)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>e  = 3
+</code></pre>
+<li>Compute <code>d</code>, the modular multiciplicate inverse of <code>e</code> modulo &lambda;(<code>n</code>)
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>d  = mMI(e, ln)
+</code></pre>
+<div class="cols">
+<div class="col">
+</section>
+<section id="keygen6" class="slide level2">
+<h2>Key Generation</h2>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>keygen <-function(s=3)
+{
+  ps = c(getPrime(s),getPrime(s))
+  n  = ps[1] * ps[2]
+  ln = lcm(ps[1]-1,ps[2]-1)
+  e  = 65537
+  d  = mMI(e, ln)
+  return(c(n,e,d)) # this is the PRIVATE key
+}
+</code></pre>
+</section>
+<section id="trying" class="slide level2">
+<h2>Trying it out</h2>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt <- function(s, e)
+{
+  return(textToNum(s) ^ e)
+}
+
+decrypt <- function(s, d, n)
+{
+  v = (s ^ d) %% n
+  return(numToText(v))
+}
+</code></pre>
+<p>About how big of a number is a string of length 2 after conversion to a number?
+<p>About how big of a number is <code>e</code> if its not 3?
+<p>About how big is the power?
+</section>
+<section id="size" class="slide level2">
+<h2>Trying it out</h2>
+<ul>
+<li>About how big of a number is a string of length 2 after conversion to a number 
+<ul><li>~= 2 ^ 8 * 2 ^ 8 ~= 2 ^ 16</ul>
+<li>About how big of a number is <code>e</code> if its not 3
+<ul><li>~= 65537 ~= 2 ^ 16</ul>
+<li>About how big is the power?
+<ul>
+<li>(~2 ^ 16) ^ (~2 ^ 16) ~= 2 ^ 32 
+<li>2 ^ 2 ^ 2 ^ 2 ^ 2 ^ 2 ^ 2 ^ 2
+<li>Repeated exponention is called tetration, denoted 2 &uarr;&uarr; 8
+</ul>
+<li>This value has about 80k decimal digits or a quarter million bits.
+<li>Storing the integer value alone takes more than 32 kilobytes.
+<li>This is a hard value to divide.
+</section>
+<section id="size2" class="slide level2">
+<h2>Modulo to the Rescue</h2>
+<ul>
+<li>HOWEVER... we only care about things modulo <code>n</code>
+<li>We control the size of <code>n</code> during prime generation.
+<ul><li>We take <code>s=1</code> then <code>n</code> should be less than a 1000.</ul>
+<li>Nothing mod n is bigger than n
+<li>Allegedly R integers do okay up to about 2^9, which is less than 1000 but not by much.
+</ul>
+<p>For the sake of demonstration, we work in the wiggle room between 2^8 and 2^9 and demo single character encryption by fixing s=1 in prime generation, and using e=3 with coprimality tests.
+</section>
+<section id="keygen7" class="slide level2">
+<h2>Key Generation</h2>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>keygen <-function(s=1)
+{
+  d = 1
+  while (d == 1 || d < 256)
+  {
+    ps = c(getPrime(s),getPrime(s))
+    n  = ps[1] * ps[2]
+    ln = lcm(ps[1]-1,ps[2]-1)
+    e  = 3
+    d  = mMI(e, ln)
+  }
+  return(c(n,e,d)) # this is the PRIVATE key
+}
+</code></pre>
+<p>However, we still have a problem with values growing too large during exponention.
+</section>
+<section id="expo" class="slide level2">
+<h2>Exponentiation by repeated multiplication</h2>
+<p>However... exponentation is just multiplication many times.
+<ul>
+<li>We can multiple two values, which only raises them to a value of a certain size.
+<li>We can apply modulo after every single multiplication.
+<li>We can do this iteratively or recursively.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>exp <-function(n,e)
+{
+  !e && return(1)
+  return(n*exp(n,e-1))
+}
+</code></pre>
+</ul>
+<p>Do this, but apply modulo a bunch.
+
+<ul><li>Write <code>mExp</code>, a modulo exponentiation-by-multiplication function that applies mod after every multiplication to avoid integer overflow.
+</section>
+<section id="myexpo" class="slide level2">
+<h2>Exponentiation by repeated multiplication</h2>
+<p>I just used variables to apply mod after every operation.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mExp <- function(x, p, m)
+{
+  !p && return(1)
+  x = (x %% m)
+  t = mExp(x, p - 1, m)
+  x = (x * (t %% m))
+  x = x %% m
+  return(x)
+}
+</code></pre>
+</ul>
+<p>For me, this always seemed to work.
+</section>
+<section id="myenc" class="slide level2">
+<h2>Exponentiation by repeated multiplication</h2>
+<p>Then simply add mExp to encryption and decryption.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt <- function(s, e, n)
+{
+  x = textToNum(s)
+  return(mExp(x,e,n))
+}
+
+decrypt <- function(s, d, n)
+{
+  v = mExp(s,d,n)
+  return(numToText(v))
+}
+</code></pre>
+</ul>
+<p>I was able to encrypt and decrypt single characters - and could therefore do anything, of course, by composing individual values a la textToNum.
+</section>
+<section id="squares" class="slide level2">
+<h2>Exponentiation by repeated squares</h2>
+<p>Two remaining optimizations - the first is repeated squaring.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mExp <- function(x, p, m)
+{
+  !p && return(1)
+  x = (x %% m)
+  t = mExp(x, p - 1, m)
+  x = (x * (t %% m))
+  x = x %% m
+  return(x)
+}
+</code></pre>
+<p>This is slow.  It runs <code>p</code> times!
+</section>
+<section id="squares1" class="slide level2">
+<h2>Exponentiation by repeated squares</h2>
+<p>We don't have to multiply by just x... we can square.
+<pre><code>x ^ m = (x ^ 2) ^ (m / 2)</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mExp <- function(x, p, m)
+{
+  !p && return(1)
+  x = (x %% m)
+  t = mExp(x ^ 2, p / 2, m)
+  x = (x * (t %% m))
+  x = x %% m
+  return(x)
+}
+</code></pre>
+<p>Of course, this only works when <code>p</code> is a power of 2.
+</section>
+<section id="squares2" class="slide level2">
+<h2>Exponentiation by repeated squares</h2>
+<p>We make sure we have an even power first...
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>mExp <- function(x, p, m)
+{
+  !p && return(1)
+  x = (x %% m)
+  if  (p %% 2) 
+  {
+    t = x * mExp(x, p - 1, m)
+  } else {
+    t = mExp(x * x, p / 2, m)
+  }
+  return(t %% m)
+}
+</code></pre>
+<p>This is fast.  It runs only log<sub>2</sub>(p) times!
+</section>
+<section id="funcs" class="slide level2">
+<h2>Functions-as-keys</h2>
+<p>I find passing around the private key to be quite gauche.
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>  funcMakr <- function(b) {
+    frst <- function(s){
+      x = textToNum(s)
+      return(mExpS(x,e,n))
+    }
+    scnd <- function(x) {
+      v = mExpS(x,d,n)
+      return(numToText(v))
+    }
+    if (b){
+      return(frst)
+    } else {
+      return(scnd)
+    }
+  }
+</code></pre>
+</section>
+<section id="full" class="slide level2">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>keygen <-function(s=1)
+{
+  getPrime <- function(s=3) 
+  {
+    primality <- function(n) 
+    {
+      n %% 2 == 0 && return(FALSE)
+      for (i in 1:ceiling(sqrt(n) / 2)) 
+      {
+        n %% (2 * i + 1) == 0 && return(FALSE)
+      }
+      return(TRUE)
+    }
+    p <- sample(10 ^ s:10 ^ (s + 1), 1)
+    while (!primality(p))
+    {
+      p <- p + 1
+    }
+    return(p)
+  }
+
+  lcm <- function(n, m) 
+  {
+    gcd <- function(n, m)
+    {
+      if(m) gcd(m, n %% m) else n
+    }
+    (n * m) / gcd(max(n,m), min(n,m))
+  }
+  mMI<-function(a,b)
+  {
+    v = c(a,b,1,0,0,1)
+    while(v[2]){
+      v=c(
+        v[2], v[1] - v[1] %/% v[2] * v[2],
+        v[4], v[3] - v[1] %/% v[2] * v[4],
+        v[2], v[5] - v[1] %/% v[2] * v[6])
+    }
+    return(v[3]%%b)
+  }
+  d = 1
+  while (d == 1 || d < 256)
+  {
+    ps = c(getPrime(s),getPrime(s))
+    n  = ps[1] * ps[2]
+    ln = lcm(ps[1]-1,ps[2]-1)
+    e  = 3
+    d  = mMI(e, ln)
+  }
+
+  textToNum <- function(s)
+  {
+    if (nchar(s) > 1)
+    {
+      return(utf8ToInt(substring(s,1,1)) + 
+        256 * textToNum(substring(s,2,nchar(s))))
+    }
+    return(utf8ToInt(substring(s,1,1)))
+  }
+
+  numToText <- function(n)
+  {
+    if (n > 0)
+    {
+      return(paste0(
+        intToUtf8(n %% 256),
+        numToText(n %/% 256)))
+    }
+    return('')
+  }
+
+  mExp <- function(x, p, m)
+  {
+    !p && return(1)
+    x = (x %% m)
+    if  (p %% 2) 
+    {
+      t = x * mExp(x, p - 1, m)
+    } else {
+      t = mExp(x * x, p / 2, m)
+    }
+    return(t %% m)
+  }
+
+  funcMakr <- function(b)
+  {
+    frst <- function(s)
+    {
+      x = textToNum(s)
+      return(mExpS(x,e,n))
+    }
+    scnd <- function(x)
+    {
+      v = mExpS(x,d,n)
+      return(numToText(v))
+    }
+    if (b)
+    {
+      return(frst)
+    } else {
+      return(scnd)
+    }
+  }
+  return(funcMakr)
+}
+</code></pre>
+</section>
+<section id="sha" class="slide level2">
+<h2>SHA in passing.</h2>
+<p><a href="https://colab.research.google.com/drive/1IiWZoZFUzn5ZQcUutjPLwZl4Cy-8Q1Bc">SHA in Colab</a>
+</section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

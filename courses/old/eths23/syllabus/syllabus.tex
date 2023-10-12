@@ -1,0 +1,221 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{quoting}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{DATA-352W: Ethics, Teamwork, Communication}
+\author{Calvin Deutschbein (they)}
+\date{Willamette University, Spring 2023}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize Intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.github.io/courses/intro/151s22.html}{\tt\bf cd-public.github.io/}  \\
+
+ Office Hours: By Appt. on TTh  &  Lecture MW 12:50-2:20 PM \\
+
+ Office: Zoom, Ford 206 & Lecture Hall: Smullin TBD\\
+ & \\
+&  \\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+
+Scientists with backgrounds in data and computing face both novel challenges in ethics, teamwork, and communication and existing challenges in novel contexts. Human-centered scientists must be able to analyze, act upon, and argue in support of ethical use of technologies. Topics will include labor policies including hiring practices and workplace non-discrimination, tech monopolies and their global impact, open source projects and datasets (namely Github), socially responsible research, and accessibility of technologies. To develop a vocabulary to advocate and collaborate, students will collaboratively prepare technical reports and presentations and build technical blog posts with embedded data/computing resources and visualizations. 
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Required Materials}
+
+Lecture materials will be available on the course webpage under \href{https://cd-public.github.io/courses/eth/sched.html}{schedule}.
+
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Prerequisites}
+
+Students should have some experience in data and computing, either DATA-151, CS-151, or equivalent. Interested students without the pre-requisities are encourage to inquire with the course instructor via email.
+
+\section*{Accessability}
+
+I will make every effort to ensure all coursework and materials are accessible to all students, including working with on-campus specialists. However, there is always room for improvement. I always appreciate hearing from students about how I can make the course more accessible, so please reach out if there is something I can be doing better!
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+This course will teach you the skills, knowledge, and confidence necessary to reason about data and computing and to argue effectively for responsible use of these technologies. You will:
+\begin{itemize}
+\item    evaluate comparative merits of a technology,
+\item    contextualize implications of technology deployments,
+\item    recognize inherent moral, political, and ethical questions in technology,
+\item    use data and computing to construct compelling arguments,
+\item    develop and maintain a sense of self in a dehumanizing industry
+\end{itemize}
+This course will equip you apply notions of ethics to your other coursework, within computing and data as well as within the college, and empower you to be a responsible scientist and member of an increasingly computer reliant society.
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+The course will be composed of lectures, discussions, homeworks, midterm papers, and a final project.
+
+\subsection*{Lecture Structure}
+
+Lectures are scheduled for Mondays and Wednesdays at 12:50-2:20 PM on the Salem Campus. Due to the size of the course, we will be working with the registrar to find a suitable room and the location may be subject to change, with students to be informed via email and Discord. The schedule
+of lectures will be available on the course webpage under \href{https://cd-public.github.io/courses/sec/sched.html}{schedule}.
+
+\bigskip
+\noindent Lectures will be primarily be delivered via webhosted HTML5+CSS via React.js. While I will make every effort to follow best practices for accessible teaching, I will make mistakes! Please, if you find some material is inaccessible for any reason
+do not hesitate to reach out.
+
+
+\subsection*{Homework Structure}
+
+Feedback will be provided on homework assignments. Homework assignments will be considered when determining grades for this course.
+
+\bigskip
+\noindent Homeworks will consist of programming assignments to be completed outside of class and submitted
+for feedback. There will be a ``Homework 0'' at the beginning of the semester to get used to
+programming and assignment submission, then four homework assignments throughout the semester.
+You will always have at least two weeks to complete homework assignments.
+
+\bigskip
+\noindent Homework assignment will be due at 12:50 PM on Wednesdays so we can discuss them in class on the 
+day they are due.
+
+\bigskip
+\noindent As a rule, I encourage students to submit their assignment as-is at the due date and not to
+submit late work. By way of explanation, it is my experience as both a student and a grader that time spent working on assignments after their deadline is often better spent working on the next assignment.
+
+\bigskip
+\noindent As-is submission is supported in the grading policy by dropping the lowest homework
+grade. In special circumstances such as extended medical problems or other unforeseeable
+emergencies, please reach out and so we can collaboratively develop a more personal
+solution to achieve the learning objectives of the course.
+
+\subsubsection*{Midterm Structure}
+
+Feedback will be provided on midterm papers.  Midterm paperss will be considered when determining grades for this course.
+
+\bigskip
+\noindent There will be two written midterm papers, intended to be completed individually
+without access to notes or documentation. The midterms are intended to achieve a learning
+focus of reasoning about dat ethics in isolation from coding environments,
+as well provide me as an instructor with greater insight into how effective course
+instruction has been.
+
+\subsubsection*{Final Project}
+
+Feedback will be provided on the final project. The final project will be considered when determining grades for this course.
+
+
+There will be a final project that will be similar in format but distinct in content from
+homeworks. Whereas homeworks will including programming assignments for which there is
+some correct answer that may be measured against an answer key and notions of coding
+style, the project will be a student-centered exploration of data structures meant to
+give you an opportunity to apply what you've learned in the course while still receiving
+support from an instructor.
+
+\bigskip
+\noindent The final project will be released as soon as the final homework is due
+ and will be due at the time of the final examination as set 
+by the registrar.
+
+\subsection*{Feedback and Grading}
+Feedback will be provided on assignments, midterms, and the final project using a 100 point scale.
+This 100 point scale is intended to be familiar to established grading standards, such as letter grades. To provide aggregate feedback for the whole course, these feedback scores will be combined as follows:
+\begin{itemize}
+	\item \underline{\textbf{40\%}} of your grade will be determined by homework assignments
+	\subitem \underline{\textbf{10\%}} each for the four highest scored assignments (out of five).
+	\item \underline{\textbf{40\%}} of your grade will be determined by midterm exams.
+	\subitem \underline{\textbf{20\%}} each for the two midterms.
+	\item \underline{\textbf{20\%}} of your grade will be determined by the final project.
+\end{itemize}
+
+\noindent Feedback scores will constitute the minimum grade on an assignment, but the instructor
+may exercise discretion at any time to award a higher grade. For example, a submitted homework
+may not use some important algorithmic technique as submitted, but if the student showed familiarity
+with this technique on an earlier assignment or exam, the absence of that technique in a specific
+case need not be counted against a student in grading, but only noted in feedback. This corresponds to the high level notion of feedback corresponding to how well an assignment reached the intended learning goals, while the overall course grade is meant to indicate that a student is prepared to succeed in latter coursework. Under this model, the final project will offer an opportunity to show familiarity with all content in the course, so a strong final project can ensure a high course grade
+for any student, regardless of prior scores on midterms and homeworks.
+
+\input{college}
+
+\input{college}
+
+\end{document}
+

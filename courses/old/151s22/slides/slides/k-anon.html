@@ -29,7 +29,7 @@
 <section id="title-slide">
 	<h1 class="title"><i>k</i>-anonymity</h1>
 	<p class="author">Calvin Deutschbein<br></p>
-	<p class="date">04 May 2022</p>
+	<p class="date">18 October 2023</p>
 </section>
 
 <section id="about-me" class="slide level2">
@@ -54,12 +54,14 @@
 <h2>Background</h2>
 <dl>
 <p>Large amount of person-specific data has been collected in recent years</p>
-<ul><li>Both by public and by private entities</li></ul>
-<p>Data and knowledge extracted from it enrich our society</p>
-<ul><li>Formulating human-centric policies</li>
+<ul><li>Public sector: voting records, social security, call logs</li>
+<li>Private sector: browsing history, purchase history, email logs</ul>
+<p>Data and knowledge <b>can</b> enrich our society</p>
+<ul><li>Formulating human-centered policies</li>
 <li>Supporting community-building in digital spaces</li></ul>
-<p>Laws and regulations require that some collected data must be made public</p>
-<ul><li>For example, campaign donations.
+<p>Laws and policies require that some collected data must be made public</p>
+<ul><li>For example, campaign donations.</li>
+<li>Stock levels reveal population-level consumer behaviors
 </section>
 <section id="privacy" class="slide level2">
 <h2>What About Privacy?</h2>
@@ -74,44 +76,128 @@
 </section>
 <section id="squad-goals" class="slide level2">
 <h2>Unmask by linking data sets</h2>
-<p>Consider a zipcode with only two people.</p>
-<ul><li>Some census data...</li>
+<p>Consider the SCIS faculty who attend networking events in the area.</p>
 <table>
 	<tr>
 		<th>Name</th>
-		<th>Zipcode</th>
-		<th>DOB</th>
+		<th>Department</th>
 	</tr>
 	<tr>
 		<td>Calvin</td>
-		<td>97301</td>
-		<td>1992</td>
+		<td>Computer Science</td>
 	</tr>
 	<tr>
-		<td>Jameson</td>
-		<td>97301</td>
-		<td>1978</td>
+		<td>Fred</td>
+		<td>Computer Science</td>
+	</tr>
+	<tr>
+		<td>Haiyan</td>
+		<td>Computer Science</td>
+	</tr>
+	<tr>
+		<td>Hank</td>
+		<td>Data Science</td>
+	</tr>
+	<tr>
+		<td>Heather</td>
+		<td>Data Science</td>
+	</tr>
+	<tr>
+		<td>Jed</td>
+		<td>Computer Science</td>
+	</tr>
+	<tr>
+		<td>Kristen</td>
+		<td>Data Science</td>
+	</tr>
+	<tr>
+		<td>Lucas</td>
+		<td>Computer Science</td>
 	</tr>
 </table>
-<li>... and an Instagram post from a networking event.</li></ul>
+</section>
+<section id="secrets" class="slide level2">
+<h2>Unmask by linking data sets</h2>
+<p>Now imagine icebreakers at a networking event found on social media</p>
 <table>
 	<tr>
-		<th>Zipcode</th>
-		<th>DOB</th>
-		<th>Embarrassing Secret</th>
+		<th>Affilitation</th>
+		<th>Title</th>
+		<th>Embarassing Secret</th>
 	</tr>
 	<tr>
-		<td>97301</td>
-		<td>1992</td>
-		<td>Enjoys oatmilk mochas</td>
+		<td>Willamette</td>
+		<td>Computer Science</td>
+		<td>Locked keys in car while trying to administer a midterm last semester.</td>
 	</tr>
 	<tr>
-		<td>97301</td>
-		<td>1978</td>
-		<td>Surfs (almost) every Friday</td>
+		<td>Willamette</td>
+		<td>Data Science</td>
+		<td>Has informed opinion on geothermal regulation.</td>
 	</tr>
 </table>
-<p>Are the secrets of people in this zipcode protected?<p>
+<p>Is this anonymized?  Or rather, how anonymous is this?</p>
+</section>
+<section id="squad-goals" class="slide level2">
+<h2>Unmask by linking data sets</h2>
+<p>Suppose we have access to the Willamette course calendar...</p>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Department</th>
+		<th>Teaches T/TH night</th>
+		<th>Taught Spring '23</th>
+	</tr>
+	<tr>
+		<td>Calvin</td>
+		<td>Computer Science</td>
+		<td>No</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>Fred</td>
+		<td>Computer Science</td>
+		<td>No</td>
+		<td>No</td>
+	</tr>
+	<tr>
+		<td>Haiyan</td>
+		<td>Computer Science</td>
+		<td>No</td>
+		<td>No</td>
+	</tr>
+	<tr>
+		<td>Hank</td>
+		<td>Data Science</td>
+		<td>No</td>
+		<td>No</td>
+	</tr>
+	<tr>
+		<td>Heather</td>
+		<td>Data Science</td>
+		<td>Yes</td>
+		<td>No</td>
+	</tr>
+	<tr>
+		<td>Jed</td>
+		<td>Computer Science</td>
+		<td>No</td>
+		<td>No</td>
+	</tr>
+	<tr>
+		<td>Kristen</td>
+		<td>Data Science</td>
+		<td>Yes</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>Lucas</td>
+		<td>Computer Science</td>
+		<td>No</td>
+		<td>No</td>
+	</tr>
+</table>
+<p>And know the event occured on 10 Oct, 2023.
 </section>
 <section id="latanya1" class="slide level2">
 <h2>Latanya Sweeney’s "Attack" (1997)</h2>
@@ -123,8 +209,36 @@
 <h2>Latanya Sweeney’s "Attack" (1997)</h2>
 <p>In 1997, Mass. Governor and future Libertarian Vice Presidential nominee Bill Weld released hospital visit information by all state employees but assured employees the data was anonymized.
 <figure>
-<img data-src="../images/latanya.png" style="width:60.0%" alt="The Data" /><figcaption aria-hidden="true">It wasn't.</figcaption>
+<img data-src="../images/latanya.png" style="width:60.0%" alt="The Data" />
 </figure>
+</section>
+<section id="tps" class="slide level2">
+<h2>Think. Pair. Share.</h2>
+<p>Is this data anonymized?
+<figure>
+<img data-src="../images/latanya.png" style="width:60.0%" alt="The Data" />
+</figure>
+
+</section>
+<section id="tps2" class="slide level2">
+<h2>Think. Pair. Share.</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>How many zipcodes are there?
+<li>How many DOBs are there?
+<li>How many people are on a voter list in 1997?
+<li>How correlated may zip and DOB be?
+<li>Also consider: government ethnicity, gender, marital markers.
 </section>
 <section id="latanya3" class="slide level2">
 <h2>Latanya Sweeney’s "Attack" (1997)</h2>

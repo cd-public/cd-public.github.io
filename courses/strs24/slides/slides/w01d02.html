@@ -12,7 +12,7 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
   </style>
-  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/league.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
 </head>
 <body>
@@ -22,8 +22,7 @@
 <section id="title-slide">
   <h1 class="title">Introduction</h1>
   <p class="author">Calvin (Deutschbein)</p>
-  <p class="date">17 January 2024</p>
-  <p>Wednesday, Week 1</p>
+  <p class="date">17 January 2024<br>Wednesday, Week 1</p>
 </section>
 
 <section id="announcements" class="slide level2">
@@ -34,17 +33,19 @@
 <ul>
 <li>Access the course webpage at <a href="https://cd-public.github.io/courses/strs24/index.html">cd-public.github.io/courses/strs24</a>
 <ul>
-<li>There will be a link to the course webpage from the WISE site</li>
+<li>Read: "str" = structures, "s24" = Spring 2024.
+<li>There will be a link to the course webpage from the WISE site, so don't worry!</li>
 </ul></li>
-<li>Look over the syllabus</li>
+<li>Look over the syllabus.</li>
 <li>Join the Discord!
 <ul>
-<li>You should have gotten an email</li>
+<li>You should have gotten an email...</li>
 </ul></li>
 </ul></li>
 <li>Homework
 <ul>
 <li>The first homework, HW0 will be posted to Discord after class, due next Friday, 1/26</li>
+<li>It will be an object-oriented review.
 </ul></li>
 </ul>
 </section>
@@ -52,15 +53,16 @@
 <h2>About Me</h2>
 <dl>
 <dt>Name</dt>
-<dd>Calvin (Deutschbein) 
-</dd>
+<dd>Calvin (Deutschbein)</dd>
+<dd>Usually "Professor Calvin", other permutations are fine :)</dd>
+<dd>"They" pronouns</dd>
 <dt>Office</dt>
 <dd><strong>Ford</strong> 206
 </dd>
 <dt>Office Hours</dt>
 <dd>By Appt, either Zoom or Ford 206.
 </dd>
-<dd>Mondays and Wednesdays between 10:10 1:10 but I have to eat lunch sometime.
+<dd>MW 10:10 and 1:10 but I have to eat lunch sometime so Discord/email first.
 </dd>
 <dt>Email:</dt>
 <dd>ckdeutschbein@willamette.edu
@@ -71,9 +73,11 @@
 <section id="motivations" class="slide level2">
 <h2>Motivations</h2>
 <ul>
-<li>So, you know how to code.</li>
 <li>Coding &ne; Computer Science. </li>
-<li>Studying computing now lets you take part in driving forward not only the field of computing, but of all the modern fields with utilize computing.
+<li>We use abstractions, like <code>turn_right()</code></li>
+</ul>
+<div class="cols">
+<div class="col">
 <pre ><code class="python" style="max-height:800px">def main():
     move()
     turn_left()
@@ -85,14 +89,96 @@
     turn_left()
     turn_left()
     turn_left()
-    move()
-    pick_beeper()
+    move()</code></pre>
+
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:800px">def turn_right():
     turn_left()
     turn_left()
     turn_left()
+
+def main():
     move()
+    turn_right()
     move()
-    put_beeper()</code></pre>
+    turn_left()
+    move()
+    turn_right()
+    move()</code></pre>
+</section>
+<section id="motivations2" class="slide level2">
+<h2>Motivations</h2>
+<ul>
+<li>Coding &ne; Computer Science. </li>
+<li>We use automation, like <code>for</code></li>
+</ul>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:800px">def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+
+def main():
+    move()
+    turn_right()
+    move()
+    turn_left()
+    move()
+    turn_right()
+    move()</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:800px">def turn_right():
+    for i in range(3):
+        turn_left()
+
+def main():
+    move()
+    turn_right()
+    move()
+    turn_left()
+    move()
+    turn_right()
+    move()</code></pre>
+</section>
+<section id="motivations3" class="slide level2">
+<h2>Motivations</h2>
+<ul>
+<li>Coding &ne; Computer Science. </li>
+<li>We use arguments, like <code>n</code></li>
+</ul>
+<div class="cols">
+<div class="col">
+<pre ><code class="python" style="max-height:800px">
+def turn_right():
+    for i in range(3):
+        turn_left()
+
+def main():
+    move()
+    turn_right()
+    move()
+    turn_left()
+    move()
+    turn_right()
+    move()</code></pre>
+</div>
+<div class="col">
+<pre ><code class="python" style="max-height:800px">left_orig = turn_left
+def turn_left(n=1):
+    for i in range(n):
+        left_orig()
+
+def main():
+    move()
+    turn_left(3)
+    move()
+    turn_left()
+    move()
+    turn_left(3)
+    move()</code></pre>
 </section>
 <section id="squad-goals" class="slide level2">
 <h2>Learning Objectives</h2>

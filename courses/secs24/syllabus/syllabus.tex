@@ -1,0 +1,166 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{quoting}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{DATA-599: Cybersecurity}
+\author{Calvin Deutschbein (they)}
+\date{Willamette University, Spring 2023}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize Intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.github.io/courses/intro/151s22.html}{\tt\bf cd-public.github.io/}  \\
+
+ Office Hours: By Appt.  &  Lecture W 6:00-10:00 PM \\
+
+ Office: Zoom, Ford 206 & Lecture Hall: Portland Center\\
+ & \\
+&  \\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+
+Cybersecurity can be understood as a mindset or approach rather than a subfield of computer science, such as secure mobile computing, network and operating system security, secure data bases, and secure cryptography algorithms. This course prepares a general audience to incorporate security concepts and ethics into their daily lives and offers some basic familiarity with writing security oriented code. 
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Required Materials}
+
+Lecture materials will be available on the course webpage under \href{https://cd-public.github.io/courses/sec/sched.html}{schedule}.
+
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Prerequisites}
+
+This class is meant to open to all students.
+
+\section*{Accessability}
+
+I will make every effort to ensure all coursework and materials are accessible to all students, including working with on-campus specialists. However, there is always room for improvement. I always appreciate hearing from students about how I can make the course more accessible, so please reach out if there is something I can be doing better!
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+This course will teach you techniques for reasoning about information and computing and controlled accesses to these resources. As a survey course of the broad discipline of computer security, it will focus on different abstraction levels, from cryptographic code at a low level to the cultural and economic implications of secure and insecure data access at a high level.
+\begin{itemize}
+\item You will practice styles of thinking used by security researchers to contextualize their work in the broader context of computing and society.
+\item You will gain experience working with common coding practices for security, especially in the context of network and internet security.
+\item You will learn some historical efforts to attack and defend various computing systems, and discuss the implications of the state of computer security as a discipline and as deployed in practice..
+\item You will learn some theoretical background in formulating notions of security (the ``logical foundations'' of computer security).
+\item You will be exposed to state-of-the-art security research specific to hardware designs, including computer processors, as an example of ongoing research efforts.
+\end{itemize}
+This course will equip you apply notions of computer security to your other coursework, within computer science as well as within the college, and empower you to be a responsible computer scientist and member of an increasingly computer reliant society.
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+The course will be composed of lectures, labs, homeworks, midterms, and a final project.
+
+\subsection*{Lecture Structure}
+
+Lectures are scheduled for Wednesdays at 6:-0 PM in the Portland Center. The schedule
+of lectures will be available on the course webpage under \href{https://cd-public.github.io/courses/sec/sched.html}{schedule}.
+
+\bigskip
+\noindent Lectures will be primarily on the white board, with some coding. While I will make every effort to follow best practices for accessible teaching, I will make mistakes! Please, if you find some material is inaccessible for any reason
+do not hesitate to reach out.
+
+\subsubsection*{Midterm Structure}
+
+Feedback will be provided on midterm exams.  Midterm exams will be considered when determining grades for this course.
+
+\bigskip
+\noindent There will be two written midterm final exams, intended to be completed in small groups
+without access to notes or documentation. The midterms are intended to achieve a learning
+focus of reasoning about security in isolation from course materials,
+as well provide me as an instructor with greater insight into how effective course
+instruction has been.
+
+\noindent Feedback scores will constitute the minimum grade on an assignment, but the instructor
+may exercise discretion at any time to award a higher grade. For example, a submitted homework
+may not use some important algorithmic technique as submitted, but if the student showed familiarity
+with this technique on an earlier assignment or exam, the absence of that technique in a specific
+case need not be counted against a student in grading, but only noted in feedback. This corresponds to the high level notion of feedback corresponding to how well an assignment reached the intended learning goals, while the overall course grade is meant to indicate that a student is prepared to succeed in latter coursework. Under this model, the final project will offer an opportunity to show familiarity with all content in the course, so a strong final project can ensure a high course grade
+for any student, regardless of prior scores on midterms and homeworks.
+
+\input{college}
+
+\end{document}
+

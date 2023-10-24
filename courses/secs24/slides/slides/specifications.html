@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jed Rembold">
+  <meta name="dcterms.date" content="2021-08-30">
+  <title>Specifications</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Specifications</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">25 January 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>There was no homework due this week.
+<ul>
+<li>Not to worry! I have something for next week.</li><ul>
+</li></ul></li>
+</ul>
+<li>Let's talk about how to specify properties.</li>
+</ul></li>
+</ul>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question</h2>
+<p>What is a set?</p>
+<div class="poll">
+<ol>
+<li>The name for an unordering collection of elements</li>
+<li>The name for an unordered collection of elements</li>
+<li>The name for an element in a unordered collection of elements.</li>
+<li>The name for an element in a ordered collection of elements.</li>
+</ol>
+</div>
+<p>Some of these are always sets, but others may be sets. Which is never a set?</p>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question</h2>
+<p>Which of the following is true for both sets and sequences</p>
+<div class="poll">
+<ol>
+<li>Both may track the number of copies of some element in a collection</li>
+<li>Both may sort elements by saying which comes before another</li>
+<li>Both may contain, as elements, other sets or sequences.</li>
+</ol>
+</div>
+<p>Why would we want some of these capabilities - or not?</p>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question</h2>
+<p>We said properties were <b>sets</b> of something. What?</p>
+<div class="poll">
+<ol>
+<li>States</li>
+<li>Sequences</li>
+<li>Systems</li>
+<li>Times</li>
+</ol>
+</div>
+<p>What would it mean to have a set of any of these things?</p>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question</h2>
+<p>We said traces were <b>sequences</b> of something. What?</p>
+<div class="poll">
+<ol>
+<li>States</li>
+<li>Sequences (that is, other sequences)</li>
+<li>Systems</li>
+<li>Times</li>
+</ol>
+</div>
+<p>What would it mean to have a sequence of any of these things?</p>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question</h2>
+<p>We said traces were <b>sequences</b> of states. Sequences are ordered. How are the sequences ordered?</p>
+<div class="poll">
+<ol>
+<li>By an ordering specific to the <b>states</b> themselves</li>
+<li>By a sequence (that is, <b>some other sequence</b>)</li>
+<li>By a feature specific to the studied <b>systems</b></li>
+<li>By the <b>times</b> at which states occur</li>
+</ol>
+</div>
+<p>Why would we order states in any particular way?</p>
+</section>
+<section id="properties" class="slide level2">
+<h2>Properties</h2>
+<ul>
+<li>An <b>security policy</b> may have <b>properties</b>.</li>
+<li>These <b>security policies</b> are distinct from the <b>what?</b> of a threat model</li>
+<li>Rather the <b>security policy</b> is the <b>how?</b> of a threat model</li>
+</ul>
+<p>A security policy could be <pre><pre ><code class="html" style="max-height:900px">nonresident_at_door -> door_locked</code></pre> </p>
+</section>
+<section id="traceprops" class="slide level2">
+<h2>Trace Properties</h2>
+<ul>
+<li>A <b>trace</b> is the sequence of states through which a system passes over time.
+<ul>
+<li>A <b>sequence</b> is an ordering of something. So traces are <b>in order</b>.</li>
+<li>A <b>state</b> is the configuration of a system at some specific time point.</li>
+<li>A <b>system</b> here is the entity that implements the security policy</li>
+<li>We emphasize the notion of <b>over time</b>. Traces are <b>time-based</b></li></ul></li>
+</section>
+<section id="setofsequences" class="slide level2">
+<h2>Sets of Traces</h2>
+<div class="block" name="Definition">
+<p>A <b>set</b> is an ordered collection of elements (such as sequences).</p>
+</div>
+<div class="block" name="Definition">
+<p>A <b>sequence</b> is an ordered collection of elements (such as states).</p>
+</div>
+<div class="block" name="Definition">
+<p>A <b>trace property</b> is a set of traces.</p>
+</div>
+<div class="block" name="Definition">
+<p>A <b>trace</b> is a sequence of states.</p>
+</div>
+</section>
+<section id="Organization" class="slide level2">
+<h2>Organization</h2>
+<p><img data-src="../images/definition.png" style="width:70.0%" /></p>
+</section>
+<section id="Example" class="slide level2">
+<h2>Example</h2>
+<p><img data-src="../images/example.png" style="width:70.0%" /></p>
+</section>
+<section id="atrace" class="slide level2">
+<h2>Enumeration</h2>
+<p>Last class, we enumerated the possible traces.</p>
+<pre ><code class="python" style="max-height:900px">property[0] = ["GREEN_"]
+property[1] = ["YELLOW"]
+property[2] = ["RED___"]
+property[3] = ["GREEN_", "YELLOW"]
+</code></pre>
+<p>This is bad. Why?</p>
+</section>
+<section id="langspec" class="slide level2">
+<h2>Specification</h2>
+<p>Rather than enumerate, let us specify.</p>
+<pre ><code class="lisp" style="max-height:900px">The traffic light property is
+the set of all sequences over precisely the states {"GREEN_", "YELLOW", "RED___"} 
+such that 
+the only state succeeding "GREEN_" is "YELLOW" and
+the only state succeeding "YELLOW" is "RED___" and
+the onle state succeeding "RED___" is "GREEN_".
+</code></pre>
+<p>This is still bad. Why?</p>
+</section>
+<section id="kripke0" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple that models a state machine.</p>
+<div class="block" name="Definition">
+<p>A <b>state machine</b> is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time.</p>
+</div>
+</section>
+<section id="kripke11" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, ...} that models a state machine.</p>
+<ul>
+<li><em>S</em> is a finite set of states <ul>
+<li>Kripke structures only work for <b>finite</b> state machines</li>
+<li>For the sake of this class, we can imagine infinite states if needed.</li></ul></li>
+</section>
+<section id="kripke12" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, ...} that models a state machine.</p>
+<ul>
+<li>For a traffic light, <em>S</em> is:
+<pre ><code class="lisp" style="max-height:900px">{"GREEN_", "YELLOW", "RED___"}</code></pre></li>
+<li>For a commerical airliner, <em>S</em> is all combinations of people on the airliner and locations on the airliner.
+<ul><li>One element of <em>S</em> over 2 crew and 1 passenger could be:
+<pre ><code class="python" style="max-height:900px">{["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","SEAT"]}</code></pre></li>
+</section>
+<section id="kripke21" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, ...} that models a state machine.</p>
+<ul>
+<li><em>I</em> is a subset of <em>S</em>, we denote this <em>I</em> &sub; <em>S</em><ul>
+<li>Any state in <em>I</em> must be a state in <em>S</em></li>
+<li>There may be states in <em>S</em> that are not in <em>I</em></li>
+<li>These are the possible initial states of the state machine.</li></ul></li>
+</section>
+<section id="kripke22" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, ...} that models a state machine.</p>
+<ul>
+<li>For a traffic light, <em>I</em> = <em>S</em><pre ><code class="lisp" style="max-height:900px">{"GREEN_", "YELLOW", "RED___"}</code></pre></li>
+<li>For an airliner, <em>I</em> is all elements of <em>S</em> such that all passengers are seated.
+<ul><li>One element of <em>I</em> and therefore <em>S</em> could be:
+<pre ><code class="python" style="max-height:900px">{["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","SEAT"]}</code></pre></li>
+<li>One element of <em>S</em> but not <em>I</em> could be:
+<pre ><code class="python" style="max-height:900px">{["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","DECK"]}</code></pre></li>
+</section>
+<section id="kripke3" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, ...} that models a state machine.</p>
+<ul>
+<li><em>S</em> is a finite set of states</li>
+<li><em>I</em> &sub; <em>S</em> is the set of initial states.</li></ul>
+</section>
+<section id="kripke41" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, <em>R</em>, ...} that models a state machine.</p>
+<ul>
+<li><em>R</em> is a <b>transition relation</b> over <em>S</em>, we denote this <em>R</em> &sub; <em>S</em> × <em>S</em><ul>
+<li>This just means <em>R</em> says whether one state may be transitioned to from another.</li>
+<li><em>R</em> expresses them enumerating sequences of length two, called <b>ordered pairs</b><ul>
+<li>A starting state</li>
+<li>An ending state</li>
+<li>These states are the states in <em>S</em></li></ul></li></ul>
+</section>
+<section id="kripke42" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, <em>R</em>, ...} that models a state machine.</p>
+<ul>
+<li><em>R</em> is a <b>transition relation</b> over <em>S</em>, we denote this <em>R</em> &sub; <em>S</em> × <em>S</em><ul>
+<li>This just means <em>R</em> says whether one state may be transitioned to from another.</li>
+<li><em>R</em> expresses them enumerating sequences of length two, called <b>ordered pairs</b></li></ul>
+<li><b>BONUS/CHALLENGE:</b> <em>R</em> is left-total.
+<div class="block" name="Definition">
+<p>A binary relation <em>R</em> &sub; <em>S</em> × <em>S</em> is <b>left-total</b> if for all elements <em>s</em> of <em>S</em> there exists some ordered pair in <em>R</em> such that the first element of the ordered pair is <em>s</em>.</p>
+</div>
+<div class="block" name="Definition">
+<p><em>R</em> &sub; <em>S</em> × <em>S</em> is <b>left-total</b> &coloneq;  &forall; <em>s<sub>1</sub></em> &in; <em>S</em>, &exist; <em>s<sub>2</sub></em> &in; <em>S</em> such that (<em>s<sub>1</sub></em>,<em>s<sub>2</sub></em>) &in; <em>R</em></p>
+</div>
+</section>
+<section id="kripke43" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, <em>R</em>, ...} that models a state machine.</p>
+<ul>
+<li>For a traffic light, <em>R</em> is:
+<pre ><code class="lisp" style="max-height:900px">{("GREEN_", "YELLOW"),
+ ("YELLOW", "RED___"),
+ ("RED___", "GREEN_")}</code></pre></li>
+<li>For a commerical airliner, <em>R</em> must describe how crew may not move to the service station when passengers are present and vice versa, or some other arrangement.<ul>
+<li>Note: Relations may be used to to express the arrangement of people on an airliner as well as express transition relations.</li></ul></li>
+</section>
+<section id="kripke5" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a tuple {<em>S</em>, <em>I</em>, <em>R</em>, ...} that models a state machine.</p>
+<ul>
+<li><em>S</em> is a finite set of states</li>
+<li><em>I</em> &sub; <em>S</em> is the set of initial states.</li>
+<li><em>R</em> &sub; <em>S</em> × <em>S</em> is a left-total transition relation.</ul>
+</section>
+<section id="kripke61" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models a state machine.</p>
+<ul>
+<li><em>L</em> is a <b>labeling function</b> over <em>S</em>, we denote this <em>L</em> &sub; <em>S</em> → ???<ul>
+<li>This just means <em>L</em> provides a way of talking about the states in <em>S</em></li>
+<li>We talk about these states using <b>atomic propositions</b></b><ul>
+<li>Propositions are expressions in propositional, or zeroth order, logic.</li>
+<li>They are simply true or false.</li>
+<li>Atomic propositions are simplest possible form of these logic expressions.</li></ul></li>
+<li><em>L</em> &sub; <em>S</em> → 2<sup><em>AP</em></sup></ul>
+</section>
+<section id="kripke62" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions between over atomic propositions <em>AP</em>.</p>
+<ul>
+<li><em>L</em> is a <b>labeling function</b> over <em>S</em>, we denote this <em>L</em> &sub; <em>S</em> → 2<sup><em>AP</em></sup><ul>
+<li>Given <em>AP</em>, <em>L</em> tells us whether each is true or false (2 options) for every given state.</li>
+</ul></li></ul>
+</section>
+<section id="kripke63" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions and <em>AP</em>.</p>
+<ul>
+<li>For a traffic light, <em>AP</em> could be the following, expressed as a proposition set:
+<pre ><code class="lisp" style="max-height:900px">{s == "GREEN_", 
+ s == "YELLOW", 
+ s == "RED___", 
+ s &in; {"GREEN_", "YELLOW"},
+ s &in; {"YELLOW", "RED___"},
+ s &in; {"RED___", "GREEN_"}}</code></pre></li>
+<li>Propositions are often named using single lower cases letters in italics beginning with <em>p</em></li>
+</section>
+<section id="kripke64" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions and <em>AP</em>.</p>
+<ul>
+<li>For a traffic light, <em>AP</em> could be the following:
+<pre ><code class="python" style="max-height:900px">AP = 
+[p : state == "GREEN_", 
+ q : state == "YELLOW", 
+ r : state == "RED___", 
+ s : state &in; {"GREEN_", "YELLOW"},
+ t : state &in; {"YELLOW", "RED___"},
+ u : state &in; {"RED___", "GREEN_"}]</code></pre></li>
+<li>Then the <em>L</em> would be given as :<pre ><code class="python" style="max-height:900px">{("GREEN_", {p, s, u}), 
+ ("YELLOW", {q, s, t}),
+ ("RED___", {r, t, u})}</code></pre></li>
+</section>
+<section id="kripke65" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions and <em>AP</em>.</p>
+<ul>
+<li>For a commercial airliner, we may want to use <em>AP</em> more intentionally:<ul>
+<li>Let <em>p</em> denote there are passengers at the service station.</li>
+<li>Let <em>q</em> denote there are crew at the service station.</li>
+<li>Let <em>r</em> denote there all passengers are seated.</li>
+<li>Let <em>s</em> denote at least two crew are in the flight deck.</li>
+</ul>
+</section>
+<section id="kripke7" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions and <em>AP</em>.</p>
+<ul>
+<li><em>S</em> is a finite set of states</li>
+<li><em>I</em> &sub; <em>S</em> is the set of initial states.</li>
+<li><em>R</em> &sub; <em>S</em> × <em>S</em> is a left-total transition relation.</li>
+<li><em>L</em> &sub; <em>S</em> → 2<sup><em>AP</em></sup> is the labelling relation.</li>
+</ul>
+</section>
+<section id="kripke8" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions and <em>AP</em>.</p>
+<ul>
+<li><em>S</em> is a finite set of states and <em>I</em> &sub; <em>S</em> is the set of initial states.</li>
+<pre ><code class="lisp" style="max-height:900px">{"GREEN_", "YELLOW", "RED___"}</code></pre></li>
+<li><em>R</em> &sub; <em>S</em> × <em>S</em> is a left-total transition relation.</li><pre ><code class="lisp" style="max-height:900px">{("GREEN_", "YELLOW"), 
+ ("YELLOW", "RED___"), 
+ ("RED___", "GREEN_")}</code></pre></li>
+<li><em>L</em> &sub; <em>S</em> → 2<sup><em>AP</em></sup> is the labelling relation.</li><pre ><code class="python" style="max-height:900px">{("GREEN_", {p, s, u}),
+ ("YELLOW", {q, s, t}), 
+ ("RED___", {r, t, u})}</code></pre>
+</ul>
+</section>
+<section id="kripke81" class="slide level2">
+<p>A Kripke Structure modelling a traffic light is the 4-tuple... </p>
+<pre><code class="python" style="max-height:900px">({"GREEN_", "YELLOW", "RED___"}, 
+ {"GREEN_", "YELLOW", "RED___"}, 
+ {("GREEN_", "YELLOW"), 
+  ("YELLOW", "RED___"), 
+  ("RED___", "GREEN_")}, 
+ {("GREEN_", {p, s, u}),
+  ("YELLOW", {q, s, t}), 
+  ("RED___", {r, t, u})})</code></pre>
+<p>...over <em>AP</em>...</p>
+<pre ><code class="python" style="max-height:900px">[p : state == "GREEN_",  
+ q : state == "YELLOW",  
+ r : state == "RED___",  
+ s : state &in; {"GREEN_", "YELLOW"},
+ t : state &in; {"YELLOW", "RED___"},
+ u : state &in; {"RED___", "GREEN_"}]</code></pre>
+</section>
+<section id="kripke82" class="slide level2">
+<h2>Model Checking</h2>
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>} that models transitions and <em>AP</em>.</p>
+<ul>
+<li>This is still bad. Why?</li>
+</ul>
+</section>
+<section id="diagrams" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p>Now that I've rigorously defined Kripke Structures, I am willing to tell you they are just diagrams.</p>
+<p>
+<ul>
+<li>Clarke, Edmund & Grumberg, Orna & Jha, Somesh & Lu, Yuan & Veith, Helmut. (2003). Counterexample-guided abstraction refinement for symbolic model checking. J. ACM. 50. 752-794. 10.1145/876638.876643. </li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/kripke.png" style="width:50.0%" /></p>
+</div>
+</div>
+</section>
+<section id="diagrams2" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p>This differs from ours, but only slightly.</p>
+<p>
+<ul>
+<li>The proposition labels are the same as the state name initials.</li>
+<li><em>r</em> is the only accepted starting state.</li>
+<li>States are allowed to transition to the themselves<ul>
+<li>Think of this is a distinct notion of time.<ul>
+<li>I describe the only thing that changes time as a change in state.</li>
+<li>If we imagine that there is a transition every second, the green-to-green is needed.</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/kripke.png" style="width:50.0%" /></p>
+</div>
+</div>
+</section>
+<section id="diagrams3" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p></p>
+<p>
+<ul>
+<li>We borrow the initials-labels trick.</li>
+<li>We allow all starting states.</li>
+<li>We do not have states transition to themselves.</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/mykripke.png" style="width:50.0%" /></p>
+</div>
+</div>
+</section>
+<section id="diagrams4" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>}</p>
+<ul>
+<li><em>S</em> is the states, in blue.</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/my1.png" style="width:50.0%" /></p>
+</div>
+</div>
+</section>
+<section id="diagrams6" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>}</p>
+<ul>
+<li><em>S</em> is the states, in blue.</li>
+<li><em>I</em> is the inital states, in orange.</li>
+<li><em>R</em> is the relations, in purple.</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/my3.png" style="width:50.0%" /></p>
+</div>
+</div>
+</section>
+<section id="diagrams6" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p>A Kripke Structure is a 4-tuple {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>}</p>
+<ul>
+<li><em>S</em> is the states, in blue.</li>
+<li><em>I</em> is the inital states, in orange.</li>
+<li><em>R</em> is the relations, in purple.</li>
+<li><em>L</em> is the labels, in black.</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/my3.png" style="width:50.0%" /></p>
+</div>
+</div>
+</section>
+<section id="yourturn" class="slide level2">
+<h2>Your turn!</h2>
+<p>A commercial airliner threat model concerns <b>crew</b> and <b>passengers</b>, a <b>flight deck</b> and a <b>service station</b>. Draw a Kripke Structure and specify
+<ul>
+<li><em>S</em> is a finite set of states</li>
+<li><em>I</em> &sub; <em>S</em> is the set of initial states.</li>
+<li><em>R</em> &sub; <em>S</em> × <em>S</em> is a left-total transition relation.</li>
+<li><em>L</em> &sub; <em>S</em> → 2<sup><em>AP</em></sup> is the labelling relation.</li>
+</ul>
+<p>Form groups of 2-4 and create a document of a format accessible to you. I used HTML. [up to 60 min]</p>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Identify something in your life (an app, a work thing, a building, a company) with security features.
+<ul>
+<li>It may be the same or a different thing.</li>
+<li>You may wish to focus on a small part of your previous example, in the case of more complex systems.</li>
+<li>Update you diagram to be a Kripke Structure.</li>
+<li>Fully specify each of {<em>S</em>, <em>I</em>, <em>R</em>, <em>L</em>}</li>
+</ul>
+<p>Be ready to present your document at 6 PM on 1 Feb!
+</section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

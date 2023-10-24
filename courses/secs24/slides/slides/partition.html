@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Partition</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Partition</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">1 March 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>We theoretically completed the Büchi Automata homework.
+<ul>
+<li>We will chat on that shortly.</li><ul>
+</li></ul></li></ul></li>
+<li>Hold space on Mar 8 for a written, in-class midterm.<ul>
+<li>I am thinking target completion 2 hours.</li>
+<li>How do we want to format that class day?<ul>
+<li>6-8 PM exam, go late allowed, last call at 9:50</li>
+<li>6-7 reviewearly dinner, 7:30-9:30 exam<ul>
+<li>Can do review slides or unprogrammed review office hours on whiteboard.</ul></ul>
+<li>I can feasibly arrange a Salem administration of the exam - Let's talk.
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following Büchi automaton:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>Which of the following traces is admitted by this automata?</p>
+<div class="poll">
+<ol>
+<li><pre><code>ababa</code></pre></li>
+<li><pre><code>abcba</code></pre></li>
+<li><pre><code>babab</code></pre></li>
+<li><pre><code>bbaab</code></pre></li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following Büchi automaton:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>Which of the following traces violates the liveness requirement of this automata?</p>
+<div class="poll">
+<ol>
+<li><pre><code>ababa</code></pre></li>
+<li><pre><code>abcba</code></pre></li>
+<li><pre><code>babab</code></pre></li>
+<li><pre><code>bbaab</code></pre></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following Büchi automaton:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>Which of the following traces violates the safety requirement of this automata?</p>
+<div class="poll">
+<ol>
+<li><pre><code>ababa</code></pre></li>
+<li><pre><code>abcba</code></pre></li>
+<li><pre><code>babab</code></pre></li>
+<li><pre><code>bbaab</code></pre></li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following Büchi automaton:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>Which of the following describes the liveness requirement of this automata?</p>
+<div class="poll">
+<ol>
+<li><strong>F</strong><strong>G</strong><em>a</em></li>
+<li><strong>G</strong><strong>F</strong><em>a</em></li>
+<li><em>TRUE</em> <strong>U</strong><strong>F</strong> <em>a</em> </li>
+<li><em>TRUE</em> <strong>U</strong><strong>G</strong> <em>a</em> </li>
+</ol>
+</div>
+<p>Could you generate a Büchi automata for each of these?</p>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following Büchi automaton:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>Which of the following describes the safety requirement of this automata?</p>
+<div class="poll">
+<ol>
+<li><strong>G</strong><em>a</em> <strong>&and;</strong> <strong>G</strong><em>b</em></li>
+<li><strong>G</strong><em>a</em> <strong>&or;</strong> <strong>G</strong><em>b</em></li>
+<li><strong>G</strong><em>a</em> <strong>&and;</strong> <em>b</em></li>
+<li><strong>G</strong><em>a</em> <strong>&or;</strong> <em>b</em></li>
+</ol>
+</div>
+<p>Could you generate a Büchi automata for each of these?</p>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Consider the following Büchi automata:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>10-15 min: In small groups, define an equivalent LTL expression to this structure.</p>
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<p>Consider the following Büchi automaton:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>Which of the following LTL expressions would would describe this structure?</p>
+<div class="poll">
+<ol>
+<li><strong>G</strong><em>a</em> <strong>&and;</strong> <strong>G</strong><em>b</em> <strong>&and;</strong> <strong>G</strong><strong>F</strong><em>a</em></li>
+<li><strong>G</strong><em>a</em> <strong>&or;</strong> <strong>G</strong><em>b</em> <strong>&or;</strong> <strong>G</strong><strong>F</strong><em>a</em></li>
+<li><strong>G</strong>(<em>a</em> <strong>&and;</strong> <em>b</em> <strong>&or;</strong> <strong>F</strong><em>a</em>)</li>
+<li><strong>G</strong>(<em>a</em> <strong>&or;</strong> <em>b</em> <strong>&and;</strong> <strong>F</strong><em>a</em>)</li>
+</ol>
+</div>
+</section>
+<section id="properties" class="slide level2">
+<h2>Check-in</h2>
+<p>Homework now slow,<br>- OR -<br>Slides now + homework latter fast.</p>
+</section>
+<section id="properties" class="slide level2">
+<h2>Properties</h2>
+<p>"I want to be able to access my savings but no one else."</p>
+<ul>
+<li>Safety properties are about bad things not happening: <ul>
+<li><strong>G</strong><strong>&not;</strong><em>bad</em></li>
+<li>These are undefined transitions in Büchi automata</li>
+<li>"No one else may access my savings"</li></ul>
+<li>Liveness properties are about good things happening eventually:<ul>
+<li><strong>F</strong><em>good</em></li>
+<li>These are accepting states in Büchi automata</li>
+<li>"I want to be able to access my savings"</li></li></ul></ul>
+</section>
+<section id="diagrams" class="slide level2">
+<h2>Diagrams</h2><div class="cols">
+<div class="col">
+<p><em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</p>
+<ul>
+<li><em>Q</em> = {<em>0, 1, 2</em> } <span style="background-color:white;color:#00ffff">in cyan</span></li>
+<li><em>Σ</em> = {<em>R, G, Y</em> } <span style="background-color:white;color:#ff00ff">in magenta</span></li>
+<li><em>δ</em> = <code class="lisp">{R0G1,G1Y2,Y2R0}</code> <span style="background-color:white;color:#0000ff">in blue</span></li>
+<li><em>q<sub>0</sub></em> or <em>0</em> <span style="background-color:white;color:#FFA500">in orange</span></li>
+<li><strong>F</strong> = {<em>q<sub>0</sub></em>} or {<em>0</em>} <span style="background-color:white;color:black">in black</span></li></ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Traffic Light</p>
+<img src="../images/buchi5.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="safelive" class="slide level2">
+<h2>Safe() and Live()</h2>
+<p>We now define <code>Safe():</code></p>
+<div class="block" name="Definition">
+<p><code>Safe(m)</code> excludes the "bad
+thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing"
+happens at any point in the trace, the
+Buchi automaton will not accept that trace.</p>
+</div>
+<p> ... and <code>Live()</code>:</p>
+<div class="block" name="Definition">
+<p><code>Live(m)</code> requires the "good thing" for a Buchi automaton, which is entering
+an accepting state infinitely often, because we require this "good thing" to happen for trace
+to be accepted.</p>
+</div>
+</section>
+<section id="intersection" class="slide level2">
+<h2>Intersection</h2>
+<p>We recall set theoretic intersection...</p>
+<div class="block" name="Definition">
+<p>In set theory, the intersection of two sets <em>A</em> and <em>B</em>, denoted by <em>A</em> <strong>&cap;</strong><em>B</em> is the set containing all elements of <em>A</em> that also belong to <em>B</em></p>
+</div>
+<p> ... and we recall what properties are:</p><div class="block" name="Definition">
+<p>A <b>trace property</b> is a set of traces.</p>
+</div>
+<p>And now we make our claim:</p>
+<div class="block" name="Claim">
+<p>"Given a Buchi automaton <code>m</code>, it is not difficult to
+construct Buchi automata <code>Safe(m)</code> and <code>Live(m)</code>
+such that <code>Safe(m)</code> specifies a safety property,
+<code>Live(m)</code> specifies a liveness property, and the prop-
+erty specified by <code>m</code> is the intersection of those specified by Safe(m) and Live(m)."</p>
+</div>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p>Consider the following Büchi automata over the alphabet of lower case letters:</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<div class="cols">
+<div class="col">
+<p>Safety means <strong>G</strong><em>a</em> <strong>&or;</strong> <em>b</em></p>
+<pre><code>Safe(m) = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }</code></pre>
+</div>
+<div class="col">
+<p>Liveness means <strong>G</strong><strong>F</strong><em>a</em></p>
+<pre><code>Live(m) = {"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }</code></pre>
+</div>
+</div>
+<p>The intersection represents elements in both <code>Safe(m)</code> and <code>Live(m)</code>...
+</section>
+<section id="example2" class="slide level2">
+<h2>Example</h2>
+<div class="cols">
+<div class="col">
+<p>Safety means <strong>G</strong><em>a</em> <strong>&or;</strong> <em>b</em></p>
+<pre><code>Safe(m) = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }</code></pre>
+</div>
+<div class="col">
+<p>Liveness means <strong>G</strong><strong>F</strong><em>a</em></p>
+<pre><code>Live(m) = {"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }</code></pre>
+</div>
+</div>
+<p>The intersection represents elements in both <code>Safe(m)</code> and <code>Live(m)</code>...
+<pre><code>m = {"a", "b", "aa", "ba", "aaa", "aba", "baa", "bba", ... }</code></pre>
+<p>To continue to advance our understanding of the distinction, we explore how to generate <code>Safe(m)</code> and <code>Live(m)</code>.
+</section>
+<section id="safe" class="slide level2">
+<h2>Safe()</h2>
+<p>We recall the definition of safety. 
+<div class="block" name="Definition">
+<p><code>Safe(m)</code> excludes the "bad
+thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing"
+happens at any point in the trace, the
+Buchi automaton will not accept that trace.</p>
+</div>
+<p>We recall the definition of closure.</p>
+<div class="block" name="Definition">
+<p>The <b>closure</b> of Büchi Automaton given by <em>A</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } is <em>cl(A)</em> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <em>Q</em> }. <br><br>So<em>cl(A)</em> is equivalent to <em>A</em> if the set of accepting states <strong>F</strong> is expanded to include all of the states of <em>A</em>.</p>
+</div>
+<p>A core "nicety" of Büchi Automata is that <strong>the safety property is the closure</strong>.
+</section>
+<section id="safe2" class="slide level2">
+<h2>Safe()</h2>
+<p>A core "nicety" of Büchi Automata is that <strong>the safety property is the closure</strong>.<div class="block" name="Definition">
+<p><code>Safe(m)</code> = <code>cl(m)</code><br><br>
+That is, for <code>m</code> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> } is <code>cl(m)</code> &colone; {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <em>Q</em> }</code></p>
+</div>
+<p>The closure simply allows any trace without an undefined transition (or "bad thing") to be accepted.
+</section>
+<section id="live" class="slide level2">
+<h2>Live()</h2>
+<p>We recall the definition of liveness. 
+<div class="block" name="Definition">
+<p><code>Live(m)</code> requires the "good thing" for a Buchi automaton, which is entering
+an accepting state infinitely often, because we require this "good thing" to happen for trace
+to be accepted.</p>
+</div>
+<p>Think back to our example (emphasis added):</p>
+<p>"Consider the following Büchi automata <strong>over the alphabet of lower case letters</strong>"</p>
+<img style="background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802">
+<p>While safety is mostly about <strong>F</strong>, the accepting states or the double circles, liveness is mostly about <em>Σ</em> = <code>{a, b, ?}</code>, the alphabet or the possible states of the trace (NOT the states of the automata) that form the labels on arrows.
+</section>
+<section id="live2" class="slide level2">
+<h2>Live()</h2>
+<p>So we define liveness relative to <em>Σ</em>. There most be no undefined transitions (that would be safety) so we require that any letter in <em>Σ</em> has a defined transition at any point in time. 
+<img src="../images/live.png" style="width:50.0%"/>
+</section>
+<section id="live3" class="slide level2">
+<h2>Live()</h2>
+<div class="cols">
+<div class="col">
+<p>With the traffic light, we ensured there were no undefined transitions using logical not "<strong>&not;</strong>"</p>
+<br>
+<p>But what does this logical not really do with respect to the alphabet?</p>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live4" class="slide level2">
+<h2>Live()</h2>
+<div class="cols">
+<div class="col">
+<p>Let's look back at our original <em>δ</em> and <em>Σ</em>.
+<ul>
+<li><em>δ</em> =<code>{0R0,0G1,1G1,1Y2,2Y2,2R0}</code></li>
+<li><em>Σ</em> = {<em>R</em>, <em>G</em>, <em>Y</em> }</li>
+</ul>
+<p>To make a liveness property, we made sure that each of {<em>R</em>, <em>G</em>, <em>Y</em> } had a defined place to go from each automata state. We added:
+<ul>
+<li><em>δ<sub>live(m)</sub></em> =<code>{0Y0,1R1,2G2}</code></li>
+</ul>
+<p>But this is ugly, let's look at a table</p>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live5" class="slide level2">
+<h2>Before Live()</h2>
+<img src="../images/buchi.png" style="width:25.0%"/>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transition Letter</th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><em>R</em></th>
+<th style="text-align: left;"><em>G</em></th>
+<th style="text-align: left;"><em>Y</em></th>
+</tr>
+<tr class="header">
+<th style="text-align: left;">Initial State</th>
+<th style="text-align: left;">Next State</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><b><em>q<sub>0</sub></em></b></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><strong>UNDEFINED</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><em>q<sub>1</sub></em></b></td>
+<td style="text-align: left;"><strong>UNDEFINED</strong></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+<td style="text-align: left;"><strong>UNDEFINED</strong></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="live6" class="slide level2">
+<h2>With Live()</h2>
+<img src="../images/live.png" style="width:25.0%"/>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transition Letter</th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><em>R</em></th>
+<th style="text-align: left;"><em>G</em></th>
+<th style="text-align: left;"><em>Y</em></th>
+</tr>
+<tr class="header">
+<th style="text-align: left;">Initial State</th>
+<th style="text-align: left;">Next State</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><b><em>q<sub>0</sub></em></b></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><em>q<sub>1</sub></em></b></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="live7" class="slide level2">
+<h2>Problem</h2>
+<div class="cols">
+<div class="col">
+<p>This <em>δ</em> doesn't define a traffic light!
+<ul>
+<li><em>δ<sub>live(m)</sub></em> =
+<pre><code>{0R0,0G1,
+ 1G1,1Y2,
+ 2Y2,2R0,
+ 0Y0,1R1,2G2}</code></pre></li>
+<li><em>Σ</em> = {<em>R</em>, <em>G</em>, <em>Y</em>}</li>
+</ul>
+<p>We need a way to preserve existing state transitions, while eliminating undefined transitions.</p>
+<ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live8" class="slide level2">
+<h2>Trap State</h2>
+<div class="cols">
+<div class="col">
+<p>Introduce new state <em>q<sub>trap</sub></em> or <em>q<sub>t</sub></em>
+<ul>
+<li><em>δ<sub>live(m)</sub></em> =
+<pre><code>{0R0,0G1,
+ 1G1,1Y2,
+ 2Y2,2R0,
+ 0Yt,1Rt,2Gt}</code></pre></li>
+<li><em>Σ</em> = {<em>R</em>, <em>G</em>, <em>Y</em> }</li>
+<li><em>Q</em> = {<em>0</em>, <em>1</em>, <em>2</em>, <em>t</em> }
+</ul>
+<p>We need a way to preserve existing state transitions, while eliminating undefined transitions.</p>
+<ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/trap.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live9" class="slide level2">
+<h2>Trap State</h2>
+<div class="cols">
+<div class="col">
+<p>But how does <em>Σ</em> = {<em>R</em>, <em>G</em>, <em>Y</em> } figure in?</p>
+<br>
+<p>A flashing red <em>F</em> or out light <em>O</em> can still be green in the future!</p>
+<br>
+<p>The trap transition aren't fixed letters - they are the <strong>the rest of the alphabet!</strong></p>
+<ul>
+<li><em>δ<sub>live(m)</sub></em> =
+<pre><code>{0R0,0G1,
+ 1G1,1Y2,
+ 2Y2,2R0,
+ 0*t,1*t,2*t}</code></pre></li>
+<li><em>Σ</em> = {<em>R</em>, <em>G</em>, <em>Y</em>, <em>F</em>, <em>O</em>, ... }</li>
+</ul>
+<ul>
+</div>
+<div class="col">
+<p style = "text-align: center;">Liveness</p>
+<img src="../images/many.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live10" class="slide level2">
+<h2>Trap State</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transition</th>
+<th style="text-align: left;">Letter</th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><em>{R}</em></th>
+<th style="text-align: left;"><em>{G}</em></th>
+<th style="text-align: left;"><em>{Y}</em></th>
+<th style="text-align: left;"><em>Σ</em>/{<em>R</em>, <em>G</em>, <em>Y</em> }</th>
+</tr>
+<tr class="header">
+<th style="text-align: left;">Initial State</th>
+<th style="text-align: left;">Next State</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><b><em>q<sub>0</sub></em></b></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><em>q<sub>t</sub></td>
+<td style="text-align: left;"><em>q<sub>t</sub></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><em>q<sub>1</sub></em></b></td>
+<td style="text-align: left;"><em>q<sub>t</sub></td>
+<td style="text-align: left;"><em>q<sub>1</sub></em></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+<td style="text-align: left;"><em>q<sub>t</sub></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+<td style="text-align: left;"><em>q<sub>0</sub></em></td>
+<td style="text-align: left;"><em>q<sub>t</sub></td>
+<td style="text-align: left;"><em>q<sub>2</sub></em></td>
+<td style="text-align: left;"><em>q<sub>t</sub></td>
+</tr>
+</tbody>
+</table>
+</section><section id="live11" class="slide level2">
+<h2>Live()</h2>
+<p>We recall the definition of safety. 
+<div class="block" name="Definition">
+<p><code>Live(m)</code> requires the "good thing" for a Buchi automaton, which is entering
+an accepting state infinitely often, because we require this "good thing" to happen for trace
+to be accepted.</p>
+</div>
+<p>So in practice, we have</p>
+<div class="block" name="Definition">
+<p><code>Live(m)</code> is <code>m</code> augmented by an accepting trap state <em>q<sub>t</sub></em> and new transition function <em>δ<sub>live(m)</sub></em> which is the transition function <em>δ</em> extended so that it causes every undefined transition of <code>m</code> to put <code>Live(m)</code> in <em>q<sub>t</sub></em></p>
+</div>
+</section>
+<section id="live12" class="slide level2">
+<h2>Overall</h2>
+<div class="cols">
+<div class="col">
+<p style = "text-align: center;">Most Simple</p>
+<img src="../images/live.png" style="width:100.0%"/>
+</div>
+<div class="col">
+<p style = "text-align: center;">Most Correct</p>
+<img src="../images/many.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live13" class="slide level2">
+<h2>Why trap states</h2>
+<div class="cols">
+<div class="col">
+<p>In defense of the most correct version with trap.<p>
+<ul>
+<li>This trap state captures all safety failures.</li>
+<li>Anything going to trap is not in <code>Safe()</code></li>
+<li>Likewise, anything in <code>Safe()</code> that is accepted, is "green eventually".</li>
+</ul>
+<p>This gives "safe and green or unsafe".
+</div>
+<div class="col">
+<p style = "text-align: center;">Most Correct</p>
+<img src="../images/many.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="live14" class="slide level2">
+<h2>Why trap states</h2>
+<div class="cols">
+<div class="col">
+<p>This gives "safe and green or unsafe".</p>
+<ul>
+<li>That is, it gives <code>m</code> and also something else - all unsafe traces.</li>
+<li>Recall: We use <em>Σ</em> <sup>ω</sup> (upper case sigma raised to lower case omega) to denote infinite traces.
+<li>So <code>Live(m)</code> = <code>m</code> <strong>&cup;</strong> <em>Σ <sup>ω</sup></em> / <code>Safe(m)</code></li>
+<li>Say "the liveness property is everything that is both safe and live, and everything that isn't safe."</li>
+</ul>
+
+</div>
+<div class="col">
+<p style = "text-align: center;">Most Correct</p>
+<img src="../images/many.png" style="width:100.0%"/>
+</div>
+</div>
+</section>
+<section id="int" class="slide level2">
+<h2>Intersection</h2>
+<div class="cols">
+<div class="col">
+
+<p style = "text-align: center;">Safe()</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+<p style = "text-align: center;"><code>cl(m)</code><p>
+</div>
+<div class="col">
+<p style = "text-align: center;">Live()</p>
+<img src="../images/many.png" style="width:100.0%"/>
+<p style = "text-align: center;"><code>m</code> <strong>&cup;</strong> <em>Σ<sup>ω</sup></em> / <code>cl(m)</code><p>
+</div>
+</div>
+</section>
+<section id="int2" class="slide level2">
+<h2>Intersection</h2>
+<p>We take the intersection of these two sets (of traces).
+<ul>
+<li><code>Live(m)</code><strong>&cap;</strong><code>Safe(m)</code>, that is<p>
+<li><code>cl(m)</code><strong>&cap;</strong><code>m</code><strong>&cup;</strong><em>Σ<sup>ω</sup></em>/ <code>cl(m)</code><p>
+</ul>
+<p>We consider:</p>
+<ol>
+<li>Everything in <code>m</code> is in <code>cl(m)</code>, that is, <code>m</code><strong>&sub;</strong><code>cl(m)</code>
+<li>Everything in <code>cl(m)</code> is in <em>Σ<sup>ω</sup></em>, that is, <code>cl(m)</code><strong>&sub;</strong><em>Σ<sup>ω</sup></em>
+<li>Nothing in <code>m</code> is in <em>Σ<sup>ω</sup></em>/ <code>cl(m)</code>, that is, <code>m</code><strong>&cap;</strong><em>Σ<sup>ω</sup></em>/ <code>cl(m)</code>=<em>&empty;</em>
+</ol>
+<p>Let's take a look.
+</section>
+<section id="int3" class="slide level2">
+<h2>Intersection</h2>
+<ol>
+<li>Everything in <code>m</code> is in <code>cl(m)</code>, that is, <code>m</code><strong>&sub;</strong><code>cl(m)</code>
+<li>Everything in <code>cl(m)</code> is in <em>Σ<sup>ω</sup></em>, that is, <code>cl(m)</code><strong>&sub;</strong><em>Σ<sup>ω</sup></em>
+</ol>
+<img src="../images/m1.png" style="width:50.0%"/>
+</section>
+<section id="int4" class="slide level2">
+<h2>Intersection</h2>
+<ol>
+
+<li>Everything in <code>m</code> is in <code>cl(m)</code>, that is, <code>m</code><strong>&sub;</strong><code>cl(m)</code>
+<li>Nothing in <code>m</code> is in <em>Σ<sup>ω</sup></em>/ <code>cl(m)</code>, that is, <code>m</code><strong>&cap;</strong><em>Σ<sup>ω</sup></em>/<code>cl(m)</code>=<em>&empty;</em>
+</ol>
+<img src="../images/m2.png" style="width:50.0%"/>
+</section><section id="int5" class="slide level2">
+<h2>Intersection</h2>
+<ol>
+
+<li>Everything in <code>m</code> is in <code>cl(m)</code>
+<li>Everything in <code>m</code> is in <code>m</code><strong>&cup;</strong><em>Σ<sup>ω</sup></em>/ <code>cl(m)</code>
+</ol>
+<img src="../images/m1.png" style="width:50.0%"/>
+</section><section id="int6" class="slide level2">
+<h2>Intersection</h2>
+<p>Nothing in <code>cl(m)</code> is in <code>m</code><strong>&cup;</strong><em>Σ<sup>ω</sup></em>/ <code>cl(m)</code> without being in <code>m</code>
+</p>
+<img src="../images/m1.png" style="width:50.0%"/>
+<p>Everything in <code>m</code> is in <code>m</code><strong>&cup;</strong><em>Σ<sup>ω</sup></em>/ <code>cl(m)</code> and in <code>cl(m)</code>
+</p>
+</section><section id="int7" class="slide level2">
+<h2>Intersection</h2>
+<p>Safe lights are yellow before red.</p>
+<p>Live lights are either (1) green someday, or (2) don't use yellow.</p>
+<p>Safe, live lights are (1) green someday, and (2) use yellow.</p>
+</p>
+<img src="../images/m3.png" style="width:50.0%"/>
+</p>
+</section>
+<section id="int7" class="slide level2">
+<h2>Work time</h2>
+<div class="cols">
+<div class="col">
+
+<p style = "text-align: center;">Safe()</p>
+<img src="../images/safe.png" style="width:100.0%"/>
+<p style = "text-align: center;"><code>cl(m)</code><p>
+</div>
+<div class="col">
+<p style = "text-align: center;">Live()</p>
+<img src="../images/many.png" style="width:100.0%"/>
+<p style = "text-align: center;"><code>m</code> <strong>&cup;</strong> <em>Σ<sup>ω</sup></em> / <code>cl(m)</code><p>
+</div>
+</div>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

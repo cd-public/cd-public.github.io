@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Introduction</title>
+  <meta charset="utf-8">
+  <title>gcc</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
   <style>
@@ -12,104 +16,106 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
   </style>
-  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/league.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide">
-  <h1 class="title">Introduction</h1>
-  <p class="author">Calvin (Deutschbein)</p>
-  <p class="date">17 January 2024</p>
-  <p>Wednesday, Week 1</p>
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">gcc</h1>
+  <h2>Prof. Calvin's CS 271</h2>
+  <h2>17 Jan 24</h2>
+  <h2>w01d02</h2>
 </section>
 
-<section id="announcements" class="slide level2">
-<h2>Announcements</h2>
-<ul>
-<li>Welcome to CS-152: Data Structures!</li>
-<li>Things to do:
-<ul>
-<li>Access the course webpage at <a href="https://cd-public.github.io/courses/strs24/index.html">cd-public.github.io/courses/strs24</a>
-<ul>
-<li>There will be a link to the course webpage from the WISE site</li>
-</ul></li>
-<li>Look over the syllabus</li>
-<li>Join the Discord!
-<ul>
-<li>You should have gotten an email</li>
-</ul></li>
-</ul></li>
-<li>Homework
-<ul>
-<li>The first homework, HW0 will be posted to Discord after class, due next Friday, 1/26</li>
-</ul></li>
-</ul>
-</section>
-<section id="my-vitals" class="slide level2">
+<section>
 <h2>About Me</h2>
 <dl>
 <dt>Name</dt>
-<dd>Calvin (Deutschbein) 
+<dd>Professor Calvin
 </dd>
-<dt>Office</dt>
-<dd><strong>Ford</strong> 206
+<dd>they/them
 </dd>
-<dt>Office Hours</dt>
-<dd>By Appt, either Zoom or Ford 206.
+<dt>Specialty</dt>
+<dd>Hardware Design
 </dd>
-<dd>Mondays and Wednesdays between 10:10 1:10 but I have to eat lunch sometime.
+<dd>Formal Methods
 </dd>
 <dt>Email:</dt>
-<dd>ckdeutschbein@willamette.edu
-<dd>I aim to respond in under 24 hours on weekdays and 48 hours on weekends.
+<dd>ckdeutschbein@
+</dd>
+<dt>Website:</dt>
+<dd>cd-public.github.io
+</dd>
+<dt>Favorite Language:</dt>
+<dd>Haskell
 </dd>
 </dl>
 </section>
-<section id="motivations" class="slide level2">
+<section>
 <h2>Motivations</h2>
+<table>
+<p><a href="https://www.statista.com/statistics/793628/worldwide-developer-survey-most-used-languages/">Most used programming languages among developers worldwide as of 2023</a>
+<tr>
+<td style="width:50%">
 <ul>
-<li>So, you know how to code.</li>
-<li>Coding &ne; Computer Science. </li>
-<li>Studying computing now lets you take part in driving forward not only the field of computing, but of all the modern fields with utilize computing.
-<pre ><code class="python" style="max-height:800px">def main():
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    turn_left()
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    pick_beeper()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    move()
-    put_beeper()</code></pre>
+<li>JavaScript/HTML/CSS are web languages
+<ul>
+<li>Taught in DATA 352W/CS 299: Web
+<li>TypeScript is JavaScript but good.
+<li>This stack should replace PHP... someday</ul>
+<li>Java/Kotlin/Swift are mobile languages
+<ul>
+<li>Taught in CS 299: Mobile (all), ~CS 351 (Java)
+<li>Java was popular in the 00s, less now.</ul>
+<li>Python is the 🐐, taught in CS 15?
+<li>SQL is taught in DATA 351
+<li>Enter CS 271, a course in C.
+<ul>
+<li>C++ is object oriented C.
+<li>C# is Microsoft C
+<li>Go and Dart are Google C-likes
+<li>Rust might replace C someday, but not yet.
+<li>Lua is a C API
+<li>Shell languages are often used with C
+<li>C is "architecture agnostic" assembly</ul>
+<li>And then we reach R, taught in DATA 15?
+</td>
+<td style="width:80%;display:inline-block;">
+  <div style="background-image: url('https://www.statista.com/graphic/1/793628/worldwide-developer-survey-most-used-languages.jpg');
+  background-size: cover;
+  background-size: 100% 247%;">
+ <ul style="opacity: 0.0;">
+<li>JavaScript/HTML/CSS: DATA 352W & CS 299: Web
+<li>Python is taught in CS 15X
+<li>SQL is taught in DATA 351
+<li>TypeScript is just a version of JavaScript that is good.
+<li>Shell is taught in this class as a secondary objective
+<li>I don't talk about Java
+<li>C#/C++/C share commonalities of which C is most general.
+<li>C#/C++/C share commonalities of which C is most general.
+<li>C#/C++/C share commonalities of which C is most general.
+<li>C#/C++/C share commonalities of which C is most general.</div>
+
+</td></tr></table>
+
 </section>
-<section id="squad-goals" class="slide level2">
-<h2>Learning Objectives</h2>
-<div class="block" name="Primary Objective">
-<p>To gain the skills, knowledge, and confidence necessary to write, test, and debug Python programs requiring several hundred lines of code.</p>
-</div>
-<p>Doing so will require that students be able to:</p>
+<section>
+<h2>Goals</h2>
+<p>Networks & systems form the boundry between abstractions firmly rooted in language and deeper questions in computing regarding the implementation of thinking machines at engineering and physical levels. 
+
+<p>This course will prepare computer scientists to reason at and across this abstraction boundry to more fully embrace the power of computation.
 <ul>
-<li>implement algorithms,</li>
-<li>decompose complex problems,</li>
-<li>use recursion,</li>
-<li>design programming structures,</li>
-<li>do each of: design, implement, test and debug,</li>
-<li>argue that computer science is more than programming.</li>
+<li>Learn low level languages of C and assembly</li>
+<li>Use command line tools to study these languages</li>
+<li>Use features of the operating system including parallelism and networking</li>
+<li>Stretch: Learn how to make changes to operating systems </li>
 </ul>
 </section>
-<section id="grading" class="slide level2">
+<section>
 <h2>Grading</h2>
 <ul>
 <li>Standard 90/80/70 etc grade cut-offs
@@ -133,7 +139,7 @@
 </table>
 </section>
 </section>
-<section id="grading" class="slide level2">
+<section>
 <h2>Grading</h2>
 <ul>
 <li>Standard 90/80/70 etc grade cut-offs
@@ -142,11 +148,11 @@
 <table>
 <tbody>
 <tr class="odd">
-<td>Problem Sets</td>
+<td>Homework 0</td>
 <td style="text-align: right;">20%</td>
 </tr>
 <tr class="odd">
-<td>Projects</td>
+<td>Homework 1</td>
 <td style="text-align: right;">20%</td>
 </tr>
 <tr class="even">
@@ -158,66 +164,77 @@
 <td style="text-align: right;">20%</td>
 </tr>
 <tr class="even">
-<td>Final</td>
+<td>Final Project</td>
 <td style="text-align: right;">20%</td>
 </tr>
 </tbody>
 </table>
+<p>C is hard and we cover a lot in this class...
+<p>.. so I have fairly relaxed grading. 
 </section>
-<section id="participation" class="slide level2">
+<section>
 <h2>Participation</h2>
-<ul>
-<li>I reserve the right to raise individual student grades in accordance with strong participation in class, office hours, or on Discord.
-</ul>
+<p>I reserve the right to raise individual student grades in accordance with strong participation in class, office hours, or on Discord.
+<p style="font-style: italic;">If you attend most~=90% classes and submit code that compiles* for every assignment, you will pass.</p>
 </section>
-<section id="homework" class="slide level2">
+<section>
 <h2>Homework</h2>
 <ul>
-<li>Falls into two categories:
+<li>If you do not start these when they are assigned, you will not complete them and will not learn.
 <ul>
-<li><em>Problem Sets:</em> smaller, more focused assignments
-<li><em>Projects:</em> larger, more integrative assignments
+<li><em>Homeworks:</em> smaller, individual assignments.
+<li><em>Projects:</em> major team-based efforts
 </ul></li>
-<li>All will be due on Fridays at 9:10 AM</li>
-<li>Submissions of <em>both</em> will be handled through Github Classroom
+<li>The primary learning for this course will be in figuring out assignments on your own and bringing effective questions to class.</li>
+<li>All student work will be managed under a private GitHub repository that you may make public to add to your portfolio at the end of the term.
 <ul>
-<li>Learning how to do this is part of this weeks lab sections.</li>
+<li>Learning how to do manage this repository is a learning objective of the course.</li>
 </ul></li>
 <li>Late homework is not accepted - turn it what you have, then be caught up for the next assignment.</li>
-<li>Instead of a late policy, I will drop the lowest homework score at the end of the semester.</li>
+<li>Instead of a late policy, I will grade generously. 
+<ul><li>If you have a good reason, you can either tell me or not but in either case I will provide feedback on what I have and encourage you to move forward.</li>
 </ul>
 </section>
-<section id="project-sneak-peeks" class="slide level2">
-<h2>Project Sneak Peeks!</h2>
-<div class="r-stack">
-<p><video data-src="../video/project1_demo.webm" class="fragment current-visible" loop="True" height="800" controls=""><a href="../video/project1_demo.webm">Breakout game</a></video><br />
+<section>
+<h2>Sneak Peeks!</h2>
+<p style="height:100%"><img src="https://raw.githubusercontent.com/cd-public/cs271wu/main/hw2/buddhabrot_from_c.png" style="height:80%"><br />
 </p>
-<p><video data-src="../video/project2_demo.webm" class="fragment current-visible" loop="True" width="1500" controls=""><a href="../video/project2_demo.webm">Hive puzzle</a></video><br />
-</p>
-<p><video data-src="../video/project3_demo.webm" class="fragment current-visible" loop="True" height="800" controls=""><a href="../video/project3_demo.webm">Imageshop program</a></video><br />
-</p>
-<p><video data-src="../video/project5_demo.webm" class="fragment current-visible" loop="True" height="900" controls=""><a href="../video/project5_demo.webm">Adventure game</a></video><br />
-</p>
-</div>
 </section>
-<section id="sections" class="slide level2">
-<h2>Labs/Sections</h2>
-<ul>
-<li>New pilot program just started last year!</li>
-<li>Everyone will be placed into small sections of 5-7 students, with one section leader</li>
-<li>All section leaders are students who recently took and excelled in this course</li>
-<li>Will meet as a group with your section leader once a week for an hour to go over and work on problems
-<li>Section leaders will also serve as a secondary source for help or guidance.</li>
-</ul>
+<section>
+<h2>Sneak Peeks!</h2>
+<pre style="background-color: #008000;color: #000;width:80ch;">|------------------------------------------------------------------------------|
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                            &                                 |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O                                                    |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         O          O                                         |
+|                         OOOOOOOOOOOO                                         |
+|------------------------------------------------------------------------------|</pre>
 </section>
-<section id="tests" class="slide level2">
+</section>
+<section>
 <h2>Tests</h2>
 <ul>
 <li>Tests are a useful tool to promote directed thinking about the science of computing in isoloation from a programming environment.</li>
 <li>Just two this semester:
 <ul>
-<li>Midterm I week of 2/21</li>
-<li>Midterm II week of 4/11</li>
+<li>Midterm Sys week of 2/26</li>
+<li>Midterm Net week of 4/08</li>
 </ul></li>
 <li>Having two tests reduces the stakes of the individual test and hopefully reduces stress as well! We will use simple vote to decide what day of these weeks to offer the tests.</li>
 
@@ -228,105 +245,188 @@
 <li>Example tests and study materials will be given out a week in advance.</li>
 </ul>
 </section>
-<section id="communication" class="slide level2">
+<section>
 <h2>Communication</h2>
 <ul>
-<li>I tend to find WISE lacking both from a polish perspective and from an ease of use perspective</li>
-<li>I will be using a 3rd-party forum to focus class communication, announcements, and questions: Discord.
-<li>You should have gotten an email with invite instructions. Let me know if you have not!</li>
-<li>Totally free to sign up and use</li>
-</ul></li>
+<li>Check your email for a link to Discord
+<img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b5061df29d55a92d945_full_logo_blurple_RGB.svg">
+<li>Post code to Discord in two ways:
+<ul><li>Drag-and-drop or use the (+) button to share the whole file.
+<ul><li>Once you are confused, you are unlikely to guess where the problem is coming from in a larger file.</ul>
+<li>Share code snippets using triple quotes and a language. <code>'''C
+int your_code()
+{
+	return 0 ;
+}
+'''</code>
+
+</ul>
 </ul>
 </section>
-<section id="academic-honesty" class="slide level2">
+<section>
 <h2>Academic Honesty</h2>
 <ol type="1">
-<li>You must not look at solutions or program code that is not your own.</li>
-<li>You must not share your solution code with other students.
+<li>This class is open-Stack Overflow, open-partner, open-ChatGPT.
+<ul><li>You must submit your own work and cite your sources.</li>
+<li>ChatGPT can't do these assignments. GitHub copilot might, but I doubt it.</li>
+<li>Usually students in a previous year can help, but can't do them unless they've kept up with C.</li>
+<li>You are welcome to attempt other forms of academic dishonesty but will likely fail.</li></ul>
+<li>You must submit your own work and cite your sources.
 <ul>
-<li>But you are welcome (and encouraged!) to work alongside others enroute to finding a solution.</li>
+<li>The assignments are intended to prepare you for the exams, so you benefit from fully understanding them individually.</li>
 </ul></li>
-<li>You must indicate on your submitted assignment any assistance you received or who you worked alongside.</li>
+<li>You will learn more the more you do. I do not expect perfection and grade accordingly, so focus on learning, not turning in something you didn't work on.</li>
 </ol>
 </section>
-<section id="diving-in" class="slide level2">
+<section>
 <h2>Diving In</h2>
 <div class="columns">
 <div class="column">
 <ul>
-<li>This course is an introduction on <em>computer science</em>, and covers more than just programming!</li>
-<li>Python is used to teach the programming portion of the course, but the focus is less on Python itself and more on general computer science principles.</li>
-<li>If you come across situations where you need to know a bit more about specific Python details, there are plenty of resources online, or just ask me!</li>
+<li>This course is in <em>computer science</em>, and covers more than just programming!</li>
+<li>Specifically it focuses on the largest subfield of (pure) computer science research: Systems.</li>
+<li>I will attempt to teach the class in a scientific way, to leave open opportunities in software and in research.</li>
+<li>You will also learn a broad specturm of skills expected of CS students with 4 year degrees</li>
 </ul>
 </div><div class="column">
 <!--<p class="stretch"><img src="../images/book_cover.png"></p>-->
-<p><img data-src="../images/book_cover.png" style="width:70.0%" /></p>
+<p><img data-src="../images/sys_fund.png" style="width:100.0%" /></p>
+<p>Funding at UIUC for Computer Science. Orange is systems. Blue is Data Science.
 </div>
 </div>
 </section>
-<section id="effective-communication" class="slide level2">
-<h2>Effective Communication</h2>
-<div>
+<section>
+<h2><code>gcc</code></h2>
 <ul>
-<li class="fragment">To communicate effectively with someone or something, you really need two layers of communication:
-<ul>
-<li class="fragment">A shared language or method of conveying information
-<ul>
-<li class="fragment">French, for instance</li>
-<li class="fragment">In our case, Python</li>
-</ul></li>
-<li class="fragment">A joint agreement about what constitutes meaning and ways to limit confusion or misunderstanding
-<ul>
-<li class="fragment">Being able to explain things clearly and unambiguously</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
+<li>gcc stands for "GNU Compiler Collection" and is a shell command of the same name:<br>
+<code>user@DESKTOP-THMS2PJ:~$ gcc hello.c
+user@DESKTOP-THMS2PJ:~$ gcc
+gcc: fatal error: no input files
+compilation terminated.
+user@DESKTOP-THMS2PJ:~$</code>
+<li>You may have previously used commands such as "python" or "python3"
+<code>user@DESKTOP-THMS2PJ:~$ python3
+Python 3.10.12 (main, Jun 11 2023, 05:26:28) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print("hello")
+hello
+>>></code>
+<li>You may notice that Python 3.10.12 is compiled* using GCC 11.4.0.
+<ul><li>Python is a C program (ish)</li>
 </section>
-<section id="giving-clear-instructions" class="slide level2">
-<h2>Giving Clear Instructions</h2>
+<section>
+<h2>Compiled* Part 1</h2>
 <ul>
-<li>We will initially make the language <em>extremely</em> simple so that we can focus on the second layer</li>
-<li>Karel the Robot exists in a very simple 2D world</li>
-<li>Has a very limited set of actions:
-<ul>
-<li>Can move forward one space</li>
-<li>Can rotate counter-clockwise (turn left) 90 degrees</li>
-<li>Can pick up a beeper</li>
-<li>Can drop off a beeper</li>
-</ul></li>
-<li>We will be spending the first several class days just interested in how we can take these simple instructions and get Karel to solve a wide variety of problems
-<ul>
-<li>This content is not in your book, but more in-depth descriptions can be found <a href="https://willamette.edu/~esroberts/pykarel/reader/01-IntroducingKarel.html">here</a></li>
-</ul></li>
-</ul>
+<li>Python is an <em>interpreted</em> language.
+<ul><li>I will also call interpreted languages "scripting languages".</ul>
+<li>In a scripting language, code is written in human-readable text:
+<code>>>> print("hello world")
+hello world
+>>></code>
+<li>This code can be saved as text inside a file with a certain ending, like .py:
+<code>user@DESKTOP-THMS2PJ:~$ echo "print(\"hello world\")" > hello.py
+user@DESKTOP-THMS2PJ:~$ cat hello.py
+print("hello world")
+user@DESKTOP-THMS2PJ:~$</code>
+<li>Then the script is run by using another program, such as the python interpreter:
+<code>user@DESKTOP-THMS2PJ:~$ python3 hello.py
+hello world
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>Check-in: What do the ">>>" and "user@DESKTOP-THMS2PJ:~$" represent?</li>
 </section>
-<section id="the-world" class="slide level2">
-<h2>The World</h2>
-<div class="cols">
-<div class="col">
+<section>
+<h2>Compiled* part 2</h2>
 <ul>
-<li>Karel’s world is defined on a grid
-<ul>
-<li><em>avenues</em> run north-south</li>
-<li><em>streets</em> run east-west</li>
-<li>The <em>intersection</em> between a street and avenue is called a corner</li>
-</ul></li>
-<li>Compass directions are as you’d have them on a map, with North pointing upwards</li>
-<li>Walls are impassable</li>
-<li>Beepers are diamonds</li>
-<li>Karel is a house-shaped polygon</li>
-</ul>
-</div>
-<div class="col">
-<p><img data-src="../images/svg_cache/0269a24c69cc3928f2bb73044e5e3d1970624894.svg" style="width:100.0%" /></p>
-</div>
-</div>
+<li>The C language is a compiled language.
+<ul><li>I will also call these compiled languages "programming languages".</ul>
+<li>Compiling is annoying and you will hate it, but it builds character (I think).
+<li>Code is still written in human-readable text, but only in the context of a file:
+<code>user@DESKTOP-THMS2PJ:~$ echo "void main(){print(\"hi\n\");}" > hi.c
+user@DESKTOP-THMS2PJ:~$ cat hi.c
+void main(){print("hi");}
+user@DESKTOP-THMS2PJ:~$</code>
+<li>Unlike Python, invoking gcc does not cause this code to run...
+<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c -w
+user@DESKTOP-THMS2PJ:~$</code>
+<li>It does something else...
+<ul><li>"gcc" is a command, like "python"
+<li>"hi.c" is the name of the file.
+<li>What is "-w"?</li>
 </section>
-<section id="commands" class="slide level2">
-<h2>Commands</h2>
+<section>
+<h2>Bash</h2>
 <ul>
-<li>As we mentioned before, Karel is a simple robot, and can really only do 4 potential actions</li>
+<li>The gcc command "compiles" a .c file into an executable file - a program.
+<li>To understand this best, we introduce the notion of the shell: a place to run code.
+<code>user@DESKTOP-THMS2PJ:~$ echo "hello world"
+hello world
+user@DESKTOP-THMS2PJ:~$</code>
+<li>This language is called Bash, and much like Python, is an interpreted language.
+<code>>>> print("hello world")
+hello world
+>>></code>
+<li>Bash differs from Python in its precise syntax and also it's purpose:
+<ul><li>Bash is used to <b>navigate the file system</b>
+<li>Python is used to compute.</ul>
+<li>A key difference to keep in mind is the <b>sense of place</b>
+</section>
+<section>
+<h2>The File System</h2>
+<ul>
+<li>Bash is always tied to a current location in the file system.
+<li>This local context can change what a Bash script does.
+<code>user@DESKTOP-THMS2PJ:~$ ./a.out
+hi
+user@DESKTOP-THMS2PJ:~$ cd ..
+user@DESKTOP-THMS2PJ:/home$ ./a.out
+-bash: ./a.out: No such file or directory
+user@DESKTOP-THMS2PJ:/home$ cd ~
+user@DESKTOP-THMS2PJ:~$ ./a.out
+hi
+user@DESKTOP-THMS2PJ:~$</code>
+<li>This is the same why local context changes what a Python script does.
+<code>>>> str = "hi"
+>>> print(str)
+hi
+>>> str = "hello"
+>>> print(str)
+hello
+>>></code>
+</section>
+<section>
+<h2>The Bash Prompt</h2>
+<ul>
+<li>Python prompts users with ">>>"
+<li>Bash prompts users with a reminder about where they are in the filesystem.
+ <table>
+  <tr>
+    <th>user name</th>
+    <th>@</th>
+    <th>device name</th>
+    <th>:</th>
+	<th>file system location</th>
+	<th>$</th>
+  </tr>
+  <tr>
+    <td>user</td>
+    <td>@</td>
+    <td>DESKTOP-THMS2PJ</td>
+    <td>:</td>
+    <td>~</td>
+    <td>$</td>
+  </tr>
+</table> 
+
+<li>"~" is where you usually start - short hand for the home directory of a given user.
+<code>user@DESKTOP-THMS2PJ:~$ pwd
+/home/user</code><code>user@DESKTOP-THMS2PJ:~$ cd /home
+user@DESKTOP-THMS2PJ:/home$ pwd
+/home</code>
+</section>
+<section>
+<h2>(Some) Bash Commands</h2>
+<ul>
+<li>Here's how I used the commands I've shown today in the file system, and "ls"</li>
 </ul>
 <table>
 <colgroup>
@@ -341,150 +441,116 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code class="python">move()</code></td>
-<td style="text-align: left;">Moves Karel forward one corner in whatever direction they are facing</td>
+<td style="text-align: left;"><code class="python">gcc</code></td>
+<td style="text-align: left;">Given an input .c file, compile the code.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code class="python">turn_left()</code></td>
-<td style="text-align: left;">Rotates Karel 90 deg counter-clockwise</td>
+<td style="text-align: left;"><code class="python">python3</code></td>
+<td style="text-align: left;">Open the python3 interpreter. Given an input .py file, run that script.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code class="python">pick_beeper()</code></td>
-<td style="text-align: left;">Picks up a beeper on the ground</td>
+<td style="text-align: left;"><code class="python">echo</code></td>
+<td style="text-align: left;">Given an input string, print that string. Can be used to write text into a file.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code class="python">put_beeper()</code></td>
-<td style="text-align: left;">Places a beeper on the ground</td>
+<td style="text-align: left;"><code class="python">cat</code></td>
+<td style="text-align: left;">Given an input file name, print the contents of that file. For "concatenate" - historically used to join multiple files together, but may be used on a single file.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code class="python">cd</code></td>
+<td style="text-align: left;">Change directory. If given no argument, return to ~.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code class="python">pwd</code></td>
+<td style="text-align: left;">Print working directory. Prints the full name of the current location in the file system.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code class="python">ls</code></td>
+<td style="text-align: left;">List. Lists all files and sub-directories in the current directory.</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>Our commands are just sequences of these actions</li>
-</ul>
 </section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
-<div class="cols">
-<div class="col">
+<section>
+<h2>Compiled* part 3</h2>
 <ul>
-<li>Suppose we had the situation to the right and wanted to navigate to the beeper, pick it up, and then drop it at the corner of 1st avenue and 1st street.</li>
-<li>Take a moment to write out your instructions.
-<ul>
-<li>Remember you can only move, rotate left, and pick up or drop the beeper</li>
-</ul></li>
-<li>Note that there are multiple ways to do this! Which is better?</li>
-</ul>
-</div>
-<div class="col">
-<p><img data-src="../images/svg_cache/2f23aa67af9dd68dfb3635c94e79e7f1f75413b0.svg" style="width:100.0%" /></p>
-</div>
-</div>
+<li>Unlike Python, invoking gcc does not cause this code to run...
+<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c -w
+user@DESKTOP-THMS2PJ:~$</code>
+<li>It does something else...
+<ul><li>"gcc" is a command, like "python"
+<li>"hi.c" is the name of the file.
+<li>What is "-w"?</li></ul>
+<li>We can use "ls" to see the files in the directory
+<code>user@DESKTOP-THMS2PJ:~$ ls
+hi.c
+user@DESKTOP-THMS2PJ:~$ gcc hi.c -w
+user@DESKTOP-THMS2PJ:~$ ls
+a.out  hi.c
+user@DESKTOP-THMS2PJ:~$</code>
+<li>gcc creates a new file in the current folder.
+<li><b>This file is the executable - the "program"</b>
 </section>
-<section id="one-solution" class="slide level2">
-<h2>One Solution</h2>
-<pre ><code class="python" style="max-height:800px">def main():
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    turn_left()
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    pick_beeper()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    move()
-    put_beeper()</code></pre>
-<!--
-## Getting the right mindset
-::: {.columns}
-:::: {.column}
-- Katherine Johnson worked as a "computer" at NASA, when the term still referred to humans doing the calculations.
-    - One of the three black women portrayed in the 2016 film _Hidden Figures_
-    - Awarded the Presidential Medal of Freedom in 2015
-    - Passed away in February of this year at the age of 101
-::::
-:::: {.column}
-![](../images/katherine_johnson.jpg){width=500px}
-::::
-:::
 
----
+<section>
+<h2>Compiled* part 4</h2>
+<ul>
+<li><b>Compilation is the process of turning human-readable code into computer-readable programs</b>
 
-## Data Types
-- Generally, the data processed by computers can take on many forms
-- A _data type_ defines the common characteristics of some data values that have a certain form or purpose.
-    - Ex: a whole number or integer has certain characteristics
-- A data type has a _domain_, which is the set of all potential values that would belong to that type.
-    - Ex: 0,1,2,3,4,5,6,7,...
-- A data type has a _set of operations_ that define how those values can be manipulated
-    - Ex: You can add two whole numbers (5+2)
+<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c -w
+user@DESKTOP-THMS2PJ:~$ ./a.out
+hi
+user@DESKTOP-THMS2PJ:~$</code>
+<li>"./a.out" is just a file in the file system.
+<ul><li>"." is shorthand for the current file
+<li>"/" is shorthand for a file or directory inside another directory
+<li>"a" is the name of the file
+<li>".out" is the file extension for gcc output file.</ul>
+<li>This same shorthand is used elsewhere - we can use "~", relative, or full paths:
+<code>user@DESKTOP-THMS2PJ:~$ ~/a.out
+hi
+user@DESKTOP-THMS2PJ:~$ /home/user/a.out
+hi
+user@DESKTOP-THMS2PJ:~$ ../user/a.out
+hi
+user@DESKTOP-THMS2PJ:~$</code>
+</section>
+<section>
+<h2>For next time</h2>
+<ul>
+<li>You need a bash command-line with gcc.
+<ul><li>Windows: Use Windows Subsystem for Linux (WSL)
+<ul><li>Microsoft Learn (WSL): <a href="https://learn.microsoft.com/en-us/windows/wsl/install">https://learn.microsoft.com/en-us/windows/wsl/install</a>
+<li>Visual Studio Code: GCC on WSL <a href="https://code.visualstudio.com/docs/cpp/config-wsl">https://code.visualstudio.com/docs/cpp/config-wsl</a></ul>
+<li>Mac: Use gcc in Terminal.
+<ul><li>Install via Homebrew: <a href="https://brew.sh/">https://brew.sh/</a>
+</ul></ul>
+<li>This could get rather involved, but I want you to learn how to do it. But ask if you get stuck.
+<li>There is a secret way to do this in Google Colab that is insufficent but a good stopgap.
+<li>You can practice C in the meantime using <a href="https://www.onlinegdb.com/">OnlineGDB</a>
+</section>
+<section>
+<h2>Get nopy.c working.</h2>
+<ul>
+<li>Take this code:
+<code>#include &lt;stdio.h&gt;
 
-## Numeric Types
-- Initially, we'll just focus on the numeric types
-- Python has 3 data types for numbers:
-    - `int`{.python} for integers and whole numbers
-
-        ```python
-        1, 2, 3, 10, 1001010101
-        ```
-
-    - `float`{.python} for numbers containing a decimal point
-
-        ```python
-        1.23, 3.14, 10.001, 0.0
-        ```
-
-    - `complex`{.python} for numbers with an imaginary component (which we won't deal with)
-
----
-
-## Expressions
-- Like most languages, Python describes computation using _arithmetic expressions_, which consist of _terms_ joined by _operators_
-    - Very similar to how a logical English sentence has nouns connected by verbs
-- A term in an expression can be:
-    - an explicit numeric value (1 or 3.14)
-    - a variable name serving as a placeholder to a value
-    - a value resulting from the output of a function call
-    - another expression enclosed in parentheses
-- Operators are mostly the common ones found from arithmetic, but with a few extras, as we'll see on the next slide
-- The result of an expression will have a data type that generally depends on both the operation done and the input data types
-
----
-
-## Integer and Float Operations
-- `i + j`  the _sum_ of `i` and `j`[留]{.orange}
-- `i - j`  the _difference_ between `i` and `j`[留]{.orange}
-- `i * j`  the _product_ of `i` and `j`[留]{.orange}
-- `i // j`  the _floor division_ of `i` by `j`[留]{.orange}
-- `i / j`  the _division_ of `i` by `j`[†]{.orange}
-- `i % j`  the _remainder_ when `i` is divided by `j`[留]{.orange}
-- `i ** j`  `i` to the _power_ of `j`[留]{.orange}
-
-<br>
-<hr>
-<br>
-[留]{.orange} -- Returns `int` if both `i` and `j` are integers, `float` otherwise
-
-[†]{.orange} -- Returns `float` always
-
----
-
-## Order of Operations
-- Basic order of operations applies just like in math!
-- Operations in parentheses done first
-- Without parentheses, order of operations proceeds as:
-    - `**` (exponents)
-    - `-n` (negative numbers)
-    - `*`, `/`, `//`, `%`, executed from left to right
-    - `+` and `-`, executed from left to right
--->
+int main() {
+    char input[256] ;
+	
+    while (1) {
+        printf(">>> ") ;
+        fgets(input, sizeof(input), stdin) ;
+        printf("%s", input) ;
+    }
+    return 0 ;
+}</code>
+<li>Get a setup so that you can do this:
+<code>user@DESKTOP-THMS2PJ:~$ gcc nopy.c
+user@DESKTOP-THMS2PJ:~$ ./a.out
+>>> hi
+hi</code>
+<li>There isn't a clean way to exit this - "ctrl+z" will work.
 </section>
     </div>
   </div>

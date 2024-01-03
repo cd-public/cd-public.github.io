@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Introduction</title>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jed Rembold">
+  <meta name="dcterms.date" content="2021-08-30">
+  <title>Github</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
   <style>
@@ -12,7 +19,7 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
   </style>
-  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/league.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
 </head>
 <body>
@@ -20,31 +27,26 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Introduction</h1>
-  <p class="author">Calvin (Deutschbein)</p>
-  <p class="date">17 January 2024</p>
-  <p>Wednesday, Week 1</p>
+  <h1 class="title">Github.io</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">17 Jan 24</p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
-<li>Welcome to CS-152: Data Structures!</li>
+<li>Welcome to DATA-352W: Ethics, Teamwork Communication!</li>
+<li>I'm gonna call it "Ethics".</li>
 <li>Things to do:
 <ul>
-<li>Access the course webpage at <a href="https://cd-public.github.io/courses/strs24/index.html">cd-public.github.io/courses/strs24</a>
+<li>Access the course webpage at <a href="https://cd-public.github.io/courses/eths24/index.html">cd-public.github.io/courses/eths24</a>
 <ul>
-<li>There will be a link to the course webpage from the WISE site</li>
+<li>There may be a link to the course webpage from the WISE site</li>
 </ul></li>
 <li>Look over the syllabus</li>
-<li>Join the Discord!
-<ul>
-<li>You should have gotten an email</li>
-</ul></li>
-</ul></li>
 <li>Homework
 <ul>
-<li>The first homework, HW0 will be posted to Discord after class, due next Friday, 1/26</li>
+<li>The first homework, "Github.io" is due Wednesday, 24 Jan.</li>
 </ul></li>
 </ul>
 </section>
@@ -54,438 +56,414 @@
 <dt>Name</dt>
 <dd>Calvin (Deutschbein) 
 </dd>
+<dt>Pronouns</dt>
+<dd>they/them
+</dd>
 <dt>Office</dt>
 <dd><strong>Ford</strong> 206
 </dd>
 <dt>Office Hours</dt>
-<dd>By Appt, either Zoom or Ford 206.
+<dd>Zoom by appt (email or discord me)
 </dd>
-<dd>Mondays and Wednesdays between 10:10 1:10 but I have to eat lunch sometime.
+<dd>Tuesdays and Thursdays are better.
 </dd>
 <dt>Email:</dt>
 <dd>ckdeutschbein@willamette.edu
-<dd>I aim to respond in under 24 hours on weekdays and 48 hours on weekends.
+</dd>
+<dt>Website:</dt>
+<dd>cd-public.github.io
+</dd>
+</dl>
+</section>
+<section id="my-bkgd" class="slide level2">
+<h2>Background</h2>
+<dl>
+<dt>Thesis Title</dt>
+<dd>Mining Secure Behavior of Hardware Designs
+</dd>
+<dt>Plain English</dt>
+<dd>Just as there are bugs in code that makes <b>software</b>, modern <b>hardware</b> is also written in code and therefore may contain bugs. I find these bugs.
+</dd>
+<dt>Thesis</dt>
+<dd>Specification mining can discover properties that can be used to verify the secure
+behavior of closed source CISC CPU designs, properties that can be used to verify
+the temporal correctness of CPU designs, and hyperproperties that can be used to
+verify that modules, SoCs, and CPUs have secure information flow.
+</dd>
+<dt>Some partners</dt>
+<dd>Intel Corporation, Semiconductor Research Corporation, Synopsys, MITRE, Cycuity
 </dd>
 </dl>
 </section>
 <section id="motivations" class="slide level2">
 <h2>Motivations</h2>
 <ul>
-<li>So, you know how to code.</li>
-<li>Coding &ne; Computer Science. </li>
-<li>Studying computing now lets you take part in driving forward not only the field of computing, but of all the modern fields with utilize computing.
-<pre ><code class="python" style="max-height:800px">def main():
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    turn_left()
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    pick_beeper()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    move()
-    put_beeper()</code></pre>
+<li>Allegedly, many data science programs have a data ethics requirement.</li>
+<li>It may be the case that some computer science programs do as well.</li>
+<li>These may or may not be true.
+<ul>
+<li>To us, the underlying truth value is irrelevant if decision makers accept the assertions as true.</li>
+</ul></li>
+<li>Taking an ethics course as a given, we also recall it would be good if data and computing students both graduate and succeed in life post-graduation.
+</ul>
+</section>
+<section id="cas" class="slide level2">
+<h2>Expectations: Art and Science</h2>
+<ul>
+<li>The College of Arts and Sciences requires an upper level writing course to graduate.</li>
+<li>This is a "writing centered course".
+<ul>
+<li>It reflects my understanding that students are expected to read and peer review one another's writing for this credit.</li>
+<li>I do not know how to write, which I understand as common to scholars specializing in computing and/or data.</li>
+<li>To me, the requirements for what constitutes a writing centered course felt ambigious and underspecified.</li>
+</ul></li>
+<li>We could, at any time, come under external review for any reason.</li>
+<li>Therefore, we will read and review one another's writing regularly and rigorously.</li>
+<ul>
+</section>
+<section id="cos" class="slide level2">
+<h2>Expectations: Data and Computing</h2>
+<ul>
+<li>The Committee of Studies on Data and Computing wanted an in-major ethics course.
+<ul><li>I believe these desires are related to fundraising and marketing.</ul></li>
+<li>Different faculty had different impressions and desires for the content of this course.
+<ul>
+<li>I strongly believed it should be taught by non-data/non-computing faculty.</li>
+<li>Expressing an opinion resulted in me becoming responsible for the course.</li>
+<li>Hi, it's me.</li>
+</ul></li>
+<li>We are responding to an evolving consensus across a changing pool of faculty.</li>
+<li>Therefore, we will read and respond to widely varied topics.</li>
+<ul>
+</section>
+<section id="cd" class="slide level2">
+<h2>Expectations: Prof. Calvin</h2>
+<ul>
+<li>I want to use this class to teach some <b>web dev</b> work. 
+<ul><li>This can support <b>résumé</b> work.</li>
+<li>This may collide with CS 299: Full Stack Development.</li>
+<li>This decision has seemingly been popular in the department.</li></ul></li>
+<li>I would like you to be confident in <b>job application materials</b>.
+<ul>
+<li>I would like you to be able to write <b>good personal statements</b>.</li>
+<li>I would like to equip you to effectively request <b>strong letters of recommendation</b>.</li></ul></li>
+<li>In terms of Ethics, I mostly try identify interesting topics of discussion and share some lines of thinking.</li>
+<ul>
 </section>
 <section id="squad-goals" class="slide level2">
 <h2>Learning Objectives</h2>
 <div class="block" name="Primary Objective">
-<p>To gain the skills, knowledge, and confidence necessary to write, test, and debug Python programs requiring several hundred lines of code.</p>
+<p>To gain the skills, knowledge, and confidence necessary to reason about data and computing and to argue effectively for responsible use of these technologies.</p>
 </div>
 <p>Doing so will require that students be able to:</p>
 <ul>
-<li>implement algorithms,</li>
-<li>decompose complex problems,</li>
-<li>use recursion,</li>
-<li>design programming structures,</li>
-<li>do each of: design, implement, test and debug,</li>
-<li>argue that computer science is more than programming.</li>
+<li>evaluate comparative merits of a technology,</li>
+<li>contextualize implications of technology deployments,</li>
+<li>recognize inherent moral, political, and ethical questions in technology,</li>
+<li>use data and computing to construct compelling arguments,</li>
+<li>develop and maintain a sense of self in a dehumanizing industry</li>
 </ul>
 </section>
-<section id="grading" class="slide level2">
-<h2>Grading</h2>
+<section id="Midterms" class="slide level2">
+<h2>Midterms</h2>
 <ul>
-<li>Standard 90/80/70 etc grade cut-offs
+<li>Building to this, we will have major practice writings structured around midterms.
 <ul>
-</ul>
-<table>
-<tbody>
-<tr class="odd">
-<td>Homework</td>
-<td style="text-align: right;">40%</td>
-</tr>
-<tr class="odd">
-<td>Midterms</td>
-<td style="text-align: right;">40%</td>
-</tr>
-<tr class="even">
-<td>Final Project</td>
-<td style="text-align: right;">20%</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="grading" class="slide level2">
-<h2>Grading</h2>
+<li>Midterm I on 26 Feb (w07d01)</li>
+<li>Midterm II on 8 April (w13d01)</li>
+</ul></li>
+<li>Writing is hard to grade, but many people have a sense of "good" and "bad" writing.</li>
+<li>We will focus on <b>process</b>.
 <ul>
-<li>Standard 90/80/70 etc grade cut-offs
-<ul>
-</ul>
-<table>
-<tbody>
-<tr class="odd">
-<td>Problem Sets</td>
-<td style="text-align: right;">20%</td>
-</tr>
-<tr class="odd">
-<td>Projects</td>
-<td style="text-align: right;">20%</td>
-</tr>
-<tr class="even">
-<td>Midterm I</td>
-<td style="text-align: right;">20%</td>
-</tr>
-<tr class="odd">
-<td>Midterm II</td>
-<td style="text-align: right;">20%</td>
-</tr>
-<tr class="even">
-<td>Final</td>
-<td style="text-align: right;">20%</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="participation" class="slide level2">
-<h2>Participation</h2>
-<ul>
-<li>I reserve the right to raise individual student grades in accordance with strong participation in class, office hours, or on Discord.
+<li>Writing will be anonymized* and reviewed by peers.</li>
+<li>Writers will iterate given feedback.</li>
+<li>Peers will re-assess the writing.</li>
+</ul></li>
 </ul>
 </section>
-<section id="homework" class="slide level2">
+<section id="Homework" class="slide level2">
 <h2>Homework</h2>
 <ul>
-<li>Falls into two categories:
-<ul>
-<li><em>Problem Sets:</em> smaller, more focused assignments
-<li><em>Projects:</em> larger, more integrative assignments
-</ul></li>
-<li>All will be due on Fridays at 9:10 AM</li>
-<li>Submissions of <em>both</em> will be handled through Github Classroom
-<ul>
-<li>Learning how to do this is part of this weeks lab sections.</li>
-</ul></li>
-<li>Late homework is not accepted - turn it what you have, then be caught up for the next assignment.</li>
-<li>Instead of a late policy, I will drop the lowest homework score at the end of the semester.</li>
+<li>Yes, homework.
+<li>I will ask you to write weekly, and bring* writing to class (electronically).
+<li>We will read and write responses during and before class.
+<li>Writing in class is a component of a writing centered course!
 </ul>
 </section>
-<section id="project-sneak-peeks" class="slide level2">
-<h2>Project Sneak Peeks!</h2>
-<div class="r-stack">
-<p><video data-src="../video/project1_demo.webm" class="fragment current-visible" loop="True" height="800" controls=""><a href="../video/project1_demo.webm">Breakout game</a></video><br />
-</p>
-<p><video data-src="../video/project2_demo.webm" class="fragment current-visible" loop="True" width="1500" controls=""><a href="../video/project2_demo.webm">Hive puzzle</a></video><br />
-</p>
-<p><video data-src="../video/project3_demo.webm" class="fragment current-visible" loop="True" height="800" controls=""><a href="../video/project3_demo.webm">Imageshop program</a></video><br />
-</p>
-<p><video data-src="../video/project5_demo.webm" class="fragment current-visible" loop="True" height="900" controls=""><a href="../video/project5_demo.webm">Adventure game</a></video><br />
-</p>
-</div>
-</section>
-<section id="sections" class="slide level2">
-<h2>Labs/Sections</h2>
+<section  class="slide level2">
+<h2>Ungrading 1</h2>
 <ul>
-<li>New pilot program just started last year!</li>
-<li>Everyone will be placed into small sections of 5-7 students, with one section leader</li>
-<li>All section leaders are students who recently took and excelled in this course</li>
-<li>Will meet as a group with your section leader once a week for an hour to go over and work on problems
-<li>Section leaders will also serve as a secondary source for help or guidance.</li>
+<li>I waffled a lot last term on how to grade this class and am trying a new technology: <em>ungrading</em>. 
+<li>Rather than assign work with the intent of assessing student progress, assignments in this course will instead have the purpose of student learning.</ul>
+<p>Consequently, I intend to do the following...</p>
+</section>
+<section  class="slide level2">
+<h2>Ungrading 2</h2>
+<ul>
+    <li>Students will begin the course with a grade of an "A"</li>
+    <ul>
+        <li>Students will be expected to attend class.</li>
+        <li>Students will be expected to participate in class.</li>
+        <li>Students will be expected to treat fellow students with respect.</li>
+        <li>Students will be expected to complete response assignments.</li>
+    </ul>
+</section>
+<section  class="slide level2">
+<h2>Ungrading 3</h2>
+<ul>
+    <li>Students will be contacted privately by the course instructor in the unusual event they are not meeting expectations.</li>
+    <ul>
+        <li>Students will not have an expectation of perfection.</li>
+        <li>Students will not lose points or a grade without discussion.</li>
+        <li>Students will have a chance to explain their engagement with the course.</li>
+    </ul>
+</section>
+<section  class="slide level2">
+<h2>Ungrading 4</h2>
+<ul>
+    <li>Students collectively within the class as a whole will receive collective feedback on ethics, communication, and teamwork.</li>
+    <ul>
+        <li>Students will receive limited individual feedback in unique cases.</li>
+        <li>Students will be expected to provide respectful individual feedback to one another.</li>
+        <li>Students will be able to request feedback from the instructor at any time.</li>
+        <li>Students will receive narrative rather than quantitative feedback.</li>
+    </ul>
 </ul>
-</section>
-<section id="tests" class="slide level2">
-<h2>Tests</h2>
-<ul>
-<li>Tests are a useful tool to promote directed thinking about the science of computing in isoloation from a programming environment.</li>
-<li>Just two this semester:
-<ul>
-<li>Midterm I week of 2/21</li>
-<li>Midterm II week of 4/11</li>
-</ul></li>
-<li>Having two tests reduces the stakes of the individual test and hopefully reduces stress as well! We will use simple vote to decide what day of these weeks to offer the tests.</li>
 
-<li>Tests will be taken in class* and will actually not allow the use of a computer
-<ul>
-<li>This policy has actually been seen to <em>improve</em> student learning, as it prevents you from wasting tons of time obsessing about a small mistake!</li>
-</ul></li>
-<li>Example tests and study materials will be given out a week in advance.</li>
-</ul>
-</section>
-<section id="communication" class="slide level2">
-<h2>Communication</h2>
-<ul>
-<li>I tend to find WISE lacking both from a polish perspective and from an ease of use perspective</li>
-<li>I will be using a 3rd-party forum to focus class communication, announcements, and questions: Discord.
-<li>You should have gotten an email with invite instructions. Let me know if you have not!</li>
-<li>Totally free to sign up and use</li>
-</ul></li>
-</ul>
-</section>
-<section id="academic-honesty" class="slide level2">
-<h2>Academic Honesty</h2>
-<ol type="1">
-<li>You must not look at solutions or program code that is not your own.</li>
-<li>You must not share your solution code with other students.
-<ul>
-<li>But you are welcome (and encouraged!) to work alongside others enroute to finding a solution.</li>
-</ul></li>
-<li>You must indicate on your submitted assignment any assistance you received or who you worked alongside.</li>
-</ol>
 </section>
 <section id="diving-in" class="slide level2">
 <h2>Diving In</h2>
-<div class="columns">
-<div class="column">
 <ul>
-<li>This course is an introduction on <em>computer science</em>, and covers more than just programming!</li>
-<li>Python is used to teach the programming portion of the course, but the focus is less on Python itself and more on general computer science principles.</li>
-<li>If you come across situations where you need to know a bit more about specific Python details, there are plenty of resources online, or just ask me!</li>
+<li>This course is a study on <em>data ethics</em>, and no one* knows what that means!</li>
+<li>Data and computing slant will focus on applications and delivery methods.</li>
+<li>If you come across situations where you need to know a bit more about specific programming details, there are plenty of resources online, or just ask me!</li>
 </ul>
-</div><div class="column">
-<!--<p class="stretch"><img src="../images/book_cover.png"></p>-->
-<p><img data-src="../images/book_cover.png" style="width:70.0%" /></p>
+</section>
+<section id="vc" class="slide level2">
+<h2>Version Control</h2><div class="cols">
+<div class="col">
+<ul>
+<p>Remember the "Teamwork, Communication" part of the course title?</p>
+<ul>
+<li><b>How</b> is enterprise software written by teams?</li>
+<li><b>Where</b> do libraries, data sets, and readmes reside?</li>
+<li><b>What</b> technologies underly modern, industrialized collaboration?</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="../images/vc.png" style="width:75.0%" /></p>
 </div>
 </div>
 </section>
-<section id="effective-communication" class="slide level2">
-<h2>Effective Communication</h2>
-<div>
+<section id="isadora" class="slide level2">
+<h2>Isadora</h2>
 <ul>
-<li class="fragment">To communicate effectively with someone or something, you really need two layers of communication:
+<p>We will use <b>writing</b> as a way to learn teamwork & communication.</p>
+<p></p>
+<p><img data-src="../images/vc_isadora.png" style="width:75.0%" /></p>
+
+</section>
+<section id="pt1" class="slide level2">
+<h2>Logistics Pt. 1</h2>
+<p>You will need a <b>Github account</b></p>
+<p>Go to github.com and sign up.</p>
+<p><img data-src="../images/pt1.png" style="width:75.0%" /></p>
+</section>
+<section id="pt2" class="slide level2">
+<h2>Logistics Pt. 2</h2>
+<p>If you want a class-specific account, you can use + notation in email addresses.</p>
+<p>You may want to use a personal or your school email - up to you.</p>
+<p>I used a pseudonym, but you are not required to do so.</p>
+<p><img data-src="../images/pt2.png" style="width:50.0%" /></p>
+</section>
+<section id="pt3" class="slide level2">
+<h2>Logistics Pt. 3</h2>
 <ul>
-<li class="fragment">A shared language or method of conveying information
-<ul>
-<li class="fragment">French, for instance</li>
-<li class="fragment">In our case, Python</li>
-</ul></li>
-<li class="fragment">A joint agreement about what constitutes meaning and ways to limit confusion or misunderstanding
-<ul>
-<li class="fragment">Being able to explain things clearly and unambiguously</li>
-</ul></li>
-</ul></li>
+<li>You will be required to submit an email code.</li>
+<li>You will be prompted to personalize, I recommend opting out.</li>
+<li>Then you will arrive at a dashboad.</li>
+<li>Click on "Create repository".</li>
 </ul>
+<p><img data-src="../images/pt3.png" style="width:65.0%" /></p>
+</section>
+<section id="pt4" class="slide level2">
+<h2>Logistics Pt. 4</h2><div class="cols">
+<div class="col">
+<ul>
+<p>Do the following to avoid bugs:</p>
+<ul>
+<li>Name it your Github name + ".github.io"</li>
+<li>Provide some description like "DATA352W on Jan 17."</li>
+<li>Make public.
+<ul>
+<li>Or private but with permission for "cd-public" Github user</li>
+</ul></li>
+<li>Include a readme.</li>
+<li>Leave everything else default.</li>
+</div>
+<div class="col">
+<p><img data-src="../images/pt4.png" style="width:75.0%" /></p>
+</div>
 </div>
 </section>
-<section id="giving-clear-instructions" class="slide level2">
-<h2>Giving Clear Instructions</h2>
-<ul>
-<li>We will initially make the language <em>extremely</em> simple so that we can focus on the second layer</li>
-<li>Karel the Robot exists in a very simple 2D world</li>
-<li>Has a very limited set of actions:
-<ul>
-<li>Can move forward one space</li>
-<li>Can rotate counter-clockwise (turn left) 90 degrees</li>
-<li>Can pick up a beeper</li>
-<li>Can drop off a beeper</li>
-</ul></li>
-<li>We will be spending the first several class days just interested in how we can take these simple instructions and get Karel to solve a wide variety of problems
-<ul>
-<li>This content is not in your book, but more in-depth descriptions can be found <a href="https://willamette.edu/~esroberts/pykarel/reader/01-IntroducingKarel.html">here</a></li>
-</ul></li>
-</ul>
+<section id="website" class="slide level2">
+<h2>Website!</h2>
+<div class="cols">
+<div class="col">
+<p>The repository page looks like THIS:
+<p><img data-src="../images/web1.png" style="width:75.0%" /></p>
+</div>
+<div class="col">
+<p>And your username + ".github.io":
+<p><img data-src="../images/web2.png" style="width:75.0%" /></p>
+</div>
+</div>
 </section>
-<section id="the-world" class="slide level2">
-<h2>The World</h2>
+<section id="pt5" class="slide level2">
+<h2>Logistics Pt. 5</h2>
+<p>Link to your page from the class repository.</p>
 <div class="cols">
 <div class="col">
 <ul>
-<li>Karel’s world is defined on a grid
-<ul>
-<li><em>avenues</em> run north-south</li>
-<li><em>streets</em> run east-west</li>
-<li>The <em>intersection</em> between a street and avenue is called a corner</li>
-</ul></li>
-<li>Compass directions are as you’d have them on a map, with North pointing upwards</li>
-<li>Walls are impassable</li>
-<li>Beepers are diamonds</li>
-<li>Karel is a house-shaped polygon</li>
-</ul>
+<li>Navigate to the course repository.
+<ul><li>github.com/cd-public/eths24</ul></li></li>
+<li>I will link from the "teaching" page</li>
+<li>Click on "README.md"</li>
+<li>Image is from Fall 2023 - There's a new one now.
 </div>
 <div class="col">
-<p><img data-src="../images/svg_cache/0269a24c69cc3928f2bb73044e5e3d1970624894.svg" style="width:100.0%" /></p>
+<p><img data-src="../images/push1.png" style="width:75.0%" /></p>
 </div>
 </div>
 </section>
-<section id="commands" class="slide level2">
-<h2>Commands</h2>
+<section id="pt6" class="slide level2">
+<h2>Logistics Pt. 6</h2>
 <ul>
-<li>As we mentioned before, Karel is a simple robot, and can really only do 4 potential actions</li>
-</ul>
-<table>
-<colgroup>
-<col style="width: 35%" />
-<col style="width: 64%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Command</th>
-<th style="text-align: left;">Action</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code class="python">move()</code></td>
-<td style="text-align: left;">Moves Karel forward one corner in whatever direction they are facing</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code class="python">turn_left()</code></td>
-<td style="text-align: left;">Rotates Karel 90 deg counter-clockwise</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code class="python">pick_beeper()</code></td>
-<td style="text-align: left;">Picks up a beeper on the ground</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code class="python">put_beeper()</code></td>
-<td style="text-align: left;">Places a beeper on the ground</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Our commands are just sequences of these actions</li>
-</ul>
+<li>Readme.md is a Markdown file.<ul>
+<li>We can use language features to make hyperlinks.</ul></li></li>
+<li>Create a hyperlink to your webpage!
+<ul><li><b>NOT</b> the repository.</li></ul></li>
+<li>Markdown hyperlinks are given as follows:
+<pre ><code class="python" style="max-height:900px">[title](https://www.example.com)
+</code></pre>
+<li>For example:
+<pre ><code class="python" style="max-height:900px">[Zagreb](https://zagreb-ethf23.github.io/)
+</code></pre>
+<li>Don't link to the "github.com" address.
+<pre ><code class="python" style="max-height:900px">[WRONG!!!](https://github.com/zagreb-ethf23/zagreb-ethf23.github.io)
+</code></pre>
 </section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
+<section id="pt7" class="slide level2">
+<h2>Logistics Pt. 7</h2>
 <div class="cols">
 <div class="col">
 <ul>
-<li>Suppose we had the situation to the right and wanted to navigate to the beeper, pick it up, and then drop it at the corner of 1st avenue and 1st street.</li>
-<li>Take a moment to write out your instructions.
-<ul>
-<li>Remember you can only move, rotate left, and pick up or drop the beeper</li>
-</ul></li>
-<li>Note that there are multiple ways to do this! Which is better?</li>
-</ul>
+<li>Click on on the pencil icon.
+<ul><li>It reads "Edit the file in your fork of this project"</li>
+<li>These are the different lines we saw on the version control graphics.</li></ul></li>
 </div>
 <div class="col">
-<p><img data-src="../images/svg_cache/2f23aa67af9dd68dfb3635c94e79e7f1f75413b0.svg" style="width:100.0%" /></p>
+<p><img data-src="../images/push2.png" style="width:100.0%" /></p>
 </div>
 </div>
 </section>
-<section id="one-solution" class="slide level2">
-<h2>One Solution</h2>
-<pre ><code class="python" style="max-height:800px">def main():
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    turn_left()
-    move()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    pick_beeper()
-    turn_left()
-    turn_left()
-    turn_left()
-    move()
-    move()
-    put_beeper()</code></pre>
-<!--
-## Getting the right mindset
-::: {.columns}
-:::: {.column}
-- Katherine Johnson worked as a "computer" at NASA, when the term still referred to humans doing the calculations.
-    - One of the three black women portrayed in the 2016 film _Hidden Figures_
-    - Awarded the Presidential Medal of Freedom in 2015
-    - Passed away in February of this year at the age of 101
-::::
-:::: {.column}
-![](../images/katherine_johnson.jpg){width=500px}
-::::
-:::
-
----
-
-## Data Types
-- Generally, the data processed by computers can take on many forms
-- A _data type_ defines the common characteristics of some data values that have a certain form or purpose.
-    - Ex: a whole number or integer has certain characteristics
-- A data type has a _domain_, which is the set of all potential values that would belong to that type.
-    - Ex: 0,1,2,3,4,5,6,7,...
-- A data type has a _set of operations_ that define how those values can be manipulated
-    - Ex: You can add two whole numbers (5+2)
-
-## Numeric Types
-- Initially, we'll just focus on the numeric types
-- Python has 3 data types for numbers:
-    - `int`{.python} for integers and whole numbers
-
-        ```python
-        1, 2, 3, 10, 1001010101
-        ```
-
-    - `float`{.python} for numbers containing a decimal point
-
-        ```python
-        1.23, 3.14, 10.001, 0.0
-        ```
-
-    - `complex`{.python} for numbers with an imaginary component (which we won't deal with)
-
----
-
-## Expressions
-- Like most languages, Python describes computation using _arithmetic expressions_, which consist of _terms_ joined by _operators_
-    - Very similar to how a logical English sentence has nouns connected by verbs
-- A term in an expression can be:
-    - an explicit numeric value (1 or 3.14)
-    - a variable name serving as a placeholder to a value
-    - a value resulting from the output of a function call
-    - another expression enclosed in parentheses
-- Operators are mostly the common ones found from arithmetic, but with a few extras, as we'll see on the next slide
-- The result of an expression will have a data type that generally depends on both the operation done and the input data types
-
----
-
-## Integer and Float Operations
-- `i + j`  the _sum_ of `i` and `j`[留]{.orange}
-- `i - j`  the _difference_ between `i` and `j`[留]{.orange}
-- `i * j`  the _product_ of `i` and `j`[留]{.orange}
-- `i // j`  the _floor division_ of `i` by `j`[留]{.orange}
-- `i / j`  the _division_ of `i` by `j`[†]{.orange}
-- `i % j`  the _remainder_ when `i` is divided by `j`[留]{.orange}
-- `i ** j`  `i` to the _power_ of `j`[留]{.orange}
-
-<br>
-<hr>
-<br>
-[留]{.orange} -- Returns `int` if both `i` and `j` are integers, `float` otherwise
-
-[†]{.orange} -- Returns `float` always
-
----
-
-## Order of Operations
-- Basic order of operations applies just like in math!
-- Operations in parentheses done first
-- Without parentheses, order of operations proceeds as:
-    - `**` (exponents)
-    - `-n` (negative numbers)
-    - `*`, `/`, `//`, `%`, executed from left to right
-    - `+` and `-`, executed from left to right
--->
+<section id="pt8" class="slide level2">
+<h2>Logistics Pt. 8</h2>
+<div class="cols">
+<div class="col">
+<ul>
+<li>There will be many words!
+<ul><li>Read them and think about what they mean, but mostly follow instructions.</li>
+<li>Give a good complete description of your changes - it is a writing class!</li></ul></li>
+<li>Then "Sign off and propose changes"</li></ul>
+</div>
+<div class="col">
+<p><img data-src="../images/push3.png" style="width:100.0%" /></p>
+</div>
+</div>
 </section>
+<section id="pt9" class="slide level2">
+<h2>Logistics Pt. 9</h2>
+<div class="cols">
+<div class="col">
+<ul>
+<li>You have no created a <b>version</b> with your changes.
+<ul><li>It is not the main version!</li></ul></li>
+<li>Create a pull request.</li>
+<li>If good: "These branches can be automatically merged."</li>
+<li>If something weird happens:
+<ul><li>Don't panic!</li>
+<li>Ask!</li></ul></li>
+</div>
+<div class="col">
+<p><img data-src="../images/push4.png" style="width:100.0%" /></p>
+</div>
+</div>
+</section>
+<section id="ptA" class="slide level2">
+<h2>Logistics Pt. A</h2>
+<ul>
+<li>If you wrote good descriptions, this will be populated.</li>
+<li>Edit anything you'd like for clarity.</li>
+</ul>
+<p><img data-src="../images/push5.png" style="width:75.0%" /></p>
+</section>
+<section id="ptB" class="slide level2">
+<h2>Logistics Pt. B</h2>
+<div class="cols">
+<div class="col">
+<ul>
+<li>This screen means you are done and it is now my turn!</li></ul>
+</div>
+<div class="col">
+<p><img data-src="../images/push6.png" style="width:100.0%" /></p>
+</div>
+</div>
+</section>
+<section id="progress" class="slide level2">
+<h2>Tracking Progress</h2><div class="cols">
+<div class="col">
+<ul>
+<li>You can check back on your requests, and when I merge them they'll look like this!</li></ul>
+</div>
+<div class="col">
+<p><img data-src="../images/push7.png" style="width:100.0%" /></p>
+</div>
+</div>
+</section>
+<section id="pt5" class="slide level2">
+<h2>Logistics Close-out</h2><div class="cols">
+<div class="col">
+<ul>
+<li>Send me either a Discord or email:
+<ul>
+<li>How you would like to me referred to (name and possibly pronouns).
+<li>One of:
+<ul>
+<li>your Willamette @</li>
+<li>your Willamette id #</li>
+<li>your Willamette roster name</li></ul></li>
+<li>Your github.io <b>REPOSITORY</b> url
+<ul><li>github.com/zagreb-ethf23/zagreb-ethf23.github.io</li></ul></li>
+<li>Your Discord @</li>
+<li>Anything you'd like me to know.</li></ul>
+</div>
+<div class="col">
+<p><img data-src="../images/pt5.png" style="width:75.0%" /></p>
+</div>
+</div>
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Complete these tasks.
+<ul>
+<li>Get your github.io page up.</li>
+<li>Get a pull request in to me.</li>
+<li>Send me the critical identification info.</li>
+</ul>
+<p>Due Wednesday, 24 January!
+</section>
+
     </div>
   </div>
 

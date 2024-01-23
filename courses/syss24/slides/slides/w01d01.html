@@ -28,8 +28,8 @@
   <h1 style="font-family: monospace;text-transform: lowercase;">git</h1>
   <h2>CS 271</h2>
   <h2>Prof. Calvin</h2>
-  <h2>22 Jan 24</h2>
-  <h2>w02d01</h2>
+  <h2>24 Jan 24</h2>
+  <h2>w01d01</h2>
 </section>
 <section>
 <h2>Today</h2>
@@ -205,7 +205,7 @@ user@DESKTOP-THMS2PJ:~$</code>
 user@DESKTOP-THMS2PJ:~$</code>
 <li>In this example, we use the "-w" flag to gcc - like the ".." to "cd" - to change gcc
 <ul><li>"-w" turns off all warnings so we don't see likely problems with the code.
-<li>You should never* use this flag, but if I don't show you, you find it a feel betrayed.
+<li>You should never* use this flag, but if I don't show you, you find it and feel betrayed.
 </ul>
 </section>
 <section>
@@ -310,7 +310,7 @@ NOTE: The command line will not display anything as you type your password. Type
 </section>
 <section>
 <h2>git clone 2</h2>
-<ul><li>You'll get a bunch of command line text related to yoinking code of the ole internet:
+<ul><li>You'll get a bunch of command line text related to yoinking code off the ole internet:
 <code>user@DESKTOP-THMS2PJ:~/dev$ git clone https://github.com/cd-public/xfer.git
 Cloning into 'xfer'...
 remote: Enumerating objects: 968, done.
@@ -435,11 +435,11 @@ user@DESKTOP-THMS2PJ:~/dev/xfer $
 <li>The status will tell me if something changed and suggest an add or commit.
 <ul><li>New files require "add".
 <li>Changes to existing files require only "commit".
-<li>It doesn't hurt to do both while you're learning!<
+<li>It doesn't hurt to do both while you're learning!
 </ul><code>user@DESKTOP-THMS2PJ:~/dev/xfer $ git add -A
 user@DESKTOP-THMS2PJ:~/dev/xfer $
-</code><br>
-<li>Git add ususually won't say anything, but you can verify it worked with another status:
+</code>
+<li>Git add usually won't say anything, but you can verify it worked with another status:
 <code>user@DESKTOP-THMS2PJ:~/dev/xfer $ git status
 On branch master
 Your branch is up to date with 'origin/master'.
@@ -456,22 +456,187 @@ user@DESKTOP-THMS2PJ:~/dev/xfer $
 <h2><code>git commit</code></h2>
 <ul>
 <li>With all new files added, we can commit <code>user@DESKTOP-THMS2PJ:~/dev/xfer $ git commit -am "readme token change"
+</code>
+<li>But wait, the first time there's something else that has to happen first...
+</section>
+<section>
+<h2><code>git config</code></h2>
+<ul>
+<li>You will have to do this once per device you use, not once per commit/push.
+<code>user@DESKTOP-THMS2PJ:~/dev/xfer$ git commit -am "readme token change"
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: empty ident name (for &lt;user@DESKTOP-THMS2PJ.&gt;) not allowed
+user@DESKTOP-THMS2PJ:~/dev/xfer$
+</code>
+<li>I do something akin to the following...
+</section>
+<section>
+<h2><code>git config</code></h2>
+<ul>
+<li>You don't have to use an actual email address, but I do so as a courtesy.
+<code>user@DESKTOP-THMS2PJ:~/dev/xfer$ git config --global user.email "ckdeutschbein@willamette.edu"
+user@DESKTOP-THMS2PJ:~/dev/xfer$ git config --global user.name "c"
+user@DESKTOP-THMS2PJ:~/dev/xfer$
+</code>
+<li>Of note, these are all on one line, they just word wrapped on the slide.
+<li>Okay now back to the good part (git commit).
+</section>
+<section>
+<h2><code>git commit</code></h2>
+<ul>
+<li>With all new files added, we can commit <code>user@DESKTOP-THMS2PJ:~/dev/xfer $ git commit -am "readme token change"
 [master d9cf8c1] readme token change
  1 file changed, 1 insertion(+), 1 deletion(-)
 user@DESKTOP-THMS2PJ:~/dev/xfer $
 </code>
+<li>So, to review:
+<ul><li>Usually, you will just add then commit.
+<li>The first time you will add then config then commit.
+<li>In some cases, such as a adding a new file, add is always necessary.
+<li>In some cases, such as editting an existing file without changing the file name, commit is sufficient.
+</ul>
 </section>
 <section>
 <h2><code>git push</code></h2>
-<ul><code>user@DESKTOP-THMS2PJ:~/dev/xfer $ git push
+<ul>
+<li>Once changes (edits to files or additions of new files) are staged for commit, we are ready to send the new version back out onto ye olde internete.
+<code>user@DESKTOP-THMS2PJ:~/dev/xfer$ git push
+Username for 'https://github.com': cd-public
+Password for 'https://cd-public@github.com':
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/cd-public/xfer.git/'
+</code>
+<li>The first time you do this, you will have to log in with something stronger than a password.
+<li>Go here, do this, and use it as your password. <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token">GitHub token link</a>
+</section>
+<section>
+<h2><code>git push</code></h2>
+<ul>
+<li>Once you put in the PAT, you should be good to go...
+<code>user@DESKTOP-THMS2PJ:~/dev/xfer$ git push
+Username for 'https://github.com': cd-public
+Password for 'https://cd-public@github.com':
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/cd-public/xfer.git/'
+</code>
+<li>That said, you probably don't want to be bandying around a PAT (you shouldn't want to do this).
+</section>
+<section>
+<h2><code>git config</code></h2>
+<ul>
+<li>Do another change to your configuration, then make a single push (you'll need to do a commit etc.).
+<code>user@DESKTOP-THMS2PJ:~/dev/xfer$ git config --global credential.helper store
+user@DESKTOP-THMS2PJ:~/dev/xfer$ git push
+Username for 'https://github.com': cd-public
+Password for 'https://cd-public@github.com':
+</code>
+<li>This time, GitHub will securely save the PAT and you won't have to input it again.
+<li>Close the PAT window on GitHub and never speak of it again to anyone!
+</section>
+<section>
+<h2><code>git push</code></h2>
+<ul>
+<li>This is what a push with stored credentials should look like:
+<code>user@DESKTOP-THMS2PJ:~/dev/xfer$ git push
 Enumerating objects: 5, done.
 Counting objects: 100% (5/5), done.
-Writing objects: 100% (3/3), 238 bytes | 238.00 KiB/s, done.
+Writing objects: 100% (3/3), 255 bytes | 255.00 KiB/s, done.
 Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
 To https://github.com/cd-public/xfer.git
-   ecf7839..d9cf8c1  master -> master
-user@DESKTOP-THMS2PJ:~/dev/xfer $
+   c0613b2..07189bc  master -> master
+user@DESKTOP-THMS2PJ:~/dev/xfer$
 </code>
+<li>Trust but verify: Make a change to your README, execute a push, and verify it shows up on GitHub.com.
+</section>
+<section>
+<h2><code>git add/commit/push</code></h2>
+<ul>
+<li>We use three commands, in sequence: "add", "commit", "push"
+<ul>
+<li>"add" takes a file that is new or edited, and marks it for consideration to be uploaded.
+<li>"commit" takes a series of additions and a commit messages and prepares all local changes to be uploaded.
+<li>"push" takes all committed additions or changes and uploads them to Github.
+</ul>
+<li>You can provide specific filenames and commit messages to these commands, but I recommend using them as follows:<br>
+ <table>
+  <tr>
+    <th>name of utility</th>
+    <th>task for utility</th>
+	<th>flags</th>
+    <th>arguments</th>
+	<th>explanation</th>
+  </tr>
+  <tr>
+    <td>git</td>
+    <td>add</td>
+    <td>-A</td>
+    <td></td>
+    <td><em>Adds all changes/additions to consideration</em></td>
+  </tr>
+  <tr>
+    <td>git</td>
+    <td>commit</td>
+    <td>-am</td>
+    <td>"a helpful comment on changes"</td>
+    <td><em>Adds all changes/additions to consideration</em></td>
+  </tr>
+  <tr>
+    <td>git</td>
+    <td>push</td>is
+	
+    <td></td>
+    <td></td>
+    <td><em>Sends committed changes to github.com</em></td>
+  </tr>
+</table> 
+<li>I also always preface with "git status" to see what I'm working with.
+</section>
+<section>
+<h2>Lab time</h2>
+<ul>
+<li>Get this code under version control and running.
+<code>#include &lt;stdio.h&gt;
+
+int main() {
+    char input[256] ;
+	
+    while (1) {
+        printf(">>> ") ;
+        fgets(input, sizeof(input), stdin) ;
+        printf("%s", input) ;
+    }
+    return 0 ;
+}</code>
+<li>Get a setup so that you can do this:
+<code>user@DESKTOP-THMS2PJ:~$ gcc nopy.c
+user@DESKTOP-THMS2PJ:~$ ./a.out
+>>> hi
+hi</code>
+<li>There isn't a clean way to exit this - "ctrl+z" will work.
+</section>
+<section>
+<h2>Lab time Hard Mode</h2>
+<ul>
+<li>Get "nopy.c" to run with a prompt other than ">>> ".
+<ul><li>"Make a trivial but verifiable change"</ul>
+<li>Find a partner/form a group with minimally both Windows and Mac devices.
+<li>Share code across devices via GitHub.
+<li>Refine to code to compile without errors and run successfully on both platforms.
+</ul>
+</section>
 
     </div>
   </div>

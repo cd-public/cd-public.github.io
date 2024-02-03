@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>sizeof</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">sizeof</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>31 Jan 24</h2>
+  <h2>w02d01</h2>
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Starting C</dt>
+<dd>Functions</dd>
+<dd>Variables/Types</dd>
+<dd>Arrays</dd>
+</dl>
+</section>
+<section>
+<h2>Starting C</h2>
+<ul>
+<li>In Python, everything is an object.
+<ul><li>Strings, integers, floats, dictionaries, files.</ul>
+<li>Objects tend to be able to tell you what kind of thing they are.
+<code>&gt;&gt;&gt; txt = "hello there"
+&gt;&gt;&gt; print(txt.format())
+hello there
+&gt;&gt;&gt; print("hello there".format())
+hello there
+&gt;&gt;&gt; type(txt)
+&lt;class 'str'&gt;
+&gt;&gt;&gt; type(print)
+&lt;class 'builtin_function_or_method'&gt;
+&gt;&gt;&gt; type(print(txt))
+hello there
+&lt;class 'NoneType'&gt;
+&gt;&gt;&gt;</code>
+<li>In Python, any line of code is ultimately going to be some kind of object.
+</section>
+<section>
+<h2>C Types</h2>
+<ul>
+<li>In C, there are no objects
+<li>To keep track of what is happening, we have to label everything with a type.
+<li>Types tell the compiler how many bits 'n bytes to set aside for result of a computation.
+<li>int main() tells the compiler how many bits to tell the computer to expect.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ echo "int main() {return 0;}" >test.c && gcc test.c && ./a.out
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ echo "void main() {return;}" >test.c && gcc test.c && ./a.out
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ echo "int main() {return;}" >test.c && gcc test.c && ./a.out
+test.c: In function ‘main’:
+test.c:1:13: warning: ‘return’ with no value, in function returning non-void
+    1 | int main() {return;}
+      |             ^~~~~~
+test.c:1:5: note: declared here
+    1 | int main() {return;}
+      |     ^~~~
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+<li>We can return any size or type of thing, but we have to say what we're doing - and actually do that.
+</section>
+<section>
+<h2>Variables</h2>
+<ul>
+<li>In Python, when we want a variable, we just assign a label to an object with "="
+<ul><li>Read "single equals"
+<li>If you like it then you should've put a ring on it equals.</ul>
+<li>For now, that's either int (number) or char * (string, more or less).
+<ul><li>I say "int" and "character star", "char star", or "character pointer"
+<li>Star means "pointer" - more on that someday^TM</ul>
+<code>int main()
+{
+	int rval = 0 ; // variable for a number
+	// variables for strings, more or less
+	char *str0 = "If thou dost appreciate/" ;
+	char *str1 = "Then thine shalt place/" ;
+	char *str2 = "Yon jewel upon/" ;
+	char *str3 = "Ye olde fingere." ; 
+	return rval ;
+}</code>
+<li>You can translate a Python variable assignment to C by specifying a type and punctuating with a semicolon.
+</section>
+<section>
+<h2>Python bad</h2>
+<ul>
+<li>People are allowed to like things, so you are allowed to like this.
+<li>I don't.
+<code>&gt;&gt;&gt; x, y, s, t = 1, 2, "h", "i"
+&gt;&gt;&gt; x + y
+3
+&gt;&gt;&gt; x + s
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+&gt;&gt;&gt; s + t
+'hi'
+&gt;&gt;&gt;</code>
+<li>This is called operator overloading. It's not allowed in C.
+</section>
+<section>
+<h2>C Good</h2>
+<ul>
+<li>You honestly mean to tell me "one" + "two" should be "onetwo" and not "three"?
+<li>If you try to add strings together, gcc tells you to to rethink your decisions.
+<code>int main()
+{
+	char *str0 = "If thou dost appreciate/" ;
+	char *str1 = "Then thine shalt place/" ;
+	printf(str0 + str1) ;
+	return 0 ;
+}</code>
+<li>Thanks, C.
+<code><code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+test.c: In function ‘main’:
+test.c:16:17: error: invalid operands to binary + (have ‘char *’ and ‘char *’)
+   16 |     printf(str0 + str1) ;
+      |                 ^
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$
+</code></code>
+<li>What does "binary" mean here? (Hint: MATH 251W)
+</section>
+<section>
+<h2>Functions</h2>
+<ul>
+<li>In C, the function "+" has a fixed type - it accepts two numbers, and returns a number.
+<li>In arithmetic, "+" is commonly used as an infix operator.
+<li>For a trivial example, let's write "add()" - a prefix integer addition function.
+<ul>
+<li>Why might we want this?
+<li>What does infix mean?
+<li>What does prefix mean?
+<li>What does operator mean?
+</ul>
+<code>int add(int x, int y)
+{
+	return x + y ;
+}</code>
+<li>We can write this in Python too of course.
+<code>&gt;&gt;&gt; def add(x:int,y:int) -&gt; int:
+...     return x + y
+...
+&gt;&gt;&gt;</code>
+<li>In C, giving a non-integer x with raise a compiler warning.
+<li>In Python, the types are ignored by the runtime.
+<li>Python bad! C good!
+</section>
+<section>
+<h2>Return Types</h2>
+<ul>
+<li>In C, functions have exactly one return type.
+<li>C functions are declared the same way as variables...
+<ul>
+<li>However, they are not assigned using single equals.
+<li>C is an imperative (command) based language!
+<li>Instead, they are defined by creating a code block of commands.
+<li>C code blocks are enclosed in these lil squigglers -> {}
+</ul>
+
+<li>C functions may have an arbitrary number of arguments...
+<ul>
+<li>However, each argument must have, itself, exactly one type.
+</ul>
+<code>int add(int x, int y)
+{
+	return x + y ;
+}
+
+int main()
+{
+	return add(0,0) ;
+}</code>
+<li>Instead of saying "I'm stuck"/"I don't know" say "Wow I would love to think about types rn fr fr".
+</section>
+<section>
+<h2>Python bad</h2>
+<ul>
+<li>My favorite thing is just slamming down a comma in the middle of my unpunctuated return statements surrounded by whitespace.
+<li>Wait no it's not,
+<code>&gt;&gt;&gt; def both(x,y):
+...     return x, y
+...
+&gt;&gt;&gt; both(1, "1")
+(1, '1')
+&gt;&gt;&gt;</code>
+<li>It should be against the law to write code like this and it is, this is only allowed in scripts*
+<li>*That's not true at all but it'd be cool if it were.
+<li>Also Python just swapping double quotes for single quotes...
+</section>
+<section>
+<h2>C Good</h2>
+<ul>
+<li>C will warn for type based shenanigans at compile time...
+<li>If you try to add strings together, gcc tells you to to rethink your decisions.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+test.c: In function ‘main’:
+test.c:21:16: warning: passing argument 1 of ‘add’ makes integer from pointer without a cast [-Wint-conversion]
+   21 |     printf(add(str1,str0)) ;
+      |                ^~~~
+      |                |
+      |                char *
+test.c:12:13: note: expected ‘int’ but argument is of type ‘char *’
+   12 | int add(int x, int y)
+      |         ~~~~^
+test.c:21:21: warning: passing argument 2 of ‘add’ makes integer from pointer without a cast [-Wint-conversion]
+   21 |     printf(add(str1,str0)) ;
+      |                     ^~~~
+      |                     |
+      |                     char *
+test.c:12:20: note: expected ‘int’ but argument is of type ‘char *’
+   12 | int add(int x, int y)
+      |                ~~~~^
+test.c:21:12: warning: passing argument 1 of ‘printf’ makes pointer from integer without a cast [-Wint-conversion]
+   21 |     printf(add(str1,str0)) ;
+      |            ^~~~~~~~~~~~~~
+      |            |
+      |            int
+In file included from test.c:1:
+/usr/include/stdio.h:356:43: note: expected ‘const char * restrict’ but argument is of type ‘int’
+  356 | extern int printf (const char *__restrict __format, ...);
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+test.c:21:5: warning: format not a string literal and no format arguments [-Wformat-security]
+   21 |     printf(add(str1,str0)) ;
+      |     ^~~~~~
+Segmentation fault
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$</code>
+<li>Thanks, C.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+test.c: In function ‘main’:
+test.c:16:17: error: invalid operands to binary + (have ‘char *’ and ‘char *’)
+   16 |     printf(str0 + str1) ;
+      |                 ^
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$
+</code>
+<li>What does "binary" mean here? (Hint: MATH 251W)
+</section>
+<section>
+<h2>C Good</h2>
+<ul>
+<li>C will warn for type based shenanigans at compile time...
+<li>If you try to add strings together, gcc tells you to to rethink your decisions.
+<li>If you run the code anyways, the operating system will neutralize the process as soon it reaches the shenanigans.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ ./a.out
+Segmentation fault
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$</code>
+<li>Thanks, C and also thanks Linux kernel (the OS that stops this).
+<li>Segmentation faults are a recurring source of frustration for learning C programmers, but that frustrating you feel is called "learning" and is good for you, I think.
+<ul><li>Back in my day after a segmentation fault we had to change the tapes in our Turing machines by hand.
+<li>Next time you have 7 hours to waste ask me about Turing machines.
+</section>
+<section>
+<h2>Arrays</h2>
+<ul>
+<li>In Python, we don't really have the classical concept of array
+<ul><li>Historically lists and arrays were different things...
+<li>Python lists are closer to being array-lists - an implementation of a list *abstract data type* using an array *data structure*</ul>
+<code>&gt;&gt;&gt; arr = [1,2,3]
+&gt;&gt;&gt; type(arr)
+&lt;class 'list'&gt;
+&gt;&gt;&gt;</code>
+<li>The List type differs from the Array implementation in a few ways:
+<ul><li>Arrays are of fixed length. 
+<ul><li>We cannot add or remove elements, only replace.</ul>
+<li>Arrays must contain only elements of the same type.
+<ul><li>We cannot place chars and ints in the same array.</ul>
+<li>Arrays do not know their own length or type.
+<ul><li>When using arrays, we must keep track of how many elements of what type there are.</ul>
+<li>Arrays exist at fixed location in physical memory.
+<ul><li>This will matter more latter.</ul></ul>
+<li>Let's see some arrays.</ul>
+</section>
+<section>
+<h2>Arrays</h2>
+<ul>
+<li>In C, we create an array by creating a variable as we do any other variable.
+<ul><li>We declare the type.
+<li>We give a name.
+<li>We optionally assign a value.
+</ul>
+<li>For arrays specifically, we use boxy bracket "[]" notation to give the length of the array.
+<ul><li>We provide a length whenever we declare a new array variable.
+<li>We use the same notation to access elements of the array, indexed by zero.</ul>
+<code>int main()
+{
+	int arr[3] = { 1, 2, 3 } ;
+	arr[0] = arr[0] - 1 ;
+	return arr[0] ;
+}</code>
+</section>
+<section>
+<h2>Arrays</h2>
+<ul>
+<li>We can create arrays of ints or of chars.
+<ul><li>Or of anything else.
+<li>We've actually worked with arrays of characters already...</ul>
+<code>int main()
+{
+	char arr[4] = "hi\n\0" ;
+	printf("%s", arr) ;
+	return 0 ;
+}</code>
+<li>We can write this using the same notation as our int arrays.
+<code>int main()
+{
+	char arr[4] = { 'h', 'i', '\n', 0 } ;
+	printf("%s", arr) ;
+	return 0 ;
+}</code>
+<li>Check-in: What would you expect (Python) ord('\0') to be?
+</section>
+<section>
+<h2><code>"%c,  %d"</code></h2>
+<ul>
+<li>As you theoretically know from CS 151, a character is just a number in &integers;<sub>256</sub>
+<ul><li>In Python we use "ord" and "chr"
+<li>In C, this abstraction doesn't exist - we just have a value in &integers;<sub>256</sub>
+<li>We can view the character value with "%c" and the numerical value with "%d"</ul>
+<code>int main()
+{
+	char arr[4] = { 'h', 'i', '\n', 0 } ;
+	printf("c = %c, d = %d\n", arr[0], arr[0]) ;
+	return 0 ;
+}</code>
+<li>This prints the ascii character and the character value.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+c = h, d = 104
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+<li>It isn't the case in C that a char is either a printable ascii character or a numerical value, rather it is simply 8 bits or 1 byte of data, and how that data is interpreted is determined by the programmer and respected by the compiler.
+</section>
+<section>
+<h2>'\0'</h2>
+<ul>
+<li>As noted previously, arrays in C do not store their own length.
+<ul><li>This is variously regarded as "kinda annoying" or "the worst thing ever".
+<li>You may have noticed you know Python.
+<li>C... bad???</ul>
+<li>For strings, C uses "null-termination":
+<ul>
+<li>Every string is stored in an array of characters of length at least one greater than the string length.
+<li>After the final character of the string, a single non-printing '\0' or 0 character is added.
+<li>Built-in C functions respect null termination, and the compiler implements null-termination automatically.
+<li>When declaring arrays, we must provide the null-termination*
+<ul><li>In practice, modern compilers don't trust you and will often do this for you.
+<li>This good and bad news - it may mask errors that should've found earlier, but makes quick coding easier.
+</ul>
+<li>While '\0' is simply 0, I will refer to it *when used in C strings* as "the null terminator" to be clear what I am talking about abstractly.
+<ul><li>To C, '\0' == 0 but to me, these mean different things.
+<code>char arr[4] = { 'h', 'i', '\n', '\0' } ; // Don't mix ascii and numericals. </code>
+</section>
+<section>
+<h2>'h' and "h"</h2>
+<ul>
+<li>In Python, single and double quotes are equivalent or something.
+<ul><li>This is variously regarded as "kinda annoying" or "the worst thing ever".</ul>
+<code>&gt;&gt;&gt; 'h' == "h"
+True
+&gt;&gt;&gt;</code>
+<li>Python... bad???
+<li>C uses single quotes for characters and double quotes for strings.
+</section>
+<section>
+<h2>'h' and "h"</h2>
+<ul>
+<li>C uses single quotes for characters and double quotes for strings. Try it:
+<code>int main()
+{
+	char arr[4] = { "h", "i", "\n", "\0" } ;
+	return 0 ;
+}</code>
+<li>Compiler blocks this with a series of errors:
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c
+test.c: In function ‘main’:
+test.c:19:30: error: excess elements in ‘char’ array initializer
+   19 |         char arr[4] = { "h", "i", "\n", "\0" } ;
+      |                              ^~~
+test.c:19:30: note: (near initialization for ‘arr’)
+test.c:19:35: error: excess elements in ‘char’ array initializer
+   19 |         char arr[4] = { "h", "i", "\n", "\0" } ;
+      |                                   ^~~~
+test.c:19:35: note: (near initialization for ‘arr’)
+test.c:19:41: error: excess elements in ‘char’ array initializer
+   19 |         char arr[4] = { "h", "i", "\n", "\0" } ;
+      |                                         ^~~~
+test.c:19:41: note: (near initialization for ‘arr’)
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$</code>
+<li>Every string is stored in an array of characters of length at least one greater than the string length.
+<li>After the final character of the string, a single non-printing '\0' or 0 character is added.
+<li>Built-in C functions respect null termination, and the compiler implements null-termination automatically.
+<li>When declaring arrays, we must provide the null-termination*
+<ul><li>In practice, modern compilers don't trust you and will often do this for you.
+<li>This good and bad news - it may mask errors that should've found earlier, but makes quick coding easier.
+</ul>
+<li>While '\0' is simply 0, I will refer to it *when used in C strings* as "the null terminator" to be clear what I am talking about abstractly.
+<ul><li>To C, '\0' == 0 but to me, these mean different things.
+<code>&gt;&gt;&gt; 'h' == "h"
+True
+&gt;&gt;&gt;</code>
+</section>
+<section>
+<h2><code>sizeof()</code></h2>
+<ul>
+<li>I keep talking about numbers of bits and bytes. Well, there's a way to measure that.
+<li>gcc, and to my knowledge every C compiler, has a "sizeof()" operator
+<li>sizeof isn't really part of C the way #include isn't, but it's part of the C ecosystem.
+<li>When you write C code, before it is compiled, the preprocessor will go through and replace every sizeof() with the number of bytes the compiler will use.
+<li>This is helpful for a lot of reasons, but especially helpful to learn about the language.
+<code>int main()
+{
+	printf("ints are %d big\n", sizeof(int)) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2><code>sizeof()</code></h2>
+<ul>
+<li>There's only one little wrinkle to work out.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+test.c: In function ‘main’:
+test.c:14:27: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘long unsigned int’ [-Wformat=]
+   14 |         printf("ints are %d big\n", sizeof(int)) ;
+      |                          ~^         ~~~~~~~~~~~
+      |                           |         |
+      |                           int       long unsigned int
+      |                          %ld
+ints are 4 big
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+<li>sizeof() doesn't run an int or a char, it returns a special, other thing.
+<li>gcc says use %ld (long decimal, for things bigger than ints) so we do so.
+</section>
+<section>
+<h2><code>sizeof()</code></h2>
+<ul>
+<li>There's only one little wrinkle to work out.
+<code>int main()
+{
+    printf("longs are %ld big, ints are %ld big, chars are %ld big\n", 
+           sizeof(long unsigned int), sizeof(int), sizeof(char)) ;
+    return 0 ;
+}</code>
+<li>This tells us how big a long unsigned int is (but not *what* it is).
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+longs are 8 big, ints are 4 big, chars are 1 big
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+<li>Incidentally, it also tells us the measurement - we measure things in terms of how much bigger they are than char.
+</section>
+<section>
+<h2><code>char *</code></h2>
+<ul>
+<li>Back to arrays.
+<li>Students commonly think "ah ha, I can use sizeof() to not have to learn to program, I mean, to program efficently and well just like in Python, and not track what size arrays are."
+<li>Kinda.
+<li>First of all note we have not used sizeof() on variables, only on types so far.
+<li>That said, we can use it on variables too, but should be careful.
+<code>int main()
+{
+	char *str = "hello\n" ;
+	printf("str is of size %ld\n", sizeof(str)) ;
+	return 0 ;
+}</code>
+<li>Surely this will tell me that the string "hello\n" has 6 characters in it. Right? RIGHT????
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+str is of size 8
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$</code>
+<li><b>Sizeof is not telling you how big of an array you have.</b>
+</section>
+<section>
+<h2><code>sizeof()</code></h2>
+<ul>
+<li>Wait a minute - char * is the same size as the thing we print with %ld.
+<code>int main()
+{
+	char *str = "hello\n" ;
+	printf("%ld\n", str) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2><code>sizeof()</code></h2>
+<ul>
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+test.c: In function ‘main’:
+test.c:16:19: warning: format ‘%ld’ expects argument of type ‘long int’, but argument 2 has type ‘char *’ [-Wformat=]
+   16 |         printf("%ld\n", str) ;
+      |                 ~~^     ~~~
+      |                   |     |
+      |                   |     char *
+      |                   long int
+      |                 %s
+94293169704970</code>
+<li>We get a warning but we also get a value.
+<li><b>"str" is "94293169704970".</b>
+<li>If you go to stack overflow with this error, it will probably tell you to use "%p" which removes the error but prints in hexadecimal instead of decimal.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+0x55b0a9ec000a
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+</section>
+<section>
+<h2><code>char *</code></h2>
+<ul>
+<li>Takeaway: char *str or char arr[3] are different kinds of things that characters.
+<li>They are pointers - the locations of a series of adjacent characters in computer memory.<ul>
+<li>A character is a value
+<li>A character pointer is the address of a character, and this character itself has a value.</ul>
+<li>We can use this to write non-format print.
+<code>void print(char *str)
+{
+	printf("%s\n", str) ; // add newline a la python
+	return ;
+}
+
+int main()
+{
+	char arr[6] = { 'h', 'e', 'l', 'l', 'o', '\0' } ; // no newline
+	print(arr) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2><code>char *</code></h2>
+<ul>
+<li>We use char * in the function argument to account for arrays of any size.
+<li>We use char arr[6] in the main function so we know we have enough space.
+<li>The compiler helps us a lot here - this is sloppy, but good enough to learn from and won't draw any errors.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+hello
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ Starting C</dt>
+<dd>✓ Functions</dd>
+<dd>✓ Variables/Types</dd>
+<dd>✓ Arrays</dd>
+</dl>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

@@ -38,8 +38,6 @@
 <dd>While</dd>
 <dd>If</dd>
 <dd>Else</dd>
-<dd>For</dd>
-<dd>Recursion</dd>
 </dl>
 </section>
 <section>
@@ -283,11 +281,222 @@ user@DESKTOP-THMS2PJ:~$ </code>
 p: ptr0: 0x1f8bfbff, ptr1: 0x7ffd9febdec9, str0: 0x7ffd9febdb0e, str1: 0x7ffd9febdb13
 Segmentation fault
 user@DESKTOP-THMS2PJ:~$ </code>
-<li>We will now experimentally determine how these differ.
+<li>Segmentation fault!
+<ul><li>Recall: <a href="https://cd-public.github.io/courses/syss24/slides/slides/w02d01.html#/11">w02d01 slide 11</a>
+</ul>
+<li>It is not necessarily the case that every print will be processed before the OS stops a seg-faulting process.
+<ul><li>Comment out lines.
+<li>Use fflush(stdout) ; between lines
+<li>Split up print statements to only include one possible fault, that is, only print one variable.
+<li>I got this once in testing:
+</ul>
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+Segmentation fault
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x1f8bfbff, ptr1: 0x7ffd9febdec9, str0: 0x7ffd9febdb0e, str1: 0x7ffd9febdb13
+Segmentation fault
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>0x1f8bfbff and 0x7ffd9febdec9 are arbitrary memory locations that are not the addresses of strings.
+<ul><li>These are often called "uninitialized pointers"
+<li>Note the variables are declared with names (creating a pointer) but not values (not creating a string at the location)
+<li>When you try to print a string that doesn't exist, the OS stops the program.
+<ul><li>It is a valid hexadecimal value but not a valid address.
+</ul></ul>
+<li>In practice, we do not use unitialized pointers.
+<ul><li>Initialize to placeholder values (pros and cons here:)
+<code>char *ptr0 = "", *ptr1 = "" ;</code>
+<li>Or set to something before using:
+<code>ptr0 = str0 ;
+ptr1 = str1 ;</code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<code>int main()
+{
+    char *ptr0 ="", *ptr1 = "" ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>With initialization to the empty string, we compile with no errors and run with no faults.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x55dd7e5a7008, ptr1: 0x55dd7e5a7008, str0: 0x7ffdbeebebee, str1: 0x7ffdbeebebf3
+s: ptr0: , ptr1: , str0: zero, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<code>int main()
+{
+    char *ptr0, *ptr1;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    ptr0 = str0 ;
+    ptr1 = str1 ;
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>We declare uninitialized pointers then initialize them prior to use.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x7fff5df744fe, ptr1: 0x7fff5df74503, str0: 0x7fff5df744fe, str1: 0x7fff5df74503
+s: ptr0: zero, ptr1: one_, str0: zero, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>Unlike pointers, arrays may not be reassigned.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:10: error: assignment to expression with array type
+    7 |     str0 = ptr0 ;
+      |          ^
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>char *name may be used to point to <em>any</em> string.
+<li>char name[n] by definition points to a specific location and cannot be reassigned.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:10: error: assignment to expression with array type
+    7 |     str0 = str1 ;
+      |          ^
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>They cannot be assigned to other arrays or other pointers or anything else.
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>In this example, str is a pointer that points to the values in arr.
+<li>str and arr are different things (one is a pointer, one an array)
+<li>str and arr contain the same information (a location of a string)
+<li>str and arr refer to the same information (the string with a given location)
+<code>void print(char *str)
+{
+	printf("%s\n", str) ; // add newline a la python
+	return ;
+}
+
+int main()
+{
+	char arr[6] = { 'h', 'e', 'l', 'l', 'o', '\0' } ; // no newline
+	print(arr) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>We cannot change the locations of arrays, but we can change their value.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:10: error: assignment to expression with array type
+    7 |     str0 = ptr0 ;
+      |          ^
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>We go to the fixed location, and edit the string at that location.
+<li>char *name may be used to point to <em>any</em> string.
+<li>char name[n] by definition points to a specific location and cannot be reassigned.
+<li>We'll use show():
+<code>void show(char *ptr0, char *ptr1, char *str0, char *str1 )
+{
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+}
+</code>
+<li>They cannot be assigned to other arrays or other pointers or anything else.
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>We perform a number of manipulations on pointers and arrays.
+<code>int main()
+{
+    char *ptr0 = "", *ptr1 = "" ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    show(ptr0, ptr1, str0, str1) ;
+    ptr0 = str0 ;
+    ptr1 = str1 ;
+    show(ptr0, ptr1, str0, str1) ;
+    int i = 0 ;
+    while (i &lt; 5)
+    {
+        str0[i] = str1[i] ;
+        i = i + 1 ;
+    }
+    show(ptr0, ptr1, str0, str1) ;
+    ptr0[3] = '!' ;
+    show(ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>We perform a number of manipulations on pointers and arrays.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x565270358063, ptr1: 0x565270358063, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: , ptr1: , str0: zero, str1: one_
+p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: zero, ptr1: one_, str0: zero, str1: one_
+p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: one_, ptr1: one_, str0: one_, str1: one_
+p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: one!, ptr1: one_, str0: one!, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>Initially, each variable differs in terms of both value (address) and reference (string).
+<li>We set ptrs to strs and then both values and references are the same for 0s and 1s
+<li>We set each character in str0 to equal each character in str1. Values differ, references are the same.
+<li>We edit str0 by changing a value via ptr0. They point to the same thing. One reference is changed.
+</section>
+<section>
+<h2>Off-by-one and null terminator</h2>
+<ul><li>Suppose we are off-by-one (I did this by accident at first)
+<code>int main()
+{
+    char *ptr0 = "", *ptr1 = "" ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    str0[3] = '!' ;
+    show(ptr0, ptr1, str0, str1) ;
+    str0[4] = '!' ;
+    show(ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>These arrays were adjacent in physical memory.
+<code>str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3</code>
+<li>The address are 5 apart and the strings contain 5 characters.
+<code>&gt;&gt;&gt; hex(0xde + 5)
+'0xe3'
+&gt;&gt;&gt;</code>
+<li>NOTE: This only worked in gcc for me, onlinegdb has safety features that block this.
+</section>
+<section>
+<h2>Off-by-one and null terminator</h2>
+<ul><li>Suppose we are off-by-one (I did this by accident at first)
+<li>We overwrite the null terminator into an adjacent string.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x55bc9426b063, ptr1: 0x55bc9426b063, str0: 0x7ffe3165e37e, str1: 0x7ffe3165e383
+s: ptr0: , ptr1: , str0: zer!, str1: one_
+p: ptr0: 0x55bc9426b063, ptr1: 0x55bc9426b063, str0: 0x7ffe3165e37e, str1: 0x7ffe3165e383
+s: ptr0: , ptr1: , str0: zer!!one_, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>C... good?
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Control Flow</dt>
+<dd>While</dd>
+<dd>If</dd>
+<dd>Else</dd>
+</dl>
 </section>
 <section>
 <h2>Fact Check</h2>
 <ul>
+<li>I claimed to teach arrays.
 <li>Pretty sure teaching arrays without teaching loops is bad.
 <li>While and for are control flow statements, and in this respect are like functions.
 <li>We will use them with squiglers, indentation, and newlines

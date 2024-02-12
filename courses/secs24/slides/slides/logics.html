@@ -29,7 +29,7 @@
 <section id="title-slide">
   <h1 class="title">Logics</h1>
   <p class="author">Calvin (Deutschbein)<br></p>
-  <p class="date">08 Feb 2023</p>
+  <p class="date">14 Feb 2024</p>
 </section>
 
 <section id="announcements" class="slide level2">
@@ -40,6 +40,72 @@
 <li>Depending on pacing, we'll have new ways of specifying for next time.</li>
 </ul></li>
 </ul>
+</section>
+
+<section id="review1" class="slide level2">
+<h2>Review Question</h2>
+<p>In a Kripke, what is <em>I</em>?</p>
+<div class="poll">
+<ol>
+<li>All possible configurations of a studied system</li>
+<li>All possible traits or features of a studied system</li>
+<li>All allowable starting configurations of a studied system</li>
+<li>All allowable traits or features of a studied system to correctly start</li>
+</ol>
+</div>
+<p>Think about what states and propositions are, and how they fit in here.</p>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question</h2>
+<p>In a Kripke, <em>R</em> is a relation. What does this mean?</p>
+<div class="poll">
+<ol>
+<li><em>R</em> considers pairs of distinct conditions or traits of a system</li>
+<li><em>R</em> considers pairs of configurations of a systems</li>
+<li><em>R</em> connects configurations to conditions or traits for some system</li>
+<li><em>R</em> connects conditions or traits to configurations of some system</li>
+</ol>
+</div>
+<p>Think about what states and propositions are, and how they fit in here.</p>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question</h2>
+<p>We said properties were <b>sets</b> of something. What?</p>
+<div class="poll">
+<ol>
+<li>States</li>
+<li>Sequences</li>
+<li>Systems</li>
+<li>Times</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question</h2>
+<p>How do Kripke Structures relate to properties?</p>
+<div class="poll">
+<ol>
+<li>A Kripke structure defines a property without enumeration</li>
+<li>A Kripke structure can create an example of a trace within a property</li>
+<li>A Kripke structure is the system that may or may not have some property</li>
+<li>A Kripke structure's atomic propositions are properties</li>
+</ol>
+</div>
+<p>How did we motivate the introduction of Kripke structures?</p>
+</section>
+<section id="concrete" class="slide level2">
+<h2>A concretization</h2>
+<p>Consider the following representation:<ul>
+<li>Take <code>p</code> to be "can guess passwords"</li>
+<li>Take <code>q</code> to be "system access is denied"</li></ul>
+<p>A passwording service <strong>must</strong> disclose if an entered password is correct.<ul>
+<li><code>p</code> and <code>q</code> are true initially.<ul>
+<li>No checking, no access</li></ul>
+<li>Once <code>q</code> becomes false, it never becomes true again.<ul>
+<li>Once logged in, we can no longer guess passwords.</li></ul>
+<li>Once <code>q</code> becomes false, <code>p</code> stays true forever.<ul>
+<li>Once logged in, access is not revoked.</li></ul></li></ul>
+<p>Is this good? Does this describe any services you use?</p>
 </section>
 <section id="review1" class="slide level2">
 <h2>Review Question 1</h2>

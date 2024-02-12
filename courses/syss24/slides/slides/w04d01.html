@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>while</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">while</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>05 Feb 24</h2>
+  <h2>w03d00</h2>
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Control Flow</dt>
+<dd>While</dd>
+<dd>If</dd>
+<dd>Else</dd>
+</dl>
+</section>
+<section>
+<h2>Review</h2>
+<ul>
+<li>In Python, we don't really have the classical concept of array
+<ul><li>Historically lists and arrays were different things...
+<li>Python lists are closer to being array-lists - an implementation of a list *abstract data type* using an array *data structure*</ul>
+<code>&gt;&gt;&gt; arr = [1,2,3]
+&gt;&gt;&gt; type(arr)
+&lt;class 'list'&gt;
+&gt;&gt;&gt;</code>
+<li>The List type differs from the Array implementation in a few ways:
+<ul><li>Arrays are of fixed length. 
+<ul><li>We cannot add or remove elements, only replace.</ul>
+<li>Arrays must contain only elements of the same type.
+<ul><li>We cannot place chars and ints in the same array.</ul>
+<li>Arrays do not know their own length or type.
+<ul><li>When using arrays, we must keep track of how many elements of what type there are.</ul>
+<li>Arrays exist at fixed location in physical memory.
+<ul><li>This will matter more latter.</ul></ul>
+<li>Let's see some arrays.</ul>
+</section>
+<section>
+<h2>Arrays</h2>
+<ul>
+<li>In C, we create an array by creating a variable as we do any other variable.
+<ul><li>We declare the type.
+<li>We give a name.
+<li>We optionally assign a value.
+</ul>
+<li>For arrays specifically, we use boxy bracket "[]" notation to give the length of the array.
+<ul><li>We provide a length whenever we declare a new array variable.
+<li>We use the same notation to access elements of the array, indexed by zero.</ul>
+<code>int main()
+{
+	int arr[3] = { 1, 2, 3 } ;
+	arr[0] = arr[0] - 1 ;
+	return arr[0] ;
+}</code>
+</section>
+<section>
+<h2><code>sizeof()</code></h2>
+<ul>
+<li>I keep talking about numbers of bits and bytes. Well, there's a way to measure that.
+<li>gcc, and to my knowledge every C compiler, has a "sizeof()" operator
+<li>sizeof isn't really part of C the way #include isn't, but it's part of the C ecosystem.
+<li>When you write C code, before it is compiled, the preprocessor will go through and replace every sizeof() with the number of bytes the compiler will use.
+<li>This is helpful for a lot of reasons, but especially helpful to learn about the language.
+<code>int main()
+{
+	printf("ints are %d big\n", sizeof(int)) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2><code>char *</code></h2>
+<ul>
+<li>Takeaway: char *str or char arr[3] are different kinds of things that characters.
+<li>They are pointers - the locations of a series of adjacent characters in computer memory.<ul>
+<li>A character is a value
+<li>A character pointer is the address of a character, and this character itself has a value.</ul>
+<li>We can use this to write non-format print.
+<code>void print(char *str)
+{
+	printf("%s\n", str) ; // add newline a la python
+	return ;
+}
+
+int main()
+{
+	char arr[6] = { 'h', 'e', 'l', 'l', 'o', '\0' } ; // no newline
+	print(arr) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2><code>char *</code></h2>
+<ul>
+<li>We use char * in the function argument to account for arrays of any size.
+<li>We use char arr[6] in the main function so we know we have enough space.
+<li>The compiler helps us a lot here - this is sloppy, but good enough to learn from and won't draw any errors.
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+hello
+user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ </code>
+</section>
+<section>
+<h2>(was:) Today</h2>
+<dl>
+<dt>✓ Starting C</dt>
+<dd>✓ Functions</dd>
+<dd>✓ Variables/Types</dd>
+<dd>✓ Arrays</dd>
+</dl>
+</section>
+<section>
+<h2>Stars and arrs</h2>
+<ul>
+<li>We use char * in the function argument to account for arrays of any size.
+<ul><li>What does this mean *physically* within the physical computing device?</ul>
+<li>We use char arr[6] in the main function so we know we have enough space.
+<ul><li>What does this mean *physically* within the physical computing device?</ul>
+<li>Recall: "The compiler helps us a lot here - this is sloppy, but good enough to learn from and won't draw any errors."
+<code>void print(char *str)
+{
+	printf("%s\n", str) ; // add newline a la python
+	return ;
+}
+
+int main()
+{
+	char arr[6] = { 'h', 'e', 'l', 'l', 'o', '\0' } ; // no newline
+	print(arr) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2>Stars</h2>
+<ul>
+<li>We use char * in the function argument to account for arrays of any size.
+<ul><li>What does this mean *physically* within the physical computing device?</ul>
+<li>Using the techniques introduced in this class, we study *str.
+<code>void examine(char *str)
+{
+    printf("size of  str:    %ld\n", sizeof( str)) ;
+    printf("size of *str:    %ld\n", sizeof(*str)) ;
+    printf("size of  str[0]: %ld\n", sizeof(str[0])) ;
+    printf("hex value of  str:    %x\n", str) ;
+    printf("hex value of *str:    %x\n", *str) ;
+    printf("hex value of  str[0]: %x\n", str[0]) ;
+    printf("hex value of h:       %x\n", 'h') ;
+    return ;
+}</code>
+<li>We expectedly draw a few type errors here because we're trying to figure out how to *not* get type errors.
+</section>
+<section>
+<h2>Stars</h2>
+<ul>
+<li>We get this:
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘examine’:
+test.c:8:36: warning: format ‘%x’ expects argument of type ‘unsigned int’, but argument 2 has type ‘char *’ [-Wformat=]
+    8 |     printf("hex value of  str:    %x\n", str) ;
+      |                                   ~^     ~~~
+      |                                    |     |
+      |                                    |     char *
+      |                                    unsigned int
+      |                                   %s
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>Let's fix and add some notes.
+<li>We know that we can use %p to print *'s, so we use %p ("pointer") instead of %x ("hexadecimal")
+<code>    printf("hex value of  str:    %p\n", str) ; // str is char * - size 8</code>
+<li>We use "lx" for "long hexadecimal".
+<ul><li>Why might I be using hexadecimal in this example?
+</section>
+<section>
+<h2>Stars</h2>
+<ul>
+<li>We run the code after fixing the warning:
+<code>user@DESKTOP-THMS2PJ:~$ ./a.out
+size of  str:    8
+size of *str:    1
+size of  str[0]: 1
+hex value of  str:    0x7ffd70a50142
+hex value of *str:    68
+hex value of  str[0]: 68
+hex value of h:       68
+user@DESKTOP-THMS2PJ:~$ </code>
+</ul><ul>
+<li>Discuss.
+<ul><li>Recall: "hello" is length 5-6 depending on how you count '\0'
+<li>Recall: Hex printing yields two printing characters per C lang "char", or 16 for a %p
+<li>Recall: Hex makes some examinations of computational integers easier because it allows us to see values in certain bytes.
+<li>Recall: arr[0] and *arr differ philosophically but not necessarily physically.
+</section>
+
+<section>
+<h2>Stars</h2>
+<ul>
+<li>We run the code again:
+<code>user@DESKTOP-THMS2PJ:~$ ./a.out
+size of  str:    8
+size of *str:    1
+size of  str[0]: 1
+hex value of  str:    0x7ffd3ae3c482
+hex value of *str:    68
+hex value of  str[0]: 68
+hex value of h:       68
+user@DESKTOP-THMS2PJ:~$ </code>
+</ul><ul>
+<li>Discuss.
+<ul><li>Recall: "hello" is length 5-6 depending on how you count '\0'
+<li>Recall: Hex printing yields two printing characters per C lang "char", or 16 for a %p
+<li>Recall: Hex makes some examinations of computational integers easier because it allows us to see values in certain bytes.
+<li>Recall: arr[0] and *arr differ philosophically but not necessarily physically.
+<li>Note: str changes, but nothing else changes.
+<ul><li>0x7ffd70a50142 -> 0x7ffd3ae3c482
+<li>The 8 trailing characters / 4 trailing bits change but the upper 8 / 4 remain the same.
+</section>
+<section>
+<h2>Takeaways</h2>
+<ul>
+<li>We use * notation to store a fixed value at an arbitrary location or address.
+<ul><li>We care about the value of *arr.
+<li>We do not care about the value of arr.
+</ul>
+<li>You care more about who is using an email address than the actual characters that compose the email address.
+<li>Humans and email addresses do not correspond 1-to-1
+<ul><li>One human can have n>1 email addresses.
+<li>One email address can be checked by n>1 humans.
+<li>n>1 char *s may refer to the same string
+<li>n>1 strings may be referred to be a char * that is changed.
+</ul>
+<li>Addresses differ from value/meaning and are mostly useful for debug
+<ul><li>"Wait did I get an email from you?"
+<li>"Oh, you changed @'s but are the same person"
+</ul><li>I have heard legends of addresses that aren't specific to computers, but never confirmed their existence.
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<li>Let's mess with * and []
+<li><b>We will examine %p and %s both while we are learning - check %p if you get stuck.</b>
+<code>int main()
+{
+    char *ptr0, *ptr1 ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>We will now experimentally determine how these differ.
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<li>Let's mess with * and []
+<li><b>We will examine %p and %s both while we are learning - check %p if you get stuck.</b>
+<li>Here is an example of running code and "getting stuck":
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x1f8bfbff, ptr1: 0x7ffd9febdec9, str0: 0x7ffd9febdb0e, str1: 0x7ffd9febdb13
+Segmentation fault
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>Segmentation fault!
+<ul><li>Recall: <a href="https://cd-public.github.io/courses/syss24/slides/slides/w02d01.html#/11">w02d01 slide 11</a>
+</ul>
+<li>It is not necessarily the case that every print will be processed before the OS stops a seg-faulting process.
+<ul><li>Comment out lines.
+<li>Use fflush(stdout) ; between lines
+<li>Split up print statements to only include one possible fault, that is, only print one variable.
+<li>I got this once in testing:
+</ul>
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+Segmentation fault
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x1f8bfbff, ptr1: 0x7ffd9febdec9, str0: 0x7ffd9febdb0e, str1: 0x7ffd9febdb13
+Segmentation fault
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>0x1f8bfbff and 0x7ffd9febdec9 are arbitrary memory locations that are not the addresses of strings.
+<ul><li>These are often called "uninitialized pointers"
+<li>Note the variables are declared with names (creating a pointer) but not values (not creating a string at the location)
+<li>When you try to print a string that doesn't exist, the OS stops the program.
+<ul><li>It is a valid hexadecimal value but not a valid address.
+</ul></ul>
+<li>In practice, we do not use unitialized pointers.
+<ul><li>Initialize to placeholder values (pros and cons here:)
+<code>char *ptr0 = "", *ptr1 = "" ;</code>
+<li>Or set to something before using:
+<code>ptr0 = str0 ;
+ptr1 = str1 ;</code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<code>int main()
+{
+    char *ptr0 ="", *ptr1 = "" ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>With initialization to the empty string, we compile with no errors and run with no faults.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x55dd7e5a7008, ptr1: 0x55dd7e5a7008, str0: 0x7ffdbeebebee, str1: 0x7ffdbeebebf3
+s: ptr0: , ptr1: , str0: zero, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul>
+<code>int main()
+{
+    char *ptr0, *ptr1;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    ptr0 = str0 ;
+    ptr1 = str1 ;
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>We declare uninitialized pointers then initialize them prior to use.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x7fff5df744fe, ptr1: 0x7fff5df74503, str0: 0x7fff5df744fe, str1: 0x7fff5df74503
+s: ptr0: zero, ptr1: one_, str0: zero, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>Unlike pointers, arrays may not be reassigned.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:10: error: assignment to expression with array type
+    7 |     str0 = ptr0 ;
+      |          ^
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>char *name may be used to point to <em>any</em> string.
+<li>char name[n] by definition points to a specific location and cannot be reassigned.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:10: error: assignment to expression with array type
+    7 |     str0 = str1 ;
+      |          ^
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>They cannot be assigned to other arrays or other pointers or anything else.
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>In this example, str is a pointer that points to the values in arr.
+<li>str and arr are different things (one is a pointer, one an array)
+<li>str and arr contain the same information (a location of a string)
+<li>str and arr refer to the same information (the string with a given location)
+<code>void print(char *str)
+{
+	printf("%s\n", str) ; // add newline a la python
+	return ;
+}
+
+int main()
+{
+	char arr[6] = { 'h', 'e', 'l', 'l', 'o', '\0' } ; // no newline
+	print(arr) ;
+	return 0 ;
+}</code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>We cannot change the locations of arrays, but we can change their value.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:10: error: assignment to expression with array type
+    7 |     str0 = ptr0 ;
+      |          ^
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>We go to the fixed location, and edit the string at that location.
+<li>char *name may be used to point to <em>any</em> string.
+<li>char name[n] by definition points to a specific location and cannot be reassigned.
+<li>We'll use show():
+<code>void show(char *ptr0, char *ptr1, char *str0, char *str1 )
+{
+    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
+    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+}
+</code>
+<li>They cannot be assigned to other arrays or other pointers or anything else.
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>We perform a number of manipulations on pointers and arrays.
+<code>int main()
+{
+    char *ptr0 = "", *ptr1 = "" ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    show(ptr0, ptr1, str0, str1) ;
+    ptr0 = str0 ;
+    ptr1 = str1 ;
+    show(ptr0, ptr1, str0, str1) ;
+    int i = 0 ;
+    while (i &lt; 5)
+    {
+        str0[i] = str1[i] ;
+        i = i + 1 ;
+    }
+    show(ptr0, ptr1, str0, str1) ;
+    ptr0[3] = '!' ;
+    show(ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+</section>
+<section>
+<h2>Practice</h2>
+<ul><li>We perform a number of manipulations on pointers and arrays.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x565270358063, ptr1: 0x565270358063, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: , ptr1: , str0: zero, str1: one_
+p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: zero, ptr1: one_, str0: zero, str1: one_
+p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: one_, ptr1: one_, str0: one_, str1: one_
+p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
+s: ptr0: one!, ptr1: one_, str0: one!, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>Initially, each variable differs in terms of both value (address) and reference (string).
+<li>We set ptrs to strs and then both values and references are the same for 0s and 1s
+<li>We set each character in str0 to equal each character in str1. Values differ, references are the same.
+<li>We edit str0 by changing a value via ptr0. They point to the same thing. One reference is changed.
+</section>
+<section>
+<h2>Off-by-one and null terminator</h2>
+<ul><li>Suppose we are off-by-one (I did this by accident at first)
+<code>int main()
+{
+    char *ptr0 = "", *ptr1 = "" ;
+    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
+    str0[3] = '!' ;
+    show(ptr0, ptr1, str0, str1) ;
+    str0[4] = '!' ;
+    show(ptr0, ptr1, str0, str1) ;
+    return 0 ;
+}</code>
+<li>These arrays were adjacent in physical memory.
+<code>str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3</code>
+<li>The address are 5 apart and the strings contain 5 characters.
+<code>&gt;&gt;&gt; hex(0xde + 5)
+'0xe3'
+&gt;&gt;&gt;</code>
+<li>NOTE: This only worked in gcc for me, onlinegdb has safety features that block this.
+</section>
+<section>
+<h2>Off-by-one and null terminator</h2>
+<ul><li>Suppose we are off-by-one (I did this by accident at first)
+<li>We overwrite the null terminator into an adjacent string.
+<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
+p: ptr0: 0x55bc9426b063, ptr1: 0x55bc9426b063, str0: 0x7ffe3165e37e, str1: 0x7ffe3165e383
+s: ptr0: , ptr1: , str0: zer!, str1: one_
+p: ptr0: 0x55bc9426b063, ptr1: 0x55bc9426b063, str0: 0x7ffe3165e37e, str1: 0x7ffe3165e383
+s: ptr0: , ptr1: , str0: zer!!one_, str1: one_
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>C... good?
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Control Flow</dt>
+<dd>While</dd>
+<dd>If</dd>
+<dd>Else</dd>
+</dl>
+</section>
+<section>
+<h2>Fact Check</h2>
+<ul>
+<li>I claimed to teach arrays.
+<li>Pretty sure teaching arrays without teaching loops is bad.
+<li>While and for are control flow statements, and in this respect are like functions.
+<li>We will use them with squiglers, indentation, and newlines
+<code>void print(char *str)
+{
+	int i = 0 ; // i for iterator, by overwhelming convention
+	while (str[i]) // that is, while str[i] != '\0' - see why its zero now?
+	{
+		printf("%c", str[i]) ; // or use putchar()
+		i++ ; // logically equivalent to i = i + 1
+	}
+	printf("\n") ; // add newline a la python
+	return ;
+}</code>
+</section>
+<section>
+<h2>Initialization</h2>
+<ul>
+<li>while loops do not always require initialization, it is common to do so
+<li>This allows running some fixed number of loops, walking down an array, etc.
+<code>int i = 0 ;</code>
+<li>Adopting a coding style utilizing "i" will probably make reading other people's code easier.
+<li>You probably always do this.
+<li>Like etc etc, int i = 0 ; is not part of the while loop, but part of the while loop ecosystem.
+<ul><li>A lot of learning C is learning things that aren't C but are used by people/machines that use C.
+</section>
+<section>
+<h2>Declaration</h2>
+<ul>
+<li>while loops are defined using the while keyword applied to a parenthetical expression that is tested against zero.
+<li>This coding style is a historical reason for null-terminated strings and vice versa.
+<code>while (str[i])</code>
+<li>While learning, you might want to be more explicit in your code:
+<code>while (str[i] != '\0')</code>
+<li>Being explicit is often logically equivalent, and the same speed or not much slower.
+<li>Being explicit may introduce more typing and can lead to more errors on that end.
+<li>Optimize your coding style to minimize errors.
+<li>It is legal to inline loops but can be hard to read.
+<code>while (str[i++]) {putchar(str[i]);}</code>
+<li>You can write code like that as soon as you can tell me what it's doing!
+</section>
+<section>
+<h2>Iteration</h2>
+<ul>
+<li>C programmers (you) love to write infinite loops than gasp when they are infinite.
+<li>This was the first thing I wrote:
+<code>void print(char *str)
+{
+	int i = 0 ; // i for iterator, by overwhelming convention
+	while (str[i]) // that is, while str[i] != '\0' - see why its zero now?
+	{
+		printf("%c", str[i]) ; // or use putchar()
+	}
+	printf("\n") ; // add newline a la python
+	return ;
+}</code>
+<li>Wow that sure looks like it'd work in Python (it will work in a for loop).
+<li>C affords us an extremely cool unary iteration operator to help us remember to have a good time.
+<code>i++ ;</code>
+<li>This just means "increase i by 1" but is much shorter and...
+<code>while (str[i++]) {putchar(str[i]);}</code>
+<li>Can be included in other lines so you can write crisper loops.
+</section>
+<section>
+<h2>While Boilerplate</h2>
+<ul>
+<code>void print(char *str)
+{
+    int i = 0 ;                // initialization
+    while (str[i])             // declaration
+    {
+        printf("%c", str[i]) ; // computation
+        i++ ;                  // iteration
+    }
+    printf("\n") ;             // termination
+    return ;
+}</code>
+<li>You will not always need all of these elements.
+</section>
+<section>
+<h2>If Boilerplate</h2>
+<ul>
+<li>if is the trivial case of while.
+<code>void pos(int val)
+{
+    if (val > 0)               // declaration
+    {
+        printf("pos\n") ;      // computation
+        return ;
+    }
+    printf("neg\n") ;          // termination
+    return ;
+}</code>
+<li>You will not always need all of these elements.
+</section>
+<section>
+<h2>If Boilerplate</h2>
+<ul>
+<li>if also supports while, if (kneeslap) you are into that.
+<code>void pos(int val)
+{
+    if (val > 0)               // declaration
+    {
+        printf("pos") ;        // computation
+    } else {                   // declaration
+        printf("neg") ;        // computation
+    }
+    printf("\n") ;             // termination
+    return ;
+}</code>
+<li>You will not always need all of these elements.
+</section>
+<section>
+<h2>Lab Time</h2>
+<ul>
+<li>Do hw0.
+<ul><li>"I did" -> Ensure your solution is nlog(n) complexity
+<ul><li>"I did" -> Implement it using radix sort
+<ul><li>"I did" -> Implement it recursively using bitwise operators
+<ul><li>"What's that?" -> Google.</ul></ul></ul></ul>
+<li>Submit on GitHub.
+<ul><li>"I did" -> Ensure your code is adequately documented.
+<ul><li>"I did" -> Ensure your version control is adequately documented.
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

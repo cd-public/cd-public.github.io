@@ -32,13 +32,15 @@
   <h2>w04d01</h2>
 </section>
 <section>
-<h2>Today</h2>
-<dl>
-<dt>Memory Allocation</dt>
-<dd>Stack</dd>
-<dd>Heap</dd>
-<dd>Malloc</dd>
-</dl>
+<h2>Announcements</h2>
+<ul>
+<li>Realistically, malloc part 1... &lt;spooky&gt;
+<li>Recall: UNC REU due 25 Feb
+<li>Recall: Garmin trip on March 14
+<li>HW1: Buddhabrot
+<ul><li>is available to consider
+<li>technically possible
+<li>but not due until 3/04 (two weeks post all-of-malloc)
 </section>
 <section>
 <h2>Review</h2>
@@ -50,15 +52,30 @@
 &gt;&gt;&gt; type(arr)
 &lt;class 'list'&gt;
 &gt;&gt;&gt;</code>
+</section>
+<section>
+<h2>Review</h2>
+<ul>
 <li>The List type differs from the Array implementation in a few ways:
+<code>int arr[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } ;</code>
 <ul><li>Arrays are of fixed length. 
 <ul><li>We cannot add or remove elements, only replace.</ul>
+<code>arr = { 1, 2, 3 } ; // compile error
+arr[15] = -1 ; // runtime error - "stack smashing"</code>
 <li>Arrays must contain only elements of the same type.
 <ul><li>We cannot place chars and ints in the same array.</ul>
+<code>char *str = "hihi" ;
+arr[3] = str ; // compile warning - integer from pointer w/o cast
+</code>
 <li>Arrays do not know their own length or type.
 <ul><li>When using arrays, we must keep track of how many elements of what type there are.</ul>
+<code>arr[sizeof(arr) -1] = -1 ; // *can* be a segmentation fault
+</code>
 <li>Arrays exist at fixed location in physical memory.
-<ul><li>This will matter more latter.</ul></ul>
+<code>int *old = arr, *new ;
+arr[0] = 10 ;
+new = arr ;
+old == new ; // this is "true"</code></ul>
 </section>
 <section>
 <h2>Review</h2>
@@ -82,7 +99,7 @@
 <section>
 <h2>Review</h2>
 <ul>
-<li>We use char * in the function argument to account for arrays of any size.
+<li>We use char * in a function argument to account for arrays of any size.
 <ul><li>What does this mean *physically* within the physical computing device?</ul>
 <li>We use char arr[6] in the main function so we know we have enough space.
 <ul><li>What does this mean *physically* within the physical computing device?</ul>
@@ -102,387 +119,690 @@ int main()
 </section>
 <section>
 <h2>Takeaways</h2>
-<ul>
-<li>We use * notation to store a fixed value at an arbitrary location or address.
-<ul><li>We care about the value of *arr.
-<li>We do not care about the value of arr.
-</ul>
-<li>You care more about who is using an email address than the actual characters that compose the email address.
-<li>Humans and email addresses do not correspond 1-to-1
-<ul><li>One human can have n>1 email addresses.
-<li>One email address can be checked by n>1 humans.
-<li>n>1 char *s may refer to the same string
-<li>n>1 strings may be referred to be a char * that is changed.
-</ul>
-<li>Addresses differ from value/meaning and are mostly useful for debug
-<ul><li>"Wait did I get an email from you?"
-<li>"Oh, you changed @'s but are the same person"
-</ul><li>I have heard legends of addresses that aren't specific to computers, but never confirmed their existence.
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Pointers</th>
+<th style="text-align: left;">Arrays</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Always the same size, usually size 8 on a 64 bit system</td>
+<td style="text-align: left;">Can be declared to be any positive integer (not int) size, up to some upper limit</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Should be initialized before used (with single equals) and may be reassigned (with single equals)</td>
+<td style="text-align: left;">Is a fixed location in system memory and may not be reassigned (single equals triggers error).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Declaration allows a description of existing memory, but provides no new memory to work with.</td>
+<td style="text-align: left;">Declaration provides some amount of memory for use.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Can describe an array of any size by being assigned to a location containing such an array.</td>
+<td style="text-align: left;">Has precise, fixed, and unchanging size in memory.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Does not support declaration of variable length arrays on C89, and may not support VLAs on C11</td>
+<td style="text-align: left;">Does not support declaration of variable length arrays on C89, and may not support VLAs on C11</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section>
-<h2>Practice</h2>
+<h2>O(<em>n</em> log <em>n</em>)</h2>
 <ul>
-<li>Let's mess with * and []
-<li><b>We will examine %p and %s both while we are learning - check %p if you get stuck.</b>
-<code>int main()
-{
-    char *ptr0, *ptr1 ;
-    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
-    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
-    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
-    return 0 ;
+<li>Implementing O(<em>n</em> log <em>n</em>) sorting algorithms in-place is hard, and implementing them with working memory requires the ability to generate working memories of various sizes.
+<ul><li>What is the complexity of this sort?
+<li>Is this code correct?
+<li>How long would it take to tell?
+</ul>
+<code>void sort(int *arr, int len) {
+	void swap(int i, int j)	{
+		int t = arr[i] ; arr[i] = arr[j] ; arr[j] = t ;
+	}
+	int pivt = arr[len], i = 0, j = len-1 ;
+	if (len-- < 2) { return ; }
+	while (i < j) {
+		while (arr[i] < pivt && i < len) { i++ ; }
+		while (arr[j] > pivt && j > 0  ) { j-- ; }
+		if (i < j) { swap(i,j) ; }
+	}
+	while (arr[j] < pivt) { j++; }
+	swap(j,len) ; sort(arr, j) ; sort(arr+j+1, len-j) ;	
 }</code>
-<li>We will now experimentally determine how these differ.
 </section>
 <section>
-<h2>Practice</h2>
-<ul>
-<li>Let's mess with * and []
-<li><b>We will examine %p and %s both while we are learning - check %p if you get stuck.</b>
-<li>Here is an example of running code and "getting stuck":
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-p: ptr0: 0x1f8bfbff, ptr1: 0x7ffd9febdec9, str0: 0x7ffd9febdb0e, str1: 0x7ffd9febdb13
-Segmentation fault
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>Segmentation fault!
-<ul><li>Recall: <a href="https://cd-public.github.io/courses/syss24/slides/slides/w02d01.html#/11">w02d01 slide 11</a>
-</ul>
-<li>It is not necessarily the case that every print will be processed before the OS stops a seg-faulting process.
-<ul><li>Comment out lines.
-<li>Use fflush(stdout) ; between lines
-<li>Split up print statements to only include one possible fault, that is, only print one variable.
-<li>I got this once in testing:
-</ul>
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-Segmentation fault
-user@DESKTOP-THMS2PJ:~$ </code>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">malloc</h1>
 </section>
-<section>
-<h2>Practice</h2>
-<ul>
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-p: ptr0: 0x1f8bfbff, ptr1: 0x7ffd9febdec9, str0: 0x7ffd9febdb0e, str1: 0x7ffd9febdb13
-Segmentation fault
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>0x1f8bfbff and 0x7ffd9febdec9 are arbitrary memory locations that are not the addresses of strings.
-<ul><li>These are often called "uninitialized pointers"
-<li>Note the variables are declared with names (creating a pointer) but not values (not creating a string at the location)
-<li>When you try to print a string that doesn't exist, the OS stops the program.
-<ul><li>It is a valid hexadecimal value but not a valid address.
-</ul></ul>
-<li>In practice, we do not use unitialized pointers.
-<ul><li>Initialize to placeholder values (pros and cons here:)
-<code>char *ptr0 = "", *ptr1 = "" ;</code>
-<li>Or set to something before using:
-<code>ptr0 = str0 ;
-ptr1 = str1 ;</code>
-</section>
-<section>
-<h2>Practice</h2>
-<ul>
-<code>int main()
-{
-    char *ptr0 ="", *ptr1 = "" ;
-    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
-    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
-    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
-    return 0 ;
-}</code>
-<li>With initialization to the empty string, we compile with no errors and run with no faults.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-p: ptr0: 0x55dd7e5a7008, ptr1: 0x55dd7e5a7008, str0: 0x7ffdbeebebee, str1: 0x7ffdbeebebf3
-s: ptr0: , ptr1: , str0: zero, str1: one_
-user@DESKTOP-THMS2PJ:~$ </code>
-</section>
-<section>
-<h2>Practice</h2>
-<ul>
-<code>int main()
-{
-    char *ptr0, *ptr1;
-    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
-    ptr0 = str0 ;
-    ptr1 = str1 ;
-    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
-    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
-    return 0 ;
-}</code>
-<li>We declare uninitialized pointers then initialize them prior to use.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-p: ptr0: 0x7fff5df744fe, ptr1: 0x7fff5df74503, str0: 0x7fff5df744fe, str1: 0x7fff5df74503
-s: ptr0: zero, ptr1: one_, str0: zero, str1: one_
-user@DESKTOP-THMS2PJ:~$ </code>
-</section>
-<section>
-<h2>Practice</h2>
-<ul><li>Unlike pointers, arrays may not be reassigned.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
-test.c: In function ‘main’:
-test.c:7:10: error: assignment to expression with array type
-    7 |     str0 = ptr0 ;
-      |          ^
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>char *name may be used to point to <em>any</em> string.
-<li>char name[n] by definition points to a specific location and cannot be reassigned.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
-test.c: In function ‘main’:
-test.c:7:10: error: assignment to expression with array type
-    7 |     str0 = str1 ;
-      |          ^
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>They cannot be assigned to other arrays or other pointers or anything else.
-</section>
-<section>
-<h2>Practice</h2>
-<ul><li>In this example, str is a pointer that points to the values in arr.
-<li>str and arr are different things (one is a pointer, one an array)
-<li>str and arr contain the same information (a location of a string)
-<li>str and arr refer to the same information (the string with a given location)
-<code>void print(char *str)
-{
-	printf("%s\n", str) ; // add newline a la python
-	return ;
-}
+<section><ul><a href="https://man7.org/linux/man-pages/man3/malloc.3.html">
+<code>NAME         top
 
-int main()
-{
-	char arr[6] = { 'h', 'e', 'l', 'l', 'o', '\0' } ; // no newline
-	print(arr) ;
-	return 0 ;
-}</code>
+       malloc, free, - allocate and free dynamic memory
+
+LIBRARY         top
+
+       Standard C library (libc, -lc)
+
+SYNOPSIS         top
+
+       #include <stdlib.h>
+
+       void *malloc(size_t size);
+       void free(void *_Nullable ptr);
+
+DESCRIPTION         top
+
+   malloc()
+       The malloc() function allocates size bytes and returns a pointer
+       to the allocated memory.  The memory is not initialized.  If size
+       is 0, then malloc() returns a unique pointer value that can later
+       be successfully passed to free().</code></a>
 </section>
 <section>
-<h2>Practice</h2>
-<ul><li>We cannot change the locations of arrays, but we can change their value.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c
-test.c: In function ‘main’:
-test.c:7:10: error: assignment to expression with array type
-    7 |     str0 = ptr0 ;
-      |          ^
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>We go to the fixed location, and edit the string at that location.
-<li>char *name may be used to point to <em>any</em> string.
-<li>char name[n] by definition points to a specific location and cannot be reassigned.
-<li>We'll use show():
-<code>void show(char *ptr0, char *ptr1, char *str0, char *str1 )
+<h2><code>malloc</code></h2>
+<ul>
+<li>Implementing O(<em>n</em> log <em>n</em>) sorting algorithms in-place is hard, and implementing them with working memory requires the ability to generate working memories of various sizes.
+<li>malloc allows us to make a request to have a chunk of memory of a given size set aside for use.<ul>
+<li>Re: a Discord tangent, no more:
+<code>while (index != start) {
+	arr[index = arr[index - 1];
+	index--;
+}</code>
+<li>This is copying up to <em>n</em> elements up to <em>n</em> times.
+<li>BONUS/CHALLENGE QUESTION: What is <math style="font-weight:bold">n * n</math>
+</ul>
+</section>
+<section>
+<h2><code>malloc</code></h2>
+<ul>
+<li>Malloc has the type:
+<code>void *malloc(size_t size);</code>
+<li>Malloc is included in stdlib.h, NOT stdio.h.
+<li>We briefly touched on size_t and void * in previous lectures.
+<ul><li>Usually-not-always size_t is the same-ish thing as a long unsigned int, is 8 chars / 64 bytes in size, and describes the size of things in memory. It is the type of value returned by sizeof().
+<li>void * is a pointer to something for which the type is not known. A void * may hold a reference to a value that may be an int, a char, another pointer, or anything else.
+</ul>
+</section>
+<section>
+<h2><code>malloc</code></h2>
+<ul>
+<li>Malloc returns a void * of the requested size, with which we may do what we will, such as store 6 characters.
+<code>char *str = malloc(sizeof(char) * 6) ;</code>
+<ul>
+<li>By declaring str as a "char *", this stores the location returned by malloc as a void * in a pointer that is labelled as pointing to characters - the same pointer value, but different pointer meanings.
+<ul><li>"Here is some memory" vs "This memory contains characters".</ul>
+<li>Multiplying by "sizeof(char)" is redundant - sizeof(char) is one by definition - but this can be helpful when working with ints and other types.
+<li>BONUS/CHALLENGE QUESTION: What is <math style="font-weight:bold">1 * 6</math>
+</ul>
+</section>
+<section>
+<h2><code>malloc</code></h2>
+<ul>
+<li>Malloc returns a void * of the requested size, with which we may do what we will, such as store 6 characters.
+<code>char *str = malloc(sizeof(char) * 6) ;</code>
+<li>We can treat this memory region the same way we treat a character array.
+<code>char arr[6] ;
+char *src = "hello" ;
+size_t i ;
+for ( i = 0 ; src[i] ; i++ )
 {
-    printf("p: ptr0: %p, ptr1: %p, str0: %p, str1: %p\n", ptr0, ptr1, str0, str1) ;
-    printf("s: ptr0: %s, ptr1: %s, str0: %s, str1: %s\n", ptr0, ptr1, str0, str1) ;
+	arr[i] = src[i] ;
+	str[i] = src[i] ;
 }
+printf("%s %s %s\n", str, arr, src) ; // "hello hello hello"</code>
+<ul><li>"Here is some memory that now contains characters" vs "This memory contains characters".</ul>
+</ul>
+</section>
+<section>
+<h2><code>malloc</code></h2>
+<ul>
+<li>But where does the memory come from?
+<li>So far, "the stack" - a memory regime vaguely related to the data structure
+<li>For malloc, "the heap" - a memory regime even more vaguely related to the data structure 
+<li>Stack and heap exist in different regions of system memory, so stack memory is near stack memory but distant from heap memory.
+<code>char arr0[256], arr1[256], arr2[256] ;
+char *ptr0 = malloc(256), *ptr1 = malloc(256), *ptr2 = malloc(256) ;
+printf("%p\n%p\n%p\n%p\n%p\n%p\n", arr0, arr1, arr2, ptr0, ptr1, ptr2) ;</code>
+<li>How far are all these things apart from each other:
+<code>0x7ffdcfaae0c0
+0x7ffdcfaae1c0
+0x7ffdcfaae2c0
+0x556f982022a0
+0x556f982023b0
+0x556f982024c0</code>
+</ul>
+</section>
+<section>
+<h2><code>malloc</code></h2>
+<ul>
+<li>By the way the order doesn't matter, really.
+<li>"The stack and heap exist in different regions of system memory, so stack memory is near stack memory but distant from heap memory."
+<code>char arr0[256] ;
+char *ptr0 = malloc(256) ;
+char arr1[256], arr2[256] ;
+char *ptr1 = malloc(256), *ptr2 = malloc(256) ;</code>
+<li>Stack in 0x7ffe with 256 byte increments, heap in 0x55b9 with 256 + 16 = 272 byte increments.
+<code>0x7ffe41c4eb20
+0x7ffe41c4ec20
+0x7ffe41c4ed20
+0x55b9326bc2a0
+0x55b9326bc3b0
+0x55b9326bc4c0</code>
+</ul>
+</section>
+<section>
+<h2><code>malloc</code></h2>
+<ul>
+<li>Also check onlinegdb:
+<code>0x7ffc0dcdbb20
+0x7ffc0dcdbc20
+0x7ffc0dcdbd20
+0x55b90099c2a0
+0x55b90099c3b0
+0x55b90099c4c0</code>
+<li>Colab:
+<code>0x7ffca25f4df0
+0x7ffca25f4ef0
+0x7ffca25f4ff0
+0x5906ff4e32a0
+0x5906ff4e33b0
+0x5906ff4e34c0
 </code>
-<li>They cannot be assigned to other arrays or other pointers or anything else.
+<li>To study more intently, you have to step outside of the GNU family of compiler/debuggers.
+</ul>
 </section>
 <section>
-<h2>Practice</h2>
-<ul><li>We perform a number of manipulations on pointers and arrays.
-<code>int main()
-{
-    char *ptr0 = "", *ptr1 = "" ;
-    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
-    show(ptr0, ptr1, str0, str1) ;
-    ptr0 = str0 ;
-    ptr1 = str1 ;
-    show(ptr0, ptr1, str0, str1) ;
-    int i = 0 ;
-    while (i &lt; 5)
-    {
-        str0[i] = str1[i] ;
-        i = i + 1 ;
-    }
-    show(ptr0, ptr1, str0, str1) ;
-    ptr0[3] = '!' ;
-    show(ptr0, ptr1, str0, str1) ;
-    return 0 ;
-}</code>
+<h2>Stack & Heap</h2>
+<ul>
+<li>Basically, memory in a C program either exists in the stack, where we declare variables, or in the heap, another special magic place.
+<li>Stack memory, variously by requirement or convention, is allocated in explicit sizes fixed when code is compiled.
+<ul><li>C89 banned variable size stack declarations.
+<li>C99 allowed it.
+<li>In response to pressure from the Linux developers, C11 degraded the requirement to an option.
+<li>I am teaching you how to code without using a feature Linux developers say is bad. I'm not telling you the name of what you could use instead so you don't Google it. It's easy to find if you look.
+</ul>
+<li>We have only used stack memory so far so we have to fix memory size when we write the code.
 </section>
 <section>
-<h2>Practice</h2>
-<ul><li>We perform a number of manipulations on pointers and arrays.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-p: ptr0: 0x565270358063, ptr1: 0x565270358063, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
-s: ptr0: , ptr1: , str0: zero, str1: one_
-p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
-s: ptr0: zero, ptr1: one_, str0: zero, str1: one_
-p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
-s: ptr0: one_, ptr1: one_, str0: one_, str1: one_
-p: ptr0: 0x7ffc78cb7dde, ptr1: 0x7ffc78cb7de3, str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3
-s: ptr0: one!, ptr1: one_, str0: one!, str1: one_
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>Initially, each variable differs in terms of both value (address) and reference (string).
-<li>We set ptrs to strs and then both values and references are the same for 0s and 1s
-<li>We set each character in str0 to equal each character in str1. Values differ, references are the same.
-<li>We edit str0 by changing a value via ptr0. They point to the same thing. One reference is changed.
+<h2>Stack & Heap</h2>
+<ul>
+<li>Basically, memory in a C program either exists in the stack, where we declare variables, or in the heap, another special magic place.
+<li>Think of the heap as a scratch space that GCC configures programs to request and the OS allows use of (up to some limit).
+<li>The "magic" is implementation details of the compiler and the operating system.
+<li>The only way we will learn to interface with the heap is malloc.
+<li>The only way we will learn to deal with memory for which size is determined during run-time (while a program runs) is malloc.
+<ul><li>I am teaching you how to code without using a feature Linux developers say is bad.
+</ul>
+<li>We will use heap memory to create working memory and implement data structures.
 </section>
 <section>
-<h2>Off-by-one and null terminator</h2>
-<ul><li>Suppose we are off-by-one (I did this by accident at first)
-<code>int main()
-{
-    char *ptr0 = "", *ptr1 = "" ;
-    char str0[5] = "zero", str1[5] = "one_" ; // why 5?
-    str0[3] = '!' ;
-    show(ptr0, ptr1, str0, str1) ;
-    str0[4] = '!' ;
-    show(ptr0, ptr1, str0, str1) ;
-    return 0 ;
-}</code>
-<li>These arrays were adjacent in physical memory.
-<code>str0: 0x7ffc78cb7dde, str1: 0x7ffc78cb7de3</code>
-<li>The address are 5 apart and the strings contain 5 characters.
-<code>&gt;&gt;&gt; hex(0xde + 5)
-'0xe3'
-&gt;&gt;&gt;</code>
-<li>NOTE: This only worked in gcc for me, onlinegdb has safety features that block this.
+<h2>Stack & Heap</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Stack</th>
+<th style="text-align: center;">Heap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Fixed Size</td>
+<td style="text-align: center;">Arbitrary Size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Holds Function Variables</td>
+<td style="text-align: center;">Returned by a function (malloc)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Defined before code is compiled</td>
+<td style="text-align: center;">Governed by the laws of magic</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Higher/larger numerical addresses<br>(closer to 0xFF...)</td>
+<td style="text-align: center;">Lower/smaller numerical addresses<br>(closer to 0x00...) </td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">!!!SPOILERS</td>
+<td style="text-align: center;">!!!SPOILERS</td>
+</tr>
+</tbody>
+</table>
+<li>Without offering an endorsement of PA, in the context of this 200-level class...
+</ul><br>
+<img width="30%" src="https://static.tvtropes.org/pmwiki/pub/images/magic.png">
 </section>
 <section>
-<h2>Off-by-one and null terminator</h2>
-<ul><li>Suppose we are off-by-one (I did this by accident at first)
-<li>We overwrite the null terminator into an adjacent string.
-<code>user@DESKTOP-THMS2PJ:~$ gcc test.c ; ./a.out
-p: ptr0: 0x55bc9426b063, ptr1: 0x55bc9426b063, str0: 0x7ffe3165e37e, str1: 0x7ffe3165e383
-s: ptr0: , ptr1: , str0: zer!, str1: one_
-p: ptr0: 0x55bc9426b063, ptr1: 0x55bc9426b063, str0: 0x7ffe3165e37e, str1: 0x7ffe3165e383
-s: ptr0: , ptr1: , str0: zer!!one_, str1: one_
-user@DESKTOP-THMS2PJ:~$ </code>
-<li>C... good?
+<h2>Stack & Heap</h2>
+<ul>
+<li>I never understood the stack & heap in undergrad*.
+<ul><li>I thought I did, and found out I didn't while giving a presentation in front of my adviser in graduate school!</ul>
+<li>I'm going to <s>steal</s>BORROW some teaching materials from Jenny Chen and Ruohao Guo, who actually understand this.
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><a href="https://www.linkedin.com/in/xiangmingchen/"><img src="https://media.licdn.com/dms/image/D5603AQGYFyxVOlFESA/profile-displayphoto-shrink_200_200/0/1679124919436?e=1713398400&v=beta&t=v4UYBfGXpiM8GTy2R4HQxLcG__hqIYhcEwgAjavciD8"></a></th>
+<th style="text-align: center;"><a href="https://www.linkedin.com/in/ruohao-guo-91a83b179/"><img src="https://media.licdn.com/dms/image/D5603AQFVvD-XaRMwLw/profile-displayphoto-shrink_200_200/0/1680746152092?e=1713398400&v=beta&t=knC62lx5znVr0Qyk6B7bRGsrAQSMyf9SE19sltVMiq0"></a></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Jenny Chen</td>
+<td style="text-align: center;">Ruohao Guo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">she/her</td>
+<td style="text-align: center;">she/her</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Software Engineer</td>
+<td style="text-align: center;">Graduate Research Assistant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Apple</td>
+<td style="text-align: center;">Georgia Institute of Technology</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B.S. Computer Science, 2021, UIUC</td>
+<td style="text-align: center;">B.S. Computer Science, 2021, UIUC</td>
+</tr>
+</tbody>
+</table>
+<br>
+<li>UIUC is ranked #5 nationally is CS, ~#1 in Systems. (Recall: First day)
+<li>The course materials from Jenny Chen and Ruohao Guo are available <a href="https://courses.engr.illinois.edu/cs225/fa2022/resources/stack-heap/">here.</a>
+</ul>
+</section>
+<section>
+<h2>General Memory Layout</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;font-weight:normal"><ul>Each running program has its own memory layout, separated from other programs.<br><br>The layout consists of a lot of segments, including:<br><br>
+    <li><span style="color:darkred;font-family:courier">stack</span>: stores local variables
+    <li><span style="color:darkred;font-family:courier">heap </span>: memory for programmer to allocate
+    <li><span style="color:darkred;font-family:courier">data </span>: !!! SPOILERS (unitialize -> uninitialized)
+    <li><span style="color:darkred;font-family:courier">text </span>: !!! SPOILERS</li><br>
+<span style="color:darkred;font-family:courier">data</span> and <span style="color:darkred;font-family:courier">text</span> are probably approximately what you imagine, but the precise way we interface with these memory regions is out of scope for todays lecture!
+<br><br>
+<em>Data Science</em> is the scientific study of... ahem, next slide.
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: bottom" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/memory_layout.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+<section>
+<h2>Stack</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;font-weight:normal"><ul>
+    <li>Stack space is allocated on variable declaration.
+	<ul><li>This is the reason for the historical (C89) requirement to only declare variables at the beginning of functions
+	<li>I attempt (read: fail) to model this as a coding style choice because it is better to learn more restrictive styles and then relax to more permissible styles.</ul>
+    <li>Traditionally the stack is regarded as "growing downwards" from higher/larger numerical memory locations to lower, but we did not see that in our tests:
+	<code>0x7ffdcfaae0c0
+0x7ffdcfaae1c0
+0x7ffdcfaae2c0</code>
+<li>Stack allocation is handled by the compiler, <b>not</b> the programmer.
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: bottom" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/memory_layout.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+<section>
+<h2>Stack Example</h2>
+<img width="540" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/demo_legend.png">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Allocate variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">main</span>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_1.png"></th>
+</tr>
+</thead>
+</table>
+</section><section>
+<h2>Stack Example</h2>
+<img width="540" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/demo_legend.png">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Allocate sizeof(int) bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">main</span>
+	<li>Allocate sizeof(int) bytes for variable <span style="color:darkred;font-family:courier">b</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store the numerical value -3 in these bytes.</ul>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_2.png"></th>
+</tr>
+</thead>
+</table>
+</section><section>
+<h2>Stack Example</h2>
+<img width="540" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/demo_legend.png">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Allocate sizeof(int) bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">main</span>
+	<li>Allocate sizeof(int) bytes for variable <span style="color:darkred;font-family:courier">b</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store the numerical value -3 in these bytes.</ul>
+	<li>Allocate sizeof(int) bytes for variable <span style="color:darkred;font-family:courier">c</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store the numerical value 12345</ul>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_3.png"></th>
+</tr>
+</thead>
+</table>
+</section><section>
+<h2>Stack Example</h2>
+<img width="540" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/demo_legend.png">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Allocate bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">main</span>
+	<li>Allocate bytes for variable <span style="color:darkred;font-family:courier">b</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store -3</ul>
+	<li>Allocate  bytes for variable <span style="color:darkred;font-family:courier">c</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store 12345</ul>
+	<li>Allocate bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">hello</span><ul><li>store 100</ul>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_4.png"></th>
+</tr>
+</thead>
+</table>
+</section><section>
+<h2>Stack Example</h2>
+<img width="540" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/demo_legend.png">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Allocate bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">main</span>
+	<li>Allocate bytes for variable <span style="color:darkred;font-family:courier">b</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store -3</ul>
+	<li>Allocate  bytes for variable <span style="color:darkred;font-family:courier">c</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store 12345</ul>
+	<li><s>Allocate bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">hello</span><ul><li>store 100</ul></s>
+	<li>Deallocate bytes associated with <span style="color:darkred;font-family:courier">hello</span>.<ul><li>return 100 by placing this value on the stack.</ul>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_5.png"></th>
+</tr>
+</thead>
+</table>
+</section><section>
+<h2>Stack Example</h2>
+<img width="540" src="https://courses.engr.illinois.edu/cs225/fa2022/assets/notes/stack_heap_memory/demo_legend.png">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Allocate bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">main</span>
+	<li>Allocate bytes for variable <span style="color:darkred;font-family:courier">b</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store -3</ul>
+	<li>Allocate  bytes for variable <span style="color:darkred;font-family:courier">c</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store 12345</ul>
+	<li><s>Allocate bytes for variable <span style="color:darkred;font-family:courier">a</span> for <span style="color:darkred;font-family:courier">hello</span><ul><li>store 100</ul></s>
+	<li>Deallocate bytes associated with <span style="color:darkred;font-family:courier">hello</span>.<ul><li>return 100 by placing this value on the stack.</ul>
+    <li>Allocate bytes for variable <span style="color:darkred;font-family:courier">d</span> for <span style="color:darkred;font-family:courier">main</span><ul><li>store the returned 100 in d</ul>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_6.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+<section>
+<h2>Stack Discussion</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><img width="1080" style="vertical-align: top;background-color:white" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Lifo_stack.svg">
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/stack_demo_6.png"></th>
+</tr>
+</thead>
+</table>
 </section>
 
 <section>
-<h2>Today</h2>
-<dl>
-<dt>Control Flow</dt>
-<dd>While</dd>
-<dd>If</dd>
-<dd>Else</dd>
-</dl>
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate sizeof(int *) bytes for <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the memory location of the heap allocated bytes in <span style="color:darkred;font-family:courier">p</span>.<ul><li>As a reference, we denote this with an arrow rather than by showing a value.
+	<li>The "value" stored is the same value seen by <span style="font-family:courier">printf("%p",p);</span>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_0.png"></th>
+</tr>
+</thead>
+</table>
 </section>
 <section>
-<h2>Fact Check</h2>
-<ul>
-<li>I claimed to teach arrays.
-<li>Pretty sure teaching arrays without teaching loops is bad.
-<li>While and for are control flow statements, and in this respect are like functions.
-<li>We will use them with squiglers, indentation, and newlines
-<code>void print(char *str)
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">p</span>.
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_0.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+
+<section>
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">p</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">0</span> at the heap location <span style="color:darkred;font-family:courier">p</span> references.
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_1.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+
+<section>
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">p</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">0</span> at the heap location <span style="color:darkred;font-family:courier">p</span> references.
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">q</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate 2 * sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">q</span>.</ul>
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_2.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+
+<section>
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">p</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">0</span> at the heap location <span style="color:darkred;font-family:courier">p</span> references.
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">q</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate 2 * sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">q</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">1</span> at the heap location <span style="color:darkred;font-family:courier">q</span> references.
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_3.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+
+<section>
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">p</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">0</span> at the heap location <span style="color:darkred;font-family:courier">p</span> references.
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">q</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate 2 * sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">q</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">1</span> at the heap location <span style="color:darkred;font-family:courier">q</span> references.
+	<li>Store <span style="color:darkred;font-family:courier">2</span> at the heap location immediately following <span style="color:darkred;font-family:courier">q</span>.
+	<ul><li>Lot going on here. We'll discuss this latter as "pointer arithmetic", a "C bad" discussion.
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_4.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+
+<section>
+<h2>Heap Example</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="font-weight:normal"><div><ol style="vertical-align: top">
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">p</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">p</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">0</span> at the heap location <span style="color:darkred;font-family:courier">p</span> references.
+    <li>Three operations. 
+	<ul><li>Stack-allocate <span style="color:darkred;font-family:courier">q</span> for <span style="color:darkred;font-family:courier">main</span>.
+	<li>Heap-allocate 2 * sizeof(int) bytes
+	<li>Store the heap location in <span style="color:darkred;font-family:courier">q</span>.</ul>
+	<li>Store <span style="color:darkred;font-family:courier">1</span> at the heap location <span style="color:darkred;font-family:courier">q</span> references.
+	<li>Store <span style="color:darkred;font-family:courier">2</span> at the heap location immediately following <span style="color:darkred;font-family:courier">q</span>.
+	<li>Store the numerical value referring to heap location <span style="color:darkred;font-family:courier">q</span> in <span style="color:darkred;font-family:courier">p</span>.
+	<ul><li>Lot going on here. We'll discuss this latter in the context of free();
+</th>
+<th style="text-align: center;font-weight:normal"><img width="1080" style="vertical-align: top" src="../images/heap_demo_5.png"></th>
+</tr>
+</thead>
+</table>
+</section>
+
+<section>
+<h2>FIN</h2>
+<ul><li><em>We'll discuss this latter in the context of free() aka malloc part 2.</em>
+<li>If you're looking for something to do, you can now do mergesort:
+<code>void sort(int *arr, size_t siz) 
 {
-	int i = 0 ; // i for iterator, by overwhelming convention
-	while (str[i]) // that is, while str[i] != '\0' - see why its zero now?
-	{
-		printf("%c", str[i]) ; // or use putchar()
-		i++ ; // logically equivalent to i = i + 1
-	}
-	printf("\n") ; // add newline a la python
-	return ;
-}</code>
-</section>
-<section>
-<h2>Initialization</h2>
-<ul>
-<li>while loops do not always require initialization, it is common to do so
-<li>This allows running some fixed number of loops, walking down an array, etc.
-<code>int i = 0 ;</code>
-<li>Adopting a coding style utilizing "i" will probably make reading other people's code easier.
-<li>You probably always do this.
-<li>Like etc etc, int i = 0 ; is not part of the while loop, but part of the while loop ecosystem.
-<ul><li>A lot of learning C is learning things that aren't C but are used by people/machines that use C.
-</section>
-<section>
-<h2>Declaration</h2>
-<ul>
-<li>while loops are defined using the while keyword applied to a parenthetical expression that is tested against zero.
-<li>This coding style is a historical reason for null-terminated strings and vice versa.
-<code>while (str[i])</code>
-<li>While learning, you might want to be more explicit in your code:
-<code>while (str[i] != '\0')</code>
-<li>Being explicit is often logically equivalent, and the same speed or not much slower.
-<li>Being explicit may introduce more typing and can lead to more errors on that end.
-<li>Optimize your coding style to minimize errors.
-<li>It is legal to inline loops but can be hard to read.
-<code>while (str[i++]) {putchar(str[i]);}</code>
-<li>You can write code like that as soon as you can tell me what it's doing!
-</section>
-<section>
-<h2>Iteration</h2>
-<ul>
-<li>C programmers (you) love to write infinite loops than gasp when they are infinite.
-<li>This was the first thing I wrote:
-<code>void print(char *str)
-{
-	int i = 0 ; // i for iterator, by overwhelming convention
-	while (str[i]) // that is, while str[i] != '\0' - see why its zero now?
-	{
-		printf("%c", str[i]) ; // or use putchar()
-	}
-	printf("\n") ; // add newline a la python
-	return ;
-}</code>
-<li>Wow that sure looks like it'd work in Python (it will work in a for loop).
-<li>C affords us an extremely cool unary iteration operator to help us remember to have a good time.
-<code>i++ ;</code>
-<li>This just means "increase i by 1" but is much shorter and...
-<code>while (str[i++]) {putchar(str[i]);}</code>
-<li>Can be included in other lines so you can write crisper loops.
-</section>
-<section>
-<h2>While Boilerplate</h2>
-<ul>
-<code>void print(char *str)
-{
-    int i = 0 ;                // initialization
-    while (str[i])             // declaration
-    {
-        printf("%c", str[i]) ; // computation
-        i++ ;                  // iteration
-    }
-    printf("\n") ;             // termination
+    int *tmp = malloc(siz * sizeof(int)) ;
+    help(arr, tmp, 0, siz - 1); // merge sort helper function
+    // !!!SPOILER WAS HERE
     return ;
 }</code>
-<li>You will not always need all of these elements.
+<li>You do not yet know how to use malloc() responsibly, so leave comments.
+<li>Remember to use:
+<code>#include <stdio.h>  // for printf
+#include <stdlib.h> // for malloc </code>
+<li>Cue Lynyrd Skynyrd "Free Bird"
 </section>
-<section>
-<h2>If Boilerplate</h2>
-<ul>
-<li>if is the trivial case of while.
-<code>void pos(int val)
-{
-    if (val > 0)               // declaration
-    {
-        printf("pos\n") ;      // computation
-        return ;
-    }
-    printf("neg\n") ;          // termination
-    return ;
-}</code>
-<li>You will not always need all of these elements.
-</section>
-<section>
-<h2>If Boilerplate</h2>
-<ul>
-<li>if also supports while, if (kneeslap) you are into that.
-<code>void pos(int val)
-{
-    if (val > 0)               // declaration
-    {
-        printf("pos") ;        // computation
-    } else {                   // declaration
-        printf("neg") ;        // computation
-    }
-    printf("\n") ;             // termination
-    return ;
-}</code>
-<li>You will not always need all of these elements.
-</section>
-<section>
-<h2>Lab Time</h2>
-<ul>
-<li>Do hw0.
-<ul><li>"I did" -> Ensure your solution is nlog(n) complexity
-<ul><li>"I did" -> Implement it using radix sort
-<ul><li>"I did" -> Implement it recursively using bitwise operators
-<ul><li>"What's that?" -> Google.</ul></ul></ul></ul>
-<li>Submit on GitHub.
-<ul><li>"I did" -> Ensure your code is adequately documented.
-<ul><li>"I did" -> Ensure your version control is adequately documented.
 
     </div>
   </div>

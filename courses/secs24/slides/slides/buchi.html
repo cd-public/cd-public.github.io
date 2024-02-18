@@ -29,14 +29,20 @@
 <section id="title-slide">
   <h1 class="title">Büchi Automata</h1>
   <p class="author">Calvin (Deutschbein)<br></p>
-  <p class="date">15 February 2023</p>
+  <p class="date">21 February 2024</p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
+<p>First and foremost: I would like to lock-in midterm date for 3/13.
 <ul>
-<li>Welcome to DATA-599: Cybersecurity!</li>
-<li>There was no homework due this week.
+<li>Worried it will be unreasonably difficult next week.
+<li>3/6 collides with a guest speaker that should make the material easier to understand.
+<li>I'm worried about a collision with both 2/27 and 3/06 midterms.
+<li>I'm hoping this is a relatively low stress midterm and okay to delay.</ul>
+<p>Okay normal updates:
+<ul>
+<li>No classic homework was due this week, just thoughts on Kripke's and LTL.
 <ul>
 <li>Not to worry! I have something for next week.</li><ul>
 </li></ul></li>
@@ -71,6 +77,18 @@
 <li><strong>G</strong>(<em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> <strong>&rarr;</strong><strong>X</strong><em>q</em>)</li>
 <li><strong>G</strong>(<em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em> <strong>&rarr;</strong><strong>X</strong><strong>&not;</strong><em>q</em>)</li>
 </ol>
+</div>
+</section>
+<section id="xn" class="slide level2">
+<h2>Shorthand</h2>
+<p>Let's introduce a wrinkle.
+<div class="block" name="Definition">
+<p>The LTL operator <b>neXt</b> denotes that some atomic proposition should hold true in the next time point. We can generalize this to some fixed future timepoint but using more than one next.
+For example, the expression: <p style="text-align:center"><strong>XXXX</strong><em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em></p> <p>holds over the following trace:
+<pre><code>{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...</code></pre></p>
+<p>We extend <b>neXt</b> to reference a fixed future timepoint using a superscript:
+<p style="text-align:center"><strong>X</strong><sup>4</sup><em>p</em><strong>&and;</strong><strong>&not;</strong><em>q</em></p>
+<p>I term this "multinext".
 </div>
 </section>
 <section id="review3" class="slide level2">
@@ -527,7 +545,11 @@
 </section>
 <section id="yourturn" class="slide level2">
 <h2>Your turn!</h2>
-<p>Do we have time for an airliner with safety (flight deck protect) and liveness (service station access)?</p>
+<p>Do we have time for:</p>
+<ul>
+<li>Tomato plant?
+<li>Extremely loose interpretation of an NPR office?
+<li>Perhaps we try Canvas course materials?
 </section>
 <section id="hw" class="slide level2">
 <h2>Homework</h2>
@@ -540,7 +562,7 @@
 <li>Fully specify each of {<em>Q</em>, <em>Σ</em>, <em>δ</em>, <em>q<sub>0</sub></em>, <strong>F</strong> }</li>
 <li>Think about good shorthand for especially <em>δ</em>.</li>
 </ul>
-<p>Be ready to ask good questions on 22 Feb and to present your document on 1 Mar!</p>
+<p>Be ready to ask good questions on 28 Feb!</p>
 <br>
 <p>This is the midterm-adjacent homework and will prepare you for in-class assessment.</p>
 </section>

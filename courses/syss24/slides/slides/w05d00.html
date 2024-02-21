@@ -71,7 +71,7 @@
 </tr>
 <tr class="even">
 <td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
-<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0x11 == 3</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0b11 == 3</td>
 </tr>
 </tbody>
 </table>
@@ -94,7 +94,7 @@
 <div style="outline-style:double;background-color:cyan">
 <p>What is the type of given by a sizeof()?</p>
 <div>
-<ol>
+<ol start="0">
 <li style="padding-bottom: .3em;"><code>size_t</code></li>
 <li style="padding-bottom: .3em;"><code>unsigned long int</code></li>
 <li style="padding-bottom: .3em;"><code>void</code></li>
@@ -107,7 +107,7 @@
 <div style="outline-style:double;background-color:cyan">
 <p>What is the type of the malloc's one argument?</p>
 <div>
-<ol>
+<ol start="0">
 <li style="padding-bottom: .3em;"><code>size_t</code></li>
 <li style="padding-bottom: .3em;"><code>unsigned long int</code></li>
 <li style="padding-bottom: .3em;"><code>void</code></li>
@@ -120,7 +120,7 @@
 <div style="outline-style:double;background-color:cyan">
 <p>While sizes vary by system, what bit size do we commonly find size_t to be?<br>(using base 10 on this slide)</p>
 <div>
-<ol>
+<ol start="0">
 <li style="padding-bottom: .3em;"><code>01 byte  = 08 bits</code></li>
 <li style="padding-bottom: .3em;"><code>02 bytes = 16 bits</code></li>
 <li style="padding-bottom: .3em;"><code>04 bytes = 32 bits</code></li>
@@ -133,7 +133,7 @@
 <div style="outline-style:double;background-color:cyan">
 <p>While sizes vary by system, what bit size do we commonly find void * to be?<br>(using base 10 on this slide)</p>
 <div>
-<ol>
+<ol start="0">
 <li style="padding-bottom: .3em;"><code>01 byte  = 08 bits</code></li>
 <li style="padding-bottom: .3em;"><code>02 bytes = 16 bits</code></li>
 <li style="padding-bottom: .3em;"><code>04 bytes = 32 bits</code></li>
@@ -146,7 +146,7 @@
 <div style="outline-style:double;background-color:cyan">
 <p>A void * of size 8 (bytes) can store approximately how many distinct values?<br>(using base 10 on this slide)</p>
 <div>
-<ol>
+<ol start="0">
 <li style="padding-bottom: .3em;"><code>~10^09 ~=     billions</code></li>
 <li style="padding-bottom: .3em;"><code>~10^12 ~=    trillions</code></li>
 <li style="padding-bottom: .3em;"><code>~10^15 ~= quadrillions</code></li>
@@ -641,12 +641,6 @@ printf("%ld\n", *p) ;             // unsafe</code>
 <td style="text-align: left;">8</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">void *</td>
-<td style="text-align: left;">a memory location</td>
-<td style="text-align: left;">%p</td>
-<td style="text-align: left;">8</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">long x ; long int y ;</td>
 <td style="text-align: left;">numerical data of size up to 2^63 that may be negative</td>
 <td style="text-align: left;">%ld</td>
@@ -817,13 +811,13 @@ TypeError: unsupported operand type(s) for +: 'int' and 'str'
 	return 0 ;
 }</code>
 <li>Thanks, C.
-<code><code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
+<code>user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out
 test.c: In function ‘main’:
 test.c:16:17: error: invalid operands to binary + (have ‘char *’ and ‘char *’)
    16 |     printf(str0 + str1) ;
       |                 ^
 user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$
-</code></code>
+</code>
 <li>What does "binary" mean here? (Hint: MATH 251W)
 </section>
 

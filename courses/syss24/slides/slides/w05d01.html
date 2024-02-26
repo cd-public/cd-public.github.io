@@ -81,16 +81,16 @@
 <h2>Review Question</h2>
 <div style="outline-style:double;background-color:cyan">
 <ul>
-<code>int *p = 0x0F ;
+<code class="C">int *p = 0x0F ;
 p = (int *)0xF0 ;
 printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
 <p>What is printed?</p>
 <div >
 <ol start="0">
-<li style="padding-bottom: .3em;"><code>p = 0x0F</code></li>
-<li style="padding-bottom: .3em;"><code>p = 0xF0</code></li>
-<li style="padding-bottom: .3em;"><code>p = * // anything else</code></li>
-<li style="padding-bottom: .3em;"><code>Segmentation fault</code></li>
+<li style="padding-bottom: .3em;"><code class="C">p = 0x0F</code></li>
+<li style="padding-bottom: .3em;"><code class="C">p = 0xF0</code></li>
+<li style="padding-bottom: .3em;"><code class="C">p = * // anything else</code></li>
+<li style="padding-bottom: .3em;"><code class="C">Segmentation fault</code></li>
 </ol>
 </div>
 </section>
@@ -98,17 +98,17 @@ printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
 <h2>Review Question</h2>
 <div style="outline-style:double;background-color:cyan">
 <ul>
-<code>int x = 0x0F, *p ;
+<code class="C">int x = 0x0F, *p ;
 p = &x ;
 *p = 0xF0 ;
 printf("x = 0x%02lX\n", (long unsigned)x);</code></ul>
 <p>What is printed?</p>
 <div >
 <ol start="0">
-<li style="padding-bottom: .3em;"><code>x = 0x0F</code></li>
-<li style="padding-bottom: .3em;"><code>x = 0xF0</code></li>
-<li style="padding-bottom: .3em;"><code>x = * // anything else</code></li>
-<li style="padding-bottom: .3em;"><code>Segmentation fault</code></li>
+<li style="padding-bottom: .3em;"><code class="C">x = 0x0F</code></li>
+<li style="padding-bottom: .3em;"><code class="C">x = 0xF0</code></li>
+<li style="padding-bottom: .3em;"><code class="C">x = * // anything else</code></li>
+<li style="padding-bottom: .3em;"><code class="C">Segmentation fault</code></li>
 </ol>
 </div>
 </section>
@@ -116,7 +116,7 @@ printf("x = 0x%02lX\n", (long unsigned)x);</code></ul>
 <h2>Review Question</h2>
 <div style="outline-style:double;background-color:cyan">
 <ul>
-<code>size_t i ;
+<code class="C">size_t i ;
 void *ptrs[0x10] ;
 for ( i = 0; i < 0x10; i++ ) {
 	ptrs[i] = malloc(sizeof(void *)) ;
@@ -128,18 +128,18 @@ for ( i = 0; i < 10; i++ )
 <p>Assess how much memory is leaked.</p>
 <div >
 <ol start="0">
-<li style="padding-bottom: .3em;"><code>0x00 bytes</code></li>
-<li style="padding-bottom: .3em;"><code>0x06 bytes</code></li>
-<li style="padding-bottom: .3em;"><code>0x10 bytes</code></li>
-<li style="padding-bottom: .3em;"><code>0x30 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">0x00 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">0x06 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">0x10 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">0x30 bytes</code></li>
 </ol>
 </div>
 </section>
 <section>
 <h2>Review Question</h2>
-<ul>
 <div style="outline-style:double;background-color:cyan">
-<code>size_t i , siz = 0x100 ;
+<ul>
+<code class="C">size_t i , siz = 0x100 ;
 unsigned **ar2d ;
 ar2d = (unsigned **)malloc(siz * sizeof(unsigned *));
 for (i = 0; i < 0x100; i++)
@@ -149,10 +149,10 @@ for (i = 0; i < 0x100; i++)
 <div>
 <p>Assess how much memory is leaked.</p>
 <ol start="0">
-<li style="padding-bottom: .3em;"><code>&lt;0x000100 bytes</code></li>
-<li style="padding-bottom: .3em;"><code>~0x001000 bytes</code></li>
-<li style="padding-bottom: .3em;"><code>~0x010000 bytes</code></li>
-<li style="padding-bottom: .3em;"><code>~0x100000 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">&lt;0x000100 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">~0x001000 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">~0x010000 bytes</code></li>
+<li style="padding-bottom: .3em;"><code class="C">~0x100000 bytes</code></li>
 </ol>
 </div>
 </section>
@@ -160,7 +160,7 @@ for (i = 0; i < 0x100; i++)
 <h2>Homework</h2>
 <ul>
 <li>This is partial code for the first function in hw1:
-<code>size_t i , siz = 0x100 ;
+<code class="C">size_t i , siz = 0x100 ;
 unsigned **ar2d ;
 ar2d = (unsigned **)malloc(siz * sizeof(unsigned *));
 for (i = 0; i < 0x100; i++)
@@ -175,7 +175,7 @@ for (i = 0; i < 0x100; i++)
 <h2>Homework</h2>
 <ul>
 <li>I provided a sample Buddhabrot implemention in Python optimized for translatability (not speed or correctness).
-<ul><li>I did use Python lists, but I have no shown you how to make arbitrarily sized arrays.
+<ul><li>I did use Python lists, but I have now	 shown you how to make arbitrarily sized arrays.
 <li>I used Python objects to translate to files, and will now show you an alternative.
 <li>Refer to this as "C File I/O" (for input/output).
 </section>
@@ -184,10 +184,10 @@ for (i = 0; i < 0x100; i++)
 <ul>
 <li>File I/O in scripting languages is seen in sample code for various Python objects and librarys.
 <li>This is from brot.py:
-<code>new_image = Image.fromarray(array)
+<code class="Python">new_image = Image.fromarray(array)
 new_image.save('buddhabrot.png')</code>
 <li>You've worked with files, presumably, in CS 151:
-<code>    while True:
+<code class="Python">    while True:
         try:
             filename = input("Enter course name: ")
             with open(filename + ".txt") as f:
@@ -195,7 +195,7 @@ new_image.save('buddhabrot.png')</code>
         except IOError:
             print("Please enter a valid course name.")</code>
 <li>"except IOError" checks are the same idea as:
-<code>void *p = malloc(-1);
+<code class="C">void *p = malloc(-1);
 if (p == 0) { fprintf(stderr, "Malloc failed.\n") ; exit(-1) ; }</code>
 </section>
 <section>
@@ -216,19 +216,19 @@ if (p == 0) { fprintf(stderr, "Malloc failed.\n") ; exit(-1) ; }</code>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>input("Enter course name: ")</code></td>
-<td style="text-align: left;"><code>input</code></td>
-<td style="text-align: left;"><code>fread</code></td>
+<td style="text-align: left;"><code class="Python">input("Enter course name: ")</code></td>
+<td style="text-align: left;"><code class="Python">input</code></td>
+<td style="text-align: left;"><code class="C">fread</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>open(filename + ".txt")</code></td>
-<td style="text-align: left;"><code>open</code></td>
-<td style="text-align: left;"><code>fopen</code></td>
+<td style="text-align: left;"><code class="Python">open(filename + ".txt")</code></td>
+<td style="text-align: left;"><code class="Python">open</code></td>
+<td style="text-align: left;"><code class="C">fopen</code></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>print("Please enter a valid course name.")</code></td>
-<td style="text-align: left;"><code>print</code></td>
-<td style="text-align: left;"><code>fprintf</code></td>
+<td style="text-align: left;"><code class="Python">print("Please enter a valid course name.")</code></td>
+<td style="text-align: left;"><code class="Python">print</code></td>
+<td style="text-align: left;"><code class="C">fprintf</code></td>
 </tr>
 </tbody>
 </table>
@@ -243,10 +243,10 @@ fprintf() / fscanf()
 fflush()
 -->
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fopen.3.html"><code>fopen</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fopen.3.html"><code class="C">fopen</code></a></h2>
 <ul>
 <li>From the <a href="https://man7.org/linux/man-pages/man3/fopen.3.html">manual page</a>:
-<code>FILE *fopen(const char *restrict pathname, const char *restrict mode);</code>
+<code class="C">FILE *fopen(const char *restrict pathname, const char *restrict mode);</code>
 <li>fopen returns a special kind of pointer, a file pointer.
 <li>fopen accepts two arguments: a filename as a string, and a mode as a string.
 <ul>
@@ -255,21 +255,21 @@ fflush()
 <li>That's all we need in this class.
 </ul>
 <li>Here is a sample call:
-<code>FILE *fp = fopen("brot.ppm", "wb"); /* b - binary mode */</code>
+<code class="C">FILE *fp = fopen("brot.ppm", "wb"); /* b - binary mode */</code>
 <ul><li>Here I append "b" to the end of "w" to avoid weird behavior on non-Linux systems.
-<code>The mode string can also include the letter 'b' either as a last character...</code>
+<code class="C">The mode string can also include the letter 'b' either as a last character...</code>
 <li>Only alter "wb" to "w" when you have working code you can test.
 </ul><li>fopen, like malloc is a "system call" that asks the computer system to do something.
 <ul><li>All system calls should have their return value checked against zero.
 
 </section>
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fopen.3.html"><code>fopen</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fopen.3.html"><code class="C">fopen</code></a></h2>
 <ul>
 <li>I opened a file pointer with the following code:
-<code>FILE *fp = fopen("hi.txt", "w") ;</code>
+<code class="C">FILE *fp = fopen("hi.txt", "w") ;</code>
 <li>Github CoPilot immediately furnished the following:
-<code>if (fp == NULL)
+<code class="C">if (fp == NULL)
 {
     printf("Error opening file\n") ;
     exit(1) ;
@@ -281,10 +281,10 @@ fflush()
 </section>
 
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fclose.3.html"><code>fclose</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fclose.3.html"><code class="C">fclose</code></a></h2>
 <ul>
 <li>From the <a href="https://man7.org/linux/man-pages/man3/fclose.3.html">manual page</a>:
-<code>int fclose(FILE *stream);</code>
+<code class="C">int fclose(FILE *stream);</code>
 <li>Closing a file pointer opens it to other use, such as in a text editor or another program.
 <li>Philosophically, fopen:fclose::malloc:free.
 <ul>
@@ -292,22 +292,22 @@ fflush()
 <li>In code, one fclose per one fopen.
 </ul>
 <li>Here is a sample call:
-<code>fclose(fp) ;</code>
+<code class="C">fclose(fp) ;</code>
 <ul><li>Here I append "b" to the end of "w" to avoid weird behavior on non-Linux systems.
 <li>After typing "fc" both vs code and copilot furnished the fclose call. But wait:
 </ul><li>fopen, like malloc is a "system call" that asks the computer system to do something.
 <ul><li>All system calls should have their return value checked against zero.
 </section>
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fopen.3.html"><code>fclose</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fopen.3.html"><code class="C">fclose</code></a></h2>
 <ul>
 <li>I opened a file pointer with the following code:
-<code>FILE *fp = fopen("hi.txt", "w") ;</code>
+<code class="C">FILE *fp = fopen("hi.txt", "w") ;</code>
 <li>"NULL checking system calls reflexively and robotically is a good behavior to have"
 <li>fclose manual states:
-<code>Upon successful completion, 0 is returned.  Otherwise, EOF is returned...</code>
+<code class="C">Upon successful completion, 0 is returned.  Otherwise, EOF is returned...</code>
 <li>EOF is a special integer defined in stdio.h for this and other purposes.
-<code>if (fclose(fp) == EOF) // EOF is error per manual
+<code class="C">if (fclose(fp) == EOF) // EOF is error per manual
 {
 	printf("Error closing file\n") ;
 	exit(1) ;
@@ -341,12 +341,12 @@ fprintf() / fscanf()
 fflush()
 -->
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fwrite.3.html"><code>fwrite</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fwrite.3.html"><code class="C">fwrite</code></a></h2>
 <ul>
 <li>From the <a href="https://man7.org/linux/man-pages/man3/fwrite.3.html">manual page</a>:
-<code>size_t fwrite(const void ptr[restrict .size * .nmemb],
+<code class="C">size_t fwrite(const void ptr[restrict .size * .nmemb],
               size_t size, 
-			  size_t nmemb,
+              size_t nmemb,
               FILE *restrict stream);</code>
 <li>fwrite accepts four arguments:
 <ul>
@@ -356,7 +356,7 @@ fflush()
 <li>A file pointer to write to.
 </ul>
 <li>Here is a sample call:
-<code>unsigned char colr[3];
+<code class="C">unsigned char colr[3];
 colr[0] = 0x00 ; colr[1] = 0x00 ; colr[2] = 0xFF ; // red, gre, blu
 (void) fwrite(color, 1, 3, fp); // 3 chars of size 1 each </code>
 <ul><li>As far as I have tested, it doesn't matter if you get size and nmemb right if their product is right.
@@ -364,16 +364,16 @@ colr[0] = 0x00 ; colr[1] = 0x00 ; colr[2] = 0xFF ; // red, gre, blu
 
 </section>
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fwrite.3.html"><code>fwrite</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fwrite.3.html"><code class="C">fwrite</code></a></h2>
 <ul>
 <li>My pitch: always use a size of one.
-<code>fwrite(ptr, (size_t)1, ?, fp);</code>
+<code class="C">fwrite(ptr, (size_t)1, ?, fp);</code>
 <li>Always use a variable for nmemb.
-<code>fwrite(ptr, (size_t)1, (size_t)n, fp);</code>
+<code class="C">fwrite(ptr, (size_t)1, (size_t)n, fp);</code>
 <li>fwrite returns the number of members written:
-<code>On success, fread() and fwrite() return the number of items read or written.</code>
+<code class="C">On success, fread() and fwrite() return the number of items read or written.</code>
 <li>So check fwrite's return value against its third argument.
-<code>if (n != fwrite(ptr, (size_t)1, (size_t)n, fp))
+<code class="C">if (n != fwrite(ptr, (size_t)1, (size_t)n, fp))
 {
 	printf("Write to file pointer %p failed.\n", %p) ;
 	exit(1) ;
@@ -386,11 +386,11 @@ colr[0] = 0x00 ; colr[1] = 0x00 ; colr[2] = 0xFF ; // red, gre, blu
 </section>
 
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fread.3.html"><code>fread</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fread.3.html"><code class="C">fread</code></a></h2>
 <ul>
 <li>There are many ways to read into C, I just have fread here for consistency.
 <li>From the <a href="https://man7.org/linux/man-pages/man3/fread.3.html">manual page</a>:
-<code>size_t fread(void ptr[restrict .size * .nmemb],
+<code class="C">size_t fread(void ptr[restrict .size * .nmemb],
              size_t size, size_t nmemb,
              FILE *restrict stream);</code>
 <li>fread uses the same four arguments as fwrite...
@@ -405,19 +405,19 @@ colr[0] = 0x00 ; colr[1] = 0x00 ; colr[2] = 0xFF ; // red, gre, blu
 
 </section>
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fread.3.html"><code>fread</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fread.3.html"><code class="C">fread</code></a></h2>
 <ul>
 <li>Here is a sample call:
-<code>char buf[0xF] ;
+<code class="C">char buf[0xF] ;
 (void) fread(buf, 1, 0xF, stdin) ;
 (void) printf("%s\n", buf) ;</code>
 <ul><li>stdin is a built-in file descriptor for the console, so I go to the console and...
-<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out    // <- this is me typing
+<code class="C">user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out    // <- this is me typing
 Hello Hello Hello much text very wow.         // <- this is me typing
 Hello Hello Hel                               // <- this is the program (15 chars)
 user@DESKTOP-THMS2PJ:~$ </code>
 </ul><li>We can resolved this by looping.
-<code>while ( fread(buf, 1, 0xF, stdin) )
+<code class="C">while ( fread(buf, 1, 0xF, stdin) )
 {
 	printf("%s\n", buf) ;
 }</code>
@@ -450,16 +450,16 @@ fprintf() / fscanf()
 fflush()
 -->
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fprintf.3.html"><code>fprintf</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fprintf.3.html"><code class="C">fprintf</code></a></h2>
 <ul>
 <li>From the <a href="https://man7.org/linux/man-pages/man3/fprintf.3.html">manual page</a>:
-<code>int printf( const char *restrict format, ...);
+<code class="C">int printf( const char *restrict format, ...);
 int fprintf(FILE *restrict stream,
             const char *restrict format, ...);</code>
 <li>fprintf(stdout, str, ...) is the same as printf(str, ...)
 <li>fprintf also lets you write to files opened with fopen.
 <li>I mostly use fprintf to print error messages to stderr rather than stdout.
-<code>if ( fprintf(fp, "%s", str) < 0 )
+<code class="C">if ( fprintf(fp, "%s", str) < 0 )
 {
     fprintf(stderr, "Print string "%s" to file pointer %p failed.", str, fp) ;
     exit(1) ;
@@ -467,35 +467,35 @@ int fprintf(FILE *restrict stream,
 </section>
 
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fscanf.3.html"><code>fscanf</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fscanf.3.html"><code class="C">fscanf</code></a></h2>
 <ul>
 <li>Format scan is super useful for reading things you type, and can help test code.
 <li>There's also sscanf, which scans from a string.
 <li>From the <a href="https://man7.org/linux/man-pages/man3/fscanf.3.html">manual page</a>:
-<code>int scanf( const char *restrict format, ...);
+<code class="C">int scanf( const char *restrict format, ...);
 int fscanf(FILE *restrict stream,
            const char *restrict format, ...);</code>
 <li>It's easiest to show an example.
 
 </section>
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fscanf.3.html"><code>fscanf</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fscanf.3.html"><code class="C">fscanf</code></a></h2>
 <ul>
 <li>Use this code:
-<code>char name[0xFF] ; // 255 characters? Enough?
+<code class="C">char name[0xFF] ; // 255 characters? Enough?
 int   year ;
 printf("Provide your preferred name and year in school (e.g. \"Calvin  13\"):\n") ;
 fscanf(stdin, "%s %d", name, &year) ;
 printf("Name: %s, Year: %d\n", name, year) ;</code>
 <li>I run the code and type in "Notcalvin -1":
-<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
+<code class="C">user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
 Provide your preferred name and year in school (e.g. "Calvin  13"):
 Notcalvin -1
 Name: Notcalvin, Year: -1
 user@DESKTOP-THMS2PJ:~$</code>
 <li>This is how I test your x_sort.c by the way, I have a loop that I type array permutations into.
 <li>We should check it works of course, by ensuring it sets the values of the expected no. of vars.:
-<code>if (2 != fscanf(stdin, "%s %d", name, &year)) { exit(-1) ; }</code>
+<code class="C">if (2 != fscanf(stdin, "%s %d", name, &year)) { exit(-1) ; }</code>
 </section>
 
 <section>
@@ -515,7 +515,7 @@ user@DESKTOP-THMS2PJ:~$</code>
 </section>
 
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fflush.3.html"><code>fflush</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fflush.3.html"><code class="C">fflush</code></a></h2>
 <ul>
 <li>fflush does something weird...
 <li>printf, you see, doesn't happen instantly, rather
@@ -531,24 +531,24 @@ user@DESKTOP-THMS2PJ:~$</code>
 <li>Imagine an "inbox zero" lifestyle coach.
 </ul>
 <li>If you hit a segfault, sprinkle these throughout your code to find the line that's is faulting.
-<code>printf("No segfault yet at line 10 in function big_fun().\n") ; fflush(stdout) ;</code>
+<code class="C">printf("No segfault yet at line 10 in function big_fun().\n") ; fflush(stdout) ;</code>
 </section>
 <section>
-<h2><a href="https://man7.org/linux/man-pages/man3/fflush.3.html"><code>fflush</code></a></h2>
+<h2><a href="https://man7.org/linux/man-pages/man3/fflush.3.html"><code class="C">fflush</code></a></h2>
 <ul>
 <li>We can irresponsibly just start reading from the stack without stopping...
-<code>char name[0xFF] ;
+<code class="C">char name[0xFF] ;
 size_t i = 0 ;
 while (1) { printf("%dth char is '%c'\n", i, name[i++]) ; }</code>
 <li>Eventually the OS grows weary of our petty affairs.
-<code>...
+<code class="C">...
 5791th char is ''
 Segmentation fault</code>
 <li>But that doesn't tell us precisely where we hit protected memory region.
 <li>Add a fflush - the code slows down a lot, but we get better information.
-<code>printf("%dth char is '%c'\n", i, name[i++]) ; fflush(stdout) ;</code>
+<code class="C">printf("%dth char is '%c'\n", i, name[i++]) ; fflush(stdout) ;</code>
 <li>Can we go further?
-<code>12287th char is ''
+<code class="C">12287th char is ''
 Segmentation fault</code>
 <li>Hard to say - this isn't easily reproducable (have to design an actual experiment).
 </section>
@@ -597,7 +597,7 @@ Segmentation fault</code>
 <h2><a href="https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C">Rosetta Code Rip</a></h2>
 <ul>
 <a href="https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C">
-<code>int main(void)
+<code class="C">int main(void)
 {
   const int dimx = 800, dimy = 800;
   int i, j;
@@ -623,7 +623,7 @@ Segmentation fault</code>
 <section>
 <h2>Calvin styled variant</h2>
 <ul>
-<code>int main(void)
+<code class="C">int main(void)
 {
   int x = 800, y = 800, i, j ; // const = confusion
   unsigned char colr[3];       // declare out of loop 
@@ -649,16 +649,16 @@ Segmentation fault</code>
 <h2>80s->20s</h2>
 <ul>
 <li>I like .png's (who doesn't) so I convert my ppms to pngs at command line.
-<code>user@DESKTOP-THMS2PJ:~$ convert imag.ppm imag.png
+<code class="C">user@DESKTOP-THMS2PJ:~$ convert imag.ppm imag.png
 Command 'convert' not found, but can be installed with:
 sudo apt install graphicsmagick-imagemagick-compat  # version 1.4+really1.3.38-1ubuntu0.1, or
 sudo apt install imagemagick-6.q16                  # version 8:6.9.11.60+dfsg-1.3ubuntu0.22.04.3
 sudo apt install imagemagick-6.q16hdri              # version 8:6.9.11.60+dfsg-1.3ubuntu0.22.04.3
 user@DESKTOP-THMS2PJ:~$</code>
 <li>Fortunately I took CS 271: Networks and Systems and know what to do here.
-<code>user@DESKTOP-THMS2PJ:~$ sudo apt install graphicsmagick-imagemagick-compat</code>
+<code >user@DESKTOP-THMS2PJ:~$ sudo apt install graphicsmagick-imagemagick-compat</code>
 <li>A short while latter...
-<code>user@DESKTOP-THMS2PJ:~$ convert imag.ppm imag.png
+<code >user@DESKTOP-THMS2PJ:~$ convert imag.ppm imag.png
 user@DESKTOP-THMS2PJ:~$ ls
 a.out  dev  hi.c  imag.png  imag.ppm
 user@DESKTOP-THMS2PJ:~$ </code>

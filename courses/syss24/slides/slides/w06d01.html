@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>struct</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">struct</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>28 Feb 24</h2>
+  <h2>w06d01</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Recall: Garmin trip on March 14
+<li>Recall: No class 3/13.
+<li>Tentative: Systems midterm week of 3/18.
+<li>HW1: Buddhabrot
+<ul><li>Today is the first "scaffolding" lecture.
+<li>You should be advancing until you get stuck between each class
+<li>You should bring questions to class.
+<li>Submit best effort on <b>Relaxed Deadline</b> 3/11.
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt><code>struct</code></dt>
+<dd>new
+<dd>print
+<dd>free
+</dd>
+<dt>Header files</dt>
+<dd>Macros
+<dd>Declarations
+<dd>typedef
+</dd>
+</dl>
+</section>
+<section>
+<h2>Finger Binary</h2>
+<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/closed-fist-0.png"><br>0b00 == 0</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/thumb-raised1.png"><br>0b01 == 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0x11 == 3</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">FILE *fp = fopen("hi.txt", "w") ;
+if (fp == bad)
+{
+    printf("Error opening file\n") ;
+    exit(1) ;
+}</code></ul>
+<p>To correctly check fopen, what must the value of bad be?</p>
+<div>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>bad == &"hi.txt" ;</code></li>
+<li style="padding-bottom: .3em;"><code>bad == &"w" ;</code></li>
+<li style="padding-bottom: .3em;"><code>bad == (void *) 0 ;</code></li>
+<li style="padding-bottom: .3em;"><code>bad == (void *)-1 ;</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">FILE *fp = fopen("hi.txt", "w") ;
+if (fp == bad)
+{
+    printf("Error opening file\n") ;
+    exit(1) ;
+}</code></ul>
+<p>The following values are equal, but which would be used for void *bad by convention?</p>
+<div>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>void *bad = (void *)NULL ;</code></li>
+<li style="padding-bottom: .3em;"><code>void *bad = (void *)0 ;</code></li>
+<li style="padding-bottom: .3em;"><code>void *bad = (void *)'\0' ;</code></li>
+<li style="padding-bottom: .3em;"><code>void *bad = (void *)EXIT_SUCCESS ;</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">unsigned char ar2d[0x10][0x10] ;
+size_t x, y ;
+fwrite(ar2d, x, y, fp);</code></ul>
+<p>What should we declare x and y as as?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>x = 0x001, y = 0x100 </code></li>
+<li style="padding-bottom: .3em;"><code>x = 0x010, y = 0x010</code></li>
+<li style="padding-bottom: .3em;"><code>x = 0x100, y = 0x001</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">unsigned char ar2d[0x10][0x10] ;
+size_t n ;
+if (n != fwrite(ar2d, 0x10, 0x10, fp)) { /* handle it */ }</code></ul>
+<p>What should we declare n as?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>0x010 bytes</code></li>
+<li style="padding-bottom: .3em;"><code>0x020 bytes</code></li>
+<li style="padding-bottom: .3em;"><code>0x100 bytes</code></li>
+<li style="padding-bottom: .3em;"><code>0x256 bytes</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<p>In a 400 by 400 pixel P6 ppm, how many chars are needed to store the image data.</p>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>~400</code></li>
+<li style="padding-bottom: .3em;"><code>~400x3</code></li>
+<li style="padding-bottom: .3em;"><code>~400x400</code></li>
+<li style="padding-bottom: .3em;"><code>~400x400*3</code></li>
+</ol>
+</div>
+</section>
+
+<section>
+<h2>Review</h2>
+<ul>
+<li>Okay so you'll never believe this but it turns out images are also just made out of bits.
+<ul><li>Cue cheers and/or screams of horror
+</ul>
+<li>The easiest image format to use on C is an 80s era format called ppm.
+<ul><li><a href="https://en.wikipedia.org/wiki/Netpbm#File_formats">Read more (Wikipedia)</a>.
+<li>A P6 ppm consists of:
+<ul><li>An ASCII header which specifies
+<ul><li>which kind of ppm file (we use P6)
+<li>the dimensions of the image, x before y
+<li>the maximum value for a color
+</ul></ul><li>A "bitstring" of size x * y * 3 giving the color of each pixel.
+<li>However confusing this may or may not seem, it simplifies into:
+<ul><li>fopen
+<li>fprintf
+<li>fwrite
+<li>flose
+</ul>
+<li>But don't take my word for it.
+</section>
+
+<section>
+<h2><a href="https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C">Rosetta Code Rip</a></h2>
+<ul>
+<a href="https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C">
+<code>int main(void)
+{
+  const int dimx = 800, dimy = 800;
+  int i, j;
+  FILE *fp = fopen("first.ppm", "wb"); /* b - binary mode */
+  (void) fprintf(fp, "P6\n%d %d\n255\n", dimx, dimy);
+  for (j = 0; j < dimy; ++j)
+  {
+    for (i = 0; i < dimx; ++i)
+    {
+      static unsigned char color[3];
+      color[0] = i % 256;  /* red */
+      color[1] = j % 256;  /* green */
+      color[2] = (i * j) % 256;  /* blue */
+      (void) fwrite(color, 1, 3, fp);
+    }
+  }
+  (void) fclose(fp);
+  return EXIT_SUCCESS;
+}
+</code></a>
+</section>
+
+<section>
+<h2>Calvin styled variant</h2>
+<ul>
+<code>int main(void)
+{
+  int x = 800, y = 800, i, j ; // const = confusion
+  unsigned char colr[3];       // declare out of loop 
+  FILE *fp = fopen("imag.ppm", "wb") ;
+  (void) fprintf(fp, "P6\n%d %d\n255\n", x, y) ;
+  for   ( j = 0 ; j < y ; j++ )
+  {
+    for ( i = 0 ; i < x ; i++ )
+    {
+      colr[0] = i % 256 ;       // red
+      colr[1] = j % 256 ;       // gre
+      colr[2] = (i * j) % 256 ; // blu
+      (void) fwrite(colr, 1, 3, fp);
+    }
+  }
+  (void) fclose(fp);
+  return 0 ; // EXIT_SUCCESS is more common in C++
+}
+</code>
+</section>
+
+<section>
+<h2>80s->20s</h2>
+<ul>
+<li>I like .png's (who doesn't) so I convert my ppms to pngs at command line.
+<code >user@DESKTOP-THMS2PJ:~$ convert imag.ppm imag.png
+Command 'convert' not found, but can be installed with:
+sudo apt install graphicsmagick-imagemagick-compat  # version 1.4+really1.3.38-1ubuntu0.1, or
+sudo apt install imagemagick-6.q16                  # version 8:6.9.11.60+dfsg-1.3ubuntu0.22.04.3
+sudo apt install imagemagick-6.q16hdri              # version 8:6.9.11.60+dfsg-1.3ubuntu0.22.04.3
+user@DESKTOP-THMS2PJ:~$</code>
+<li>Fortunately I took CS 271: Networks and Systems and know what to do here.
+<code >user@DESKTOP-THMS2PJ:~$ sudo apt install graphicsmagick-imagemagick-compat</code>
+<li>A short while latter...
+<code >user@DESKTOP-THMS2PJ:~$ convert imag.ppm imag.png
+user@DESKTOP-THMS2PJ:~$ ls
+a.out  dev  hi.c  imag.png  imag.ppm
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>If you are one of the system() enthusiasts in class, you can include convert in the C code, but I wouldn't (too many possible complications).
+</section>
+
+<section>
+<h2>The png</h2>
+<ul>
+<li>Here's what you get.</ul><br>
+<img src="../images/imag.png">
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt><code>struct</code></dt>
+<dd>new
+<dd>print
+<dd>free
+</dd>
+<dt>Header files</dt>
+<dd>Macros
+<dd>Declarations
+<dd>typedef
+</dd>
+</dl>
+</section>
+
+
+<section>
+<h2>A word</h2>
+<ul>
+<li>Before we begin, I need to introduce some terminology to help us latter.
+<li>I mentioned in C we can declare variables, including pointers and even functions.
+<code class="C">void do_thing_helper(void) ; // declare function
+
+void do_thing(void)
+{
+	int i ; // declare int
+	do_thing_helper();
+}
+
+</code>
+<li>I am being extremely precise which word I use here:</ul>
+<h2>declare</h2>
+</section>
+
+<section>
+<h2>A word</h2>
+<ul>
+<li>Before we begin, I need to introduce some terminology to help us latter.
+<li>I mentioned in C we define pointers by setting them values, define functions with code blocks.
+<code class="C">void do_thing_helper(void) 
+{
+	return ; // this code block *defines* the function
+}
+
+void do_thing(void) 
+{
+	int i ;
+	i = 1 ; // single equals assigns, or *defines* the value of i
+	do_thing_helper();
+}
+
+</code>
+<li>I am being extremely precise which word I use here:</ul>
+<h2>define</h2>
+</section>
+
+<section>
+<h2>declare & define</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+Declare sets aside some bits
+<code class="C">void some_func() ;
+
+int i ;
+
+char *str ;
+</code>
+</td>
+
+<td style="text-align: left;">
+Define sets the value of those bits
+<code class="C">void some_func() { ; }
+
+i = 0 ;
+
+str = "defined" ;
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Let's declare some structs.
+</section>
+
+<section>
+<h2>Struct</h2>
+<ul>
+<li>In Python, when we teach data structures,
+we tie ourselves in knots explaining why classes, which most methods and are neither data nor structures,
+are called data structures.
+<ul><li>This is fine. It's fine. I'm fine. I'm fine!</ul>
+<code class="Python">class OrderedPair:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+    def __repr__(self):
+        return f"OrderedPair({self.x}, {self.y})"</code>
+<li>In C, the "struct" keyword is used to make structures out of data:
+
+<code class='C'>struct ordered_pair
+{
+  int x ;
+  int y ;
+} ;</code>
+</section>
+
+<section>
+<h2>Structs</h2>
+<ul>
+<li>Shockingly, these structs are nothing other than data. We can examine them:
+<code class="Python">  struct ordered_pair p ;
+  p.x = 3 ;
+  p.y = 4 ;
+  printf("p.x = %d, p.y = %d\n", p.x, p.y) ;
+  printf("sizeof(p) = %zu\n", sizeof(p)) ;
+  printf("p.x, p.y   = %08x%08x\n", (unsigned)p.x, (unsigned)p.y) ;
+  printf("*(long *)&p= %016lx\n", *(long *)&p) ;</code>
+<li>A struct with two ints is just the size of two ints, though the order is up to the compiler/OS/CPU.
+<code class='C'>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
+p.x = 3, p.y = 4
+sizeof(p) = 8
+p.x, p.y   = 0000000300000004
+*(long *)&p= 0000000400000003
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>That said, these aren't theoretical data structures, they're C language structs.
+<li>I'll call them "structs".
+</section>
+
+<section>
+<h2><code>struct</code></h2>
+<ul>
+<li>struct syntax is quite similar to functions, but with the struct keyword.
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code class="C">struct ordered_pair
+{
+  int x ;
+  int y ;
+} ;</code></td>
+<td style="text-align: left;"><code class="C">void pair_orderer()
+{
+  int x ;
+  int y ;
+} </code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><ul><li>Code doesn't do anything, just holds two ints.
+<li>We can make variables of type ordered_pair.
+<code class='C'>struct ordered_pair p ;</code>
+<li>We can get and set x and y with p.x and p.y
+<code class='C'>p.x = 3 ;</code>
+<li>Struct <em>defintions</em> are semicolon terminated code blocks.
+<li>This is a definition - it may be used by <em>declaring</em> variables of this type.</td>
+<td style="text-align: left;"><ul><li>Code doesn't do anything, just holds two ints.
+<li>pair_orderer is a var of type void (*f)(void)
+<code class='C'>void (*f)(void) = pair_orderer ;</code>
+<li>Get/set is like arguments and returns.
+<code class='C'>pair_orderer(int x, int y) ;</code>
+<li>Function <em>declarations<em> are semicolon terminated but are not code blocks.
+<li>Function <em>defintions</em> are not semicolon terminated but are code blocks.</td></td>
+</tr>
+</tbody>
+</table>
+<li>Structs are fundamentally different from functions in that they are type which may be placed in memory, whereas functions are blocks of code that may be executed by a processor.
+<li>BONUS/CHALLENGE: What does this mean: void (*f)(void)
+</section>
+
+<section>
+<h2><code>struct</code></h2>
+<ul>
+<li>struct is the foundation of niceties in higher level languages you may like, such as lists that know their length.
+<code class='C'>void sort(int *arr, size_t len) ;
+// This was int *arr, int len because we didn't know about size_t yet. </code>
+<li>Many a student is shocked and horrified by lists not knowing their length.
+<code class="C">struct len_arr
+{
+  int *arr ;
+  size_t len ;
+} ;</code>
+<li>Problem solved.
+<code class='C'>void sort(struct len_arr arr) ;
+// This also factors out the size_t modification </code>
+</section>
+
+<section>
+<h2><code>struct</code></h2>
+<ul>
+<li>You may remember that Python is bad.
+<code class="Python">def both(x,y):
+    return x, y</code>
+<li>Not to worry, C is good.
+<code class="C">struct both { int x ; int y ; } ;
+
+struct both bothify(int x, int y)
+{
+	struct both ret ;
+	ret.x = x ;
+	ret.y = y ;
+	return ret ;
+}</code>
+<li>You could argue that is more code to which I would say, yes:
+<ul><li>The point of code is to say what is going on
+<li>Python does not tell you what is going on. Bad. Bad!
+</ul><li>What is the type of Python "both"?
+</section>
+
+<section>
+<h2><code>struct</code></h2>
+<ul>
+<li>bothify is conspiciously similar to an argumentful Python __init__.
+<li>It is also similary to C++ new, which I'm just telling you so you know.
+<li>Generally speaking, I would call "bothify" "new_structname".
+<code class="C">struct pair { int x ; int y ; } ;
+
+struct pair new_pair(int x, int y)
+{
+	struct pair ret ;
+	ret.x = x ;
+	ret.y = y ;
+	return ret ;
+}</code>
+<li>This has the convenience of allowing single-line declaration of a pair.
+<code class="C">struct pair q ;  // 1/3
+q.x = 3 ; // 2/3
+q.y = 4 ; // 3/3
+struct pair p = new_pair(1,2) ; // 1/1 </code>
+</section>
+
+<section>
+<h2><code>struct</code></h2>
+<ul>
+<li>We can use existing functions, like print_mem, to look at structs, or...
+<li>Write something akin to Python __str__ (though really what <em>inspired</em> __str__)
+<li>Different structs have different needs, I'd do something like...
+<code class="C">void print_pair(struct pair p)
+{
+	(void)fprintf(stdout, "pair(x=%d, y=%d)", p.x, p.y) ; // no /n
+}</code>
+<li>This has the convenience of allowing single-line declaration of a pair.
+<code class="C">struct pair q ;  // 1/3
+q.x = 3 ; // 2/3
+q.y = 4 ; // 3/3
+struct pair p = new_pair(1,2) ; // 1/1
+printf("p = ") ; print_pair(p) ; printf(", q = ") ; print_pair(q) ; putchar('\n') ;</code>
+<li>This is as close as we get to Pythonic print("q = ", q, ", p = ", p)
+<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
+p = pair(x=1, y=2), q = pair(x=3, y=4)
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ struct</dt>
+<dd>~ new
+<dd>✓ print
+<dd>free
+</dd>
+<dt>Header files</dt>
+<dd>Macros
+<dd>Declarations
+<dd>typedef
+</dd>
+</dl>
+</section>
+
+<section>
+<h2>I love classes</h2>
+<ul>
+<li>If you ever took and/or taught CS 151 you may have getter/setter fatigue.
+<li>Copilot wrote this, no force on Earth could compel me to type this out:
+<code class="Python">class Pair:
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y
+    
+    def get_x(self):
+        return self._x
+    
+    def get_y(self):    
+        return self._y
+    
+    def set_x(self, x):
+        self._x = x
+
+    def set_y(self, y):
+        self._y = y</code>
+<li>&lt;soapbox&gt; if an AI can do it, don't train a human to do it &lt;/soapbox&gt;
+</section>
+
+<section>
+<h2>I love classes</h2>
+<ul>
+<li>That said, there's a difference between this:
+<code class="Python">class Pair:
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y</code>
+<li>and this:
+<code class="Python">class Pair:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y</code>
+<li>I use the second to avoid writing getters/setters.
+<li>We can make the same design decision in C.
+</section>
+
+<section>
+<h2>Headers & Struct</h2>
+<ul><li>Rather than underscores, we place code in distinct files.
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">test.c</td>
+<td style="text-align: left;">pair.h</td>
+<td style="text-align: left;">pair.c</td>
+</tr>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{ 
+  struct pair p ;
+  p = newp() ;
+  p.x = 1 ;
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.h
+
+struct pair
+{
+  int x ;
+  int y ;
+} ;
+
+struct pair newp();
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair newp() 
+{
+  struct pair p ;
+  p.x = 0 ; p.y = 0 ;
+  return p ;
+}
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>As a rule, when I use a (non-trivial) struct, I create a .h and .c of the same name.
+<li>We can think of these files as doing the C version of what classes do, but with functions and structs rather than a class and its methods.
+<li>Lot going on here.
+</section>
+
+<section>
+<h2>gcc</h2>
+<ul>
+<li>As an aside, to compile this you have to give gcc new arguments.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c
+/usr/bin/ld: /tmp/ccYQF1sb.o: in function `main':
+test.c:(.text+0x12): undefined reference to `newp'
+collect2: error: ld returned 1 exit status
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>You can omit the newp() call of course (initialize with p.x / p.y) but I'm trying to teach here.
+<li>main in test.c calls functions written in pair.c, so we must furnish pair.c to gcc. 
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ./a.out
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+<li>We aren't printing anything, but it doesn't segfault at least.
+<li>There's a better way to do this, latter.
+</section>
+
+<section>
+<h2>typedef</h2>
+<ul>
+<li>We're going to give a type a new name soon, but let's introduce typedef separately.
+<code class="C">typedef unsigned char bool ;
+#define TRUE 1
+#define FALS 0
+
+int main() 
+{ 
+  bool b = TRUE ;
+  if (b) 
+  {
+    printf("Hi world!\n") ;
+  }
+  return 0 ;
+}</code>
+<li>I like bools (they're fun) so I just make them if I'm going to use them a lot.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c ; ./a.out
+Hi world!
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>stdint.h</h2>
+<ul>
+<li>The most useful typedefs I think come from stdint.h, which I will use from now on.
+<code class="C">#include &lt;stdint.h&gt;
+
+int main() 
+{ 
+  printf("%zu\n", sizeof(uintptr_t)) ; // u = unsigned
+  printf("%zu\n", sizeof(uint64_t)) ;
+  printf("%zu\n", sizeof(uint32_t)) ;
+  printf("%zu\n", sizeof(uint16_t)) ;
+  printf("%zu\n", sizeof(uint8_t)) ;
+}</code>
+<li>No more "how big is an int" - uint64_t is 64 bits / 8 bytes. Always.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c ; ./a.out
+8
+8
+4
+2
+1
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>typedef</h2>
+<ul>
+<li>We're going to give a type a new name soon, but let's introduce typedef separately.
+<code class="C">#include &lt;stdint.h&gt;
+typedef uint8_t bool ;
+#define TRUE 1
+#define FALS 0</code>
+<li>I probably use stdint.h MORE than stdio.h these days.
+<li>It helps me be a lot more intentional about signed/unsigned values.
+
+</section>
+
+<section>
+<h2>Headers & Struct</h2>
+<ul style="width: 100%"><li>We can obscure struct implementation by moving the struct to the .c and using a typedef.
+<li>We rename struct pair to struct pair_s so we can typedef from pair_s to pair.
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() { 
+  pair p ;
+  p.x = 1 ;
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.h
+
+typedef struct pair_s 
+        pair ;
+	
+pair newp() ;
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int x ; 
+  int y ; 
+} ;</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>The inner workings of pair are extremely obscured, so much so that...
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c
+test.c: In function ‘main’:
+test.c:6:8: error: storage size of ‘p’ isn’t known
+    6 |   pair p ;
+      |        ^
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>Not to worry - we know how to deal with arbitrary sizes.
+</section>
+
+<section>
+<h2>Headers & Struct</h2>
+<ul><li>We make pair a pointer, and manage memory in .c
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+<code class="C">// pair.h
+#include &lt;stdint.h&gt;
+
+typedef struct pair_s *pair ;
+	
+pair newp() ;
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { int x, y ; };
+
+pair newp() {
+  size_t s ;
+  s = sizeof(struct pair_s) ;
+  pair p = malloc(s) ;
+  return p ;
+}
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>We have to malloc in .c because the size is not known outside of .c
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>This is what is known in the industry as a "pointer W"
+<ul><li>Just kidding ; I made that up.
+</section>
+
+<section>
+<h2>Headers</h2>
+<ul style="width: 100%"><li>When using a struct and header I:
+<li>Write a typedef from struct name_s to *name in .h
+<li>Declare any function in .h that is used within main()
+<li>Write no code in .h, by which I mean:
+<ul><li>There are only struct definitions or function declarations 
+<li>There is nowhere I could place a printf() that would print anything.</ul>
+<li>Include any libraries used in the .c in the .h
+<code class="C">// pair.h
+#include &lt;stdint.h&gt;
+
+typedef struct pair_s *pair ;
+	
+pair newp() ;
+</code>
+<li>I need to clip .h from the slides for space, but it will follow these rules.
+<li>If I e.g. use a printf() in .c, then assume I include stdio.h from within pair.h
+</section>
+
+<section>
+<h2>Headers & Struct</h2>
+<ul style="width: 100%"><li>Use/call from test.c, implement in pair.c.
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() { 
+  pair p ;
+  p.x = 1 ;
+  return 0 ;
+};
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+struct pair_s { int x, y ; } ;
+
+pair newp() {
+  size_t s ;
+  s = sizeof(struct pair_s) ;
+  pair p = malloc(s) ;
+  return p ;
+}
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>Remember, test.c cannot see into pair_s and cannot tell there is an x there.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c
+test.c: In function ‘main’:
+test.c:7:4: error: ‘p’ is a pointer; did you mean to use ‘->’?
+    7 |   p.x = 1 ;
+      |    ^
+      |    ->
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>-></h2>
+<ul><li>Remember: pointers are annoying and confusing.  (Also remember: C good)
+<li>By the way this is how I write when I have more then 20 characters in width:
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_struct { 
+  int32_t x ;
+  int32_t y ; 
+} ;
+
+pair newp() 
+{
+  pair p = (pair)malloc(sizeof(struct pair_struct)) ;
+  return p ;
+}
+</code>
+</section>
+
+<section>
+<h2>-></h2>
+<ul><li>x and y are declared but undefined.
+<li>BUT... p is a pointer to a struct pair_struct, not a struct_pair struct.
+<li>p does not "contain" two ints with names... it points to someone who does.
+<li>gcc said:
+<code>error: ‘p’ is a pointer; did you mean to use ‘->’?</code>
+<li>Sure, let's try it.
+<code class="C">struct pair_struct { 
+  int32_t x ; // stdint for specificity
+  int32_t y ; 
+} ;
+
+pair newp() 
+{
+  pair p = (pair)malloc(8) ; // still use sizeof, I need space
+  p->x = 0 ;
+  p->y = 0 ;
+  return p ;
+}
+</code>
+<li>This works! To test at home, you can move the struct back into .h
+</section>
+
+
+<section>
+<h2>-></h2>
+<ul style="width: 100%"><li>Test it.
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() {
+  pair p ; 
+  p->x = 1 ;
+  printf( "%d\n",
+          p->x ) ;
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.h
+
+struct pair_s { 
+  int32_t x, y ; 
+} ;
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+pair newp() 
+{
+  return malloc(8);
+}
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>No errors, but a segmentation fault.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out
+Segmentation fault
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>Why?
+<li><b>p is an uninitialized (declared but not defined) pointer</b>
+</section>
+
+<section>
+<h2>-></h2>
+<ul><li>Use newp()
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() {
+  pair p = newp(); 
+  p->x = 1 ;
+  printf( "%d\n",
+          p->x ) ;
+  frep(p) ;
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.h
+
+struct pair_s { 
+  int32_t x, y ; 
+} ;
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+void frep(pair p) ;
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+pair newp() 
+{
+  return malloc(8) ;
+}
+
+void frep(pair p) 
+{
+  free(p) ;
+}
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>With the pointer initialized to a valid memory location, we are able to use "->" amicably.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out
+1
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>Why?
+<li>p is malloced and freed - it has a valid memory location.</b>
+</section>
+
+
+<section>
+<h2>Headers & Struct</h2>
+<ul style="width: 100%"><li>Move the struct back into .c and we need get/set.
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() { 
+  pair p = newp() ; 
+  setx(p, 5) ;
+  printf("%d\n", getx(p)) ;
+  frep(p) ;
+  return 0 ;
+}
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+struct pair_s { int32_t x, y ; } ;
+
+int getx(pair p) {
+  return p->x ;
+}
+
+void setx(pair p, int x) {
+  p->x = x ;
+}
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<li>Get/set here is pretty pointless
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out
+5
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>Move the struct into the .c when you're done testing.
+<ul><li>If you have an internal implementation that can only confuse, like a linked list
+<li>I don't wanna know if it's doubly or singly linked, don't tell me, I won't listen.
+</section>
+
+<section>
+<h2>Abstraction</h2>
+<ul style="width: 100%"><li>Sometimes it is very helpful to not think about how things work internally. (These are links)
+<a href="https://github.com/cd-public/xfer/blob/master/pmap/pmap.c"><code class="C">uint8_t get_colr(pmap p, size_t x, size_t y, size_t c)
+{
+    return p->pxls[3 * (y * p->x + x) + c] ;
+}</code></a>
+<li>I debugged that once and never thought about it again.
+<li>This is the alternate to unsigned char ***create_base().
+<li>Look how clean this looks:
+<a href="https://github.com/cd-public/xfer/blob/master/pmap/test.c"><code class="C">get_colr(p, i, j, 2) ;</code></a>
+<li>"Get color 2 (green) in pixel [i][j] in pixel map 'p'."
+<li>It's just nice to not have to remember where the parenthesis and the 3 go.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<p>Gonna be real, you just need to do this a bunch.
+<dl>
+<dt>✓ struct</dt>
+<dd>✓ new
+<dd>✓ print
+<dd>✓ free
+</dd>
+<dt>~ Header files</dt>
+<dd>Macros
+<dd>✓ Declarations
+<dd>✓ typedef
+</dd>
+</dl>
+</section>
+
+<section>
+<h2>Macros</h2>
+<ul style="width: 100%"><li>You may write a bunch of header files someday. I don't know.
+<ul><li>Maybe like, on a final project or something.</ul>
+<li>If you include a file more than once, it's weird (this file doesn't break, some do).
+<ul><li>A "ifndef" at the start of the file, to make inclusion conditional
+<li>A "define" to set a flag that ifndef checks
+<li>A "endif" at the end of the file
+<li>These are all preprocessor macros like #include and not part of the C language, but part of the C ecosystem.
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+	
+typedef struct pair_s *pair ;
+pair newp() ;
+void frep(pair p) ;
+int getx(pair p) ;
+void setx(pair p, int x) ;
+
+#endif</code>
+<li>If you don't do this, you'll regret it someday at like, medium probability.
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ struct</dt>
+<dd>✓ new
+<dd>✓ print
+<dd>✓ free
+</dd>
+<dt>✓ Header files</dt>
+<dd>✓ Macros
+<dd>✓ Declarations
+<dd>✓ typedef
+</dd>
+</dl>
+</section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+		],
+      });
+    </script>
+    </body>
+</html>

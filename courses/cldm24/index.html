@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+		<title>Networks & Systems</title>
+
+		<!-- CSS Files -->
+		<link rel="stylesheet" href="../../css/tabs.css" type="text/css" media="all">
+	</head>
+	<body>
+		<div class="tabs" style="width:100%">
+			<input type="radio" name="tabs" id="tab1" checked="checked">
+			<label for="tab1">Home</label>
+			<div class="tab">
+				<h4>CS 271 Networks & Systems</h4>
+				<p>Spring 2024, Willamette University
+				<p>MW 2:50-4:20, Ford Hall 302
+				<p><a href="syllabus/syllabus.pdf" target="_blank">Syllabus</a>
+				<h4>Instructor</h4>
+				<p><a href="https://cd-public.github.io/">Calvin Deutschbein</a>
+				<p><a href="mailto:ckdeutschbein@willamette.edu">ckdeutschbein@willamette.edu</a>
+				<p>Ford 3rd Floor
+				<h4>Course Description</h4>
+				<p>Networks & systems form the boundry between abstractions firmly rooted in language and deeper questions in computing regarding the implementation of thinking machines at engineering and physical levels. This course will prepare computer scientists to reason at and across this abstraction boundry to more fully embrace the power of computation.
+				<p>Students will learn low level languages of C and assembly, use command line tools to study these languages, use features of the operating system including parallelism and networking, and learn how to make changes to operating systems.
+				<p>Students should complete CS 151 and CS 152 before enrolling in this class.
+				<h4>Key Dates</h4>
+				<p>Week of 2/26: Midterm Exam Systems (tentative)
+				<p>Week of 3/25: Spring Break
+				<p>Week of 4/08: Midterm Exam Networks (tentative)
+				<p>Week of 5/03: Final (set by Registrar)
+				<h4>Grading</h4>
+				<p>20%: Homework<br/>
+				<p>20%: Midterm 1: Systems<br/>
+				<p>20%: Midterm 2: Networks<br/>
+				<p>20%: Final Project: Milestones<br/></p>
+				<p>20%: Final Project: Program Product<br/></p>
+			</div>
+			<input type="radio" name="tabs" id="tab2">
+			<label for="tab2">Schedule</label>
+			<div class="tab">
+				<table style="width:100%;background-color:#A0A0A0;font-family:monospace"><tbody>
+					<tr style="background-color:#00BBBB">
+						<th><b>week</b></th>
+						<th><b>date</b></th>
+						<th><b>mon</b></th>
+						<th><b>wed</b></th>
+						<th><b>hw due @ 1450 mon</b></th>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>0_intr</td>
+						<td>01/15</td>
+						<td style="background-color:#FF0000"><a href="https://www.americanrhetoric.com/speeches/mlkatimetobreaksilence.htm">King Day</a></td>
+						<td style="background-color:#FF0000"><a href="https://www.oregonlive.com/weather/2024/01/5-things-to-know-about-portlands-january-2024-snow-and-ice-storm.html">❄️
+						</a></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>1_bash</td>
+						<td>01/22</td>
+						<td><a href="./slides/slides/w01d00.html">gcc</a></td>
+						<td><a href="./slides/slides/w01d01.html">git</a></td>
+
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>2_dotc</td>
+						<td>01/29</td>
+						<td><a href="./slides/slides/w02d00.html">stdio</a></td>
+						<td><a href="./slides/slides/w02d01.html">sizeof</a></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>3_%s%p</td>
+						<td>02/05</td>
+						<td><a href="./slides/slides/w03d00.html">while</a></td>
+						<td>lab</td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>4_mllc</td>
+						<td>02/12</td>
+						<td><a href="./html/w04d00.html">demo</a></td>
+						<td><a href="./slides/slides/w04d01.html">malloc</a></td>
+						<td>hw0</td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>5_free</td>
+						<td>02/19</td>
+						<td><a href="./slides/slides/w05d00.html">free</a></td>
+						<td><a href="./slides/slides/w05d01.html">file_io</a></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>6_maps</td>
+						<td>02/26</td>
+						<td><a href="./slides/slides/w05d01.html">file_io</a></td>
+						<td><a href="./slides/slides/w06d01.html">struct</a></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>7_snek</td>
+						<td>03/04</td>
+						<td>snek.c</td>
+						<td>ieee</td>
+					<tr style="background-color:#00DDDD">
+						<td>8_sock</td>
+						<td>03/11</td>
+						<td>socket.h</td>
+						<td style="background-color:#FF0000">OFF</td>
+						<td>hw1</td>
+					</tr>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>9_inet</td>
+						<td>03/18</td>
+						<td></td>
+						<td></td>
+						<td><a href="pdf/prac_mid_sys.pdf">prac_mid_sys.pdf</a></td>
+					</tr>
+					<tr style="background-color:#FF0000">
+						<td>A_brek</td>
+						<td>03/25</td>
+						<td>Spring</td>
+						<td>Break</td>
+						<td>mile_1</td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>B_hack</td>
+						<td>04/01</td>
+						<td>ncurses.h</td>
+						<td>pthreads</td>
+						<td>mile_2</td>
+					</tr>
+					<tr style="background-color:#DDDDDD">
+						<td >C_mnet</td>
+						<td>04/08</td>
+						<td></td>
+						<td></td>
+						<td>mile_3</td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>D_tsys</td>
+						<td>04/15</td>
+						<td>tasks.h</td>
+						<td style="background-color:#FF0000">OFF</td>
+						<td>mile_4</td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>E_tnet</td>
+						<td>04/22</td>
+						<td>msg.h</td>
+						<td>rsa.c</td>
+						<td><a href="pdf/prac_mid_net.pdf">prac_mid_net.pdf</a></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>F_c0da</td>
+						<td>04/29</td>
+						<td>🎉</td>
+						<td style="background-color:#FF0000">Study Days</td>
+						<td>snek.c</td>
+					</tr>
+				</tbody></table>
+			</section>
+		</div>
+
+	</body>
+</html>

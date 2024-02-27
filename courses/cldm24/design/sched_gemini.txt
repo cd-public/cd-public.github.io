@@ -1,0 +1,59 @@
+Cloud Computing Fundamentals
+
+    Cloud Concepts and Architecture:
+        Introduction to cloud computing: IaaS, PaaS, SaaS, deployment models (public, private, hybrid), benefits.
+        Image of Cloud Concepts and Architecture: https://www.pinterest.com/
+    Virtualization and Containers:
+        Understanding virtualization and containerization technologies.
+        Image of Virtualization and Containers: https://netapp.com/
+    Cloud Security:
+        Security considerations for cloud usage: data security, access control, disaster recovery.
+        Image of Cloud Security: https://cio.com/
+
+Cloud Platforms
+
+    Amazon Web Services (AWS) Fundamentals:
+        Introduction to AWS, core services (EC2, S3, VPC).
+        Image of Amazon Web Services (AWS): https://en.wikipedia.org/
+    Microsoft Azure Fundamentals:
+        Introduction to Azure, core services (VMs, Storage, Networking).
+        Image of Microsoft Azure Fundamentals: https://learn.microsoft.com/
+    Google Cloud Platform (GCP) Fundamentals:
+        Introduction to GCP, core services (Compute Engine, Cloud Storage, Cloud Networking).
+        Image of Google Cloud Platform (GCP): https://www.unitygroup.com/
+
+Cloud Applications
+
+    Building Cloud-Native Applications:
+        Designing and developing applications specifically for the cloud.
+        Image of Building Cloud-Native Applications: https://www.amazon.com/
+    Serverless Computing:
+        Introduction to serverless computing and its benefits.
+        Image of Serverless Computing: https://globaldots.com/
+    Cloud Databases:
+        Exploring different types of cloud databases (relational, NoSQL).
+        Image of Cloud Databases: https://towardsdatascience.com/
+
+Cloud Management and Monitoring
+
+    Cloud Cost Management:
+        Strategies for managing and optimizing cloud costs.
+        Image of Cloud Cost Management: https://nops.io/
+    Cloud Monitoring and Logging:
+        Monitoring cloud resources and applications for performance and security.
+        Image of Cloud Monitoring and Logging: https://cloud.google.com/
+    Cloud Governance and Compliance:
+        Governance and compliance considerations for cloud usage.
+        Image of Cloud Governance and Compliance: [invalid URL removed]
+
+Advanced Cloud Topics
+
+    Artificial Intelligence and Machine Learning in the Cloud:
+        Leveraging AI and ML in the cloud for various projects.
+        Image of Artificial Intelligence and Machine Learning in the Cloud: https://www.rapyder.com/
+    Big Data and Analytics in the Cloud:
+        Utilizing big data and analytics in the cloud for data insights.
+        Image of Big Data and Analytics in the Cloud: https://cybertrend-intra.com/
+    The Future of Cloud Computing:
+        Exploring emerging trends and innovations in cloud computing.
+        Image of Future of Cloud Computing: https://www.linkedin.com/

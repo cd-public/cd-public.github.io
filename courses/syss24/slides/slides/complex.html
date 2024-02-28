@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mandelbrot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">mandelbrot</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>async</h2>
+  <h2>slice</h2>
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Sets and Sequences
+<dd>Sets of integers
+<dd>Sets of reals
+<dd>Sequences of integers
+<dd>Sequences of reals
+<dt>Complex Numbers
+<dd><em>i</em>
+<dd>complex plane
+<dd>complex addition
+<dd>complex multiplication
+<dd>l-2 norms (absolute value)
+<dd>complex.h
+<dt>The Mandelbrot Set
+<dd>History
+<dd>Mandelbrot Sequence
+<dd>Imaging
+</section>
+
+<section>
+<h2>Sets</h2>
+<ul style="width:100%"><li>You've seen sets before.
+<code class="Python">&gt;&gt;&gt; s = { 1, 2, 3 }
+&gt;&gt;&gt; type(s)
+&lt;class 'set'&gt;
+</code>
+<li>Sets contain elements:<code class="Python">&gt;&gt;&gt; s = { 1, 2, 3 }
+&gt;&gt;&gt; 1 in s, 4 in s
+(True, False)
+</code>
+<li>but not duplicates:<code class="Python">&gt;&gt;&gt;set([1,1,2])
+{1, 2}
+</code>
+<li>And do not maintain order:<code class="Python">&gt;&gt;&gt;{1,2} == {2,1}
+True
+</code>
+</section>
+
+
+<section>
+<h2>Sets</h2>
+<ul style="width:100%"><li>That is all to say: sets are characterized by their elements.
+<li>We use sets to describe collections, usually numbers.
+<li>For example, there is the set of positive integers, also called the natural numbers &#8469;:
+<code class="Python">&gt;&gt;&gt; N = { 1, 2, 3, ...  }</code>
+<li>This isn't well formed Python, but can be written in some languages such as Haskell:
+<code class="Haskell">*Main&gt; N = [1..]</code>
+<li>This set is infinite and there is only one such set.
+<li>Positive even numbers are a set:
+<code class="Python">&gt;&gt;&gt; N = { 2, 4, 6, ...  }</code>
+<li>Squares are a set:
+<code class="Python">&gt;&gt;&gt; N = { 1, 4, 9, ...  }</code>
+<li>And so on.
+</section>
+
+<section>
+<h2>Using Sets</h2>
+<ul style="width:100%"><li>Sets, I would argue, form the basis of computation.
+<li>int, or int32_t, is also a set.
+<li>Sets contain elements:<code class="C">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t i = 1 ;
+  while( i > 0) { i++ ; }
+  printf("i = %d, i-1 = %d\n", i, i-1) ;
+  return 0 ;
+}
+</code>
+<li>We can examine the set:
+<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
+i = -2147483648, i-1 = 2147483647
+user@DESKTOP-THMS2PJ:~$ </code>
+</section>
+
+<section>
+<h2>Using Sets</h2>
+<ul style="width:100%"><li>Informally, in Python:<code class="Python">int32_t = { -2147483648 , ... , 2147483647 }</code>
+<li>In actual Python, watching for off-by-ones: (don't run this it will take forever):
+<code class="Python">int32_t = set(range(-2147483648, 2147483648))</code>
+<li>And it is easy enough to use int8_t: (use hhd to print)
+<code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
+i = -128, i-1 = 127
+user@DESKTOP-THMS2PJ:~$ </code>
+<li>Which gives:
+<code class="Python">int8_t = set(range(-128, 128))</code>
+<li>Which we can examine:
+<code class="Python">&gt;&gt;&gt;  _ = [print(x, x in int8_t) for x in [-129,-128,127,128,1.5]]
+-129 False
+-128 True
+127 True
+128 False
+1.5 False
+&gt;&gt;&gt;</code>
+</section>
+
+<section>
+<h2>Using Sets</h2>
+<ul style="width:100%"><li>Mathematicians also have a language to describe sets.
+<li>Usually formulated in LaTeX, here in HTML:
+<li style="background-color:white;font-family: monospace;">uint32_t = { <em>n</em> &isin; 	&Zopf; : <em>n</em> <u>&gt;</u> -2^32 &and; <em>n</em> &lt; 2^32 }
+<li>Importantly, we are defining this with mathematical operations that would be infinitely expensive in Python:
+<code class="Python">&gt;&gt;&gt; [i for i in range(10) if i < 5]
+[0, 1, 2, 3, 4]
+&gt;&gt;&gt; int32_t = {i for i in range(&infin;) if i >= -2 ** 32 and i < 2 ** 32} 
+# that's an infinity </code>
+<li>Mathematicians ✏️🔥 Stay 💯 Winning 💪
+</section>
+
+<section>
+<h2>Real Sets</h2>
+<ul style="width:100%"><li>A lot of mathematical operations we know and love* can be understood with sets.
+<li>Square root, for example.
+<li style="background-color:white;font-family: monospace;">sqrt4 = x : x <u>&gt;</u> <em>n</em> &forall; i &isin; { <em>n</em> &isin; 	&Zopf; : <em>n</em> * <em>n</em> <u>&lt;</u> 4 }
+<li>Say: The square root of 4 is the greatest element of the set of all numbers* for which the number squared is less than or equal to 4.
+<li>numbers*
+<li>What about the square root of 2?
+<li>We use the real numbers &Ropf; - numbers that aren't only integers:
+<li style="background-color:white;font-family: monospace;">sqrt2 = x : x <u>&gt;</u> <em>n</em> &forall; <em>n</em> &isin; { <em>n</em> &isin; 	&Ropf; : <em>n</em> * <em>n</em> <u>&lt;</u> 2 }
+<li>We don't have reals in Python, but decimals stored as floats approximate reals:
+<code class="Python">&gt;&gt;&gt; decs = {i / 10000 for i in range(20000)}
+&gt;&gt;&gt; sqrt2 = {i for i in decs if i * i < 2}
+&gt;&gt;&gt; max(sqrt2)
+1.4142
+&gt;&gt;&gt; sqrt(2)
+1.4142135623730951</code>
+<li>There's a fun way to optimize this btw.
+<li>Mathematicians ✏️🔥 Stay 💯 Winning 💪
+</section>
+
+<section>
+<h2>Sequences</h2>
+<ul style="width:100%"><li>Sequences are collections (like sets) but preserve order and allow duplicates (unlike sets).
+<li>Everyone* loves the Fibonacci sequence.
+<ul><li>It seems to have appeared in Sanskrit prosody by Pingala around 1400 years before Fibonacci published <em>Liber Abaci</em> in 1202.
+<li>🤔
+</ul>
+<li>Sequences are usually described with a base case and recursive case, which might be familiar to us.
+<li style="background-color:white;font-family: monospace;"><em>F<sub>0</sub></em> = 0, <em>F<sub>1</sub></em> = 1, <em>F<sub>n</sub></em> = <em>F<sub>n-1</sub></em> + <em>F<sub>n-2</sub></em>
+<li>We can trivially format this in Python.
+<code class="Python">def fib(n:int) -> int:
+    return n if n < 2 else fib(n-1) + fib(n-2)</code>
+<li>By the way, this sequence contains duplicates.
+<code class="Python">&gt;&gt;&gt; [fib(n) for n in range(10)]
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+</code>
+<li>This code is inefficient by the way.
+</section>
+
+<section>
+<h2>Real Sequences</h2>
+<ul style="width:100%"><li>Sequences are collections (like sets) but preserve order and allow duplicates (unlike sets).
+<li>We can define some cute and fun numbers with sequences, like φ, the "Golden Ratio"
+<ul><li>Some cursory examinations suggest Eygptian scholar Abu Kamil (~900) was the first to use the value.
+<li>Named with a Greek letter by Catholics 🤔 Developed by a Muslim in Africa 🤔
+</ul>
+<li style="background-color:white;font-family: monospace;">1 + 1 / φ = φ 
+<li>It so happens, this can be calculated using the so-called Fibonacci sequence.
+<li>As <em>n</em> increases,  <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em> gets closer to φ
+<li>We can express this by saying the distance between <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em> and φ
+<li style="background-color:white;font-family: monospace;">φ &larr; <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em> : <em>n</em> &rarr; &infin;
+<li>This is called "calculus" and has widely been regarded as "the worst" or "the coolest thing ever"
+<li>We regard φ as the last element of an infinite sequence:
+<li style="background-color:white;font-family: monospace;"><em>S<sub>n</sub></em> = <em>F<sub>n</sub></em> + <em>F<sub>n-1</sub></em>
+<li>Or:
+<li style="background-color:white;font-family: monospace;">φ &larr; <em>S<sub>n</sub></em> : <em>n</em> &rarr; &infin;
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ Sets and Sequences
+<dd>✓ Sets of integers
+<dd>✓ Sets of reals
+<dd>✓ Sequences of integers
+<dd>✓ Sequences of reals
+<dt>Complex Numbers
+<dd><em style="font-family: monospace;">i</em>
+<dd>complex plane
+<dd>complex addition
+<dd>complex multiplication
+<dd>l-2 norms (absolute value)
+<dd>complex.h
+<dt>The Mandelbrot Set
+<dd>History
+<dd>Mandelbrot Sequence
+<dd>Imaging
+</section>
+
+<section>
+<h2>Square Roots</h2>
+<ul style="width:100%"><li>Remember square root?
+<li>Some numbers have a square root that is an integer.
+<li style="background-color:white;font-family: monospace;">sqrt4 = x : x <u>&gt;</u> <em>n</em> &forall; <em>n</em> &isin; { <em>n</em> &isin; 	&Zopf; : <em>n</em> * <em>n</em> <u>&lt;</u> 4 }
+<li>To describe the square root of 2, we had to look at non-integers: the real numbers.
+<li style="background-color:white;font-family: monospace;">sqrt2 = x : x <u>&gt;</u> <em>n</em> &forall; <em>n</em> &isin; { <em>n</em> &isin; 	&Ropf; : <em>n</em> * <em>n</em> <u>&lt;</u> 2 }
+<li>I sure hope we don't need-
+<li style="background-color:white;font-family: monospace;">srng1 = x : x <u>&gt;</u> <em>n</em> &forall; <em>n</em> &isin; { <em>n</em> &isin; 	&Ropf; : <em>n</em> * <em>n</em> <u>&lt;</u>-1 }
+<li>Oh no, what is the sqrt(-1) or, perhaps, &radic;-1
+<ul><li>Not to worry I have a plan.
+</section>
+
+<section>
+<h2><em style="font-family: monospace;text-transform: lowercase;">i</em></h2>
+<ul style="width:100%"><li>Just as we were able to define &radic;2 with a set, we do the same with &radic;-1
+<li>By convention, we term this value <em style="font-family: monospace;">i</em>
+<li>We define <em style="font-family: monospace;">i</em> as follows:
+<li style="background-color:white;font-family: monospace;"><em>i</em> : x <u>&gt;</u> <em>n</em> &forall; <em>n</em> &isin; { <em>n</em> &isin; 	&Ropf; : <em>n</em> * <em>n</em> <u>&lt;</u>-1 }
+<li>Yeah that's right, it's sets all the way down.
+</section>
+
+<section>
+<h2><em style="font-family: monospace;text-transform: lowercase;">i</em></h2>
+<ul style="width:100%"><li><em style="font-family: monospace;">i</em> allows us to express the square root of any integer, positive or negative
+<ul><li>And any real number...
+</ul>
+<li>We term <em style="font-family: monospace;">i</em> an imaginary number, since it isn't real.
+<li>Usually, we write it the way we would any other number or algebraic expression.
+<li>Yeah that's right, it's sets all the way down.
+<li style="background-color:white;font-family: monospace;">&radic;-9 = 3<em>i</em>
+<li>By the way, don't worry too much about &radic;<em style="font-family: monospace;">i</em>, we'll get there but it's easy enough.
+<li>Here's something you should worry about - what if we apply square root to list of positive and negative numbers...
+</section>
+
+<section>
+<h2><em style="font-family: monospace;text-transform: lowercase;">i</em></h2>
+<ul style="width:100%"><li><em style="font-family: monospace;">i</em> allows us to express the square root of any integer, positive or negative
+<li>Here's something you should worry about - what if we apply square root to list of positive and negative numbers...
+<code>&gt;&gt;&gt; from cmath import sqrt
+&gt;&gt;&gt; sqrt(4)
+(2+0j)
+&gt;&gt;&gt; sqrt(2)
+(1.4142135623730951+0j)
+&gt;&gt;&gt; sqrt(-1)
+1j
+&gt;&gt;&gt; sum([sqrt(n) for n in range(-3,3)])
+(2.414213562373095+4.146264369941973j)
+&gt;&gt;&gt;</code>
+<li>We simply add together a real number and an imaginary number
+<li>We term these the complex numbers &Copf;
+</section>
+
+<section >
+<h2>the complex numbers &Copf;</h2>
+<ul style="width:100%">We can think of the complex numbers &Copf; as existing in a two dimensional plane. (Click)</ul>
+
+<p><em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-1</span>
+<span style="vertical-align:middle;" onclick="draw0();">
+  <canvas id="plot0"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">1</span>
+<p><em style="font-family: monospace;text-transform: lowercase;">-i </em></p>
+<script>
+function draw0()
+{
+	const plot0 = document.getElementById("plot0") ;
+	const ctx0 = plot0.getContext("2d");
+	ctx0.fillStyle = "black";	
+	ctx0.fillRect(400, 0, 5, 800) ;
+	ctx0.fillRect(0, 400, 800, 5) ;
+}</script>
+</section>
+
+<section >
+<h2>the complex numbers &Copf;</h2>
+<ul style="width:100%">Zoom out. We add tick marks.</ul>
+
+<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-2</span>
+<span style="vertical-align:middle;" onclick="draw1();">
+  <canvas id="plot1"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">2</span>
+<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<script>
+function draw1()
+{
+	const plot1 = document.getElementById("plot1") ;
+	const ctx1 = plot1.getContext("2d");
+	ctx1.fillStyle = "black";	
+	ctx1.fillRect(400, 0, 5, 800) ;
+	ctx1.fillRect(0, 400, 800, 5) ;
+	
+	ctx1.fillRect(395, 200, 15, 5) ;
+	ctx1.fillRect(395, 600, 15, 5) ;
+	ctx1.fillRect(200, 395, 5, 15) ;
+	ctx1.fillRect(600, 395, 5, 15) ;
+}</script>
+</section>
+
+<section >
+<h2>the complex numbers &Copf;</h2>
+<ul style="width:100%">Zoom out. We add tick marks.</ul>
+
+<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-2</span>
+<span style="vertical-align:middle;" onclick="draw1();">
+  <canvas id="plot1"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">2</span>
+<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<script>
+function draw1()
+{
+	const plot1 = document.getElementById("plot1") ;
+	const ctx1 = plot1.getContext("2d");
+	ctx1.fillStyle = "black";	
+	ctx1.fillRect(400, 0, 5, 800) ;
+	ctx1.fillRect(0, 400, 800, 5) ;
+	
+	ctx1.fillRect(395, 200, 15, 5) ;
+	ctx1.fillRect(395, 600, 15, 5) ;
+	ctx1.fillRect(200, 395, 5, 15) ;
+	ctx1.fillRect(600, 395, 5, 15) ;
+}</script>
+</section>
+
+<section >
+<h2>the complex numbers &Copf;</h2>
+<ul style="width:100%">We show approximate locations of 
+<span style="color:red">&radic;4==2</span> and
+<span style="color:green">&radic;2~=1.414</span>  and 
+<span style="color:blue">&radic;-1==1</span>  </ul>
+
+<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-2</span>
+<span style="vertical-align:middle;" onclick="draw2();">
+  <canvas id="plot2"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">2</span>
+<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<script>
+function draw2()
+{
+	const plot2 = document.getElementById("plot2") ;
+	const ctx2 = plot2.getContext("2d");
+	ctx2.fillStyle = "black";	
+	ctx2.fillRect(400, 0, 5, 800) ;
+	ctx2.fillRect(0, 400, 800, 5) ;
+	
+	ctx2.fillRect(395, 200, 15, 5) ;
+	ctx2.fillRect(395, 600, 15, 5) ;
+	ctx2.fillRect(200, 395, 5, 15) ;
+	ctx2.fillRect(600, 395, 5, 15) ;
+	
+	ctx2.fillStyle = "red";	
+	ctx2.fillRect(790, 390, 20, 20) ;
+	ctx2.fillStyle = "green";	
+	//ctx2.fillRect(Math.sqrt(2) * 800 - 10, 390, 20, 20) ;
+	
+}</script>
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

@@ -192,7 +192,7 @@ user@DESKTOP-THMS2PJ:~$ </code>
 <li style="background-color:white;font-family: monospace;">φ &larr; <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em> : <em>n</em> &rarr; &infin;
 <li>This is called "calculus" and has widely been regarded as "the worst" or "the coolest thing ever"
 <li>We regard φ as the last element of an infinite sequence:
-<li style="background-color:white;font-family: monospace;"><em>S<sub>n</sub></em> = <em>F<sub>n</sub></em> + <em>F<sub>n-1</sub></em>
+<li style="background-color:white;font-family: monospace;"><em>S<sub>n</sub></em> = <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em>
 <li>Or:
 <li style="background-color:white;font-family: monospace;">φ &larr; <em>S<sub>n</sub></em> : <em>n</em> &rarr; &infin;
 </section>
@@ -322,37 +322,10 @@ function draw1()
 
 <section >
 <h2>the complex numbers &Copf;</h2>
-<ul style="width:100%">Zoom out. We add tick marks.</ul>
-
-<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
-<p><span style="position:relative;top:-380px">-2</span>
-<span style="vertical-align:middle;" onclick="draw1();">
-  <canvas id="plot1"  width="800" height="800" style="background-color:white"></canvas>
-</span>
-<span style="position:relative;top:-380px">2</span>
-<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
-<script>
-function draw1()
-{
-	const plot1 = document.getElementById("plot1") ;
-	const ctx1 = plot1.getContext("2d");
-	ctx1.fillStyle = "black";	
-	ctx1.fillRect(400, 0, 5, 800) ;
-	ctx1.fillRect(0, 400, 800, 5) ;
-	
-	ctx1.fillRect(395, 200, 15, 5) ;
-	ctx1.fillRect(395, 600, 15, 5) ;
-	ctx1.fillRect(200, 395, 5, 15) ;
-	ctx1.fillRect(600, 395, 5, 15) ;
-}</script>
-</section>
-
-<section >
-<h2>the complex numbers &Copf;</h2>
 <ul style="width:100%">We show approximate locations of 
 <span style="color:red">&radic;4==2</span> and
 <span style="color:green">&radic;2~=1.414</span>  and 
-<span style="color:blue">&radic;-1==1</span>  </ul>
+<span style="color:magenta">&radic;-1==1</span>  </ul>
 
 <p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
 <p><span style="position:relative;top:-380px">-2</span>
@@ -366,6 +339,13 @@ function draw2()
 {
 	const plot2 = document.getElementById("plot2") ;
 	const ctx2 = plot2.getContext("2d");
+	ctx2.fillStyle = "red";	
+	ctx2.fillRect(790, 390, 20, 20) ;
+	ctx2.fillStyle = "green";	
+	ctx2.fillRect(Math.sqrt(2) * 200 + 390, 390, 20, 20) ;
+	ctx2.fillStyle = "magenta";	
+	ctx2.fillRect(390, 190, 20, 20) ;
+	
 	ctx2.fillStyle = "black";	
 	ctx2.fillRect(400, 0, 5, 800) ;
 	ctx2.fillRect(0, 400, 800, 5) ;
@@ -375,14 +355,397 @@ function draw2()
 	ctx2.fillRect(200, 395, 5, 15) ;
 	ctx2.fillRect(600, 395, 5, 15) ;
 	
-	ctx2.fillStyle = "red";	
-	ctx2.fillRect(790, 390, 20, 20) ;
-	ctx2.fillStyle = "green";	
-	//ctx2.fillRect(Math.sqrt(2) * 800 - 10, 390, 20, 20) ;
 	
 }</script>
 </section>
 
+<section>
+<h2>Multiplication with &Copf;</h2>
+<ul style="width:100%"><li>Multiplication has one wrinkle due to the whole <em style="font-family: monospace;">i</em> * <em style="font-family: monospace;">i</em> = -1 thing
+<code>&gt;&gt;&gt; def cmult(c,z):
+...     return (c.real * z.real) - (c.imag * z.imag) + (c.real * z.imag + c.imag * z.real) * sqrt(-1)
+...
+&gt;&gt;&gt; cmult(c,z)
+(-3-1j)
+&gt;&gt;&gt; c * z
+(-3-1j)
+&gt;&gt;&gt;</code>
+<li>I think a mathematician would write:
+<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>) * (c + d<em>i</em>) = (a * b - c * d) + (a * d + b * c)<em>i</em>
+<li>or
+<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>)(c + d<em>i</em>) = (ab - cd) + (ad + bc)<em>i</em>
+</section>
+
+<section>
+<h2>Multiplication with &Copf;</h2>
+<ul style="width:100%"><li>I think this easier when looking at a square
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;font-weight:bold">a</td>
+<td style="text-align: center;font-weight:bold">b<em>i</em></td>
+</tr>
+<tr >
+<td style="text-align: center;font-weight:bold">c</td>
+<td style="text-align: center;">ac</td>
+<td style="text-align: center;">cb*<em>i</em></td>
+</tr>
+
+<tr >
+<td style="text-align: center;font-weight:bold">d<em>i</em></td>
+<td style="text-align: center;">ad*<em>i</em></td>
+<td style="text-align: center;">bd*<em>i</em>*<em>i</em></td>
+</tr>
+</tbody>
+</table>
+<li>Or...
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;font-weight:bold">a</td>
+<td style="text-align: center;font-weight:bold">b<em>i</em></td>
+</tr>
+<tr >
+<td style="text-align: center;font-weight:bold">c</td>
+<td style="text-align: center;">ac</td>
+<td style="text-align: center;">cb*<em>i</em></td>
+</tr>
+
+<tr >
+<td style="text-align: center;font-weight:bold">d<em>i</em></td>
+<td style="text-align: center;">ad*<em>i</em></td>
+<td style="text-align: center;">-bd</td>
+</tr>
+</tbody>
+</table>
+<li>See also: squaring.
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;font-weight:bold">a</td>
+<td style="text-align: center;font-weight:bold">b<em>i</em></td>
+</tr>
+<tr >
+<td style="text-align: center;font-weight:bold">a</td>
+<td style="text-align: center;">a^2</td>
+<td style="text-align: center;">ab*<em>i</em></td>
+</tr>
+
+<tr >
+<td style="text-align: center;font-weight:bold">b<em>i</em></td>
+<td style="text-align: center;">ab*<em>i</em></td>
+<td style="text-align: center;">-b^2</td>
+</tr>
+</tbody>
+</table>
+<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>)^2 = a^2 - b^2 + 2ab<em>i</em>
+</section>
+
+<section>
+<h2>Absolute value</h2>
+<ul style="width:100%"><li>As I always say:
+<li><a href="https://mathworld.wolfram.com/L2-Norm.html">"The l^2-norm |x| is a vector norm defined for a complex vector"</a>
+<li>With complex values, absolute value is referred to as the l^2 norm.
+<li>You may recall:
+<code>&gt;&gt;&gt; def my_abs(n):
+...     return sqrt(n*n)
+...
+&gt;&gt;&gt; abs(4)
+4
+&gt;&gt;&gt; abs(2), my_abs(2), abs(-2), my_abs(-2)
+(2, (2+0j), 2, (2+0j))
+&gt;&gt;&gt; # I am using complex sqrt while built-in abs isn't</code>
+<li>I think a mathematician would write:
+<li style="font-family: monospace;background-color:white;">|x| = &radic;(x^2)
+<li>Not to worry, we defined multiplication and square root in this very talk.
+<li>NOTE: The l^2 norm (I say: "el two" norm) is called such because things are raised to the second power.
+</section>
+
+<section >
+<h2>l^2-norm |x| with &Copf;</h2>
+<ul style="width:100%"><li>Absolute value, and the l^2 norm, represent the distance of a value from zero.
+<li>For 
+<span style="color:red">1</span> + 
+<span style="color:green">&radic;-1</span>, 
+this is &radic;(1^2 + 1^2) = 
+<span style="color:magenta">&radic;2</span> </ul>
+
+<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-2</span>
+<span style="vertical-align:middle;" onclick="draw3();">
+  <canvas id="plot3"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">2</span>
+<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<script>
+function draw3()
+{
+	const plot3 = document.getElementById("plot3") ;
+	const ctx3 = plot3.getContext("2d");
+	
+	ctx3.fillStyle = "black";	
+	ctx3.fillRect(400, 0, 5, 800) ;
+	ctx3.fillRect(0, 400, 800, 5) ;
+	
+	ctx3.fillRect(395, 200, 15, 5) ;
+	ctx3.fillRect(395, 600, 15, 5) ;
+	ctx3.fillRect(200, 395, 5, 15) ;
+	ctx3.fillRect(600, 395, 5, 15) ;
+	
+	ctx3.fillStyle = "red";	
+	ctx3.fillRect(400, 200, 10, 200) ;
+	ctx3.fillStyle = "green";	
+	ctx3.fillRect(400, 200, 200, 10) ;
+	ctx3.beginPath();
+	ctx3.strokeStyle = "magenta";	
+	ctx3.moveTo(400,400) ;
+	ctx3.lineTo(600,200) ;
+	ctx3.lineWidth = 10 ;
+	ctx3.stroke();
+}</script>
+</section>
+
+<section >
+<h2>l^2-norm |x| with &Copf;</h2>
+<ul style="width:100%"><li>There are infinitely many complex values for which |x| = &radic;2, whereas there are zero integer, one positive, and two real values.</ul>
+
+<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-2</span>
+<span style="vertical-align:middle;" onclick="draw4();">
+  <canvas id="plot4"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">2</span>
+<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<script>
+function draw4()
+{
+	const plot4 = document.getElementById("plot4") ;
+	const ctx4 = plot4.getContext("2d");
+	
+	ctx4.fillStyle = "black";	
+	ctx4.fillRect(400, 0, 5, 800) ;
+	ctx4.fillRect(0, 400, 800, 5) ;
+	
+	ctx4.fillRect(395, 200, 15, 5) ;
+	ctx4.fillRect(395, 600, 15, 5) ;
+	ctx4.fillRect(200, 395, 5, 15) ;
+	ctx4.fillRect(600, 395, 5, 15) ;
+
+	ctx4.beginPath();
+	ctx4.strokeStyle = "magenta";	
+	ctx4.arc(400,400, 200*Math.sqrt(2), 0, 10)
+	ctx4.lineWidth = 10 ;
+	ctx4.stroke();
+}</script>
+</section>
+
+<section>
+<h2>complex.h</h2>
+<ul style="width:100%"><li>Whereas Python uses "cmath", C uses "complex.h"
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 66%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="text-align: left;width:25%"><code class="Python">
+&gt;&gt;&gt; from cmath import *
+
+
+
+&gt;&gt;&gt; c = complex(1,1)
+&gt;&gt;&gt; z = complex(2,3)
+
+&gt;&gt;&gt; z.real, z.imag
+(2.0, 3.0)
+&gt;&gt;&gt; c + z
+(3+4j)
+&gt;&gt;&gt; c * z
+(-1+5j)
+</code></td>
+<td style="text-align: left;width:75%"><code class="C">#include &lt;stdio.h&gt;
+#include &lt;complex.h&gt;
+
+int main(void)
+{
+  double complex c = 1.0 + 1.0 * I;
+  double complex z = 2.0 + 3.0 * I;
+  double complex r ;
+  
+  
+  r = c + z;
+  printf("r = %f + %f * I\n", creal(r), cimag(r));
+  r = c * z;
+  printf("r = %f * %f * I\n", creal(r), cimag(r));
+}</code><br><code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
+r = 3.000000 + 4.000000 * I
+r = -1.000000 * 5.000000 * I
+user@DESKTOP-THMS2PJ:~$ </code></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ Sets and Sequences
+<dd>✓ Sets of integers
+<dd>✓ Sets of reals
+<dd>✓ Sequences of integers
+<dd>✓ Sequences of reals
+<dt>✓ Complex Numbers
+<dd>✓ <em style="font-family: monospace;">i</em>
+<dd>✓ complex plane
+<dd>✓ complex addition
+<dd>✓ complex multiplication
+<dd>✓ l-2 norms (absolute value)
+<dd>✓ complex.h
+<dt>The Mandelbrot Set
+<dd>History
+<dd>Mandelbrot Sequence
+<dd>Imaging
+</section>
+
+<section>
+<h2>Mandelbrot & Friends</h2>
+<ul style="width:100%"><li>The Mandelbrot set was first observed in 1980 by Benoit Mandelbrot, a member of a Lithuanian Jewish family that left Poland in 1936 ahead of WW2.
+<li>The Buddhabrot method was developed by Melinda Green, an out trans woman (and outspoken atheist), in 1993.
+<li>There's a course evaluation category on discussing representation by the way.
+<li>Fun fact, after a lot of millenia old math, Buddhabrot is younger than me!
+</section>
+
+<section>
+<h2>The Mandelrbot Sequence</h2>
+<ul style="width:100%"><li>We recall sequences.
+<ul style="width:100%"><li>Sequences are collections (like sets) but preserve order and allow duplicates (unlike sets).
+<li>Sequences are usually described with a base case and recursive case, which might be familiar to us.
+<li style="background-color:white;font-family: monospace;"><em>F<sub>0</sub></em> = 0, <em>F<sub>1</sub></em> = 1, <em>F<sub>n</sub></em> = <em>F<sub>n-1</sub></em> + <em>F<sub>n-2</sub></em>
+</ul><li>The Mandelbrot set is described using a complex multiplication and a complex addition, which retroactively ascribes purpose to defining these two operations.
+<ul><li style="background-color:white;font-family: monospace;"><em>z<sub>0</sub></em> = <em>c</em>, <em>z<sub>n</sub><sup>2</sup></em> = <em>z<sub>n-1</sub></em> + <em>c</em>
+<li>Wait a minute... what's <em>c</em>?
+<li>The Mandelbrot sequence is like the Fibonacci sequence in its recursion, but...
+<li>Different in that there are infinite many Mandelbrot sequences
+<li>One for each possible complex number <em>c</em>
+<li>We for each <em>c</em> &isin; &Copf;
+</section>
+
+<section>
+<h2>The Mandelrbot Set</h2>
+<ul style="width:100%"><li>We recall sets.<ul>
+<li>Sets are characterized by their elements.
+<li>We use sets to describe collections, usually numbers.
+<li>Mathematicians have a language to describe sets.
+<li style="background-color:white;font-family: monospace;">uint32_t = { <em>n</em> &isin; 	&Zopf; : <em>n</em> <u>&gt;</u> -2^32 &and; <em>n</em> &lt; 2^32 }
+<li>We also recall a discussion of φ, where φ was defined in relation to a sequence at very large <em>n</em>
+<li style="background-color:white;font-family: monospace;">φ &larr; <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em> : <em>n</em> &rarr; &infin;</ul>
+<li>The Mandelbrot set is the set of complex values for which |<em>z<sub>n</sub></em>| < 2<ul>
+<li style="background-color:white;font-family: monospace;">Mandelbrot = { <em>c</em> &isin; &Copf; : |<em>z<sub>n</sub></em>| < 2 : <em>n</em> &rarr; &infin;}
+</ul>
+<li>My computer is not fast enough to run an infinite number of calculations an infinite number of times
+<ul><li>We select a finite subset of &Copf;, usually taking measurements about .01-.001 apart 
+<li>We select a finite value for <em>n</em>, like 25.
+<li>We call this "good enough"
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ Sets and Sequences
+<dd>✓ Sets of integers
+<dd>✓ Sets of reals
+<dd>✓ Sequences of integers
+<dd>✓ Sequences of reals
+<dt>✓ Complex Numbers
+<dd>✓ <em style="font-family: monospace;">i</em>
+<dd>✓ complex plane
+<dd>✓ complex addition
+<dd>✓ complex multiplication
+<dd>✓ l-2 norms (absolute value)
+<dd>✓ complex.h
+<dt>✓ The Mandelbrot Set
+<dd>✓ History
+<dd>✓ Mandelbrot Sequence
+<dd>Imaging
+</section>
+
+<section>
+<h2>Imaging</h2>
+<p>I implement complex algebra myself in JavaScript given unreliable access to Math.js by the way.</ul>
+
+<p>2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<p><span style="position:relative;top:-380px">-2</span>
+<span style="vertical-align:middle;" onclick="draw5();">
+  <canvas id="plot5"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">2</span>
+<p>-2<em style="font-family: monospace;text-transform: lowercase;">i</em></p>
+<script>function step(z,c)
+{
+    const a = z[0], b = z[1] ;
+    return [a*a - b*b + c[0], 2*a*b + c[1]] ;
+}
+
+function escp(z)
+{
+    return z[0]*z[0]+z[1]*z[1] > 4
+}
+
+function mset(z)
+{
+    const c = [z[0],z[1]] ;
+    var iter = 25 ;
+    while (iter--)
+    {
+        z = step(z,c) ;
+        if (escp(z))
+        {
+            return false ;
+        }
+    }
+    return true ;
+}
+
+function draw5()
+{
+    const plot5 = document.getElementById("plot5") ;
+    const ctx5 = plot5.getContext("2d");
+    var i, j ;
+    var c ;
+    
+    ctx5.fillStyle = "black";
+    for ( i = 0 ; i < 800 ; i++ )
+    {
+        for ( j = 0 ; j < 800 ; j++ )
+        {
+            c = [(i - 400) / 200,(j - 400) / 200] ;
+            if (mset(c))
+            {
+                ctx5.fillRect(i, j, 1, 1) ;
+            }
+        }
+    }
+}</script>
+</section>
 
  </div>
   </div>

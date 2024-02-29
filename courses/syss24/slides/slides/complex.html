@@ -92,15 +92,15 @@ True
 #include &lt;stdint.h&gt;
 
 int main(void) {
-  int32_t i = 1 ;
-  while( i > 0) { i++ ; }
-  printf("i = %d, i-1 = %d\n", i, i-1) ;
+  int32_t x = 1 ;
+  while( x > 0 ) { x++ ; }
+  printf("x = %d, x-1 = %d\n", x, x-1) ;
   return 0 ;
 }
 </code>
 <li>We can examine the set:
 <code>user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out
-i = -2147483648, i-1 = 2147483647
+x = -2147483648, x-1 = 2147483647
 user@DESKTOP-THMS2PJ:~$ </code>
 </section>
 
@@ -129,11 +129,11 @@ user@DESKTOP-THMS2PJ:~$ </code>
 <h2>Using Sets</h2>
 <ul style="width:100%"><li>Mathematicians also have a language to describe sets.
 <li>Usually formulated in LaTeX, here in HTML:
-<li style="background-color:white;font-family: monospace;">uint32_t = { <em>n</em> &isin; 	&Zopf; : <em>n</em> <u>&gt;</u> -2^32 &and; <em>n</em> &lt; 2^32 }
+<li style="background-color:white;font-family: monospace;">int32_t = { <em>n</em> &isin; 	&Zopf; : <em>n</em> <u>&gt;</u> -2^31 &and; <em>n</em> &lt; 2^31 }
 <li>Importantly, we are defining this with mathematical operations that would be infinitely expensive in Python:
-<code class="Python">&gt;&gt;&gt; [i for i in range(10) if i < 5]
+<code class="Python">&gt;&gt;&gt; [x for x in range(10) if x < 5]
 [0, 1, 2, 3, 4]
-&gt;&gt;&gt; int32_t = {i for i in range(&infin;) if i >= -2 ** 32 and i < 2 ** 32} 
+&gt;&gt;&gt; int32_t = {x for x in range(&infin;) if x >= -2 ** 31 and x < 2 ** 32} 
 # that's an infinity </code>
 <li>Mathematicians ✏️🔥 Stay 💯 Winning 💪
 </section>
@@ -142,7 +142,7 @@ user@DESKTOP-THMS2PJ:~$ </code>
 <h2>Real Sets</h2>
 <ul style="width:100%"><li>A lot of mathematical operations we know and love* can be understood with sets.
 <li>Square root, for example.
-<li style="background-color:white;font-family: monospace;">sqrt4 = x : x <u>&gt;</u> <em>n</em> &forall; i &isin; { <em>n</em> &isin; 	&Zopf; : <em>n</em> * <em>n</em> <u>&lt;</u> 4 }
+<li style="background-color:white;font-family: monospace;">sqrt4 = x : x <u>&gt;</u> <em>n</em> &forall; n &isin; { <em>n</em> &isin; 	&Zopf; : <em>n</em> * <em>n</em> <u>&lt;</u> 4 }
 <li>Say: The square root of 4 is the greatest element of the set of all numbers* for which the number squared is less than or equal to 4.
 <li>numbers*
 <li>What about the square root of 2?
@@ -247,7 +247,6 @@ user@DESKTOP-THMS2PJ:~$ </code>
 </ul>
 <li>We term <em style="font-family: monospace;">i</em> an imaginary number, since it isn't real.
 <li>Usually, we write it the way we would any other number or algebraic expression.
-<li>Yeah that's right, it's sets all the way down.
 <li style="background-color:white;font-family: monospace;">&radic;-9 = 3<em>i</em>
 <li>By the way, don't worry too much about &radic;<em style="font-family: monospace;">i</em>, we'll get there but it's easy enough.
 <li>Here's something you should worry about - what if we apply square root to list of positive and negative numbers...
@@ -359,10 +358,28 @@ function draw2()
 }</script>
 </section>
 
+
+<section>
+<h2>Addition with &Copf;</h2>
+<ul style="width:100%"><li>Addition precedes predictably while simple keeping terms multiplied by <em style="font-family: monospace;">i</em> separate.
+<code>&gt;&gt;&gt; c, z = complex(1,1), complex(-2,1)
+&gt;&gt;&gt; def cadd(c,z):
+...     return (c.real + z.real) + (c.imag + z.imag) * sqrt(-1)
+...
+&gt;&gt;&gt; cadd(c,z)
+(-1+2j)
+&gt;&gt;&gt; c + z
+(-1+2j)
+&gt;&gt;&gt;</code>
+<li>I think a mathematician would write:
+<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>) + (c + d<em>i</em>) = (a + c) + (b + d)<em>i</em>
+</section>
+
 <section>
 <h2>Multiplication with &Copf;</h2>
 <ul style="width:100%"><li>Multiplication has one wrinkle due to the whole <em style="font-family: monospace;">i</em> * <em style="font-family: monospace;">i</em> = -1 thing
-<code>&gt;&gt;&gt; def cmult(c,z):
+<code>&gt;&gt;&gt; c, z = complex(1,1), complex(-2,1)
+&gt;&gt;&gt; def cmult(c,z):
 ...     return (c.real * z.real) - (c.imag * z.imag) + (c.real * z.imag + c.imag * z.real) * sqrt(-1)
 ...
 &gt;&gt;&gt; cmult(c,z)
@@ -371,9 +388,7 @@ function draw2()
 (-3-1j)
 &gt;&gt;&gt;</code>
 <li>I think a mathematician would write:
-<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>) * (c + d<em>i</em>) = (a * b - c * d) + (a * d + b * c)<em>i</em>
-<li>or
-<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>)(c + d<em>i</em>) = (ab - cd) + (ad + bc)<em>i</em>
+<li style="font-family: monospace;background-color:white;">(a + b<em>i</em>)(c + d<em>i</em>) = (ac - bd) + (ad + bc)<em>i</em>
 </section>
 
 <section>
@@ -635,13 +650,13 @@ user@DESKTOP-THMS2PJ:~$ </code></td>
 </section>
 
 <section>
-<h2>The Mandelrbot Sequence</h2>
+<h2>The Mandelbrot Sequence</h2>
 <ul style="width:100%"><li>We recall sequences.
 <ul style="width:100%"><li>Sequences are collections (like sets) but preserve order and allow duplicates (unlike sets).
 <li>Sequences are usually described with a base case and recursive case, which might be familiar to us.
 <li style="background-color:white;font-family: monospace;"><em>F<sub>0</sub></em> = 0, <em>F<sub>1</sub></em> = 1, <em>F<sub>n</sub></em> = <em>F<sub>n-1</sub></em> + <em>F<sub>n-2</sub></em>
 </ul><li>The Mandelbrot set is described using a complex multiplication and a complex addition, which retroactively ascribes purpose to defining these two operations.
-<ul><li style="background-color:white;font-family: monospace;"><em>z<sub>0</sub></em> = <em>c</em>, <em>z<sub>n</sub><sup>2</sup></em> = <em>z<sub>n-1</sub></em> + <em>c</em>
+<ul><li style="background-color:white;font-family: monospace;"><em>z<sub>0</sub></em> = <em>c</em>, <em>z<sub>n+1</sub></em> = <em>z<sub>n</sub><sup>2</sup></em> + <em>c</em>
 <li>Wait a minute... what's <em>c</em>?
 <li>The Mandelbrot sequence is like the Fibonacci sequence in its recursion, but...
 <li>Different in that there are infinite many Mandelbrot sequences
@@ -655,7 +670,7 @@ user@DESKTOP-THMS2PJ:~$ </code></td>
 <li>Sets are characterized by their elements.
 <li>We use sets to describe collections, usually numbers.
 <li>Mathematicians have a language to describe sets.
-<li style="background-color:white;font-family: monospace;">uint32_t = { <em>n</em> &isin; 	&Zopf; : <em>n</em> <u>&gt;</u> -2^32 &and; <em>n</em> &lt; 2^32 }
+<li style="background-color:white;font-family: monospace;">int32_t = { <em>n</em> &isin; 	&Zopf; : <em>n</em> <u>&gt;</u> -2^31 &and; <em>n</em> &lt; 2^31 }
 <li>We also recall a discussion of φ, where φ was defined in relation to a sequence at very large <em>n</em>
 <li style="background-color:white;font-family: monospace;">φ &larr; <em>F<sub>n</sub></em> / <em>F<sub>n-1</sub></em> : <em>n</em> &rarr; &infin;</ul>
 <li>The Mandelbrot set is the set of complex values for which |<em>z<sub>n</sub></em>| < 2<ul>

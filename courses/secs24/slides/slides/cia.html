@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CIA</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">CIA</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">03 April 2024</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cybersecurity!</li>
+<li>We have completed the specification portion of class.
+<ul>
+<li>I will answer questions but have no more planned slides.</li><ul>
+</li></ul></li></ul></li>
+<li>There is a <b>GUEST SPEAKER</b> on 10 April (next week).<ul>
+<li>We're working out details but it will be fun.</li>
+<li>I'll introduce cryptography today, then we'll learn it in the last <em>n</em> classes.
+</li></ul></li>
+<li>The rest of the class is organized around the CIA triad and cryptography.
+<ul><li>Really the CI diad but I digress.
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following LTL expression:</p>
+<p><em>a</em> <strong>X</strong> <em>b</em> <strong>X</strong> <em>c</em></p>
+<p>Which of the following traces is described by this relation?</p>
+<div class="poll">
+<ol>
+<li><pre><code>ababa</code></pre></li>
+<li><pre><code>abcba</code></pre></li>
+<li><pre><code>babab</code></pre></li>
+<li><pre><code>bbaab</code></pre></li>
+</ol>
+</div>
+</section>
+<section id="crypto" class="slide level2">
+<h2>CIA</h2>
+<p>Ok, time to move on.
+<ul>
+<li>We started with logic to build up to safety and liveness.<ul>
+<li>Safety: bad things don't happen.</li>
+<li>Liveness: good things happen eventually.</li>
+<li>We rigorously defined both with closures.</li></ul></li>
+<li>We placed this within CIA<ul>
+<li>Confidentiality: Secrets stay secret (safety: bad thing is unsecrecy)</li>
+<li>Integrity: Actors are who they say they are (safety: bad thing is impersonation)</li>
+<li>Availability: Good thing happens eventually (basically liveness)</li>
+<li>No we must rigorously differentiate C and I.</li>
+</section>
+
+<section id="citation" class="slide level2">
+<p>I will adapt material from someone who actually knows things.
+<img src="https://www.se.rit.edu/~krabb/kal-4.jpg">
+<ul>
+<li>Kal Rabb<ul>
+<li>Senior Lecturer</li>
+<li>Department of Software Engineering</li>
+<li>Golisano College of Computing and Information Sciences</li>
+<li>Rochester Institute of Technology<ul>
+</section>
+
+    <section>
+        <h2>The "CIA" Triad</h2>
+        <ul>
+            <li>Confidentiality</li>
+            <li>Integrity</li>
+            <li>Availability</li>
+        </ul>
+        <p>Introduced in "Post Processing Audit Tools and Techniques in 1977.</p>
+		<ul>
+			<li>Go to <a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nbsspecialpublication500-19.pdf">link</a>
+			<li>Go to page 11-3
+			<li>Alternatively, search "confidentiality".
+			<pre><code class="lisp">OBJECTIVES OF A TYPICAL SECURITY AUDIT
+The post processing activities of the auditor are presented here in the context of a security audit and include confidentiality, integrity and availability of data.</pre></code>
+    </section>
+
+    <section>
+        <h2>Confidentiality</h2>
+        <ul>
+            <li>The system must not disclose any information intended to be hidden</li>
+            <li>E.g. credit card information on a website</li>
+            <li>E.g. status of your accounts (to an unauthorized user)</li>
+            <li>Beware of indirect disclosure
+                <ul>
+                    <li>Error messages can give away 'too much' information!</li>
+                    <li>Info dumps when a page fails, or app fails</li>
+                    <li>Login failures</li>
+                    <li>URL query strings can tell you about internal data</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Think: is <b>open source software</b> likely to be more or less confidential?</p>
+    </section>
+
+    <section>
+        <h2>Integrity</h2>
+        <ul>
+            <li>The system must not allow assets to be subverted by unauthorized users</li>
+            <li>E.g. changing a student’s academic status</li>
+            <li>We must be able trust what is in the system
+                <ul>
+                    <li>The data being stored</li>
+                    <li>The functionality being executed</li>
+					<li>NOTE: Under the von Neumann model these are both just <b>DATA</b>
+                </ul>
+			
+            </li>
+        </ul>
+        <p>Think: what makes us willing to trust (1) something on the internet or (2) an email?</p>
+    </section>
+
+    <section>
+        <h2>Availability</h2>
+        <ul>
+            <li>The system must be able to be available and operational to users</li>
+            <li>E.g. bringing down Amazon.com</li>
+            <li>These are extremely hard to protect against</li>
+            <li>Any system performance degradation that can be triggered by a user can be used for denial of service attacks</li>
+            <li>Concurrency issues, infinite loop, or resource exhaustion</li>
+        </ul>
+        <p>Think: when was the last time Facebook was down? Netflix? Healthcare.gov?</p>
+    </section>
+
+    <section>
+        <h2>Auditability or Nonrepudiation</h2>
+        <ul>
+            <li>An actor should not be able to deny or dispute their actions</li>
+            <li>E.g. instructors allowing cheat sheet usage on exam</li>
+            <li>A party of a transaction cannot deny having received a transaction, and the other party cannot deny having sent the transaction</li>
+        </ul>
+		<p>My assessment: Out of scope for this class beyond this mention.
+    </section>
+
+    <section>
+        <h2>An Example Security Incident</h2>
+		<ul>
+			<li>AOL voluntarily releases data including 20 million web queries from 650,000 AOL users.
+			<li>Data included three months of search data, click rates, search placements...
+			<li>NYT sends a journalist who finds No. 4417749: a then 62-yr old dog-lover from GA named Thelma Arnold
+			<img src="https://static01.nyt.com/images/2006/08/08/business/09aol.jpg">
+        <p>Security property violated: Confidentiality</p>
+    </section>
+
+    <section>
+        <h2>An Example Security Incident</h2>
+		<ul>
+			<li>(Allegedly) DarkSide tags "Colonial Pipeline" IT systems with ransomware
+			<li>Colonial Pipeline locks down business unit and pipeline ops
+			<li>Gas prices spike in North Carolina back when I was living on a grad student salary.
+			<img src="https://www.politico.com/dims4/default/2515b42/2147483647/strip/true/crop/1160x773+0+0/resize/630x420!/quality/90/?url=https%3A%2F%2Fstatic.politico.com%2Fab%2F00%2F55e9ba0e4d24827af6f6e52d3267%2F200508-colonial-pipeline-ap-773.jpg">
+        <p>Security property violated: Availability</p>
+    </section>
+
+    <section>
+        <h2>An Example Security Incident</h2>
+		<ul>
+			<li>Odin Intelligence website is defaced Jan 15, 2023.
+			<li>Odin's private keys to AWS and other services are posted publicly for anyone to use.
+			<li>Defacement is archived <a href="https://web.archive.org/web/20230115155608/https://www.odinintelligence.com/">here</a>
+			<img src="https://techcrunch.com/wp-content/uploads/2023/01/odin-defacement-notice.jpg?resize=768,632">
+        <p>Security property violated: Integrity</p>
+    </section>
+
+    <section>
+        <h2>A Ubiquitous Concern</h2>
+        <p>CIA touches everything in data & computing:</p>
+        <ul>
+            <li>Requirements that allow for privacy violations e.g. secretary can view everyone’s patient records</li>
+            <li>Introducing a design flaw, e.g. giving plug-ins total access</li>
+            <li>Introducing a code-level vulnerability, e.g. <a href="https://gist.github.com/cd-public/a7f6bfff7a6a81674e109fb31b370410">buffer overflow*</a></li>
+            <li>Missing a vulnerability in inspections & testing</li>
+            <li>Introducing a vulnerability in maintenance</li>
+            <li>Not facilitating a secure deployment, e.g. installation defaults</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Practical Design Principles</h2>
+        <p>Practicality … design isn’t enough</p>
+        <ul>
+            <li>Always test!</li>
+            <li>Don’t stop with the 'happy path'</li>
+            <li>What happens when things are 'out-of-range'?</li>
+            <li>Who is responsible for security?</li>
+            <li>Look in the mirror!</li>
+        </ul>
+        <p>Can you find weaknesses? That is the assignment! Test it; find it; fix it; test it again!</p>
+    </section>
+
+    <section>
+        <h2>CIA: Practical Design Principles</h2>
+        <ul>
+            <li>Defense in Depth</li>
+            <li>Least privilege</li>
+            <li>Fail securely</li>
+            <li>Security by obscurity</li>
+            <li>Frameworks are optional</li>
+            <li>Don’t trust</li>
+            <li>Secure by default</li>
+            <li>Keep it simple</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Defense in Depth</h2>
+        <ul>
+            <li>If they break into this, they can’t get any farther</li>
+            <li>Simply nest authentication realms with increased barriers</li>
+            <li>Getting on WU wifi does not grant access to SAGE/CANVAS.</li>
+			<li>Usually achieves confidentiality.
+        </ul>
+		<img width="30%" src="https://www.cloudmask.com/hs-fs/hubfs/defense%20in%20depth.jpg">
+    </section>
+
+    <section>
+        <h2>Least privilege</h2>
+        <ul>
+            <li>Every user or module is given the least amount of privilege it needs</li>
+            <li>Students cannot see a list of other students in their classes</li>
+			<li>Faculty cannot see students grades in other classes.
+			<li>Usually achieves integrity (we can't pretend to be a dean).
+        </ul>
+		<img width="50%" src="https://assets-global.website-files.com/5ff66329429d880392f6cba2/626aa2551302439ae6749e3f_Principle%20of%20Least%20Privilege.jpg">
+    </section>
+
+    <section>
+        <h2>Fail securely</h2>
+        <ul>
+            <li>Systems always fail: power outage, network slowdown, hardware breakage</li>
+            <li>Should electronic doors lock or open during a power outage</li>
+            <li>Usually forces a decision between confidentiality and availability</li>
+        </ul>
+		<img width="50%" src="https://static.wikia.nocookie.net/jurassicpark/images/3/39/JPTRexPaddock.png">
+    </section>
+
+    <section>
+        <h2>Security by obscurity</h2>
+        <ul>
+            <li>You can’t rely upon being obscure to be secure</li>
+            <li>After a cyberattack, the attacked have a responsibility to disclose</li>
+            <li>Many of the most secure cryptographic protocols are open source</li>
+            <li>De-obscurity achieves integrity for the developer and confidentiality for the user.</li>
+        </ul>
+		<img width="30%" src="https://imgs.xkcd.com/comics/unpickable.png">
+    </section>
+
+    <section>
+        <h2>Frameworks are optional</h2>
+        <ul>
+            <li>Don’t expect framework features to fix your security problems for you</li>
+            <li>Password managers are loved by the subset of people for who may possibly use them</li>
+            <li>Windows/Chrome/iOS is secure until it isn't.</li>
+        </ul>
+		<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@calvinallegedly/video/7338602613174258987" data-video-id="7338602613174258987" style="width:1000px;height:1000px;" > <section>   </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+    </section>
+
+    <section>
+        <h2>Don’t trust</h2>
+		<p>Don’t trust [input | environment | dependencies | *] initially
+        <ul>
+            <li>Know what to trust</li>
+            <li>Have a way to build trust after initial distrust</li>
+			<li>Use case of integrity
+        </ul>
+		<p>Post-2020 the "meta" is Zero Trust
+		<img width="50%" src="https://www.cimcor.com/hs-fs/hubfs/Zero%20Trust%20Security%20Model%20(cropped%202).jpg?width=1450&name=Zero%20Trust%20Security%20Model%20(cropped%202).jpg">
+    </section>
+
+    <section>
+        <h2>Secure by default</h2>
+        <ul>
+            <li>Be cautious of defaults</li>
+            <li>If less secure configurations are committed, make them opt-in</li>
+			<li>Usually integrity
+        </ul>
+		<img src="https://i.imgur.com/TXSyf6r.jpeg">
+    </section>
+
+    <section>
+        <h2>Keep it simple</h2>
+        <ul>
+            <li>YAGNI (you ain’t gonna need it) vs. KISS vs. Risk management</li>
+            <li>Speculative generality can be risky</li>
+            <li>Minimize the attack surface</li>
+		<p>This is why we didn't consider orange and pink traffic lights.
+        </ul>
+		<img width="30%" src="https://www.metrowestdailynews.com/gcdn/presto/2022/03/09/NMWD/7156aab3-9f6a-4916-b94b-fd2f3500dc36-signals.jpg">
+    </section>
+</body>
+</html>
+
+        </ul>
+    </section>
+
+    <section>
+        <h2>Exercise: Spam Bot Server</h2>
+		<ul>
+        <li>Suppose we had a vulnerability in the WU mail servers where you could send an email to with a certain subject line and it would bypass authentication for outgoing email.
+        <li>Which of CIA does this violate?
+        <ul>
+            <li>Immediately?</li>
+            <li>As a secondary consequence?</li>
+        </ul>
+        <li>Using the following philosophies, discuss how each of these can be applied here:</p>
+        <ul>
+            <li>Defense in Depth</li>
+            <li>Security by obscurity</li>
+            <li>Don’t trust input</li>
+        </ul>
+    </section>
+
+
+<section id="hash" class="slide level2">
+<h2>Problem space</h2>
+<p>So we need to differentiate C and I. We will define them mathematically.
+<ul>
+<li>We will use the notion of hashing.
+<div class="block" name="Definition">
+<p><b>Hashing</b> is a technique to convert numerical value of arbitrary size (that is, with no maximum value) to a numerical value of a fixed size (that is, with some maximum value).</p>
+</div>
+<li>The most basic form of hashing is modular arithmetic, or taking remainders.
+<pre><code class='R' style="max-height:1400px">min_hash <-function(n, max)
+{
+  return(n %% max)
+}</code></pre>
+</section>
+<section id="def" class="slide level2">
+<h2>Hashing</h2>
+<ul>
+<li>Multiple values may hash to the same value.
+<pre><code class='R' style="max-height:1400px">min_hash(11,10) == min_hash(21,10)</code></pre>
+<li>This means hashing is <b>one-way</b> (not reversible). One-way hashing is associated with integrity, similar to signatures.
+<div class="block" name="Definition">
+<p>A <b>hash-based signature</b> is a technique were a numerical value of small size is computed from a large amount of numerical data in such a manner that, if the overall data is changed, the hash is highly likely to change.</p></div>
+<ul>
+<li>Hash-based signatures are often used to allow us to validate executables online.
+<li>Programs are numerical data, and we wish to downloaded unaltered programs for security purposes.
+<li>Signatures, specifically "SHA256SUMS" can be seen when downloading <a href="http://releases.ubuntu.com/22.10/">Ubuntu"</a>.
+</section>
+<section id="use" class="slide level2">
+<h2>Use case</h2>
+<p>Consider you wish to have a new operating system.
+<ol>
+<li>You navigate to ubuntu.com and download a file.<ul>
+<li>We assume you trust Ubuntu, but do you trust your connection? The file itself?</ul>
+<li>You additionally download a hash-based signature.
+<li>On your own device, which you trust, you compute what the hash-based signature of your downloaded file is.<ul>
+<li>We can imagine Ubuntu ran <code>hash("ubuntu.exe")</code>, and we do the same.
+<li>If the hash is the same, there is only a 1-in-hashmax chance the code was altered.</ul>
+<li>If the hashes are the same, open the file.</ol>
+<p>This is how we verify the integrity of a file!
+</section>
+<section id="exercise" class="slide level2">
+<h2>Your turn</h2>
+<p>Construct a hashing function. Imagine it accepts <b>text</b> and a numerical <b>maximum</b>
+<ol>
+<li>First, you will need to convert text to numbers.
+<li>Then, you will need to compute a non-trivial hash.<ul>
+<li>Increasing the input value by one should alter the output hash by an indeterminate amount
+<li>Be prepared to argue convincing for this <b>probability</b>.</ol>
+<p>Create a R file with function <code>text_to_numbers(s)</code> that accepts a string <code>s</code> and produces an integer <code>n</code>, and function <code>nt_hash(n, m)</code> that accepts a numerical value <code>n</code> and a maximum value <code>m</code> and produces a value <code>h</code> &lt; <code>m</code> s.t. <pre><code>p(nt_hash(n) + 1 == nt_hash(n + 1)) = 1 / max</code></pre>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

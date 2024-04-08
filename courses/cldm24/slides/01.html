@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>file_io</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">file_io</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>21 Feb 24</h2>
+  <h2>w05d01</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Recall: UNC REU due 25 Feb
+<li>Recall: Garmin trip on March 14
+<li>HW1: Buddhabrot
+<ul><li>All the necessary C except file i/o is covered.
+<li>Begin work after/during class today
+<li>Scaffolding lectures next week
+<li>Submit best effort on 3/4.
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt>File i/o</dt>
+<dd>fopen() / fclose()
+<dd>fwrite() / fread()
+<dd>fprintf() / fscanf()
+<dd>fflush()
+</dd>
+<dd>
+</dd>
+<dt>File formats</dt>
+<dd>.ppm</dd>
+</dl>
+</section>
+<section>
+<h2>Finger Binary</h2>
+<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/closed-fist-0.png"><br>0b00 == 0</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/thumb-raised1.png"><br>0b01 == 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0x11 == 3</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="C">int *p = 0x0F ;
+p = (int *)0xF0 ;
+printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
+<p>What is printed?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code class="C">p = 0x0F</code></li>
+<li style="padding-bottom: .3em;"><code class="C">p = 0xF0</code></li>
+<li style="padding-bottom: .3em;"><code class="C">p = * // anything else</code></li>
+<li style="padding-bottom: .3em;"><code class="C">Segmentation fault</code></li>
+</ol>
+</div>
+</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Computing Lecture Outline</title>
+</head>
+<body>
+
+<section>
+    <h2>WHY CALL IT THE "CLOUD"?</h2>
+    <ul>
+        <li>Computing happens somewhere else, not on your PC or mobile device
+            <ul>
+                <li>A big goal is to prepare students for careers at the companies building and running the cloud (Google, Microsoft, Amazon, Facebook…).</li>
+                <li>Cloud computing is a technology course: we ask how things really work, not a concepts course that might be more centered on capabilities and use cases (in fact we will see lots of those, but they aren’t our main topic)</li>
+            </ul>
+        </li>
+        <li>The Cloud Underpins Modern Computing
+            <ul>
+                <li>Physical:
+                    <ul>
+                        <li>The cloud is a global deployment of massive data centers connected by ultra-fast networking, designed for scalability and robustness.</li>
+                    </ul>
+                </li>
+                <li>Logical:
+                    <ul>
+                        <li>A collection of tools and platforms that scale amazingly well. The platforms matter most; as a developer, they allow you to extend/customize them to create your application as a “personality” over their capabilities.</li>
+                    </ul>
+                </li>
+                <li>Conceptual:
+                    <ul>
+                        <li>A set of scalable ideas, concepts, and design strategies.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>WHO INVENTED THE CLOUD?</h2>
+    <ul>
+        <li>Google’s Jeff Dean and Sanjay Ghemawat get my “vote”.
+            <ul>
+                <li>Jeff Dean was a University of Washington PhD student. We know him well and he often visits Cornell. Now he is the head of Google Brain.</li>
+                <li>Sanjay Ghemawat was a Cornell ugrad, then MIT PhD. He is a Senior Fellow in Google’s systems infrastructure area.</li>
+            </ul>
+        </li>
+        <li>I was there too…
+            <ul>
+                <li>I didn’t invent the cloud, but many of my students had huge roles.
+                    <ul>
+                        <li>Personally, I created the “self-healing” software that ran the trading floors of the New York Stock Exchange and the Swiss Exchange for 10+ years. The US military uses this technology too.</li>
+                        <li>Designed the French portion of the European Air Traffic control system, control and created the core software. They’ve used it since 1996.</li>
+                        <li>Oracle and Microsoft both use a technology I invented to track the status of their clusters and data centers.</li>
+                        <li>Recently, I helped create the New England smart grid (for ISONE and NYPA), and helped the Air Force figure out how to leverage the cloud.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>SOME OF MY PAST STUDENTS BECAME CLOUD COMPUTING SUPERSTARS
+            <ul>
+                <li>Werner Vogels was in my group until 2005.
+                    <ul>
+                        <li>He has been CTO of Amazon since 2006.</li>
+                    </ul>
+                </li>
+                <li>Ranveer Chandra is Chief Scientist for Azure Global, head of Networking Research and responsible for their FarmBeats product.</li>
+                <li>Yee-Jiun Song: VP Engineering, Facebook</li>
+                <li>Qi Huang: Facebook video/photo delivery</li>
+                <li>Dalia Malkhi: CTO for Diem, Facebook’s digital currency.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>CLOUD COMPUTING</h2>
+    <ul>
+        <li>CS5412 is…
+            <ul>
+                <li>A deep study of a big topic.</li>
+                <li>In spring 2021 one focus will be on “smart farming” in Azure IoT Edge.</li>
+                <li>The farming focus leverages a Cornell and Microsoft interest (and an Azure product area) and makes it real.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>EVERYTHING IS BIG IN THE CLOUD</h2>
+    <ul>
+        <li>Data in the cloud
+            <ul>
+                <li>1 Exabyte of data is 1,073,741,824 GB. (Your hard disk probably holds 64GB, but is way too slow by data-center standards)</li>
+                <li>The Internet has about 2B websites, and of these, 644M have “active content”</li>
+                <li>… and all of this is “pre Internet of Things”</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>IOT AT THE EDGE: THE BIG NEW THING</h2>
+    <ul>
+        <li>Our course looks at many aspects of the cloud but will focus on live interactions with the outside world.</li>
+        <li>This used to be dominated by web interfaces, but increasingly also includes 5G mobility and a wide variety of Internet of Things sensors and actuators: the so-called IoT cloud.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>CONCEPT: DIGITAL TWIN</h2>
+    <ul>
+        <li>We often like to think of the cloud as having a software “image” that matches with IoT in the physical world.</li>
+        <li>The IoT devices are physical and live “outside” the cloud, but for each device we have a “digital twin” that lives inside the cloud, and is a kind of proxy. Actions on the twin are translated to reading the sensor or telling the actuator to do something.</li>
+        <li>This model will be very useful to us in CS5412</li>
+    </ul>
+</section>
+
+<section>
+    <h2>HOW DID TODAY’S CLOUD EVOLVE?</h2>
+    <ul>
+        <li>Prior to ~2005, we had “data centers designed for high availability”.</li>
+        <li>Amazon had especially large ones, to serve its web requests</li>
+        <li>This is all before the AWS cloud model</li>
+        <li>The real goal was just to support online shopping</li>
+        <li>Their system wasn’t very reliable, and the core problem was scaling</li>
+    </ul>
+</section>
+
+<section>
+    <h2>WASN’T GOOGLE FIRST?</h2>
+    <ul>
+        <li>Google was still building their first scalable infrastructure in this period.</li>
+        <li>Because Amazon ran into scaling issues first, Google (a bit later) managed to avoid them.
+            <ul>
+                <li>In some sense, Amazon dealt with these issues “in real time”.</li>
+                <li>Google had a chance to build a second system by learning from Amazon’s mistakes and approaches.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>YAHOO EXPERIMENT</h2>
+    <ul>
+        <li>In the 2005 time period everyone was talking about an experiment done at Yahoo. It was an “alpha/beta” experiment about ad-click-through</li>
+        <li>Customers who saw web page rendering faster than 100ms clicked ads.</li>
+        <li>For every 100ms delay, click-through rates noticeably dropped.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>MORE YAHOO FINDINGS</h2>
+    <ul>
+        <li>Rending the ads first didn’t help – in fact it hurt.</li>
+        <li>Customers wanted to see the “real content” first.</li>
+        <li>Rendering the ads after the content hurt too.</li>
+        <li>To get the best click-through rates, render your pages (ads included) fast!</li>
+    </ul>
+</section>
+
+<section>
+    <h2>EVERYONE HEARD THIS MESSAGE</h2>
+    <ul>
+        <li>At Amazon, Jeff Bezos spread the word internally.</li>
+        <li>He wanted Amazon to win this sprint.</li>
+        <li>The whole company was told to focus on ensuring that every Amazon product page would render with minimal delay. Unfortunately… as more and more customers turned up… Amazon’s web pages slowed down. This is a “crisis of the commons” situation.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>THE CRISIS OF THE COMMONS</h2>
+    <ul>
+        <li>At the center of the village is a lovely grassy commons. Everyone uses it.</li>
+        <li>One day a farmer has an awesome idea. He lets his goats graze on the commons. This saves the time of herding them to his fields. This gains him hours that he uses to improve his goat cheese factory.</li>
+        <li>He earns extra money with his award-winning cheeses.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>WHERE ARE THE COMMONS, IN A CLOUD?</h2>
+    <ul>
+        <li>In the cloud we need to think about all the internal databases and services “shared” by lots and lots of μ-service instances.</li>
+        <li>If we take the advice to “make everything as fast as possible”, all those millions of first-tier μ-services will be greedy.</li>
+        <li>But what works best for one instance, all by itself, might overload the shared services when the same code runs side by side with huge numbers of other instances (“when we run at scale”)</li>
+    </ul>
+</section>
+
+<section>
+    <h2>THE CLOUD AND THE “THUNDERING HERD”</h2>
+    <ul>
+        <li>In fact this is a very common pattern.</li>
+        <li>Something becomes successful at small scale, so everyone wants to try it.</li>
+        <li>But now the same code patterns that worked at small scale might break. The key to scalability in a cloud is to use the cloud platform in a smart way.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>STARTING AROUND 2006, AMAZON LED IN REINVENTING DATA CENTER COMPUTING</h2>
+    <ul>
+        <li>Amazon reorganized their whole approach:
+            <ul>
+                <li>Requests arrived at a “first tier” of very lightweight servers.</li>
+                <li>These dispatched work requests on a message bus or queue.</li>
+                <li>The requests were selected by “micro-services” running in elastic pools.</li>
+                <li>One web request might involve tens or hundreds of μ-services!</li>
+            </ul>
+        </li>
+        <li>They also began to guess at your next action and precompute what they would probably need to answer your next query or link click.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>TIER ONE / TIER TWO</h2>
+    <ul>
+        <li>We often talk about the cloud as a “multi-tier” environment.</li>
+        <li>Tier one: programs that generate the web page you see.</li>
+        <li>Tier two: services that support tier one. We will see one later (DHT/KVS storage used to create a massive cache)</li>
+    </ul>
+</section>
+
+<section>
+    <h2>TODAY’S CLOUD</h2>
+    <ul>
+        <li>Tier one runs on very lightweight servers:
+            <ul>
+                <li>They use very small amounts of computer memory</li>
+                <li>They don’t need a lot of compute power either</li>
+                <li>They have limited needs for storage, or network I/O</li>
+            </ul>
+        </li>
+        <li>Tier two μ-Services specialize in various aspects of the content delivered to the end-user. They may run on somewhat “beefier” computers.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>THE CLOUD SCHEDULER</h2>
+    <ul>
+        <li>The cloud scheduler watched each μ-service pool (each is shown as one dot, with color telling us how long the task queue was, and the purple circle showing how CPU loaded it is).</li>
+        <li>The picture didn’t show how many instances were active – that makes it too hard to render. But each pool had varying numbers of instances. The App Server was automatically creating and removing instances.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>WHAT DOES IT MEAN TO “ADD INSTANCES”?</h2>
+    <ul>
+        <li>For some applications (ones with NUMA threading for parallelism) we add instances by launching new threads on additional cores.</li>
+        <li>For others, we literally run two or more identical copies of the same program, on different computers! They use a “load balancer” to send requests to the least loaded instances.</li>
+        <li>And you can even combine these models…</li>
+    </ul>
+</section>
+
+<section>
+    <h2>WHY POOLS OF INSTANCES?</h2>
+    <ul>
+        <li>This is really just one of a few ways to get parallelism</li>
+        <li>Let’s look at some of the choices and try to understand why the cloud favors the approach we just saw on the Delimitrou visualization.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>HOW DO CLOUD SERVICES SCALE?</h2>
+    <ul>
+        <li>We’ve been acting as if each μ-service is a set of “processes” but ignoring how those processes were built.</li>
+        <li>In fact, they will use parallel programming of some form because modern computers have NUMA architectures.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>OLD DEBATE: HOW TO LEVERAGE PARALLELISM?</h2>
+    <ul>
+        <li>Not every way of scaling is equally effective. Pick poorly and you might make less money!</li>
+        <li>To see this, we’ll spend a minute on just one example.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>EXAMPLE: CLOUD HOSTED MUSIC SERVICE</h2>
+    <ul>
+        <li>Which would you pick?</li>
+        <li>Basically, we have four options:
+            <ul>
+                <li>Keep my server busy by running one multithreaded application on it</li>
+                <li>Keep it busy by running N unthreaded versions of my application as virtual machines, sharing the hardware</li>
+                <li>Keep it busy by running N side by side processes, but don’t virtualize</li>
+                <li>Keep it busy by running N side by side processes using containers</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>THE WINNER IS…</h2>
+    <ul>
+        <li>Best is “container virtualization” with one server process dedicated to each distinct user.</li>
+        <li>A single cloud server might host hundreds of these servers. But they are easy to build: you create one music player, and then tell the cloud to run as many “instances” as required</li>
+    </ul>
+</section>
+
+<section>
+    <h2>PAAS CONCEPT</h2>
+    <ul>
+        <li>The cloud favors PaaS.</li>
+        <li>Basically, the vendor offers all the standard code, pre-built. They create the platform in ways that perform and scale really well.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>THOUGHT QUESTION</h2>
+    <ul>
+        <li>Can you think of a few other “uses” for a platform that would support video on demand, but really uses a lambda for the playback function?</li>
+        <li>Which parts would the platform be handling? How fancy can a lambda really be?</li>
+    </ul>
+</section>
+
+<section>
+    <h2>MORE TOPICS WE WILL TALK ABOUT</h2>
+    <ul>
+        <li>Azure’s IoT Edge
+            <ul>
+                <li>Sensors and actuators: what are they?</li>
+                <li>How are digital twin solutions used?</li>
+                <li>How do you customize an IoT cloud?</li>
+            </ul>
+        </li>
+        <li>Filtering and transforming streaming data</li>
+        <li>Fault Tolerance and Consistency
+            <ul>
+                <li>Challenges of dealing with real-time data</li>
+                <li>Time synchronization, temporal storage</li>
+                <li>Concepts of consistency for the cloud edge</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>ORGANIZATIONAL STUFF</h2>
+    <ul>
+        <li>Fall 2022 Organizational topics/FAQ
+            <ul>
+                <li>Projects and extra credit opportunities</li>
+                <li>In-person prelim</li>
+                <li>Final exam</li>
+                <li>Your final grade</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>EVERYONE NEEDS TO DO A PROJECT!</h2>
+    <ul>
+        <li>You can work alone, or in teams. We encourage teaming, either with people you already know, or through “looking for teammates” on Piazza.</li>
+        <li>We can also help you form a team if you don’t know anyone.</li>
+        <li>Teams can accomplish more, and some team projects even become startups</li>
+    </ul>
+</section>
+
+<section>
+    <h2>PROJECT TOPICS</h2>
+    <ul>
+        <li>You are welcome to invent one of your own, but it has to be a really good fit for cloud computing and not just some random computing project.</li>
+        <li>These projects span a range of topics
+            <ul>
+                <li>Big data + AI tools, but with some form of streaming input.</li>
+                <li>New cloud technologies layered on Cornell’s Cascade platform</li>
+                <li>Proof of concept for your exciting web-hosted startup concept.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>CS5999 (MENG PROJECT CREDITS)</h2>
+    <ul>
+        <li>Some people enlarge their CS5412 projects with our permission, based on a second, “parallel” investigation</li>
+        <li>The 5999 project can’t be just “writing more code”. It has to be a significant design, performance, or user studies issue</li>
+        <li>The goal is to push the envelope further on your main topic</li>
+    </ul>
+</section>
+
+<section>
+    <h2>EXTRA CREDIT</h2>
+    <ul>
+        <li>We often have small “quizzes” to see how well you are understanding the material</li>
+        <li>Each week, there might be a “short assignment”</li>
+        <li>We also have some “contest problems”</li>
+        <li>The cloud favors PaaS.</li>
+        <li>Basically, the vendor offers all the standard code, pre-built. They create the platform in ways that perform and scale really well.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>IN-PERSON PRELIM AND FINAL</h2>
+    <ul>
+        <li>Because of Cornell rules, you must come to campus to take these.</li>
+        <li>Yes, you can take these remotely if you need to</li>
+        <li>However, you will have to take an “off hours” exam which might be more stressful</li>
+    </ul>
+</section>
+
+<section>
+    <h2>FINAL GRADE</h2>
+    <ul>
+        <li>Projects are very important, and count more than anything else.</li>
+        <li>Attendance is not taken, but don’t expect to do well if you don’t show up!</li>
+        <li>There will be some extra credit available too</li>
+        <li>Finally, exams aren’t intended to be difficult</li>
+    </ul>
+</section>
+
+</body>
+</html>
+
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

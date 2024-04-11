@@ -29,77 +29,21 @@
 <section id="title-slide">
   <h1 class="title">Entropy</h1>
   <p class="author">Calvin (Deutschbein)<br></p>
-  <p class="date">1 February 2023</p>
+  <p class="date"></p>
 </section>
 
 <section id="announcements" class="slide level2">
 <h2>Announcements</h2>
 <ul>
 <li>Welcome to DATA-599: Cybersecurity!</li>
-<li>There was no homework due this week.
-<ul>
-<li>Not to worry! Kripke Structure work is ongoing.<ul>
-<li>Pause for questions.</li></ul></li>
-</ul>
 <li>Today is an out-of-sequence talk on <em>Entropy</em></li>
 </ul>
-</section>
-<section id="review1" class="slide level2">
-<h2>Review Question</h2>
-<p>In a Kripke, what is <em>I</em>?</p>
-<div class="poll">
-<ol>
-<li>All possible configurations of a studied system</li>
-<li>All possible traits or features of a studied system</li>
-<li>All allowable starting configurations of a studied system</li>
-<li>All allowable traits or features of a studied system to correctly start</li>
-</ol>
-</div>
-<p>Think about what states and propositions are, and how they fit in here.</p>
-</section>
-<section id="review2" class="slide level2">
-<h2>Review Question</h2>
-<p>In a Kripke, <em>R</em> is a relation. What does this mean?</p>
-<div class="poll">
-<ol>
-<li><em>R</em> considers pairs of distinct conditions or traits of a system</li>
-<li><em>R</em> considers pairs of configurations of a systems</li>
-<li><em>R</em> connects configurations to conditions or traits for some system</li>
-<li><em>R</em> connects conditions or traits to configurations of some system</li>
-</ol>
-</div>
-<p>Think about what states and propositions are, and how they fit in here.</p>
-</section>
-<section id="review3" class="slide level2">
-<h2>Review Question</h2>
-<p>We said properties were <b>sets</b> of something. What?</p>
-<div class="poll">
-<ol>
-<li>States</li>
-<li>Sequences</li>
-<li>Systems</li>
-<li>Times</li>
-</ol>
-</div>
-</section>
-<section id="review4" class="slide level2">
-<h2>Review Question</h2>
-<p>How do Kripke Structures relate to properties?</p>
-<div class="poll">
-<ol>
-<li>A Kripke structure defines a property without enumeration</li>
-<li>A Kripke structure can create an example of a trace within a property</li>
-<li>A Kripke structure is the system that may or may not have some property</li>
-<li>A Kripke structure's atomic propositions are properties</li>
-</ol>
-</div>
-<p>How did we motivate the introduction of Kripke structures?</p>
 </section>
 <section id="properties" class="slide level2">
 <h2>Properties</h2>
 <ul>
-<li>Enough thinking about traces for now - let's consider atomic propositions.</li>
-<li>One such proposition is "some password <em>p</em> is strong than some password <em>p_1</em>.</li>
+<li>Let's consider atomic propositions.</li>
+<li>One such proposition is "some password <em>p<sub>0</sub></em> is strong than some password <em>p<sub>1</sub></em>.</li>
 <li>This makes sense intuitively, but how can we measure it?</li>
 </ul>
 </section>
@@ -150,7 +94,7 @@
 <li>We flip the coin <em>5</em> times.</li>
 <li>The <strong>32</strong> possible sequences capture <em>5</em> bits of entropy.</li>
 <li><em><math>2^5=32</math></em></li>
-<li><em><math>32 > 26 & 26 > (32 / 2)</math></em></li>
+<li><em><math>26 &isin; ((32 / 2), 32]</math></em></li>
 </ul>
 <pre><code class="python">seqs <- list("HHHHH","HHHHT","HHHTH","HHHTT",
              "HTHHH","HTHHT","HTHTH","HTHTT",
@@ -160,7 +104,7 @@
 </section>
 <section id="label" class="slide level2">
 <h2>Labels</h2>
-<p>Restrict passwords the 26 lower case letters of the 26-letter modern Latin alphabet</p>
+<p>Restrict passwords to the 26 lower case letters of the 26-letter modern Latin alphabet</p>
 <ul>
 <li>We create a <strong>labelling function</strong> <em>L</em> that maps 5-sequences to lower case letters.</li>
 <li><em>L</em> ⊂ <em>C<sup>5</sup></em> → <math>{a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}</math></li>
@@ -1285,7 +1229,7 @@ ls
 ent(pqlaksiwuejdhfyryt)        > 84
 ent(piis31415926)              > 62
 </code></pre>
-<p>I argue that ps2 is <math>(84-62)^2 = <em>484</em></math> times less secure than ps3</p>
+<p>I argue that ps2 is <math>2 ^ (84-62) = <em>4194304</em></math> times less secure than ps3</p>
 </section>
 <section id="goodness" class="slide level2">
 <h2>The "Good" Password.</h2>
@@ -1310,7 +1254,7 @@ ent(pqlaksiwuejdhfyryt)        > 84
 ent(piis31415926)              > 62
 ent(G00dP@55)                  > 52
 </code></pre>
-<p>I argue that ps1 is <math>(117-52)^2 = <em>4225</em></math> times less secure than ps4.</p>
+<p>I argue that ps1 is <math>2^(117-52) = <em>36893488147419103232</em></math> times less secure than ps4.</p>
 <pre ><code class="r" style="max-height:900px">c(goodEntropy("G00dP@SS"), lowCaseEntropy("goodpassword"))
 </code></pre>
 <pre ><code class="r" style="max-height:900px">51.2751274891016, 56.4052766176931

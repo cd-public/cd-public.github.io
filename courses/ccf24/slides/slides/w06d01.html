@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>JavaScript</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">JavaScript</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">19 February 2024</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>You should have read Omelas.
+<ul>
+<li>Have a response paper written and posted by this evening.
+<li>Read your peer's responses tomorrow.
+</ul></li>
+<li>Today we'll show some fun JavaScript (JS) tricks.
+<li>Homework for Wednesday
+<ul>
+<li>Read <a href="https://shsdavisapes.pbworks.com/f/Omelas.pdf">“The Ones Who Walk Away From Omelas”</a>.  It's 5 pages.
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
+</ul>
+<li>Discussion section Wednesday</li></ul>
+</section>
+<section id="collect" class="slide level2">
+<h2>Debug</h2>
+<p>Target 10 minutes</p>
+<ul>
+<li>5 minutes alone, check to see your tech to get a response paper posted
+<ul>
+<li>Can you accesses the pdf?</li>
+<li>Can you post to <em>your_name.github.io/omelas.html</em>?</li>
+<li>Using the course site, can you find your peers' omelas.html or, failing that, resumes?</li>
+</ul></li>
+<li>5 minutes in small groups, debug and validate each other's tech.
+<ul>
+<li>If you thought you could find <em>x</em>, can your peers?</li>
+<li>If your peers thought you could find <em>x</em>, can you?</li>
+<li>Is your text accessible to your peers and vice versa?</li>
+</ul></li></ul>
+</section>
+<section id="fdbk" class="slide level2">
+<h2>Initial Feedback</h2>
+<ul>
+<li>Initial responses look well-formed.<ul>
+<li>Think about how your page looks on different screens.</li>
+<li>Think about how clear it is what your <b>main thesis</b> is.</li>
+</ul>
+<br>
+<li>Many of you included quotes. This is great!<ul>
+<li>Check out html <code>&#60;blockquote&#62;</code> element.</li></ul>
+</li>
+<br>
+<li>Think about what else you may want to bring to discussion.<ul>
+<li>Is the history of utilitarianism interesting?
+<li>Are we interested in learning more about Ursula Le Guin?
+</li>
+</ul>
+</li>
+</ul>
+</section><section id="CSSelem" class="slide level2">
+<h2>Style elements</h2>
+<p>Consider the following HTML file with a style element.
+<pre><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   body { background: red; color: green; }
+   p { background: blue; color: white; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;This page is just a demo.&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   body { background: red; color: green; }
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is the font color of the text "<code>&#60;p&#62;This page is just a demo.&#60;/p&#62;</code>"?</p>
+<div class="poll">
+<ol>
+<li>Red</li>
+<li>Green</li>
+<li>Blue</li>
+<li>White</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   body { background: red; color: green; }
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What color is the background of this page?</p>
+<div class="poll">
+<ol>
+<li>Red</li>
+<li>Green</li>
+<li>Blue</li>
+<li>White</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code>  &#60;style&#62;
+   body { background: red; color: green; }
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code></pre>
+<p>What is the font color of the text "<code class="html">&#60;h1&#62;This is a header.&#60;/h1&#62;</code>"?</p>
+<div class="poll">
+<ol>
+<li>Red</li>
+<li>Green</li>
+<li>Blue</li>
+<li>White</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<pre><code> &#60;head&#62;
+  &#60;style&#62;
+   .lite-mode { background: white; color: black; }
+   .dark-mode { background: dimgrey; color: cyan; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body class="dark-mode"&#62;
+  &#60;p&#62;This page is just a demo.&#60;/p&#62;
+ &#60;/body&#62;</code></pre>
+<p>What is the font color of the text "<code class="html">This page is just a demo.</code>"?</p>
+<div class="poll">
+<ol>
+<li>White</li>
+<li>Black</li>
+<li>Dim Grey</li>
+<li>Cyan</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<pre><code> &#60;head&#62;
+  &#60;style&#62;
+   .lite-mode { background: white; color: black; }
+   .dark-mode { background: dimgrey; color: cyan; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body class="lite-mode"&#62;
+  &#60;p class="dark-mode"&#62;This page is just a demo.&#60;/p&#62;
+ &#60;/body&#62;</code></pre>
+<p>What is the background color of the text "<code class="html">This page is just a demo.</code>"?</p>
+<div class="poll">
+<ol>
+<li>White</li>
+<li>Black</li>
+<li>Dim Grey</li>
+<li>Cyan</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<pre><code> &#60;head&#62;
+  &#60;style type="text/css" media="print"&#62;
+   a { background: white; color: black; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;a href="https://github.com"&#62;GitHub&#60;/a&#62;
+ &#60;/body&#62;</code></pre>
+<p>What color will the GitHub hyperlink be?</p>
+<div class="poll">
+<ol>
+<li>Black</li>
+<li>Blue (unvisited link)</li>
+<li>Purple (visited link)</li>
+<li>Indeterminate</li>
+</ol>
+</div>
+</section>
+<section id="review7" class="slide level2">
+<h2>Review Question 7</h2>
+<pre><code> &#60;head&#62;
+  &#60;style type="text/css" media="print"&#62;
+   a { background: white; color: black; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;a href="https://github.com"&#62;GitHub&#60;/a&#62;
+ &#60;/body&#62;</code></pre>
+<p>What color will the GitHub hyperlink be if the page is printed?</p>
+<div class="poll">
+<ol>
+<li>Black</li>
+<li>Blue (unvisited link)</li>
+<li>Purple (visited link)</li>
+<li>Indeterminate</li>
+</ol>
+</div>
+</section>
+<section id="HTML" class="slide level2">
+<h2>HTML/CSS</h2>
+<p>HTML/CSS styles pages.
+<ul>
+<li>CSS styling is mostly static, based on enviroment.</li>
+<li>HTML styling is most unsupported, and can be indeterminate.</li>
+<li>When underspecified, browser defaults determine styling.</li>
+</ul>
+<p>What if we want to:
+<ul>
+<li>Change styles without a reload?</li>
+<li>Change content without a reload?</li>
+<li>Change rendering while maintaining printability?</li>
+</ul>
+<p>Consider the case of websites with dark modes.</p>
+</section>
+<section id="uses" class="slide level2">
+<h2>HTML and CSS</h2>
+<p><em>All of HTML/CSS gives <b>static</b> styling</em>.</p>
+<div class="cols">
+<div class="col">
+<p>HTML is a</p>
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute value</li>
+<li>Attribute name</li></li></li></ul></li></ul>
+<li>Content</li>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></li></ul></li></ul></li></ul>
+</div>
+<div class="col">
+<p>CSS is a</p>
+<ul>
+<li>Rule<ul>
+<li>Selector(s)</li>
+<li>Declaration Block<ul>
+<li>Declaration<ul>
+<li>Property</li>
+<li>Value</li></li></ul></li></ul></li></ul></li>
+<li>Attribute Value<ul>
+<li>Declaration Block<ul>
+<li>...</li></li></ul></li></ul></li></ul></li></ul></li>
+</div>
+</div>
+</section>
+<section id="js" class="slide level2">
+<h2>Scripting</h2>
+<p>Introduce the <code>&#60;script&#62;</code> element.</p>
+<ul>
+<li>In the context of HTML/CSS, we may perform some limiting scripting.</li>
+<code>&#60;script&#62;alert('Hello, world!');&#60;/script&#62;</code>
+<li>This scripting language is JavaScript, and it is the embedded scripting language of HTML.</li>
+</ul>
+</section>
+<section id="alert" class="slide level2">
+<h2>Alert</h2>
+<p>We can make an HTML button:</p>
+<pre><code class="html">&#60;button onclick="SomeFunc()" style="background:white;color:black;font;font-size:40px"&#62;Push for alert!&#60;/button&#62;</code></pre>
+<button onclick="hello()" style="background:white;color:black;font;font-size:40px">Push for alert!</button>
+</section>
+<section id="alert2" class="slide level2">
+<h2>Alert</h2>
+<p>We can make a JavaScript function:</p>
+<pre><code class="html">&#60;script type="text/javascript"&#62;
+    function SendAlert(){
+        alert('Hello World');
+    }
+&#60;/script&#62;</code></pre>
+</section>
+<section id="alert3" class="slide level2">
+<h2>Alert</h2>
+<p>With both the script:</p>
+<pre><code class="html">&#60;script type="text/javascript"&#62;
+    function SendAlert(){
+        alert('Hello World');
+    }
+&#60;/script&#62;</code></pre>
+<p>and the button updated to "SendAlert"</p>
+<pre><code class="html">&#60;button onclick="SendAlert()" style="background:white;color:black;font;font-size:40px"&#62;Push for alert!&#60;/button&#62;</code></pre>
+<script type="text/javascript">
+    function SendAlert(){
+        alert('Hello World');
+    }
+</script>
+<button onclick="SendAlert()" style="background:white;color:black;font;font-size:40px">Push for alert!</button>
+<p>This may require some debugging with browser permissions - it is a pop-up!</p>
+</section>
+<section id="javascript" class="slide level2">
+<h2>JavaScript</h2>
+<p>JavaScript is a full-featured language, with the associated benefits and costs</p>
+<ul>
+<li>JavaScript lines are semi-colon terminated (like C/C++/Java, not like Python)
+<li>JavaScript ignores whitespace (like C, not like Python)
+<li>JavaScript expression may contain linebreaks for readability (like C, not like Python)
+<li>JavaScript codeblocks are joined with curly braces (like C and CSS, not like Python)
+<li>JavaScript has important keywords (like C and Python)
+<li>JavaScript is case-sensitive - use camel case.
+</ul>
+<p>JavaScript and Java have no relation. The language's actual name is ECMAScript.
+</section>
+<section id="vars" class="slide level2">
+<h2>Variables</h2>
+<p>JavaScript has many useful keywords.</p>
+<ul>
+<li><code>var</code> declares a variable. <code>let</code> and <code>const</code> are variations.<ul>
+<li><code>var</code> is old, and bad in a complicated way. Don't worry about it.
+<li><code>const</code> makes a constant - write all your code with constants initially.
+<li>Change a <code>const</code> to a <code>let</code> if and only if you most update the value of the variable.
+</ul></ul>
+<pre><code class="html">&#60;script type="text/javascript"&#62;
+	function SendAlert() {
+		const greeting = 'Hello World';
+		alert(greeting);
+	}
+&#60;/script&#62;</code></pre>
+</section>
+<section id="if" class="slide level2">
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.</p>
+<ul>
+<li><code>if</code> and <code>for</code> behave as expected, but use C/C++/Java syntax (not R/Python)
+<li>Use <code>if</code> with a condition in parenthesis and a code block in curly braces.
+<pre><code class="js">function SendAlert() {
+	let greeting = 'Hello World';
+	if (navigator.userAgent.indexOf("Firefox") != -1) {
+		let greeting = 'You have good taste.';
+	}
+	alert(greeting);
+}</code></pre>
+</section>
+<section id="else" class="slide level2">
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.</p>
+<ul>
+<li>Extend <code>if</code> with <code>else</code>.</li></ul>
+<pre><code class="js" style="max-height:900px;max-width:2500px">function SendAlert() {
+	let greeting = 'Whatever I guess.';
+	if (navigator.userAgent.indexOf("Firefox")!=-1) {
+		greeting = 'You have good taste.';
+	}else if (navigator.userAgent.indexOf("MSIE")!=-1){
+		greeting = 'Get Firefox.';
+	} else {
+	}
+	alert(greeting);
+}</code></pre>
+<p>Note the different whitespace approaches.
+</section>
+<section id="for" class="slide level2">
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.</p>
+<ul>
+<li>JavaScript <code>for</code> uses, say traditional "for" instead of R/Python "for each".</li>
+<li>There is a three part statement include in parenthesis:<ul>
+<li>First, an initializing condition. This usually sets a variable for testing using <code>let</code>.
+<li>Then, a terminating condition. This usually is a test of the variable.
+<li>Then, an incrementing condition. This usually is an update to the variable.</ul>
+<pre><code class="js" style="max-height:900px;max-width:2500px">let text = "";
+for (let i = 0; i < 5; i++) {
+  text += "The number is " + i + "\n";
+}
+alert(text);</code></pre></ul>
+<p>Note we get to use either single or double quotes on strings.</p>
+</section>
+<section id="funcs" class="slide level2">
+<h2>Functions</h2>
+<p>JavaScript has many useful keywords.</p>
+<ul>
+<li>JavaScript <code>function</code> creates a function that may be called by name.
+<ul><li>Can be called by an HTML button.</li>
+<li>Can be called elsewhere in a script.</li></ul>
+<li>It is similar enough to Python <code>def</code> and R <code>function</code>, though inverted from R.
+<li>They may take arguments, and have return values using <code>return</code>.
+<pre><code class="js">function triple(n) {
+	return 3 * n;
+}
+</code></pre></ul>
+<p>Note we get to use R/Python/C/Java etc. style arithmetic.</p>
+</section>
+<section id="notes" class="slide level2">
+<h2>Notes</h2>
+<ul>
+<li>JavaScript numbers are all floats.
+<li>JavaScript has both <code>null</code> and <code>undefined</code> for case and error handling.
+<li>JavaScript has zero-indexed strings that can use single or double quotes.
+<li>JavaScript has many features that integrate with html, but no real "print".
+<li>Comment JavaScript by prefixing with <code>//</code></ul>
+</section>
+<section id="darkmode" class="slide level2">
+<h2>Dark Mode</h2>
+<p>We can use JavaScript to create dark modes</p>
+<ul>
+<li>Create a CSS class for dark mode.
+<li>Create a JavaScript function that toggles the class of an HTML element.
+<li>Create an HTML button that calls the JavaScript function.
+</section>
+<section id="CSS" class="slide level2">
+<h2>CSS Class</h2>
+<p>I like cyan on black.
+<pre><code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code></pre>
+</section>
+<section id="jsfunc" class="slide level2">
+<h2>JavaScript function</h2>
+<ul>
+<li>I use <code>document.body.classList</code> to get the html body.</li>
+<li>I use <code>toggle</code> to add or remove a class to the body element.</li>
+</ul>
+<pre><code class="css">function toggler() {
+	document.body.classList.toggle("dark-mode");	   
+}
+</code></pre>
+<p>Recall</p>
+
+<pre><code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code></pre>
+</section>
+<section id="button" class="slide level2">
+<h2>HTML elements</h2>
+<ul>
+<li>I use a <code>button</code> element with an <code>onclick</code> attribute.</li>
+</ul>
+<pre><code class="html"><button onclick="toggler()" >Toggle dark mode</button>
+</code></pre>
+<p>Recall</p>
+
+<pre><code class="css">function toggler() {
+	document.body.classList.toggle("dark-mode");	   
+}
+</code></pre>
+<pre><code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code></pre>
+<p>See the <a href="https://zagreb-ethf23.github.io/html/resume.html">example</a>.
+</section>
+<section id="closing" class="slide level2">
+<h2>Coding Demo</h2>
+<ul>
+<p>As time allows.
+<ul>
+<li>.js files
+<li>.js outputs
+<li>Bigint, boolean, array, objects, maps
+<li>getElementById
+<li>For In, While
+</section>
+<section id="reminder" class="slide level2">
+<h2>Reminder</h2>
+<ul>
+<li>You should have read Omelas.
+<ul>
+<li>Have a response paper written and posted by this evening.
+<li>Read your peer's responses tomorrow.
+</ul></li>
+<li>Homework for Wednesday
+<ul>
+<li>Read <a href="https://shsdavisapes.pbworks.com/f/Omelas.pdf">“The Ones Who Walk Away From Omelas”</a>.  It's 5 pages.
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
+</ul>
+<li>Discussion section Wednesday</li></ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

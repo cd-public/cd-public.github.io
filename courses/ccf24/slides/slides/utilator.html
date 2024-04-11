@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Utilator</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Utilator</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">6 March 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>You should have read AI & Accessibility texts and be formulating a response.
+<ul>
+<li>Have a response paper written and posted by this evening.
+<li>Read your peer's responses tomorrow.
+</ul></li>
+<li>Today we'll show some more fun tricks.
+<li>Homework for Wednesday
+<ul>
+<li>Read <a href="https://medium.com/the-neuro/how-ai-is-improving-accessibility-510f6c70177c">“How AI Is Improving Accessibility”</a>.</li>
+<li>Read at least one cited work, in the case of InnerVoice read the "about" page.</li>
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
+</ul>
+<li>Discussion section Wednesday</li></ul>
+</section>
+<section id="fdbk" class="slide level2">
+<h2>Initial Feedback</h2>
+<ul>
+<li>This is a writing class.<ul>
+<li>Please don't capitalize random words in the middle of sentences.</li>
+</ul>
+<br>
+<li>This is a technical class.<ul>
+<li>You must meet the requirements for creating webpages with .js elements.</li></ul>
+</li>
+<br>
+<li>Think about what else you may want to bring to discussion.<ul>
+<li>Has technical improved life collectively for all, most, or some people?
+<li>Who are the winners and losers of technological advancements?
+</li>
+</ul>
+</li>
+</ul>
+</section><section id="jsex" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html&#62;
+  &#60;body&#62;
+    &#60;p id="showEle"&#62;1&#60;/p&#62;
+    &#60;button onclick="update()"&#62;Click me&#60;/button&#62;    
+    &#60;script&#62;
+      let val = 1 ;
+      const showVar = document.getElementById("showEle") ;
+      function update() 
+      {
+        val = 2 * val ;
+        showVar.innerText = val.toString() ;
+      }
+    &#60;/script&#62;
+  &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+</section>
+<section id="review1" class="slide level2">
+<h2>~Review Question 1</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code class="html">&#60;p id="showEle"&#62;1&#60;/p&#62;</code></pre>
+<p>In the overall sample code shown, what was the usefulness of the the <code>id</code> attribute?</p>
+<div class="poll">
+<ol>
+<li>It signifies in HTML what type of content is being held.</li>
+<li>It signifies for a CSS stylesheet how to style the content.</li>
+<li>It signifies for a JavaScript script or function to interact with this element.</li>
+<li>It signifies to the developer some information, akin to a comment.</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>~Review Question 2</h2>
+<p>Consider the following HTML excerpt.</p>
+<pre><code class="html">&#60;button onclick="update()"&#62;Click me&#60;/button&#62; </code></pre>
+<p>In the overall sample code shown, what was the usefulness of the the <code>onclick</code> attribute?</p>
+<div class="poll">
+<ol>
+<li>It signifies in HTML what type of content is being held.</li>
+<li>It signifies for a CSS stylesheet how to style the content.</li>
+<li>It signifies for a JavaScript script or function to interact with this element.</li>
+<li>It signifies to the developer some information, akin to a comment.</li>
+</ol>
+</div>
+</section><section id="jsex2" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html&#62;
+  &#60;body&#62;
+    &#60;p id="showEle"&#62;1&#60;/p&#62;
+    &#60;button onclick="update()"&#62;Click me&#60;/button&#62;    
+    &#60;script&#62;
+      let val = 1 ;
+      const showVar = document.getElementById("showEle") ;
+      function update() 
+      {
+        val = 2 * val ;
+        showVar.innerText = val.toString() ;
+      }
+    &#60;/script&#62;
+  &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+</section>
+<section id="review3" class="slide level2">
+<h2>~Review Question 3</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let val = 1 ;</code></pre>
+<p>This line is written outside of a function code block. This line:</p>
+<div class="poll">
+<ol>
+<li>JS: Initializes a value to be used as the same starting value each time a function runs.</li>
+<li>JS: Holds a global value that is updates each time a function runs.</li>
+<li>HTML: Initializes a value to be used when loading the HTML document to be rendered.</li>
+<li>HTML: Holds a global value that will be rendered in HTML for which changes to the value will correspond to rendered changes.</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>~Review Question 4</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">const showVar = document.getElementById("showEle") ;</code></pre>
+<p>This line is written outside of a function code block. This line:</p>
+<div class="poll">
+<ol>
+<li>JS: Initializes a value to be used as the same starting value each time a function runs.</li>
+<li>JS: Holds a global value that is updates each time a function runs.</li>
+<li>HTML: Initializes a value to be used when loading the HTML document to be rendered.</li>
+<li>HTML: Holds a global value that will be rendered in HTML for which changes to the value will correspond to rendered changes.</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>~Review Question 5</h2>
+<p>Consider the following JavaScript function from within the HTML document.</p>
+<pre><code class="js">function update() 
+{
+  val = 2 * val ;
+  showVar.innerText = val.toString() ;
+}</code></pre>
+<p>Consider the first line <code class="js">function update()</code></p>
+<div class="poll">
+<ol>
+<li>This uses .js keyword "update" to create an procedure named "function".</li>
+<li>This uses .js keyword "function" to create an procedure named "update".</li>
+<li>One or both of the words "function" or "update" are defined here and may be changed without issue.</li>
+<li>Both words are keywords in either .js or HTML.</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>~Review Question 6</h2>
+<p>Consider the following JavaScript function from within the HTML document.</p>
+<pre><code class="js">function update() 
+{
+  val = 2 * val ;
+  showVar.innerText = val.toString() ;
+}</code></pre>
+<p>Consider the line <code class="js">val = 2 * val ;</code></p>
+<div class="poll">
+<ol>
+<li>This is a built-in .js arithmetic operation over an integer.</li>
+<li>This is a built-in .js arithmetic operation over an float.</li>
+<li>This is an error because it defines a variable without <code class="js">let</code></li>
+<li>This is a HTML technology to update an element's content or attributes.</li>
+</ol>
+</div>
+</section>
+<section id="review7" class="slide level2">
+<h2>~Review Question 7</h2>
+<p>Consider the following JavaScript function from within the HTML document.</p>
+<pre><code class="js">function update() 
+{
+  val = 2 * val ;
+  showVar.innerText = val.toString() ;
+}</code></pre>
+<p>Consider the excerpt <code class="js">showVar.innerText</code></p>
+<div class="poll">
+<ol>
+<li>showVar is an HTML element, and innerText is an HTML attribute of that element</li>
+<li>showVar is an HTML element, and innerText is the content of that element</li>
+<li>showVar is a .js object, and innerText is a property of that object.</li>
+<li>showVar is a .js object corresponding to an HTML element, and innerText is an HTML attribute of that element.</li>
+</ol>
+</div>
+</section>
+<section id="review8" class="slide level2">
+<h2>~Review Question 8</h2>
+<p>Consider the following JavaScript function from within the HTML document.</p>
+<pre><code class="js">function update() 
+{
+  val = 2 * val ;
+  showVar.innerText = val.toString() ;
+}</code></pre>
+<p>Consider the excerpt <code class="js">val.toString()</code></p>
+<div class="poll">
+<ol>
+<li>val is an HTML element, and toString() is a .js function of that element</li>
+<li>val is an HTML element, and toString() is a CSS function of that element</li>
+<li>val is a .js object, and toString() is a method of that object.</li>
+<li>val is a .js object corresponding to an HTML element, and toString() is a function of that element.</li>
+</ol>
+</div>
+</section>
+<section id="HTML" class="slide level2">
+<h2>HTML/CSS</h2>
+<p>HTML/CSS styles pages.
+<ul>
+<li>If it shows on a page, HTML or CSS is doing it.</li>
+<li>HTML holds content.</li>
+<li>CSS styles content.</li>
+</ul>
+<p>JavaScript allows changes to HTML/CSS without reloads.
+<ul>
+<li>.js can relink HTML to different CSS styles</li>
+<li>.js can rewrite HTML content within a styled element</li>
+</ul>
+<p>HTML/CSS/JavaScript have firm separation.</p>
+<ul>
+<li>.js may refer to HTML or CSS styles, but these are distinct from HTML elements or CSS rules.</li>
+<li>HTML attributes may refer to (call) .js functions, but these are attributes are distinct from functions themselves.</li>
+</ul>
+</section>
+<section id="morejs" class="slide level2">
+<h2>More Scripting</h2>
+<p>Continue with the <code>&#60;script&#62;</code> element.</p>
+<ul>
+<li>In the context of HTML/CSS, we may perform some limiting scripting.</li>
+<code>&#60;script&#62;alert('Hello, world!');&#60;/script&#62;</code>
+<li>We will use scripting to write <em>Utilator</em>, an essay of sorts in response to the anti-utilitarian reading of <em>Omelas</em>.</li>
+</ul>
+</section>
+<section id="process" class="slide level2">
+<h2>Writing Process</h2>
+<p>We understand the following:</p>
+<ul>
+<li>&exist; a reading of <em>Omelas</em> such that the text's thesis is claimed to be a refutation of utilitarianism.
+<li>&exist; other readings of <em>Omelas</em> on e.g. the arts, equality, etc.
+<li>&exist; numerical claims: Utilitarianism is premised on utilitarian calculus, such as of <em>hedons</em>, <em>dolors</em>, and <em>utils</em>
+<li>&exist; scientific claims: Utilitarianism claims to be scientific, and LeGuin claims to be in conversation with scientists.
+<li>&exist; numerical tests we may apply scientifically to <em>Omelas</em> to test for consistency with utilitarian calculus under different assumption sets.
+</section>
+<section id="hypothesis" class="slide level2">
+<h2>My Hypothesis</h2>
+<p>Omelas is an attempted proof-by-contradiction* for the necessity of equality under utilitarianism. It proceeds roughly as follows.</p>
+<ul>
+<li>A utilitarian utopia maximizing utility by all persons receiving equal utility.
+<li>Assume by contradiction, there is a community of <em>n</em> persons such that<ul>
+<li><em>n - 1</em> persons are receiving <em>m > 0</em> utils of utility.
+<li><em>1</em> person is receiving <em>m' &#60; m</em> utils of utility.
+<li>It may be the case the we wise to argue, say <em>1</em> person is receiving <em>m' = -n * m</em> utils.</ul>
+<li>LeGuin relies on a visceral reaction to a textual description of <em>m'</em>
+<li>I will instead attempt to formulate a mathematical argument.
+</ul>
+<br><p>*I don't remember how proofs work.
+</section>
+<section id="keys" class="slide level2">
+<h2>Key Insights</h2>
+<p>My key insights are as follows.</p>
+<ul>
+<li>I take the behavioral economics conception of loss aversion.
+<li>I take the Marxist economic conception of materialism.
+</ul>
+<p>Loss aversion was first described by name in 1979, 6 years after <em>Omelas</em> was written.
+<p>I personally read LeGuin as anti-Marxist, but attribute this to the medium and not to the philosophy.
+</section>
+<section id="aversion" class="slide level2">
+<h2>Loss Aversion</h2>
+<p>Loss aversion: the tendency to prefer avoiding losses to acquiring equivalent gains.</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Loss_Aversion.png" style="width:50.0%">
+</section>
+<section id="aversion1" class="slide level2">
+<h2>Loss Aversion</h2>
+<p>Imagine: You have 0 USD and a clean bill of health. Consider:</p>
+<ul>
+<li>You may maintain the status quo, or
+<li>You may learn you require 400 USD of emergency medical care, but get a 400 USD gift certificate to Applebee's.
+</ul>
+<p>In both scenarios, you have net 0 USD in credits and debits, but one may feel preferable to you.<br>
+<img src="https://www.fsrmagazine.com/wp-content/uploads/2023/07/applebee039s-unveils-seasonal-menu-starring-vidalia-onions-2.jpg" style="width:30.0%">
+</section>
+<section id="aversion2" class="slide level2">
+<h2>Loss Aversion</h2>
+<p>We can formulate this in other ways. Consider the following:</p>
+<ul>
+<li>A study that did not pass ethical review offers to do 400 USD of damage to your person or property in exchange for a 400 USD Applebee's gift card.
+</ul>
+<p>Do you accept?<br>
+<img src="https://olo-images-live.imgix.net/30/30954e8a1897412c8eefe030a9183786.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=187f1843bbafeef79d41ad0291f3628a" style="width:50.0%">
+</section>
+<section id="aversion3" class="slide level2">
+<h2>Loss Aversion</h2>
+<p>Some economist claim* that many people will accept tradeoffs under more favorable conditions.</p>
+<ul>
+<li>A study that did not pass ethical review offers to do 4 USD of damage to your person or property in exchange for a 400 USD Applebee's gift card.
+</ul>
+<p>Do you accept?<br>
+<img src="https://olo-images-live.imgix.net/cb/cbc8307ac27047c4924e048c9997024f.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=c05f46f140ac958653d0384c10e1a1e5" style="width:50.0%">
+</section>
+<section id="aversion4" class="slide level2">
+<h2>Loss Aversion</h2>
+<p>I claim:</p>
+<ul>
+<li>In general, people prefer to avoid equivalent losses.
+<li>In general, aversion to losses increases as losses grow larger<ul>
+<li>That is, 400 USD in losses is more than twice as bad as 200 USD in losses.</ul>
+<li>In general, gains experience diminishing marginal returns.<ul>
+<li>That is, the first flavor blasted steak is more enjoyable than the 40th.
+<li>That is, the nth flavor blasted steak provides no additional utility.</ul>
+<li>At the status quo, adding or removing a dollar is roughly equivalent.<ul>
+<li>I would accept 5 USD in damages to my phone screen for a 6 USD oatmilk mocha.</ul>
+<li>At extremes, high loss aversion<ul>
+<li>I invest more resources to avoid 10k in medical debt than I do to earn a 100k raise</li>
+</ul>
+</section>
+<section id="materialism" class="slide level2">
+<h2>Materialism</h2>
+<p>Scientific socialists such as Angela Davis and Karl Marx view social and political developments as being largely determined by economic conditions.</p>
+<ul>
+<li>I will refer to this as "materialism" in that social developments are determined by distribution of material. Engels also used this term.
+<li>I assume that an individual's utility (happiness) is largely determined by their material allocation (USD). Consider if you feel this way. Why or why not?
+<li>I assume that conversions of material to utility are subject to loss aversion. There is some literature to support this claim.
+</ul>
+<p>From there, all that remains is to define a function <code>utility</code> that accepts as input a level of material and produces as output a numer of utils.</p>
+</section>
+<section id="utility" class="slide level2">
+<h2>Utility Functions</h2>
+<p>We may begin by naively supposing that utility is a linear function of material.</p>
+<pre><code class="js">function utility(material) 
+{
+  return material ;
+}</code></pre>
+<p>While trivial to plot we do so, so that as our function develops we may inspect it visually.</p>
+</section>
+<section id="canvas" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>We introduce the <code>canvas</code> HTML element.</p>
+<pre><code class="html">&#60;body onload="draw();"&#62;
+  &#60;canvas id="canvas"  width="400" height="400"&#62;&#60;/canvas&#62;
+&#60;/body&#62;</code></pre>
+<p>Just as paragraphs allows us to change content with innerText, canvas elements allow us to draw rectangles.</p>
+<pre><code class="js">function draw()
+{
+	const plot = document.getElementById("plot") ;
+	const ctx = plot.getContext("2d");	
+	ctx.fillRect(50, 50, 50, 50) ;
+}</code></pre>
+</section>
+<section id="canvas0" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Rects default to black, background to transparent.</p>
+<p><img data-src="../images/canvas0.png" style="width:75.0%" /></p>
+</section>
+<section id="canvas01" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>I'll use a CSS style to put the created .png files on a high contrast white background and to scale them to slide size.</p>
+<p><img data-src="../images/canvas0.png" style="width:40.0%;background-color:white" /></p>
+</section><section id="canvas1" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Let's make a plot by adding axes in not-quite-black.</p>
+<pre><code class="js">
+	const size = 400 ;
+	const half = size / 2 ;
+	ctx.fillStyle = "dimgrey";	
+	for (let i = 0 ; i &#60; size ; i++ )
+	{
+		ctx.fillRect(i, half, 1, 1) ;
+		ctx.fillRect(half, i, 1, 1) ;
+	}
+</code></pre>
+</section><section id="canvas11" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>There - now we can tell where things are at.</p>
+<p><img data-src="../images/canvas1.png" style="width:40.0%;background-color:white" /></p>
+</section>
+<section id="canvas2" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Then we plot our utility function.</p>
+<pre><code class="js">	for (let i = 0 ; i &#60; size ; i++ )
+	{
+		ctx.fillRect(i, utility(i), 1, 1) ;
+	}
+</code></pre>
+</section><section id="canvas21" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Ok we have a plot - let's clean this up a bit.</p>
+<p><img data-src="../images/canvas2.png" style="width:40.0%;background-color:white" /></p>
+</section>
+<section id="canvas3" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Let's increase line thickness to 2 pixels and transpose the plot so all positive values to be up and to the right.</p>
+<pre><code class="js">	for (let i = 0 ; i &#60; size ; i++ )
+	{
+		let j = size - utility(i)
+		ctx.fillRect(i, j, 2, 2) ;
+	}
+</code></pre>
+</section><section id="canvas31" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>This looks nice enough to me, but we have no scale.</p>
+<p><img data-src="../images/canvas3.png" style="width:40.0%;background-color:white" /></p>
+</section>
+<section id="canvas4" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Let's scale so this plot runs for (-2,2) and add we'll tick marks (not shown) .</p>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">const range = 2 ;
+const full = range * 2 ;
+let x, y, j ;
+// tick marks - every size / range * 2 - snipped
+// scale pixels to (-2,2)
+for (let i = 0 ; i < size ; i++ )
+{
+	x = (i /   size) * full - range ;
+	y = utility(x) ;
+	j = ((range - y) / full) * size ;
+	ctx.fillRect(i, j, 2, 2) ;
+}
+</code></pre>
+</section><section id="canvas41" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>There we go!  Now we iterate on utility.</p>
+<p><img data-src="../images/canvas4.png" style="width:40.0%;background-color:white" /></p>
+</section>
+<section id="utilityagain" class="slide level2">
+<h2>Utility Functions (Again)</h2>
+<div class="cols">
+<div class="col">
+<p>We may begin by naively supposing that utility is a linear function of material.</p>
+<pre><code class="js">function utility(material) 
+{
+  return material ;
+}</code></pre>
+</div>
+<div class="col">
+<p><img data-src="../images/canvas4.png" style="width:100.0%;background-color:white" /></p>
+</div>
+</div>
+</section>
+<section id="utility2" class="slide level2">
+<h2>Utility Functions</h2>
+<div class="cols">
+<div class="col">
+<p>In general, people prefer to avoid equivalent losses.</p>
+<pre><code class="js">function f(x) 
+{
+  if (x < 0)
+  {
+	return 2 * x ;
+  }		
+  return x ;
+}</code></pre>
+<p>We now use f(x) for simplicity.
+</div>
+<div class="col">
+<p><img data-src="../images/utility2.png" style="width:100.0%;background-color:white" /></p>
+</div>
+</div>
+</section>
+<section id="utility3" class="slide level2">
+<h2>Utility Functions</h2>
+<div class="cols">
+<div class="col">
+<p>In general, aversion to losses increases as losses grow larger.</p>
+<pre><code class="js">function f(x) 
+{
+  if (x > 0)
+  {
+    return x ;
+  }		
+  return Math.log(x + 1);
+}</code></pre>
+<p>We now use f(x) for simplicity.
+</div>
+<div class="col">
+<p><img data-src="../images/utility3.png" style="width:100.0%;background-color:white" /></p>
+</div>
+</div>
+</section>
+<section id="utility4" class="slide level2">
+<h2>Utility Functions</h2>
+<div class="cols">
+<div class="col">
+<p>In general, gains experience diminishing marginal returns.</p>
+<pre><code class="js">function f(x) 
+{	
+  return Math.log(x + 1) ;
+}</code></pre>
+</div>
+<div class="col">
+<p><img data-src="../images/utility4.png" style="width:100.0%;background-color:white" /></p>
+</div>
+</div>
+</section>
+<section id="utility5" class="slide level2">
+<h2>Utility Functions</h2>
+<div class="cols">
+<div class="col">
+<p>
+At the status quo, adding or removing a dollar is roughly equivalent. </p>
+<pre><code class="js">function f(x) 
+{	
+  return Math.log(x + 1) ;
+}</code></pre>
+<p>We show this by showing the instantaneous slope at zero is equal to one with a red tangent line.</p>
+</div>
+<div class="col">
+<p><img data-src="../images/utility5.png" style="width:100.0%;background-color:white" /></p>
+</div>
+</div>
+</section>
+<section id="canvas5" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>We get discontinuity when slope exceeds one as we were displaying at most one pixel in each vertical column of pixels.</p>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">const range = 2 ;
+const full = range * 2 ;
+let x, y, j ;
+// tick marks - every size / range * 2 - snipped
+// scale pixels to (-2,2)
+for (let i = 0 ; i < size ; i++ )
+{
+	x = (i /   size) * full - range ;
+	y = f(x) ;
+	j = ((range - y) / full) * size ;
+	ctx.fillRect(i, j, 2, 2) ;
+}
+</code></pre>
+<p>We will fix this by scanning in both i and j</p>
+</section>
+<section id="canvas51" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>First, we precompute k values. These are the old j values, and will be compared to j values.</p>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">const ks = [] ;
+// we do this off by one to help with bounds
+for (let i = -1 ; i < size + 1 ; i++ )
+{
+	x = (i /   size) * full - range ;
+	y = f(x) ;
+	k = ((range - y) / full) * size ;
+	ks.push(k)
+}
+</code></pre>
+<p>We compute what the old j value would be outside of the canvas as well - we'll come back to that.</p>
+</section>
+<section id="canvas52" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Now we iterate over each pixel, and check to see if a k is within 1 pixel of j.</p>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">for (let i = 0 ; i < size ; i++ )
+{
+	for (let j = 0 ; j < size ; j++ )
+	{
+		// ensure shading when slope < 1
+		// we fill at least one pixel in every row
+		if (Math.abs(j - ks[i + 1]) < 1) 
+		// Remember k's are off by one.
+		{
+			ctx.fillRect(i, j, 1, 1) ;
+		}
+</code></pre>
+<p>This means we will always shade at least one pixel per row - if slope is less than one, j and  k are within 1 pixel more than once.</p>
+</section>
+<section id="canvas53" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>Now we iterate over each pixel, and check to see if a k is within 1 pixel of j.</p>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">// ensure shading when slope > 1
+// fill at least one pixel in every column.
+closer = Math.min(Math.abs(j - ks[i]),Math.abs(j - ks[i+2]))
+if (Math.abs(j - ks[i+1]) < closer)
+{
+	ctx.fillRect(i, j, 2, 2) ; // line was 2 pixels
+}
+</code></pre>
+<p>This means we will always shade at least one pixel per column - if slope is greater than one, we simply keep adding rectangles until our vertical position is closer to another horizontal position than the current horizontal position.</p>
+</section>
+<section id="canvas54" class="slide level2">
+<h2>SIDEBAR: Canvas</h2>
+<p>That's better!</p>
+<p><img data-src="../images/canvas5.png" style="width:40.0%;background-color:white" /></p>
+<p>Presumably there's like libraries to do this or whatever.
+</section>
+<section id="hypothesisagain" class="slide level2">
+<h2>My Hypothesis (Again)</h2>
+<p>Utilitarianism demands equality when considering loss aversion and materialism.</p>
+<ul>
+<li>Consider the set <em>H</em> of humans <em>h<sub>i</sub></em>. Assume WLOG |<em>H</em> | = 2.
+<li>We equalize resource distributions and utility scores to zero.<ul>
+<li>We take someone with 0 material, <em>m(h<sub>i</sub>)</em> = 0, to have <em>0 material more than average</em></li>
+<li>We take someone with 0 utility, <em>u(m(h<sub>i</sub>))</em> = 0, to be however happy they are when receiving the average amount of material.</li>
+<li>Our resource constraint is 0 = &sum;<em>m(h)</em> for <em>h</em> &in; <em>H</em></ul>
+<li>Consistent with loss aversion, we take a someone's utility <em>u(m(h<sub>i</sub>))</em> to be
+<pre><code class="js">function f(x) 
+{	
+  return Math.log(x + 1) ;
+}</code></pre>
+</ul>
+</section>
+<section id="hypothesisagain2" class="slide level2">
+<h2>My Hypothesis (Again)</h2>
+<p>Utilitarianism demands equality when considering loss aversion and materialism.</p>
+<ul>
+<li>&sum;<em>u(m(h))</em> for <em>h</em> &in; <em>H</em> is maximal when &forall;<em>h</em> &in; <em>H</em>, 0 =<em>m(h)</em> </em>
+<li>Assume by contradiction than exists a greater value - then &exist; <em>h</em> &in; <em>H</em> s.t. 0 ><em>m(h)</em><ul>
+<li>&exist; <em>h</em> &in; <em>H</em> s.t. 0 > <em>m(h)</em></li>
+<li>&exist; <em>h'</em> &in; <em>H</em> s.t. 0 < <em>m(h)</em></li>
+<li>Our resource constraint is 0 = &sum;<em>m(h)</em> for <em>h</em> &in; <em>H</em></ul>
+<li>So we must show that &exist; <em>x > 0</em> s.t. <em>u(x)</em> + <em>u(-x)</em> > 0.<ul>
+<li><em>u(x)</em> = <em>ln(x+1)</em><ul>
+<li>&forall; <em>x</em> > 0, <em>ln(x + 1)</em> < <em>x</em></ul>
+<li><em>u(-x)</em> = <em>ln(-x+1)</em><ul>
+<li>&forall; <em>x</em>  < 0, <em>x</em> < <em>ln(x + 1)</em></ul></ul>
+<li>&forall; <em>x > 0</em>,  <em>u(x)</em> < <em>x</em> &and; <em>u(-x)</em> < <em>-x</em>
+</section>
+<section id="hypothesisagain3" class="slide level2">
+<h2>My Hypothesis (Again)</h2>
+<p>Utilitarianism demands equality when considering loss aversion and materialism.</p>
+<ul>
+<li>Assume by contradiction &exist; a greater value for &sum;<em>u(m(h))</em> for <em>h</em> &in; <em>H</em> than 0
+<li>We show &forall; <em>x > 0</em>,  <em>u(x)</em> < <em>x</em> &and; <em>u(-x)</em> < <em>-x</em>
+<li>We show &forall; <em>x > 0</em>,  <em>u(x)</em> +  <em>u(-x)</em> < <em>-x + x</em>
+<li>We show &forall; <em>x > 0</em>,  <em>u(x)</em> +  <em>u(-x)</em> < 0
+<li>This is a contradiction.</ul>
+<p>&there4; Utilitarianism demands equality when considering loss aversion and materialism.&#x220e;<p>
+</section>
+<section id="readmore" class="slide level2">
+<h2>Full source code</h2>
+<p><a href="https://github.com/cd-public/eths23/blob/main/html/utilator.html">https://github.com/cd-public/eths23/blob/main/html/utilator.html</a></p>
+</section>
+    </div>
+  </div>
+  
+  
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

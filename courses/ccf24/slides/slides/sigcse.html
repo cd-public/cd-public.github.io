@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SIGCSE</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">SIGCSE</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">20 Mar 2024</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Talking <a href="https://medium.com/@nickiwashington/when-are-we-gonna-have-a-serious-conversation-about-how-unserious-and-problematic-sigcse-is-839c4f28cc1b">“When Are We Gonna Have a Serious Conversation About How Unserious (and Problematic) SIGCSE Is?”</a>
+<li>We will sigcSEE how the conversation goes? 
+<ul>
+<li>How many minutes until spring break.
+</ul></li>
+<li>Homework
+<ul>
+<li>See my spring break comment.
+</section>
+
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Computing & Data Programs offers a Computer Science degree that achieves coverage of the "Computer Science Curricula 2013" Core Tier-1 topics targeting 165 total hours of lecture instruction. How many required courses within the major were needed to meet this requirement?</p>
+<div class="poll">
+<ol>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Computer Science degrees are recommended to cover at least 90% of Core Tier-2 topics of an additional 143 total hours of lecture instruction. How many required courses within the major were needed to meet both these requirement if 293.7 hours?</p>
+<div class="poll">
+<ol>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+<li>8</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Computing & Data Programs offers a Data Science degree for which no national accepted curricular standards yet exist. How many hours of lecture are met by major-required courses in Data Science?</p>
+<div class="poll">
+<ol>
+<li>150-200</li>
+<li>200-250</li>
+<li>250-300</li>
+<li>Not shown</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Topics with more Tier-2 hours than Tier-1 hours includ "Networking and Communication", "Software Engineering", "Intelligent Systems", and "Information Management". How are these topics organized at Willamette?</p>
+<div class="poll">
+<ol>
+<li>There is no organization at Willamette.</li>
+<li>These are offered as 200-level or higher CS classes.</li>
+<li>These are offered as 200-level or higher CS or DATA classes.</li>
+<li>These topics are not offered.</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>"Discrete Structures" and "Software Development Fundamentals" require 41 and 43 hours respectively, and are not included in Data Science requirements but are Tier-1 topics. Depending on elective selection, could a Willamette Data Scientist be considered to have completed the requirements of an undergraduate Computer Science degree?</p>
+<div class="poll">
+<ol>
+<li>No, they require too many DATA courses.</li>
+<li>No, CS courses have distinct pre-requisites</li>
+<li>Yes, with any CS electives.</li>
+<li>Yes, with CS-152 Data Structures and CS-261 Software Development</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>~Review Question 6</h2>
+<p>"Social Issues and Professional Practice" have 11+5 hours, and "Programming Languages" have 8+20 hours. With the 90% rate for Tier-2 Core, this gives 41.5 hours total. How many hours of instruction in Data Ethics do you think will focus on HTML/CSS/JavaScript, a universal "second language" to CS-151 and DATA-151 students?</p>
+<div class="poll">
+<ol>
+<li>Fewer than 8 + 20 * .9</li>
+<li>Within &Epsilon; of 8 + 20 * .9</li>
+<li>More 8 + 20 * .9</li>
+<li>There is no possible grounds to speculate.</li>
+</ol>
+</div>
+</section>
+<section id="review7" class="slide level2">
+<h2>~Review Question 7</h2>
+<p>Do you believe computer science education can and should be approached scientifically.</p>
+<div class="poll">
+<ol>
+<li>Can not and should not.</li>
+<li>Can not but should.</li>
+<li>Can but should not.</li>
+<li>Can and should.</li>
+</ol>
+</div>
+</section>
+<section id="peerreview" class="slide level2">
+<h2>Peer Review</h2>
+<p>Peer review is currently an expected part of the scientific process. In CS:
+<ul>
+<li>We have workshops, conferences, and journals, which publish papers.
+<li>For each, there are program committees that would to accept or reject.
+<li>These program committees ususally assign 2-3 reviewers to each submission.
+</ul>
+<p>In CS, there are some limitations:
+<ul>
+<li>Most program committees are uncompensated
+<li>Research is increasingly specialized the point reviewers are rarely qualified.
+<li>Reviewers are often chosen from established academics, and have an incentive to accept submissions that cite their own work.
+</ul>
+<p>Bias in review is nominally addressed by single or double-masking.
+</section>
+<section id="bias" class="slide level2">
+<h2>Bias Case Study</h2>
+<p>I have had three advisors: Prof. Andrew Chien (B.S.), Prof. Sanjoy Baruah (M.S.), Prof. Cynthia Sturton (Ph.D.).
+<ul>
+<li>I achieved a 100% publication rate with Prof. Chien and Prof. Baruah.
+<li>My first paper with Prof. Sturton was rejected, all others were accepted.
+</ul>
+<p>Prof. Sturton's Hypothesis: Our publication was rejected because the title suggested it was authored by women even when author names were redacted.
+</section>
+<section id="bias2" class="slide level2">
+<h2>Bias Case Study</h2>
+<p>In CS, many publications have titles draw from the arts and humanities. Here are the first three I found for which I am not a co-author:
+<ul>
+<li>AKER: A Design and Verification Framework for Safe and
+Secure SoC Access Control (HOST)
+<li>CS-JEDI: Required DEI Education, by CS PhD Students, for CS PhD Students (SIGCSE)
+<li>Javert: Fully automatic mining of general temporal properties from dynamic traces (SIGSOFT)
+</ul>
+</section>
+<section id="bias3" class="slide level2">
+<h2>Bias Case Study</h2>
+<p>I do not claim to have executed sampling correctly, but all three of these names are or slant masculine.
+<ul>
+<li>Aker is a Egyptian deity of the underworld, depicted as a lion with a mane.
+<li>All Jedi were men from 1978 to 1994, and comfortable majority of named Jedi of known gender (<a href="https://docs.google.com/spreadsheets/d/1-sAdbvOZ4Ewot_y7PPsea2TKqMw0fB_9ony2yTatILk/edit#gid=0">200/334</a>) are men.
+<li>Javert is man in <i>Les Misérables</i>
+</ul>
+</section>
+<section id="bias4" class="slide level2">
+<h2>Bias Case Study</h2>
+<p>Rui Zhang, myself, Peng Huang, and Cynthia Sturton submitted "Coppélia: End-to-End Automated Exploit Generation
+for Validating the Security of Processor Designs"
+<ul>
+<li>Coppélia is woman in a ballet.
+</ul>
+<p>Our paper was rejected twice under this title, then accepted and won a best paper award when removing "Coppélia" from the title.
+</section>
+<section id="bias5" class="slide level2">
+<h2>Bias Case Study</h2>
+<p>Are peer reviewers evaluating quality? Or are they neural networks computing a gender bit based on what they imagine when reading titles?
+<div class="cols">
+<div class="col">
+<p><img style="background-color:white" height="400" src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Aker.svg">
+<p><img style="background-color:white" height="400" src="https://upload.wikimedia.org/wikipedia/en/8/81/JediKnights.jpg">
+</div>
+<div class="col" >
+<p><img style="background-color:white" height="400" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Javert.jpg/640px-Javert.jpg">
+<p><img style="background-color:white" height="400" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Coppelia_-Swanilda_-Giuseppina_Bozzachi_-Act_I-Scene_2_-Paris_-1870_-2.JPG">
+</div>
+</div>
+</section>
+<section id="crisis" class="slide level2">
+<h2>Crisis</h2>
+<p>In science we have a thing called the "Replication crisis"
+<ul>
+<li>Review quality is low, and reviewers are overwhelmed
+<li>Review work is uncompensated.
+<li>Professor/research real wages are falling while labor demands increase.
+<li>There are fewer jobs per Ph.D. than any point in history
+</ul>
+<p>These may be manageable but philosophers of science are beginning to recommend alternative models.
+<ul>
+<li>Read more: <a href="https://www.liamkofibright.com/uploads/4/8/9/8/48985425/is_peer_review_a_good_idea_.pdf">Is Peer Review a Good Idea?</a>
+</ul>
+<p>Personally, I believe peer review is an impediment to scientific progress.
+</section>
+<section id="read" class="slide level2">
+<h2>Read More</h2>
+<p>I have both written and received some peer reviews, which I believe are appropriate to share.
+<ul>
+<li>Some I <a href="https://github.com/cd-public/eths23/blob/main/resources/written.md">wrote</a>
+<li>Some I <a href="https://github.com/cd-public/eths23/blob/main/resources/reviews.md">got</a>
+</ul>
+<p>In the case of the ones I got, you can read the published works. In other cases, they are not yet available.
+<ul>
+<li>My writing is <a href="https://cd-public.github.io/papers/byYear.html">here</a>.
+</ul>
+<p>We will now take <em>n</em> minutes to review reviews.
+</section>
+<section id="disco" class="slide level2">
+<h2>Discussion</h2>
+<p>Discussion Time.
+<ul>
+<li>Read <a href="https://medium.com/@nickiwashington/when-are-we-gonna-have-a-serious-conversation-about-how-unserious-and-problematic-sigcse-is-839c4f28cc1b">“When Are We Gonna Have a Serious Conversation About How Unserious (and Problematic) SIGCSE Is?”</a></li>
+</ul>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Visuals</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Visuals</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">1 April 2024</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Registration window opens on 4/08?
+<ul>
+<li>.js day
+<li>New "reading" and response for next Monday.
+</ul></li>
+<li>Today we'll show some control flow and hacking tricks.
+<li>Homework for Monday (!!!).
+<ul>
+<li>Read (watch) <a href="https://www.youtube.com/watch?v=pepkcF9UXng">“We Need To Fix Black Hair in Video Games”</a>.</li>
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
+<li>Include an event listener on your page, potentially with a canvas element. It can be unrelated.</li>
+</ul>
+<li>Discussion section Monday (!!!)</li></ul>
+</section>
+<section id="risks" class="slide level2">
+<h2>Risks:</h2>
+<p>You are in danger if:
+<ul>
+<li>CS:
+<ul>
+<li>You want to graduate Sp25 and haven't taken CS152 and MATH251 - Talk to Prof. Cordova ASAP.
+<li>You want to MS CS and haven't taken CS152 and MATH251 - Talk to Prof. Cordova ASAP.
+<li>You want to MS CS but average fewer than 17 credit-hours per semester
+</ul>
+<li>DATA:
+<ul>
+<li>You want to graduate Sp25 and aren't ready for MATH 280 - Talk to Prof. Aravinda ASAP.
+<li>You want to MS DS in Fa25 and aren't ready for MATH 280 - Talk to Prof. Aravinda ASAP.
+<li>You want to MS DS but average fewer than 17 credit-hours per semester
+</ul>
+</ul>
+<p>We have some options we can exercise in these cases. You can talk to me as well.
+<ul>
+<li>As a rule, you are never more than 4 semesters from major completion.
+<ul>
+</section>
+<section id="jsex" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html&#62;
+  &#60;body&#62;
+    &#60;p id="showEle"&#62;1&#60;/p&#62;  
+    &#60;script&#62;
+      let val = 1 ;
+      const showVar = document.getElementById("showEle") ;
+      document.addEventListener('click', update);
+      function update() 
+      {
+        val = 2 * val ;
+        showVar.innerText = val.toString() ;
+      }
+    &#60;/script&#62;
+  &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">document.addEventListener('click', update);</code></pre>
+<p>What is <code>document</code>?</p>
+<div class="poll">
+<ol>
+<li>A user-defined .js variable (e.g. a <code>let</code>)</li>
+<li>A user-defined HTML element (e.g. a <code><p id="document"></p></code>)</li>
+<li>A built-in .js keyword (like <code>alert()</code> or <code>function</code>)</li>
+<li>A built-in HTML keyword (like <code><p></p></code> or <code>&#60;body&#62;&#60;/body&#62;</code>)</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">document.addEventListener('click', update);</code></pre>
+<p>The method <code>addEventListener</code> is a method. What is a method?</p>
+<div class="poll">
+<ol>
+<li>A synonym for function <b>or</b> procedure.</li>
+<li>A synonym for function <b>and</b> procedure.</li>
+<li>A special term in object-oriented programming.</li>
+<li>A special term for built-in functions and/or procedures and/or subroutines.</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">      function update() 
+      {
+        val = 2 * val ;
+        showVar.innerText = val.toString() ;
+      }</code></pre>
+<p>The function <code>update</code> is a .js function by construction. It is also which of the following:</p>
+<div class="poll">
+<ol>
+<li>A method.</li>
+<li>A variable.</li>
+<li>A constant.</li>
+<li>A function in the sense of programming language theory rather than in the sense of .js keywords.</li>
+</ol>
+</div>
+</section>
+<section id="jsex2" class="slide level2">
+<h2>Consider:</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html&#62;
+  &#60;body&#62;
+    &#60;p id="showEle"&#62;1&#60;/p&#62;  
+    &#60;script&#62;
+      let val = 1 ;
+      const showVar = document.getElementById("showEle") ;
+      function update() 
+      {
+        val = 2 * val ;
+        showVar.innerText = val.toString() ;
+      }
+      const myFunc = update ;
+      document.addEventListener('click', myFunc);
+    &#60;/script&#62;
+  &#60;/body&#62;
+&#60;/html&#62;</code></pre>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">const myFunc = update ;</code></pre>
+<p>What is happening in this line?</p>
+<div class="poll">
+<ol>
+<li>A new function, myFunc, is created that is the same as the function update.</li>
+<li>A new constant, myFunc, is created that is the same as the constant update.</li>
+<li>myFunc is a constant, and update is a function, so this is an error.</li>
+<li>Update is a variable with a value that is a function, and myFunc is different variable with the same value.</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following JavaScript function from within the HTML document.</p>
+<pre><code class="js">function downdate() 
+{
+  val = 0.5 * val ;
+  showVar.innerText = val.toString() ;
+}
+update = downdate ;</code></pre>
+<p>Consider the line <code class="js">update = downdate ;</code></p>
+<div class="poll">
+<ol>
+<li>This reassigns the function variable update to hold the same value as downdate.</li>
+<li>This is an error, because variables declared as functions are constants.</li>
+<li>This is an error, because downdate is a function.</li>
+<li>This is an error, because update is undeclared.</li>
+</ol>
+</div>
+</section>
+<section id="uses" class="slide level2">
+<h2>HTML and CSS</h2>
+<p>HTML elements and CSS rules are similarly vertically structured.</p>
+<div class="cols">
+<div class="col">
+<p>HTML is a</p>
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute name</li>
+<li>Attribute value</li></li></li></ul></li></ul>
+<li>Content</li>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></li></ul></li></ul></li></ul>
+</div>
+<div class="col">
+<p>CSS is a</p>
+<ul>
+<li>Rule<ul>
+<li>Selector(s)</li>
+<li>Declaration Block<ul>
+<li>Declaration<ul>
+<li>Property</li>
+<li>Value</li></li></ul></li></ul></li></ul></li>
+<li>Attribute Value<ul>
+<li>Declaration Block<ul>
+<li>...</li></li></ul></li></ul></li></ul></li></ul></li>
+</div>
+</div>
+</section>
+<section id="canvas2" class="slide level2">
+<h2>RECALL: Canvas</h2>
+<p>Today we will start with a centered rectangle.</p>
+<ul><li>Reflect: How does centering differ in HTML document vs. within a canvas?</li></ul>
+<pre><code class="js" style="max-height:1100px">function draw()
+{
+	const dspl = document.getElementById("display") ;
+	ctx = dspl.getContext("2d") ;	
+	w = dspl.width ;
+	h = dspl.height ;
+	s = w / 8 ;
+	x = w / 2 - s / 2 ;
+	y = h / 2 - s / 2 ;
+	ctx.fillRect(x, y, s, s) ; // x y width height
+}
+</code></pre>
+<p>This is a bit goofy because I declared variables globally for Reasons&trade;
+</section><section id="canvas21" class="slide level2">
+<h2>RECALL: Canvas</h2>
+<p>End-to-end, this is what we made:</p>
+<p><img data-src="../images/event0.png" style="width:40.0%;background-color:white" /></p>
+<p>Note at this time I've switched to externally rendered .png files, from internal live canvas elements.</p>
+</section>
+<section id="events2" class="slide level2">
+<h2>Events</h2>
+<p>We use built-in functions to attach an event listener to the entire HTML document.</p>
+<pre><code class="js" style="max-height:1100px">document.addEventListener('keydown', keybind);
+</code></pre>
+<ul>
+<li><code>document</code> refers to the special HTML element of type document.</li>
+<li><code>addEventListener</code> is a built-in .js function that takes two arguments.</li>
+<li><code>'keydown'</code> is the name of the HTML event for which the listener listens.</li>
+<li><code>keybind</code> is the name of the .js function I will write to capture keystrokes.</li>
+</ul>
+<p>Keybind is a variable, keydown is a keyword.
+</section>
+<section id="events3" class="slide level2">
+<h2>Scope</h2>
+<p>I set things up like this.</p>
+<pre><code class="js" style="max-height:1100px">var x ;
+var y ;
+var s ;
+var ctx ;
+var w ;
+var h ;
+
+document.addEventListener('keydown', keybind);
+
+function keybind()
+{
+	...
+</code></pre>
+</section>
+<section id="events4" class="slide level2">
+<h2>Events</h2>
+<p>When an event occurs, it generates an <code>event</code> object in .js.</p>
+<pre><code class="js" style="max-height:1100px">function keybind()
+{
+	const key = event.key;
+</code></pre>
+<p>For keydown events, this will always be a key of some sort.
+<ul><li>You can use <a href="https://www.toptal.com/developers/keycode">this online tool</a>.
+<li>Or write an alert and figure it out yourself!
+</ul>
+<pre><code class="js" style="max-height:1100px">function keybind()
+{
+	alert(event.key)
+}
+</code></pre>
+</section>
+<section id="events5" class="slide level2">
+<h2>Events</h2>
+<p>I decided to use the arrow keys. You can include wasd as well.</p>
+<pre><code class="js" style="max-height:1100px">function keybind()
+{
+	const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+</code></pre>
+<p>I introduce (?) the switch statement.
+<pre><code class="js" style="max-height:1100px">	switch (event.key) 
+	{
+		case "ArrowLeft":
+		case "a":
+			x = x - s ;
+			break ;
+		...
+	}
+</code></pre>
+<p>This updates the global <code>x</code> value to be less when the left arrow key is pressed.
+</section>
+<section id="events6" class="slide level2">
+<h2>Switch</h2>
+<p>Switches are commonly used in IO programming, which is okay I guess.</p>
+<ul>
+<li>Switches are control flow statements, like if/for/while.
+<li>Switches "fall through" - after a case is met, all code is executed until a break or return.
+<li>Breaks and returns are also control flow statements!
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+	case "a":
+		x = x - s  ; // this runs for a or left
+		break ;      // this exits the switch
+	case "ArrowRight":
+	case "d":
+		x = x + s  ; // this runs for d or right - but not a or left
+		break ;
+</code></pre>
+</section>
+<section id="events7" class="slide level2">
+<h2>Switch</h2>
+<p>Be careful!</p>
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+	case "a":
+		x = x - s  ; // this runs for a or left
+	case "ArrowRight":
+	case "d":
+		x = x + s  ; // this runs for d or right or a or left
+		break ;
+</code></pre>
+</section>
+<section id="events8" class="slide level2">
+<h2>Switch</h2>
+<p>Be careful!</p>
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+	case "a":
+		x = x - s  ; // this runs for a or left
+		return ;
+	case "ArrowRight":
+	case "d":
+		x = x + s  ; // this runs for d or right or a or left
+		return ;
+}
+alert(event.key) ; // this doesn't fire for arrows
+</code></pre>
+</section>
+<section id="events9" class="slide level2">
+<h2>Switch</h2>
+<p>Be efficient! This would be bad.</p>
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+		x = x - s  ; // this runs for a or left
+		return ;
+	case "a":
+		x = x - s  ; // this runs for a or left
+		return ;
+	}
+</code></pre>
+</section>
+<section id="events9" class="slide level2">
+<h2>Canvas</h2>
+<p>Well... we can compute new x (or y) values with switch... but what good is that.</p>
+<p><pre><code class="js" style="max-height:1100px">function keybind()
+{
+	// old x value here
+	switch (event.key) {
+		// well written switch
+	}
+	// new x value here
+}
+</code></pre>
+<p>This doesn't exactly doing IO - it does the I, but there's no changes to the canvas!
+</section>
+<section id="eventsa" class="slide level2">
+<h2>Canvas</h2>
+<p>We need to draw rectangles - just like in the onload function!</p>
+<p><pre><code class="js" style="max-height:1100px">function keybind()
+{
+	switch (event.key) {
+		// well written switch
+	}
+	ctx.fillRect(x, y, s, s) ; // x y width height
+}
+</code></pre>
+<p>This adds a new rectangle to the canvas!
+</section>
+<section id="eventsb" class="slide level2">
+<h2>Canvas</h2>
+<p>We use another built in function to clear the old rectangle.</p>
+<p><pre><code class="js" style="max-height:1100px">function keybind()
+{
+	ctx.clearRect(0, 0, w, h);
+	switch (event.key) {
+		// well written switch
+	}
+	ctx.fillRect(x, y, s, s) ; // x y width height
+}
+</code></pre>
+<p>In effect, this moves the rectangle.
+<ul><li>Question: What happenes when a key not enumerated in the switch statement is pressed?</li></ul>
+</section>
+<section id="tren1" class="slide level2">
+<h2>ternary Operator</h2>
+<p>But wait - we have a problem with bounds checking.</p>
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+		x = x - s  ; // this runs for a or left
+		return ;
+	case "a":
+		x = x - s  ; // this runs for a or left
+		return ;
+	}
+</code></pre>
+<p>What happens when the box is moved off of the canvas space?
+</section>
+<section id="tren2" class="slide level2">
+<h2>ternary Operator</h2>
+<p>We could write extensive if statements.</p>
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+		if (x - s > 0)
+		{
+			x = x - s  ;
+		}
+		break ;
+	case "ArrowRight":
+		if (x + s < w)
+		{
+			x = x + s  ;
+		}
+		break ;
+	}
+</code></pre>
+</section>
+<section id="tren3" class="slide level2">
+<h2>ternary Operator</h2>
+<p>Imagine how bad that looks without switch.</p>
+<p><pre><code class="js" style="max-height:1100px">if (event.key == "ArrowLeft")
+{
+	if (x - s > 0)
+	{
+		x = x - s  ;
+	}
+} else if (event.key == "ArrowRight") {
+	if (x + s < w)
+	{
+		x = x + s  ;
+	}
+}
+</code></pre>
+</section>
+<section id="tren4" class="slide level2">
+<h2>ternary Operator</h2>
+<p>Though of course there's some case combinations we can do</p>
+<p><pre><code class="js" style="max-height:1100px">if ((event.key == "ArrowLeft") && (x - s > 0))
+	x = x - s  ;
+} else if ((event.key == "ArrowRight") && (x + s < w))
+	x = x + s  ;
+}
+</code></pre>
+<p>This could be an argument against switch, that said.
+</section>
+<section id="tren5" class="slide level2">
+<h2>ternary Operator</h2>
+<p>We can inline conditions with the "ternary operator".</p>
+<p><pre><code class="js" style="max-height:1100px">switch (event.key) {
+	case "ArrowLeft":
+	case "a":
+		x = x - s > 0 - s ? x - s : x ;
+		break ;
+</code></pre>
+<p>Basically, it is
+<p><pre><code class="js" style="max-height:1100px">const bool = x - s > 0 ;
+const someVal = x - s ;
+const otherVal = x ;
+x = bool ? someVal : otherVal ;
+</code></pre>
+<p>This is the same as an if statement in this simple assignment case.
+</section>
+<section id="exercise" class="slide level2">
+<h2>Practice</h2>
+<p>Write a .js plotter, based on ye olde utilatoure.</p>
+<ul>
+<li>Create an HTML file, plot.html</li>
+<li>Create a .js file, plot.js</li>
+<li>Create a canvas element in the HTML file.</li>
+<li>Create a listener or listeners to do the following:
+			<ul>
+				<li>'wasd' to scroll</li>
+				<li>'p' and 'm' (plus and minus) to zoom</li>
+				<li>'r', 'h', or 'd' to reset to defaults
+				</ul></ul>
+<p>Review:<a href="https://github.com/cd-public/eths23/blob/main/html/utilator.html">https://github.com/cd-public/eths23/blob/main/html/utilator.html</a></p>
+<p>Demo:<a href="https://cd-public.github.io/eths23/html/visual.html">https://cd-public.github.io/eths23/html/visual.html</a></p>
+<p>The demo shows a solution if you get stuck.
+</section>
+<section id="hw" class="slide level2">
+<h2>Homework</h2>
+<p>Homework for Monday
+<ul>
+<li>Read (watch) <a href="https://www.youtube.com/watch?v=pepkcF9UXng">“We Need To Fix Black Hair in Video Games”</a>.</li>
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.<ul>
+<li>You don't have to write just 15 theses, but I would.</li>
+<li><b>Bold</b> a main thesis that summarizes your thoughts.</li>
+<li>Aim for between 30% and 70% to be discussion-provoking questions.</li>
+<li>These can be like my abstract responses, for example.</li></ul>
+<li>Webhost at *.github.io/kindafunny.html no latter than Friday at Midnight AOE</li>
+<li>Read at least 3 of your peers' documents before class.</li>
+<li>Have an event listener do something to your page, and document it (write a sentence somewhere saying what it does).</li>
+</ul>
+</ul>
+<p>There may be a way to integrate plots into your rhetoric!</p>
+</section>
+
+    </div>
+  </div>
+  
+  
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

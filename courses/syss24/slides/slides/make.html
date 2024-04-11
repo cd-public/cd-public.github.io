@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>make</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="C:\Users\cd-desk\Documents\dev\local\js/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">make</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>async</h2>
+  <h2>slice</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Client should be done, with nontrivial progress on the server.
+<li>I'm assuming you just now are starting to want a multi-file structure, so we're doing that today.
+</section>
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Makefile</dt>
+<dd>rules
+<dd>.o files
+<dd>compile flags
+</section>
+<section>
+<h2>Finger Binary</h2>
+<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/closed-fist-0.png"><br>0b00 == 0</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/thumb-raised1.png"><br>0b01 == 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0x11 == 3</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">struct big_secret_struct 
+{
+	char *most_embarrasing_fact ;
+	char *fav_password ;
+	uint32_t ssn ;
+}</code></ul>
+<p>Where should this structure be declared.</p>
+<div>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>// main.h </code></li>
+<li style="padding-bottom: .3em;"><code>// main.c </code></li>
+<li style="padding-bottom: .3em;"><code>// big_secret.h </code></li>
+<li style="padding-bottom: .3em;"><code>// big_secret.c </code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">struct ret_two_vals_struct 
+{
+	uint64_t val0 ;
+	uint64_t val1 ;
+}</code></ul>
+<p>Where should this structure be declared.</p>
+<div>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>// main.h </code></li>
+<li style="padding-bottom: .3em;"><code>// main.c </code></li>
+<li style="padding-bottom: .3em;"><code>// ret_two_vals.h </code></li>
+<li style="padding-bottom: .3em;"><code>// ret_two_vals.c </code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">typedef struct bst_struct *bst ;</code></ul>
+<p>What is sizeof(bst)?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>sizeof(void *)             == 8</code></li>
+<li style="padding-bottom: .3em;"><code>sizeof(int)                == 4</code></li>
+<li style="padding-bottom: .3em;"><code>sizeof(char)               == 1</code></li>
+<li style="padding-bottom: .3em;"><code>sizeof (struct bst_struct) == ??</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>How to compile test.c?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>gcc test.c</code></li>
+<li style="padding-bottom: .3em;"><code>gcc test.c -w</code></li>
+<li style="padding-bottom: .3em;"><code>gcc test.c pair.h</code></li>
+<li style="padding-bottom: .3em;"><code>gcc test.c pair.c</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<p>Did the last slide contain a memory leak?</p>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>0</code></li>
+<li style="padding-bottom: .3em;"><code>1</code></li>
+</ol>
+</div>
+</section>
+
+<section>
+<h2>Review</h2><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul><li>This is our first example of a code base spanning multiple files.
+<ul><li>As an aside, getting used to this is one reason to learn C: I expect you to deal with files a lot more industry than you do here.
+</ul>
+<li>Previously we used the particularly unseemly:
+<code>gcc test.c pair.c</code>
+<li>This won't scale well on projects of any reasonable size and is annoying to type and remember.
+<li>In practice we have also already simplified the command considerably by using default output names:
+<code>gcc -o tester test.c pair.c</code>
+<li>And in practice we should specify things like where to look for includes (such as in the current directory "."):
+<code>gcc -o tester test.c pair.c -I.</code>
+<li>And perhaps we need to include system libraries, such as math library to use abs():
+<code>gcc -o tester test.c pair.c -I. -lm</code>
+</section>
+
+<section>
+<h2>Teaser</h2><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul><li>This is our first example of a code base spanning multiple files.
+<li>Previously we used the particularly unseemly:
+<code>gcc test.c pair.c</code>
+<li>It would be nice to have a single command the compiles or files, and program that command.
+<code>make</code>
+</section>
+
+<section>
+<h2>Teaser</h2>
+<ul style="width: 100%"><li>Enterprising students may have realized we have something of a solution to this:
+<code class="C">#include &lt;stdlib.h&gt;
+
+int main() 
+{ 
+  system("touch test.txt") ;
+  return 0 ;
+}</code>
+<li>Using system() which, to be clear, you should never use for security reasons, you can run commands from inside programs.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ rm test.txt ; ls ; gcc test.c ; ./a.out ; ls
+a.out  test.c
+a.out  test.c  test.txt
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>Teaser</h2>
+<ul style="width: 100%"><li>Some of you may prefer the 2008 gritty reboot, Python (Python3)
+<code class="Python">from os import system
+
+if __name__ == "__main__":
+    system("touch test.txt")</code>
+<li>I included the main boilerplate to make a point about languages.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ rm test.txt ; ls ; python test.py ; ls
+test.c  test.py
+test.c  test.py  test.txt
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>I don't love you using system in Python either, but Python at least is a scripting language and we are, afterall, writing a script here.
+</section>
+
+<section>
+<h2>Teaser</h2>
+<ul style="width: 100%"><li>Did someone say scripting language.
+<code class="Python"># test.sh
+# octothorpe hashtags like Python - scripting language buddies!
+
+touch test.txt</code>
+<li>We are working in shell after all.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ./test.sh
+bash: ./test.sh: Permission denied
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+<li>The shell correctly notes scripting shell commands shouldn't be done lightly, so I promptly ignore the warning by modifying file permissions to be maximimally permissive (this is octal - all 1s)
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ chmod 777
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ rm test.txt ; ls ; ./test.sh ; ls
+test.c  test.py  test.sh
+test.c  test.py  test.sh  test.txt
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+<li>Anyways, eventually enough starting coders deleted their operating system with poorly formed and highly permissioned commands that some designers set out to <b>make</b> a solution.
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Makefile</dt>
+<dd>rules
+<dd>.o files
+<dd>compile flags
+</section>
+
+<section>
+<h2>Make</h2><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul style="width: 100%"><li>We basically want this functionality:
+<code class="C">void main(void) { 
+  system("gcc test.c pair.c -o tester") ;
+}</code>
+<li>We essentially compile this manually once to make "make":
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc makemaker.c -o make -w
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make
+make: *** No targets specified and no makefile found.  Stop.
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>Oh make is an existing bash command that we can't overwrite by creating an executable of that name.
+<li>Let's just use that then, instead of compile system() calls.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<h4>Colby College rip</h4>
+<p>I was watching Japanese children's live action super hero television shows in class when this was taught to me in 2012, so I actually learned it from this webpage at Colby College and from Stack Overflow.</p>
+<table style="width:100%">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>We will specifically use the 2 .c and 1 .h example here.
+<li>When in doubt, Google "makefile tutorial" and try links until you find something that is short enough you can understand it.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<table style="width:100%">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>make is GNU utility. It is quite common, though gradually being displaced by CMake, which you will learn on-the-job and quite easily if you know Make already.
+<li>We can think of a GNU utility as a command line utility, akin to gcc.
+<li>make is not C specific but is C intended.
+<li>make's actions are defined by a Makefile (usually capitalized) which is an ascii file with a specific grammar and only a filename (that is, no file extension like Makefile.txt).
+</section>
+
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<table style="width:100%">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>We suggested compiling test.c into executable tester via the following command:
+<code>gcc -o tester test.c pair.c -I.</code>
+<li>It is a simple enough matter to create a corresponding Makefile
+<code>tester: test.c pair.c
+	gcc -o tester test.c pair.c -I.</code>
+<li>Let's unpack what is going on here.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>It is a simple enough matter to create a corresponding Makefile
+<code>tester: test.c pair.c
+	gcc -o tester test.c pair.c -I.</code>
+<li>Let's unpack what is going on here.
+<code>target … : prerequisites …
+	recipe</code>
+<li>These <b>must</b> be indented with a single tab.
+<li>The atomic unit of a Makefile is a rule, which consists of a target, prequisities, and recipe.
+<ul><li>The target is the name the command, similar to the name of a function
+<ul><li>In Makefiles with multiple rules, we can say "make &lt;target name&gt;" to make a specific executable or dependency.
+<li>Common names include the name of the executable, "all", and "clean"
+<li>If "make" is run with no arguments, the first rule is made.
+</ul>
+<li>The prerequisites is a list of files needed to run the recipe.
+<ul><li>This prevents repeat work - make examines files to ensure they are changed since last compile
+</ul>
+<li>This scales in usefulness as Makefiles scale in size and projects scale in filecount.
+<li>The recipe is the GCC command.
+<ul><li>It may span multiple lines if needed for some reason.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>It is a simple enough matter to create a corresponding Makefile
+<code>tester: test.c pair.c
+     gcc -o tester test.c pair.c -I.</code>
+<li>If you put this rule into a file called Makefile or makefile and then type make on the command line it will execute the compile command as you have written it in the makefile.
+<li>make with no arguments executes the first rule in the file.
+<li>putting the list of files on which the command depends on the first line after the :, make knows that the rule tester needs to be executed if any of those files change.
+<li><b>One very important thing to note is that there is a tab before the gcc command in the makefile.</b>
+<li>This implementation contains some inefficiency and doesn't teach some techniques... let's refine it.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Was:
+<code>tester: test.c pair.c
+     gcc -o tester test.c pair.c -I.</code>
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.o pair.o
+	$(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>make supports constants
+<ul><li>Imagine you wanted to... port some C code to C++ (gcc -> g++ ezpz)
+<li>Imagine you wanted to... use pow (exponents), sqrt, or abs (absolute value) (add -lm)
+<li>This is virtually identical to how BASH implements variables by the way:
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ STRING="hi"
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ echo $STRING
+hi
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Was:
+<code>tester: test.c pair.c
+	gcc -o tester test.c pair.c -I.</code>
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.o pair.o
+	$(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>.o files are a machine-readable intermediate between a .c file and an executable.
+<li>Most libraries, (like the C standard library "libc" that contains stdio and stdlib) are implemented as masses of .o files accessed through apt.
+<li>We can use .o files with our own headers by instructing gcc to target .o files for input or output.
+<li>Using .o files allows simplified compilation when only one dependency is modified.
+<ul><li>You do not want to recompile stdlib.h every time you compile a 4 line file with one malloc.
+</ul>
+<li>When we include .o files in a recipe, make infers how to generate these files itself.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.o pair.o
+	$(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>When when include .o files in a recipe, make infers how to generate these files itself.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make
+gcc -I.   -c -o test.o test.c
+gcc -I.   -c -o pair.o pair.c
+gcc -o tester test.o pair.o -I.
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>These .o files will only be regenerated if the corresponding .c file changes - try changing only one .c file.
+<li>Wait what happens if we modify pair.h?
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Was:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.c pair.c
+     $(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+DEPS=pair.h
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $&lt; $(CFLAGS)
+
+tester: test.o pair.o
+     $(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>Lot of symbolic notation here, but most of it isn't too confusing in context.
+</section>
+
+<section>
+<ul style="width:100%">
+<code>CC=gcc
+CFLAGS=-I.
+DEPS=pair.h
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $&lt; $(CFLAGS)
+
+tester: test.c pair.c
+     $(CC) -o tester test.o pair.o $(CFLAGS)</code>
+	 <br>
+<li><code>%.o / %.c</code>
+<ul><li>% is the wildcard, standing in for any file name ending with .o or .c</ul>
+<li><code>-c</code>
+<ul><li>Bizarrely, the -c flag directs gcc to make a -o file (it describes the input type)</ul>
+<li><code>-o</code>
+<ul><li>This directs the output name, but in this case also output file type because...</ul>
+<li><code>$@</code>
+<ul><li>This uses the built-in variable @ to refer to the rule name - the .o file in this case</ul>
+<li><code>$&lt;</code>
+<ul><li>This uses the built-in variable &lt; to refer to the "first" dependency - the .c file in this case</ul>
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Stopping here:
+<code>CC=gcc
+CFLAGS=-I.
+DEPS=pair.h
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $&lt; $(CFLAGS)
+
+tester: test.o pair.o
+     $(CC) -o tester test.o pair.o $(CFLAGS)
+	 
+clean:
+	rm -f *.o</code>
+<li>clean is a massive boon to file management - every time you have too many files around, modify the rule to do what you want.
+<li>The next compile after a clean is slower, but that's okay.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Usage example:
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ls
+Makefile  pair.c  pair.h  test.c
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make
+gcc -c -o test.o test.c -I.
+gcc -c -o pair.o pair.c -I.
+gcc -o tester test.o pair.o -I.
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ls
+Makefile  pair.c  pair.h  pair.o  test.c  test.o  tester
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make clean
+rm -f *.o
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ls
+Makefile  pair.c  pair.h  test.c  tester
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ Makefile</dt>
+<dd>✓ rules
+<dd>✓ .o files
+<dd>✓ compile flags
+</section>
+
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

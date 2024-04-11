@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wage</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Wage</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">01 May 2023</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Discussion day</li>
+<li>Then party day 🎉</li>
+<ul><li><a href="https://www.epi.org/publication/employers-steal-billions-from-workers-paychecks-each-year/">“Employers steal billions from workers’ paychecks each year”</a></li>=
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Cooper & Kroeger estimate $15B in losses to minimum wage violations in the US.  About how much is this per person?</p>
+<div class="poll">
+<ol>
+<li>~10</li>
+<li>~50</li>
+<li>~100</li>
+<li>~200</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>The DoL protects a workforce of 135M workers. How much is lost per <b>worker</b>?</p>
+<div class="poll">
+<ol>
+<li>~10</li>
+<li>~50</li>
+<li>~100</li>
+<li>~200</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Cooper & Kroeger estimate half of losses to 16-24 yr olds. FRED estimates 21.1M 15-24 yr olds. About how much is this per person?</p>
+<div class="poll">
+<ol>
+<li>~10</li>
+<li>~50</li>
+<li>~100</li>
+<li>~200</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Cooper & Kroeger estimate half of losses to nonwhite workers. The Census Bureau ~75% "white" and ~60% "white, not Hispanic or Latino" in 2020. About how many dollars are lost per person for people of color.</p>
+<div class="poll">
+<ol>
+<li>~10</li>
+<li>~50</li>
+<li>~100</li>
+<li>~200</li>
+</ol>
+</div>
+</section>
+<section id="food" class="slide level2">
+<h2>Food for Thought</h2>
+<p>As far as I can tell, EPI didn't report an intersectional data (e.g. young people of color, immigrants by race, etc)</p>
+<ul>
+<li>I want to show wage growth vs productivity.
+<li>I want to show union density.
+<li>I want to define intersectionality at a high level.
+</li>
+</section>
+<section id="growth" class="slide level2">
+<h2>Wage Growth</h2>
+<p>You may remember this plot: 
+<p><img style="width:100%"  src="../images/wage_vs_housing.png">
+<p>This is relevant data for most people, but I don't believe widely known!
+</section>
+<section id="causes" class="slide level2">
+<h2>Causes</h2>
+<p>It is worth question what may be driving housing costs up faster than wages.
+<ul>
+<li>It isn't that the people making houses are getting paid more - wages aren't up!
+<li>It could be that materials cost more, but wages also aren't up in extraction industries (lumber, mining)
+<li>So mostly, whatever is causing them to go up probably shouldn't be tied back to wages (thoughts?)
+</ul>
+</section>
+<section id="wages" class="slide level2">
+<h2>Causes</h2>
+<p>It is worth question what may be driving housing costs up faster than wages.
+<ul>
+<li>Are houses now worth more? Are they better, larger, in more desirable places?
+<li>Are houses more difficult to make now? Do they require more hours of construction, lumber, etc.
+</ul>
+<p>House value is hard to answer, so if you have something then let me know.
+</section>
+<section id="productivity" class="slide level2">
+<h2>Productivity</h2>
+<p>There are people that try to measure how productive a given worker is.
+<p><img style="width:100%" src="../images/product.png">
+</section>
+<section id="vswage" class="slide level2">
+<h2>Productivity</h2>
+<p>Wages have not kept up with productivity!
+<p><img style="width:100%" src="../images/product_vs_wage.png">
+<p>My claim: Some of the gap there is wage theft.
+<ul>
+<li>We could claim, by construction, it is all wage theft (but that isn't a data argument).
+</section>
+<section id="all3" class="slide level2">
+<h2>Productivity</h2>
+<p>This doesn't seem to be driving housing though.
+<p><img style="width:100%" src="../images/all3.png">
+</section>
+<section id="stock" class="slide level2">
+<h2>Productivity</h2>
+<p>Stock Indices (Wilshire here, FRED didn't have others back to 1974) outpace housing by about as much as productivity outpaces wages.
+<p><img style="width:100%" src="../images/stock.png">
+<p>Life pro-tip: I rent and buy index funds btw.
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>"Workers not covered by unions... are almost twice as likely (4.4 percent) to experience minimum wage violations as those in a union or covered by a union contract (2.3 percent)."</p>
+<p>"those not covered by a union lose nearly one-quarter (24.0 percent) of their earnings on average. Those who are covered by a union lose an average of 17.4 percent of their earnings</p>
+<p>A union worker expects to lose how much vs every dollar lost being non-union? (Wording HELP)
+<div class="poll">
+<ol>
+<li>~$0.20</li>
+<li>~$0.40</li>
+<li>~$0.60</li>
+<li>~$0.80</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>US union density is ~11% (in 2017) while minimum wage violates cost ~$15B. At 100% union density, what would we expect violations to be?
+<div class="poll">
+<ol>
+<li>~03B</li>
+<li>~06B</li>
+<li>~09B</li>
+<li>~12B</li>
+</ol>
+</div>
+</section>
+<section id="funfact" class="slide level2">
+<h2>Fun fact:</h2>
+<ul>
+<li>Unionization could reduce losses 15B->6.7B, a decrease of 8.3B.
+<li>The HUD's Public Housing Fund was 8.9B in 2022 (don't know 2017).
+</ul>
+</section>
+<section id="unions" class="slide level2">
+<h2>Fun fact:</h2>
+<p>Here's a Wikimedia union density plot that has Python source code on its <a href="https://commons.wikimedia.org/wiki/File:Union_Membership_in_the_United_States,_1960-2020.svg">file page</a>
+<p><img style="width:60%" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Union_Membership_in_the_United_States%2C_1960-2020.svg">
+<p>My claim: That number going down is bad.
+</section>
+<section id="discuss" class="slide level2">
+<h2>Discuss</h2>
+<p>Discuss the EPI report and your thoughts.</p>
+<p>Check out Ryan Cooper, a friend of a friend, on tech unionization.
+<a href="https://prospect.org/labor/tech-company-workers-should-unionize-immediately/">Here.</a>
+<p><img src="../images/stock.png">
+</section>
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

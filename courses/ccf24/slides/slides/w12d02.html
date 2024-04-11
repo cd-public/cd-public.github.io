@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Coding</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Coding</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">03 Apr 2024</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>Coding practice!</li>
+
+<li>Homework for Monday (!!!).
+<ul>
+<li>Read (watch) <a href="https://www.youtube.com/watch?v=pepkcF9UXng">“We Need To Fix Black Hair in Video Games”</a>.</li>
+<li>Write an HTML/CSS response paper. 500 words / ~3k chars / ~10-20 theses.</li>
+<li>Include an event listener on your page, potentially with a canvas element. It can be unrelated.</li>
+</ul>
+<li>Discussion section Monday (!!!)</li></ul>
+</section>
+</section>
+</ul>
+</section>
+<section id="langs" class="slide level2">
+<h2>Languages</h2>
+<p>We are a three language class.
+<ul>
+<li>Python
+<li>R
+<li>JavaScript
+</ul>
+<p>None of us know C and we wouldn't want to lie in an ethics class.
+</section>
+<section id="primality" class="slide level2">
+<h2>Primality</h2>
+<p>We can compute if a value is prime in Python and R...
+<div class="cols">
+<div class="col">
+<p><pre><code style="max-height:1100px;max-width:2500px" class='python'>def primality(n):
+
+  for i in range(2,n):
+  
+    if n % i == 0:
+	
+      return False
+	  
+	  
+    return True
+	
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
+{
+  for (i in 2:n)
+  {
+    if (n %% i == 0)
+    {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="primality2" class="slide level2">
+<h2>Primality</h2>
+<p>We can compute if a value is prime in R or JavaScript...
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>primality <- function(n) 
+{
+  for (i in 2:n)
+  {
+    if (n %% i == 0)
+    {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>function primality(n)
+{
+  for (let i= 2; i< n; i++)
+  {
+    if (n % i == 0)
+    {
+      return false ;
+    }
+  }
+  return true ;
+}
+</code></pre>
+</div>
+</div>
+<p>This code is, of course, highly non-optimized.
+</section>
+<section id="html" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+&#60;body&#62;
+    &#60;input type="text" id="myIn"&#62;
+    &#60;button type="button" onclick="io();"&#62;Primality&#60;/button&#62;
+    &#60;output id="myOut"&#62;Placeholder text&#60;/output&#62;
+    &#60;script&#62;...&#60;/script&#62;
+&#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">function io()
+{
+	let input  = document.getElementById("myIn")  ;
+	let output = document.getElementById("myOut") ;
+	let n = parseInt(input.value) ;
+	output.innerText = primality(n).toString() ;
+}</code></pre>
+</section>
+<section id="review1" class="slide level2">
+<h2>Review Question 1</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let input  = document.getElementById("myIn")  ;</code></pre>
+<p>What is <code>input</code>?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="review2" class="slide level2">
+<h2>Review Question 2</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let input  = document.getElementById("myIn")  ;</code></pre>
+<p>To what does <code>input</code> refer?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="review3" class="slide level2">
+<h2>Review Question 3</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>What is <code>input.value</code>?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="review4" class="slide level2">
+<h2>Review Question 4</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>To what does <code>input.value</code> refer?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="review5" class="slide level2">
+<h2>Review Question 5</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>What is the type of <code>input.value</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="review6" class="slide level2">
+<h2>Review Question 6</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">let n = parseInt(input.value) ;</code></pre>
+<p>What is the type of <code>n</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="html2" class="slide level2">
+<h2>Script elements</h2>
+<pre><code class="html" style="max-height:1100px;max-width:2500px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+&#60;body&#62;
+    &#60;input type="text" id="myIn"&#62;
+    &#60;button type="button" onclick="io();"&#62;Primality&#60;/button&#62;
+    &#60;output id="myOut"&#62;Placeholder text&#60;/output&#62;
+    &#60;script&#62;...&#60;/script&#62;
+&#60;/body&#62;
+&#60;/html&#62;</code></pre>
+<pre><code class="js" style="max-height:1100px;max-width:2500px">function io()
+{
+	let input  = document.getElementById("myIn")  ;
+	let output = document.getElementById("myOut") ;
+	let n = parseInt(input.value) ;
+	output.innerText = primality(n).toString() ;
+}</code></pre>
+</section>
+<section id="reviewa" class="slide level2">
+<h2>Review Question A</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What is the type of <code>n</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="reviewb" class="slide level2">
+<h2>Review Question B</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What is the type of <code>primality(n)</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="reviewc" class="slide level2">
+<h2>Review Question C</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What kind of thing is <code>primality(n).toString</code>?</p>
+<div class="poll">
+<ol>
+<li>function</li>
+<li>method</li>
+<li>object</li>
+<li>property</li>
+</ol>
+</div>
+</section>
+<section id="reviewd" class="slide level2">
+<h2>Review Question D</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What is the type of <code>primality(n).toString()</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+<p>Easy one cuz the last one was a real thinker.
+</section>
+<section id="reviewe" class="slide level2">
+<h2>Review Question E</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What kind of thing is <code>output</code>?</p>
+<div class="poll">
+<ol>
+<li>function</li>
+<li>method</li>
+<li>object</li>
+<li>property</li>
+</ol>
+</div>
+</section>
+<section id="reviewf" class="slide level2">
+<h2>Review Question F</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>To what does <code>output</code> refer?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="reviewg" class="slide level2">
+<h2>Review Question G</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>What kind of thing is <code>output.innerText</code>?</p>
+<div class="poll">
+<ol>
+<li>function</li>
+<li>method</li>
+<li>object</li>
+<li>property</li>
+</div>
+</section>
+<section id="reviewh" class="slide level2">
+<h2>Review Question H</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+</ol>
+<p>What is the type of <code>output.innerText</code>?</p>
+<div class="poll">
+<ol>
+<li>boolean</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+</ol>
+</div>
+</section>
+<section id="reviewf" class="slide level2">
+<h2>Review Question F</h2>
+<p>Consider the following JavaScript excerpt from within the HTML document.</p>
+<pre><code class="js">output.innerText = primality(n).toString() ;</code></pre>
+<p>To what does <code>output.innerText</code> refer?</p>
+<div class="poll">
+<ol>
+<li>An HTML element</li>
+<li>HTML content</li>
+<li>A JavaScript object</li>
+<li>A JavaScript property</li>
+</ol>
+</div>
+</section>
+<section id="publickey" class="slide level2">
+<h2>Problem space</h2>
+<p>I want you to get live-coding practice.
+<ul>
+<li>We're using RSA, cuz the other thing I wanted to use requires libraries (ew).
+<div class="block" name="Definition">
+<p>A <b>public-key cryptosystem</b> is a technique to convert message of up to fixed size (that is, with a maximum value) to "cyphertext" - a numerical value that contains the information of a message, but not in a readable manner.  To be a public-key system, any agent must be able to produce cyphertexts, but only the intended receiver may extract the original message from the cyper text.</p>
+</div>
+<div class="block" name="Definition">
+<p>A <b>public-key</b> is a numerical code used to encrypt a message such that it can only be decrypted using a private key.</p>
+</div></ul>
+<p>By far the most well-known and widely used public-key cryptosystem is RSA (Rivest–Shamir–Adleman),
+</section>
+<section id="types" class="slide level2">
+<h2>Types</h2>
+<p>We can understand RSA in terms of types.<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt()
+
+decrypt()
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>(str,int) -> int
+
+(int,int) -> str
+</code></pre>
+</div>
+</div>
+<p>But it is more helpful to point out these are different kinds of integers.<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt()
+
+decrypt()
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>(msg,pubKey) -> cypher
+
+(cypher,privKey) -> msg
+</code></pre>
+</div>
+</div>
+<p>It is worth noting the following must be preserved:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt(encrypt(msg,pubKey),privKey) = msg
+</code></pre>
+</section>
+<section id="types2" class="slide level2">
+<h2>Types</h2>
+<p>So we want to be able to create <code>encrypt</code>, <code>decrypt</code>, <code>pubKey</code>, <code>privKey</code> such that:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt(encrypt(msg,pubKey),privKey) = msg
+</code></pre>
+<p>To do so, we will create one other function:<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>keygen()</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>() -> (pubKey,privKey)
+</code></pre>
+</div>
+</div>
+<p>Now we will simply write <code>keyGen</code>, <code>encrypt</code>, <code>decrypt</code>
+</section>
+<section id="RSA" class="slide level2">
+<h2>Key Insight</h2>
+<p>There exists a key insight that underpines all of RSA.  It based on the idea of modular arithmetic.
+<ul>
+<li>For some message <code>m</code>
+<li>Some encryptor <code>e</code> (the public key)
+<li>Some decryptor <code>d</code> (the private key)
+</ul>
+<p>We can find <code>m</code>,<code>e</code>, <code>d</code> and novel value <code>n</code> such that:
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>((m ^ e) ^ d) %% n == m
+</code></pre>
+<ul>
+<li><code>m</code> is the message.
+<li><code>m ^ e</code> is the cypher text
+<li><code>n</code> is the maximum value for <code>m</code>
+</ul>
+</section>
+<section id="Use" class="slide level2">
+<h2>Usefulness</h2>
+<p>Given some <code>keyGen</code>
+<ul>
+<li>I find some encryptor <code>e</code> (the public key)
+<li>I find a corresponding decryptor <code>d</code> (the private key)
+<li>I post <code>e</code> publicly.
+<li>Anyone who wishes to send me a private message may do so
+<ul>
+<li>They write a message.
+<li>They convert the message to numerical data in some manner.
+<li>They raise the numerical value to the power <code>e</code> to get the cypher.
+<li>They send me the cypher without concern that others may read it.
+</ul>
+</section><section id="Use2" class="slide level2">
+<h2>Usefulness</h2>
+<p>Given some <code>keyGen</code>
+<ul>
+<li>I receive a cypher made using <code>e</code> (the public key)
+<li>I know the decryptor <code>d</code> - a value no one else knows.
+<ul>
+<li>I raise the cyper to the power <code>d</code>
+<li>I divide by <code>n</code> and take the remainder.
+<li>I numToText the remainder.
+<li>I read the message.
+</ul>
+</section>
+<section id="crypt" class="slide level2">
+<h2>Functions</h2>
+<p>For now we assume we'll get <code>keyGen</code> working, so we show <code>encrypt</code> and <code>decrypt</code>
+<div class="cols">
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>encrypt <- function(s,e) {
+  return(textToNum(s) ^ e)
+}
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='R'>decrypt <- function(s,d,n) {
+  v = (s ^  d) %% n
+  return(numToText(v))
+}
+</code></pre>
+</div>
+<div class="col">
+<pre><code style="max-height:1100px;max-width:2500px" class='Python'>def encrypt(s, e):
+  return textToNum(s) ^ e
+  
+</code></pre>
+<pre><code style="max-height:1100px;max-width:2500px" class='Python'>def decrypt(s, d, n):
+  v = (s ** d) %  n
+  return numToText(v)
+  
+</code></pre>
+</div>
+</div>
+<p>For testing purposes, here is a satisfying key.
+<pre><code>[n, e, d] = [191923, 3, 127307]</code></pre>
+<p>e is supposed to be larger but I am lazy/afraid.  You should be able encrypt/decrypt "hi" with this.
+</section>
+<section id="tasks" class="slide level2">
+<h2>Tasks</h2>
+<p>Form groups and pick a language.  JavaScript will be harder but more cool.
+<ul>
+<li>MEDIUM: We need a working <code>textToNum</code>
+<li>MEDIUM: We need a working <code>numToText</code>
+<li>HARD: We want to make sure they actually work
+<ul>
+<li>Not like "oh I think it should work" work
+<li>Not "well I haven't tested it yet" work.
+</ul>
+
+<li>EASY: We need a working <code>encrypt</code>
+<li>EASY: We need a working <code>decrypt</code>
+</ul>
+<p>Even with this key, raising something to the power of 127307 will melt your PC.
+<pre><code>[n, e, d] = [191923, 3, 127307]</code></pre>
+<ul>
+<li>HARD: We need fast modular exponentiation by squares.
+</ul>
+</section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

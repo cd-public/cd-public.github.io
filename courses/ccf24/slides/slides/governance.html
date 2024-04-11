@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Governance</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Governance</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">03 Apr 2024</p>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<p>Homework for Monday
+</p><ul>
+<li>Read both<ul><li><a href="https://www.justice.gov/opa/pr/justice-department-secures-groundbreaking-settlement-agreement-meta-platforms-formerly-known">“Justice Department Secures Groundbreaking Settlement Agreement with Meta Platforms, Formerly Known as Facebook, to Resolve Allegations of Discriminatory Advertising”</a></li>
+<li><a href="https://www.npr.org/2019/03/28/707614254/hud-slaps-facebook-with-housing-discrimination-charge">“Housing Department Slaps Facebook With Discrimination Charge”</a></li></ul></li>
+<li>Write an HTML/CSS/.js response paper. 500 words / ~3k chars / ~10-20 theses.<ul>
+<li>Include some kind of coded element, which counts toward your word count.
+</li><li>You don't have to write just 15 theses, but I would.</li>
+<li><b>Bold</b> a main thesis that summarizes your thoughts.</li>
+<li>Aim for between 30% and 70% to be discussion-provoking questions.</li></ul>
+</li><li>Webhost at *.github.io/hud.html no latter than Friday at Midnight AOE</li>
+<li>Read at least 3 of your peers' documents before class.</li>
+</ul>
+</section>
+
+<section>
+    <h2>Data Governance</h2>
+    <p>We are 1-2 lecture short by my count.</p>
+    <ul>
+        <li>Data governance comes up a lot...</li>
+        <li>Hard to find edu treatments of it outside of e.g. DataCamp</li>
+        <li>VERY common when talking about cloud computing / data cloud</li>
+        <li>I am carrying out some cloud efforts unrelated to this class so...</li>
+        <li>Today: Data governance as Amazon Web Services, the largest cloud player, understands it.</li>
+    </ul>
+	<p>Amazon like this. <em>Calvin like this.</em>
+</section>
+
+<section>
+    <h2>Data Governance?</h2>
+    <p>Data governance is a methodology that ensures data is in the proper condition to support business initiatives and operations.</p>
+    <ul>
+        <li>Justify funding for the data governance program</li>
+        <li>Motivate participation by the business communities</li>
+        <li>Drive the priority of data governance activities</li>
+        <li>Drive the level of data integration required across participating business areas</li>
+        <li>Help to determine the right operating model, especially the level of centralization and decentralization required</li>
+    </ul>
+	<p><em>How do you feel about data governance being considered part of data science? Is supporting business the responsibility of data scientists? Who benefits from this expectation?</em>
+</section>
+
+<section>
+    <h2>Analytics Governance</h2>
+    <ul>
+    <li>Analytics governance involves governing data for use in analytic applications and usage of analytics systems.</li>
+    <li>The analytics governance team can establish governance mechanisms, such as:
+    <ul>
+        <li>Analytics report versioning.</li>
+        <li>Documentation standards.</li>
+    </ul></li>
+    <li>It is essential to:
+    <ul>
+        <li>Keep track of regulatory requirements.</li>
+        <li>Establish company policies regarding analytics usage.</li>
+        <li>Provide guardrails to ensure compliance across the organization.</li>
+    </ul></li></ul>
+	<p><em>Who benefits from analytics governance?</em>
+</ul>
+</section>
+
+<section>
+    <h2>Why?</h2>
+    <ul>
+    <li>According to <a href="https://blogs.gartner.com/andrew_white/2021/01/12/our-top-data-and-analytics-predicts-for-2021/">Gartner</a>, by 2025, 80% of organizations aiming to scale digital business may fail due to inadequate modern data and analytics governance.</li>
+    <li>Chief Data Officers (CDOs) regard data governance as a top priority for their initiatives.</li>
+    <li>In a 2023 survey by <a href="https://aws.amazon.com/data/cdo-report/">MIT CDOIQ</a>, 45% of Chief Data Officers identified data governance as a critical concern.</li>
+    <li>Data leaders aim to establish a governance model ensuring:
+    <ul>
+        <li>Timely availability of data to the right people and applications.</li>
+        <li>Data security and safety with appropriate controls.</li>
+    </ul>
+</ul>
+</section>
+
+<section>
+    <h2>Machine Learning (ML) Governance</h2>
+    <ul>
+    <li>ML governance applies data governance practices to ML, including:
+    <ul>
+        <li>Ensuring data quality and integration for model training and deployment.</li>
+        <li>Responsible AI usage, especially concerning sensitive data.</li>
+        <li>Enabling participation in model building, deployment, and monitoring.</li>
+        <li>Documenting model training, versioning, supported use cases, and ethical guidelines.</li>
+        <li>Monitoring models in production for accuracy and potential issues like drift, overfitting, and underfitting.</li>
+    </ul></ul>
+	<p><em>I think this definition leaves out the most important factor - do you think something or things are missing?</em>
+</ul>
+</section>
+
+<section>
+    <h2>Main Challenges</h2>
+    <ul>
+    <li>The strategic challenge for data governance is aligning the program with business initiatives:
+    <ul>
+        <li>Directly proposing the value of data governance can be ineffective.</li>
+        <li>Position data governance to support business initiatives.</li>
+        <li>Ensure data is in the right condition to support business success.</li>
+        <li>Do not overlook reporting and auditing practices for supporting initiatives.</li>
+    </ul></ul>
+	<p><em>Should data serve business or some other entity or goal?</em>
+</ul>
+</section>
+
+<section>
+    <h2>Styles of Data Governance</h2>
+    <ul>
+        <li><b>Centralized data governance</b>: <ul>
+        <li>Centralize responsiblity for mission statements, policies, tool choices, and more. <li>The day-to-day actions are many times pushed into lines of business (LOB).</li></ul>
+        <li><b>Federated data governance</b>: <ul><li>Individual business units operate in the way that best matches their needs. <li>A smaller centralized team which focuses their work on solving common problems, like making data quality tools.</li></ul>
+        <li><b>Decentralized data governance</b>: <ul>
+        <li>Each LOB does what they need for their specific project. <li>Each project freely uses any tools or processes from other projects. <li>As approaches data mesh (2019-) increase in popularity, so does decentralized..</li>
+    </ul>
+	<p><em>What sounds good to you personally? What do you think works well for Willamette? Intel? Dutch Bros.?</em></p>
+</section>
+
+<section>
+    <h2>Who Builds Data Governance?</h2>
+    <p>Building a business-centric data governance program requires many job functions.</p>
+    <ul>
+        <li><b>Executives</b> control funding to determine priorities for data governance support.</li>
+        <li><b>Data stewards</b> monitor details of projects day to day. They elevate irregularities up to executives.</li>
+        <li><b>Data owners</b> make policies about the data, including who should have access to the data and under what circumstances, how to interpret and apply regulations, and key term definitions</li>
+        <li><b>Data engineers</b> are computing specialists, and provide tools that help secure data, manage data quality, integrate data from a variety of sources, and find the right data.</li>
+    </ul>
+	<p><em>Data scientists can be any of these roles. Who does this leave out?</em></p>
+</section>
+
+<section>
+    <h2>How does data governance work?</h2>
+    <p>Data governance requires people, process, and technology solutions across a range of capabilities.</p>
+    <img width="50%" src="https://d1.awsstatic.com/DataGovCircle.b5af9c5c3ca8cad21dfbbce119d34c78fa7827be.png">
+</section>
+
+<section>
+    <h2>Curating Data at Scale</h2>
+    <p>Data governance requires curating data at scale to limit data sprawl and manage valuable data sources effectively.</p>
+    <ul>
+        <li>Identify and manage valuable data sources such as databases, data lakes, and warehouses.</li>
+        <li>Ensure accuracy, freshness, and integrity of data.</li>
+        <li>Eliminate sensitive information to instill confidence in data-driven decisions.</li>
+    </ul>
+    <p>Capabilities include data quality management, data integration, and master data management.</p>
+</section>
+<section>
+    <h2>Understanding Data in Context</h2>
+    <p>Discovering and understanding data in context accelerates data-driven decisions and enhances business value.</p>
+    <ul>
+        <li>Facilitate data discovery and comprehension for all users.</li>
+        <li>Centralize data catalog for easy access and usage.</li>
+        <li>Enable users to make informed business decisions based on data insights.</li>
+    </ul>
+    <p>Capabilities include data profiling, data lineage, and data catalogs.</p>
+</section>
+<section>
+    <h2>Protecting Data with Confidence</h2>
+    <p>Protecting and securely sharing data is crucial, striking the right balance between privacy, security, and accessibility.</p>
+    <ul>
+        <li>Implement controls for data privacy and security.</li>
+        <li>Govern data access across organizational boundaries.</li>
+        <li>Provide intuitive tools for both business and engineering users.</li>
+    </ul>
+    <p>Capabilities include data lifecycle management, data compliance, and data security.</p>
+</section>
+<section>
+    <h2>Reducing Business Risk</h2>
+    <p>Reducing business risk and ensuring regulatory compliance are paramount, requiring monitoring and auditing of data access and usage.</p>
+    <ul>
+        <li>Monitor data access and usage to mitigate risks.</li>
+        <li>Audit data access, including machine learning models, for security and compliance.</li>
+        <li>Ensure responsible use of data and simplify reporting processes.</li>
+    </ul>
+    <p>Capabilities include usage auditing for data and machine learning.</p>
+</section>
+
+<section>
+    <h2>How to Optimize?</h2>
+    <p>Understands which data domains, sources, and elements are needed to supported by funders.</p>
+    <ul>
+        <li>Build a data governance roadmap that shows support for a central mission, including overlaps.</li>
+        <li>Identify applications, considering requirements for freshness and privacy.</li>
+        <li>Understand what fit-for-purpose data looks like.</li>
+        <li>Sustain and expand the data governance program by embedding it in the enterprise operating model.</li>
+        <li>Organize the analytics community for self-service and consistency.</li>
+        <li>Support artificial intelligence (AI) and machine learning (ML).</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Align with Business Initiatives</h2>
+    <p>To ensure the effectiveness of your data governance program, consider aligning it with existing business initiatives:</p>
+    <ul>
+        <li>Attach data governance initiatives to funded business projects to secure support and resources.</li>
+        <li>Develop a comprehensive data governance roadmap that aligns with targeted business initiatives.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Identify Data Requirements</h2>
+    <p>Understanding the specific data needs of your organization's initiatives is crucial. Consider the following:</p>
+    <ul>
+        <li>Determine applications and business intelligence scenarios requiring data support.</li>
+        <li>Consider factors such as data freshness and privacy in identifying data requirements.</li>
+        <li>Ensure that collected and managed data is fit for its intended purpose.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Integrate into Operating Model</h2>
+    <p>Embedding data governance practices into your organization's operating model is essential for seamless operations:</p>
+    <ul>
+        <li>Integrate data governance into existing processes and workflows.</li>
+        <li>Make data planning and implementation a natural part of daily operations.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Community Organization</h2>
+    <p>Organizing the analytics community can promote self-service access to data and ensure consistency:</p>
+    <ul>
+        <li>Facilitate self-service access to data within the analytics community.</li>
+        <li>Ensure consistency in data usage and interpretation across the organization.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Extend to AI and ML</h2>
+    <p>Supporting artificial intelligence and machine learning initiatives requires extending data governance practices:</p>
+    <ul>
+        <li>Extend data governance to cover the management of feature stores for AI and ML models.</li>
+        <li>Ensure that data governance supports the responsible use of sensitive data in AI and ML projects.</li>
+    </ul>
+</section>
+
+	<section>
+    <h2>End Amazon</h2>
+    <p>Okay let's look at this.</p>
+<ul>
+    <li>Understanding Data in Context
+    <ul>
+        <li>Facilitate data discovery and comprehension for all users.</li></ul>
+    <li>Protecting Data with Confidence
+    <ul>
+        <li>Implement controls for data privacy and security.</li></ul>
+    <li>Reducing Business Risk
+    <ul>
+        <li>Audit data access, including machine learning models, for security and compliance.</li></ul></ul>
+	<p>Wait that's just basic non-data / non-cloud cybersecurity from 1977.
+</section>
+
+<section>
+        <h2>The "CIA" Triad</h2>
+        <ul>
+            <li>Confidentiality</li>
+            <li>Integrity</li>
+            <li>Availability</li>
+        </ul>
+        <p>Introduced in "Post Processing Audit Tools and Techniques in 1977.</p>
+		<ul>
+			<li>Go to <a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nbsspecialpublication500-19.pdf">link</a>
+			<li>Go to page 11-3
+			<li>Alternatively, search "confidentiality".
+			<pre><code class="lisp">OBJECTIVES OF A TYPICAL SECURITY AUDIT
+The post processing activities of the auditor are presented here in the context of a security audit and include confidentiality, integrity and availability of data.</pre></code>
+
+    </section>
+	
+
+    <section>
+        <h2>Confidentiality</h2>
+        <ul>
+            <li>The system must not disclose any information intended to be hidden</li>
+            <li>E.g. credit card information on a website</li>
+            <li>E.g. status of your accounts (to an unauthorized user)</li>
+            <li>Beware of indirect disclosure
+                <ul>
+                    <li>Error messages can give away 'too much' information!</li>
+                    <li>Info dumps when a page fails, or app fails</li>
+                    <li>Login failures</li>
+                    <li>URL query strings can tell you about internal data</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Think: is <b>open source software</b> likely to be more or less confidential?</p>
+    </section>
+
+    <section>
+        <h2>Integrity</h2>
+        <ul>
+            <li>The system must not allow assets to be subverted by unauthorized users</li>
+            <li>E.g. changing a student’s academic status</li>
+            <li>We must be able trust what is in the system
+                <ul>
+                    <li>The data being stored</li>
+                    <li>The functionality being executed</li>
+					<li>NOTE: Under the von Neumann model these are both just <b>DATA</b>
+                </ul>
+			
+            </li>
+        </ul>
+        <p>Think: what makes us willing to trust (1) something on the internet or (2) an email?</p>
+    </section>
+
+    <section>
+        <h2>Availability</h2>
+        <ul>
+            <li>The system must be able to be available and operational to users</li>
+            <li>E.g. bringing down Amazon.com</li>
+            <li>These are extremely hard to protect against</li>
+            <li>Any system performance degradation that can be triggered by a user can be used for denial of service attacks</li>
+            <li>Concurrency issues, infinite loop, or resource exhaustion</li>
+        </ul>
+        <p>Think: when was the last time Facebook was down? Netflix? Healthcare.gov?</p>
+    </section>
+
+    <section>
+        <h2>Auditability or Nonrepudiation</h2>
+        <ul>
+            <li>An actor should not be able to deny or dispute their actions</li>
+            <li>E.g. instructors allowing cheat sheet usage on exam</li>
+            <li>A party of a transaction cannot deny having received a transaction, and the other party cannot deny having sent the transaction</li>
+        </ul>
+		<p>My assessment: Out of scope for this class beyond this mention.
+    </section>
+	
+	<section>
+    <h2>So what?</h2>
+    <p>Well data governance gives us a framework to assess e.g. a network outage. <a href="https://nces.ed.gov/forum/pdf/data_governance_checklist.pdf">rip</a></p>
+<ul>
+    <li>What is the structure for effective data management</li>
+    <li>What are policies for data quality and security</li>
+    <li>What is sensitive data to target security efforts</li>
+    <li>How to manages data content to justify collection</li>
+    <li>What are procedures for handling data</li>
+    <li>How to ensure data accuracy, relevance, and completeness through proactive governance</li>
+    <li>Who determines levels of access based on roles and responsibilities</li>
+    <li>How to mitigates risks of data breaches</li>
+</ul>
+<p>Take a minute and discuss in the context of Willamette or your favorite cyberdisaster!
+
+</section>
+
+
+<section id="hw" class="slide level2 present" style="display: block;">
+<h2>Homework</h2>
+<p>Homework for Monday
+</p><ul>
+<li>Read both<ul><li><a href="https://www.justice.gov/opa/pr/justice-department-secures-groundbreaking-settlement-agreement-meta-platforms-formerly-known">“Justice Department Secures Groundbreaking Settlement Agreement with Meta Platforms, Formerly Known as Facebook, to Resolve Allegations of Discriminatory Advertising”</a></li>
+<li><a href="https://www.npr.org/2019/03/28/707614254/hud-slaps-facebook-with-housing-discrimination-charge">“Housing Department Slaps Facebook With Discrimination Charge”</a></li></ul></li>
+<li>Write an HTML/CSS/.js response paper. 500 words / ~3k chars / ~10-20 theses.<ul>
+<li>Include some kind of coded element, which counts toward your word count.
+</li><li>You don't have to write just 15 theses, but I would.</li>
+<li><b>Bold</b> a main thesis that summarizes your thoughts.</li>
+<li>Aim for between 30% and 70% to be discussion-provoking questions.</li></ul>
+</li><li>Webhost at *.github.io/hud.html no latter than Friday at Midnight AOE</li>
+<li>Read at least 3 of your peers' documents before class.</li>
+</ul>
+</section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

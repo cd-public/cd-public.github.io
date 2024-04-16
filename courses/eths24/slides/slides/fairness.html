@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fairness</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/python_monokai.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Fairness</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">15 Apr 2024</p>
+</section>
+
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<ul>
+<li>For today, two readings (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.justice.gov/opa/pr/justice-department-secures-groundbreaking-settlement-agreement-meta-platforms-formerly-known">“Justice Department Secures Groundbreaking Settlement Agreement with Meta Platforms, Formerly Known as Facebook, to Resolve Allegations of Discriminatory Advertising”</a></li>
+<li><a href="https://www.npr.org/2019/03/28/707614254/hud-slaps-facebook-with-housing-discrimination-charge">“Housing Department Slaps Facebook With Discrimination Charge”</a></li></ul>
+
+<li>For next Monday, one reading (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.oregon.gov/cjc/CJC%20Document%20Library/STOP_Report_2022.pdf">“Statistical Transparency of Policing Report”</a></li>
+<li>It is a 57 page document with 28 content-bearing pages, including graphics.</li></ul>
+</section>
+
+<section>
+    <h2>RECALL: "Data Governance</h2>
+    <p>"We are 1-2 lecture short by my count.</p>
+    <ul>
+        <li>"Data governance comes up a lot...</li>
+        <li>"Hard to find edu treatments of it outside of e.g. DataCamp</li>
+        <li>"VERY common when talking about cloud computing / data cloud</li>
+        <li>"I am carrying out some cloud efforts unrelated to this class so...</li>
+        <li>"Today: Data governance as Amazon Web Services, the largest cloud player, understands it.</li>
+    </ul>
+	<p>"Amazon like this. <em>Calvin like this.</em>"
+</section>
+
+<section>
+    <h2>Today: Algorithmic Fairness</h2>
+    <p>Based on the Fair Housing Act readings</p>
+    <ul>
+        <li>Tied as "most buzzword" with data governance by my estimation.</li>
+        <li>Much more scientific/academic approach - today is based on a peer reviewed philosophy paper</li>
+        <li>VERY common in any human-centered or -adjacent spaces.</li>
+        <li>Provides a helpful metacommentary.</li>
+        <li>Today: An Epistemic Lens on Algorithmic Fairness</li>
+    </ul>
+</section>
+
+<section>
+    <h2><a href="https://philarchive.org/archive/EDEAEL">An Epistemic Lens on Algorithmic Fairness</a></h2>
+ <div style="display: flex;">
+    <div class="column">
+        <div style="text-align: center;">
+			<img height="200px" src="https://images.squarespace-cdn.com/content/v1/5654b23be4b05e28e3827cbe/1448918197947-YUHB0HV56RJ16V7M1VOH/image-asset.png">
+            <p style="text-align: center;">Elizabeth Edenberg</p>
+            <p style="text-align: center;">Department of Philosophy, Baruch College,</p>
+            <p style="text-align: center;">The City University of New York</p>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div style="text-align: center;">
+			<img height="200px" src="https://cyber.harvard.edu/sites/default/files/styles/teaser/public/2022-11/Alexandra%20Wood.jpg">
+            <p style="text-align: center;">Alexandra Wood</p>
+            <p style="text-align: center;">Berkman Klein Center for Internet & Society,</p>
+            <p style="text-align: center;">Harvard University</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<section>
+    <h2>Understanding Bias in Algorithmic Systems</h2>
+    <p>Biases in algorithmic systems can manifest in various forms, influencing decision-making processes and perpetuating societal inequalities.</p>
+    <ul>
+        <li>Examine the sources of bias in data collection, preprocessing, and algorithmic design.</li>
+        <li>Evaluate the impact of biased algorithms on marginalized communities and underrepresented groups.</li>
+        <li>Address the challenges of identifying and mitigating bias in complex algorithmic systems.</li>
+    </ul>
+    <p>Analyzing bias is essential for promoting fairness and equity in algorithmic decision-making.</p>
+</section>
+<section>
+    <h2>Algorithmic Transparency and Accountability</h2>
+    <p>Transparency and accountability are foundational principles for ensuring fairness and trustworthiness in algorithmic systems.</p>
+    <ul>
+        <li>Advocate for transparency in algorithmic decision-making processes, including the disclosure of data sources, models, and decision criteria.</li>
+        <li>Establish mechanisms for accountability to hold algorithmic systems responsible for their outcomes, especially in cases of bias and discrimination.</li>
+        <li>Explore the role of audits, certifications, and regulatory oversight in promoting transparency and accountability in algorithmic governance.</li>
+    </ul>
+    <p>Enhancing transparency and accountability is crucial for building trust and fostering fairness in algorithmic systems.</p>
+</section>
+<section>
+    <h2>Intersectionality and Algorithmic Discrimination</h2>
+    <p>Intersectionality complicates the analysis of algorithmic discrimination by recognizing the intersecting forms of oppression experienced by individuals.</p>
+    <ul>
+        <li>Examine how algorithmic systems may compound discrimination based on intersecting identities such as race, gender, sexuality, and socioeconomic status.</li>
+        <li>Address the challenges of measuring and mitigating intersectional bias in algorithmic decision-making processes.</li>
+        <li>Empower intersectionally marginalized communities to advocate for algorithmic fairness and challenge discriminatory practices.</li>
+    </ul>
+    <p>Recognizing intersectionality is essential for promoting inclusive and equitable algorithmic systems.</p>
+</section>
+<section>
+    <h2>Human-Centered Design in Algorithmic Systems</h2>
+    <p>Human-centered design principles can enhance the fairness and inclusivity of algorithmic systems by prioritizing the needs and experiences of users.</p>
+    <ul>
+        <li>Integrate human values, ethics, and diversity considerations into the design and development of algorithmic systems.</li>
+        <li>Engage with diverse stakeholders, including affected communities, experts, and policymakers, throughout the design process.</li>
+        <li>Empower users with transparency, control, and recourse mechanisms to address algorithmic biases and discriminatory outcomes.</li>
+    </ul>
+    <p>Adopting human-centered design approaches can lead to more ethical and equitable algorithmic systems.</p>
+</section>
+<section>
+    <h2>Ethical Considerations in Algorithmic Decision-Making</h2>
+    <p>Ethical considerations play a central role in guiding responsible decision-making and governance of algorithmic systems.</p>
+    <ul>
+        <li>Examine ethical frameworks and principles for evaluating the fairness, accountability, and transparency of algorithmic systems.</li>
+        <li>Address dilemmas and trade-offs between competing ethical values, such as fairness, privacy, utility, and autonomy.</li>
+        <li>Promote ethical literacy and awareness among developers, policymakers, and users to navigate complex ethical challenges in algorithmic governance.</li>
+    </ul>
+    <p>Integrating ethics into algorithmic decision-making processes is essential for upholding societal values and promoting human well-being.</p>
+</section>
+<section>
+    <h2>Community Engagement and Participatory Design</h2>
+    <p>Community engagement and participatory design approaches empower affected communities to co-create and shape algorithmic systems.</p>
+    <ul>
+        <li>Foster partnerships and collaborations between researchers, developers, and community stakeholders to co-design algorithmic solutions.</li>
+        <li>Center the voices and experiences of marginalized communities in the design, development, and evaluation of algorithmic systems.</li>
+        <li>Facilitate inclusive decision-making processes that prioritize equity, justice, and community well-being in algorithmic governance.</li>
+    </ul>
+    <p>Community engagement is essential for building trust, legitimacy, and accountability in algorithmic decision-making.</p>
+</section>
+<section>
+    <h2>Algorithmic Auditing and Bias Detection</h2>
+    <p>Algorithmic auditing and bias detection methodologies play a critical role in uncovering and mitigating biases in algorithmic systems.</p>
+    <ul>
+        <li>Develop robust auditing frameworks and methodologies to assess the fairness and equity of algorithmic decision-making processes.</li>
+        <li>Utilize data-driven techniques, including statistical analysis and machine learning, to detect and quantify biases in algorithmic systems.</li>
+        <li>Establish standards and best practices for conducting algorithmic audits and bias assessments across diverse domains and applications.</li>
+    </ul>
+    <p>Algorithmic auditing is a key mechanism for ensuring transparency, accountability, and fairness in algorithmic governance.</p>
+</section>
+<section>
+    <h2>Regulatory Approaches to Algorithmic Governance</h2>
+    <p>Regulatory frameworks and policy interventions are essential for addressing algorithmic biases and promoting fairness in algorithmic decision-making.</p>
+    <ul>
+        <li>Evaluate existing regulatory approaches to algorithmic governance, including antidiscrimination laws, data protection regulations, and algorithmic impact assessments.</li>
+        <li>Propose regulatory reforms and policy measures to enhance accountability, transparency, and equity in algorithmic systems.</li>
+        <li>Engage with policymakers, advocacy groups, and industry stakeholders to develop evidence-based regulatory interventions for algorithmic fairness.</li>
+    </ul>
+    <p>Regulatory oversight is critical for mitigating risks and safeguarding against discriminatory practices in algorithmic decision-making.</p>
+</section>
+<section>
+    <h2>Algorithmic Decision-Making in Criminal Justice</h2>
+    <p>Algorithmic decision-making in criminal justice systems raises complex ethical, legal, and social implications for fairness and equity.</p>
+    <ul>
+        <li>Examine the use of algorithms in predictive policing, risk assessment, and sentencing decisions within criminal justice systems.</li>
+        <li>Address concerns about bias, opacity, and accountability in algorithmic decision-making processes that impact individuals' lives and liberties.</li>
+        <li>Promote interdisciplinary research and stakeholder engagement to develop ethically informed approaches to algorithmic governance in criminal justice.</li>
+    </ul>
+    <p>Ensuring fairness and transparency in algorithmic decision-making is essential for upholding principles of justice and human rights in criminal justice systems.</p>
+</section>
+<section>
+    <h2>Evaluating Bias Mitigation Strategies</h2>
+    <p>Effective mitigation strategies are crucial for addressing bias in algorithmic systems and promoting fairness and equity.</p>
+    <ul>
+        <li>Assess the efficacy of bias mitigation techniques, including fairness-aware algorithms, debiasing methods, and fairness constraints.</li>
+        <li>Identify trade-offs and challenges associated with different bias mitigation strategies in algorithmic decision-making.</li>
+        <li>Develop interdisciplinary approaches that combine technical, ethical, and regulatory measures to mitigate bias and promote fairness in algorithmic systems.</li>
+    </ul>
+    <p>Continuous evaluation and refinement of bias mitigation strategies are essential for advancing algorithmic fairness and inclusivity.</p>
+</section>
+
+<section>
+    <h2>Evaluating Bias Mitigation Strategies</h2>
+    <p>Effective mitigation strategies are crucial for addressing bias in algorithmic systems and promoting fairness and equity.</p>
+    <ul>
+        <li>Assess the efficacy of bias mitigation techniques, including fairness-aware algorithms, debiasing methods, and fairness constraints.</li>
+        <li>Identify trade-offs and challenges associated with different bias mitigation strategies in algorithmic decision-making.</li>
+        <li>Develop interdisciplinary approaches that combine technical, ethical, and regulatory measures to mitigate bias and promote fairness in algorithmic systems.</li>
+    </ul>
+    <p>Continuous evaluation and refinement of bias mitigation strategies are essential for advancing algorithmic fairness and inclusivity.</p>
+</section>
+
+<section>
+    <h2>Addressing Model Collapse</h2>
+    <p>Model collapse poses significant challenges in algorithmic systems and requires proactive measures to mitigate its impact.</p>
+    <ul>
+        <li>Recognize the signs and symptoms of model collapse, including loss of diversity, overfitting, and lack of generalization.</li>
+        <li>Implement techniques such as regularization, ensemble learning, and diversity promotion to prevent or alleviate model collapse.</li>
+        <li>Explore the role of data augmentation, adversarial training, and robust optimization methods in combating model collapse in machine learning models.</li>
+    </ul>
+    <p>Collaborate across disciplines to develop robust strategies for detecting, preventing, and recovering from model collapse, ensuring the reliability and effectiveness of algorithmic systems.</p>
+</section>
+
+<section>
+    <h2>Mitigating Generative AI Hallucination</h2>
+    <p>Generative AI hallucination presents notable challenges in ensuring the reliability and safety of artificial intelligence systems, necessitating proactive measures to address its occurrence.</p>
+    <ul>
+        <li>Understand the phenomenon of generative AI hallucination, including its causes, manifestations, and potential consequences.</li>
+        <li>Deploy techniques such as anomaly detection, uncertainty estimation, and adversarial testing to identify and mitigate instances of generative AI hallucination.</li>
+        <li>Investigate the use of human-in-the-loop approaches, explainable AI, and interpretable models to enhance transparency and accountability in generative AI systems.</li>
+    </ul>
+    <p>Collaborate with stakeholders from diverse domains to develop robust strategies for detecting, preventing, and mitigating generative AI hallucination, thereby ensuring the ethical and responsible deployment of AI technologies.</p>
+</section>
+
+<section>
+    <h2>Only one problem...</h2>
+    <p>All slides today were actually hallucinations of model collapse directed to summarize an actual article.</p>
+    <ul>
+        <li>I prompted GPT to summarize the article in slides</li>
+        <li>As an example of slides, I provided the GPT-generated Data Governance slides</li>
+        <li>GPT collapsed into a infinite loop and did not summarize the content of the article at all.</li>
+    </ul>
+    <p>Were you able to detect that today's lecture was a model collapse hallucination?</p>
+</section>
+
+<section>
+<iframe width="1920" height="1080" src="https://www.youtube.com/embed/foNs8W_AyvI?si=rV0favp0WPiphLiU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</section>
+
+<section>
+    <h2><a href="https://philarchive.org/archive/EDEAEL">An Epistemic Lens on Algorithmic Fairness</a></h2>
+ <div style="display: flex;">
+    <div class="column">
+        <div style="text-align: center;">
+			<img height="200px" src="https://images.squarespace-cdn.com/content/v1/5654b23be4b05e28e3827cbe/1448918197947-YUHB0HV56RJ16V7M1VOH/image-asset.png">
+            <p style="text-align: center;">Elizabeth Edenberg</p>
+            <p style="text-align: center;">Department of Philosophy, Baruch College,</p>
+            <p style="text-align: center;">The City University of New York</p>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div style="text-align: center;">
+			<img height="200px" src="https://cyber.harvard.edu/sites/default/files/styles/teaser/public/2022-11/Alexandra%20Wood.jpg">
+            <p style="text-align: center;">Alexandra Wood</p>
+            <p style="text-align: center;">Berkman Klein Center for Internet & Society,</p>
+            <p style="text-align: center;">Harvard University</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<section>
+    <h2>First: Allocative Harm</h2>
+    <p>"...a woman is offered a lower credit limit than her husband despite a shared financial history"</p>
+    <ul>
+        <li>Discrete</li>
+        <li>Transactional</li>
+        <li>Quantifiable</li>
+    </ul>
+    <p>Basically defeated with the lines we used for <em>Omelas</em>, just formalized up for academic writing (e.g. no Applebees)</p>
+</section>
+
+<section>
+    <h2>Zeroth: Representational Harms</h2>
+    <p>"translate “she is a doctor”  into a gender neutral
+language and then [back] producing “he is a doctor”"</p>
+    <ul>
+        <li>Long-term</li>
+        <li>Diffuse</li>
+        <li>"Upstream"</li>
+    </ul>
+    <p>Consider the biases in sourcing the AI & Access readings.</p>
+</section>
+
+<section>
+    <h2>The Thesis (I think)</h2>
+    <p>"...identifying the root causes of algorithmic harms is
+essential to ensuring that changes to sociotechnical systems address problems at their source..."</p>
+    <ul>
+        <li>The authors argue the root causes are cognitive (epistemological).</li>
+        <li>For <em>Omelas</em> I argued they were material</li>
+        <li>This distinction is out-of-scope/up-to-you</li>
+    </ul>
+    <p>Do our thoughts determine our realities or our realities determine our thoughts?</p>
+</section>
+
+<section>
+    <h2>"A New Epistemic Lens"</h2>
+    <p>"...distinguish between two distinct epistemic contexts
+relevant to analyzing and addressing algorithmic harms through
+three categories of interventions..."</p>
+    <ul>
+        <li>Investigation</li>
+        <li>Substantiation</li>
+        <li>Amelioration</li>
+    </ul>
+    <p>We may (???) claim HUD failed amelioration due to lacking an epistemic (or materialist) lens.</p>
+</section>
+
+<section>
+    <h2>"Epistemic Injustice"</h2>
+	<img src="https://www.mirandafricker.com/uploads/1/3/6/2/136236203/published/fricker-headshot.jpg">
+    <p>Miranda Fricker, NYU Philosophy identifies: </p>
+    <ul>
+        <li>Testimonial injustice: Prejudice wrt ascribed credibility</li>
+        <li>Hermeneutical
+injustice: Deficits in thinking about systemic issues</li>
+</section>
+
+<section>
+    <h2>"Epistemic Injustice"</h2>
+    <ul>
+        <li>Testimonial injustice: Prejudice wrt ascribed credibility</li>
+        <li>Hermeneutical
+injustice: Deficits in thinking about systemic issues</li>
+    </ul>
+	<img height="500px" src="https://socialscience.msu.edu/_assets/images/kristie-dotson.jpg">
+	<p>Kristie Dotson adds:
+    <ul>
+        <li>Oppressive epistemic systems: "dominant epistemic systems cannot account for the experience of
+certain groups because of their systemic inadequacy"</li>
+    </ul>
+	<p>This feels added in response to reviewer comments - throwback to "peer review"
+</section>
+
+<section>
+    <h2>Kimberlé Crenshaw</h2>
+	<img height="500px" src="https://upload.wikimedia.org/wikipedia/commons/6/64/Kimberl%C3%A9_Crenshaw_%2840901215153%29.jpg">
+    <ul>
+        <li>Among other things, first formalized "intersectionality"</li>
+		<li>The 🐐
+        <li>Emphasis mine:
+		<li>"efforts to reform laws and institutions
+have “merely repackaged racism” in a new form that maintains and
+legitimizes the “perpetuation of <b>material</b> subordination of Black”
+citizens"</li>
+</section>
+
+<section>
+    <h2>An editorial note:</h2>
+    <ul>
+        <li>I felt the authors advanced an explicitly epistemology-first line</li>
+		<li>A disjointed and contradictory section appears added latter
+        <li>All citations of self-described Black feminists are in this section and only citations of self-described Black feminists are in this section (iff)
+		<li>This section advances the notion of the centrality of materialism
+	</ul>
+	<p>This piece is relatively successful in inclusive citation, but these citations and their context enhance rather than assuage my surprise at the initial treatment of epistemology as a root cause.
+</section>
+
+
+<section>
+    <h2>Allocative Harms</h2>
+	<p>"Concerns have also been raised with respect to Facebook’s “spe-
+cial ad audience” tool, which uses a machine learning algorithm
+to identify users who are similar to a class of users selected by an
+advertiser such as its existing workforce"
+    <ul>
+        <li>See also: Amazon “penalize resumes that included the word ‘women’s,”</li>
+	</ul>
+	<p>This is what the reading was about!
+</section>
+
+<section>
+    <h2>Harmful Representations in Algorithmic
+Systems</h2>
+	<p>"Applying the epistemic lens to cases where something has gone
+wrong within an algorithmic system can help clarify the social
+impact of these classifications, as well as the root causes of the
+harms often described as representational."
+    <ul>
+        <li>Misrepresentation (stereotyping)</li>
+        <li>Misidentification (mislabelling)</li>
+        <li>Misclassification (e.g. misgendering)</li>
+	</ul>
+	<p>This is what the reading was about!
+</section>
+
+<section>
+    <h2>Two Goals</h2>
+    <ul>
+        <li>The Epistemic Goal of Understanding the
+World as It Is</li>
+        <li>The Epistemic Goal of Building a More Just,
+Fair, and Equitable Future</li>
+	</ul>
+	<div class="cols">
+<div class="col">
+<p>RECALL: Listen up nerds, I don't have all day.<br><br>You may remember me from your employee onboarding - I'm Richard "Rich" Oldman, CEO here at Revenue-Less-Costs, Inc. and I need YOU!
+</div>
+<div class="col">
+<p><img data-src="https://ca-times.brightspotcdn.com/dims4/default/8758bac/2147483647/strip/true/crop/1920x1280+0+0/resize/1200x800!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F8e%2F9b%2Fa2badaae4ce7a68263bed413b6b7%2Fbrian-cox.jpg" style="width:100.0%;background-color:white" /></p>
+</div>
+</div>
+</section>
+
+<section>
+    <h2>Think. Pair. Share.</h2>
+    <ul>
+        <li>What is epistemology?</li>
+        <li>What is materialism?</li>
+        <li>Who should we ask?</li>
+        <li>How is fairness manufactured?</li>
+        <li>How is data involved?</li>
+        <li>How is computation involved?</li>
+	</ul>
+	<p>We need to tie a neat bow around this semester pretty soon but I think you'll be in a solid position now.
+</section>
+
+<section >
+<h2>Homework</h2>
+    <ul>
+<li>For next Monday, one reading (and do your writing on it by Friday Midnight AOE):
+<ul><li><a href="https://www.oregon.gov/cjc/CJC%20Document%20Library/STOP_Report_2022.pdf">“Statistical Transparency of Policing Report”</a></li>
+<li>It is a 57 page document with 28 content-bearing pages, including graphics.</li></ul>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+		//autoAnimateEasing: 'ease-in',
+		//autoAnimateDuration: 1.0,
+		//autoAnimateUnmatched: false,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: true,
+        // Global override for preloading lazy-loaded iframes
+        // - null: Iframes with data-src AND data-preload will be loaded when within
+        //   the viewDistance, iframes with only data-src will be loaded when visible
+        // - true: All iframes with data-src will be loaded when within the viewDistance
+        // - false: All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1200,
+        // The display mode that will be used to show slides
+        display: 'block',
+		math: {
+		  <!--mathjax: 'https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/mathjax/tex-mml-chtml.js',-->
+		  <!--config: 'tex-mml-chtml',-->
+		  <!--tex2jax: {-->
+			<!--inlineMath: [['\\(','\\)']],-->
+			<!--displayMath: [['\\[','\\]']],-->
+			<!--balanceBraces: true,-->
+			<!--processEscapes: false,-->
+			<!--processRefs: true,-->
+			<!--processEnvironments: true,-->
+			<!--preview: 'TeX',-->
+			<!--skipTags: ['script','noscript','style','textarea','pre','code'],-->
+			<!--ignoreClass: 'tex2jax_ignore',-->
+			<!--processClass: 'tex2jax_process'-->
+		  <!--},-->
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

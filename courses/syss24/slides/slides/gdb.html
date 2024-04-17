@@ -19,15 +19,6 @@
   <div class="reveal">
     <div class="slides">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GDB Tutorial</title>
-</head>
-<body>
-
 <section>
 <br><br><br>
   <h1 style="font-family: monospace;text-transform: lowercase;">gdb</h1>
@@ -55,6 +46,8 @@
 <dd>debugging
 <dd>conditions
 <dd>pointers
+<dt>valgrind</dt>
+<dd>memory leaks
 </section>
 
 <section>
@@ -73,21 +66,22 @@
     <ul>
         <li>Normally, you would compile a program like:</li>
         <code>gcc [flags] &lt;source files&gt; -o &lt;output file&gt;</code></li>
-        <li>For example: <code>gcc -Wall -Werror -ansi -pedantic-errors prog1.c -o prog1.x</code></li>
-        <li>Now you add a <code>-g</code> option to enable built-in debugging support (which gdb needs):</li>
-        <li>For example: <code>gcc -Wall -Werror -ansi -pedantic-errors -g prog1.c -o prog1.x</code></li>
-    </ul>
-	<p>What do all those flags do?
+        <li>For example: <code>gcc hi.c -o hi.x</code></li>
+        <li>Now you add a <code>-g</code> option to enable built-in debugging support (which gdb needs)</li>
+        <li>For example: <code>gcc -g hi.c -o hi.x</code></li>
+	<p>The example used:
+	<code>gcc -Wall -Werror -std=c89 -pedantic-errors -g hi.c -o hi.x</code>
+	but I wasn't good enough at writing sneaky segfaults to get anything through that.
 </section>
 
 <section>
     <h2>Starting up gdb</h2>
     <ul>
-        <li>Just try <code>gdb</code> or <code>gdb prog1.x</code> You’ll get a prompt that looks like this:</li>
+        <li>Just try <code>gdb</code> or <code>gdb hi.x</code> You’ll get a prompt that looks like this:</li>
         <code>(gdb)</code>
         <li>If you didn’t specify a program to debug, you’ll have to load it in now:</li>
-        <code>(gdb) file prog1.x</code>
-        <li>Here, <code>prog1.x</code> is the program you want to load, and <code>file</code> is the command to load it.</li>
+        <code>(gdb) file hi.x</code>
+        <li>Here, <code>hi.x</code> is the program you want to load, and <code>file</code> is the command to load it.</li>
     </ul>
 </section>
 
@@ -102,6 +96,25 @@
 </section>
 
 <section>
+    <h2>A bad program</h2>
+    <ul>
+        <code>int *add_ptr(int *a, int *b)
+{
+    int val = *a + *b ;
+    return &val ;
+}
+
+int main() 
+{
+    int a = 2, b = 3, *ptr ;
+    ptr = add_ptr(&a, &b) ;
+    printf("Sum = %d\n", *ptr) ;
+    return 0;
+}</code>
+    </ul>
+</section>
+
+<section>
     <h2>Running the program</h2>
     <ul>
         <li>To run the program, just use:</li>
@@ -109,7 +122,8 @@
         <li>This runs the program.</li>
         <li>If it has no serious problems (i.e. the normal program didn’t get a segmentation fault, etc.), the program should run fine here too.</li>
         <li>If the program did have issues, then you (should) get some useful information like the line number where it crashed, and parameters to the function that caused the error:</li>
-         <code>Program received signal SIGSEGV, Segmentation fault. 0x0000000000400524 in sum array region (arr=0x7fffc902a270, r1=2, c1=5, r2=4, c2=6) at sum-array-region2.c:12</code>
+         <code>0x00005555555551fc in main () at hi.c:16
+16          printf("Sum = %d\n", *ptr) ;</code>
     </ul>
 </section>
 
@@ -125,10 +139,10 @@
 <section>
     <h2>Setting breakpoints</h2>
     <ul>
-        <li>Breakpoints can be used to stop the program run in the middle, at a designated point. The simplest way is the command <code>break</code>.</li>
+        <li>Breakpoints can be used to stop the program run in the middle, at a designated point. The simplest way is the command <code>break</code></li>
         <li>This sets a breakpoint at a specified file-line pair:</li>
-        <li><code>(gdb) break file1.c:6</code></li>
-        <li>This sets a breakpoint at line 6, of file1.c. Now, if the program ever reaches that location when running, the program will pause and prompt you for another command.</li>
+        <li><code>(gdb) break hi.c:15</code></li>
+        <li>This sets a breakpoint at line 15, of hi.c. Now, if the program ever reaches that location when running, the program will pause and prompt you for another command.</li>
         <li><strong>Tip:</strong> You can set as many breakpoints as you want, and the program should stop execution if it reaches any of them.</li>
     </ul>
 </section>
@@ -136,10 +150,9 @@
 <section>
     <h2>More fun with breakpoints</h2>
     <ul>
-        <li>You can also tell gdb to break at a particular function. Suppose you have a function <code>my func:</code></li>
-        <li><code>int my func(int a, char *b);</code></li>
+        <li>You can also tell gdb to break at a particular function. Suppose you have a function <code>int *add_ptr(int *a, int *b) ;</code></li>
         <li>You can break anytime this function is called:</li>
-        <li><code>(gdb) break my func</code></li>
+        <li><code>(gdb) break add_ptr</code></li>
     </ul>
 </section>
 
@@ -147,15 +160,15 @@
     <h2>Now what?</h2>
     <ul>
         <li>Once you’ve set a breakpoint, you can try using the <code>run</code> command again. This time, it should stop where you tell it to (unless a fatal error occurs before reaching that point).</li>
-        <li>You can proceed onto the next breakpoint by typing <code>continue</code> (Typing <code>run</code> again would restart the program from the beginning, which isn’t very useful.)</li>
-        <li>You can single-step (execute just the next line of code) by typing <code>step</code>. This gives you really fine-grained control over how the program proceeds. You can do this a lot...</li>
+        <li>You can proceed onto the next breakpoint by typing <code>continue</code> <li>Typing <code>run</code> again would restart the program from the beginning, which isn’t always very useful.</li>
+        <li>You can single-step (execute just the next line of code) by typing <code>step</code>This gives you really fine-grained control over how the program proceeds. You can do this a lot...</li>
     </ul>
 </section>
 
 <section>
     <h2>Now what? (even more!)</h2>
     <ul>
-        <li>Similar to <code>step</code>, the <code>next</code> command single-steps as well, except this one doesn’t execute each line of a sub-routine, it just treats it as one instruction.</li>
+        <li>Similar to <code>step</code>the command <code>next</code> single-steps as well, except this one doesn’t execute each line of a sub-routine, it just treats it as one instruction.</li>
         <li><strong>Tip:</strong> Typing <code>step</code> or <code>next</code> a lot of times can be tedious. If you just press ENTER, gdb will repeat the same command you just gave it. You can do this a bunch of times.</li>
     </ul>
 </section>
@@ -165,8 +178,10 @@
     <ul>
         <li>So far you’ve learned how to interrupt program flow at fixed, specified points, and how to continue stepping line-by-line. However, sooner or later you’re going to want to see things like the values of variables, etc. This might be useful in debugging.</li>
         <li>The <code>print</code> command prints the value of the variable specified, and <code>print/x</code> prints the value in hexadecimal:</li>
-        <li><code>(gdb) print my var</code></li>
-        <li><code>(gdb) print/x my var</code></li>
+        <li><code>Breakpoint 1, add_ptr (a=0x7fffffffdd88, b=0x7fffffffdd8c) at hi.c:7
+7       {
+(gdb) print/x a
+$3 = 0x7fffffffdd88</code></li>
     </ul>
 </section>
 
@@ -175,18 +190,11 @@
     <ul>
         <li>Whereas breakpoints interrupt the program at a particular line or function, watchpoints act on variables. They pause the program whenever a watched variable’s value is modified.</li>
         <li>For example, the following watch command:</li>
-        <li><code>(gdb) watch my var</code></li>
-        <li>Now, whenever <code>my var</code>’s value is modified, the program will interrupt and print out the old and new values.</li>
-        <li><strong>Tip:</strong> You may wonder how gdb determines which variable named <code>my var</code> to watch if there is more than one declared in your program. The answer (perhaps unfortunately) is that it relies upon the variable’s scope, relative to where you are in the program at the time of the watch. This just means that you have to remember the tricky nuances of scope and extent.</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Example programs</h2>
-    <ul>
-        <li>Some example files are found in <code>~/212public/gdb-examples/broken.c</code> on the linux grace machines.</li>
-        <li>Contains several functions that each should cause a segmentation fault. (Try commenting out calls to all but one in main())</li>
-        <li>The errors may be easy, but try using gdb to inspect the code.</li>
+        <li><code>(gdb) watch val</code></li>
+        <li>Now, whenever the value of <code>val</code>is modified, the program will interrupt and print out the old and new values.</li>
+        <li><strong>Tip:</strong> You may wonder how gdb determines which variable named <code>val</code> to watch if there is more than one declared in your program. 
+		<li>The answer (perhaps unfortunately) is that it relies upon the variable’s scope, relative to where you are in the program at the time of the watch. This just means that you have to remember the tricky nuances of scope and extent.</li>
+		<li>To learn about scope, take this class when we have more than 14 weeks to get through entirety of computer science</li>
     </ul>
 </section>
 
@@ -194,18 +202,11 @@
     <h2>Other useful commands</h2>
     <ul>
         <li><code>backtrace</code> - produces a stack trace of the function calls that lead to a seg fault (should remind you of Java exceptions)</li>
-        <li><code>where</code> - same as <code>backtrace</code>; you can think of this version as working even when you’re still in the middle of the program</li>
+        <li><code>where</code> - same as <code>backtrace</code> - you can think of this version as working even when you’re still in the middle of the program</li>
         <li><code>finish</code> - runs until the current function is finished</li>
         <li><code>delete</code> - deletes a specified breakpoint</li>
         <li><code>info breakpoints</code> - shows information about all declared breakpoints</li>
-        <li>Look at sections 5 and 9 of the manual mentioned at the beginning of this tutorial to find other useful commands, or just try <code>help</code>.</li>
-    </ul>
-</section>
-
-<section>
-    <h2>gdb with Emacs</h2>
-    <ul>
-        <li>Emacs also has built-in support for gdb. To learn about it, go <a href="http://tedlab.mit.edu/~dr/gdbintro.html">here</a>.</li>
+        <li>Look at sections 5 and 9 of the manual mentioned at the beginning of this tutorial to find other useful commands, or just try <code>help</code></li>
     </ul>
 </section>
 
@@ -223,7 +224,7 @@
     <ul>
         <li>Just like regular breakpoints, except that you get to specify some criterion that must be met for the breakpoint to trigger. We use the same <code>break</code> command as before:</li>
         <li><code>(gdb) break file1.c:6 if i >= ARRAYSIZE</code></li>
-        <li>This command sets a breakpoint at line 6 of file file1.c, which triggers only if the variable <code>i</code> is greater than or equal to the size of the array (which probably is bad if line 6 does something like <code>arr[i]</code>). Conditional breakpoints can most likely avoid all the unnecessary stepping, etc.</li>
+        <li>This command sets a breakpoint at line 6 of file file1.c, which triggers only if the variable <code>i</code> is greater than or equal to the size of the array (which probably is bad if line 6 does something like <code>arr[i]</code> Conditional breakpoints can most likely avoid all the unnecessary stepping, etc.</li>
     </ul>
 </section>
 
@@ -245,17 +246,17 @@
         <li>See the value (memory address) of the pointer:</li>
         <li><code>(gdb) print e1</code></li>
         <li>See a particular field of the struct the pointer is referencing:</li>
-        <li><code>(gdb) print e1-&gt;key</code></li>
-        <li><code>(gdb) print e1-&gt;name</code></li>
-        <li><code>(gdb) print e1-&gt;price</code></li>
-        <li><code>(gdb) print e1-&gt;serial number</code></li>
+        <li><code>(gdb) print e1-&gt;key
+		(gdb) print e1-&gt;name
+		(gdb) print e1-&gt;price
+		(gdb) print e1-&gt;serial number</code></li>
     </ul>
 </section>
 
 <section>
     <h2>Using pointers with gdb II</h2>
     <ul>
-        <li>You can also use the dereference (<code>*</code>) and dot (<code>.</code>) operators in place of the arrow operator (<code>-&gt;</code>):</li>
+        <li>You can also use the dereference star * and reference dot . operators in place of the arrow operator -&gt;</li>
         <li><code>(gdb) print (*e1).key</code></li>
         <li><code>(gdb) print (*e1).name</code></li>
         <li><code>(gdb) print (*e1).price</code></li>
@@ -270,18 +271,239 @@
 </body>
 </html>
 
-
 <section>
 <h2>Today</h2>
 <dl>
-<dt>✓ Makefile</dt>
-<dd>✓ rules
-<dd>✓ .o files
-<dd>✓ compile flags
+<dt>✓ gdb</dt>
+<dd>✓ intro/invocation
+<dd>✓ breakpoints
+<dd>✓ debugging
+<dd>✓ conditions
+<dd>✓ pointers
+<dt>valgrind</dt>
+<dd>memory leaks
+</section>
+
+<section>
+    <h2>Valgrind</h2>
+    <ul>
+        <li>Valgrind is an instrumentation framework for building dynamic analysis tools. There are Valgrind tools that can automatically detect many memory management and threading bugs, and profile your programs in detail. You can also use Valgrind to build new tools. </li>
+		<code>valgrind ./a.out</code>
+		<li>I'll be using my matrix mult code from disc, which contains errors since I wrote it on a midterm.
+		<code  style="max-height: 500px">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* take am m by n and n by p and m by p */
+uint64_t **mmult(size_t m, size_t n, size_t p, 
+uint64_t **a, uint64_t **b)
+{
+    uint64_t **ret = malloc(m * sizeof(uint64_t *)) ;
+    size_t i, j, k ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        ret[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < p ; j++ )
+        {
+            ret[i][j] = 0 ;
+            for ( k = 0 ; k < n ; k++ )
+            {
+                ret[i][j] += a[i][k] * b[k][j] ;
+            }
+        }
+    }
+    return ret ;
+}
+
+void mprint(size_t m, size_t n, uint64_t **a)
+{
+    size_t i, j ;
+    putchar('{') ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        putchar('{') ;
+        for ( j = 0 ; j < n - 1 ; j++ )
+        {
+            printf("%lu, ", a[i][j]) ; 
+        }
+        printf("%lu}", a[i][n - 1]) ;
+        if (i < m - 1)
+        {
+            printf(",\n ") ; 
+        }
+    }
+    printf("}\n") ;
+}
+
+int main()
+{
+    size_t m = 2, n = 3, p = 2, i, j ;
+    uint64_t **a, **b ;
+    a = (uint64_t **)malloc(m * sizeof(uint64_t *)) ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        a[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < n ; j++ )
+        {
+            a[i][j] = i + j ;
+        }
+    }
+    b = (uint64_t **)malloc(m * sizeof(uint64_t *)) ;
+    for ( i = 0 ; i < n ; i++ )
+    {
+        b[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < p ; j++ )
+        {
+            b[i][j] = i + j ;
+        }
+    }    
+    mprint(m, n, a);
+    mprint(n, p, b);
+    mprint(m, p, mmult(m,n,p,a,b));
+    return 0;
+}</code>
+<li>Let they who is without sin throw the first stone.
+<code>==32743== ERROR SUMMARY: 17 errors from 8 contexts (suppressed: 0 from 0)</code>
+<li>Make sure you still use gcc -g.
+</section>
+
+<section>
+    <h2>Understanding errors</h2>
+    <ul>
+        <li>Let's look at the first chunk</li>
+        <li><code>==34585== Invalid write of size 8
+==34585==    at 0x1094E5: main (in /home/user/a.out)
+==34585==  Address 0x4a8d0a0 is 0 bytes after a block of size 16 alloc'd
+==34585==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34585==    by 0x1094AB: main (in /home/user/a.out)</code></li>
+		<li>Wow I have no idea where that is, recompile with -g.
+        <li><code>==35544== Invalid write of size 8
+==35544==    at 0x1094E5: main (hi.c:56)
+==35544==  Address 0x4a8d0a0 is 0 bytes after a block of size 16 alloc'd
+==35544==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==35544==    by 0x1094AB: main (hi.c:53)</code></li>
+<li>Ah, line 53 and 56.
+    </ul>
+</section>
+
+<section>
+    <h2>Understanding errors</h2>
+    <ul>
+        <li>This is line 53 through 56</li>
+        <li><code>        a[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < n ; j++ )
+        {
+            a[i][j] = i + j ;</code>
+		<li>The variables are defined here:
+		<code>    size_t m = 2, n = 3, p = 2, i, j ;
+    uint64_t **a, **b ;
+    a = (uint64_t **)malloc(m * sizeof(uint64_t *)) ;</code>
+	<li>The error was "Address 0x4a8d0a0 is 0 bytes after a block of size 16 alloc'd"
+	<li>What does that mean?
+    </ul>
+</section>
+
+<section>
+    <h2>Understanding errors</h2>
+    <ul>
+        <li>This is line 50 through 54. Notice anything?</li>
+        <li><code>    a = (uint64_t **)malloc(m * sizeof(uint64_t *)) ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        a[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < n ; j++ )</code>
+		<li>Valgrind has detected an anomaly between our malloc size and our loop size.
+		<li>We malloc "m" by "p" 
+		<code>a = (uint64_t **)malloc(m * sizeof(uint64_t *)) ; ...
+a[i] = malloc(p * sizeof(uint64_t)) ;		</code>
+		but we step "m" by "n" times.
+		<code>for ( i = 0 ; i < m ; i++ ) ...
+for ( j = 0 ; j < n ; j++ )		</code>
+<li>I made this error when creating both testing matrices, and when I corrected it...
+<code>==39032== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)</code>
+</section>
+
+<section>
+    <h2>Understanding leaks</h2>
+    <ul><li>After we fix memory errors we can fix memory leaks
+	<li>POP QUIZ: What's the difference?
+	<code>==39032== LEAK SUMMARY:
+==39032==    definitely lost: 56 bytes in 3 blocks
+==39032==    indirectly lost: 128 bytes in 7 blocks
+==39032==      possibly lost: 0 bytes in 0 blocks
+==39032==    still reachable: 0 bytes in 0 blocks
+==39032==         suppressed: 0 bytes in 0 blocks
+==39032== Rerun with --leak-check=full to see details of leaked memory
+</code>
+<li>Here's your hint:
+<code>    mprint(m, p, mmult(m,n,p,a,b));</code>
+</section>
+
+<section>
+    <h2>Understanding leaks</h2>
+    <ul><li>I tested my mmult print running a print over a return value.
+	<li>This return value was malloced.
+	<li>I never captured it in a variable and could never free it.
+	<li>POP QUIZ: What's the difference?
+	<code>==39032== LEAK SUMMARY:
+==39032==    definitely lost: 56 bytes in 3 blocks
+==39032==    indirectly lost: 128 bytes in 7 blocks
+==39032==      possibly lost: 0 bytes in 0 blocks
+==39032==    still reachable: 0 bytes in 0 blocks
+==39032==         suppressed: 0 bytes in 0 blocks
+==39032== Rerun with --leak-check=full to see details of leaked memory
+</code>
+
+</section>
+
+<section>
+    <h2>Understanding leaks</h2>
+    <ul>
+	<code>==39032==    definitely lost: 56 bytes in 3 blocks</code>
+	<li>56 = 7 * 8
+	<li>I lost 7 pointers of size 8.
+	<li>The mmult was a 2 by 3 times a 3 by 2 that returned a 2 by 2
+	<li>That is, 7 total rows, in 3 distinct chunks (blocks)
+	<li>Each row contained a pointer to a column.
+	<li>The columns were big enough to hold a total of 2*3 + 3*2 + 2*2 = 16 values
+	<li>16 values of size 8 is 16 * 8 = 128 bytes, in 7 blocks (one for each row)
+	<code>==43596==    indirectly lost: 128 bytes in 7 blocks</code>
+
 </section>
 
 
-
+<section>
+    <h2>Understanding leaks</h2>
+    <ul>
+	<li>We can trivially fix the code by adding a free call inside the printer, which necessarily reads all malloc'ed memory.
+	<code>    // capture the return value   
+    c = mmult(m, n, p, a, b) ; 
+    // include free's in print
+    mprint(m, n, a);
+    mprint(n, p, b);
+    mprint(m, p, c);</code>
+	<li>Then we see a happy valgrind:
+	<code>==47140== HEAP SUMMARY:
+==47140==     in use at exit: 0 bytes in 0 blocks
+==47140==   total heap usage: 11 allocs, 11 frees, 1,208 bytes allocated
+==47140== 
+==47140== All heap blocks were freed -- no leaks are possible</code>
+</section>
+	
+	
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ gdb</dt>
+<dd>✓ intro/invocation
+<dd>✓ breakpoints
+<dd>✓ debugging
+<dd>✓ conditions
+<dd>✓ pointers
+<dt>✓ valgrind</dt>
+<dd>✓ memory leaks
+</section>
+	
  </div>
   </div>
   <script>

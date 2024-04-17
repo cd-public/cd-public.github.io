@@ -503,6 +503,90 @@ for ( j = 0 ; j < n ; j++ )		</code>
 <dt>✓ valgrind</dt>
 <dd>✓ memory leaks
 </section>
+
+<section>
+    <h2>Valgrind</h2>
+    <ul>
+		<li>I fixed my matrix mult code.
+		<code  style="max-height: 500px">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+
+/* take am m by n and n by p and m by p */
+uint64_t **mmult(size_t m, size_t n, size_t p, 
+uint64_t **a, uint64_t **b)
+{
+    uint64_t **ret = malloc(m * sizeof(uint64_t *)) ;
+    size_t i, j, k ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        ret[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < p ; j++ )
+        {
+            ret[i][j] = 0 ;
+            for ( k = 0 ; k < n ; k++ )
+            {
+                ret[i][j] += a[i][k] * b[k][j] ;
+            }
+        }
+    }
+    return ret ;
+}
+
+void mprint(size_t m, size_t n, uint64_t **a)
+{
+    size_t i, j ;
+    putchar('{') ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        putchar('{') ;
+        for ( j = 0 ; j < n - 1 ; j++ )
+        {
+            printf("%lu, ", a[i][j]) ; 
+        }
+        printf("%lu}", a[i][n - 1]) ;
+        free(a[i]) ;
+        if (i < m - 1)
+        {
+            printf(",\n ") ; 
+        }
+    }
+    free(a) ;
+    printf("}\n") ;
+}
+
+int main()
+{
+    size_t m = 2, n = 3, p = 2, i, j ;
+    uint64_t **a, **b, **c ;
+    a = (uint64_t **)malloc(m * sizeof(uint64_t *)) ;
+    for ( i = 0 ; i < m ; i++ )
+    {
+        a[i] = malloc(n * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < n ; j++ )
+        {
+            a[i][j] = i + j ;
+        }
+    }
+    b = (uint64_t **)malloc(n * sizeof(uint64_t *)) ;
+    for ( i = 0 ; i < n ; i++ )
+    {
+        b[i] = malloc(p * sizeof(uint64_t)) ;
+        for ( j = 0 ; j < p ; j++ )
+        {
+            b[i][j] = i + j ;
+        }
+    }
+    // capture the return value   
+    c = mmult(m, n, p, a, b) ; 
+    // include free's in print
+    mprint(m, n, a);
+    mprint(n, p, b);
+    mprint(m, p, c);
+    return 0;
+}</code>
+</section>
 	
  </div>
   </div>

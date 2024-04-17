@@ -441,23 +441,6 @@ for ( j = 0 ; j < n ; j++ )		</code>
 
 <section>
     <h2>Understanding leaks</h2>
-    <ul><li>I tested my mmult print running a print over a return value.
-	<li>This return value was malloced.
-	<li>I never captured it in a variable and could never free it.
-	<li>POP QUIZ: What's the difference?
-	<code>==39032== LEAK SUMMARY:
-==39032==    definitely lost: 56 bytes in 3 blocks
-==39032==    indirectly lost: 128 bytes in 7 blocks
-==39032==      possibly lost: 0 bytes in 0 blocks
-==39032==    still reachable: 0 bytes in 0 blocks
-==39032==         suppressed: 0 bytes in 0 blocks
-==39032== Rerun with --leak-check=full to see details of leaked memory
-</code>
-
-</section>
-
-<section>
-    <h2>Understanding leaks</h2>
     <ul>
 	<code>==39032==    definitely lost: 56 bytes in 3 blocks</code>
 	<li>56 = 7 * 8
@@ -466,7 +449,7 @@ for ( j = 0 ; j < n ; j++ )		</code>
 	<li>That is, 7 total rows, in 3 distinct chunks (blocks)
 	<li>Each row contained a pointer to a column.
 	<li>The columns were big enough to hold a total of 2*3 + 3*2 + 2*2 = 16 values
-	<li>16 values of size 8 is 16 * 8 = 128 bytes, in 7 blocks (one for each row)
+	<li>16 values of size 8 is 16 * 8 = 128 bytes, in 7 blocks (one for each column)
 	<code>==43596==    indirectly lost: 128 bytes in 7 blocks</code>
 
 </section>

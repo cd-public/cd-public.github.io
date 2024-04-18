@@ -66,3 +66,8 @@ Understand how to use Urllib and requests to ping websites, how to use Beautiful
 **Week 8:** Model Deployment
 
 Learn to save and reload trained models and discover how to make batch predictions. You will also be taught how to deploy a model as an API and to monitor models in production.
+
+
+See also: https://numericalmethodssullivan.github.io/ch-python.html#ch-python
+
+See also: https://realpython.com/python-ai-neural-network/

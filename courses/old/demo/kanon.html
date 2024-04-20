@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>kanon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/sky.css" id="theme">
+  <link rel="stylesheet" href="css/monokai.css">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="js/reveal.js"></script>
+  <script src="js/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+<br><br><br>
+	<h1 class="title"><i><em>k</em></i>-anonymity</h1>
+	<h2>Data, Ethics, and Government</h2>
+	<p class="author">Calvin Deutschbein<br></p>
+</section>
+
+<section id="about-me" class="slide level2">
+<h2>About Me</h2>
+<dl>
+<dt>Name</dt>
+<dd>Calvin (Deutschbein) 
+</dd>
+<dt>Pronouns</dt>
+<dd>They/Them
+</dd>
+<dt>Background</dt>
+<dd>Ph.D. Computer Science - UNC Chapel Hill<br>
+"Mining Secure Behavior of Hardware Designs"
+</dd>
+<dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+</dd>
+</dl>
+</section>
+<section id="background" class="slide level2">
+<h2>Background</h2>
+<dl>
+<p>We don't know how much data exists in the world.</p>
+<ul><li>Public sector: voting records, social security, call logs</li>
+<li>Private sector: browsing history, purchase history, email logs</ul>
+<p>Data and knowledge <b>can</b> enrich our society</p>
+<ul><li>Formulating human-centered policies</li>
+<li>Supporting community-building in digital spaces</li></ul>
+<p>Laws and policies require that some collected data must be made public</p>
+<ul><li>For example, campaign donations.</li>
+<li>Stock levels reveal population-level consumer behaviors
+</section>
+<section id="growth" class="slide level2">
+<h2>Growth</h2>
+<dl>
+<p>It is generally regarded that...</p>
+<ul><li>Google is one of the largest data aggregators
+<li>Google held approximately 15 exabytes in 2013 [<a href="https://what-if.xkcd.com/63/">src</a>]
+<li>Google's reported power use increased 21%/anum from 2011->2019</ul>
+<br><a style="align:center" href="https://www.forbes.com/sites/robertbryce/2020/10/21/googles-dominance-is-fueled-by-zambia-size-amounts-of-electricity/?sh=4c7bb3568c98"><img style="display:block; margin-left: auto; margin-right: auto" src="https://imageio.forbes.com/specials-images/imageserve/5f908b550436eabb0b8b03b1/Since-2011--Google-s-electricity-use-has-nearly-quintupled-/960x0.png"></a>
+<p style="text-align:center">(12.4/2.6)^(1/8) = 1.21
+<ul><li>Hard-drives grew 16x from 2012 to 2023 from less than 2 TB [<a href="https://www.tomshardware.com/news/HAMR-platters-heat-assisted-CREATEC-areal-density,18126.html">src</a>] to 32 TB [<a href="https://www.seagate.com/products/enterprise-drives/exos-x/x-mozaic/">src</a>]</li>
+<li>Google current storage is around 15 exabytes * 1.21^10 * 16 = <b>1614 exabytes</b>
+<li>10x every 5 years within one company, but # of data companies also grows.
+<li>I have generated 134 MB of teaching materials in 3 years, or .0000000000134 exabytes
+</section>
+<section id="privacy" class="slide level2">
+<h2>What About Privacy?</h2>
+<div class="block" name="Primary Objective">
+<p>How can we keep individuals safe while still benefitting as a society?</div>
+<p>One technique: anonymize data.</p><br>
+<p><strong>But how?</strong><br><br>
+<p>Remove “personally identifying information” (PII)</p>
+<ul><li>Name, SSN, phone, email, address… what else?</li>
+<li>Anything that identifies an individual directly</li></ul>
+<p>Is this enough?
+</section>
+<section id="squad-goals" class="slide level2">
+<h2>Unmask by linking data sets</h2>
+<p>Consider the Computer Science faculty who attend networking events in the area.</p>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Specialization</th>
+	</tr>
+	<tr>
+		<td>Calvin</td>
+		<td>Security</td>
+	</tr>
+	<tr>
+		<td>Fred</td>
+		<td>VR/AR</td>
+	</tr>
+	<tr>
+		<td>Haiyan</td>
+		<td>AI/ML</td>
+	</tr>
+	<tr>
+		<td>Jed</td>
+		<td>Big Data</td>
+	</tr>
+	<tr>
+		<td>Lucas</td>
+		<td>Software</td>
+	</tr>
+</table>
+<p>There's 5 of us. Come say "hi" any time!</p>
+</section>
+<section id="secrets" class="slide level2">
+<h2>Unmask by linking data sets</h2>
+<p>Now imagine icebreakers at a networking event found on social media</p>
+<table>
+	<tr>
+		<th>Embarassing Secret</th>
+	</tr>
+	<tr>
+		<td>Orders oatmilk mochas from Archive Coffee + Bar in downtown Salem</td>
+	</tr>
+	<tr>
+		<td>Proved Einstein correct according to <a href="https://www.washingtonpost.com/weather/2024/04/08/eclipse-einstein-total-experiment-relativity/?pwapi_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWFzb24iOiJnaWZ0IiwibmJmIjoxNzEyNTQ4ODAwLCJpc3MiOiJzdWJzY3JpcHRpb25zIiwiZXhwIjoxNzEzOTMxMTk5LCJpYXQiOjE3MTI1NDg4MDAsImp0aSI6IjVhYmI4NTFmLTZkNWMtNGY3YS05OGM5LTI2MDFiM2M3YzFhNSIsInVybCI6Imh0dHBzOi8vd3d3Lndhc2hpbmd0b25wb3N0LmNvbS93ZWF0aGVyLzIwMjQvMDQvMDgvZWNsaXBzZS1laW5zdGVpbi10b3RhbC1leHBlcmltZW50LXJlbGF0aXZpdHkvIn0.2kl46-Q-TdMsIgOE1Uv7GupNv3kksrmISc9PBLPsrSw">Washington Post</a></td>
+	</tr>
+</table>
+<p>Is this anonymized?  Or rather, how anonymous is this?</p>
+</section>
+<section id="secrets" class="slide level2">
+<h2>Mexico '24</h2>
+<p>Here's two of my advisees on a Physics trip proving Einstein correct.</p>
+<img src="https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/WKMG7PWCYWOOOI6LB4J7NVNYFE_size-normalized.jpg&w=1440&impolicy=high_res">
+<p>They invited Jed!
+</section>
+<section id="squad-goals2" class="slide level2">
+<h2>Unmask by linking data sets</h2>
+<p>Suppose we at an event we only know AFFILIATION and DIETARY RESTRICTIONS</p>
+<table>
+		<tr>
+		<th>Name</th>
+		<th>Dietary Restriction</th>
+	</tr>
+	<tr>
+		<td>Calvin</td>
+		<td>Dairy</td>
+	</tr>
+	<tr>
+		<td>Fred</td>
+		<td>None</td>
+	</tr>
+	<tr>
+		<td>Haiyan</td>
+		<td>None</td>
+	</tr>
+	<tr>
+		<td>Jed</td>
+		<td>Caffeine</td>
+	</tr>
+	<tr>
+		<td>Lucas</td>
+		<td>Red meat</td>
+	</tr>
+</table>
+</tr>
+<p>I was sipping on delicious mochas while Jed was out changing the world.
+</section>
+<section id="latanya1" class="slide level2">
+<h2>Latanya Sweeney’s "Attack" (1997)</h2>
+<figure>
+<img data-src="https://epic.org/wp-content/uploads/fly-images/20809/latanya-sweeney-2012-03-30_103311_6x4-640x360-c.jpg" style="width:60.0%" alt="Dr. Latanya Sweeney" /><figcaption aria-hidden="true">Latanya Sweeney<br>Daniel Paul Professor of the Practice of Government and Technology<br>Harvard University</figcaption>
+</figure>
+</section>
+<section id="latanya2" class="slide level2">
+<h2>Latanya Sweeney’s "Attack" (1997)</h2>
+<p>In 1997, Mass. Governor and future Libertarian Vice Presidential nominee Bill Weld released hospital visit information by all state employees but assured employees the data was anonymized.
+<figure>
+<img data-src="img/latanya.png" style="width:60.0%" alt="The Data" />
+</figure>
+</section>
+<section class="slide level2">
+<h2>How do we assess this?</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>How many zipcodes are there?
+</section>
+<section class="slide level2">
+<h2>How do we assess this?</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>10000 zip codes
+<li>How many DOBs are there (including or excluding year)?
+</section>
+<section class="slide level2">
+<h2>How do we assess this?</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>10000 zip codes
+<li>365 * ~90 DOBs
+<li>How many people are on a voter list in 1997?
+</section>
+<section class="slide level2">
+<h2>How do we assess this?</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>10000 zip codes
+<li>365 * ~90 DOBs
+<li>How many people are on a voter list in 1997?
+<li>2022 US pop = 333.3 m
+<li>2022 US rvs = 161.4 m
+<li>1997 US pop = 272.9 m
+</section>
+<section class="slide level2">
+<h2>How do we assess this?</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>10000 zip codes
+<li>365 * ~90 DOBs
+<li>~132.1 registers voters in 1997
+</section>
+<section class="slide level2">
+<h2>How do we assess this?</h2>
+<div class="cols">
+<div class="col">
+<p>Removed:
+<ul><li>Name
+<li>SSN</ul>
+</div>
+<div class="col">
+<p>Retained:
+<ul><li>DOB
+<li>Zip</ul></div></div>
+<p>Food for thought:
+<ul>
+<li>10000 zip codes
+<li>365 * ~90 DOBs
+<li>~132.1 registers voters in 1997
+<li>10000 * 365 * 90 = ~328.5 m unique combinations of DOB and zip for 132 people.
+<li>Mass has 533 zips ranging from 20 to 70k people. [<a href="https://www.massachusetts-demographics.com/zip_codes_by_population">src</a>]
+<li>How likely is DOB and zip to uniquely identify someone? Too high
+<li>(ask a data scientist professor, we have 3 I'll introduce you)
+</section>
+<section id="latanya3" class="slide level2">
+<h2>Latanya Sweeney’s "Attack" (1997)</h2>
+<p>Then-governor Weld was hospitalized for influenza in 1996 (he recovered quickly). Once the data set was released, Latanya Sweeney purchased voter rolls for $20, de-anonymized Bill Weld by DOB and zip, and mailed him a copy of his private medical records!<figure>
+<img data-src="https://media.cnn.com/api/v1/images/stellar/prod/200318152923-01-bill-weld-lead-image.jpg" style="width:60.0%" alt="Bill Weld" /><figcaption aria-hidden="true">Bill Weld (R-MA) -> (L)</figcaption>
+</figure>
+</section>
+<section id="latanya4" class="slide level2">
+<h2>Latanya Sweeney’s "Attack" (1997)</h2>
+<p>Latanya Sweeney's paper introducing the concept of <textit>k</i>-anonymity has been cited over 8000 times!<figure>
+<img data-src="img/cites.png" style="width:60.0%" alt="The Paper" /><figcaption aria-hidden="true">The full text is available for free via epic.org.</figcaption>
+</figure>
+</section>
+<section id="quasi" class="slide level2">
+<h2>Quasi-Identifiers</h2>
+<dl>
+<p>Key attributes</p>
+<ul><li>Name, address, phone number - uniquely identifying!</li>
+<li>(Should) always be removed before release.</li></ul>
+<p>Quasi-identifiers</p>
+<ul><li>Zip, DOB, state gender marker uniquely identifies 87% of the U.S.!</li>
+<li>My gender marker (X) is relatively uncommon. Good thing I never have to think about that haha.
+<li>Can be used for linking anonymized dataset with other datasets...</li></ul>
+<p>Recall: some collected data must be made public by law!</p>
+</section>
+<section id="classes" class="slide level2">
+<h2>Classification of Attributes</h2>
+<p>Sensitive attributes</p>
+<ul><li>Personal medical or family information, student records, etc.</li>
+<li>May be released for society to benefit from discoverable knowledge.</li></ul>
+<img data-src="img/attr.png" style="width:60.0%" alt="The MA data set" /><figcaption aria-hidden="true">The MA data set</figcaption>
+</figure>
+</section>
+<section id="intuition" class="slide level2">
+<h2><em>k</em>-Anonymity: Intuition</h2>
+<p>The information for each person contained in the released table cannot be distinguished from at least <em>k</em>-1 individuals whose information also appears in the release</p>
+<ul><li>Example:
+<ul><li>Try to identify a person in the released table.
+<li>You have birth date and state gender marker.
+<li>There are (at least) <em>k</em> people in the table with the same birth date and gender.</li></ul>
+<p>Any quasi-identifier present <strong>must appear in at least <em>k</em> records.</strong></p>
+</section>
+<section id="model" class="slide level2">
+<h2><em>k</em>-Anonymity: Protection Model</h2>
+<p>Given a:
+<ul><li>PT: Private table (that contains sensitive information)</li>
+<li>RT: Released ("anonymized") table</li>
+<li>A<sub>n</sub>: Attributes A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub></li></ul>
+<p>Any quasi-identifier present <strong>must appear in at least <em>k</em> records.</strong></p>
+<img data-src="img/kanon.png" style="width:60.0%" alt="The MA data set" />
+</figure>
+</section>
+<section id="generalization" class="slide level2">
+<h2>Generalization</h2>
+<p>Goal of <em>k</em>-Anonymity:
+<ul><li>Each record is indistinguishable from at least <em>k</em>-1 other records</li>
+<li>These <em>k</em> records form an "equivalence class"</li>
+<code class="python" style="max-height:800px">>>> zip_codes = ["47677", "47602", "47678"]
+>>> zip_codes = [z[:3] + "**" for z in zip_codes]
+>>> zip_codes
+["476**", "476**", "476**"]
+</code></ul>
+<p><strong>Generalization:</strong>  replace quasi-identifiers with less specific, but semantically consistent values</p>
+</section>
+<section id="kequal2" class="slide level2">
+<h2>Example of a 2-Anonymous Table</h2>
+<p>
+<figure><img data-src="img/2anon.PNG" style="width:60.0%" alt="The MA data set" /><figcaption aria-hidden="true">Example of <em>k</em>-anonymity with <em>k</em>=2<br>QI={Race Marker, Birth Year, Gender Marker, Zip}</figcaption>
+</figure>
+</section>
+
+<section id="dims" class="slide level2">
+<h2>Limitations: Dimensionality</h2>
+<ul><li>Generalization fundamentally relies on <strong>spatial locality</strong>
+<ul><li>Each record must have <em>k</em> close neighbors</li></ul>
+<li>Real-world datasets may be very sparse
+<ul><li>Many attributes (dimensions)</li>
+<ul><li>Netflix Prize (2009) dataset: 17,000 dimensions</li>
+<li>Amazon customer records: several million dimensions</li></ul>
+<li>“Nearest neighbor” is very far</li></ul></ul>
+<p>If projection to low dimensions is lossy then <em>k</em>-anonymized datasets lose value.
+</section>
+<section id="dims" class="slide level2">
+<h2>Limitations: Harms</h2>
+<ul><li>Syntactic
+<ul><li>Focuses on data transformation, not on what can be learned from the anonymized dataset</li>
+<li>“<em>k</em>-anonymous” dataset can leak sensitive information</li></ul>
+<li>“Quasi-identifier” fallacy
+<ul><li>Assumes a priori that attacker will not know certain information about their target</li></ul>
+<li>Relies on locality
+<ul><li>Destroys utility of many real-world datasets</li></ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

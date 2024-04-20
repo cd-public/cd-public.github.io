@@ -41,69 +41,7 @@
 <li>Begin work after/during class today
 <li>Scaffolding lectures next week
 <li>Submit best effort on 3/4.
-</section>
-<section>
-<h2>Today</h2>
-<dl>
-<dt>File i/o</dt>
-<dd>fopen() / fclose()
-<dd>fwrite() / fread()
-<dd>fprintf() / fscanf()
-<dd>fflush()
-</dd>
-<dd>
-</dd>
-<dt>File formats</dt>
-<dd>.ppm</dd>
-</dl>
-</section>
-<section>
-<h2>Finger Binary</h2>
-<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/closed-fist-0.png"><br>0b00 == 0</td>
-<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/thumb-raised1.png"><br>0b01 == 1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
-<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0x11 == 3</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section>
-<h2>Review Question</h2>
-<div style="outline-style:double;background-color:cyan">
-<ul>
-<code class="C">int *p = 0x0F ;
-p = (int *)0xF0 ;
-printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
-<p>What is printed?</p>
-<div >
-<ol start="0">
-<li style="padding-bottom: .3em;"><code class="C">p = 0x0F</code></li>
-<li style="padding-bottom: .3em;"><code class="C">p = 0xF0</code></li>
-<li style="padding-bottom: .3em;"><code class="C">p = * // anything else</code></li>
-<li style="padding-bottom: .3em;"><code class="C">Segmentation fault</code></li>
-</ol>
-</div>
-</section>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Computing Lecture Outline</title>
-</head>
-<body>
-
-<section>
+</section><section>
     <h2>WHY CALL IT THE "CLOUD"?</h2>
     <ul>
         <li>Computing happens somewhere else, not on your PC or mobile device
@@ -278,8 +216,8 @@ printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
 <section>
     <h2>WHERE ARE THE COMMONS, IN A CLOUD?</h2>
     <ul>
-        <li>In the cloud we need to think about all the internal databases and services “shared” by lots and lots of μ-service instances.</li>
-        <li>If we take the advice to “make everything as fast as possible”, all those millions of first-tier μ-services will be greedy.</li>
+        <li>In the cloud we need to think about all the internal databases and services “shared” by lots and lots of -service instances.</li>
+        <li>If we take the advice to “make everything as fast as possible”, all those millions of first-tier -services will be greedy.</li>
         <li>But what works best for one instance, all by itself, might overload the shared services when the same code runs side by side with huge numbers of other instances (“when we run at scale”)</li>
     </ul>
 </section>
@@ -301,7 +239,7 @@ printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
                 <li>Requests arrived at a “first tier” of very lightweight servers.</li>
                 <li>These dispatched work requests on a message bus or queue.</li>
                 <li>The requests were selected by “micro-services” running in elastic pools.</li>
-                <li>One web request might involve tens or hundreds of μ-services!</li>
+                <li>One web request might involve tens or hundreds of -services!</li>
             </ul>
         </li>
         <li>They also began to guess at your next action and precompute what they would probably need to answer your next query or link click.</li>
@@ -327,14 +265,14 @@ printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
                 <li>They have limited needs for storage, or network I/O</li>
             </ul>
         </li>
-        <li>Tier two μ-Services specialize in various aspects of the content delivered to the end-user. They may run on somewhat “beefier” computers.</li>
+        <li>Tier two -Services specialize in various aspects of the content delivered to the end-user. They may run on somewhat “beefier” computers.</li>
     </ul>
 </section>
 
 <section>
     <h2>THE CLOUD SCHEDULER</h2>
     <ul>
-        <li>The cloud scheduler watched each μ-service pool (each is shown as one dot, with color telling us how long the task queue was, and the purple circle showing how CPU loaded it is).</li>
+        <li>The cloud scheduler watched each -service pool (each is shown as one dot, with color telling us how long the task queue was, and the purple circle showing how CPU loaded it is).</li>
         <li>The picture didn’t show how many instances were active – that makes it too hard to render. But each pool had varying numbers of instances. The App Server was automatically creating and removing instances.</li>
     </ul>
 </section>
@@ -359,7 +297,7 @@ printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
 <section>
     <h2>HOW DO CLOUD SERVICES SCALE?</h2>
     <ul>
-        <li>We’ve been acting as if each μ-service is a set of “processes” but ignoring how those processes were built.</li>
+        <li>We’ve been acting as if each -service is a set of “processes” but ignoring how those processes were built.</li>
         <li>In fact, they will use parallel programming of some form because modern computers have NUMA architectures.</li>
     </ul>
 </section>
@@ -507,6 +445,7 @@ printf("p = 0x%02lX\n", (long unsigned)p);</code></ul>
         <li>Finally, exams aren’t intended to be difficult</li>
     </ul>
 </section>
+
 
 </body>
 </html>

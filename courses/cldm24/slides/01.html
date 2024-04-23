@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>file_io</title>
+  <title>Intro</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -23,25 +23,142 @@
   <div class="reveal">
     <div class="slides">
 
-<section>
-<br><br><br>
-  <h1 style="font-family: monospace;text-transform: lowercase;">file_io</h1>
-  <h2>CS 271</h2>
-  <h2>Prof. Calvin</h2>
-  <h2>21 Feb 24</h2>
-  <h2>w05d01</h2>
+
+<section id="title-slide">
+  <h1 class="title">Intro</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">Week 01</p>
 </section>
+
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>Recall: UNC REU due 25 Feb
-<li>Recall: Garmin trip on March 14
-<li>HW1: Buddhabrot
-<ul><li>All the necessary C except file i/o is covered.
-<li>Begin work after/during class today
-<li>Scaffolding lectures next week
-<li>Submit best effort on 3/4.
-</section><section>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>Things to do:
+<ul>
+<li>Access the course webpage at <a href="cd-public.github.io/courses/cldm24">cd-public.github.io/courses/cldm24</a>
+<ul>
+<li>There will be a link to the course webpage from the WISE site</li>
+</ul></li>
+<li>Look over the syllabus</li>
+<li>Join the Discord!
+<ul>
+<li>You should have gotten an email</li>
+</ul></li>
+</ul></li>
+<li>Homework
+<ul>
+<li>The first homework, "Threat Modeling" will be presented at the beginning of next class, due next Wednesday, 1/31</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>About Me</h2>
+<dl>
+<dt>Name</dt>
+<dd>Calvin (Deutschbein) 
+</dd>
+<dt>Call me</dt>
+<dd>(Professor) Calvin 
+</dd>
+<dt>Pronouns</dt>
+<dd>they/them
+</dd>
+<dt>Office</dt>
+<dd><strong>Ford</strong> 3rd Floor (in SALEM)
+</dd>
+<dt>Office Hours</dt>
+<dd>Discord me between 12:01 AM and 11:59 PM
+<dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+</dd>
+<dt>Website:</dt>
+<dd><a href="cd-public.github.io4">cd-public.github.io</a>
+</dd>
+</dl>
+</section>
+<section>
+<h2>Background</h2>
+<dl>
+<dt>Thesis Title</dt>
+<dd>Mining Secure Behavior of Hardware Designs
+</dd>
+<dt>Plain English</dt>
+<dd>Just as there are bugs in code that makes <b>software</b>, modern <b>hardware</b> is also written in code and therefore may contain bugs. I find these bugs.
+</dd>
+<dt>Thesis</dt>
+<dd>Specification mining can discover properties that can be used to verify the secure
+behavior of closed source CISC CPU designs, properties that can be used to verify
+the temporal correctness of CPU designs, and hyperproperties that can be used to
+verify that modules, SoCs, and CPUs have secure information flow.
+</dd>
+<dt>Some partners</dt>
+<dd>Intel Corporation, Semiconductor Research Corporation, Synopsys, MITRE, Cycuity
+</dd>
+</dl>
+</section>
+<section>
+<h2>Motivations</h2>
+<ul>
+<li>Computers are just like everything else. But it can be hard to remember this!</li>
+<li>When reasonable precautions are not taken, problems arise affecting security and privacy.</li>
+<li>Studying cybersecurity now lets you take part in driving forward not only the fields of data and computing, but of all the modern fields with utilize technology.
+<ul>
+<li>Almost all fields!</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Learning Objectives</h2>
+<div class="block" name="Primary Objective">
+<p>To gain the skills, knowledge, and confidence necessary to  for reasoning about information and computing and controlled accesses to these resources.</p>
+</div>
+<p>Doing so will require that students be able to:</p>
+<ul>
+<li>practice styles of thinking common to security researchers,</li>
+<li>exploring some coding styles for secure development,</li>
+<li>gain historical context of the importance of security,</li>
+<li>learn the logical foundations of security,</li>
+<li>experience state-of-the-art security research</li>
+</ul>
+</section>
+<section id="tests" class="slide level2">
+<h2>Tests</h2>
+<ul>
+<li>Tests are a useful tool to promote directed thinking about the science of computing in isoloation from a programming environment.</li>
+<li>At most two this semester:
+<ul>
+<li>Midterm I on 3/13</li>
+<li>Midterm II if needed (probably cancelled for the snow day)</li>
+</ul></li>
+<li>Tests will be taken in class*.
+<ul>
+<li>This policy has actually been seen to <em>improve</em> student learning, as it prevents you from wasting tons of time obsessing about a small mistake!</li>
+</ul></li>
+<li>Example tests and study materials will be given out a week in advance.</li>
+</ul>
+</section>
+<section id="communication" class="slide level2">
+<h2>Communication</h2>
+<ul>
+<li>I tend to find CANVAS lacking both from a polish perspective and from an ease of use perspective</li>
+<li>I will be using a 3rd-party forum to focus class communication, announcements, and questions: Discord.
+<li>You should have gotten an email with invite instructions. Let me know if you have not!</li>
+<li>Totally free to sign up and use</li>
+</ul></li>
+</ul>
+</section>
+<section id="diving-in" class="slide level2">
+<h2>Diving In</h2>
+<ul>
+<li>This course is an introduction on <em>security</em>, and covers more than just programming!</li>
+<li>Programming will be used to teach the computing portion of the course, but the focus is less on programming itself and more on general computer ssecurity principles.</li>
+<li>If you come across situations where you need to know a bit more about specific programming details, there are plenty of resources online, or just ask me!</li>
+</ul>
+</section>
+
+
+<section>
     <h2>WHY CALL IT THE "CLOUD"?</h2>
     <ul>
         <li>Computing happens somewhere else, not on your PC or mobile device

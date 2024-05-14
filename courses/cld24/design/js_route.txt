@@ -1,0 +1,17 @@
+okay we
+
+build a html/css/js front end (angular?)
+
+build a node.js back end local (nest js?)
+
+throw node js in a container
+
+throw node js on google
+
+throw node js on azure
+
+throw node js on aws
+
+do map reduce
+
+migrate to native

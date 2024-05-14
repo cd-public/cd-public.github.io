@@ -28,19 +28,17 @@
   <h1 class="title">Intro</h1>
   <p class="author">Calvin (Deutschbein)<br></p>
   <p class="date">Week 01</p>
+  <p class="date">Cloud</p>
 </section>
 
 <section>
 <h2>Announcements</h2>
 <ul>
 <li>Welcome to DATA-599: Cloud Computing!</li>
+<li>Today is a special Zoom guest lecture from the Portland R User Group + Intro class.
 <li>Things to do:
 <ul>
-<li>Access the course webpage at <a href="cd-public.github.io/courses/cldm24">cd-public.github.io/courses/cldm24</a>
-<ul>
-<li>There will be a link to the course webpage from the WISE site</li>
-</ul></li>
-<li>Look over the syllabus</li>
+<li>Access the course webpage at <a href="cd-public.github.io/courses/cld24">cd-public.github.io/courses/cld24</a>
 <li>Join the Discord!
 <ul>
 <li>You should have gotten an email</li>
@@ -48,7 +46,13 @@
 </ul></li>
 <li>Homework
 <ul>
-<li>The first homework, "Threat Modeling" will be presented at the beginning of next class, due next Wednesday, 1/31</li>
+<li>The first homework, "<a href="https://colab.research.google.com/drive/1WA6rGf2bdb7IRiGceUTnIpCOGgd8lG7l?usp=sharing">Functional</a>", will be due at 6 PM on Wed/Thr.
+<ul><li>Snag the Colab
+<li>Make a copy.<ul>
+<li>Write <code>multiply_by_x_everything_in</code>
+<li>Write <code>apply_f_to_everything_in</code>
+</ul><li>Share with me from you @willamette email (so I know it's you).
+</li><li>This is a calibration assignment, so do whatever you would usually do (ask me for help, work together, stack overflow, etc.) so I know how to design assignments / use Python.
 </ul></li>
 </ul>
 </section>
@@ -68,7 +72,7 @@
 <dd><strong>Ford</strong> 3rd Floor (in SALEM)
 </dd>
 <dt>Office Hours</dt>
-<dd>Discord me between 12:01 AM and 11:59 PM
+<dd>Discord me between 12:00 AM and 11:59 PM (realistically 10 AM to 2 AM)
 <dt>Email:</dt>
 <dd>ckdeutschbein@willamette.edu
 </dd>
@@ -98,57 +102,128 @@ verify that modules, SoCs, and CPUs have secure information flow.
 </dl>
 </section>
 <section>
+<h2>Background</h2>
+<dl>
+<dt>Research Cloud Computing</dt>
+<dd>Mining Secure Behavior of Hardware Designs is hard/slow.
+</dd>
+<dt><a href="https://cd-public.github.io/papers/2021/ASHES2021.pdf">Reference text</a></dt>
+<dd>When parallelizing all
+trace generation and all case mining, Isadora could theoretically
+evaluate the Single ACW case fully in less than five minutes. Parallelizing the first phase requires a Radix-S and QuestaSim instance
+for each source register, and each trace is generated in approximately 100 seconds. Further, the trace generation time is dominated
+by write-to-disk, and performance engineering techniques could
+likely reduce it significantly, such as by changing trace encoding
+or piping directly to later phases. Parallelizing the second phase
+requires only a Python instance for each source register, and takes
+between 1 and 2 seconds per trace. Parallelizing the third phase
+requires a Daikon instance for each flow case, usually roughly the
+same number as unique sources, and takes between 10 and 30 seconds per flow case. The final phase, postprocessing, is also suitable
+for parallelization. Maximally parallelized, this gives a design-to-specification time of under four minutes for the single ACW and
+for similarly sized designs, including PicoRV32.
+</dd>
+<dt>Plain text</dt>
+<dd>Rather than do 100s of things for 3 minutes to take 100s of minutes, we can use 100s of computers for 3 minutes and always be done in 3 minutes.
+</dd>
+<dt>Who really liked this?</dt>
+<dd>Intel Corporation, who has ~millions of computers
+</dd>
+</dl>
+</section>
+<section>
 <h2>Motivations</h2>
 <ul>
-<li>Computers are just like everything else. But it can be hard to remember this!</li>
-<li>When reasonable precautions are not taken, problems arise affecting security and privacy.</li>
-<li>Studying cybersecurity now lets you take part in driving forward not only the fields of data and computing, but of all the modern fields with utilize technology.
+<li>Instead of solving hard problems, we use more computers</li>
+<li>Computers are cheap, and people that can use them well are expensive</li>
+<li>In my experience: your boss/manager/accountability group always want you to spend $0.12 to use the 1000s of the fastest computers on earth for 5 seconds, rather than 6 months writing "better" code.
 <ul>
-<li>Almost all fields!</li>
+<li>Writing fast code is hard, and spending $0.12 is easy.</li>
 </ul></li>
 </ul>
+</section>
+
+<section>
+<h2>Emergency Back-up Motivations</h2>
+<p><a href="https://www.statista.com/statistics/793628/worldwide-developer-survey-most-used-languages/">Most used programming languages among developers worldwide as of 2023</a>
+</p><table>
+<tbody><tr>
+<td style="width:50%">
+<ul>
+<li>All* "front-end" (local, on your device) code is written in JavaScript<ul>
+<li>*The Web Assembly guest lecture is the exception here.
+</li><li>(there's also HTML/CSS, which isn't quite code)</li></ul>
+<li>Most "back-end" (cloud, on a server) code is written in Python or JavaScript<ul><li>That is because mere mortals can learn these languages</li></ul>
+<li>Pretend you can't see PHP/Java.
+</li><li>Usually people use "frameworks".<ul><li>TypeScript is kinda one of those.</ul>
+</li><li>SQL/Bash is taught in DATA 503
+</li><li>Enter Cloud Computing, a course on the big languages I think you might need to know.
+<ul>
+<li>There's a lot of C-like languages on here - those are for the nerds so nerdy that nerds call them nerds.
+</li></ul></td>
+<td style="width:80%;display:inline-block;">
+  <div style="background-image: url('https://www.statista.com/graphic/1/793628/worldwide-developer-survey-most-used-languages.jpg');
+  background-size: cover;
+  background-size: 100% 247%;">
+ <ul style="opacity: 0.0;">
+<li>JavaScript/HTML/CSS: DATA 352W &amp; CS 299: Web
+</li><li>Python is taught in CS 15X
+</li><li>SQL is taught in DATA 351
+</li><li>TypeScript is just a version of JavaScript that is good.
+</li><li>Shell is taught in this class as a secondary objective
+</li><li>I don't talk about Java
+</li><li>C#/C++/C share commonalities of which C is most general.
+</li><li>C#/C++/C share commonalities of which C is most general.
+</li><li>C#/C++/C share commonalities of which C is most general.
+</li><li>C#/C++/C share commonalities of which C is most general.</li></ul></div>
+
+</td></tr></tbody></table>
+
 </section>
 <section>
 <h2>Learning Objectives</h2>
 <div class="block" name="Primary Objective">
-<p>To gain the skills, knowledge, and confidence necessary to  for reasoning about information and computing and controlled accesses to these resources.</p>
+<p>To be conversant and comfortable under the cloud computing paradigm.</p>
 </div>
 <p>Doing so will require that students be able to:</p>
 <ul>
-<li>practice styles of thinking common to security researchers,</li>
-<li>exploring some coding styles for secure development,</li>
-<li>gain historical context of the importance of security,</li>
-<li>learn the logical foundations of security,</li>
-<li>experience state-of-the-art security research</li>
+<li>Have a high level understanding of MapReduce and its descendents</li>
+<li>Use cloud technologies, like Spark (really we only need Spark)<ul>
+<li>The course description said Hadoop, it meant Spark (sorry)</ul>
+<li>Work with back-end web technologies, like Node.js/Flask<ul>
+<li>Flask is lightweight Python web programming, Node is a ✨new language✨ (JavaScript)</ul>
+<li>Deploy jobs to cloud services, including Azure and GCP (AWS is less edu friendly)</li>
+<li>Stretch goal: Work with the "data cloud": BigQuery and Databricks (Snowflake is less edu friendly)</li>
+<li>Have a tasteful (e.g. not excessive) amount of fun</li>
 </ul>
 </section>
-<section id="tests" class="slide level2">
-<h2>Tests</h2>
+<section class="slide level2">
+<h2>Grading</h2>
 <ul>
-<li>Tests are a useful tool to promote directed thinking about the science of computing in isoloation from a programming environment.</li>
-<li>At most two this semester:
-<ul>
-<li>Midterm I on 3/13</li>
-<li>Midterm II if needed (probably cancelled for the snow day)</li>
-</ul></li>
-<li>Tests will be taken in class*.
-<ul>
-<li>This policy has actually been seen to <em>improve</em> student learning, as it prevents you from wasting tons of time obsessing about a small mistake!</li>
-</ul></li>
-<li>Example tests and study materials will be given out a week in advance.</li>
+<li>Cloud computing classes are inherently experimental due to rapidly changing technologies.</li>
+<li>My plan is to give some lectures and assignments and just assume we all do well.
+<li>There are no planned tests, and there's a potential final project (depending on whether things keep working for 14 weeks) that's more portfolio than grade motivated.
+<li>My grade plan is "show up + good faith effort on homeworks = A"<ul>
+<li>If you want to know how you are doing, I will provide narrative (that is, not quantitative) feedback by request.<li>This will let you know, for example, what I would be able to write on a letter of recommendation.<li>My opinion: You should be more letter motivated than grade motivated this semester.
 </ul>
 </section>
-<section id="communication" class="slide level2">
+<section class="present" style="display: block;">
 <h2>Communication</h2>
 <ul>
-<li>I tend to find CANVAS lacking both from a polish perspective and from an ease of use perspective</li>
-<li>I will be using a 3rd-party forum to focus class communication, announcements, and questions: Discord.
-<li>You should have gotten an email with invite instructions. Let me know if you have not!</li>
-<li>Totally free to sign up and use</li>
-</ul></li>
-</ul>
+<li>Check your email for a link to Discord
+<img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b5061df29d55a92d945_full_logo_blurple_RGB.svg">
+</li><li>Post code to Discord as follows - I am a screenshot-hater, please do not make me retype your code!
+<ul><li>Drag-and-drop or use the (+) button to share the file(s).
+<ul><li>Once you are confused, you are unlikely to guess where the problem is coming from in a larger file.</li></ul>
+</li><li>Share code snippets using triple quotes and a language. <code class="hljs awk">'''Python
+def fibonacci(n):
+     if n in [0,1]:
+             return n
+     return fibonacci(n-1) + fibonacci(n-2)
+'''</code>
+</li></ul>
+</li></ul>
 </section>
-<section id="diving-in" class="slide level2">
+<section class="slide level2">
 <h2>Diving In</h2>
 <ul>
 <li>This course is an introduction on <em>security</em>, and covers more than just programming!</li>
@@ -192,35 +267,48 @@ verify that modules, SoCs, and CPUs have secure information flow.
 <section>
     <h2>WHO INVENTED THE CLOUD?</h2>
     <ul>
-        <li>Google’s Jeff Dean and Sanjay Ghemawat get my “vote”.
+        <li>My view: it emerged naturally from high quality systems programming.
             <ul>
-                <li>Jeff Dean was a University of Washington PhD student. We know him well and he often visits Cornell. Now he is the head of Google Brain.</li>
-                <li>Sanjay Ghemawat was a Cornell ugrad, then MIT PhD. He is a Senior Fellow in Google’s systems infrastructure area.</li>
+                <li>As computer chips got faster, they hit a "heat wall" where they couldn't speed up without melting.</li>
+                <li>To get past the heatwall, Intel et al. placed multiple processing units on a single chip (e.g. Phone/Tablet/PC).</li>
+				<li>To use multiply processing units, sometimes <i>n</i> pieces of code had to run at the same time.
+				<li>If <i>n</i> can be 8 (my phone) why not 10^6 (my phone's app's datacenters)
             </ul>
         </li>
-        <li>I was there too…
+    </ul>
+</section>
+
+<section>
+    <h2>WHO INVENTED THE CLOUD?</h2>
+    <ul>
+        <li>Another view: It emerged naturally from the Internet
             <ul>
-                <li>I didn’t invent the cloud, but many of my students had huge roles.
+                <li>The internet runs over networks between multiple computers with different computing and data capabilities.
                     <ul>
-                        <li>Personally, I created the “self-healing” software that ran the trading floors of the New York Stock Exchange and the Swiss Exchange for 10+ years. The US military uses this technology too.</li>
-                        <li>Designed the French portion of the European Air Traffic control system, control and created the core software. They’ve used it since 1996.</li>
-                        <li>Oracle and Microsoft both use a technology I invented to track the status of their clusters and data centers.</li>
-                        <li>Recently, I helped create the New England smart grid (for ISONE and NYPA), and helped the Air Force figure out how to leverage the cloud.</li>
+                        <li>If I can ask Google for directions, why can't I ask Google to compute a mean
+                        <li>If Google can ask me for a password, why can't it ask me for a .csv
+                        <li>If computing is already distributed across local and remote servers, why not write code for this paradigm.
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>SOME OF MY PAST STUDENTS BECAME CLOUD COMPUTING SUPERSTARS
+    </ul>
+</section>
+
+
+
+<section>
+    <h2>WHO INVENTED THE CLOUD?</h2>
+    <ul>
+        <li>My view: It DID NOT emerge from "classical" software engineering
             <ul>
-                <li>Werner Vogels was in my group until 2005.
+                <li>"Object oriented languages" e.g. Java won the software engineering wars of the 00s.
                     <ul>
-                        <li>He has been CTO of Amazon since 2006.</li>
+                        <li>I am a hater.</li>
                     </ul>
                 </li>
-                <li>Ranveer Chandra is Chief Scientist for Azure Global, head of Networking Research and responsible for their FarmBeats product.</li>
-                <li>Yee-Jiun Song: VP Engineering, Facebook</li>
-                <li>Qi Huang: Facebook video/photo delivery</li>
-                <li>Dalia Malkhi: CTO for Diem, Facebook’s digital currency.</li>
+                <li>Functional programming e.g. R couldn't keep up.</li>
+                <li>MapReduce, two functions, unseated Objects as the dominate paradigm over time</li>
             </ul>
         </li>
     </ul>
@@ -229,9 +317,9 @@ verify that modules, SoCs, and CPUs have secure information flow.
 <section>
     <h2>CLOUD COMPUTING</h2>
     <ul>
-        <li>CS5412 is…
+        <li>DATA 599 is…
             <ul>
-                <li>A deep study of a big topic.</li>
+                <li>A whirlwind of a big topic.</li>
                 <li>In spring 2021 one focus will be on “smart farming” in Azure IoT Edge.</li>
                 <li>The farming focus leverages a Cornell and Microsoft interest (and an Azure product area) and makes it real.</li>
             </ul>

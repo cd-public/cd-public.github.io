@@ -1,0 +1,187 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{quoting}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{DATA-599: Cloud Computing}
+\author{Calvin Deutschbein (they)}
+\date{Willamette University, Summer 2024}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize Intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.github.io/}{\tt\bf cd-public.github.io/}  \\
+
+ Office Hours: By Appt.  &  Lecture W or Th  6:00-9:50 PM \\
+
+ Office: Zoom, Ford 3rd Floor & Portland Center\\
+ & \\
+&  \\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+
+his course introduces cloud computing as the solution to the problem of data-intensive programming at scale. We will survey the existing techniques in computing, their algorithmic basis, and explore them in practice. With the motivating example of the MapReduce programming model, will examine Microsoft Azure, Google Cloud, Amazon Web Services, three common commercial platforms for cloud computing, and Hadoop, an open-source alternative. The course will be supplemented with discussions of virtualization and cloud security. Experience coding in Python is recommended. 
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Required Materials}
+
+Lecture materials will be available on the \href{https://cd-public.github.io/courses/secs24}{course webpage}.
+
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Prerequisites}
+
+This class is meant to open to all students enrolled in professional degree programs at Willamette University. The primary audience is students enrolled in programs with the School of Computing and Information Sciences.
+
+\section*{Accessability}
+
+I will make every effort to ensure all coursework and materials are accessible to all students, including working with on-campus specialists. However, there is always room for improvement. I always appreciate hearing from students about how I can make the course more accessible, so please reach out if there is something I can be doing better!
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+This course will teach you techniques for reasoning about information and computing and controlled accesses to these resources. As a survey course of the broad discipline of computer security, it will focus on different abstraction levels, from cryptographic code at a low level to the cultural and economic implications of secure and insecure data access at a high level.
+\begin{itemize}
+\item You will practice styles of thinking used by security researchers to contextualize their work in the broader context of computing and society.
+\item You will gain experience working with common coding practices for security, especially in the context of network and internet security.
+\item You will learn some historical efforts to attack and defend various computing systems, and discuss the implications of the state of computer security as a discipline and as deployed in practice..
+\item You will learn some theoretical background in formulating notions of security (the ``logical foundations'' of computer security).
+\item You will be exposed to state-of-the-art security research specific to hardware designs, including computer processors, as an example of ongoing research efforts.
+\end{itemize}
+This course will equip you apply notions of computer security to your other coursework, within computer science as well as within the college, and empower you to be a responsible computer scientist and member of an increasingly computer reliant society.
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+The course will be composed of lectures, discussion sections and presentations, and a written, in-class midterm. I reserve the right to administer a final examination, either in-person or via a take-home examination, but do plan to administer one at this time.
+
+\subsection*{Lecture Structure}
+
+Lectures are scheduled for Wednesdays at 6:00-10:00 PM in the Portland Center. The schedule
+of lectures will be available on the on the \href{https://cd-public.github.io/courses/secs24}{course webpage}.
+
+\bigskip
+\noindent Lectures will be primarily be delivered via webhosted HTML5+CSS via Reveal.js. While I will make every effort to follow best practices for accessible teaching, I will make mistakes! Please, if you find some material is inaccessible for any reason
+do not hesitate to reach out. If you do not like these types of slides, you can tell me but you can also make not of it in your course evaluation - I'm trying things out!
+
+\subsubsection*{Midterm Structure}
+
+Feedback will be provided on midterm exams.  Midterm exams will be considered when determining grades for this course.
+
+\bigskip
+\noindent There will be at least one written examination, intended to be completed in small groups
+with minimal to notes or documentation. Examinations are intended to achieve a learning
+focus of reasoning about security in isolation from course materials,
+as well provide me as an instructor with greater insight into how effective course
+instruction has been.
+
+\noindent Feedback scores will constitute the minimum grade on an assignment, but the instructor
+may exercise discretion at any time to award a higher grade. For example, a submitted homework
+may not use some important algorithmic technique as submitted, but if the student showed familiarity
+with this technique on an earlier assignment or exam, the absence of that technique in a specific
+case need not be counted against a student in grading, but only noted in feedback. This corresponds to the high level notion of feedback corresponding to how well an assignment reached the intended learning goals, while the overall course grade is meant to indicate that a student is prepared to succeed in latter coursework. Under this model, the final project will offer an opportunity to show familiarity with all content in the course, so a strong final project can ensure a high course grade
+for any student, regardless of prior scores on midterms and homeworks.
+
+\subsection*{Feedback and Grading}
+After some consideration, I've decided to move away from a traditional grading structure for this class. Rather than assign work with intent of assess student progress, assignments in this course will instead have the purpose of student learning. Consequentially, I intend to do the following.
+\begin{itemize}
+	\item Students will begin the course with a grade of an "A"
+	\subitem Students will be expected to attend class.
+	\subitem Students will be expected to participate in class.
+	\subitem Students will be expected to treat fellow students with respect.
+	\subitem Students will be expected to complete response assignments.
+	\item Students will be contacted privately by the course instructor in the unusual event they are not meeting expectations.
+	\subitem Students will not have an expectation of perfection.
+	\subitem Students will not lose points or a grade without discussion.
+	\subitem Students will have a chance to explain their engagement with the course.
+	\item Students collectively within the class as a whole will receive collective feedback on ethics, communication, and teamwork.
+	\subitem Students will receive limited individual feedback in unique cases.
+	\subitem Students will be expected to provide respectful individual feedback to one another.
+	\subitem Students will be able to request feedback from the instructor at any time.
+	\subitem Students will receive narrative rather than quantitative feedback.
+	\item Students will receive feedback on examinations.
+	\subitem Students will receive a course grade greater than or equal to their examination score.
+\end{itemize}
+
+\input{college}
+
+\end{document}
+

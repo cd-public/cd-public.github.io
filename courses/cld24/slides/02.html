@@ -35,15 +35,16 @@
 <h2>Announcements</h2>
 <ul>
 <li>Welcome to DATA-599: Cloud Computing!</li>
-<li>This is part one of a two part lecture.
+<li>This is a segmented lecture - use the course page to come in to pt1 or pt2
 <li>SALEM will do both parts in week 2 and a guest lecture in week 3
 <li>PORTLAND will do one part in week 2 with a guest lecture and part two in week 3.
 <ul>
 <li>Guest Lecture: <a href="https://mms.pnsqc.org/Calendar/moreinfo.php?eventid=117065">PNSQC</a> on "Test Automation"
-<li>SALEM: You can exercise an option to remote attend this on Thursday and come late next Wednesday</li></ul>
+<li>SALEM: You can exercise an option to remote attend this on Thursday and get out early next Wednesday</li></ul>
 <li>Homework<ul>
 <li>The first homework, "<a href="https://colab.research.google.com/drive/1WA6rGf2bdb7IRiGceUTnIpCOGgd8lG7l?usp=sharing">Functional</a>", is due this week at 6 PM on Wed/Thr.
-<ul><li>These looked good - I'll put 1+ comments in your Colab and @ you.</ul>
+<ul><li>These looked good - I'll put 1+ comments in your Colab and @ you.
+<li>If you don't get a comment I either didn't see it or can't comment - you should have a note by Friday 6 PM</ul>
 <li>The second homework, "Fold", will be out soon.
 </ul></li>
 </ul>
@@ -180,7 +181,7 @@
 			<ul><li>Interfaces define what methods a class must implement.
 			<li>Class are bundles of methods (functions) and fields (values)
 			<li>If this is confusing, it is why Java lost (my view)</ul>
-			<li>In first Lisp, then R, Python, Haskell, C++, "Map" is a function.
+			<li>In first Lisp, then R, Python, Haskell, "Map" is a function.
 			<li>The "Map" in "MapReduce" is the Lisp/R/Python/Haskell/C++ Map.
 			<li>You wrote this "Map" for the homework.
     </ul><br>
@@ -246,13 +247,14 @@
 <section>
     <h2>RECALL</h2>
     <ul>
-        <li>MapReduce was written in Java and this was odd</li>
+        <li>MapReduce* was written in Java and this was odd</li>
 		<ul>
 			<li>In Java, "Map" is an "interface"
 			<ul><li>I will never refer to these as "Map" again
 			<li>I will instead say "HashTable" or "Dictionary"
 			<li>If this is confusing, it is why Java lost (my view)</ul></ul>
-		<li>"HashTable" is one of the "two maps"
+		<li>"HashTable" is one of the "two maps"</ul>
+		<p>*Hadoop, the open source MapReduce framework I learned was written in Java. It looks like Google MapReduce was in C++, but the code is not public.  <em>Map is also not called map in C++...</em></p>
 </section>
 
 <section>
@@ -264,14 +266,13 @@
 >>> hash_table.add('key1', 'value1')
 >>> hash_table.add('key2', 'value2')
 >>> hash_table.get('key1')
-value1
-    </code>
+value1    </code>
 </section>
 <section>
     <h2>Hash Function</h2>
     <ul>
 	<li>A hash function converts a key into an index in the HashTable.
-	<li>In Python, table has integer indices.
+	<li>In Python, indices are necessarily integers, not "keys".
 	<code class="python">>>> table = [['a','b','c'],['d','e','f'],['g','h','i']]
 >>> table[1]
 ['d','e','f']</code>
@@ -307,7 +308,7 @@ value1
 	<li>We don't have 10s of students or 1000000s of students.</ul>
 	<li>But hash functions may return much larger values than that.
 	<li>So, when finding where in a table some key-value pair is stored, we divide the hash value by the table size and take the remainder.
-	<li>This is sometimes called "mod" and is denoted as '%' in Python.
+	<li>This is sometimes called "mod" and is denoted as '%' in Python (%% in R)
     <code class="python">hash_table = [None for _ in range(10)]
 hash_table[hash('key1') % len(hash_table)] = ('key1', 'value1')
 hash_table[hash('key2') % len(hash_table)] = ('key2', 'value2')
@@ -324,7 +325,7 @@ print(hash_table)
     <h2>Sidebar: Collisions</h2>
     <ul><li>Collisions occur when two keys hash to the same index.
 	<ul><li>A "good" hash has this happen infrequently</ul>
-	<li>One common method to handle collisions is chaining, where each cell in the HashTable points to a list of entries.<ul>
+	<li>One common method to handle collisions is chaining, where each cell in the HashTable points to a list (or any other data structure) of entries.<ul>
 	<li>Instead of setting the <em>i</em>th index to a key-value pair, we append the pair to a list that starts as empty.
 	<li>It's easy to see a collision by using integer values, which Python hashes predictably, as keys.
     <code class="python">>>> hash_table = [[] for _ in range(10)]
@@ -340,7 +341,7 @@ print(hash_table)
 <section>
     <h2>Searching for Values</h2>
     <ul><li>To find a value, hash the key, find the index, and search the list at that index.
-	<li>If we just want the index, we ask for the oneth, that is, index 1, element of the pair.</p>
+	<li>If we just want the value, we ask for the oneth, that is, index 1, element of the pair.</p>
 <code class="python">>>> hash_table[hash('key1') % len(hash_table)][1]
 'value1'
 </code>
@@ -386,7 +387,7 @@ print(hash_table)
     <h2>Resizing the HashTable</h2>
     <ul><li>We don't always know how big a hash table needs to be when making a new one.
 	<ul><li>We would not want to, for example, assume we need 10M entries, take 3 seconds to create a table, then store only 1 value.</ul>
-	<li>We consider the load factor (number of elements / number of buckets).
+	<li>We consider the load factor (number of elements / number of valid indices).
 	<li>In general, when this exceeds a certain threshold (usually .5), the hash table is resized to maintain efficiency.
 	<li>No code, but:
 	<ul><li>Create a new table that is twice as big
@@ -410,8 +411,8 @@ print(hash_table)
 </code>
 </section>
 <section>
-    <code>class HashTable:
     <h2>The "Map" Interface-ish</h2><ul>
+    <code>class HashTable:
 	def __init__(self, size=10):
 		# what do you need your table to be?
 		self.table = None
@@ -447,11 +448,13 @@ print(hash_table)
 		<ul>
 			<li>In Java, "Map" is an "interface"
 			<li>Our "HashTable" class in Python sorta implements this interface.</ul>
-			<li>In first Lisp, then R, Python, Haskell, C++, "Map" is a function.<ul>
+			<li>In first Lisp, then R, Python, Haskell, "Map" is a function.<ul>
 			<li>Our "apply_f_to_everything_in" sorta implements this function.
+			<li>R language "lapply" and C++ "std::transform" are other names for the function
     </ul><br>
 	<code class="Python">def apply_f_to_everything_in(f, data):
 	return [f(d) for d in data]</code>
+	
 </section>
 
 <section>
@@ -487,8 +490,8 @@ double <- function(x)
 
 lapply(lst,double)
 
-lapply(c(1,2,3), function(x) x * 2)</code>
-<p>We use "function" instead of "lambda" in R for and place the function second, but the computation is identical.
+lapply(c(1,2,3), function(x) x * 2)</code></ul>
+<p>We use the keyword "function" instead of keyword "lambda" in R and the function to apply is the second argument, but the computation is identical.
 </section>
 
 <section>
@@ -499,15 +502,15 @@ lapply(c(1,2,3), function(x) x * 2)</code>
 			<li>There is a data structure that is fast with big data
 			<ul><li>Referred to as a dictionary, hash table, or (confusingly) map
 			<ul><li>Dictionaries are one way to implement maps and used in Python
-			<li>Hash Table is an abstract idea and used to implement maps in many languages
-			<li><em>Map as a term just refers to an association between a key and some value</em>
+			<li>"Hash table" is an abstract idea and used to implement maps in many languages
+			<li><em>Map as a term just refers to an association between some keys and some values</em>
 			</ul></ul>
 			<li>There is a function that applies other functions to collections of data
 			<ul><li>Referred to as lapply, transform, or (confusingly) map<ul>
 			<li>R applies a function to all elements of a collection using "lapply()"
-			<li>C++ applies a function to all eleements of a collection using "transform()"
+			<li>C++ applies a function to all elements of a collection using "transform()"
 			<li>Python applies a function to all elements of a collection using "map()"
-			<li><em>Map as a term just refers to an association between a key and some value</em></ul></ul></ul>
+			<li><em>Map as a term just refers to an association between some keys and some values</em></ul></ul></ul>
 			<li>These are the two maps!
     <br>
 	<code class="Python">>>> d = {'a':1,'b':2}
@@ -664,7 +667,7 @@ TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
     <h2>EXERCISE: HashTable</h2>
     <ul>
 		<li><a href="https://colab.research.google.com/drive/1_neIs6XEwmeJ_EnKBR-nIvYjFmUXfoPQ?usp=sharing">Colab link</a>
-        <li>Hash Tables matter a little, but key-value pairs matter a lot
+        <li>Hash tables matter a little, but key-value pairs matter a lot
 		<ul>
 			<li>So as an exercise we will implement a hash table in Python
 			<ul><li>This is the "tasteful amount of fun" from the learning objectives.</ul>
@@ -681,7 +684,7 @@ TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
 			</ul>
 			<li>13 cells testing the HashTable, with sample output from the reference solution.<ul>
 			<li>These are preserved on the following slides, with details.</ul></ul></ul>
-		<li><a href="hashtable.pdf">This is an alternative HashTable slide deck</a> if you want to look at how someone else teaches HashTables.
+		<li><a href="hashtable.pdf">This is an alternative "Hash Table" slide deck</a> if you want to look at how someone else teaches hash tables.<ul><li>Hash tables as a rule are not taught in Python since Python has dictionaries, and that deck is based on C++ but I think I fixed it to work for all of you.
 </section>
 
 <section>
@@ -784,6 +787,19 @@ ht.search("Prof. Calvin") # returns nothing			</code>
 			<li>And it must work without issue and produce a novel key-value pair:
 			<code>('Prof. Cheng', 'hcheng@willamette.edu')</code>
 			<li>htapply() is correct if and only if it works on the provided extend_email() function.
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>Extension: The C Programming Language
+		<ul>
+			<li>Ambitious students may implement HashTable as a C language structure in a .c and .h file, of the same name.
+			<li>You may work in any environment, but it is possible <a href="https://stackoverflow.com/questions/65603808/how-to-compile-custom-cpp-files-on-google-colab">to use C/C++ compilers within Colab.</a>
+			<ul><li>I adhere to a firm coding style on C language structs that you may find interesting, it is documented <a href="https://cd-public.github.io/courses/old/syss24/slides/slides/w06d01.html#/28">here</a>.<li>If you do C++ you're on your own because I don't use objects, but you can check out the <a href="https://google.github.io/styleguide/cppguide.html">Google style guide.</a></ul>
+			<li>I'd include the Colab cell tests as print statements in a C language main() function.
+			
+			<li>I've heard (but never checked) that Numpy arrays are similarly performant with C arrays, but we can test relative performance pretty easily if you're looking for something to do.
 </section>
 
     </div>

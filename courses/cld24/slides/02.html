@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Two Maps</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="title-slide">
+  <h1 class="title">Two Maps</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">Week 02</p>
+  <p class="date">Cloud</p>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>This is part one of a two part lecture.
+<li>SALEM will do both parts in week 2 and a guest lecture in week 3
+<li>PORTLAND will do one part in week 2 with a guest lecture and part two in week 3.
+<ul>
+<li>Guest Lecture: <a href="https://mms.pnsqc.org/Calendar/moreinfo.php?eventid=117065">PNSQC</a> on "Test Automation"
+<li>SALEM: You can exercise an option to remote attend this on Thursday and come late next Wednesday</li></ul>
+<li>Homework<ul>
+<li>The first homework, "<a href="https://colab.research.google.com/drive/1WA6rGf2bdb7IRiGceUTnIpCOGgd8lG7l?usp=sharing">Functional</a>", is due this week at 6 PM on Wed/Thr.
+<ul><li>These looked good - I'll put 1+ comments in your Colab and @ you.</ul>
+<li>The second homework, "Fold", will be out soon.
+</ul></li>
+</ul>
+</section>
+
+<section>
+    <h2>Motiovation, Again</h2>
+    <ul>
+        <li>It is impossible to understate cloud computing as a dominant paradigm *not even just in computing*.</li>
+		</ul>
+	<img width="80%" src="imgs/googamznford.png">
+</section>
+
+<section>
+    <h2>EXAMPLE: CLOUD HOSTED MUSIC SERVICE</h2>
+    <ul>
+        <li>Which would you pick?</li>
+        <li>Basically, we have four options:
+            <ul>
+                <li>Keep my server busy by running one multithreaded application on it</li>
+                <li>Keep it busy by running <em>n</em> unthreaded versions of my application as virtual machines, sharing the hardware</li>
+                <li>Keep it busy by running <em>n</em> side by side processes, but don’t virtualize</li>
+                <li>Keep it busy by running <em>n</em> side by side processes using ✨containers✨</li>
+            </ul>
+        </li>
+    </ul>
+	<img src="https://www.docker.com/wp-content/uploads/2021/11/docker-containerized-and-vm-transparent-bg.png">
+</section>
+
+<section>
+    <h2>THE WINNER IS…</h2>
+    <ul>
+        <li>Market converging on “container virtualization” with one server process dedicated to each distinct user.</li>
+        <li>A single cloud server might host hundreds of these servers. But they are easy to build: you create one music player, and then tell the cloud to run as many “instances” as required.</li>
+    </ul>
+	<a href="https://github.com/linuxserver/docker-mstream?tab=readme-ov-file"><img src="https://info.linuxserver.io/logo.png"></a>
+</section>
+
+<section>
+    <h2>Why favor container virtualization?</h2>
+    <ul>
+        <li>Code is much easier to write.
+		<ul><li>Many people can write a program to play music for a single client – this same insight applies to other programs, too!</li></ul>
+        <li>Very easy for the cloud itself to manage: containers are cheap to launch and also to halt, when your customer disconnects
+		<ul><li>Containers winning for the reason objects won - easier for management.</ul>
+		<li>The approach also matches well with modern NUMA computer hardware
+    </ul>
+	<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*uDaltt1iy6tKjXKM3npQkw.png">
+	<p>My first successful cloud servers were all containerized.
+</section>
+
+
+<section>
+    <h2>This leads to aN insight!</h2>
+    <ul>
+        <li>Approaches that match programming to hardware win out. 
+		<ul><li>But what does "win" mean?</li></ul>
+        <li>In 2006, when the cloud emerged, we didn’t know the best approach
+		<li>Over time, everything had to evolve and be optimized for cloud uses
+		<ul><li>Languages
+		<li>Coders
+		<li>Hardware
+		<li>Applications
+    </ul>
+    </ul>
+	<img src="https://dezyre.gumlet.io/images/blog/learn-scala-for-data-engineering/Scala_for_Data_Engineering_Tutorial_Factorial.png">
+	<p>Spark, our current leader, is built on Scala, a language from 2004. (R is '93, Python '91, JavaScript '95)
+</section>
+
+<section>
+    <h2>The cloud is evolving towards Platforms</h2>
+    <ul>
+        <li>You’ve seen all the XaaS acronyms.   
+        <li>Some, like IaaS, basically are “rent a machine, do what you like”.
+		<ul><li>GCP Compute Engine, Azure VMs, AWS EC2</ul>
+		<li>PaaS, meaning “platform as a service” emerged as an alternative
+		<ul><li>You never rent a GPU you don't use.
+		<li>You don't have to remember to turn off servers.
+		<li>Someone who gets paid to know things decides whether to use containers or how.
+    </ul>
+    </ul>
+	<img width="30%" src="https://s7280.pcdn.co/wp-content/uploads/2020/11/key-9.png">
+	<p>I've heard CaaS called "IaaS for people who like containers" which I think is probably 80% true.
+</section>
+
+<section>
+    <h2>PAAS CONCEPT</h2>
+    <ul>
+        <li>The cloud favors PaaS.</li>
+        <li>Basically, the vendor offers all the standard code, pre-built. They create the platform in ways that perform and scale really well.</li>
+    </ul>
+	<img src="https://www.salesforce.com/content/dam/web/en_us/www/images/app-cloud/platform-mylighting.png">
+	<p>I hear "The Salesforce Platform is the world’s number one Platform as a Service (PaaS) solution" (from Salesforce mostly).
+</section>
+
+<section>
+    <h2>New: FAAS</h2>
+    <ul>
+        <li>Or... the cloud favor<em>ed</em> PaaS.</li>
+        <li>In practice, the cloud can do "general purpose" tasks quickly, but can't truly optimize without specialization.</li>
+		<li>New trend, <em>Functions</em> as a service (FaaS).
+		<li>(This motivated the homework)
+    </ul>
+	<img width="500px" src="https://img.youtube.com/vi/qlkr0h9JQ6U/maxresdefault.jpg">
+	<img width="300px" src="https://miro.medium.com/v2/resize:fit:256/1*DLZ1doo_6uXIhqOASDsCOw.png">
+	<img width="300px" src="https://pbs.twimg.com/profile_images/1196482103841452032/p_RFRssy_400x400.png">
+	<p>AWS Lambda, Google Cloud Functions, Azure Functions
+</section>
+
+
+<section>
+    <h2>My impression</h2>
+    <ul>
+        <li>I believe we are now seeing a swing back to MapReduce</li>
+        <li>It is too easy to understand and too easy to optimize to move away from.</li>
+		<li>So today, we focus on maps - or more properly, two maps.
+    </ul>
+	<img src="https://www.numuki.com/game/img/dora-where-s-map-2903.jpg">
+</section>
+
+<section id="pt1">
+  <h1 class="title">Two Maps (pt 1)</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">Week 02</p>
+  <p class="date">Cloud</p>
+</section>
+
+<section>
+    <h2>RECALL</h2>
+    <ul>
+        <li>MapReduce was written in Java and this was odd</li>
+		<ul>
+			<li>In Java, "Map" is an "interface"
+			<ul><li>Interfaces define what methods a class must implement.
+			<li>Class are bundles of methods (functions) and fields (values)
+			<li>If this is confusing, it is why Java lost (my view)</ul>
+			<li>In first Lisp, then R, Python, Haskell, C++, "Map" is a function.
+			<li>The "Map" in "MapReduce" is the Lisp/R/Python/Haskell/C++ Map.
+			<li>You wrote this "Map" for the homework.
+    </ul><br>
+	<code class="Python">>>> def my_map(f, l):
+...     return [f(i) for i in l]
+...
+>>> my_map(print, range(10))
+0
+1
+2
+3...</code>
+<p>One implementation of a Python "map" function.
+</section>
+
+<section>
+    <h2>Interface Map&lt;K,V&gt;</h2>
+<div class="contentContainer">
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd>K - the type of keys maintained by this map</dd>
+<dd>V - the type of mapped values</dd>
+</dl>
+<dl>
+<dt>All Known Subinterfaces:</dt>
+<dd><a href="../../javax/script/Bindings.html" title="interface in javax.script">Bindings</a>, <a href="../../java/util/concurrent/ConcurrentMap.html" title="interface in java.util.concurrent">ConcurrentMap</a>&lt;K,V&gt;, <a href="../../java/util/concurrent/ConcurrentNavigableMap.html" title="interface in java.util.concurrent">ConcurrentNavigableMap</a>&lt;K,V&gt;, <a href="../../javax/xml/ws/handler/LogicalMessageContext.html" title="interface in javax.xml.ws.handler">LogicalMessageContext</a>, <a href="../../javax/xml/ws/handler/MessageContext.html" title="interface in javax.xml.ws.handler">MessageContext</a>, <a href="../../java/util/NavigableMap.html" title="interface in java.util">NavigableMap</a>&lt;K,V&gt;, <a href="../../javax/xml/ws/handler/soap/SOAPMessageContext.html" title="interface in javax.xml.ws.handler.soap">SOAPMessageContext</a>, <a href="../../java/util/SortedMap.html" title="interface in java.util">SortedMap</a>&lt;K,V&gt;</dd>
+</dl>
+<dl>
+<dt>All Known Implementing Classes:</dt>
+<dd><a href="../../java/util/AbstractMap.html" title="class in java.util">AbstractMap</a>, <a href="../../java/util/jar/Attributes.html" title="class in java.util.jar">Attributes</a>, <a href="../../java/security/AuthProvider.html" title="class in java.security">AuthProvider</a>, <a href="../../java/util/concurrent/ConcurrentHashMap.html" title="class in java.util.concurrent">ConcurrentHashMap</a>, <a href="../../java/util/concurrent/ConcurrentSkipListMap.html" title="class in java.util.concurrent">ConcurrentSkipListMap</a>, <a href="../../java/util/EnumMap.html" title="class in java.util">EnumMap</a>, <a href="../../java/util/HashMap.html" title="class in java.util">HashMap</a>, <a href="../../java/util/Hashtable.html" title="class in java.util">Hashtable</a>, <a href="../../java/util/IdentityHashMap.html" title="class in java.util">IdentityHashMap</a>, <a href="../../java/util/LinkedHashMap.html" title="class in java.util">LinkedHashMap</a>, <a href="../../javax/print/attribute/standard/PrinterStateReasons.html" title="class in javax.print.attribute.standard">PrinterStateReasons</a>, <a href="../../java/util/Properties.html" title="class in java.util">Properties</a>, <a href="../../java/security/Provider.html" title="class in java.security">Provider</a>, <a href="../../java/awt/RenderingHints.html" title="class in java.awt">RenderingHints</a>, <a href="../../javax/script/SimpleBindings.html" title="class in javax.script">SimpleBindings</a>, <a href="../../javax/management/openmbean/TabularDataSupport.html" title="class in javax.management.openmbean">TabularDataSupport</a>, <a href="../../java/util/TreeMap.html" title="class in java.util">TreeMap</a>, <a href="../../javax/swing/UIDefaults.html" title="class in javax.swing">UIDefaults</a>, <a href="../../java/util/WeakHashMap.html" title="class in java.util">WeakHashMap</a></dd>
+</dl>
+<hr>
+<br>
+<pre>public interface <span class="typeNameLabel">Map&lt;K,V&gt;</span></pre>
+<div class="block">An object that maps keys to values.  A map cannot contain duplicate keys;
+ each key can map to at most one value.
+
+ <p>This interface takes the place of the <tt>Dictionary</tt> class, which
+ was a totally abstract class rather than an interface.
+</section>
+
+<section>
+    <h2>Java "Map"</h2>
+    <ul>
+        <li>The Map "interface" corresponds to a series of data structures that implement certain functionalities</li>
+		<ul>
+			<li>They hold "keys" and "values"
+			<li>Each "key" corresponds at at most one "value".
+			<li>A Map can be "implemented" as a HashTables (this is what I learned they were called)
+			<li>A Map can provide the same functionalities as a "Dictionary".
+    </ul><br>
+	<code class="Python">>>> dct = {'a':1,'b':2,'c':3}
+>>> dct['a']
+1
+>>> type(dct)
+<class 'dict'>
+>>></code>
+<p>Python has 'dict' instead of the Map "interface"
+</section>
+
+<section>
+    <h2>RECALL</h2>
+    <ul>
+        <li>MapReduce was written in Java and this was odd</li>
+		<ul>
+			<li>In Java, "Map" is an "interface"
+			<ul><li>I will never refer to these as "Map" again
+			<li>I will instead say "HashTable" or "Dictionary"
+			<li>If this is confusing, it is why Java lost (my view)</ul></ul>
+		<li>"HashTable" is one of the "two maps"
+</section>
+
+<section>
+    <h2>Introduction to HashTables</h2>
+    <ul><li>A HashTable, <s>also known as a hash map</s>, is a data structure that stores key-value pairs. 
+	<li>It allows for fast data retrieval based on keys.</p>
+    <code class="python"># Something like
+>>> hash_table = new_ht()
+>>> hash_table.add('key1', 'value1')
+>>> hash_table.add('key2', 'value2')
+>>> hash_table.get('key1')
+value1
+    </code>
+</section>
+<section>
+    <h2>Hash Function</h2>
+    <ul>
+	<li>A hash function converts a key into an index in the HashTable.
+	<li>In Python, table has integer indices.
+	<code class="python">>>> table = [['a','b','c'],['d','e','f'],['g','h','i']]
+>>> table[1]
+['d','e','f']</code>
+	<li>Python offers a built-in 'hash' method (as do most modern languages) to convert most* variables to an integer</p>
+    <code class="python">>>> hash(1)
+1
+>>> hash((1,2,3))
+529344067295497451
+>>> hash(map)
+8795890005933
+>>> hash('hi world')
+-8782460609096434835    </code></ul>
+<p>It's called hashing because you mash up the information together just like when cooking hash.
+</section>
+
+<section>
+    <h2>Hash Function</h2>
+    <ul>
+	<li>There are good and bad hashes, and they are out of scope for this class.
+	<li>SHA512, RSA, and AES are ultra-performant security related hashing algorithms.
+	<li>Hash Table performance is based on the "goodness" of the hash, which is different than security.
+	<li>For now: a hash is function that takes anything* and returns an integer.
+    <code class="python">>>> hash(10 ** 20)
+848750603811160107</code></ul>
+<p>And ideally doesn't return the same integer if the input is an integer.
+</section>
+
+<section>
+    <h2>Modular Hash</h2>
+    <ul>
+	<li>As a rule, the internal "table" in a hash table will be of some fixed size.
+	<ul><li>For example, the table of Willamette students would be of size ~4000.
+	<li>We don't have 10s of students or 1000000s of students.</ul>
+	<li>But hash functions may return much larger values than that.
+	<li>So, when finding where in a table some key-value pair is stored, we divide the hash value by the table size and take the remainder.
+	<li>This is sometimes called "mod" and is denoted as '%' in Python.
+    <code class="python">hash_table = [None for _ in range(10)]
+hash_table[hash('key1') % len(hash_table)] = ('key1', 'value1')
+hash_table[hash('key2') % len(hash_table)] = ('key2', 'value2')
+print(hash_table)
+</code>
+	<li>We can see the table, with the key-value pairs.
+<code class="python">[None, None, None, ('key2', 'value2'), None, None, None, None, None, ('key1', 'value1')]</code>
+<li>Note that they are not adjacent.
+<code>>>> print(hash('key1'),hash('key2'))
+7359185340662927529 -5201184838170105667</code>
+</section>
+
+<section>
+    <h2>Sidebar: Collisions</h2>
+    <ul><li>Collisions occur when two keys hash to the same index.
+	<ul><li>A "good" hash has this happen infrequently</ul>
+	<li>One common method to handle collisions is chaining, where each cell in the HashTable points to a list of entries.<ul>
+	<li>Instead of setting the <em>i</em>th index to a key-value pair, we append the pair to a list that starts as empty.
+	<li>It's easy to see a collision by using integer values, which Python hashes predictably, as keys.
+    <code class="python">>>> hash_table = [[] for _ in range(10)]
+>>> hash_table[hash(11) % len(hash_table)].append((11, 'eleven'))
+>>> hash_table[hash(21) % len(hash_table)].append((21, 'twenty one'))
+</code>
+<li>We insert two values that happen to hash to the same table index...
+<code class="python">>>> hash_table
+[[], [(11, 'eleven'), (21, 'twenty one')], [], [], [], [], [], [], [], []]
+</code>
+<li>And we have a "collision" - two key-value pairs in the same table index.
+</section>
+<section>
+    <h2>Searching for Values</h2>
+    <ul><li>To find a value, hash the key, find the index, and search the list at that index.
+	<li>If we just want the index, we ask for the oneth, that is, index 1, element of the pair.</p>
+<code class="python">>>> hash_table[hash('key1') % len(hash_table)][1]
+'value1'
+</code>
+<li>There is something sneaky going on here - this is WICKED fast.
+</section>
+<section>
+    <h2>Searching for Values</h2>
+	<ul>
+<li>There is something sneaky going on here - this is WICKED fast.
+<ul><li>Hashing takes about the same amount of time for ANY key
+<li>Looking up a value in a table takes about the same amount of time for any table size
+<li>Takeaway - this works at exa-scale in the cloud.
+<li>VS lists, where to see if something is in them, you have to check the WHOLE list (slow with big data)</ul>
+<code class="python">>>> start, hash_table, end = time.time(), [[] for _ in range(10 ** 7)], time.time()
+>>> end-start
+2.94462513923645
+>>> start, hash_table, end = time.time(), 7 in hash_table, time.time()
+>>> end-start
+0.1309800148010254
+>>> start, val, end = time.time(), hash_table[hash(7) % len(hash_table)], time.time()
+>>> end-start
+0.0
+</code></ul>
+<ul><li>On my PC: <ul><li>3 seconds to make a 10M table<li>0.13 seconds to see if 7 is in it with Python 'in'.<li>0.0 seconds with hash table lookup.
+</section>
+<section>
+    <h2>Deleting Key-Value Pairs</h2>
+    <ul><li>To delete a key-value pair, locate the index using the hash function and either
+	<ul><li>Ignoring collisions: Set the location to "None".<ul>
+    <code class="python">hash_table = [None for _ in range(8)]
+hash_table[hash('key1') % len(hash_table)] = ('key1', 'value1')
+hash_table[hash('key2') % len(hash_table)] = ('key2', 'value2')
+print(hash_table)
+hash_table[hash('key1') % len(hash_table)] = None
+print(hash_table)
+</code>
+<li>This predictably gives:
+<code>[None, None, None, ('key2', 'value2'), None, None, ('key1', 'value1'), None]
+[None, None, None, ('key2', 'value2'), None, None, None, None]</code></ul>
+<li>Considering collisions: Remove the pair from the list at that index.
+</section>
+<section>
+    <h2>Resizing the HashTable</h2>
+    <ul><li>We don't always know how big a hash table needs to be when making a new one.
+	<ul><li>We would not want to, for example, assume we need 10M entries, take 3 seconds to create a table, then store only 1 value.</ul>
+	<li>We consider the load factor (number of elements / number of buckets).
+	<li>In general, when this exceeds a certain threshold (usually .5), the hash table is resized to maintain efficiency.
+	<li>No code, but:
+	<ul><li>Create a new table that is twice as big
+	<li>Go through the old table and add everything in the old table to the new table
+	<li>Delete the old table.
+	</ul>
+	<li>We can also shrink tables, such as when load factor goes below .25 or .125.</ul>
+</code>
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*UThPuqmwmrg_M-YEY1OFpQ.png">
+</section>
+<section>
+    <h2>Custom Hash Function</h2>
+    <ul><li>You can define your own hash function to customize the hashing behavior. Here is a simple example that uses the length of the key.</p>
+    <code class="python">def custom_hash(key):
+    return len(key)
+
+hash_table = [[] for _ in range(10)]
+hash_table[custom_hash('key1') % len(hash_table)] = ('key1', 'value1')
+hash_table[custom_hash('k2') % len(hash_table)] = ('k2', 'value2')
+print(hash_table)
+</code>
+</section>
+<section>
+    <code>class HashTable:
+    <h2>The "Map" Interface-ish</h2><ul>
+	def __init__(self, size=10):
+		# what do you need your table to be?
+		self.table = None
+
+	def _hash(self, key):
+		# a custom hash - you may use hash() but need more
+		pass
+
+	def insert(self, key, value):
+		# how can we insert a key-value pair to our table?
+		pass
+
+	def search(self, key):
+		# given a key, how can we return its corresponding value
+		pass
+
+	def delete(self, key):
+		# given a key, how can we remove it and it's value
+		pass
+		
+	def _resize(self, size):
+		# OPTIONAL: We may need to resize from time to time... how?
+		# Also... when would this be called?
+		pass
+
+</code>
+</section>
+
+<section>
+    <h2>RECALL</h2>
+    <ul>
+        <li>MapReduce was written in Java and this was odd</li>
+		<ul>
+			<li>In Java, "Map" is an "interface"
+			<li>Our "HashTable" class in Python sorta implements this interface.</ul>
+			<li>In first Lisp, then R, Python, Haskell, C++, "Map" is a function.<ul>
+			<li>Our "apply_f_to_everything_in" sorta implements this function.
+    </ul><br>
+	<code class="Python">def apply_f_to_everything_in(f, data):
+	return [f(d) for d in data]</code>
+</section>
+
+<section>
+<ul>
+<h3>lapply: Apply a Function over a List or Vector</h3><h4>Description</h4><math>lapply</math> returns a list of the same length as <math>X</math>, each
+  element of which is the result of applying <math>FUN</math> to the
+  corresponding element of <math>X</math>.</p>
+
+<h4>Usage</h4><pre><span style="display: block; visibility: visible;"><span>lapply(X, FUN, …)</span></span></pre>
+<h4>Arguments</h4><div class="mt-6 md:flex"><div class="font-mono font-bold truncate md:w-3/12 lg:w-2/12"><span style="display: block; visibility: visible;"><span>X</span></span></div><div class="-mt-4 md:-mt-5 md:w-9/12 md:pl-5 lg:w-10/12"><span style="display: block; visibility: visible;"><span><p>a vector (atomic or list) or an <math><a rd-options="" href="/link/expression?package=base&amp;version=3.6.2" data-mini-rdoc="base::expression">expression</a></math>
+    object.  Other objects (including classed objects) will be coerced
+    by <math>base::<a rd-options="" href="/link/as.list?package=base&amp;version=3.6.2" data-mini-rdoc="base::as.list">as.list</a></math>.</p></span></span></div></div><div class="mt-6 md:flex"><div class="font-mono font-bold truncate md:w-3/12 lg:w-2/12"><span style="display: block; visibility: visible;"><span>FUN</span></span></div><div class="-mt-4 md:-mt-5 md:w-9/12 md:pl-5 lg:w-10/12"><span style="display: block; visibility: visible;"><span><p>the function to be applied to each element of <math>X</math>:
+    see ‘Details’.  In the case of functions like
+    <math>+</math>, <math>%*%</math>, the function name must be backquoted or quoted.</p>
+</section>
+
+<section>
+    <h2>lapply()</h2>
+    <ul>
+        <li>In the interest of clarity, we can unambigiously refer to the map function using R "lapply()"</li>
+		<ul>
+			<li>R (and companion language S) is one of the only languages to not use "map()". 
+			<li>C++ uses "std::transform()"
+			<li>C# uses "ienum.Select()"</ul>
+			<li>We can also use parens to suggest that something is function.<ul>
+    </ul><br>
+	<code class="R">lst = c(1,2,3)
+
+double <- function(x)
+{
+  return(x * 2)
+}
+
+lapply(lst,double)
+
+lapply(c(1,2,3), function(x) x * 2)</code>
+<p>We use "function" instead of "lambda" in R for and place the function second, but the computation is identical.
+</section>
+
+<section>
+    <h2>Takeaways</h2>
+    <ul>
+        <li>There are two technologies used in the cloud with ambigious names</li>
+		<ul>
+			<li>There is a data structure that is fast with big data
+			<ul><li>Referred to as a dictionary, hash table, or (confusingly) map
+			<ul><li>Dictionaries are one way to implement maps and used in Python
+			<li>Hash Table is an abstract idea and used to implement maps in many languages
+			<li><em>Map as a term just refers to an association between a key and some value</em>
+			</ul></ul>
+			<li>There is a function that applies other functions to collections of data
+			<ul><li>Referred to as lapply, transform, or (confusingly) map<ul>
+			<li>R applies a function to all elements of a collection using "lapply()"
+			<li>C++ applies a function to all eleements of a collection using "transform()"
+			<li>Python applies a function to all elements of a collection using "map()"
+			<li><em>Map as a term just refers to an association between a key and some value</em></ul></ul></ul>
+			<li>These are the two maps!
+    <br>
+	<code class="Python">>>> d = {'a':1,'b':2}
+>>> map(lambda x: x * 2, d)
+&lt;map object at 0x00000231FB586A70&gt;</code></ul>
+<p>Applying Python.map() to a Python.dictionary
+</section>
+
+<section>
+    <h2>Last Confusion Bit</h2>
+	<h4>We can use maps as maps and maps as maps (sorry)</h4>
+    <ul>
+        <li>We can use a hashtable/dictionary to enumerate the possibilities of a function that we lapply</li>
+		<ul>
+			<li>Use a dictionary to relate one integer to another, like squares.
+			<code class="Python">>>> squares = {1:1, 2:4, 3:9}
+>>> squares[2]
+4</code>
+			<li>The same with a function
+<code class="Python">>>> squared = lambda x: x * x
+>>> squared(2)
+4</code>
+			<li>Wrap the dictionary in a function and lapply
+			<code class="Python">>>> list(map(lambda x: squares[x],[1,2,3,2,1,2,3,2,1]))
+[1, 4, 9, 4, 1, 4, 9, 4, 1]
+</code>
+</section>
+
+<section>
+    <h2>Last Confusion Bit</h2>
+	<h4>We can use maps as maps and maps as maps (sorry)</h4>
+    <ul>
+        <li>We can use functions to relate keys to values, just like in a hashtable/dictionary</li>
+		<ul>
+			<li>Use a dictionary to relate days-of-the-week to locations
+			<code>>>> locs = {"Wed":"SLM", "Thr":"PDX"}
+>>> locs["Wed"]
+'SLM'</code>
+			<li>The same with a function
+<code>>>> def locr(d):
+...     if d == "Wed":
+...             return "SLM"
+...     if d == "Thr":
+...             return "PDX"
+...
+>>> locr("Wed")
+'SLM'</code>
+</section>
+
+<section>
+    <h2>Takeaways</h2>
+    <ul>
+        <li>Ultimately, relating keys to values is a high level concept that can do a lot of work</li>
+		<ul>
+			<li>Different cloud technologies do this in different ways.
+			<li>A lot of artistry of cloud computing is chosing the right way
+			<li>Keeping the different ways clear in your mind can be a challenge.
+    <br>
+	<img src="https://i.imgur.com/bEIWPaQ.png">
+</section>
+
+<section>
+    <h2>Why did we do this?</h2>
+    <ul>
+        <li>MapReduce works on key-value pairs...</li>
+		<ul>
+			<li>READ: MapReduce lapplys functions over dictionaries.
+			<li>It "maps maps".
+			</ul>
+			</ul>
+			<p>We can take a look at the old Hadoop documentation...<br>
+			<ul>
+			<h3>Inputs and Outputs</h3>
+<div class="section">
+<p>The MapReduce framework operates exclusively on 
+      <span class="codefrag">&lt;key, value&gt;</span> pairs, that is, the framework views the 
+      input to the job as a set of <span class="codefrag">&lt;key, value&gt;</span> pairs and 
+      produces a set of <span class="codefrag">&lt;key, value&gt;</span> pairs as the output of 
+      the job, conceivably of different types.</p>
+<p>The <span class="codefrag">key</span> and <span class="codefrag">value</span> classes have to be 
+      serializable by the framework and hence need to implement the 
+      <a href="api/org/apache/hadoop/io/Writable.html">Writable</a> 
+      interface. Additionally, the <span class="codefrag">key</span> classes have to implement the
+      <a href="api/org/apache/hadoop/io/WritableComparable.html">
+      WritableComparable</a> interface to facilitate sorting by the framework.
+      </p>
+<p>Input and Output types of a MapReduce job:</p>
+<p>
+        (input) <span class="codefrag">&lt;k1, v1&gt;</span> 
+        -&gt; 
+        <strong>map</strong> 
+        -&gt; 
+        <span class="codefrag">&lt;k2, v2&gt;</span> 
+        -&gt; 
+        <strong>combine</strong> 
+        -&gt; 
+        <span class="codefrag">&lt;k2, v2&gt;</span> 
+        -&gt; 
+        <strong>reduce</strong> 
+        -&gt; 
+        <span class="codefrag">&lt;k3, v3&gt;</span> (output)
+      </p>
+</div>
+</ul><p>The documentation will latter note that the "combine" stage is optional.
+</section>
+
+<section>
+    <h2>Closing Thoughts: Parallelism</h2>
+    <ul>
+        <li>The reason we use MapReduce is because it <em>parallelizes</em> well.
+		<ul>
+			<li>lapply
+			<ul><li>When we lapply a function to a collection, each instance of the function is independent
+			<li>If we have 1000 entries, we can run the function over each 1000 all at the same time and get the same answer
+			<li>This means if we have a computer with 1000 cores, we can run 1000x faster.
+			<li>Not everything can be parallelized this way:
+			<code class="Python"># rolling average isn't independent
+[(arr[i] + arr[i+1] + arr[i+2])/3 for i in range(len(arr)-2]</code>
+<li>This semester: We will practice thinking about what can and cannot be parallelized.
+</section>
+
+<section>
+    <h2>Closing Thoughts: Parallelism</h2>
+    <ul>
+        <li>The reason we use MapReduce is because it <em>parallelizes</em> well.
+		<ul>
+			<li>Dictionaries
+			<ul><li>Combining dictionaries is relatively painless in theory and can be quite quick.
+			<li>If we have 1000 dictionaries, we combine pairs until we have 1.
+			<li>This means if we have a computer with 500 cores, we can run ~log<sub>2</sub>(1000)x faster.
+			<li>Think about how you can combine hash tables (it's similar to resize perhaps)
+			<li>There's no real non-awkward way to do this in Python I know of, but here's an awkward one:
+			<code class="Python">>>> d1 = {1:1, 2:4}
+>>> d2 = {3:9, 4:16}
+>>> d1 + d2
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
+>>> {**d1, **d2}
+{1: 1, 2: 4, 3: 9, 4: 16}
+>>></code>
+<li>This semester: We will practice thinking about what can and cannot be combined gracefully.
+</section>
+
+
+<section id="pt2">
+  <h1 class="title">Two Maps (pt 2)</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">Week ~02</p>
+  <p class="date">Cloud</p>
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+		<li><a href="https://colab.research.google.com/drive/1_neIs6XEwmeJ_EnKBR-nIvYjFmUXfoPQ?usp=sharing">Colab link</a>
+        <li>Hash Tables matter a little, but key-value pairs matter a lot
+		<ul>
+			<li>So as an exercise we will implement a hash table in Python
+			<ul><li>This is the "tasteful amount of fun" from the learning objectives.</ul>
+			<li>I am sharing a colab document with you. It contains:
+			<ul><li>A numpy import statement
+			<li>An incomplete HashTable class, containing<ul>
+			<li>A partial __init__() that you may wish to extend
+			<li>An unimplemented _hash() that you may wish to write
+			<li>An unimplemented insert() that you must write
+			<li>An unimplemented search() that you must write
+			<li>An unimplemented delete() that you must write
+			<li>An unimplemented _resize() as a bonus/challenge problem
+			<li>An unimplemented htapply() that you must write
+			</ul>
+			<li>13 cells testing the HashTable, with sample output from the reference solution.<ul>
+			<li>These are preserved on the following slides, with details.</ul></ul></ul>
+		<li><a href="hashtable.pdf">This is an alternative HashTable slide deck</a> if you want to look at how someone else teaches HashTables.
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>__init__()
+		<ul>
+			<li>You may add to init but must continue to use a numpy array
+			<li>You may use the numpy array in other ways, such as with "empty" - just modify the import
+			<li>You may wish to add other fields/attributes and initialize them
+			<ul><li>The reference implementation tracks the number of entries (key-value pairs that have been added) and initializes this counter to zero in __init__()
+			</ul>
+			<li>Fun fact: __init__() is called a "dunder method"
+			<li>Init is difficult to test directly, but invoked by the following Colab cell:
+			<code>ht = HashTable()</code>
+			<li>An error in this cell is reflective of an error in __init__()
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>_hash()
+		<ul>
+			<li>_hash() is single underscore prefixed to denote<ul>
+			<li>It should not be exposed to clients using the HashTable, and 
+			<li>It is easy to tell apart from built-in Python hash() - which it will probably call
+			</ul>
+			<li>You do not have to use _hash(), but I did.
+			<li>You may create other single underscore helper methods, but I did not.
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>insert()
+		<ul>
+			<li>insert() takes two arguments - a key and a value - and stores them<ul>
+			<li>You should have some way to deal with collisions and make sure it works.
+			<li>The reference implementation uses lists, which is tied with "<a href="https://en.wikipedia.org/wiki/Linear_probing">linear probing</a>" for easiest. 
+			</ul>
+			<li>This cell tests insert():
+			<code>ht.insert("Prof. Calvin","ckdeutschbein")</code>
+			<li>This cell verifies the insert was performed by inspecting the internal table:
+			<code>ht._table</code>
+			<li>It should return a numpy array containing in some way the key value pair ("Prof. Calvin","ckdeutschbein"), such as:
+			<code>array([None, None, None, None, list([('Prof. Calvin', 'ckdeutschbein')]),
+       None, None, None, None, None], dtype=object)</code>
+			<li>Once search() is written, this cell will also test both insert() and search()
+			<code>ht.search("Prof. Calvin"), ht.search("ckdeutschbein"), ht.search("Prof. Cheng")</code>
+			<li>insert() has no return value, but alters the internal state of the HashTable
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>search()
+		<ul>
+			<li>search() takes one arguments - a key - and returns a corresponding value or Python None.<ul>
+			<li>You should have some way to deal with collisions and make sure it works - this probably won't be graceful (but could be)
+			<li>The reference implementation traverses a list and inspects the pairs (this is slow to run but fast to think about) 
+			</ul>
+			<li>This cell tests search():
+			<code>ht.search("Prof. Calvin"), ht.search("ckdeutschbein"), ht.search("Prof. Cheng")</code>
+			<li>Depending on inserts/deletes, it should return something like:
+			<code>('ckdeutschbein', None, None)</code>
+			<li>Once search() is written, one extension is to use time.time() to see how fast it is.
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>delete()
+		<ul>
+			<li>delete() takes one argument - a key - and removes the key and its value from the HashTable.<ul>
+			<li>The reference implementation is very similar to insert(), which I would write first
+			<li>It's tough to test delete() directly, but I insert() -> search() -> delete() -> search() to verify something once present is now absent.
+			</ul>
+			<li>That is these calls, across 4 cells:
+			<code>ht.insert("Prof. Calvin","ckdeutschbein") # returns nothing
+ht.search("Prof. Calvin") # returns 'ckdeutschbein'
+ht.delete("Prof. Calvin") # returns nothing
+ht.search("Prof. Calvin") # returns nothing			</code>
+			<li>You can also examine the internal table, if needed, with ht._table.
+			<li>delete() has no return value, but alters the internal state of the HashTable
+</section>
+
+<section>
+    <h2>EXERCISE: HashTable</h2>
+    <ul>
+        <li>htapply()
+		<ul>
+			<li>htapply() takes one argument - a function - and returns a new, different HashTable without altering the existing HashTable.<ul>
+			<li>This function must take two arguments (a key and a value) and a tuple of size two (a key and a value)
+			<li>When testing htapply(), make sure that the original HashTable is preserved</ul>
+			<li>You will experience many errors at medium-high probability, use print() and type() to test your code
+			<li>htapply() over the sample (of professors and willamette ids) must work with extend_email:<ul>
+			<code>extend_email = lambda x, y: (x,y+"@willamette.edu")</code>
+			<li>You can test extend email over a solitary key-value pair:
+			<code>extend_email("Prof. Cheng", "hcheng")</code>
+			<li>And it must work without issue and produce a novel key-value pair:
+			<code>('Prof. Cheng', 'hcheng@willamette.edu')</code>
+			<li>htapply() is correct if and only if it works on the provided extend_email() function.
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

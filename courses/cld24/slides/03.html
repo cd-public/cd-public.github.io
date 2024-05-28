@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hadoop</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="title-slide">
+  <h1 class="title">Hadoop</h1>
+  <p class="author">Calvin (Deutschbein)<br></p>
+  <p class="date">Week 03</p>
+  <p class="date">Cloud</p>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>This is a half lecture demo - the other half is a professional development event
+<ul>
+<li>The second homework, "<a href="https://colab.research.google.com/drive/1WA6rGf2bdb7IRiGceUTnIpCOGgd8lG7l?usp=sharing">Fold</a>", is due this week at 6 PM on Wed/Thr (now).
+<ul><li>Looked good so far!</ul>
+<li>This week is a 'non-standard homework' - I'm asking you just to run Hadoop locally and send me a README.md (via email) of what you did.
+<ul><li>Today in class (ideally) we will go over how I got it working.<li>Sample <a href="https://gist.github.com/cd-public/ecd6ef9150bfd3d6ab3494ac55aedb45">README.md</a>
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Hadoop in Docker walkthrough/code-along</li>
+<li>We might as well use Hadoop once
+<ul>
+<li>With a live Hadoop, we can use Hadoop streaming with Python (latter)
+<li>This is good bash/docker practice
+<li>Can say you actually used it on your resume (very cool!)
+</ul>
+<li>Hadoop seems... hard.<ul>
+<li>I Frankenstein'ed 3 repos and 2 OSes to get a local run through.
+<li>I never successfully reproduced my only Windows successful run
+<li>Hadoop isn't intended to run on your device, and you can tell.
+<li>We suffer together 🙏
+</ul><li>What follows are my notes, which mostly are correct probably maybe.
+</ul>
+</section>
+<section>
+    <h2>0. Start</h2>
+    <ul>
+	<li>Make a working directory, somewhere
+        <li>Linux>Windows I think</li>
+        <code>mkdir running-hadoop
+cd running-hadoop</code>
+<li>There's no real wrong way to do this, but you'll want a clear name in case there's a disaster and you need to separate instances (as best you can).
+
+</section>
+<section>
+    <h2>1. Clone</h2>
+<ul>
+        <li>Clone the big-data-europe fork for commodity hardware.
+		<li>This was for Apple people but it ran smoothly on Windows/Linux (ha, smoothly) for me.</li>
+        <code>git clone https://github.com/wxw-matt/docker-hadoop.git
+cd docker-hadoop</code>
+<li>Once you have it locally, poke around a bit.
+<ul><li>There's a readme we won't follow exactly but will reference.
+<li>There's a variety of docker files.
+<li>There's some jars - "Java ARchive" - that will interface smoothly with Hadoop.
+</section>
+<section>
+    <h2>2. Docker Test</h2>
+<ul>
+        <li>Test Docker</li>
+        <ul><li>I didn't have my Docker running and had to start it.</ul>
+        <code>docker run hello-world</code>
+		<li>I used Docker both locally on Windows and within Windows Subsystem for Linux (WSL).
+		<li>I do not have an Apple device, but this was allegedly written for Apple.
+</section>
+<section>
+    <h2>3. File Editting</h2>
+<ul>
+        <li>Change version - we need to use docker-compose-v3, but the docker-compose command will look for an unversioned file.</li>
+        <code>mv docker-compose.yml docker-compose-v1.yml
+mv docker-compose-v3.yml docker-compose.yml</code>
+<ul><li>I am pretty sure this I mislabelled
+<ul><li>I believe the "unversioned" one is actually version 2, but I don't know what the versions refer to so...</ul>
+        <li>Also: this will draw two warnings - you can fix the files or ignore both.
+		<ul><li>It's good practice to read the warnings, think about them, and try to fix them, but is not a focus of this class.</ul>
+</section>
+<section>
+    <h2>4. Compose</h2>
+<ul>
+        <li>Bring the Hadoop containers up (took me 81.6s). 
+		<ul><li>I had previously pulled other hadoop images though so your time may vary.</ul>
+        <code>docker-compose up -d</code>
+		<li>This will be slow and awkward and should be.
+<ul><li>We should be doing this in a cluster (typically for Hadoop was on-premises servers)
+<li>More recently, we should be doing this in AWS/GCP/Azure.
+<li>That said, Hadoop is intended to be testable on a personal device.
+</section>
+<section>
+    <h2>5. Namenode</h2>
+<ul>
+
+        <li>In a Hadoop cluster, we mostly work within the namenode.</li>
+		<li>We can think of a namenode just like any other Linux system (basically)
+        <p>I used "docker ps" to list the nodes, then picked the one with name in it. For me:</p>
+        <code style="overflow-y: scroll">CONTAINER ID   IMAGE                                                  NAMES
+aadf77229476   bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8        namenode
+e7ebe649b320   bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8 resourcemanager
+4ece65b07145   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8        datanode
+65ce5597dde4   bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8   historyserver
+9d289fd85a48   bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8     nodemanager</code>
+        <p>So I used:</p>
+        <code>docker exec -it namenode /bin/bash</code>
+        <p>I also tested `hello world` here:</p>
+        <code>echo hello world</code>
+</section>
+<section>
+    <h2>6. Container Filesystem</h2>
+<ul>
+        <li>While within the node, we will need directories for data, for compute, and for results.
+		<li>I created those under a new 'app' directory.</p>
+        <code>mkdir app
+mkdir app/data
+mkdir app/res
+mkdir app/jars</code>
+<li>These aren't mandatory, but it is much easier to work with them.
+<li>Basically Hadoop needs:
+<ul><li>Input data
+<li>Some kind of mapping and reducing specification
+<li>Somewhere to place output data
+</ul>
+<li>These are our "data", "res", and "jars" folders.
+</section>
+<section>
+    <h2>7. Fetch Data</h2>
+<ul>
+	<li><em>'hello world' for 'map reduce' is 'word count' so we get some words to count.</em>
+        <li>You can run over something trivial if you like:</li>
+		<code>echo hi > /app/data/hi.txt</code>
+		<li>I grabbed some books.
+        <li>I got two of my favorite books and also Wuthering Heights from Project Gutenberg in plaintext format like so:
+        <code>cd /app/data
+curl https://www.gutenberg.org/cache/epub/1342/pg1342.txt -o austen.txt
+curl https://www.gutenberg.org/cache/epub/84/pg84.txt -o shelley.txt
+curl https://www.gutenberg.org/cache/epub/768/pg768.txt -o bronte.txt</code>
+        <li>It should be easy enough to find other text files on the Internet, but I used these three.
+</section>
+<section>
+    <h2>8. Check Data</h2>
+<ul>
+		<li>Before going further, I verified that I had files of some size:</p>
+        <code>ls -al</code>
+        <p>I got:</p>
+        <code>total 1884
+drwxr-xr-x 2 root root   4096 May 28 19:42 .
+drwxr-xr-x 5 root root   4096 May 28 19:38 ..
+-rw-r--r-- 1 root root 772420 May 28 19:41 austen.txt
+-rw-r--r-- 1 root root 693877 May 28 19:42 bronte.txt
+-rw-r--r-- 1 root root 448937 May 28 19:42 shelley.txt</code>
+        <li>The byte size is between the second "root" and the date - and all three are nonzero and similarish in size (as each is a novel).
+		<li>If you wanted to take a look at the text itself, what might you do?
+		<ul>
+		<li>cat
+		<li>head
+		<li>vi
+		<li>grep
+</section>
+<section>
+    <h2>9. Fetch Compute</h2>
+<ul>
+        <li>Fetch a compute jar to app/jars</li>
+        <li>We are using WordCount.jar
+		<ul><li>which is helpfully provided by somebody??? <ul><li>(there's a lot of things called "wordcount.jar" and they're binary so hard to track)</ul>
+		<li>...but most critically is in the repo.
+		<li>We can grab from the local file system (boring)...
+		<ul><li>From <b>outside</b> the container...</ul>
+        <code>docker cp .\jobs\jars\WordCount.jar namenode:/app/jars/WordCount.jar</code>
+		<li>Or we just curl again (dangerous, bad, unsupported):</p>
+        <code>cd /app/jars
+curl https://github.com/wxw-matt/docker-hadoop/blob/master/jobs/jars/WordCount.jar -o WordCounter.jar</code>
+        <li>In general, you should not just pull executable files off of the internet and run them, but we are running this in a container, which provides a modicum of safety.
+</section>
+<section>
+    <h2>A. "Hash"</h2>
+<ul>
+        <li>We must load data into "HDFS"</li>
+        <li>Hadoop can only read and write to something called the Hadoop Distributed File System.
+		<ul><li>It's approximately hash table that works well in data centers.</ul>
+        <li>We need to move data from the Linux file system into the Hadoop file system. We use the "hdfs" commands.</p>
+        <code>cd /
+hdfs dfs -mkdir /test-1-input
+hdfs dfs -copyFromLocal -f /app/data/*.txt /test-1-input/</code>
+<li>This segment is fraught with peril:
+<ul><li>If network was misconfigured, copyFromLocal will fail and it will be the first time you know it's wrong.
+<ul><li>It will say something about not reaching a data node.</ul>
+<li>If you did partial previous runs, some files may exist in hfds already.
+<ul><li>Hash table deletion is hard, so hfds deletion is hard.
+<li>Just use new names (why I used "test-<em>n</em>-*")</ul>
+<li>You should check things with e.g. "hdfs dfs -cat" - play around.
+</section>
+<section>
+    <h2>B. Run</h2>
+<ul>
+        <li>Run Hadoop/MapReduce</li>
+        <code>hadoop jar /app/jars/WordCount.jar WordCount /test-1-input /test-1-output</code>
+		<ul><li>It needs a map/reduce jar. This would make sense to use if we knew Java I think.
+		<code>jar jars/WordCount.jar WordCount</code>
+		<li>It needs some input key/values as a HDFS folder
+		<code>/test-1-input</code>
+		<li>It needs to know where I will look for output.</ul>
+		<li>At a high level of abstraction, this is just:
+		<code>test_in <- c(austen,shelley,bronte)   # imagine these are already defined
+test_out = lapply(test_in, wordcount) # imagine wordcount is already defined</code></ul>
+</section>
+<section>
+    <h2>C. Read out</h2>
+<ul>
+        <li>To read, we copy results out of hdfs</li>
+		<ul><li>You can use "hdfs dfs -cat" but it's unwieldy</ul>
+        <code>hdfs dfs -copyToLocal /test-1-output /app/res/</code>
+        <li>See the results!</li>
+        <code>head /app/res/test-1-output/part-r-00000</code>
+		<li>Mine looked like this:
+		<code>#1342]  1
+#768]   1
+#84]    1
+$5,000) 3
+&       1
+($1     3
+(801)   3
+(By     1
+(Godwin)        1
+(He     1</code>
+<li>Well, we probably have more work to do.
+</section>
+<section>
+    <h2>Fin</h2>
+        <ul>
+        <li>I did setup around 20 times and it worked about 2 (so 10%) and I couldn't figure out why it worked sometimes and not others.
+		<li>Once set up, it always worked.
+		<li>Here's some tricks:</li>
+        <ul>
+            <li>Run in Unix rather than on Windows</li>
+            <li>Use --remove-orphans with docker compose</li>
+			<li>Use "big data europe" containers with "wxw-matt" readme.
+            <li>Make sure container names are all the same everywhere</li>
+            <li>Use ls, ls -al, and cat liberally to check files, hdfs and otherwise</li>
+            <li>Use docker cp and curl and verify the similarity with diff</li>
+            <li>Check the following:
+                <ul>
+                    <li><a href="https://hub.docker.com/r/apache/hadoop">https://hub.docker.com/r/apache/hadoop</a></li>
+                    <li><a href="https://github.com/big-data-europe/docker-hadoop">https://github.com/big-data-europe/docker-hadoop</a></li>
+                    <li><a href="https://github.com/wxw-matt/docker-hadoop">https://github.com/wxw-matt/docker-hadoop</a></li>
+                </ul>
+            </li>
+        </ul>
+	<li>I believe my failures can be traced back to errors translating Linux paths to Windows paths, but I did have one successful run on "pure" Windows so it has to be possible.
+    </ul>
+</section>
+<section>
+    <h2>Extensions</h2>
+        <ul>
+        <li>So you got Hadoop running, huh. 
+		<li>Good job!
+		<li>Would be a shame if there was more work yet to do...
+		<ul>
+		<li>Learn Java to make new jars
+		<ul><li>Read more: <a href="https://github.com/wxw-matt/docker-hadoop?tab=readme-ov-file#how-to-run-your-own-jobs">"How to Run Your Own Jobs"</a>
+		</ul>
+		<li>Learn Hadoop Streaming to use Python 
+		<ul><li>Read More: <a href="https://hadoop.apache.org/docs/current/hadoop-streaming/HadoopStreaming.html">Hadoop Streaming</a>
+		<li>I think with data node setup, we simply need to a streaming jar and some .py files</ul>
+		<li>Automate
+		<ul><li>Since I had a high variance workflow, I didn't script everything.
+		<li>Look at e.g. <a href="https://github.com/wxw-matt/docker-hadoop/blob/master/hdfs">'hdfs'</a>
+		<li>Can you script Hadoop from a host machine with "docker cp" etc.?</ul>
+		<li>Encapsulate
+		<ul><li>Can you package a container to run automatically on a remote server?
+		</ul></ul>
+		<li>Email me a README.md before next class.
+		<li>Sample "<a href="https://gist.github.com/cd-public/ecd6ef9150bfd3d6ab3494ac55aedb45">README.md</a>"
+		<li>Sample ideas: Section 2.3 of <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf">MapReduce</a>
+</section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

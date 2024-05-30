@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fold</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/highlight.js"></script>
+  
+  
+
+  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+	
+	<section id="title-slide">
+<br><br><br>
+	<h1 class="title">Fold in py</h1>
+	<p class="author">Calvin Deutschbein<br>School of Computing & Information Sciences<br>Willamette University</p>
+	<p><a href="https://colab.research.google.com/drive/1HtDJgh0K7YytVdDKB2UWFlWFs23g9fVk?usp=sharing">Colab link, I hope</a>
+</section>
+<section>
+    <h2>0. Functional Programming in Python</h2>
+    <ul>
+        <li>Take as a given that from time-to-time we end up using Python for a bit of functional programming.</li>
+        <li>Well instead of loops we need to use folds.</li>
+		<li>Here's a fun trick for folds in Python I just learned thanks to Stack Overflow user Xavier Guihot.</li>
+        <li>Read more from <a href="https://stackoverflow.com/a/55890523">Stack Overflow user Xavier Guihot</a>.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>1. Summation with Reduce</h2>
+    <ul>
+        <li>Using reduce for summation in Python.</li>
+        <li>Reduce is a type of fold built into Python.</li>
+		<li>Import reduce from functools.</li>
+    <code class="python">from functools import reduce</code><li>Reduce was moved to functools in Python 3.0.</li>
+        <li>Read more from <a href="https://www.artima.com/weblogs/viewpost.jsp?thread=98196">Artima</a>.</li>
+        <li>Using lambda functions with reduce for summation.</li>
+    <code class="python">func_sum = lambda lst: reduce(lambda x, y: x + y, lst)
+func_sum(range(16, 65536, 256)), sum(range(16, 65536, 256))    </code>
+	<li>These are functionally identical...
+    <code class="python">(8359936, 8359936)</code>
+    </ul>
+</section>
+
+<section>
+    <h2>2. Expressiveness Over Speed</h2>
+    <ul>
+        <li>This is about expressiveness, not speed.</li>
+        <li>Import time module for performance measurement.</li>
+        <li>Comparing the execution time of functional and built-in summation.</li>
+    <code class="python">start, _, end = time(), func_sum(range(16, 65536, 256)), time()
+print('functional', end - start)
+start, _, end = time(), sum(range(16, 65536, 256)), time()
+print('built-in__', end - start)    </code>
+	<li>Ususally something like...
+	<code class="python">functional 0.025910377502441406
+built-in__ 1.1205673217773438e-05</code>
+    </ul>
+	
+</section>
+
+<section>
+    <h2>3. Handling Different Data Types</h2>
+    <ul>
+        <li>Reduce differs from sum with different data types.</li>
+    <code class="python">abc = ['a', 'b', 'c']
+print(func_sum(abc))
+try:
+    sum(abc)
+except:
+    print("sum likes numbers, even though + doesn't care")    </code>
+    </ul>
+</section>
+
+<section>
+    <h2>4. Foldr and Foldl</h2>
+    <ul>
+        <li>Difference between right and left folds.</li>
+        <li>Reference: <a href="https://wiki.haskell.org/Foldr_Foldl_Foldl%27">Haskell Wiki</a>.</li>
+    </ul><br>
+		<img width="700px" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Right-fold-transformation.png">
+		<img width="700px" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Left-fold-transformation.png">
+</section>
+
+<section>
+    <h2>5. Left Fold Example</h2>
+    <ul>
+        <li>Reduce is necessarily a left or right (if it is a fold, which it is).</li>
+		<li>It so happens to be left, more or less (more latter).
+    <code class="python">reduce(lambda x, y: x + y, abc)
+foldl_red = reduce</code>
+<li>We also snag operators to use with folds.</li>
+    <code class="python">from operator import *</code>
+    <li>Example using add and subtract operators with left fold.</li>
+    <code class="python">foldl_red(add, abc), foldl_red(sub, range(0, 4))</code>
+	<li>We get:
+	<code>('abc', -6)</code>
+    </ul>
+</section>
+
+<section>
+    <h2>6. Recursive Fold Implementation</h2>
+    <ul>
+        <li>We can also implementing folds without functools.</li>
+		<li>In the spirit of functional programming, we:
+		<ul>
+		<li>Use lambdas to define functions
+		<li>Use recursion rather than loops
+		<li>Use ternary operations as the closest approximation to pattern matching.
+    </ul>
+    <code class="python">foldl = lambda f, lst: f(foldl(f, lst[:-1]), lst[-1]) if len(lst) > 1 else lst[0]
+foldr = lambda f, lst: f(lst[0], foldr(f, lst[1:])) if len(lst) > 1 else lst[0]</code>
+    </ul>
+</section>
+
+<section>
+    <h2>7. Fold Implementation with For Loop</h2>
+    <ul>
+        <li>Implementing folds using for loops.</li>
+    <code class="python">def foldr(f, lst):
+    ret = lst[-1]
+    for ele in lst[-2::-1]:
+        ret = f(ele, ret)
+    return ret
+
+def foldl(f, lst):
+    ret = lst[0]
+    for ele in lst[1:]:
+        ret = f(ret, ele)
+    return ret    </code>
+    </ul>
+</section>
+
+
+<section>
+    <h2>8. Common Subtraction Example</h2>
+    <ul>
+        <li>Using fold for common subtraction example.</li>
+    <code class="python">print('1 - (2 - 3) =', 1 - (2 - 3), ', (1 - 2) - 3 =', (1 - 2) - 3)
+print('foldr(-, [1, 2, 3]) =', foldr_rec(sub, [1, 2, 3]), ', foldl(-, [1, 2, 3]) =', foldl_rec(sub, range(1, 4)))    </code>
+	<li>We get:
+	<code>1 - (2 - 3)       = 2 , (1 - 2) - 3       = -4
+foldr(-, [1,2,3]) = 2 , foldl(-, [1,2,3]) = -4</code>
+    </ul>
+</section>
+
+<section>
+    <h2>9. Assignment Operators</h2>
+    <ul>
+        <li>Using assignment operators for folds in Python 3.8+.</li>
+        <li>Reference: <a href="https://peps.python.org/pep-0572/">PEP 572</a>.</li>
+    <code class="python">total = 0 # sum is a name-space collision
+[total := add(total, ele) for ele in range(10)]</code>
+    </ul>
+</section>
+
+<section>
+    <h2>A. Pseudo-Pythonic Folds</h2>
+    <ul>
+        <li>Implementing pseudo-Pythonic folds using assignment operators.</li>
+    <code class="python">def foldl(f, lst):
+    ret = lst[0]
+    return [ret := f(ret, ele) for ele in lst[1:]][-1]
+
+def foldr(f, lst):
+    ret = lst[-1]
+    return [ret := f(ele, ret) for ele in lst[-2::-1]][-1]    </code>
+    </ul>
+</section>
+
+<section>
+    <h2>B. Fold with Base Case</h2>
+    <ul>
+        <li>Implementing fold with base case argument.</li>
+        <li>Example from Haskell.</li>
+		<code>> foldl f z []     = z
+> foldl f z (x:xs) = let z' = z `f` x 
+>                    in foldl f z' xs</code>
+        <li>Example using fold with base case argument in Python.</li>
+    <code class="python">foldl_zed = lambda f, z, xs: [z := f(z, x) for x in xs][-1]</code>
+    </ul>
+</section>
+
+<section>
+    <h2>C. Fold with Base Case Usage</h2>
+    <ul>
+        <li>Using fold with base case argument for multiplication and concatenation.</li>
+    <code class="python">foldl_zed(add, '', abc), foldl_zed(sub, 0, range(1,4)), reduce(sub, range(0,4))</code>
+	<li>We get:
+	<code>('abc', -6, -6)</code>
+	<li>Just like Haskell (or Scheme, etc)
+	<code class="Haskell">λ foldl (-) 0 [1,2,3]
+-6
+:: Num b => b
+λ  </code>
+    </ul>
+</section>
+
+	<section id="title-slide">
+<br><br><br>
+	<h1 class="title">Fin</h1>
+	<p><a href="mailto:ckdeutschbein@willamette.edu">ckdeutschbein@willamette.edu</a></p>
+	<p><a href="https://colab.research.google.com/drive/1HtDJgh0K7YytVdDKB2UWFlWFs23g9fVk?usp=sharing">Colab link, I hope</a>
+	<ul><li>Works Cited
+	<ul><li><a href="https://stackoverflow.com/a/55890523">Xavier Guihot on Stack Overflow</a>
+	<li><a href="https://www.artima.com/weblogs/viewpost.jsp?thread=98196">Artima on reduce</a>
+	<li><a href="https://wiki.haskell.org/Foldr_Foldl_Foldl%27">Haskell Wiki on Folds</a>
+	<li><a href="https://peps.python.org/pep-0572/">PEP 572 - Assignment Expressions</a>
+	<li><a href="https://www.haskell.org/">Haskell browser repl</a>
+	
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

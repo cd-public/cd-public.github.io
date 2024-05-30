@@ -34,7 +34,6 @@
     <ul>
         <li>Take as a given that from time-to-time we end up using Python for a bit of functional programming.</li>
         <li>Well instead of loops we need to use folds.</li>
-		<li>Here's a fun trick for folds in Python I just learned thanks to Stack Overflow user Xavier Guihot.</li>
         <li>Read more from <a href="https://stackoverflow.com/a/55890523">Stack Overflow user Xavier Guihot</a>.</li>
     </ul>
 </section>
@@ -42,7 +41,6 @@
 <section>
     <h2>2. Summation with Reduce</h2>
     <ul>
-        <li>Using reduce for summation in Python.</li>
         <li>Reduce is a type of fold built into Python.</li>
 		<li>Import reduce from functools.</li>
     <code class="python">from functools import reduce</code><li>Reduce was moved to functools in Python 3.0.</li>
@@ -59,7 +57,6 @@ func_sum(range(16, 65536, 256)), sum(range(16, 65536, 256))    </code>
     <h2>3. Expressiveness Over Speed</h2>
     <ul>
         <li>This is about expressiveness, not speed.</li>
-        <li>Import time module for performance measurement.</li>
         <li>Comparing the execution time of functional and built-in summation.</li>
     <code class="python">start, _, end = time(), func_sum(range(16, 65536, 256)), time()
 print('functional', end - start)
@@ -150,7 +147,7 @@ def foldl(f, lst):
     <ul>
         <li>Using fold for common subtraction example.</li>
     <code class="python">print('1 - (2 - 3) =', 1 - (2 - 3), ', (1 - 2) - 3 =', (1 - 2) - 3)
-print('foldr(-, [1, 2, 3]) =', foldr_rec(sub, [1, 2, 3]), ', foldl(-, [1, 2, 3]) =', foldl_rec(sub, range(1, 4)))    </code>
+print('foldr(-, [1, 2, 3]) =', foldr(sub, [1, 2, 3]), ', foldl(-, [1, 2, 3]) =', foldl(sub, range(1, 4)))    </code>
 	<li>We get:
 	<code>1 - (2 - 3)       = 2 , (1 - 2) - 3       = -4
 foldr(-, [1,2,3]) = 2 , foldl(-, [1,2,3]) = -4</code>

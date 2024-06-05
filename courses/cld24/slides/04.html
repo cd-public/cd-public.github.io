@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hadoop</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="title-slide">
+  <h1 class="title">HDFS</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 04
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>We will summarize what we worked with in the lab/demo then extend those learnings with Python (not Java).
+<li>The third homework, "<a href="https://gist.github.com/cd-public/ecd6ef9150bfd3d6ab3494ac55aedb45">Readme</a>", is due this week at 6 PM on Wed/Thr (now).
+<ul><li>Reviewing these has informed this lecture - I hope that helps!</ul>
+<li>This week will be our first week of an applied technology, and you will need to write Python code that interfaces with Hadoop.
+<ul><li>Today in class (ideally) we will go over how I got it working.
+<li>It will be "charcount" and similar in spirit to wordcount.
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Hadoop in Docker in GCP</li>
+<li>These is the incremental step toward fully cloud-centric Hadoop (then Spark!)
+<ul>
+<li>We can now use Hadoop streaming with Python!
+<li>This is good bash/docker practice, and now also GCP practice.
+</ul>
+<li>Hadoop is EASIER but MORE TEDIOUS on cloud<ul>
+<li>Everything worked, but...
+<li>Either starting over every session (ew) or using a wide range of cloud services (ew).
+<li>GCP Cloud Console isn't really cloud or really not cloud, it's kinda in between.
+<li>We suffer together 🙏
+</ul>
+</section>
+
+
+<section>
+    <h2>BIG IDEA</h2>
+    <ul>
+	<li>Cloud computing is complicated, but
+        <li>We can break it down into a few "big ideas"</li>
+        <li>The first idea: "Data" vs "Compute"</li>
+</section>
+
+<section>
+    <h2>DATA</h2>
+    <ul>
+	<li>How do we use "data" in this context:
+	<ul>
+	<li>I think of the maximally simple example: assignment
+	<code class="python">>>> x = 1</code>
+<li>Data is a variable with some value
+<li>These values can be as simple as integers
+<li>These values can be as complex as million-dimension graphs
+</ul>
+<li>Data is static: it has some fixed value.
+<li>Data is read or written/stored.
+<li>Data is distinct from computation.
+</section>
+
+
+<section>
+    <h2>Compute</h2>
+    <ul>
+	<li>How do we use "compute" in this context:
+	<ul>
+	<li>I think of the maximally simple example: addition
+	<code class="python">>>> lambda x: x + 1</code>
+<li>Compute creates data as return values, it may also "consume" data (as arguments)
+<li>These operations can be as simple as addition or negation.
+<li>These values can be as complex as climate modelling/protein folding
+</ul>
+<li>Compute is dynamic: it is only meaningful relative to some data.
+<li>Compute is "applied" or "defined"
+<li>Compute <s>is</s> can be distinct from data.
+</section>
+
+
+
+<section>
+    <h2>The Harvard Architecture*</h2>
+    <ul>
+	<li><a href="https://ieeexplore.ieee.org/document/9779481">'In short [the Harvard architecture] isn't an architecture and didn't derive from work at Harvard'</a>
+	<ul><li>What's in a name etc.</ul>
+	<li>That said, "The Harvard architecture is a computer architecture with separate storage and signal pathways for instructions and data."
+	<ul><li>Instructions correspond to compute, basically.
+	<li>"Do this" vs "Have this"
+	</ul>
+	<li>We don't often think of Harvard Architectures when we use computers, because modern computers don't act like this.</ul>
+	<img width="800px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Harvard_architecture.svg">
+</section>
+
+
+
+<section>
+    <h2>A False Dichtomy?</h2>
+    <ul>
+<p>We can think of this as a Harvard Architecture violation - storing an instruction as data:
+	<code class="python">>>> y = lambda x: x + 1</code>
+	<p>And using data as an instruction:
+	<code class="python">>>> y(x)
+2</code></ul>
+	<img width="800px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Harvard_architecture.svg">
+	<p>Would 'y' live in "instruction memory" or "data memory"? Well...
+</section>
+
+<section>
+    <h2>The von Neumann Architecture</h2>
+    <ul>
+	<li>Also known as the von Neumann model or Princeton architecture
+	<ul><li>von Neumann was Jewish-Hungarian huge nerd who worked on the Manhattan Project</ul>
+	<li>Basically, we can think of instructions (or descriptions of HOW to compute) as data itself.
+	<li>Recall: a "Docker image" is a file that describes a "Docker container"
+	<li>Recall: a "Docker container" can perform compute operations, like MapReduce.</ul>
+	<a title="Kapooht, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Von_Neumann_Architecture.svg"><img width="800" alt="Von Neumann Architecture" src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Von_Neumann_Architecture.svg"></a>
+	<p>If we think about inputs and outputs to device, we can imagine inputs as being either data (books) or instructions (wordcount), and outputs being data (wordcounts).
+</section>
+
+<section>
+    <h2>BIG IDEA</h2>
+    <ul>
+	<li>Modern computers, like my laptop, are often thought of as von Neumann machines, with a HDD/SSD holding both data and instructions.
+	<li>Cloud computing is composed of modern computers, but doesn't follow the same rules.
+	<li>Hadoop uses "compute computers" and "data computers" - it is something of a large-scale Harvard Architecture.
+</section>
+
+<section>
+    <h2>BUT FIRST</h2>
+    <ul>
+	<li>We need to talk about <em>talking about</em> HDFS<ul>
+        <li>How HDFS/Hadoop work</li>
+        <li>Who made HDFS/Hadoop</li>
+        <li>"Unfortunate" naming conventions</li>
+</section>
+<section>
+    <h2>HDFS</h2>
+<ul>
+        <li>HDFS is maintained under the Hadoop project and its primary home for documentation is <a href="https://hadoop.apache.org/docs/r3.4.0/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html">here</a>.
+		<li>This documentation is aging, and the ascendent Databricks has a nice page <a href="https://www.databricks.com/glossary/hadoop-distributed-file-system-hdfs">here.</a>
+		<ul><li>The Databricks people used to be Hadoop people</ul>
+		<li>I usually present off of the Databricks documentation, but I use both in practice.
+</section>
+<section>
+    <h2>Unfortunate Naming</h2>
+<ul>
+        <li>Hadoop, HDFS, Spark, and a variety of other open source cloud and web technologies are maintained by an organization called the "Apache Software Foundation" (AFS).
+		<li>You will notice I have never said "Apache" or "Apache Software Foundation" in this class...
+		<li>That is because, generously, naming a software foundation after an actually existing group of people is <b>weird</b>.
+		<li>Quote, Natives in Tech:
+		<a href="https://blog.nativesintech.org/apache-appropriation/"><blockquote>It is not uncommon to learn about non-Indigenous entities appropriating Indigenous culture but none of them are as large, prestigious, or well-known as The Apache® Software Foundation is in software circles...</blockquote></a>
+		
+		<a href="https://blog.nativesintech.org/apache-appropriation/"><blockquote>This frankly outdated spaghetti-Western “romantic” presentation of a living and vibrant community as dead and gone in order to build a technology company “for the greater good” is as ignorant as it is offensive.</blockquote></a>
+		<li>Natives in Tech uses "ASF" to refer to the organization when necessary, and I tend to refer to specific technologies by name whenever possible, and use ASF otherwise.</a>
+		<li><em>You can do whatever you want, but this is a weird thing for all of us to have to deal with</em>.
+		<li>I'm just sharing what I do.
+</section>
+<section>
+    <h2>Unfortunate Naming</h2>
+<ul>
+        <li>Hadoop/HDFS in particular is oriented around a relationship between what are called "namenodes" and "datanodes".
+		<li>It is not uncommon in network programming to have a e.g. a "server" that completes jobs and a "client" that requests jobs, or some other relation.
+		<li>HDFS is decribed in this unfortunate way in it's official documentation:
+		<a href="https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html"><blockquote>HDFS has a master/slave architecture.</blockquote></a>
+		
+		<li>Unlike ASF, where naming is more tumultous, the tech industry in aggregate has fairly strongly moved away from this terminology for being plausibly offensive and, in fact, pointlessly so - it is not a particularly clear way to describe two computers.</a>
+		<li>Among others, Microsoft has a writing style guide that addresses this terminology:
+		<a href="https://learn.microsoft.com/en-us/style-guide/a-z-word-list-term-collections/m/master-slave"><blockquote>Don't use master/slave. Use primary/replica or alternatives such as primary/secondary, principal/agent, controller/worker, or other appropriate terms depending on the context.</blockquote></a>
+		<li><em>You do not have to follow a Microsoft style guide</em> but if you don't, you should probably have a good reason not to.
+</section>
+
+<section>
+<h2>Mains and Secondaries</h2>
+<ul>
+	<li>In my line of research, I frequently deal with hardware designs implementing standards written prior to the development of more specific terminology, such as the <a href="https://developer.arm.com/documentation/ihi0022/latest/">AXI Standard</a>
+	<li>With the help of my coauthors, we unambigiously referred to more privileged "main" modules and less privileged "secondary" modules using these terms.
+	<blockquote>For the ACW signal groups, all registers were helpfully placed
+into groups by the designer and labeled within the design. The
+design contained seven distinct labeled groups:...</blockquote><blockquote>
+• ‘S PORT’ - AXI secondary (S) interface ports of the ACW...</blockquote><blockquote>
+• ‘M PORT’ - AXI main (M) interface ports of the ACW...</blockquote>
+<li>This was amicably accepted for publication without elaboration on the meaning of Main/Secondary.
+<li>I was not aware of the Microsoft style guide at the time.
+</section>
+
+<section>
+<h2>The Harvard Architecture</h2>
+<ul>
+	<li>I introduced the Harvard Architecture to give another way to think of this:</ul>
+	
+	<img width="800px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Harvard_architecture.svg">
+<ul>
+	<li>We can imagine a "NameNode" as managing all instructions.
+	<li>We can imagine a "DataNode" as managing all data memory.
+	<li>The "Control unit" is the network they run on, usually managed by a NameNode or a NodeManager
+	<li>I/O is usually done on the NameNode - I/O consists of commands at the commandline, which are ultimately instructions
+	<li>In cloud computing, there is no single ALU (or computing unit), rather there are ALUs in every node.</ul>
+</section>
+
+<section>
+<h2>An Example</h2>
+<ul>
+	<li>To see how this terminology can be navigated, we can return to Hadoop vs. Databricks
+	<li>Of note, Databricks is not a political organization or affinity group - it is a (very successful) tech start-up making a lot of money doing data science.
+	<li>The original Hadoop developers, by contrast, were a decentralized group using consensus-driven decision making and have written some outstanding code but are inherently not in accountability relationships with many groups of people or other organizations.
+	<ul><li>They do, in fairness, have a public Diversity and Inclusion statement:
+	<a href="https://diversity.apache.org/"><blockquote>2025 Vision</blockquote><blockquote>
+
+Become the most equitable open source foundation in the world </blockquote></a>
+</section>
+
+<section>
+<h2>Hadoop vs Databricks</h2>
+<ul>
+	<li>Both Hadoop and Databricks documentation describe the HDFS using... the exact same image:</ul>
+	<img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png">
+	<ul><li>I think this image is ancient - it was at least used to describing Hadoop v1, which initially released in 2011.
+	<li>It's so old, the original uploads are stored as .gif rather than .png files!
+	<li>Let's go through line-by-line-ish and understand this architecture and how to talk about it.
+</section>
+
+<section>
+<h2>Hadoop vs Databricks</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><ul><li>HDFS has a [main/secondary] architecture.
+<td style="text-align: left;"><ul><li>As we can see, it focuses on NameNodes and DataNodes.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>It is probably easiest to think of NameNodes and DataNodes as their own thing, free from metaphor.
+</section>
+<section>
+<h2>NameNodes</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li><br><br><br><br><li>An HDFS cluster consists of a single <b>NameNode</b>, <span style="color:red">a master server that manages the file system namespace and regulates access to files by clients.</span>
+<td style="text-align: left;vertical-align:top"><ul><li>The <b>NameNode</b> is the hardware that contains the GNU/Linux operating system and software. <li>The Hadoop distributed file system acts as <span style="color:red">the master server and can manage the files, control a client's access to files,</span> and overseas file operating processes such as renaming, opening, and closing files.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>The NameNode is by far the closest to how we typically think of a "computer".
+<ul><li>Really only the NameNode "acts" the way we think of computers acting, with its own files and programs and other human-computer interactions.</ul>
+<li>Modern Hadoop often has a NodeManager and a NameNode - hence Databricks' cluttered wording.
+</section>
+
+<section>
+<h2>DataNodes</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>In addition, there are a number of <b>DataNodes</b>, usually <span style="color:red">one per node in the cluster,</span> <span style="color:orange">which manage storage attached to the nodes that they run on.</span>
+<td style="text-align: left;vertical-align:top"><ul><li><span style="color:red">For every node in a HDFS cluster</span>, you will locate a <b>DataNode</b>.<li>These nodes help to <span style="color:orange">control the data storage of their system</span> as they can perform operations on the file systems if the client requests, and also create, replicate, and block files when the NameNode instructs.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>I rather more strongly think of the DataNode as a hard disk drive that is very smart.
+<li>In practice, they are in fact entire computers, but we don't think of them the way often think of computers.
+</section>
+
+<section>
+<h2>HDFS</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>HDFS exposes a file system namespace and allows user data to be stored in files.
+<td style="text-align: left;vertical-align:top"><ul><li>The Hadoop distributed file system acts as the master server and can manage the files, control a client's access to files, and overseas file operating processes such as renaming, opening, and closing files.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>Hadoop states that NameNode can open/close/rename but Databricks says HDFS can open/close/rename.
+<li>In practice, a NameNode is an HDFS - just with a storage size of zero.
+<li>Open/close/rename emerge from the combination of NameNode within an HDFS.
+</section>
+
+
+<section>
+<h2>Commodity Hardware</h2>
+<ul><li>In theory, we could run a Hadoop cluster on the computers in this room (true of any room with n>1 computers, including phones)
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>The Hadoop Distributed File System (HDFS) is a distributed file system designed to run on commodity hardware.
+<li>HDFS is highly fault-tolerant and is designed to be deployed on low-cost hardware.<br>
+<td style="text-align: left;vertical-align:top"><ul><li>HDFS operates as a distributed file system designed to run on commodity hardware.<br><br>
+<li>HDFS is fault-tolerant and designed to be deployed on low-cost, commodity hardware.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>In ~2008, there was more interest in big data than there was dedicated hardware (such as supercomputers like Blue Gene)
+<li>The Hadoop team used consumer electronics to build supercompute capabilities, and...
+<li>There exist <em>open source</em> designs at this scale for a fully open source tech stack. See: <a href="https://www.chipsalliance.org/about/who-we-are/">CHIPS Alliance</a>.
+<ul><li>Check out what license they operate under!
+</section>
+
+<section>
+<h2>Use Case</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>HDFS provides high throughput access to application data and is suitable for applications that have large data sets.<br>
+<td style="text-align: left;vertical-align:top"><ul><li>HDFS provides high throughput data access to application data and is suitable for applications that have large data sets and enables streaming access to file system data in Apache Hadoop.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>Doing a lot of compute operations per second is cool, but in practice, we care about doing a few operations over a lot of data, in almost all cases.
+<li>If we care about data more than compute, we should care about how data is stored more than how compute is distributed.
+<li>My claim: HDFS and other distributed file systems are the core technology of current tech era.
+<li>My claim: Databricks adds a "streaming" mention because it, and we, are post-Java.
+</section>
+
+<section>
+<h2>Blocks</h2>
+<ul><li>Once the use case is understood, the core insight of HDFS is "blocks" for data duplication.
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>Internally, a file is split into one or more blocks and these blocks are stored in a set of DataNodes<br>
+<td style="text-align: left;vertical-align:top"><ul><li>Next, it's broken down into blocks which are distributed among the multiple DataNodes for storage. To reduce the chances of data loss, blocks are often replicated across nodes.</td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>Basically, a block is a meta-file of fixed size.
+<li>DataNodes hold blocks
+<li>NameNodes keep track of how blocks correspond to files - could be n-to-1, 1-to-n, etc.
+<li>"file name" : "data block" is a key : value pair, where keys (names) are held by the NameNode and values (data blocks) are held by DataNodes
+</section>
+
+<section>
+<h2>Data Replication</h2>
+<ul><li>In 2008, computers were constantly crashing so HDFS was big on "fault tolerance" - one core component was data replication.
+<table>
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>It stores each file as a sequence of blocks.
+<li>All blocks in a file except the last block are the same size
+<li>Files in HDFS are write-once (except for appends and truncates) and have strictly one writer at any time.
+<li>The NameNode makes all decisions regarding replication of blocks.
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsdatanodes.png"></td>
+</tr>
+</tbody>
+</table>
+<li>Did you notice:
+<ul><li>In HDFS, we cannot write a file if there is already a file of that name.
+<li>There is no way to edit internal contents of a file in HDFS.
+<li>Updates are frequently performed with delete + rewrite.
+<li>Container space doesn't go down immediately on delete (e.g. data persists for a bit)
+</section>
+
+<section>
+    <h2>BIG IDEA</h2>
+    <ul>
+	<li>Cloud computing is complicated, but
+        <li>We can break it down into a few "big ideas"</li>
+        <li>The first idea: "Data" vs "Compute"</li>
+</section>
+
+<section>
+    <h2>A quick note</h2>
+    <ul><li>I talk about MapReduce, (I think about compute a lot) but Hadoop is more data than compute.
+	<ul>
+	<li>HDFS is 33 subheadings of Hadoop documentation
+	<li>MapReduce is 7
+	<li>YARN (a resource monitor that is mostly uninteresting) is 28.
+	</ul>
+	</ul>
+	<img src="https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/yarn_architecture.gif">
+	<p>YARN "more like YAWN" is not widely utilized outside of Hadoop, but HDFS and other DFS technologies are.
+</section>
+
+<section id="Streaming">
+  <h1 class="title">Streaming</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 04
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>RECALL: Use Case</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hadoop</td>
+<td style="text-align: left;">Databricks</td>
+<td style="text-align: left;">Image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;vertical-align:top"><ul><li>HDFS provides high throughput access to application data and is suitable for applications that have large data sets.<br>
+<td style="text-align: left;vertical-align:top"><ul><li>HDFS provides high throughput data access to application data and is suitable for applications that have large data sets and enables <b>streaming access to file system data in Apache Hadoop.<b></td>
+<td style="vertical-align:top"> <img src="https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></td>
+</tr>
+</tbody>
+</table>
+<li>Doing a lot of compute operations per second is cool, but in practice, we care about doing a few operations over a lot of data, in almost all cases.
+<li>If we care about data more than compute, we should care about how data is stored more than how compute is distributed.
+<li>My claim: HDFS and other distributed file systems are the core technology of current tech era.
+<li>My claim: <b>Databricks adds a "streaming" mention because it, and we, are post-Java.</b>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Hadoop in Docker in GCP</li>
+<li>These is the incremental step toward fully cloud-centric Hadoop (then Spark!)
+<ul>
+<li>We can now use Hadoop <b>streaming with Python!</b>
+<li>This is good bash/docker practice, and now also GCP practice.
+</ul><li>Readme version <a href="https://gist.github.com/cd-public/50da4b723b9e53079b8b8b4bb9e56227">here</a>.
+</section>
+
+<section><h2>Google Cloud Shell</h2>
+<ul>
+<li>Access a cloud shell:
+<li><a href="https://shell.cloud.google.com/">https://shell.cloud.google.com/</a></li>
+<li>I had a transient Cloud Shell outage today but I previously got everything working there. 
+<li>These instructions are written targetting Cloud Shell but only verified locally and on Compute Engine.
+</ul>
+<p>If Cloud Shell is down, you can make a VM (Compute Engine) and work within it. Running Docker on Compute Engine is awkward (requires sudo) but possible, read <a href="https://docs.docker.com/engine/install/debian/#install-using-the-repository">this</a>.
+</section>
+
+
+<section><h2 >Azure and AWS</h2>
+<ul><li>These instructions won&#39;t work on Azure Cloud Shell.
+<ul><li>Azure Cloud Shell runs inside a container itself. Whoops!</ul>
+<li>AWS is still denying my educational license, so I haven&#39;t tested there.
+<p>A VM on either service should be more than sufficient.
+</section>
+
+<section><h2 >Docker</h2>
+<p>We set up docker outside of a Hadoop container, such as in Bash, Cloud Shell, or an SSH session with a Compute Engine vm.
+<em>Put on your "I'm not inside a container" hat</em>
+</section>
+
+<section><h2 >Verify Docker Presence</h2>
+<ul><li>We want to make sure our Cloud Shell supports docker.
+<code>docker run hello-world
+</code></section>
+
+
+<section><h2 >Git Hadoop Dockerfiles</h2>
+<ul><li>We previously used a number of Hadoop container repositories.<li>Today I will be using <a href="https://github.com/hadoop-sandbox/hadoop-sandbox">&quot;Hadoop Sandbox&quot;</a>.<li>From asking around, it seems more stable than the other Hadop repositories, though it is a bit larger.
+<code class="bash">git clone https://github.com/hadoop-sandbox/hadoop-sandbox.git
+cd hadoop-sandbox
+</code></pre></section>
+
+
+<section><h2 >Bring Up Hadoop Cluster</h2>
+<ul>
+<li>Like always: <code>docker compose up -d
+</code><li>Once our compose operation is complete, we verify health.
+<code class="bash">docker ps</code>
+<li>After about 5ish minutes, I saw only healthy images.
+<li>After about 5ish minutes, I saw only healthy images.
+</section>
+
+
+<section><h2 >Hadoop Streaming</h2>
+<p>We perform Hadoop streaming inside a Hadoop container.
+<em>Take off your "I'm not inside a container" hat</em><br>
+<b>Put on your "I'm inside a container" hat </b>
+</section>
+
+
+<section><h2 >SSH into the Hadoop Cluster</h2>
+<ul><li>We use ssh to work in the the cluster.
+<li>We work as as the &quot;sandbox&quot; user.
+<li>This user is configured to run Hadoop jobs.
+<code class="bash">ssh -p 2222 sandbox@localhost</code>
+</code></pre><li>The password is &quot;sandbox&quot;.<li>Consult the Hadoop-Sandbox readme for any questions.
+</section>
+
+
+<section><h2 >Mapred Verification</h2>
+<ul><li>The latest distributions of Hadoop support the &quot;mapred streaming&quot; command for Hadoop streaming. <li>You can verify that your Hadoop distribution has this with a help command:
+<code>mapred streaming --help</code>
+<li>If you do not have this command:
+<ul>
+<li>Verify you have some Hadoop distribution</li>
+<li>Find the Hadoop version and the corresponding streaming jar, such as <a href="https://jar-download.com/artifacts/org.apache.hadoop/hadoop-streaming/2.7.3/source-code">2.7.3</a>.</li>
+</ul>
+</section>
+
+
+<section><h2 >Curl Sample Data</h2>
+<ul><li>I use the same books as always.
+<code>mkdir books
+curl https://www.gutenberg.org/cache/epub/1342/pg1342.txt -o books/austen.txt
+curl https://www.gutenberg.org/cache/epub/84/pg84.txt -o books/shelley.txt
+curl https://www.gutenberg.org/cache/epub/768/pg768.txt -o books/bronte.txt
+ls books
+</code></section>
+
+
+<section><h2 >Store Data in HDFS</h2>
+<ul><li>The sandbox user (us) only has write permission to /user/sandbox within HDF.
+<li>We create a books directory in HDFS.
+<code>hdfs dfs -mkdir /user/sandbox/books</code>
+<li>We copy the books in the local books folder to the HDFS books folder.
+<code>hdfs dfs -copyFromLocal -f books/* /user/sandbox/books</code>
+<li>We can verify:
+<code>hdfs dfs -ls /user/sandbox/books</code>
+</section>
+
+
+<section><h2 >Canonical MapRed</h2>
+<ul><li>The &quot;hello world&quot; Hadoop Streaming job uses &quot;cat&quot; and &quot;wc&quot;. 
+<li>I&#39;ve simplified it here, once you get this working take a look at the documentation.
+
+<code>mapred streaming \
+  -input /user/sandbox/books \
+  -output /user/sandbox/words \
+  -mapper cat \
+  -reducer wc</code>
+<li><a href="https://hadoop.apache.org/docs/current/hadoop-streaming/HadoopStreaming.html">Read more</a>
+</section>
+
+
+<section><h2 >Verify Completion</h2>
+<ul><li>We confirm that the job was successful by investigating the words folder in HDFS.
+<code>hdfs dfs -ls /user/sandbox/words</code><li>The output will likely be in part-00000, but check before you read.
+<code>hdfs dfs -head /user/sandbox/words/part-00000</code>
+<p>What do you see?
+</section>
+
+
+<section><h2 >SIDEBAR: The Pipe &#39;|&#39; Operator</h2>
+<ul><li>We are going to talk about Bash for just a moment.
+<li>Still within the context of the Hadoop container, but
+<li>Generally useful information.
+</section>
+<section>
+<h2>SIDEBAR: cat</h2>
+<ul><li>&#39;cat&#39; concatenates a list of files and prints it to command line:
+<code>echo "some words" > one.txt
+echo "other words" > two.txt
+cat one.txt two.txt</code>
+<li>We get:
+<code>some words
+other words</code>
+</section>
+<section>
+<h2>wc</h2>
+<p>&#39;wc&#39; counts lines, words, and characters in a file.
+<pre><code><span class="hljs-selector-tag">wc</span> <span class="hljs-selector-tag">one</span><span class="hljs-selector-class">.txt</span>
+</code></pre><h4 id="pipe-">Pipe &#39;|&#39;</h4>
+<p>Pipes pass the <em>output</em> of one command to the <em>input</em> of another command. We could count words in both files:
+<pre><code><span class="hljs-keyword">cat</span> <span class="hljs-keyword">one</span>.txt <span class="hljs-keyword">two</span>.txt | wc
+</code></pre><p>This is basically what MapRed streaming is doing - just all at once.
+</section>
+
+
+<section><h2 id="verify-accuracy">Verify Accuracy</h2>
+<pre><code>cat books/* <span class="hljs-string">| wc</span>
+</code></pre><p>I get similar but not identical values for pipe &#39;|&#39; method and and mapred - good enough for now.
+<h4 id="process-substitution">Process Substitution</h4>
+<p>Here is an advanced command to compare the two. Take a moment to think about what the components mean. 
+<a href="https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution">Read more</a>
+<pre><code>diff &lt;(<span class="hljs-name">cat</span> books/* | wc) &lt;(<span class="hljs-name">hdfs</span> dfs -cat /user/sandbox/words/part-00000)
+</code></pre></section>
+
+
+<section><h2 id="python-streaming-setup">Python Streaming Setup</h2>
+<p>In addition to Java jars and BASH commands, we can also stream with Python scripts.
+</section>
+
+
+<section><h2 id="merrer">merrer</h2>
+<p>I have created a <a href="https://github.com/cd-public/merrer/">repository</a> with a sample <a href="https://raw.githubusercontent.com/cd-public/merrer/main/mapper.py">&#39;mapper.py&#39;</a> and <a href="https://raw.githubusercontent.com/cd-public/merrer/main/reducer.py">&#39;reducer.py&#39;</a> files. 
+<p>These are adapted from a <a href="https://www.geeksforgeeks.org/hadoop-streaming-using-python-word-count-problem/">G4G tutorial</a> and translated to Python3.
+</section>
+
+
+<section><h2 id="curl-sample-scripts">Curl Sample Scripts</h2>
+<p>My container did not have git installed, and it seemed easier to curl than install git or vi or attempt to write Python via echo.
+<p>Github helpfully hosts &quot;raw&quot; data with appropriate file name and extension.
+<pre><code><span class="hljs-built_in">mkdir</span> scripts
+curl http<span class="hljs-variable">s:</span>//raw.githubusercontent.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">cd</span>-public/merrer/main/mapper.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">o</span> scripts/mapper.<span class="hljs-keyword">py</span>
+curl http<span class="hljs-variable">s:</span>//raw.githubusercontent.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">cd</span>-public/merrer/main/reducer.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">o</span> scripts/reducer.<span class="hljs-keyword">py</span>
+</code></pre></section>
+
+
+<section><h2 id="building-the-hadoop-command">Building the Hadoop command</h2>
+<p>Hadoop helpfully has a streaming command example using Python:
+<p>Of note, any files used must also be passed as an additional &#39;-file&#39; parameter. This is because Hadoop must copy these scripts to each DataNode, where they will run locally on those nodes within HDFS.
+<pre><code>hdfs dfs -rm -r /user/sandbox/words
+mapred streaming \
+  -<span class="ruby">input /user/sandbox/books \
+</span>  -<span class="ruby">output /user/sandbox/words \
+</span>  -<span class="ruby">mapper mapper.py \
+</span>  -<span class="ruby">reducer reducer.py \
+</span>  -<span class="ruby">file scripts/mapper.py \
+</span>  -<span class="ruby">file scripts/reducer.py</span>
+</code></pre><p>But, we cannot run this command yet. Why not?
+</section>
+
+
+<section><h2 id="cluster-python-install">Cluster Python Install</h2>
+<p>We install Python from outside of the container.
+</section>
+
+
+<section><h2 id="installing-python-on-a-docker-container">Installing Python on a Docker Container</h2>
+<p>Of note, we are install on containers, not images, so this install will not persist.
+<p>We cannot install from within our ssh sessions because:
+<ul>
+<li>We are only in one node, and</li>
+<li>We do not have install permissions.</li>
+</ul>
+</section>
+
+
+<section><h2 id="docker-exec">Docker Exec</h2>
+<p>We can use &#39;docker exec&#39; to invoke commands within a container from the host device. For example:
+<pre><code>docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-datanode-<span class="hljs-number">1</span> <span class="hljs-keyword">python3</span>
+</code></pre><p>Before installing Python on a node, this will probably return an error - and this is the error that prevents us from being able to stream jobs (yet!).
+</section>
+
+
+<section><h2 id="apt">APT</h2>
+<p>APT, &quot;advanced package tool&quot;, is present on most containers I&#39;ve worked with, but usually not up-to-date. To install the latest packages, such as Python 3, it is usually necessary to first &quot;update&quot;:
+<pre><code>apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
+</code></pre><p>When I install Python, it unhelpfully asks me if I&#39;m sure during the process. I add the &#39;-y&#39; flag to make things easier for me.
+<pre><code>apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
+</code></pre></section>
+
+
+<section><h2 id="apt-on-a-container-cluster">APT on a Container Cluster</h2>
+<p>So we will create a new command line and install Python via &#39;docker exec&#39;
+<pre><code>docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-datanode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-datanode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-namenode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-namenode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-clientnode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-clientnode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-nodemanager-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
+docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-nodemanager-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
+</code></pre><p>This is a lot of text, but it just updates packages then installs Python on each of the NameNode, DataNode, ClientNode, and NodeManager. 
+<p>I thought DataNode would be sufficient, and it&#39;s possible not all of these are necessary, but this worked for me.
+<p>This could be easily automated if I realized how many containers I&#39;d need to work with in advance.
+</section>
+
+
+<section><h2 id="python-streaming-test">Python Streaming Test</h2>
+</section>
+
+
+<section><h2 id="chmod">chmod</h2>
+<p>Before passing a Python file off to a DataNode to be run, I verify it has run permissions. We can see if there a &#39;x&#39; - for executable - permissions using &#39;ls&#39;.
+<pre><code><span class="hljs-keyword">ls</span> -<span class="hljs-keyword">al</span> scripts
+</code></pre><p>If there aren&#39;t x&#39;s there, or even if there are and we want to be sure, we set permissions to be maximally permissible with &#39;chmod&#39;
+<pre><code>chmod <span class="hljs-number">777</span> scripts/mapper.py
+chmod <span class="hljs-number">777</span> scripts/reducer.py
+</code></pre><p>Permissions are in octal, so 777 is equal to binary &#39;111111111&#39; which stands for read, write, and execute permissions for &#39;user&#39;, &#39;group&#39;, and &#39;other. <a href="https://en.wikipedia.org/wiki/Chmod">Read more.</a>
+</section>
+
+
+<section><h2 id="mapred-stream">Mapred Stream</h2>
+<p>With a Python install and chmod, I can run the following prepared command:
+<pre><code>hdfs dfs -rm -r /user/sandbox/words
+mapred streaming \
+  -<span class="ruby">input /user/sandbox/books \
+</span>  -<span class="ruby">output /user/sandbox/words \
+</span>  -<span class="ruby">mapper mapper.py \
+</span>  -<span class="ruby">reducer reducer.py \
+</span>  -<span class="ruby">file scripts/mapper.py \
+</span>  -<span class="ruby">file scripts/reducer.py</span>
+</code></pre></section>
+
+
+<section><h2 id="view-output">View Output</h2>
+<p>Output will be in /user/sandbox/words/, probably as part-00000.
+<pre><code>hdfs dfs -ls <span class="hljs-meta-keyword">/user/</span>sandbox/words
+hdfs dfs -head <span class="hljs-meta-keyword">/user/</span>sandbox<span class="hljs-meta-keyword">/words/</span>part<span class="hljs-number">-00000</span>
+</code></pre><p>We can also copy to the local file system.
+<pre><code>hdfs dfs -copyToLocal /user/sandbox/<span class="hljs-built_in">words</span>
+</code></pre><p>And view the output within the words directory:
+<pre><code>ls <span class="hljs-built_in">words</span>
+head <span class="hljs-built_in">words</span>/part<span class="hljs-number">-00000</span>
+</code></pre></section>
+
+
+<section><h2 id="python-streaming-enchancement">Python Streaming Enchancement</h2>
+</section>
+
+
+<section><h2 id="undesirable-output">Undesirable Output</h2>
+<p>These words are ugly!
+<pre><code>#<span class="hljs-number">1342</span>]  <span class="hljs-number">1</span>
+#<span class="hljs-number">768</span>]   <span class="hljs-number">1</span>
+#<span class="hljs-number">84</span>]    <span class="hljs-number">1</span>
+$<span class="hljs-number">5</span>,<span class="hljs-number">000</span>) <span class="hljs-number">3</span>
+&amp;       <span class="hljs-number">1</span>
+($<span class="hljs-number">1</span>     <span class="hljs-number">3</span>
+(<span class="hljs-number">801</span>)   <span class="hljs-number">3</span>
+(By     <span class="hljs-number">1</span>
+(Godwin)        <span class="hljs-number">1</span>
+(He     <span class="hljs-number">1</span>
+</code></pre></section>
+
+
+<section><h2 id="modify-py">Modify .py</h2>
+<p>Modify the Python files. They currently treat words as &quot;strings separated by spaces&quot;. What if they are instead &quot;contiguous strings of letters&quot;.
+</section>
+
+
+<section><h2 id="homework">Homework</h2>
+<p>Maintain your new mapper and reducer scripts, with a README including a note on what dataset you used and what mapred command you used, in a Github repository, and share the repository with me. You may work in partners on this Homework.
+<p>merrer serves as an example 
+</section>
+
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

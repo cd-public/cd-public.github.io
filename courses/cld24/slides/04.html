@@ -35,12 +35,11 @@
 <h2>Announcements</h2>
 <ul>
 <li>Welcome to DATA-599: Cloud Computing!</li>
-<li>We will summarize what we worked with in the lab/demo then extend those learnings with Python (not Java).
+<li>Python week! (kinda)
 <li>The third homework, "<a href="https://gist.github.com/cd-public/ecd6ef9150bfd3d6ab3494ac55aedb45">Readme</a>", is due this week at 6 PM on Wed/Thr (now).
 <ul><li>Reviewing these has informed this lecture - I hope that helps!</ul>
-<li>This week will be our first week of an applied technology, and you will need to write Python code that interfaces with Hadoop.
-<ul><li>Today in class (ideally) we will go over how I got it working.
-<li>It will be "charcount" and similar in spirit to wordcount.
+<li>Fourth homework is (Actual) WordCount<ul>
+<li>Custom Python Hadoop streaming
 </ul></li>
 </ul>
 </section>
@@ -92,10 +91,10 @@
     <ul>
 	<li>How do we use "compute" in this context:
 	<ul>
-	<li>I think of the maximally simple example: addition
+	<li>I think of the maximally simple example: incrementation
 	<code class="python">>>> lambda x: x + 1</code>
 <li>Compute creates data as return values, it may also "consume" data (as arguments)
-<li>These operations can be as simple as addition or negation.
+<li>These operations can be as simple as incrementation or negation.
 <li>These values can be as complex as climate modelling/protein folding
 </ul>
 <li>Compute is dynamic: it is only meaningful relative to some data.
@@ -109,13 +108,14 @@
     <h2>The Harvard Architecture*</h2>
     <ul>
 	<li><a href="https://ieeexplore.ieee.org/document/9779481">'In short [the Harvard architecture] isn't an architecture and didn't derive from work at Harvard'</a>
-	<ul><li>What's in a name etc.</ul>
+	<ul><li>A rose by any other name etc.</ul>
 	<li>That said, "The Harvard architecture is a computer architecture with separate storage and signal pathways for instructions and data."
 	<ul><li>Instructions correspond to compute, basically.
 	<li>"Do this" vs "Have this"
 	</ul>
-	<li>We don't often think of Harvard Architectures when we use computers, because modern computers don't act like this.</ul>
+	<li>We don't often think of Harvard Architectures when we use computers, because modern computers don't act like this*.</ul>
 	<img width="800px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Harvard_architecture.svg">
+	<p>*out of scope
 </section>
 
 
@@ -123,9 +123,9 @@
 <section>
     <h2>A False Dichtomy?</h2>
     <ul>
-<p>We can think of this as a Harvard Architecture violation - storing an instruction as data:
+<p>We can think of the Pythonic "functions as values" as a Harvard Architecture violation - storing a compute as data:
 	<code class="python">>>> y = lambda x: x + 1</code>
-	<p>And using data as an instruction:
+	<p>And using data as compute:
 	<code class="python">>>> y(x)
 2</code></ul>
 	<img width="800px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Harvard_architecture.svg">
@@ -219,9 +219,10 @@ design contained seven distinct labeled groups:...</blockquote><blockquote>
 <ul>
 	<li>We can imagine a "NameNode" as managing all instructions.
 	<li>We can imagine a "DataNode" as managing all data memory.
-	<li>The "Control unit" is the network they run on, usually managed by a NameNode or a NodeManager
-	<li>I/O is usually done on the NameNode - I/O consists of commands at the commandline, which are ultimately instructions
-	<li>In cloud computing, there is no single ALU (or computing unit), rather there are ALUs in every node.</ul>
+	<li>The "Control unit" is the network they run on, managed by a NameNode
+	<li>I/O is usually done on the NameNode<ul><li>I/O consists of commands at the commandline, which are ultimately instructions</ul>
+	<li>In cloud computing, there is no single ALU (or computing unit), rather there are ALUs in every node.
+	<ul><li>That is, both memories have one or more attached ALU</ul>
 </section>
 
 <section>
@@ -553,12 +554,12 @@ Become the most equitable open source foundation in the world </blockquote></a>
 </section>
 
 <section><h2 >Docker</h2>
-<p>We set up docker outside of a Hadoop container, such as in Bash, Cloud Shell, or an SSH session with a Compute Engine vm.
+<p>We set up docker outside of a Hadoop container, such as in Bash, Cloud Shell, or an SSH session with a Compute Engine vm.<br>
 <em>Put on your "I'm not inside a container" hat</em>
 </section>
 
 <section><h2 >Verify Docker Presence</h2>
-<ul><li>We want to make sure our Cloud Shell supports docker.
+<ul><li>We want to make sure our environment supports docker.
 <code>docker run hello-world
 </code></section>
 
@@ -576,24 +577,35 @@ cd hadoop-sandbox
 </code><li>Once our compose operation is complete, we verify health.
 <code class="bash">docker ps</code>
 <li>After about 5ish minutes, I saw only healthy images.
-<li>After about 5ish minutes, I saw only healthy images.
-</section>
-
-
-<section><h2 >Hadoop Streaming</h2>
-<p>We perform Hadoop streaming inside a Hadoop container.
-<em>Take off your "I'm not inside a container" hat</em><br>
-<b>Put on your "I'm inside a container" hat </b>
+<li>I've really come around on using the '-d' flag
+<ul><li>it makes it much easier to know when the cluster is "online" since we get the command prompt back when it is.
+<li>Some confusion I've had came from trying to use clusters that didn't come online or didn't come online yet.
 </section>
 
 
 <section><h2 >SSH into the Hadoop Cluster</h2>
 <ul><li>We use ssh to work in the the cluster.
+<ul><li>This is novel!
+<li>We are not using 'docker exec' here
+<li>It will feel mostly the same, but is more cloud friendly!
+</ul>
 <li>We work as as the &quot;sandbox&quot; user.
 <li>This user is configured to run Hadoop jobs.
 <code class="bash">ssh -p 2222 sandbox@localhost</code>
-</code></pre><li>The password is &quot;sandbox&quot;.<li>Consult the Hadoop-Sandbox readme for any questions.
+</code></pre><li>The password is &quot;sandbox&quot;.
+<ul><li>You will be asked.
+<li>Your typing might not show up - it's there I promise!
+</ul>
+<li>Consult the Hadoop-Sandbox readme for any questions about logging in.
 </section>
+
+<section><h2 >Hadoop Streaming</h2>
+<p>We perform Hadoop streaming inside a Hadoop container.<br>
+<em>Take off your "I'm not inside a container" hat</em><br>
+<b>Put on your "I'm inside a container" hat </b>
+</section>
+
+
 
 
 <section><h2 >Mapred Verification</h2>
@@ -614,22 +626,27 @@ curl https://www.gutenberg.org/cache/epub/1342/pg1342.txt -o books/austen.txt
 curl https://www.gutenberg.org/cache/epub/84/pg84.txt -o books/shelley.txt
 curl https://www.gutenberg.org/cache/epub/768/pg768.txt -o books/bronte.txt
 ls books
-</code></section>
+</code>
+<li>Hadoop is designed to work on 1 TB+ sizes, but that is a lot of books!
+<li>All these books are under a MB (we'd need ~2 mil+ books)</section>
 
 
 <section><h2 >Store Data in HDFS</h2>
-<ul><li>The sandbox user (us) only has write permission to /user/sandbox within HDF.
+<ul><li>The sandbox user (us) only has write permission to /user/sandbox within HDFS.
+<ul><li>This is good (prevents mistakes), but...
+<li>... potentially annoying (have to type more without typos)</ul>
 <li>We create a books directory in HDFS.
 <code>hdfs dfs -mkdir /user/sandbox/books</code>
 <li>We copy the books in the local books folder to the HDFS books folder.
 <code>hdfs dfs -copyFromLocal -f books/* /user/sandbox/books</code>
-<li>We can verify:
+<li>We can verify (ls, cat, head, etc):
 <code>hdfs dfs -ls /user/sandbox/books</code>
 </section>
 
 
 <section><h2 >Canonical MapRed</h2>
-<ul><li>The &quot;hello world&quot; Hadoop Streaming job uses &quot;cat&quot; and &quot;wc&quot;. 
+<ul><li>The &quot;hello world&quot; Hadoop Streaming job uses &quot;cat&quot; and &quot;wc&quot;.
+<ul><li>This <b>does coun words</b> but not the way WordCount.jar did.</ul> 
 <li>I&#39;ve simplified it here, once you get this working take a look at the documentation.
 
 <code>mapred streaming \
@@ -638,6 +655,11 @@ ls books
   -mapper cat \
   -reducer wc</code>
 <li><a href="https://hadoop.apache.org/docs/current/hadoop-streaming/HadoopStreaming.html">Read more</a>
+<ul><li>The documentation uses full paths for cat/wc
+<ul><li>This is fraught with peril, but...
+<li>Less likely to trigger 'not found' type errors once debugged.
+</ul>
+<li>The documentation doesn't use literal paths for input/output.
 </section>
 
 
@@ -645,7 +667,7 @@ ls books
 <ul><li>We confirm that the job was successful by investigating the words folder in HDFS.
 <code>hdfs dfs -ls /user/sandbox/words</code><li>The output will likely be in part-00000, but check before you read.
 <code>hdfs dfs -head /user/sandbox/words/part-00000</code>
-<p>What do you see?
+<li>Before and after looking, consider: What do you expect to see?
 </section>
 
 
@@ -657,183 +679,285 @@ ls books
 <section>
 <h2>SIDEBAR: cat</h2>
 <ul><li>&#39;cat&#39; concatenates a list of files and prints it to command line:
-<code>echo "some words" > one.txt
+<code class="bash">echo "some words" > one.txt
 echo "other words" > two.txt
 cat one.txt two.txt</code>
 <li>We get:
-<code>some words
+<code class="bash">some words
 other words</code>
 </section>
 <section>
-<h2>wc</h2>
-<p>&#39;wc&#39; counts lines, words, and characters in a file.
-<pre><code><span class="hljs-selector-tag">wc</span> <span class="hljs-selector-tag">one</span><span class="hljs-selector-class">.txt</span>
-</code></pre><h4 id="pipe-">Pipe &#39;|&#39;</h4>
-<p>Pipes pass the <em>output</em> of one command to the <em>input</em> of another command. We could count words in both files:
-<pre><code><span class="hljs-keyword">cat</span> <span class="hljs-keyword">one</span>.txt <span class="hljs-keyword">two</span>.txt | wc
-</code></pre><p>This is basically what MapRed streaming is doing - just all at once.
+<h2>SIDEBAR: wc</h2>
+<ul><li>&#39;wc&#39; counts 
+<ol>
+<li>lines, 
+<li>words, and 
+<li>characters in a file.</ol>
+<code class="bash">wc one.txt</code>
+</section>
+<section>
+<h2>SIDEBAR: wc</h2>
+<ul>
+<li>It's helpful to get a sense for wc from managable but non-trival sized files.
+<ul><li>The lyrics to Mark Ronson "Nothing Breaks Like a Heart" feat. Miley Cyrus.
+<li>A four minute pop track at typical speaking tempo.
+<code class="bash">51  356 1893 nothing.txt</code><ul>
+<li>51 lines (stanzas)
+<li>356 words
+<li>1893 characters</ul>
+<li>Austen's Pride and Prejudice
+<li>A ~300 page novel in conversational language
+<code class="bash">14911 130408 772420 austen.txt</code><ul>
+<li>15k lines (stanzas)
+<li>130k words
+<li>770k characters</ul>
+<li>Project Gutenberg 28 vol. encyclopedia
+<code class="bash">4112430 37746754 232673172 enc.txt</code>
+</section>
+<section>
+<h2>SIDEBAR: Pipe &#39;|&#39;</h2>
+<ul><li>Pipes pass the <em>output</em> of one command to the <em>input</em> of another command.
+<li>We could count words in two files:
+<code class="bash">cat books/* | wc</code>
+<li>This is basically what MapRed streaming is doing - just all at once.
+<li>It is also how one can combine a 28 vol. encyclopedia!
 </section>
 
+<section><h2 >SIDEBAR: Pipes</h2>
+<ul>
+<li>MapReduce isn't exactly applying cat and wc and doing nothing else
+<ul><li>Somehow MapRed has some sorting going on in it? Probably hashing?
+</ul>
+<li>But basically, MapRed streaming does this command but on more than one CPU at a time.
+<code class="bash">cat books/* | wc</code>
+<li>I get similar but not identical values for pipe &#39;|&#39; method and and mapred - good enough for now.</section>
 
-<section><h2 id="verify-accuracy">Verify Accuracy</h2>
-<pre><code>cat books/* <span class="hljs-string">| wc</span>
-</code></pre><p>I get similar but not identical values for pipe &#39;|&#39; method and and mapred - good enough for now.
-<h4 id="process-substitution">Process Substitution</h4>
-<p>Here is an advanced command to compare the two. Take a moment to think about what the components mean. 
+<section><h2 >SIDEBAR: Process Substitution</h2>
+<ul>
+<li>Last wrinkle: the '<' and '>' operators.
+<li>I use this a lot to make little files:
+<code class="bash">echo "hello world" > hi.txt</code>
+<li>In this command, instead of the console capturing command output, it is captured in the file "hi.txt".
+<li>This is a good way to do intermediate steps to pipes using files.
+<li>Here is an advanced command to compare the MapRed and "pipe" variants.
 <a href="https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution">Read more</a>
-<pre><code>diff &lt;(<span class="hljs-name">cat</span> books/* | wc) &lt;(<span class="hljs-name">hdfs</span> dfs -cat /user/sandbox/words/part-00000)
-</code></pre></section>
 
-
-<section><h2 id="python-streaming-setup">Python Streaming Setup</h2>
-<p>In addition to Java jars and BASH commands, we can also stream with Python scripts.
+<code class="bash">diff <(cat books/* | wc) <(hdfs dfs -cat /user/sandbox/words/part-00000)</code>
+<li>Take a moment to think about what the components mean. 
+<li>I use diff a lot! Check it out.
 </section>
 
 
-<section><h2 id="merrer">merrer</h2>
+<section><h2>Python Streaming Setup</h2>
+<p>End Sidebar</p>
+<ul><li>In addition to Java jars and BASH commands, we can also stream with Python scripts.
+</section>
+
+
+<section><h2>merrer</h2>
 <p>I have created a <a href="https://github.com/cd-public/merrer/">repository</a> with a sample <a href="https://raw.githubusercontent.com/cd-public/merrer/main/mapper.py">&#39;mapper.py&#39;</a> and <a href="https://raw.githubusercontent.com/cd-public/merrer/main/reducer.py">&#39;reducer.py&#39;</a> files. 
 <p>These are adapted from a <a href="https://www.geeksforgeeks.org/hadoop-streaming-using-python-word-count-problem/">G4G tutorial</a> and translated to Python3.
+<ul>
+<li>Use mine, or...
+<li>Fork and modifying, or...
+<li>Make your own original, or...
+<li>Find someone else's.</ul>
+<p>You'll need your own someday, but not yet.
 </section>
 
 
-<section><h2 id="curl-sample-scripts">Curl Sample Scripts</h2>
-<p>My container did not have git installed, and it seemed easier to curl than install git or vi or attempt to write Python via echo.
-<p>Github helpfully hosts &quot;raw&quot; data with appropriate file name and extension.
-<pre><code><span class="hljs-built_in">mkdir</span> scripts
-curl http<span class="hljs-variable">s:</span>//raw.githubusercontent.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">cd</span>-public/merrer/main/mapper.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">o</span> scripts/mapper.<span class="hljs-keyword">py</span>
-curl http<span class="hljs-variable">s:</span>//raw.githubusercontent.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">cd</span>-public/merrer/main/reducer.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">o</span> scripts/reducer.<span class="hljs-keyword">py</span>
-</code></pre></section>
+<section><h2 >Curl Python Scripts</h2>
+<ul><li>My container did not have git installed
+<li>It seemed easier to curl than install git or vi or attempt to write Python via echo.
+
+<li>Github helpfully hosts &quot;raw&quot; data with appropriate file name and extension.
+<code class="bash">mkdir scripts
+curl https://raw.githubusercontent.com/cd-public/merrer/main/mapper.py -o scripts/mapper.py
+curl https://raw.githubusercontent.com/cd-public/merrer/main/reducer.py -o scripts/reducer.py</code>
+
+<li>Next best: Cloud Editor and 'docker cp' in an external shell (that is, not sandbox).</section>
 
 
-<section><h2 id="building-the-hadoop-command">Building the Hadoop command</h2>
-<p>Hadoop helpfully has a streaming command example using Python:
-<p>Of note, any files used must also be passed as an additional &#39;-file&#39; parameter. This is because Hadoop must copy these scripts to each DataNode, where they will run locally on those nodes within HDFS.
-<pre><code>hdfs dfs -rm -r /user/sandbox/words
+<section><h2>Building the Hadoop command</h2>
+<ul><li>Hadoop helpfully has a streaming command example using Python:
+<li>Of note, any files (like .py files) used must also be passed as an additional &#39;-file&#39; parameter. 
+<li>This is because Hadoop must copy these scripts to each DataNode.
+<li>The DataNode will use their copy of the (.py) files on data pulled from within HDFS.
+<li>I pre-delete the output directory so I can rerun if I hit errors.
+<code class="bash">hdfs dfs -rm -r /user/sandbox/words
 mapred streaming \
-  -<span class="ruby">input /user/sandbox/books \
-</span>  -<span class="ruby">output /user/sandbox/words \
-</span>  -<span class="ruby">mapper mapper.py \
-</span>  -<span class="ruby">reducer reducer.py \
-</span>  -<span class="ruby">file scripts/mapper.py \
-</span>  -<span class="ruby">file scripts/reducer.py</span>
-</code></pre><p>But, we cannot run this command yet. Why not?
+  -input /user/sandbox/books \
+  -output /user/sandbox/words \
+  -mapper mapper.py \
+  -reducer reducer.py \
+  -file scripts/mapper.py \
+  -file scripts/reducer.py</code>
+  <li>This won't work (yet!) for two reasons but you can run it to see what happens.
+  <li>You could save this as an .sh script!
 </section>
 
 
 <section><h2 id="cluster-python-install">Cluster Python Install</h2>
-<p>We install Python from outside of the container.
+<p>We install Python from outside of the container.<br>
+<b>I am taking off my "inside the container" hat.</b><br>
+<em>I am putting on my "outside the container" hat.</em>
 </section>
 
 
 <section><h2 id="installing-python-on-a-docker-container">Installing Python on a Docker Container</h2>
-<p>Of note, we are install on containers, not images, so this install will not persist.
-<p>We cannot install from within our ssh sessions because:
+<ul>
+<li>Much text:
+<li>Of note, we are install on containers, not images, so this install will not persist.
+<ul><li>Containers are actually running imaginary compuers.
+<li>Images are descriptions of how to start running containers.
+<li>When containers shut down, changes to their data and computation are not saved anywhere.
+</ul>
+<li>We cannot install from within our ssh sessions because:
 <ul>
 <li>We are only in one node, and</li>
 <li>We do not have install permissions.</li>
 </ul>
+<li>Takeaway: You have to do all this every time you 'docker compose up -d' unless you change images.
 </section>
 
 
 <section><h2 id="docker-exec">Docker Exec</h2>
-<p>We can use &#39;docker exec&#39; to invoke commands within a container from the host device. For example:
-<pre><code>docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-datanode-<span class="hljs-number">1</span> <span class="hljs-keyword">python3</span>
-</code></pre><p>Before installing Python on a node, this will probably return an error - and this is the error that prevents us from being able to stream jobs (yet!).
+<ul><li>We can use &#39;docker exec&#39; to invoke commands within a container from the host device. For example:
+<code class="bash">docker exec -it hadoop-sandbox-datanode-1 python3</code>
+<li>Before installing Python on a node, this will probably return an error - and this is the error that prevents us from being able to stream jobs (yet!).
 </section>
 
 
 <section><h2 id="apt">APT</h2>
-<p>APT, &quot;advanced package tool&quot;, is present on most containers I&#39;ve worked with, but usually not up-to-date. To install the latest packages, such as Python 3, it is usually necessary to first &quot;update&quot;:
-<pre><code>apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
-</code></pre><p>When I install Python, it unhelpfully asks me if I&#39;m sure during the process. I add the &#39;-y&#39; flag to make things easier for me.
-<pre><code>apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
-</code></pre></section>
+<ul><li>Not-quite sidebar.
+<li>APT, &quot;advanced package tool&quot;, is a common and powerful command-line utility.<ul>
+<li>It is present on most containers I&#39;ve worked with, but...
+<li>Unlikely computers which updates themselves, container images are static, and
+<li>Container APTs are usually not up-to-date.</ul>
+<li>To install the latest packages, such as Python 3, it is usually necessary to first &quot;update&quot;:
+<code class="bash">apt-get update</code>
+<li>Note: this needs to be done wherever Python is needed - that is, within containers.
+<li>When I install Python, it unhelpfully asks me if I&#39;m sure during the process. I add the &#39;-y&#39; flag to make things easier for me.
+<code class="bash">apt-get -y install python3</code></section>
 
 
 <section><h2 id="apt-on-a-container-cluster">APT on a Container Cluster</h2>
-<p>So we will create a new command line and install Python via &#39;docker exec&#39;
-<pre><code>docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-datanode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-datanode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-namenode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-namenode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-clientnode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-clientnode-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-nodemanager-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
-docker exec -it hadoop-<span class="hljs-keyword">sandbox</span>-nodemanager-<span class="hljs-number">1</span> apt-<span class="hljs-built_in">get</span> -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">python3</span>
-</code></pre><p>This is a lot of text, but it just updates packages then installs Python on each of the NameNode, DataNode, ClientNode, and NodeManager. 
-<p>I thought DataNode would be sufficient, and it&#39;s possible not all of these are necessary, but this worked for me.
-<p>This could be easily automated if I realized how many containers I&#39;d need to work with in advance.
+<p>So we will create a new command line and install Python via &#39;docker exec&#39;<ul>
+<code class="bash">docker exec -it hadoop-sandbox-datanode-1 apt-get update
+docker exec -it hadoop-sandbox-datanode-1 apt-get -y install python3
+docker exec -it hadoop-sandbox-namenode-1 apt-get update
+docker exec -it hadoop-sandbox-namenode-1 apt-get -y install python3
+docker exec -it hadoop-sandbox-clientnode-1 apt-get update
+docker exec -it hadoop-sandbox-clientnode-1 apt-get -y install python3
+docker exec -it hadoop-sandbox-nodemanager-1 apt-get update
+docker exec -it hadoop-sandbox-nodemanager-1 apt-get -y install python3</code>
+<li>This is a lot of text, but it just (1) updates packages then (2) installs Python on each of the (1) NameNode, (2) DataNode, (3) ClientNode, and (4) NodeManager.
+<ul><li>So 2 * 4 = 8 commands.</ul> 
+<li>I thought DataNode would be sufficient, and it&#39;s possible not all of these are necessary, but this worked for me.
+<li>This could be easily automated if I realized how many containers I&#39;d need to work with in advance.
+<ul><li>Could this be done in a .sh or .py command on a host machine in fewer than 8 lines?
 </section>
 
 
-<section><h2 id="python-streaming-test">Python Streaming Test</h2>
+<section><h2>Python Streaming Test</h2>
+<em>Take off your "I'm not inside a container" hat</em><br>
+<b>Put on your "I'm inside a container" hat </b>
 </section>
 
 
-<section><h2 id="chmod">chmod</h2>
-<p>Before passing a Python file off to a DataNode to be run, I verify it has run permissions. We can see if there a &#39;x&#39; - for executable - permissions using &#39;ls&#39;.
-<pre><code><span class="hljs-keyword">ls</span> -<span class="hljs-keyword">al</span> scripts
-</code></pre><p>If there aren&#39;t x&#39;s there, or even if there are and we want to be sure, we set permissions to be maximally permissible with &#39;chmod&#39;
-<pre><code>chmod <span class="hljs-number">777</span> scripts/mapper.py
-chmod <span class="hljs-number">777</span> scripts/reducer.py
-</code></pre><p>Permissions are in octal, so 777 is equal to binary &#39;111111111&#39; which stands for read, write, and execute permissions for &#39;user&#39;, &#39;group&#39;, and &#39;other. <a href="https://en.wikipedia.org/wiki/Chmod">Read more.</a>
+<section><h2>chmod</h2>
+<ul><li>Before passing a Python file off to a DataNode to be run, I verify it has run permissions.
+<li>We can see if there a &#39;x&#39; - for executable - by examining permissions using &#39;ls&#39;.
+<code class="bash">ls -al scripts</code>
+<li>You'll see something like '-rw-r--r--' probably with no x's at first.
+<li>If there aren&#39;t x&#39;s there, or even if there are and we want to be sure, we set permissions to be maximally permissible with &#39;chmod&#39;
+
+<code class="bash">chmod 777 scripts/mapper.py
+chmod 777 scripts/reducer.py</code>
+<li>Permissions are in octal, so 777 is equal to binary &#39;111111111&#39; which stands for read, write, and execute permissions for &#39;user&#39;, &#39;group&#39;, and &#39;other.
+<li>This would be represented as 'rwxrwxrwx'
+<li>Each 'rwx' is a 7 or a 111.
+<li><a href="https://en.wikipedia.org/wiki/Chmod">
+Read more.</a>
 </section>
 
+<section><h2>chmod</h2>
+<ul><li>Emphasis slide.
+<li>chmod is important.
+</section>
 
-<section><h2 id="mapred-stream">Mapred Stream</h2>
-<p>With a Python install and chmod, I can run the following prepared command:
-<pre><code>hdfs dfs -rm -r /user/sandbox/words
+<section><h2>Mapred Stream</h2>
+<ul><li>With a Python install and chmod, the following prepared command (hopefully) runs without error:
+<code class="bash">hdfs dfs -rm -r /user/sandbox/words
 mapred streaming \
-  -<span class="ruby">input /user/sandbox/books \
-</span>  -<span class="ruby">output /user/sandbox/words \
-</span>  -<span class="ruby">mapper mapper.py \
-</span>  -<span class="ruby">reducer reducer.py \
-</span>  -<span class="ruby">file scripts/mapper.py \
-</span>  -<span class="ruby">file scripts/reducer.py</span>
-</code></pre></section>
+  -input /user/sandbox/books \
+  -output /user/sandbox/words \
+  -mapper mapper.py \
+  -reducer reducer.py \
+  -file scripts/mapper.py \
+  -file scripts/reducer.py</code>
+  <li>Once this runs - you've used Python for Big Data.
+  <li>Congrats!</section>
 
 
-<section><h2 id="view-output">View Output</h2>
-<p>Output will be in /user/sandbox/words/, probably as part-00000.
-<pre><code>hdfs dfs -ls <span class="hljs-meta-keyword">/user/</span>sandbox/words
-hdfs dfs -head <span class="hljs-meta-keyword">/user/</span>sandbox<span class="hljs-meta-keyword">/words/</span>part<span class="hljs-number">-00000</span>
-</code></pre><p>We can also copy to the local file system.
-<pre><code>hdfs dfs -copyToLocal /user/sandbox/<span class="hljs-built_in">words</span>
-</code></pre><p>And view the output within the words directory:
-<pre><code>ls <span class="hljs-built_in">words</span>
-head <span class="hljs-built_in">words</span>/part<span class="hljs-number">-00000</span>
-</code></pre></section>
+<section><h2>View Output</h2>
+<ul><li>Output from the example script will be in /user/sandbox/words/, probably as part-00000.
+<code class="bash">hdfs dfs -ls /user/sandbox/words
+hdfs dfs -head /user/sandbox/words/part-00000</code>
+<li>We can also copy to the local file system.
+<code class="bash">hdfs dfs -copyToLocal /user/sandbox/words</code>
+<li>And view the output within the words directory:
+<code class="bash">ls words
+head words/part-00000</code></section>
 
 
-<section><h2 id="python-streaming-enchancement">Python Streaming Enchancement</h2>
+<section id="hw"><h2>Python Streaming Enchancement</h2>
+<h3 >Undesirable Output</h3>
+<ul>
+<li>These words are ugly!
+<code class="bash">#1342]  1
+#768]   1
+#84]    1
+$5,000) 3
+&       1
+($1     3
+(801)   3
+(By     1
+(Godwin)        1
+(He     1</code></section>
+
+
+<section><h2>Homework: (Actual) WordCount</h2>
+<ul><li>Modify the Python files. They currently treat words as &quot;strings separated by spaces&quot;.
+<li>What if they are instead &quot;contiguous strings of letters&quot;?
+<li>Send me a Github repository:
+<ul><li>New mapper and/or reducer scripts, with 
+<li>a README including <ul><li>a note on what dataset you used, and 
+<li>what mapred command you used, </ul>
+<li>You may work in partners on this Homework.
+<li><a href="https://github.com/cd-public/merrer/">merrer</a> serves as an example repository - you can fork it.
 </section>
 
-
-<section><h2 id="undesirable-output">Undesirable Output</h2>
-<p>These words are ugly!
-<pre><code>#<span class="hljs-number">1342</span>]  <span class="hljs-number">1</span>
-#<span class="hljs-number">768</span>]   <span class="hljs-number">1</span>
-#<span class="hljs-number">84</span>]    <span class="hljs-number">1</span>
-$<span class="hljs-number">5</span>,<span class="hljs-number">000</span>) <span class="hljs-number">3</span>
-&amp;       <span class="hljs-number">1</span>
-($<span class="hljs-number">1</span>     <span class="hljs-number">3</span>
-(<span class="hljs-number">801</span>)   <span class="hljs-number">3</span>
-(By     <span class="hljs-number">1</span>
-(Godwin)        <span class="hljs-number">1</span>
-(He     <span class="hljs-number">1</span>
-</code></pre></section>
-
-
-<section><h2 id="modify-py">Modify .py</h2>
-<p>Modify the Python files. They currently treat words as &quot;strings separated by spaces&quot;. What if they are instead &quot;contiguous strings of letters&quot;.
-</section>
-
-
-<section><h2 id="homework">Homework</h2>
-<p>Maintain your new mapper and reducer scripts, with a README including a note on what dataset you used and what mapred command you used, in a Github repository, and share the repository with me. You may work in partners on this Homework.
-<p>merrer serves as an example 
-</section>
-
+<section><h2>Something like...</h2>
+<h3 >Target Output</h3>
+<ul>
+<li>These are words!
+<code class="bash">a       5883
+abaht   1
+abandon 3
+abandoned       7
+abandonment     1
+abashed 1
+abatement       1
+abbey   2
+abduction       1
+abetted 1
+abhor   5
+abhorred        14
+abhorrence      13
+abhorrent       2
+abhors  1
+abide   6</code></section>
 
 </div>
 </div>

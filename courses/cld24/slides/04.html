@@ -622,9 +622,9 @@ cd hadoop-sandbox
 <section><h2 >Curl Sample Data</h2>
 <ul><li>I use the same books as always.
 <code>mkdir books
-curl https://www.gutenberg.org/cache/epub/1342/pg1342.txt -o books/austen.txt
-curl https://www.gutenberg.org/cache/epub/84/pg84.txt -o books/shelley.txt
-curl https://www.gutenberg.org/cache/epub/768/pg768.txt -o books/bronte.txt
+curl https://raw.githubusercontent.com/cd-public/books/main/pg1342.txt -o books/austen.txt
+curl https://raw.githubusercontent.com/cd-public/books/main/pg84.txt -o books/shelley.txt
+curl https://raw.githubusercontent.com/cd-public/books/main/pg768.txt -o books/bronte.txt
 ls books
 </code>
 <li>Hadoop is designed to work on 1 TB+ sizes, but that is a lot of books!

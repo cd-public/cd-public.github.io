@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Architecture</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="title-slide">
+  <h1 class="title">Web Stack</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Async
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>Could it be another Python week?
+<li>The fourth homework, "<a href="https://cd-public.github.io/courses/cld24/slides/04.html#/hw">(Actual) WordCount</a>", is due this week at 6 PM on Wed/Thr (now).
+<ul><li>"Pre-compiled Regex" is probably optimal. <a href="https://stackoverflow.com/a/49965574">Read more</a> and <a href="https://stackoverflow.com/a/22521156">more</a>.</ul>
+<li>Fifth homework is make_tsv.py<ul>
+<li>Python scripting for cloud-first work.
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Big Idea: Architecture, to introduce...
+<li>Hadoop in Dataproc (GCP)</li>
+<ul>
+<li>This is fully cloud-first Hadoop
+<li>It's also Pythonic and we know* Python.
+</ul>
+<li>On GCP: Dataproc+Buckets work well together.
+<li>On Azure: HDInsight+"Blob Storage" or "Data Lake"
+<li>On AWS: EMR+S3
+</ul>
+</section>
+
+
+<section>
+    <h2>Recall: BIG IDEA</h2>
+    <ul>
+	<li>Cloud computing is complicated, but
+        <li>We can break it down with "big ideas"</li>
+        <li>Big idea was: "Data" vs "Compute"</li>
+		<li>Big idea today: "Architecture"
+		<ul>
+		<li>Computer Architecture
+		<li>Network Architecture (kinda but not really)
+		<li>Cloud Architecture
+</section>
+
+<section>
+    <h2>Computer Architecture</h2>
+    <ul>
+	<li>Computer architecture in general is out of scope for a cloud class, but...
+	<li>Some elements of computer architecture matter A LOT.
+	<li>Following up on "Data/Compute" we care a lot about this CPU vs Memory Unit split.
+	</ul>
+	<br><a title="Kapooht, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Von_Neumann_Architecture.svg"><img width="800" alt="Von Neumann Architecture" src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Von_Neumann_Architecture.svg"></a>
+	<p>Modern desktop/laptop devices are von Neuman machines, more or less.
+</section>
+
+<section>
+    <h2>Compute: ALU vs CPU</h2>
+        <ul><li>The ALU is a subset of the CPU. 
+		<li>While the ALU performs operations...
+		<li>the CPU is responsible for managing memory and coordinating data flow.</p>
+        <ul>
+            <li><strong>ALU (Arithmetic Logic Unit)</strong>
+                <ul>
+                    <li>Performs arithmetic and logical operations</li>
+                    <li>Part of the CPU</li>
+                    <li>Handles specific tasks like addition, subtraction, comparison</li>
+                </ul>
+            </li>
+            <li><strong>CPU (Central Processing Unit)</strong>
+                <ul>
+                    <li>Executes instructions from programs</li>
+                    <li>Manages overall computer operations</li>
+                    <li>Includes ALU, control unit, and registers</li>
+                </ul>
+            </li>
+        </ul>
+		<li>Takeway: ALU is purely compute, CPU handles compute+data (memory management)
+		<li>CPU vs ALU is not itself important to cloud computing, but illustrative of the broad concept.
+</section>
+
+
+<section>
+    <h2>Compute: ALU vs CPU</h2>
+        <ul><li>The ALU is a subset of the CPU. 
+		<li>While the ALU performs operations...
+		<li>the CPU is responsible for managing memory and coordinating data flow.
+		<code class="python">>>> x,y = 1,2 # CPU - store operation
+>>> 1 + 2 # ALU - arithmetic operation
+3
+>>> x + y # CPU loads x,y and ALU adds 1,2
+3
+>>> z = x + y # CPU loads x,y then ALU adds 1,2 then CPU stores 3</code>
+		<li>CPU vs ALU is not itself important to cloud computing, but illustrative of the broad concept.
+</section>
+
+<section>
+    <h2>DATA: Callback</h2>
+    <ul>
+        <li>The cloud emerged naturally from high quality systems programming.
+            <ul>
+                <li>As computer chips got faster, they hit a "heat wall" where they couldn't speed up without melting.</li>
+                <li>To get past the heatwall, Intel et al. placed multiple processing units on a single chip (e.g. Phone/Tablet/PC).</li>
+				<li>To use multiply processing units, sometimes <em>n</em> pieces of code had to run at the same time.
+				<li>If <em>n</em> can be 8 (my phone) why not 10^6 (my phone's app's datacenters)
+            </ul>
+        </li>
+    </ul>	<img src="https://i0.wp.com/semiengineering.com/wp-content/uploads/Picture1-2.png?resize=1024%2C576&ssl=1">
+</section>
+
+<section>
+    <h2>DATA: Even Slower</h2>
+        <ul><li>The von Neuman architecture unhelpfully casts a broad net around "memory".
+		<li>In practice, memory management has been a core feature of computer optimization for decades.</ul><img width="75%"src="https://www.researchgate.net/profile/Christine-Eisenbeis/publication/254014003/figure/fig1/AS:393211676774402@1470760377534/Memory-Access-vs-CPU-Speed.png">
+		<p>This image is a core focus of every undergraduate CS architecture course.
+		<p>Credit: Christine Eisenbeis (INRIA).
+</section>
+
+<section>
+    <h2>DATA: MMU</h2>
+        <ul><li
+		<li>Modern von Neuman devices additionally have an "MMU"</ul>
+		<img width="75%"src="https://upload.wikimedia.org/wikipedia/commons/d/dc/MMU_principle_updated.png">
+		<p>Do not, under any circumstances, try to understand what a TLB is.
+</section>
+
+<section>
+    <h2>DATA: Memory Types</h2>
+        <ul><li
+		<li>MMUs can manage both "RAM" (fast, expensive) and "SSD/HDD" (slow, affordable)</ul>		<img width="75%"src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Computer_Systems_-_Von_Neumann_Architecture_Large_poster_anchor_chart.svg">
+</section>
+
+    <section >
+        <h2>DATA: Random Access Memory (RAM)</h2>
+        <ul>
+            <li>Random Access Memory (RAM) is a type of computer memory that is volatile and temporary.
+			<ul>
+			<li><b>Volatile:</b> requires power to maintain data storage.
+			<li>This is why it is temporary.</ul>
+		<li>It stores data that is being actively used or processed by the CPU.
+        <ul>
+            <li>If it is in RAM, it is being read or written.</li>
+            <li>If it is being stored, it is somewhere else (HDD/SSD)</li>
+            <li>It is managed by ALU<->CPU<->MMU</li>
+        </ul></ul>
+		<img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Swissbit_2GB_PC2-5300U-555.jpg">
+    </section>
+
+<section>
+    <h2>DATA: Random Access Memory (RAM)</h2>
+        <ul><li>The Compute/Data performance gap here is between CPU and RAM.</ul>
+		<img width="75%"src="https://www.researchgate.net/profile/Christine-Eisenbeis/publication/254014003/figure/fig1/AS:393211676774402@1470760377534/Memory-Access-vs-CPU-Speed.png">
+		<ul><li>DRAM is the type of RAM used to store what we think of as data.
+		<li>The other form, SRAM, is used internally within CPUs to store e.g. a request to add two numbers.
+</section>
+
+
+<section>
+        <h2>A Spectrum</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th width="15%">Compute</th>
+                    <th width="15%">Compute over Data</th>
+                    <th width="15%">Compute about Data</th>
+                    <th width="15%">Data for Compute</th>
+                    <th width="15%">Data</th>
+					<th width="15%">Data for Data</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ALU</td>
+                    <td>CPU</td>
+                    <td>MMU</td>
+					<td>RAM</td>
+					<td>SSD</td>
+					<td>HDD</td>
+                </tr>
+                <tr>
+                    <td>Arithmetic Logic Unit</td>
+                    <td>Central Processing Unit</td>
+                    <td>Memory Management Unit</td>
+					<td>Random Access Memory</td>
+					<td>Solid State Drive</td>
+					<td>Hard Disk Drive</td>
+                <tr>
+                    <td>Add/Mult/And</td>
+                    <td>Read/Write</td>
+                    <td>Direct Read/Write to Ram/SSD</td>
+					<td>Store an active dataframe of ~1 GB</td>
+					<td>Store an operating system</td>
+					<td>Store a movie you never watch</td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+<section>
+    <h2>DATA: Size</h2>
+    <ul>
+	<li>RAM is ~1000x smaller than HDD
+	<ul><li>RAM - ~8-64 GB
+	<br><img src="imgs/ram.png">
+	<li>SSD - ~500-2000 GB
+	<br><img src="imgs/ssd.png">
+	<li>HDD - ~1000-12000 GB
+	<br><img src="imgs/hdd.png">
+</section>
+
+
+<section>
+    <h2>DATA: Price</h2>
+    <ul>
+	<li>RAM is ~100x more costly than HDD
+	<ul><li>RAM - $3.35/GB
+	<br><img src="imgs/ramprice.png">
+	<li>HDD - $0.02/GB
+	<br><img src="imgs/hddprice.png">
+	</ul></ul>
+	<p>This was just the first shopping result in a naive search, but approximately representative of trends to the best of my knowledge.
+</section>
+
+<section >
+        <h2>Comparing RAM and SSD/HDD</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>RAM (Compute-Focused)</th>
+                    <th>SSD/HDD (Storage-Focused)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Function</td>
+                    <td>Temporary storage for active processes</td>
+                    <td>Permanent data storage</td>
+                </tr>
+                <tr>
+                    <td>Volatility</td>
+                    <td>Volatile (data lost when power is off)</td>
+                    <td>Non-volatile (data retained when power is off)</td>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td>Fast access speeds for quick read/write operations</td>
+                    <td>Slower access speeds compared to RAM</td>
+                </tr>
+                <tr>
+                    <td>Purpose</td>
+                    <td>To provide fast access to data for the CPU during active tasks</td>
+                    <td>To store data and programs for long-term use</td>
+                </tr>
+                <tr>
+                    <td>Capacity</td>
+                    <td>Typically smaller (GB range)</td>
+                    <td>Typically larger (GB to TB range)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+<section>
+    <h2>Computer Architecture</h2>
+    <ul>
+	<li>Takeaways:
+	<ul><li>Performance of modern computers is driven by how they manage memory/data.
+	<li>Design of modern computers is driven by cost of underlying memory technologies.
+	<li>Desktop/laptop use cases may map poorly to cloud use cases.
+	<li>A lot of computing is about juggling RAM and SSD/HDD
+	<ul><li>SSD vs HDD is a whole other thing (boring)
+</section>
+
+
+<section>
+	<h2>Aside: SSD vs HDD</h2>
+	<ul><li>HDDs are circular magnetic disks that store a charge encoding a 1 or a 0
+	<li>They are old, large, stable, cheap
+	<li>They continue to store data through power outages.
+	<li>They are essentially unusuable for modern applications like video editting, ML, etc.
+	<ul>
+	<p>My desktop takes around ~5 minutes to boot from HDD and ~30s to boot from SSD.
+</section>
+
+<section>
+	<h2>Aside: SSD vs HDD</h2>
+	<ul><li>SSDs (solid state drives) are basically big, cheap, RAM installations (so, chips not disks)
+	<li>They were necessary to run modern OSes which are:
+		<ul><li>Too large for RAM, and
+		<li>Too important to read slowly
+		</ul>
+	<li>"Word on the street" - Cloud Storage is optimized for what SSD is good at "sequential read/write".
+	<li>Basically, SSDs read big, contigious "blobs" of memory quickly, and everything else slowly.
+	<li>So the cloud almost universally uses "blob" storage for reads/writes.
+	<ul>
+	<p>My desktop takes around ~5 minutes to boot from HDD and ~30s to boot from SSD.
+</section>
+
+<section>
+	<h2>Aside: SSD vs HDD</h2>
+	<ul><li>We can use the case of "movie I never watch"<ul>
+	<li>I have a 90m 720p 24fps video file of 8 GB.
+	<li>This was too large for RAM ~5 years ago (when 720p was in use)
+	<li>Way of Water: 192min 4k 48fps ~= 50x larger ~= 100s of GB
+	</ul>
+	<li>Suppose I move a copy from SSD (where I'd watch it) to HDD<ul>
+	<img src="imgs/HDDvsSSD.png">
+	<li>300 MB/s = 30 seconds to copy
+	</ul>
+	<li>Suppose I move from one SSD to another<ul>
+	<img src="imgs/SSDvsSSD.png">
+	<li>2.5 GB/s = 2500 GB/s = 3 seconds to copy (10x)
+	<li>Would be ~same speed as HDD if it was 100s of clips totaling 90m
+</section>
+
+<section>
+    <h2>Network Architecture</h2>
+    <ul>
+	<li>Network Architecture in general is out of scope, but
+	<li>Clusters have internal networks that are worth making a note of.
+	<code class="bash">docker network ls
+NETWORK ID     NAME                     DRIVER    SCOPE
+71b6d7944a16   bridge                   bridge    local
+f12fc6afe43e   hadoop-sandbox_default   bridge    local
+fd85959e2107   hadoop-sandbox_front     bridge    local
+d2e36549eb61   host                     host      local
+98a29fb1bd37   none      </code>
+<li>"bridge", "host", and "none" are maintained by Docker
+<li>The ones with hadoop-sandbox in the name, well
+</section>
+
+<section>
+    <h2>Clusters</h2>
+    <ul>
+	<li>Use "cluster" to refer to <em>n>1</em> (real or virtual) devices on a network
+	<li>Off the cloud, a Hadoop cluster performs both data and compute operations.
+	<ul>
+	<li>DataNodes store files with HDFS
+	<code class="bash">hdfs dfs -copyFromLocal -f books/* /books</code>
+	<li>NameNodes manage hadoop/mapred jobs
+	<code class="bash">mapred streaming -input /books -output /words -mapper cat -reducer wc</code>
+	</ul>
+	<li>Critically - we run both these commands within Hadoop cluster.
+</section>
+
+
+<section>
+    <h2>Dockerfile</h2>
+    <ul>
+	<li>Hadoop Sandbox helpfully jams all the networking into a container called "front"
+	<li>It's a front end for us, basically, and made it easier to use/work better.
+	<li>This snippet of the docker-compose.yaml file defines front, and the container network.
+	<code style="height: 900px;
+overflow-x: hidden !important;
+overflow-y: auto !important;">  front:
+    image: ${DOCKER_REG:-}httpd:2.4
+    volumes:
+      - "./conf/front/conf:/usr/local/apache2/conf:ro"
+      - "./conf/front/htdocs:/usr/local/apache2/htdocs:ro"
+    restart: always
+    init: true
+    hostname: front
+    networks:
+      - default
+      - front
+    ports:
+      - "127.0.0.1:8042:8042"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8088:8088"
+      - "127.0.0.1:9864:9864"
+      - "127.0.0.1:9870:9870"
+      - "127.0.0.1:19888:19888"
+    depends_on:
+      namenode:
+        condition: service_healthy
+      resourcemanager:
+        condition: service_healthy
+      datanode:
+        condition: service_healthy
+      nodemanager:
+        condition: service_healthy
+      jobhistoryserver:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "set -Eeu -o pipefail ; exec 3<>/dev/tcp/localhost/8080 && echo -ne 'GET / HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && cat <&3 | head -n 1 | grep '^HTTP/1.1 200 OK' || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+
+networks:
+  default:
+  front:</code>
+</section>
+
+
+<section>
+    <h2>Characterize Cluster</h2>
+    <ul>
+	<li>When I launch a HDFS Cluster:
+	<img src="imgs/docker_usage.png">
+</section>
+
+<section>
+<h2>Characterize Cluster</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Docker</td>
+<td style="text-align: left;">Windows</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><ul><li>2.40% / 2000% (20 CPUs available)
+</td>
+<td style="text-align: left;"><ul><li>Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz
+<ul><li>That's a 10 core dual-threaded CPU, for 20 effective CPUs.
+</td>
+<td style="vertical-align:top"> 
+	<img src="imgs/docker_usage.png"></td>
+</tr>
+</tbody>
+</table>
+<li>My virtual Hadoop Cluster has access to up to 20 CPUs and can fully utilize around 10 of them as configured.
+<li>I don't want to set it up to use all 20, I want a few for Windows and Linux (WSL) at a minimum so I can still use my computer at all.
+<li>Add DataNodes to increase utilization and therefore speed.
+</section>
+
+<section>
+<h2>Characterize Cluster</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Docker</td>
+<td style="text-align: left;">Windows</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><ul><li>Container Memory Usage: 1.74GB / 15.13 GB
+</td>
+<td style="text-align: left;"><ul><li>Installed RAM: 32.0 GB (31.7 GB usable)
+</td>
+<td style="vertical-align:top"> 
+	<img src="imgs/docker_usage.png"></td>
+</tr>
+</tbody>
+</table>
+<li>Windows is only allowing ~16 GB to Docker, which is unsurprising
+<li>Windows is also maintaining two OS kernels (Windows and Linux) that certainly want access to 8 GB each.
+<li>Use a container-optimized OS to allocate all RAM to containers.
+</section>
+
+<section>
+    <h2>Storage Size</h2>
+    <ul>
+	<li>8Y ago, there were 14 Kaggle competition datasets that exceed 15.13 GB with no replication. <a href="https://www.kaggle.com/code/benhamner/competitions-with-largest-datasets">src</a>
+	<table class="compact dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+<tbody><tr role="row" class="odd"><td>1</td><td><a href="https://www.kaggle.com/c/4104">Diabetic Retinopathy Detection</a></td><td> 82.2 GiB</td></tr><tr role="row" class="even"><td>2</td><td><a href="https://www.kaggle.com/c/3960">American Epilepsy Society Seizure Prediction Challenge</a></td><td> 59.6 GiB</td></tr><tr role="row" class="odd"><td>3</td><td><a href="https://www.kaggle.com/c/5174">Avito Duplicate Ads Detection</a></td><td> 48.4 GiB</td></tr><tr role="row" class="even"><td>4</td><td><a href="https://www.kaggle.com/c/4117">Microsoft Malware Classification Challenge (BIG 2015)</a></td><td> 35.3 GiB</td></tr><tr role="row" class="odd"><td>5</td><td><a href="https://www.kaggle.com/c/3209">GE Flight Quest</a></td><td> 34.4 GiB</td></tr><tr role="row" class="even"><td>6</td><td><a href="https://www.kaggle.com/c/5229">Draper Satellite Image Chronology</a></td><td> 32.9 GiB</td></tr><tr role="row" class="odd"><td>7</td><td><a href="https://www.kaggle.com/c/2602">CHALEARN Gesture Challenge</a></td><td> 31.1 GiB</td></tr><tr role="row" class="even"><td>8</td><td><a href="https://www.kaggle.com/c/4729">Second Annual Data Science Bowl</a></td><td> 29.7 GiB</td></tr><tr role="row" class="odd"><td>9</td><td><a href="https://www.kaggle.com/c/3611">Flight Quest 2: Flight Optimization, Main Phase</a></td><td> 25.8 GiB</td></tr><tr role="row" class="even"><td>10</td><td><a href="https://www.kaggle.com/c/2969">Belkin Energy Disaggregation Competition</a></td><td> 20.0 GiB</td></tr><tr role="row" class="odd"><td>11</td><td><a href="https://www.kaggle.com/c/3043">Predict Closed Questions on Stack Overflow</a></td><td> 20.0 GiB</td></tr><tr role="row" class="even"><td>12</td><td><a href="https://www.kaggle.com/c/3386">Multi-modal Gesture Recognition</a></td><td> 18.7 GiB</td></tr><tr role="row" class="odd"><td>13</td><td><a href="https://www.kaggle.com/c/4438">Avito Context Ad Clicks</a></td><td> 17.8 GiB</td></tr><tr role="row" class="even"><td>14</td><td><a href="https://www.kaggle.com/c/3300">Predicting Parkinson's Disease Progression with Smartphone Data</a></td><td> 16.8 GiB</td></tr><tr role="row" class="odd"><td>15</td><td><a href="https://www.kaggle.com/c/3800">UPenn and Mayo Clinic's Seizure Detection Challenge</a></td><td> 10.8 GiB</td></tr><tr role="row" class="even"><td>16</td><td><a href="https://www.kaggle.com/c/3377">ICDAR2013 - Gender Prediction from Handwriting</a></td><td>  9.1 GiB</td></tr><tr role="row" class="odd"><td>17</td><td><a href="https://www.kaggle.com/c/4521">Right Whale Recognition</a></td><td>  9.1 GiB</td></tr><tr role="row" class="even"><td>18</td><td><a href="https://www.kaggle.com/c/2863">Raising Money to Fund an Organizational Mission</a></td><td>  9.0 GiB</td></tr><tr role="row" class="odd"><td>19</td><td><a href="https://www.kaggle.com/c/4493">Truly Native? </a></td><td>  7.4 GiB</td></tr><tr role="row" class="even"><td>20</td><td><a href="https://www.kaggle.com/c/3521">Flight Quest 2: Flight Optimization, Milestone Phase</a></td><td>  6.9 GiB</td></tr><tr role="row" class="odd"><td>21</td><td><a href="https://www.kaggle.com/c/4043">BCI Challenge @ NER 2015</a></td><td>  5.9 GiB</td></tr><tr role="row" class="even"><td>22</td><td><a href="https://www.kaggle.com/c/2749">KDD Cup 2012, Track 2</a></td><td>  5.5 GiB</td></tr><tr role="row" class="odd"><td>23</td><td><a href="https://www.kaggle.com/c/3532">Personalized Web Search Challenge</a></td><td>  5.5 GiB</td></tr><tr role="row" class="even"><td>24</td><td><a href="https://www.kaggle.com/c/3641">DecMeg2014 - Decoding the Human Brain</a></td><td>  5.4 GiB</td></tr><tr role="row" class="odd"><td>25</td><td><a href="https://www.kaggle.com/c/4963">Visual Question Answering</a></td><td>  4.1 GiB</td></tr><tr role="row" class="even"><td>26</td><td><a href="https://www.kaggle.com/c/3366">Challenges in Representation Learning: The Black Box Learning Challenge</a></td><td>  3.8 GiB</td></tr><tr role="row" class="odd"><td>27</td><td><a href="https://www.kaggle.com/c/3774">CONNECTOMICS</a></td><td>  3.4 GiB</td></tr><tr role="row" class="even"><td>28</td><td><a href="https://www.kaggle.com/c/2499">Wikipedia's Participation Challenge</a></td><td>  3.0 GiB</td></tr><tr role="row" class="odd"><td>29</td><td><a href="https://www.kaggle.com/c/2758">GigaOM WordPress Challenge: Splunk Innovation Prospect</a></td><td>  3.0 GiB</td></tr><tr role="row" class="even"><td>30</td><td><a href="https://www.kaggle.com/c/2888">CHALEARN Gesture Challenge 2</a></td><td>  2.9 GiB</td></tr><tr role="row" class="odd"><td>31</td><td><a href="https://www.kaggle.com/c/3897">Acquire Valued Shoppers Challenge</a></td><td>  2.9 GiB</td></tr><tr role="row" class="even"><td>32</td><td><a href="https://www.kaggle.com/c/3354">AMS 2013-2014 Solar Energy Prediction Contest</a></td><td>  2.8 GiB</td></tr><tr role="row" class="odd"><td>33</td><td><a href="https://www.kaggle.com/c/3471">Challenges in Representation Learning: Multi-modal Learning</a></td><td>  2.0 GiB</td></tr><tr role="row" class="even"><td>34</td><td><a href="https://www.kaggle.com/c/4603">Душевный семестровый проект</a></td><td>  1.9 GiB</td></tr><tr role="row" class="odd"><td>35</td><td><a href="https://www.kaggle.com/c/3175">Galaxy Zoo - The Galaxy Challenge</a></td><td>  1.8 GiB</td></tr><tr role="row" class="even"><td>36</td><td><a href="https://www.kaggle.com/c/3507">The ICML 2013 Bird Challenge</a></td><td>  1.7 GiB</td></tr><tr role="row" class="odd"><td>37</td><td><a href="https://www.kaggle.com/c/3927">Billion Word Imputation</a></td><td>  1.6 GiB</td></tr><tr role="row" class="even"><td>38</td><td><a href="https://www.kaggle.com/c/3046">Job Recommendation Challenge</a></td><td>  1.5 GiB</td></tr><tr role="row" class="odd"><td>39</td><td><a href="https://www.kaggle.com/c/2917">CPROD1: Consumer PRODucts contest #1</a></td><td>  1.5 GiB</td></tr><tr role="row" class="even"><td>40</td><td><a href="https://www.kaggle.com/c/2748">KDD Cup 2012, Track 1</a></td><td>  1.5 GiB</td></tr><tr role="row" class="odd"><td>41</td><td><a href="https://www.kaggle.com/c/4676">104-1 MLDS_HW2</a></td><td>  1.2 GiB</td></tr><tr role="row" class="even"><td>42</td><td><a href="https://www.kaggle.com/c/4120">Click-Through Rate Prediction</a></td><td>  1.2 GiB</td></tr><tr role="row" class="odd"><td>43</td><td><a href="https://www.kaggle.com/c/3064">Data Mining Hackathon on BIG DATA (7GB) Best Buy mobile web site</a></td><td>  1.2 GiB</td></tr><tr role="row" class="even"><td>44</td><td><a href="https://www.kaggle.com/c/3940">Классификация музыки</a></td><td>  1.1 GiB</td></tr><tr role="row" class="odd"><td>45</td><td><a href="https://www.kaggle.com/c/3951">Liberty Mutual Group - Fire Peril Loss Cost</a></td><td>  1.1 GiB</td></tr><tr role="row" class="even"><td>46</td><td><a href="https://www.kaggle.com/c/3793">Flight Quest 2: Flight Optimization, Final Phase</a></td><td>  1.1 GiB</td></tr><tr role="row" class="odd"><td>47</td><td><a href="https://www.kaggle.com/c/4477">Grasp-and-Lift EEG Detection</a></td><td>  1.0 GiB</td></tr><tr role="row" class="even"><td>48</td><td><a href="https://www.kaggle.com/c/5190">sphere.mail.ru BD-21 final 2016/1</a></td><td>  1.0 GiB</td></tr><tr role="row" class="odd"><td>49</td><td><a href="https://www.kaggle.com/c/3929">The Hunt for Prohibited Content</a></td><td>990.8 MiB</td></tr><tr role="row" class="even"><td>50</td><td><a href="https://www.kaggle.com/c/3926">KDD Cup 2014 - Predicting Excitement at DonorsChoose.org</a></td><td>925.9 MiB</td></tr></tbody></table>
+	<img src="imgs/docker_usage.png">
+</section>
+
+<section>
+    <h2>Network Architecture</h2>
+    <ul>
+	<li>Takeaways:
+	<ul><li>We want to work with datasets that don't fit into "memory"
+	<li>We want to expedite work by splitting it across multiple devices.
+	<li>Clusters have internal networks that are worth making a note of.
+	<code class="bash">docker network ls
+NETWORK ID     NAME                     DRIVER    SCOPE
+71b6d7944a16   bridge                   bridge    local
+f12fc6afe43e   hadoop-sandbox_default   bridge    local
+fd85959e2107   hadoop-sandbox_front     bridge    local
+d2e36549eb61   host                     host      local
+98a29fb1bd37   none      </code>
+<li>Clusters, like computers, have to consider how to handle the "memory problem".
+</section>
+
+<section>
+<h2>Network to Cloud</h2>
+<ul><li>We cannot fit these datasets into our Docker instance.
+<li>With on-premises computing, we'd just have physical computers and buy more hard drives.
+<li>How does this work on the cloud?
+<li>Things on the cloud are still on a network
+<li>But we think of them and interact with them differently
+<li>Critically, we are billed for them differently.
+<ul><li>Saving something on my harddrive is already paid for (free)
+<li>Saving something on with AWS/AZ/GCP is <em>n>0</em> dollars per byte per day.
+</section>
+
+
+<section>
+    <h2>Cloud Architecture</h2>
+    <ul>
+	<li>Suppose we want to store ~20 TB of data in HDFS with a 2x replication factor for 40 TB total.
+	<ul><li>I didn't make this up, it's the DataBricks example.<br>
+	<img src="https://www.databricks.com/sites/default/files/inline-images/hadoop-hdfs-hadoop-distributed-file-system-image.png?v=1673971437">
+	<li>Also maps exactly to the Stack Overflow challenge</ul>
+	<li>It is unlikely a client with 20 TB in data can afford 20 TB of RAM.
+	<ul><li>We want to study our data (using compute)
+	<li>We want to store our data (data as data)
+	<li>We can't spend 67000 USD on RAM
+	</ul>
+	<li>If we use our own cluster, no problem, HDFS will automatically distribute.
+	<li>But somehow we have direct the cloud to use some distribution of RAM/HDD to achieve our goals.
+	<ul><li>The cloud also has to know how to store new data added
+	<li>The cloud has to know how to respond to requests for computationally expensive operations (OCR vs WordCount)
+</section>
+
+<section>
+<h2>DATA: Cloud Big</h2>
+<dl>
+<p>It is generally regarded that...</p>
+<ul><li>Google is one of the largest data aggregators
+<li>Google held approximately 15 exabytes in 2013 [<a href="https://what-if.xkcd.com/63/">src</a>]
+<li>Google's reported power use increased 21%/anum from 2011->2019</ul>
+<br><a style="align:center" href="https://www.forbes.com/sites/robertbryce/2020/10/21/googles-dominance-is-fueled-by-zambia-size-amounts-of-electricity/?sh=4c7bb3568c98"><img style="display:block; margin-left: auto; margin-right: auto" src="https://imageio.forbes.com/specials-images/imageserve/5f908b550436eabb0b8b03b1/Since-2011--Google-s-electricity-use-has-nearly-quintupled-/960x0.png"></a>
+<p style="text-align:center">(12.4/2.6)^(1/8) = 1.21
+<ul><li><b>Hard-drives</b> grew 16x from 2012 to 2023 from less than 2 TB [<a href="https://www.tomshardware.com/news/HAMR-platters-heat-assisted-CREATEC-areal-density,18126.html">src</a>] to 32 TB [<a href="https://www.seagate.com/products/enterprise-drives/exos-x/x-mozaic/">src</a>]</li>
+<li>Google current storage is around 15 exabytes * 1.21^10 * 16 = <b>1614 exabytes</b>
+<li>10x every 5 years within one company, but # of data companies also grows.
+<li>I have generated 134 MB of teaching materials in 3 years, or .0000000000134 exabytes
+</section>
+
+
+
+<section>
+    <h2>DATA: Price Delta</h2>
+    <ul>
+	<li>I estimate the cloud holds ~2 zettabytes = 10^12 gigabytes
+	<ul><li>RAM - $3.35/GB * 2 * 10^12 = 7 trillion USD = 28% US GDP (roughly Finance + Manufacturing)
+	<br><img src="imgs/ramprice.png">
+	<li>HDD - $0.02/GB * 2 * 10^12 = 40 billion USD = DataBricks market cap (one start-up)
+	<br><img src="imgs/hddprice.png">
+	</ul></ul>
+	<p>If you use RAM for the cloud, you stop being a cloud economy and start being a RAM economy.
+</section>
+
+
+
+<section>
+    <h2>IaaS</h2>
+    <ul>
+	<li>We can cloud-host a Hadoop cluster with IaaS VMs
+	<li>High level sketch:
+	<ul>
+	<li>HDFS: Make a VM for the NameNode
+	<li>(YARN: Make a VM for the ResourceManager)
+	<li>HDFS: Make <em>n</em> VMs for the DataNodes
+	<li>(YARN: Make <em>n</em> VMs for the NodeManagers)
+	<li>Make a virtual cloud network and connect them.
+	<li>SSH into namenode to run jobs.
+	</ul>
+<li>Hadoop Sandbox basically does this, just with containers instead of VMS
+<code class="lisp">hadoop-client: Runs an SSH server to serve as client node
+hadoop-hdfs-namenode: Runs the Namenode for HDFS
+hadoop-hdfs-datanode: Runs the Datanode for HDFS
+hadoop-yarn-resourcemanager: Runs the Resourcemanager for the Yarn cluster
+hadoop-yarn-nodemanager: Runs a Nodemanager for the Yarn cluster
+hadoop-mapred-jobhistoryserver: Runs the Jobhistoryserver for Hadoop Mapreduce
+</code>
+<li>We could also use a CaaS solutions and just deploy Hadoop-Sandbox on Cloud (probably, it didn't work well when I tried)</ul>
+<p><b>But I/CaaS is inefficient because either (1) we use an unoptimized cluster or (2) manually optimize a cluster without knowledge of our platform.</b>
+</section>
+
+
+<section>
+        <h2>Managed Hadoop</h2>
+		<ul><li>Cloud providers universally provide Hadoop-as-a-Service, usually a default configuration for I/CaaS
+        <table border="1">
+            <thead>
+				<tr>
+					<th width="10%">Provider</th>
+				
+                <tr>
+					<th width="10%"></th>
+                    <th width="15%">Compute</th>
+                    <th width="15%">Compute over Data</th>
+                    <th width="15%">Compute about Data</th>
+                    <th width="15%">Data for Compute</th>
+                    <th width="15%">Data</th>
+					<th width="15%">Data for Data</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+    <th >GCP</th>
+    <td >Dataproc | Compute Engine</td>
+    <td >Dataproc | Compute Engine</td>
+    <td >Dataproc | Compute Engine</td>
+    <td >Dataproc | Compute Engine</td>
+    <td >Buckets | Cloud Storage</td>
+    <td >Buckets | Cloud Storage</td>
+                </tr>
+                <tr>
+    <th >AZ</th>
+    <td >HDInsight | Azure VM</td>
+    <td >HDInsight | Azure VM</td>
+    <td >HDInsight | Azure VM</td>
+    <td >HDInsight | Azure VM</td>
+    <td >Azure Data Lake</td>
+    <td >Azure Data Lake</td>
+                </tr>
+                <tr>
+    <th >AWS</th>
+    <td >EMR | EC2</td>
+    <td >EMR | EC2</td>
+    <td >EMR | EC2</td>
+    <td >EMR | EC2</td>
+    <td >S3</td>
+    <td >S3</td>
+                </tr>
+            </tbody>
+        </table>
+		<p>"Dataproc | Compute Engine" means "a compute engine launched through the dataproc service".
+</section>
+
+
+<section>
+        <h2>Managed Hadoop</h2>
+		<ul><li>Cloud providers universally provide Hadoop-as-a-Service, usually a default configuration for I/CaaS
+		<li>When purchasing cloud vms...<ul>
+<ul><li>GCP Compute Engine,
+<li>Azure Virtual Machine,
+<li>Amazon Web Services EC2 (Elastic Compute Cloud)...
+</ul><li>...we rent/purchase a combination of vCPU (v = virtual) and Memory.
+<li>Memory here is explicitly RAM, what I called "Data for Compute".</ul>
+
+		<li>Dataproc also runs on GKU (Google Kubernetes Engine = Google CaaS)...
+		<ul><li>But not for Hadoop, only for Spark
+		<li>The Hadoop Data/Name distinction isn't great for containers on cloud (where they scale)
+</section>
+
+<section>
+        <h2>Managed HCFS</h2>
+		<ul><li>HCFS = Hadoop <b>Compatible</b> File System
+		<li>Per Hadoop documentation:
+		<ul>
+		<li>Aliyun OSS
+<li>Amazon S3
+<li>Azure Blob Storage
+<li>Azure Data Lake Storage
+<li>Tencent COS
+<li>Huaweicloud OBS</ul>
+<li>Of note: No Google HCFS, because (per Google):
+<a href="https://cloud.google.com/dataproc/docs/concepts/dataproc-hdfs"><blockquote>HDFS with Cloud Storage: Dataproc uses the Hadoop Distributed File System (HDFS) for storage. Additionally, Dataproc automatically installs the HDFS-compatible Cloud Storage connector, which enables the use of Cloud Storage in parallel with HDFS. Data can be moved in and out of a cluster through upload and download to HDFS or Cloud Storage.</blockquote></a>
+<li>... Google just uses HDFS, because (per Databricks):
+<a href="https://www.databricks.com/glossary/hadoop-distributed-file-system-hdfs"><blockquote>The design of HDFS was based on the Google File System. It was originally built as infrastructure for the Apache Nutch web search engine project but has since become a member of the Hadoop Ecosystem.<blockquote></a>
+
+</section>
+
+<section>
+    <h2>Cloud Architecture</h2>
+    <ul>
+	<li>Suppose we want to store ~20 TB of data in HDFS with a 2x replication factor for 40 TB total.
+	<ul><li>I didn't make this up, it's the DataBricks example.<br>
+	<img src="https://www.databricks.com/sites/default/files/inline-images/hadoop-hdfs-hadoop-distributed-file-system-image.png?v=1673971437">
+	<li>Also maps exactly to the Stack Overflow challenge</ul>
+	<li>We store 20 TB in some kind of vendor dependent HCFS
+	<ul><li>We read it via HDFS on vendor dependent VMs or containers
+	<li>VMs copy blobs into RAM on various VMs to work on
+	<li>We pay for a little bit of RAM and a lot of HDD
+	</ul>
+	<li>The VMs have some computer architecture (von Neuman)
+	<li>The cluster has a network architecture (Name/Data)
+	<li>The file system has a cloud architecture (HDDs somehow)
+</section>
+
+<section id="Dataproc">
+  <h1 class="title">Dataproc</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 05
+  <p class="date">Cloud
+</section>
+
+<section>
+        <h2>RECALL: Managed Hadoop</h2>
+		<ul><li>Cloud providers universally provide Hadoop-as-a-Service, usually a default configuration for I/CaaS
+        <table border="1">
+            <thead>
+				<tr>
+					<th width="10%">Provider</th>
+				
+                <tr>
+					<th width="10%"></th>
+                    <th width="15%">Compute</th>
+                    <th width="15%">Compute over Data</th>
+                    <th width="15%">Compute about Data</th>
+                    <th width="15%">Data for Compute</th>
+                    <th width="15%">Data</th>
+					<th width="15%">Data for Data</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+    <th >GCP</th>
+    <td >Dataproc | Compute Engine</td>
+    <td >Dataproc | Compute Engine</td>
+    <td >Dataproc | Compute Engine</td>
+    <td >Dataproc | Compute Engine</td>
+    <td >Buckets | Cloud Storage</td>
+    <td >Buckets | Cloud Storage</td>
+                </tr>
+            </tbody>
+        </table>
+		<p>"Dataproc | Compute Engine" means "a compute engine launched through the dataproc service".
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Big Idea: Architecture, to introduce...
+<li>Hadoop in Dataproc (GCP)</li>
+<ul>
+<li>This is fully cloud-first Hadoop
+<li>It's also Pythonic and we know* Python.
+</ul>
+<li>On GCP: Dataproc+Buckets work well together.
+</ul>
+</section>
+
+<section><h2>Google Console</h2>
+<ul>
+<li>Access GCP Console:
+<li><a href="https://console.cloud.google.com">https://console.cloud.google.com</a><ul>
+<li>If you still don't have console access, I have an email into support and you can find a partner for the first part.
+</ul>
+<li>We are going to look at two main services: Dataproc and Buckets
+</ul>
+</section>
+
+
+<section><h2 >Dataproc: Creation</h2>
+<ul>
+<li>Type "Dataproc" into the search bar, the first result takes me to a "clusters" tab in "Dataproc"
+<li>Click around a bit and get a feel for things, then...
+<li>Create a new cluster.
+<li>This is not easy, so practice debugging:<ul>
+<li>For me: I couldn't get "Create Cluster" to work, so I used the cloud shell.
+<ul><li>Click the little <mat-icon role="img" class="mat-icon notranslate mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="svg" data-mat-icon-name="devshell" data-mat-icon-namespace="shellgm2-medium"><svg width="5%" height="5%" viewBox="0 0 24 24" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M16,0 L2,0 C0.9,0 0,0.9 0,2 L0,16 C0,17.1 0.9,18 2,18 L16,18 C17.1,18 18,17.1 18,16 L18,2 C18,0.9 17.1,0 16,0 Z M16,16 L2,16 L2,2 L16,2 L16,16 Z M10,11 L7,8 L4,8 L7,11 L4,14 L7,14 L10,11 Z M14,13 L14,12 L10,12 L10,13 L10,14 L14,14 L14,13 Z"></path></svg></mat-icon> to open cloud shell.
+<li>Review this documentation and think about how you would it on your own: <a href="https://cloud.google.com/dataproc/docs/guides/create-cluster#dataproc-create-cluster-gcloud">Create a cluster</a>
+<li>I used the following command without issue:
+<code>gcloud dataproc clusters create clever-name --region us-central1</code>
+<li>I selected US Central since US West seems finicky.
+<li>REMEMBER: Once you create a cluster, it will cost (a small amount of money) until deleted.
+<li>You may encounter errors, practice debugging them!
+</ul><li>I think on our EDU licenses we might sometimes just not get resources - that's okay, just play with the process a bit!
+</ul>
+</section>
+
+<section><h2 >Dataproc: Usage</h2>
+<ul>
+<li>Type "Compute Engine" into the search bar, the first result takes me to a "VM instances" tab in "Compute Engine"
+<li>There is one "m" (NameNode) and several "w" (DataNode) VMs, most likely
+<li>SSH into the NameNode
+<li>Do some standard Hadoop thing, like streaming wc+cat job over a curled text file.<ul>
+<ul><li>We'll come back to Hadoop in a bit.
+</ul>
+</section>
+
+<section><h2>Buckets: Creation</h2>
+<ul>
+<li>Type "Buckets" into the search bar, the first result takes me to a "buckets" tab in "Cloud Storage"
+<li>Click around a bit and get a feel for things, then...
+<li>Create a new bucket with a name you can remember, in a region you can remember
+<li>Other settings don't really affect us, but I turned off soft delete to use less storage.
+<li>If you still don't have console access, I have an email into support and you can find a partner for the first part.
+<li>REMEMBER: Once you create a bucket, it will cost (a small amount of money) until deleted.
+</ul>
+</section>
+
+
+<section><h2>Buckets: File Transfer</h2>
+<ul>
+<li>Once my bucket is created, I have a few options for the Bucket:
+<ul><li>Upload files
+<li>Upload folder
+<li>Create folder
+<li>Transfer data
+</ul>
+<li>Click around a bit a get a feel for things
+<li>We will transfer data into this bucket a bit latter.
+<li>Put a pin here.
+<li>Maybe upload any text file for now.
+</ul>
+</section>
+
+<section><h2>Dataproc+Compute+Buckets</h2>
+<ul>
+<li>Now we use the Google Storage Connector
+<ul><li>With an HDFS enabled Compute Engine SSH session, and a 
+<li>Bucket in Cloud Storage with an uploaded file,
+<li>List the Google Cloud files via HDFS
+<code>hadoop fs -ls gs://bucket/dir/file</code>
+<li>You'll need to edit the command a bit to work.
+<li><b>This is how to use Hadoop without curl!</b></ul>
+<li>Cloud-first Hadoop! Just like that! But wait...
+</section>
+
+<section><h2 >Transfer Data</h2>
+<ul><li>Uploading files from a device is weird...
+<ul><li>We want to be able to scale 20+ TB! We don't (likely) have 20 TB HDDs.
+<li>We might want to use other peoples data without copying it a bunch of times
+<li>We might want to draw data from various sources!
+</ul>
+<li>Solution: "Transfer Data"
+</code></section>
+
+<section><h2 >Back to Bucket</h2>
+<ul><li>Go back to your Bucket
+<li>Bucket Details
+<li>Transfer Data
+<li>Transfer Data In
+<li>Source type
+<li>Select "URL list"
+<li>Next Step
+</code></section>
+
+
+<section><h2 id="hw">TSV</h2>
+<ul><li>You've seen a CSV, now create a TSV:
+<li>Follow <a href="https://cloud.google.com/storage-transfer/docs/create-url-list">these instructions</a>
+<li>Here is <a href="https://raw.githubusercontent.com/cd-public/bookstage/main/utils/books.tsv">an example tsv</a>
+<li>I used the following Python libraries:
+<code class="Python">import os, hashlib, base64</code>
+<li>I used the following constants:
+<code class="Python">PREFIX = 'https://raw.githubusercontent.com/cd-public/books/main/' # DONT scrape Gutenberg
+BK_DIR = '../books/'</code>
+<li>I consulted the following Base64 table: <a href="https://en.wikipedia.org/wiki/Base64">Wikipedia</a>
+<li>Create a file, "make_tsv.py", that when directed to a local directory BK_DIR associated with a Github "raw" url PREFIX , creates a Google-compliant .tsv file with url, file size, and md5 checksum.
+<li>Push "make_tsv.py" and a sample tsv e.g. "books.tsv" to a Github repo somewhere and share it with me.
+<li>You probably want to do this in a Linux environment. Think about why!
+</code></section>
+
+<section><h2>Check your work</h2>
+<ul><li>You may test your "books.tsv" by using it for File Transfer In.
+<li>This will create a "Job" in GCP you can track.
+<li>If it works, you'll see this:
+<img src="imgs/job.png">
+<li>If not, you should get some helpful error messages!
+<li>You can then run mapred jobs over these files!
+</code></section>
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

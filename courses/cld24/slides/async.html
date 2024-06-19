@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Architecture</title>
+  <title>Web Stack</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -24,7 +24,7 @@
     <div class="slides">
 
 
-<section id="title-slide">
+<section>
   <h1 class="title">Web Stack</h1>
   <p class="author">Calvin (Deutschbein)<br>
   <p class="date">Async
@@ -34,853 +34,925 @@
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>Welcome to DATA-599: Cloud Computing!</li>
-<li>Could it be another Python week?
-<li>The fourth homework, "<a href="https://cd-public.github.io/courses/cld24/slides/04.html#/hw">(Actual) WordCount</a>", is due this week at 6 PM on Wed/Thr (now).
-<ul><li>"Pre-compiled Regex" is probably optimal. <a href="https://stackoverflow.com/a/49965574">Read more</a> and <a href="https://stackoverflow.com/a/22521156">more</a>.</ul>
-<li>Fifth homework is make_tsv.py<ul>
-<li>Python scripting for cloud-first work.
-</ul></li>
+<li>Out-of-sequence lecture on web technologies.
+</section>
+<section>
+<h2>Big Idea</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Browsers (clients):<ul>
+<li>HTML
+<li>CSS
+<li>JavaScript
+</ul>
+<li>Servers:<ul>
+<li>Python (Flask/Django)</li>
+<li>C (NGINX/HTTPD) </li>
+<li>SQL</li>
 </ul>
 </section>
 <section>
 <h2>Today</h2>
 <ul>
-<li>Big Idea: Architecture, to introduce...
-<li>Hadoop in Dataproc (GCP)</li>
-<ul>
-<li>This is fully cloud-first Hadoop
-<li>It's also Pythonic and we know* Python.
+<li>Big Idea: browsers and servers<ul>
+<li>Browsers (clients):<ul>
+<li><b>HTML</b>
+<li><b>CSS</b>
+<li>JavaScript
 </ul>
-<li>On GCP: Dataproc+Buckets work well together.
-<li>On Azure: HDInsight+"Blob Storage" or "Data Lake"
-<li>On AWS: EMR+S3
+<li>Servers:<ul>
+<li>Python (Flask/Django)</li>
+<li>C (NGINX/HTTPD) </li>
+<li>SQL</li>
 </ul>
 </section>
 
-
 <section>
-    <h2>Recall: BIG IDEA</h2>
+    <h2>HTML5</h2>
     <ul>
-	<li>Cloud computing is complicated, but
-        <li>We can break it down with "big ideas"</li>
-        <li>Big idea was: "Data" vs "Compute"</li>
-		<li>Big idea today: "Architecture"
-		<ul>
-		<li>Computer Architecture
-		<li>Network Architecture (kinda but not really)
-		<li>Cloud Architecture
-</section>
-
-<section>
-    <h2>Computer Architecture</h2>
-    <ul>
-	<li>Computer architecture in general is out of scope for a cloud class, but...
-	<li>Some elements of computer architecture matter A LOT.
-	<li>Following up on "Data/Compute" we care a lot about this CPU vs Memory Unit split.
-	</ul>
-	<br><a title="Kapooht, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Von_Neumann_Architecture.svg"><img width="800" alt="Von Neumann Architecture" src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Von_Neumann_Architecture.svg"></a>
-	<p>Modern desktop/laptop devices are von Neuman machines, more or less.
-</section>
-
-<section>
-    <h2>Compute: ALU vs CPU</h2>
-        <ul><li>The ALU is a subset of the CPU. 
-		<li>While the ALU performs operations...
-		<li>the CPU is responsible for managing memory and coordinating data flow.</p>
-        <ul>
-            <li><strong>ALU (Arithmetic Logic Unit)</strong>
-                <ul>
-                    <li>Performs arithmetic and logical operations</li>
-                    <li>Part of the CPU</li>
-                    <li>Handles specific tasks like addition, subtraction, comparison</li>
-                </ul>
-            </li>
-            <li><strong>CPU (Central Processing Unit)</strong>
-                <ul>
-                    <li>Executes instructions from programs</li>
-                    <li>Manages overall computer operations</li>
-                    <li>Includes ALU, control unit, and registers</li>
-                </ul>
-            </li>
-        </ul>
-		<li>Takeway: ALU is purely compute, CPU handles compute+data (memory management)
-		<li>CPU vs ALU is not itself important to cloud computing, but illustrative of the broad concept.
-</section>
-
-
-<section>
-    <h2>Compute: ALU vs CPU</h2>
-        <ul><li>The ALU is a subset of the CPU. 
-		<li>While the ALU performs operations...
-		<li>the CPU is responsible for managing memory and coordinating data flow.
-		<code class="python">>>> x,y = 1,2 # CPU - store operation
->>> 1 + 2 # ALU - arithmetic operation
-3
->>> x + y # CPU loads x,y and ALU adds 1,2
-3
->>> z = x + y # CPU loads x,y then ALU adds 1,2 then CPU stores 3</code>
-		<li>CPU vs ALU is not itself important to cloud computing, but illustrative of the broad concept.
-</section>
-
-<section>
-    <h2>DATA: Callback</h2>
-    <ul>
-        <li>The cloud emerged naturally from high quality systems programming.
-            <ul>
-                <li>As computer chips got faster, they hit a "heat wall" where they couldn't speed up without melting.</li>
-                <li>To get past the heatwall, Intel et al. placed multiple processing units on a single chip (e.g. Phone/Tablet/PC).</li>
-				<li>To use multiply processing units, sometimes <em>n</em> pieces of code had to run at the same time.
-				<li>If <em>n</em> can be 8 (my phone) why not 10^6 (my phone's app's datacenters)
-            </ul>
-        </li>
-    </ul>	<img src="https://i0.wp.com/semiengineering.com/wp-content/uploads/Picture1-2.png?resize=1024%2C576&ssl=1">
-</section>
-
-<section>
-    <h2>DATA: Even Slower</h2>
-        <ul><li>The von Neuman architecture unhelpfully casts a broad net around "memory".
-		<li>In practice, memory management has been a core feature of computer optimization for decades.</ul><img width="75%"src="https://www.researchgate.net/profile/Christine-Eisenbeis/publication/254014003/figure/fig1/AS:393211676774402@1470760377534/Memory-Access-vs-CPU-Speed.png">
-		<p>This image is a core focus of every undergraduate CS architecture course.
-		<p>Credit: Christine Eisenbeis (INRIA).
-</section>
-
-<section>
-    <h2>DATA: MMU</h2>
-        <ul><li
-		<li>Modern von Neuman devices additionally have an "MMU"</ul>
-		<img width="75%"src="https://upload.wikimedia.org/wikipedia/commons/d/dc/MMU_principle_updated.png">
-		<p>Do not, under any circumstances, try to understand what a TLB is.
-</section>
-
-<section>
-    <h2>DATA: Memory Types</h2>
-        <ul><li
-		<li>MMUs can manage both "RAM" (fast, expensive) and "SSD/HDD" (slow, affordable)</ul>		<img width="75%"src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Computer_Systems_-_Von_Neumann_Architecture_Large_poster_anchor_chart.svg">
-</section>
-
-    <section >
-        <h2>DATA: Random Access Memory (RAM)</h2>
-        <ul>
-            <li>Random Access Memory (RAM) is a type of computer memory that is volatile and temporary.
-			<ul>
-			<li><b>Volatile:</b> requires power to maintain data storage.
-			<li>This is why it is temporary.</ul>
-		<li>It stores data that is being actively used or processed by the CPU.
-        <ul>
-            <li>If it is in RAM, it is being read or written.</li>
-            <li>If it is being stored, it is somewhere else (HDD/SSD)</li>
-            <li>It is managed by ALU<->CPU<->MMU</li>
-        </ul></ul>
-		<img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Swissbit_2GB_PC2-5300U-555.jpg">
-    </section>
-
-<section>
-    <h2>DATA: Random Access Memory (RAM)</h2>
-        <ul><li>The Compute/Data performance gap here is between CPU and RAM.</ul>
-		<img width="75%"src="https://www.researchgate.net/profile/Christine-Eisenbeis/publication/254014003/figure/fig1/AS:393211676774402@1470760377534/Memory-Access-vs-CPU-Speed.png">
-		<ul><li>DRAM is the type of RAM used to store what we think of as data.
-		<li>The other form, SRAM, is used internally within CPUs to store e.g. a request to add two numbers.
-</section>
-
-
-<section>
-        <h2>A Spectrum</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th width="15%">Compute</th>
-                    <th width="15%">Compute over Data</th>
-                    <th width="15%">Compute about Data</th>
-                    <th width="15%">Data for Compute</th>
-                    <th width="15%">Data</th>
-					<th width="15%">Data for Data</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ALU</td>
-                    <td>CPU</td>
-                    <td>MMU</td>
-					<td>RAM</td>
-					<td>SSD</td>
-					<td>HDD</td>
-                </tr>
-                <tr>
-                    <td>Arithmetic Logic Unit</td>
-                    <td>Central Processing Unit</td>
-                    <td>Memory Management Unit</td>
-					<td>Random Access Memory</td>
-					<td>Solid State Drive</td>
-					<td>Hard Disk Drive</td>
-                <tr>
-                    <td>Add/Mult/And</td>
-                    <td>Read/Write</td>
-                    <td>Direct Read/Write to Ram/SSD</td>
-					<td>Store an active dataframe of ~1 GB</td>
-					<td>Store an operating system</td>
-					<td>Store a movie you never watch</td>
-                </tr>
-            </tbody>
-        </table>
-</section>
-
-<section>
-    <h2>DATA: Size</h2>
-    <ul>
-	<li>RAM is ~1000x smaller than HDD
-	<ul><li>RAM - ~8-64 GB
-	<br><img src="imgs/ram.png">
-	<li>SSD - ~500-2000 GB
-	<br><img src="imgs/ssd.png">
-	<li>HDD - ~1000-12000 GB
-	<br><img src="imgs/hdd.png">
-</section>
-
-
-<section>
-    <h2>DATA: Price</h2>
-    <ul>
-	<li>RAM is ~100x more costly than HDD
-	<ul><li>RAM - $3.35/GB
-	<br><img src="imgs/ramprice.png">
-	<li>HDD - $0.02/GB
-	<br><img src="imgs/hddprice.png">
+	<li>The most basic and foundational component of the web is "HTML".
+	<li>HTML stands for "HyperText Markup Language"
+	<ul>
+	<li>Hyper - contains linkages
+	<li>Text - based in text standards like utf-8 and ascii, primarily displays text
+	<li>Markup - contains formatting
+	<li>Language - has a grammar, which is based on "elements".
 	</ul></ul>
-	<p>This was just the first shopping result in a naive search, but approximately representative of trends to the best of my knowledge.
+	<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/512px-HTML5_logo_and_wordmark.svg.png">
+	<p>The current, and last, version is HTML5.
 </section>
 
-<section >
-        <h2>Comparing RAM and SSD/HDD</h2>
-        <table border="1">
+<section>
+    <h2>WHATWG</h2>
+    <ul>
+	<li>The HTML standard is maintained by WHATWG (Web Hypertext Application Technology Working Group) and W3C (World Wide Web Consortium).
+	<li>The standard is available <a href="https://html.spec.whatwg.org/">here</a>.
+	<li>It is dense reading and not totally necessary. In practice:
+	<ul>
+	<li>Mozilla, Google, Microsoft, and a little bit Apple try to agree
+	<li>WHATWG/W3C try to mediate disputes
+	<li>Anyone trying to host a webpage tries to get along with all browsers
+	<li>The standard is 30+ years old with a lot of baggage.
+	</ul>
+	<li>Takeaway - the way to tell if your HTML is correct is to view it in a browser.
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a file named "index.html"
+	<ul>
+	<li>index here is similar to main in some languages</ul>
+	<li>Place some text in the file, I'll do:
+	<code class="HTML">Hello, world!</code>
+	<li>Open that file in a browser.
+	<li>For comparison, you can also create a .txt file and open that in browser.
+	</ul>
+	<p>This isn't well-formed HTML, but most browsers handle it just fine.
+</section>
+
+<section>
+    <h2>Elements</h2>
+    <ul>
+	<li>Text is not itself HTML, but is a component of HTML.
+	<li>The atomic unit of HTML is an <em>element</em>.
+	<li>Reads WHATWG:
+	<code class="LISP">Each element is denoted in the source by a start tag, such as "&lt;body&gt;", and an end tag, such as "&lt;/body&gt;".</code>
+	<li>I use the term "content" to refer to the inside of an element, the part between the tags, so.
+	<li>An HTML element can be decomposed into three constituent components:
+<ul>
+<li>Start tag, denoted with '&lt;', some element name, and '&gt;', such as '&lt;body&gt;' </li>
+<li>Content, which text which may contain HTML,</li>
+<li>End tag, denoted with '&lt;', a forward slash '/' some element name, and '&gt;', such as '&lt;/body&gt;'</li>
+</ul>
+<li>The content is either text, another element, or some combinations of text and other elements.</ul>
+	<p>Let's see an example.
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Go to file named "index.html"
+	<li>We'll now place text inside a bold element, denoted with 'b'
+	<code class="HTML">&lt;b&gt;Hello, world!&lt;/b&gt;</code>
+	<li>Open that file in a browser.
+	<li>For comparison, you can also create a .txt file and open that in browser.
+	</ul>
+	<p>This isn't a well-formed HTML webpage, but it is well-formed HTML.
+	<ul>
+	<li>I am highly confident many of you will omit the slash in the end tag. Don't do that.
+</section>
+
+<section>
+<h2>Void Elements</h2>
+<p>Some HTML elements with no content will only contain a free-standing tag.</p>
+<ul>
+<li>These have multiple names, I will call them "void elements".<ul>
+<li>C: <code class="java">void main(int argc, const char * argv[])</code></li>
+<li>Java: <code class="java">public static void main(String[] args)</code></li>
+</ul>
+</ul>
+<p>The most common void elements I use are 'img' for images, and 'br' for line breaks.
+</section>
+<section>
+    <h2>Indentation</h2>
+    <ul>
+	<li>I rarely see students write well-formed HTML, and
+	<li>I have never seen a student write ill-formed HTML who used indentation.
+	<li><b>Use indentation</b>
+	<li>VS Code will automatically indent HTML, and you can also use my style guide:
+	<ul>
+	<li>Start tags and end tags get their own lines
+	<li>The start tag and end tag are equally indented
+	<li>Content is indented one further level than it's containing tag.
+	<li>If there are multiple elements within another element, the elements are equally indented.
+	</ul></ul>
+	<p>Let's see an example.
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Go to file named "index.html"
+	<li>We'll now properly indent our HTML:
+	<code class="HTML">&lt;b&gt;
+  Hello, world!
+&lt;/b&gt;</code>
+	<li>I use double space for indentation, you may use whatever works in your editor.
+	<li>Suppose we wish to additional italicize 'world!', how would we do that.
+	<li>The 'em' element is most commonly used to italicize, but you can try 'i' too.
+	</ul>
+	<p>I am highly confident many of you will omit the slash in the end tag. Don't do that.
+</section>
+
+<section>
+    <h2>Try it 2:</h2>
+    <ul>
+	<li>This is a bit excessive on a two word phrase, but good practice...
+	<code class="HTML">&lt;b&gt;
+  Hello, 
+  &lt;i&gt;
+    world!
+  &lt;/i&gt;
+&lt;/b&gt;</code>
+	<li>Note that newlines in HTML do not necessarily correspond to new lines in a webpage.
+	<li>How would you create the following:
+	<br><span style="background-color:white">Hello,</span>
+	<br><span style="background-color:white">world!</span>
+	<li>Think try out some elements, like 'p' and 'br'.
+	<li>Should you use void or contentful elements?
+</section>
+
+<section>
+    <h2>Webpages</h2>
+    <ul>
+	<li>An HTML webpage has a bit more to it than just tags.
+	<code class="HTML">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Sample page&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;h1&gt;Sample page&lt;/h1&gt;
+  &lt;p&gt;This is a &lt;a href="demo.html"&gt;simple&lt;/a&gt; sample.&lt;/p&gt;
+  &lt;!-- this is a comment --&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</code>
+	<p>This is directly from the living standard and uses identation except on inline links.
+</section>
+
+<section>
+    <h2>Webpages</h2>
+    <ul>
+	<li>A well-formed HTML webpage additional contains:
+	<ul>
+	<li>A header, like the one we needed in our .tsv files, which is a void tag:
+	<code class="HTML">&lt;!DOCTYPE html&gt;</code>
+	<li>An outermost "html" element, which optionally specifies the page language:
+	<code class="HTML">&lt;html lang="en"&gt;</code><ul>
+	<li>A "head" element, which contains descriptors of the entire webpage, such as the title that should display on the browser window/tab for the page.
+	<code class="HTML">&lt;head&gt;</code>
+	<li>A "body" element, which contains the content of the page, formatted in HTML elements.
+	<code class="HTML">&lt;body&gt;</code>
+	</ul></ul>
+	<li>This is the structure
+		<code class="HTML">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</code>
+</section>
+
+<section>
+    <h2>Comments</h2>
+    <ul>
+	<li>HTML also supports comments:	<code class="HTML">&lt;!-- this is a comment --&gt;</code>
+	<li>Here is an example I saw recently:
+	<code class="HTML">&lt;!DOCTYPE html&gt;
+&lt;!--
+DON'T USE THIS PAGE FOR SCRAPING.
+Seriously. You'll only get your IP blocked.
+Read https://www.gutenberg.org/feeds/ to learn how to download Project
+Gutenberg metadata much faster than by scraping.
+--&gt;&lt;html lang="en"&gt;</code>
+	<li>In general, students write too few comments. Here's a comment to remind head vs body.
+		<code class="HTML">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;!-- Anything here is about the webpage. --&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;!-- Anything here is the contents of the webpage. --&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</code>
+	<ul>
+	<li>A header, like the one we needed in our .tsv files, which is a void tag:
+	<code class="HTML">&lt;!DOCTYPE html&gt;</code>
+	<li>An outermost "html" element, which optionally specifies the page language:
+	<code class="HTML">&lt;html lang="en"&gt;</code><ul>
+	<li>A "head" element, which contains descriptors of the entire webpage, such as the title that should display on the browser window/tab for the page.
+	<code class="HTML">&lt;head&gt;</code>
+	<li>A "body" element, which contains the content of the page, formatted in HTML elements.
+	<code class="HTML">&lt;body&gt;</code>
+	</ul></ul>
+	<li>This is the structure
+		<code class="HTML">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</code>
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a webpage:
+	<ul><li>Named "Hello World Page"
+	<li>With a content header "A Webpage"
+	<li>With paragraph containing the text "Hello, World!"
+	<li>With at least one comment.
+	<li>Properly indented.
+	</ul>
+	</ul>
+	<p>Once this is working, experiment more. You probably know some HTML from somewhere.
+</section>
+
+<section>
+    <h2>Attributes</h2>
+    <ul>
+	<li>An HTML element may option contain any number of "attributes" within a start or void tag.
+	<li>Attributes make tagging much more expressive.
+	<li>We saw our first example of an attribute with the 'html' outermost start tag.
+	<code class="HTML">&lt;html lang="en"&gt;</code>
+	<li>Attribute are how the 'img' element's void tag determines which image to display.
+	<code class="HTML">&lt;img src="imgs/01.png"&gt;</code>
+	<li>Which also provides an example of a multiple attribute element.
+	<code class="HTML">&lt;img src="imgs/01.png" width="50%"&gt;</code>
+	<li>Because of irregularities with how tags like 'b' and 'strong' or 'i' and 'em' work in different browsers, attributes are the preferred way to style text, usually with a span.
+	<code class="HTML">&lt;span style="font-weight:bold"&gt;Hello, World!"&lt;/span&gt;</code>
+	</ul>
+	<p>Let's see an example.
+</section>
+
+<section>
+    <ul>
+	<span style="color:#000000;background:#ffffff;"><span class="line_wrapper"><span style="color:#800000; font-weight:bold; ">def</span> main<span style="color:#808030; ">()</span><span style="color:#808030; ">:</span><br>&emsp;</span><span style="color:#800000; font-weight:bold; ">print</span><span style="color:#808030; ">(<span style="color:#800000; ">"<span style="color:#0000e6; ">hi</span>"</span><span style="color:#808030; ">)</span></span></ul><br><a href="https://tohtml.com/python/"><ul>
+<!--Created using ToHTML.com on 2024-06-18 01:12:49 UTC -->
+<code class="HTML">&lt;span style='color:#800000; font-weight:bold; '&gt;
+  def
+&lt;/span&gt;
+main
+&lt;span style='color:#808030; '&gt;
+  ():
+&lt;/span&gt;
+&lt;span style='color:#800000; font-weight:bold; '&gt;
+  print
+&lt;/span&gt;
+&lt;span style='color:#808030; '&gt;
+  (
+  &lt;span style='color:#800000; '&gt;
+    "
+    &lt;span style='color:#0000e6; '&gt;hi&lt;/span&gt;
+    "
+  &lt;/span&gt;
+  )
+&lt;/span&gt;
+&lt;!--Created using ToHTML.com on 2024-06-18 01:21:39 UTC --&gt;</code>
+	</ul></a>
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a webpage:
+	<ul><li>Named "Hello World Page"
+	<li>With a content header "A Webpage"
+	<li>With paragraph containing the text "Hello, World!"
+	<li>With at least one comment.
+	<li>Properly indented.
+	<li>Use attributes:<ul>
+	<li>Bold the "Hello, World!" text.
+	<li>Make the header red, blue, or green.
+	<li>Italicize the "World!" text.
+	</ul>
+	</ul>
+	</ul>
+	<p>Once this is working, experiment more. Try an image.
+</section>
+
+
+<section>
+<h2>Grammar:</h2>
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute value</li>
+<li>Attribute name</li></ul></li></ul>
+</li><li>Content<ul>
+<li>Text, or
+<li>Element(s)</li></ul>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></ul></li></ul></li></ul>
+</section>
+
+<section>
+<h2>Webpage:</h2>
+<ul>
+<li>HTML<ul>
+<li>Head<ul>
+<li>Elements</ul>
+</li><li>Body<ul>
+<li>Elements<ul>
+</section>
+
+<section>
+<h2>HTML</h2>
+<ul>
+<p>HTML is a mark-up language. It was meant to:</p>
+<ul>
+<li>Hold content</li>
+<li>Describe relationships between content</li>
+</ul>
+<p>It was not meant to:</p>
+<ul>
+<li>Define the appearance of content</li>
+<li>Describe a webpage, rather than webpage contents</li>
+</ul>
+<p>Consider the following HTML snippet</p>
+<p>Are <code>&#60;p&#62;</code> and <code>&#60;strong&#62;</code> the same kind of thing?</p>
+</ul>
+</section>
+
+<section>
+<h2>Style and Atomicity</h2>
+<ul>
+<p>HTML styling threatened the atomicity of elements, by conflating holding content with styling content.</p><table border="1">
             <thead>
                 <tr>
-                    <th>Aspect</th>
-                    <th>RAM (Compute-Focused)</th>
-                    <th>SSD/HDD (Storage-Focused)</th>
+                    <th colspan="2">Content-holding elements</th>
+                    <th colspan="2">Style-denoting elements</th><th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Function</td>
-                    <td>Temporary storage for active processes</td>
-                    <td>Permanent data storage</td>
-                </tr>
-                <tr>
-                    <td>Volatility</td>
-                    <td>Volatile (data lost when power is off)</td>
-                    <td>Non-volatile (data retained when power is off)</td>
-                </tr>
-                <tr>
-                    <td>Speed</td>
-                    <td>Fast access speeds for quick read/write operations</td>
-                    <td>Slower access speeds compared to RAM</td>
-                </tr>
-                <tr>
-                    <td>Purpose</td>
-                    <td>To provide fast access to data for the CPU during active tasks</td>
-                    <td>To store data and programs for long-term use</td>
-                </tr>
-                <tr>
-                    <td>Capacity</td>
-                    <td>Typically smaller (GB range)</td>
-                    <td>Typically larger (GB to TB range)</td>
+                    <td>
+<ol style="background-color:black;color:lime;font-weight:bold">
+
+<li>&#60;p&#62;</li>
+<li>&#60;h1&#62; </li>
+<li>&#60;ul&#62; </li>
+<li>&#60;li&#62;  </li>
+<li>&#60;tr&#62; </li>
+</ol>
+					</td>
+                    <td>
+<ol>
+<li>paragraphs</li>
+<li>headers </li>
+<li>lists </li>
+<li>list items </li>
+<li>table rows</li>
+</ol>
+					</td>
+                    <td>
+<ol style="background-color:black;color:lime;font-weight:bold">
+<li>&#60;b&#62;
+<li>&#60;i&#62;
+<li>&#60;em&#62;
+<li>&#60;strong&#62;
+<li>&#60;br&#62;
+</ol>
+					</td>
+                    <td>
+<ol>
+<li>bold</li>
+<li>italics </li>
+<li>emphasis </li>
+<li>strong emphasis </li>
+<li>line break</li>
+</ol>
+					</td>
+                  
                 </tr>
             </tbody>
         </table>
-    </section>
-
-
-<section>
-    <h2>Computer Architecture</h2>
-    <ul>
-	<li>Takeaways:
-	<ul><li>Performance of modern computers is driven by how they manage memory/data.
-	<li>Design of modern computers is driven by cost of underlying memory technologies.
-	<li>Desktop/laptop use cases may map poorly to cloud use cases.
-	<li>A lot of computing is about juggling RAM and SSD/HDD
-	<ul><li>SSD vs HDD is a whole other thing (boring)
-</section>
-
-
-<section>
-	<h2>Aside: SSD vs HDD</h2>
-	<ul><li>HDDs are circular magnetic disks that store a charge encoding a 1 or a 0
-	<li>They are old, large, stable, cheap
-	<li>They continue to store data through power outages.
-	<li>They are essentially unusuable for modern applications like video editting, ML, etc.
-	<ul>
-	<p>My desktop takes around ~5 minutes to boot from HDD and ~30s to boot from SSD.
 </section>
 
 <section>
-	<h2>Aside: SSD vs HDD</h2>
-	<ul><li>SSDs (solid state drives) are basically big, cheap, RAM installations (so, chips not disks)
-	<li>They were necessary to run modern OSes which are:
-		<ul><li>Too large for RAM, and
-		<li>Too important to read slowly
-		</ul>
-	<li>"Word on the street" - Cloud Storage is optimized for what SSD is good at "sequential read/write".
-	<li>Basically, SSDs read big, contigious "blobs" of memory quickly, and everything else slowly.
-	<li>So the cloud almost universally uses "blob" storage for reads/writes.
-	<ul>
-	<p>My desktop takes around ~5 minutes to boot from HDD and ~30s to boot from SSD.
-</section>
-
-<section>
-	<h2>Aside: SSD vs HDD</h2>
-	<ul><li>We can use the case of "movie I never watch"<ul>
-	<li>I have a 90m 720p 24fps video file of 8 GB.
-	<li>This was too large for RAM ~5 years ago (when 720p was in use)
-	<li>Way of Water: 192min 4k 48fps ~= 50x larger ~= 100s of GB
-	</ul>
-	<li>Suppose I move a copy from SSD (where I'd watch it) to HDD<ul>
-	<img src="imgs/HDDvsSSD.png">
-	<li>300 MB/s = 30 seconds to copy
-	</ul>
-	<li>Suppose I move from one SSD to another<ul>
-	<img src="imgs/SSDvsSSD.png">
-	<li>2.5 GB/s = 2500 GB/s = 3 seconds to copy (10x)
-	<li>Would be ~same speed as HDD if it was 100s of clips totaling 90m
-</section>
-
-<section>
-    <h2>Network Architecture</h2>
-    <ul>
-	<li>Network Architecture in general is out of scope, but
-	<li>Clusters have internal networks that are worth making a note of.
-	<code class="bash">docker network ls
-NETWORK ID     NAME                     DRIVER    SCOPE
-71b6d7944a16   bridge                   bridge    local
-f12fc6afe43e   hadoop-sandbox_default   bridge    local
-fd85959e2107   hadoop-sandbox_front     bridge    local
-d2e36549eb61   host                     host      local
-98a29fb1bd37   none      </code>
-<li>"bridge", "host", and "none" are maintained by Docker
-<li>The ones with hadoop-sandbox in the name, well
-</section>
-
-<section>
-    <h2>Clusters</h2>
-    <ul>
-	<li>Use "cluster" to refer to <em>n>1</em> (real or virtual) devices on a network
-	<li>Off the cloud, a Hadoop cluster performs both data and compute operations.
-	<ul>
-	<li>DataNodes store files with HDFS
-	<code class="bash">hdfs dfs -copyFromLocal -f books/* /books</code>
-	<li>NameNodes manage hadoop/mapred jobs
-	<code class="bash">mapred streaming -input /books -output /words -mapper cat -reducer wc</code>
-	</ul>
-	<li>Critically - we run both these commands within Hadoop cluster.
-</section>
-
-
-<section>
-    <h2>Dockerfile</h2>
-    <ul>
-	<li>Hadoop Sandbox helpfully jams all the networking into a container called "front"
-	<li>It's a front end for us, basically, and made it easier to use/work better.
-	<li>This snippet of the docker-compose.yaml file defines front, and the container network.
-	<code style="height: 900px;
-overflow-x: hidden !important;
-overflow-y: auto !important;">  front:
-    image: ${DOCKER_REG:-}httpd:2.4
-    volumes:
-      - "./conf/front/conf:/usr/local/apache2/conf:ro"
-      - "./conf/front/htdocs:/usr/local/apache2/htdocs:ro"
-    restart: always
-    init: true
-    hostname: front
-    networks:
-      - default
-      - front
-    ports:
-      - "127.0.0.1:8042:8042"
-      - "127.0.0.1:8080:8080"
-      - "127.0.0.1:8088:8088"
-      - "127.0.0.1:9864:9864"
-      - "127.0.0.1:9870:9870"
-      - "127.0.0.1:19888:19888"
-    depends_on:
-      namenode:
-        condition: service_healthy
-      resourcemanager:
-        condition: service_healthy
-      datanode:
-        condition: service_healthy
-      nodemanager:
-        condition: service_healthy
-      jobhistoryserver:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "bash", "-c", "set -Eeu -o pipefail ; exec 3<>/dev/tcp/localhost/8080 && echo -ne 'GET / HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && cat <&3 | head -n 1 | grep '^HTTP/1.1 200 OK' || exit 1"]
-      interval: 1m
-      timeout: 10s
-      retries: 3
-      start_period: 1m
-
-networks:
-  default:
-  front:</code>
-</section>
-
-
-<section>
-    <h2>Characterize Cluster</h2>
-    <ul>
-	<li>When I launch a HDFS Cluster:
-	<img src="imgs/docker_usage.png">
-</section>
-
-<section>
-<h2>Characterize Cluster</h2>
+<h2>Attributes</h2>
 <ul>
+<p>Like elements, attributes differ in functionality</p>
+<ul>
+<li>'href' and 'src' are mandatory for their elements '&#60;a&#62;' and '&#60;img&#62;'</li>
+<li>'width' is an attribute for some elements yet may be used within a 'style'</li>
+<li>'&#60;p style="font-weight:bold"&#62;' seems redundant with '&#60;b&#62;' and '&#60;strong&#62;'</li>
+<li>'style' is never necessary, yet always valid.</li>
+<li>'style' has "key value pairs" instead of values.</li>
+</ul>
+<p>What is the pattern here?</p>
+</ul>
+</section>
+
+<section>
+<h2>Style</h2>
+<ul>
+<p>Style plays by its own rules.</p>
+<ul>
+<li>Styles may be specified inline with elements (or in a head style element)</li>
+<li>Styles have an internal notation style using colons and semicolons, as well as keywords.</li>
+<li>Styles almost appear to be <em>written in another language</em></li>
+</ul>
+<p>That is: Do we really need <em>n</em> ways to to express a concept as simple as bold?
+</ul>
+</section>
+
+<section>
+<h2>CSS</h2>
+<ul>
+<p>Style attributes and elements are written in <em>CSS</em>, or "Cascading Style Sheets"</p>
+<ul>
+<li>The atomic unit of CSS is a rule, which contains
+<ul>
+<li>A selector, which references an HTML element, and</li>
+<li>A declaration block surrounded with by curly braces, which contains<ul>
+<li>Declarations, terminated by semi-colons, which contain:<ul>
+<li>Properties, punctuated by colons, and,</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+<p>When we write CSS inside HTML:</p>
+<ul><li>In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
+<li>In style elements in headers, we write full CSS rules.</li>
+</ul>
+</ul>
+</section>
+
+<section>
+<h2>Style Attributes</h2>
+<ul>
+<p>Consider the following HTML snippet with a style attribute.</p>
+<code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
+<ul>
+<li>Recall: In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
+<li>Recall: A declaration block... contains<ul>
+<li>Declarations, terminated by semi-colons, which contain:<ul>
+<li>Properties, punctuated by colons, and,</li>
+<li>Values</li>
+</ul></li></ul></li>
+</ul>
+</section>
+
+<section>
+<h2>Finger Binary</h2>
+<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
 <table>
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
+<col style="width: 50%" />
 <col style="width: 50%" />
 </colgroup>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Docker</td>
-<td style="text-align: left;">Windows</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/closed-fist-0.png"><br>0b00 == 0</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/thumb-raised1.png"><br>0b01 == 1</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><ul><li>2.40% / 2000% (20 CPUs available)
-</td>
-<td style="text-align: left;"><ul><li>Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz
-<ul><li>That's a 10 core dual-threaded CPU, for 20 effective CPUs.
-</td>
-<td style="vertical-align:top"> 
-	<img src="imgs/docker_usage.png"></td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0b11 == 3</td>
 </tr>
 </tbody>
 </table>
-<li>My virtual Hadoop Cluster has access to up to 20 CPUs and can fully utilize around 10 of them as configured.
-<li>I don't want to set it up to use all 20, I want a few for Windows and Linux (WSL) at a minimum so I can still use my computer at all.
-<li>Add DataNodes to increase utilization and therefore speed.
 </section>
 
 <section>
-<h2>Characterize Cluster</h2>
+<h2>Preview Question 1</h2>
 <ul>
-<table>
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Docker</td>
-<td style="text-align: left;">Windows</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><ul><li>Container Memory Usage: 1.74GB / 15.13 GB
-</td>
-<td style="text-align: left;"><ul><li>Installed RAM: 32.0 GB (31.7 GB usable)
-</td>
-<td style="vertical-align:top"> 
-	<img src="imgs/docker_usage.png"></td>
-</tr>
-</tbody>
-</table>
-<li>Windows is only allowing ~16 GB to Docker, which is unsurprising
-<li>Windows is also maintaining two OS kernels (Windows and Linux) that certainly want access to 8 GB each.
-<li>Use a container-optimized OS to allocate all RAM to containers.
+<p>Consider the following HTML snippet.</p>
+<code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
+<p>What is this?<code>style="font-weight:bold"</code></p>
+<ol>
+<li>A CSS declaration block</li>
+<li>A CSS rule</li>
+<li>A CSS selector</li>
+<li>An HTML attribute</li>
+</ol>
+</ul>
 </section>
 
 <section>
-    <h2>Storage Size</h2>
+<h2>Preview Question 2</h2>
+<ul>
+<p>Consider the following HTML snippet.</p>
+<code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
+<p>What is <code>font-weight:bold</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 3</h2>
+<ul>
+<p>Consider the following HTML snippet.</p>
+<code>&#60;p style="font-weight:bold;color:magenta;"&#62;Coffee&#60;/p&#62; </code>
+<p>What is <code>font-weight:bold;color:magenta;</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 4</h2>
+<ul>
+<p>Consider the following HTML snippet.</p>
+<code>&#60;p style="font-weight:bold;color:magenta;"&#62;Coffee&#60;/p&#62; </code>
+<p>What is <code>font-weight:bold;</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 5</h2>
+<ul>
+<p>Consider the following HTML snippet.</p>
+<code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
+<p>What is <code>font-weight</code></p>
+<ol>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 6</h2>
+<ul>
+<p>Consider the following HTML snippet.</p>
+<code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
+<p>What is <code>bold</code></p>
+<ol>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Style elements</h2>
+<ul>
+<p>This is an HTML webpage with a style element.</p><code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;This page is just a demo.&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code>
+<ul>
+<li>Recall: The atomic unit of CSS is a rule, which contains
+<ul>
+<li>A selector, which references an HTML element, and</li>
+<li>A declaration block surrounded with by curly braces</li></ul></li></ul>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 7</h2>
+<ul>
+<p>Consider the following HTML excerpt.</p><code>  &#60;style&#62;
+   p { background: blue; color: white; }
+  &#60;/style&#62;</code>
+<p>What is <code>p { background: blue; color: white; }</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A rule</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 8</h2>
+<ul>
+<p>Consider the following HTML excerpt.</p>
+<p>What is <code>p { background: blue; color: white; }</code></p>
+<p>What is <code>p</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A selector</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question 9</h2>
+<ul>
+<p>Consider the following HTML excerpt.</p>
+<p>What is <code>p { background: blue; color: white; }</code></p>
+<p>What is <code>{ background: blue; color: white; }</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question A</h2>
+<ul>
+<p>Consider the following HTML excerpt.</p>
+<p>What is <code>p { background: blue; color: white; }</code></p>
+<p>What is <code>background: blue;</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question B</h2>
+<ul>
+<p>Consider the following HTML excerpt.</p>
+<p>What is <code>p { background: blue; color: white; }</code></p>
+<p>What is <code>background</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+<section>
+<h2>Preview Question C</h2>
+<ul>
+<p>Consider the following HTML excerpt.</p>
+<p>What is <code>p { background: blue; color: white; }</code></p>
+<p>What is <code>blue</code></p>
+<ol>
+<li>A declaration</li>
+<li>A declaration block</li>
+<li>A property</li>
+<li>A value</li>
+</ol>
+</ul>
+</section>
+
+
+<section>
+<h2>CSS</h2>
+<ul>
+<li>Rule
+<ul>
+<li>Selector</li>
+<li>{Declaration block}<ul>
+<li>Declarations;<ul>
+<li>Properties:</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+</section>
+
+<section>
+    <h2>Try it:</h2>
     <ul>
-	<li>8Y ago, there were 14 Kaggle competition datasets that exceed 15.13 GB with no replication. <a href="https://www.kaggle.com/code/benhamner/competitions-with-largest-datasets">src</a>
-	<table class="compact dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
-<tbody><tr role="row" class="odd"><td>1</td><td><a href="https://www.kaggle.com/c/4104">Diabetic Retinopathy Detection</a></td><td> 82.2 GiB</td></tr><tr role="row" class="even"><td>2</td><td><a href="https://www.kaggle.com/c/3960">American Epilepsy Society Seizure Prediction Challenge</a></td><td> 59.6 GiB</td></tr><tr role="row" class="odd"><td>3</td><td><a href="https://www.kaggle.com/c/5174">Avito Duplicate Ads Detection</a></td><td> 48.4 GiB</td></tr><tr role="row" class="even"><td>4</td><td><a href="https://www.kaggle.com/c/4117">Microsoft Malware Classification Challenge (BIG 2015)</a></td><td> 35.3 GiB</td></tr><tr role="row" class="odd"><td>5</td><td><a href="https://www.kaggle.com/c/3209">GE Flight Quest</a></td><td> 34.4 GiB</td></tr><tr role="row" class="even"><td>6</td><td><a href="https://www.kaggle.com/c/5229">Draper Satellite Image Chronology</a></td><td> 32.9 GiB</td></tr><tr role="row" class="odd"><td>7</td><td><a href="https://www.kaggle.com/c/2602">CHALEARN Gesture Challenge</a></td><td> 31.1 GiB</td></tr><tr role="row" class="even"><td>8</td><td><a href="https://www.kaggle.com/c/4729">Second Annual Data Science Bowl</a></td><td> 29.7 GiB</td></tr><tr role="row" class="odd"><td>9</td><td><a href="https://www.kaggle.com/c/3611">Flight Quest 2: Flight Optimization, Main Phase</a></td><td> 25.8 GiB</td></tr><tr role="row" class="even"><td>10</td><td><a href="https://www.kaggle.com/c/2969">Belkin Energy Disaggregation Competition</a></td><td> 20.0 GiB</td></tr><tr role="row" class="odd"><td>11</td><td><a href="https://www.kaggle.com/c/3043">Predict Closed Questions on Stack Overflow</a></td><td> 20.0 GiB</td></tr><tr role="row" class="even"><td>12</td><td><a href="https://www.kaggle.com/c/3386">Multi-modal Gesture Recognition</a></td><td> 18.7 GiB</td></tr><tr role="row" class="odd"><td>13</td><td><a href="https://www.kaggle.com/c/4438">Avito Context Ad Clicks</a></td><td> 17.8 GiB</td></tr><tr role="row" class="even"><td>14</td><td><a href="https://www.kaggle.com/c/3300">Predicting Parkinson's Disease Progression with Smartphone Data</a></td><td> 16.8 GiB</td></tr><tr role="row" class="odd"><td>15</td><td><a href="https://www.kaggle.com/c/3800">UPenn and Mayo Clinic's Seizure Detection Challenge</a></td><td> 10.8 GiB</td></tr><tr role="row" class="even"><td>16</td><td><a href="https://www.kaggle.com/c/3377">ICDAR2013 - Gender Prediction from Handwriting</a></td><td>  9.1 GiB</td></tr><tr role="row" class="odd"><td>17</td><td><a href="https://www.kaggle.com/c/4521">Right Whale Recognition</a></td><td>  9.1 GiB</td></tr><tr role="row" class="even"><td>18</td><td><a href="https://www.kaggle.com/c/2863">Raising Money to Fund an Organizational Mission</a></td><td>  9.0 GiB</td></tr><tr role="row" class="odd"><td>19</td><td><a href="https://www.kaggle.com/c/4493">Truly Native? </a></td><td>  7.4 GiB</td></tr><tr role="row" class="even"><td>20</td><td><a href="https://www.kaggle.com/c/3521">Flight Quest 2: Flight Optimization, Milestone Phase</a></td><td>  6.9 GiB</td></tr><tr role="row" class="odd"><td>21</td><td><a href="https://www.kaggle.com/c/4043">BCI Challenge @ NER 2015</a></td><td>  5.9 GiB</td></tr><tr role="row" class="even"><td>22</td><td><a href="https://www.kaggle.com/c/2749">KDD Cup 2012, Track 2</a></td><td>  5.5 GiB</td></tr><tr role="row" class="odd"><td>23</td><td><a href="https://www.kaggle.com/c/3532">Personalized Web Search Challenge</a></td><td>  5.5 GiB</td></tr><tr role="row" class="even"><td>24</td><td><a href="https://www.kaggle.com/c/3641">DecMeg2014 - Decoding the Human Brain</a></td><td>  5.4 GiB</td></tr><tr role="row" class="odd"><td>25</td><td><a href="https://www.kaggle.com/c/4963">Visual Question Answering</a></td><td>  4.1 GiB</td></tr><tr role="row" class="even"><td>26</td><td><a href="https://www.kaggle.com/c/3366">Challenges in Representation Learning: The Black Box Learning Challenge</a></td><td>  3.8 GiB</td></tr><tr role="row" class="odd"><td>27</td><td><a href="https://www.kaggle.com/c/3774">CONNECTOMICS</a></td><td>  3.4 GiB</td></tr><tr role="row" class="even"><td>28</td><td><a href="https://www.kaggle.com/c/2499">Wikipedia's Participation Challenge</a></td><td>  3.0 GiB</td></tr><tr role="row" class="odd"><td>29</td><td><a href="https://www.kaggle.com/c/2758">GigaOM WordPress Challenge: Splunk Innovation Prospect</a></td><td>  3.0 GiB</td></tr><tr role="row" class="even"><td>30</td><td><a href="https://www.kaggle.com/c/2888">CHALEARN Gesture Challenge 2</a></td><td>  2.9 GiB</td></tr><tr role="row" class="odd"><td>31</td><td><a href="https://www.kaggle.com/c/3897">Acquire Valued Shoppers Challenge</a></td><td>  2.9 GiB</td></tr><tr role="row" class="even"><td>32</td><td><a href="https://www.kaggle.com/c/3354">AMS 2013-2014 Solar Energy Prediction Contest</a></td><td>  2.8 GiB</td></tr><tr role="row" class="odd"><td>33</td><td><a href="https://www.kaggle.com/c/3471">Challenges in Representation Learning: Multi-modal Learning</a></td><td>  2.0 GiB</td></tr><tr role="row" class="even"><td>34</td><td><a href="https://www.kaggle.com/c/4603">Душевный семестровый проект</a></td><td>  1.9 GiB</td></tr><tr role="row" class="odd"><td>35</td><td><a href="https://www.kaggle.com/c/3175">Galaxy Zoo - The Galaxy Challenge</a></td><td>  1.8 GiB</td></tr><tr role="row" class="even"><td>36</td><td><a href="https://www.kaggle.com/c/3507">The ICML 2013 Bird Challenge</a></td><td>  1.7 GiB</td></tr><tr role="row" class="odd"><td>37</td><td><a href="https://www.kaggle.com/c/3927">Billion Word Imputation</a></td><td>  1.6 GiB</td></tr><tr role="row" class="even"><td>38</td><td><a href="https://www.kaggle.com/c/3046">Job Recommendation Challenge</a></td><td>  1.5 GiB</td></tr><tr role="row" class="odd"><td>39</td><td><a href="https://www.kaggle.com/c/2917">CPROD1: Consumer PRODucts contest #1</a></td><td>  1.5 GiB</td></tr><tr role="row" class="even"><td>40</td><td><a href="https://www.kaggle.com/c/2748">KDD Cup 2012, Track 1</a></td><td>  1.5 GiB</td></tr><tr role="row" class="odd"><td>41</td><td><a href="https://www.kaggle.com/c/4676">104-1 MLDS_HW2</a></td><td>  1.2 GiB</td></tr><tr role="row" class="even"><td>42</td><td><a href="https://www.kaggle.com/c/4120">Click-Through Rate Prediction</a></td><td>  1.2 GiB</td></tr><tr role="row" class="odd"><td>43</td><td><a href="https://www.kaggle.com/c/3064">Data Mining Hackathon on BIG DATA (7GB) Best Buy mobile web site</a></td><td>  1.2 GiB</td></tr><tr role="row" class="even"><td>44</td><td><a href="https://www.kaggle.com/c/3940">Классификация музыки</a></td><td>  1.1 GiB</td></tr><tr role="row" class="odd"><td>45</td><td><a href="https://www.kaggle.com/c/3951">Liberty Mutual Group - Fire Peril Loss Cost</a></td><td>  1.1 GiB</td></tr><tr role="row" class="even"><td>46</td><td><a href="https://www.kaggle.com/c/3793">Flight Quest 2: Flight Optimization, Final Phase</a></td><td>  1.1 GiB</td></tr><tr role="row" class="odd"><td>47</td><td><a href="https://www.kaggle.com/c/4477">Grasp-and-Lift EEG Detection</a></td><td>  1.0 GiB</td></tr><tr role="row" class="even"><td>48</td><td><a href="https://www.kaggle.com/c/5190">sphere.mail.ru BD-21 final 2016/1</a></td><td>  1.0 GiB</td></tr><tr role="row" class="odd"><td>49</td><td><a href="https://www.kaggle.com/c/3929">The Hunt for Prohibited Content</a></td><td>990.8 MiB</td></tr><tr role="row" class="even"><td>50</td><td><a href="https://www.kaggle.com/c/3926">KDD Cup 2014 - Predicting Excitement at DonorsChoose.org</a></td><td>925.9 MiB</td></tr></tbody></table>
-	<img src="imgs/docker_usage.png">
-</section>
-
-<section>
-    <h2>Network Architecture</h2>
-    <ul>
-	<li>Takeaways:
-	<ul><li>We want to work with datasets that don't fit into "memory"
-	<li>We want to expedite work by splitting it across multiple devices.
-	<li>Clusters have internal networks that are worth making a note of.
-	<code class="bash">docker network ls
-NETWORK ID     NAME                     DRIVER    SCOPE
-71b6d7944a16   bridge                   bridge    local
-f12fc6afe43e   hadoop-sandbox_default   bridge    local
-fd85959e2107   hadoop-sandbox_front     bridge    local
-d2e36549eb61   host                     host      local
-98a29fb1bd37   none      </code>
-<li>Clusters, like computers, have to consider how to handle the "memory problem".
-</section>
-
-<section>
-<h2>Network to Cloud</h2>
-<ul><li>We cannot fit these datasets into our Docker instance.
-<li>With on-premises computing, we'd just have physical computers and buy more hard drives.
-<li>How does this work on the cloud?
-<li>Things on the cloud are still on a network
-<li>But we think of them and interact with them differently
-<li>Critically, we are billed for them differently.
-<ul><li>Saving something on my harddrive is already paid for (free)
-<li>Saving something on with AWS/AZ/GCP is <em>n>0</em> dollars per byte per day.
-</section>
-
-
-<section>
-    <h2>Cloud Architecture</h2>
-    <ul>
-	<li>Suppose we want to store ~20 TB of data in HDFS with a 2x replication factor for 40 TB total.
-	<ul><li>I didn't make this up, it's the DataBricks example.<br>
-	<img src="https://www.databricks.com/sites/default/files/inline-images/hadoop-hdfs-hadoop-distributed-file-system-image.png?v=1673971437">
-	<li>Also maps exactly to the Stack Overflow challenge</ul>
-	<li>It is unlikely a client with 20 TB in data can afford 20 TB of RAM.
-	<ul><li>We want to study our data (using compute)
-	<li>We want to store our data (data as data)
-	<li>We can't spend 67000 USD on RAM
+	<li>Create a webpage:
+	<ul><li>Named "Hello World Page"
+	<li>With a content header "A Webpage"
+	<li>With paragraph containing the text "Hello, World!"
+	<li>With at least one comment.
+	<li>Properly indented.
+	<li>Style using a 'style' element in the 'head' element.<ul>
+	<li>Bold the "Hello, World!" text, in a 'p' element.
+	<li>Make the header red, blue, or green, in a 'h1' element.
+	<li>Italicize the "World!" text, in a 'span' element.
 	</ul>
-	<li>If we use our own cluster, no problem, HDFS will automatically distribute.
-	<li>But somehow we have direct the cloud to use some distribution of RAM/HDD to achieve our goals.
-	<ul><li>The cloud also has to know how to store new data added
-	<li>The cloud has to know how to respond to requests for computationally expensive operations (OCR vs WordCount)
-</section>
-
-<section>
-<h2>DATA: Cloud Big</h2>
-<dl>
-<p>It is generally regarded that...</p>
-<ul><li>Google is one of the largest data aggregators
-<li>Google held approximately 15 exabytes in 2013 [<a href="https://what-if.xkcd.com/63/">src</a>]
-<li>Google's reported power use increased 21%/anum from 2011->2019</ul>
-<br><a style="align:center" href="https://www.forbes.com/sites/robertbryce/2020/10/21/googles-dominance-is-fueled-by-zambia-size-amounts-of-electricity/?sh=4c7bb3568c98"><img style="display:block; margin-left: auto; margin-right: auto" src="https://imageio.forbes.com/specials-images/imageserve/5f908b550436eabb0b8b03b1/Since-2011--Google-s-electricity-use-has-nearly-quintupled-/960x0.png"></a>
-<p style="text-align:center">(12.4/2.6)^(1/8) = 1.21
-<ul><li><b>Hard-drives</b> grew 16x from 2012 to 2023 from less than 2 TB [<a href="https://www.tomshardware.com/news/HAMR-platters-heat-assisted-CREATEC-areal-density,18126.html">src</a>] to 32 TB [<a href="https://www.seagate.com/products/enterprise-drives/exos-x/x-mozaic/">src</a>]</li>
-<li>Google current storage is around 15 exabytes * 1.21^10 * 16 = <b>1614 exabytes</b>
-<li>10x every 5 years within one company, but # of data companies also grows.
-<li>I have generated 134 MB of teaching materials in 3 years, or .0000000000134 exabytes
-</section>
-
-
-
-<section>
-    <h2>DATA: Price Delta</h2>
-    <ul>
-	<li>I estimate the cloud holds ~2 zettabytes = 10^12 gigabytes
-	<ul><li>RAM - $3.35/GB * 2 * 10^12 = 7 trillion USD = 28% US GDP (roughly Finance + Manufacturing)
-	<br><img src="imgs/ramprice.png">
-	<li>HDD - $0.02/GB * 2 * 10^12 = 40 billion USD = DataBricks market cap (one start-up)
-	<br><img src="imgs/hddprice.png">
-	</ul></ul>
-	<p>If you use RAM for the cloud, you stop being a cloud economy and start being a RAM economy.
-</section>
-
-
-
-<section>
-    <h2>IaaS</h2>
-    <ul>
-	<li>We can cloud-host a Hadoop cluster with IaaS VMs
-	<li>High level sketch:
-	<ul>
-	<li>HDFS: Make a VM for the NameNode
-	<li>(YARN: Make a VM for the ResourceManager)
-	<li>HDFS: Make <em>n</em> VMs for the DataNodes
-	<li>(YARN: Make <em>n</em> VMs for the NodeManagers)
-	<li>Make a virtual cloud network and connect them.
-	<li>SSH into namenode to run jobs.
 	</ul>
-<li>Hadoop Sandbox basically does this, just with containers instead of VMS
-<code class="lisp">hadoop-client: Runs an SSH server to serve as client node
-hadoop-hdfs-namenode: Runs the Namenode for HDFS
-hadoop-hdfs-datanode: Runs the Datanode for HDFS
-hadoop-yarn-resourcemanager: Runs the Resourcemanager for the Yarn cluster
-hadoop-yarn-nodemanager: Runs a Nodemanager for the Yarn cluster
-hadoop-mapred-jobhistoryserver: Runs the Jobhistoryserver for Hadoop Mapreduce
-</code>
-<li>We could also use a CaaS solutions and just deploy Hadoop-Sandbox on Cloud (probably, it didn't work well when I tried)</ul>
-<p><b>But I/CaaS is inefficient because either (1) we use an unoptimized cluster or (2) manually optimize a cluster without knowledge of our platform.</b>
-</section>
-
-
-<section>
-        <h2>Managed Hadoop</h2>
-		<ul><li>Cloud providers universally provide Hadoop-as-a-Service, usually a default configuration for I/CaaS
-        <table border="1">
-            <thead>
-				<tr>
-					<th width="10%">Provider</th>
-				
-                <tr>
-					<th width="10%"></th>
-                    <th width="15%">Compute</th>
-                    <th width="15%">Compute over Data</th>
-                    <th width="15%">Compute about Data</th>
-                    <th width="15%">Data for Compute</th>
-                    <th width="15%">Data</th>
-					<th width="15%">Data for Data</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-    <th >GCP</th>
-    <td >Dataproc | Compute Engine</td>
-    <td >Dataproc | Compute Engine</td>
-    <td >Dataproc | Compute Engine</td>
-    <td >Dataproc | Compute Engine</td>
-    <td >Buckets | Cloud Storage</td>
-    <td >Buckets | Cloud Storage</td>
-                </tr>
-                <tr>
-    <th >AZ</th>
-    <td >HDInsight | Azure VM</td>
-    <td >HDInsight | Azure VM</td>
-    <td >HDInsight | Azure VM</td>
-    <td >HDInsight | Azure VM</td>
-    <td >Azure Data Lake</td>
-    <td >Azure Data Lake</td>
-                </tr>
-                <tr>
-    <th >AWS</th>
-    <td >EMR | EC2</td>
-    <td >EMR | EC2</td>
-    <td >EMR | EC2</td>
-    <td >EMR | EC2</td>
-    <td >S3</td>
-    <td >S3</td>
-                </tr>
-            </tbody>
-        </table>
-		<p>"Dataproc | Compute Engine" means "a compute engine launched through the dataproc service".
-</section>
-
-
-<section>
-        <h2>Managed Hadoop</h2>
-		<ul><li>Cloud providers universally provide Hadoop-as-a-Service, usually a default configuration for I/CaaS
-		<li>When purchasing cloud vms...<ul>
-<ul><li>GCP Compute Engine,
-<li>Azure Virtual Machine,
-<li>Amazon Web Services EC2 (Elastic Compute Cloud)...
-</ul><li>...we rent/purchase a combination of vCPU (v = virtual) and Memory.
-<li>Memory here is explicitly RAM, what I called "Data for Compute".</ul>
-
-		<li>Dataproc also runs on GKU (Google Kubernetes Engine = Google CaaS)...
-		<ul><li>But not for Hadoop, only for Spark
-		<li>The Hadoop Data/Name distinction isn't great for containers on cloud (where they scale)
-</section>
-
-<section>
-        <h2>Managed HCFS</h2>
-		<ul><li>HCFS = Hadoop <b>Compatible</b> File System
-		<li>Per Hadoop documentation:
-		<ul>
-		<li>Aliyun OSS
-<li>Amazon S3
-<li>Azure Blob Storage
-<li>Azure Data Lake Storage
-<li>Tencent COS
-<li>Huaweicloud OBS</ul>
-<li>Of note: No Google HCFS, because (per Google):
-<a href="https://cloud.google.com/dataproc/docs/concepts/dataproc-hdfs"><blockquote>HDFS with Cloud Storage: Dataproc uses the Hadoop Distributed File System (HDFS) for storage. Additionally, Dataproc automatically installs the HDFS-compatible Cloud Storage connector, which enables the use of Cloud Storage in parallel with HDFS. Data can be moved in and out of a cluster through upload and download to HDFS or Cloud Storage.</blockquote></a>
-<li>... Google just uses HDFS, because (per Databricks):
-<a href="https://www.databricks.com/glossary/hadoop-distributed-file-system-hdfs"><blockquote>The design of HDFS was based on the Google File System. It was originally built as infrastructure for the Apache Nutch web search engine project but has since become a member of the Hadoop Ecosystem.<blockquote></a>
-
-</section>
-
-<section>
-    <h2>Cloud Architecture</h2>
-    <ul>
-	<li>Suppose we want to store ~20 TB of data in HDFS with a 2x replication factor for 40 TB total.
-	<ul><li>I didn't make this up, it's the DataBricks example.<br>
-	<img src="https://www.databricks.com/sites/default/files/inline-images/hadoop-hdfs-hadoop-distributed-file-system-image.png?v=1673971437">
-	<li>Also maps exactly to the Stack Overflow challenge</ul>
-	<li>We store 20 TB in some kind of vendor dependent HCFS
-	<ul><li>We read it via HDFS on vendor dependent VMs or containers
-	<li>VMs copy blobs into RAM on various VMs to work on
-	<li>We pay for a little bit of RAM and a lot of HDD
 	</ul>
-	<li>The VMs have some computer architecture (von Neuman)
-	<li>The cluster has a network architecture (Name/Data)
-	<li>The file system has a cloud architecture (HDDs somehow)
-</section>
-
-<section id="Dataproc">
-  <h1 class="title">Dataproc</h1>
-  <p class="author">Calvin (Deutschbein)<br>
-  <p class="date">Week 05
-  <p class="date">Cloud
 </section>
 
 <section>
-        <h2>RECALL: Managed Hadoop</h2>
-		<ul><li>Cloud providers universally provide Hadoop-as-a-Service, usually a default configuration for I/CaaS
-        <table border="1">
-            <thead>
-				<tr>
-					<th width="10%">Provider</th>
-				
-                <tr>
-					<th width="10%"></th>
-                    <th width="15%">Compute</th>
-                    <th width="15%">Compute over Data</th>
-                    <th width="15%">Compute about Data</th>
-                    <th width="15%">Data for Compute</th>
-                    <th width="15%">Data</th>
-					<th width="15%">Data for Data</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-    <th >GCP</th>
-    <td >Dataproc | Compute Engine</td>
-    <td >Dataproc | Compute Engine</td>
-    <td >Dataproc | Compute Engine</td>
-    <td >Dataproc | Compute Engine</td>
-    <td >Buckets | Cloud Storage</td>
-    <td >Buckets | Cloud Storage</td>
-                </tr>
-            </tbody>
-        </table>
-		<p>"Dataproc | Compute Engine" means "a compute engine launched through the dataproc service".
+<h2>CSS</h2>
+<p>Selectors can also be more sophisticated than referring to an html element.
+<ul>
+<li>A selector may refer to a comma-separated list of html elements</li>
+<code>p, h1 { background: gray; color: white; }</code>
+<li>A selector may refer to a <em>class</em> of html elements using a "." prefix</li>
+<code>.bluebold { color: blue; font-weight: bold; }</code>
+<li>A selector may refer to an <em>id</em> of an html element using a "#" prefix</li>
+<code>#bookname { font-style: italics; }</code>
+<li>Using a <a href="https://www.w3schools.com/cssref/css_selectors.php">complex syntax</a>, a selector may refer to any combination of these.</li>
+</ul>
+</ul></li></ul></li></ul></li></ul>
+<p>Selectors for <em>class</em> and <em>id</em> refer to HTML elements with a relevant <em>class</em> and <em>id</em> attribute.
+</section>
+<section>
+<h2>CSS</h2>
+<ul>
+<li>Rule
+<ul>
+<li>Selector, a comma separated list of <ul>
+<li>HTML tag names, <ul>
+<li>HTML class attribute names, and </li>
+<li>HTML id attribute names, among other things</li>
+</ul></li></ul>
+<li>{Declaration block}<ul>
+<li>Declarations;<ul>
+<li>Properties:</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+</section>
+<section>
+<h2>Selector Example</h2>
+<ul>Consider the following HTML file with a style element.
+<code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+   .invert { background: white; color: blue; }
+   #fancy { font-style: italics; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p class="invert" id="fancy"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code>
+<p>This enumerates all selectors individually, and applies multiple attributes to "Both", or...
+</section>
+<section>
+<h2>Selector Example</h2>
+<ul>Consider the following HTML file with a style element.
+<code class="html">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  &#60;style&#62;
+   p { background: blue; color: white; }
+   .invert, #both { background: white; color: blue; }
+   #fancy, #both { font-style: italics; }
+  &#60;/style&#62;
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p id="fancy"&#62;Fancy&#60;/p&#62;
+  &#60;p id="both"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code>
+<p>This enumerates all selectors individually, and applies multiple attributes to "Both", or...
+</section>
+
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a webpage:
+	<ul><li>Named "Hello World Page"
+	<li>With a content header "A Webpage"
+	<li>With paragraph containing the text "Hello, World!"
+	<li>With at least one comment.
+	<li>Properly indented.
+	<li>Style using a 'style' element in the 'head' element.<ul>
+	<li>Bold the "Hello, World!" text, denoted with a class like 'bold'.
+	<li>Make the header red, blue, or green, with a class like 'colour'.
+	<li>Italicize the "World!" text, with a class like 'fancy'.
+	</ul>
+	</ul>
+	</ul>
 </section>
 
 <section>
-<h2>Today</h2>
-<ul>
-<li>Big Idea: Architecture, to introduce...
-<li>Hadoop in Dataproc (GCP)</li>
-<ul>
-<li>This is fully cloud-first Hadoop
-<li>It's also Pythonic and we know* Python.
+<h2>Standalone CSS</h2>
+<p>It is most common to write CSS separately, in a .css file.</p><ul>
+<li>Good aesthetics: Uniform style across pages</li>
+<li>Good coding: Factorization</li>
 </ul>
-<li>On GCP: Dataproc+Buckets work well together.
-</ul>
+<p>Simply reference the relevant stylesheet using the following in the HTML head:</p><ul>
+<code><link rel="stylesheet" href="./filename.css"/></code>
 </section>
-
-<section><h2>Google Console</h2>
-<ul>
-<li>Access GCP Console:
-<li><a href="https://console.cloud.google.com">https://console.cloud.google.com</a><ul>
-<li>If you still don't have console access, I have an email into support and you can find a partner for the first part.
-</ul>
-<li>We are going to look at two main services: Dataproc and Buckets
-</ul>
+<section>
+<ul><li>page.html</p>
+<code class="html" style="max-height:900px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  <link rel="stylesheet" href="./filename.css"/>
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p id="fancy"&#62;Fancy&#60;/p&#62;
+  &#60;p id="both"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code>
+<p><li>filename.css</p>
+<code class="css">   p { background: blue; color: white; }
+   .invert, #both { background: white; color: blue; }
+   #fancy, #both { font-style: italics; }</code>
+   </ul>
+   <p>Usually the names are "index.html" and "styles.css"
 </section>
+<section>
+<ul><li>Like HTML, CSS is easier with indentation. Here's one method:
+<code class="css" style="max-height:900px">p { 
+	background: blue; 
+	color: white; 
+}
+   
+.invert, #both { 
+	background: white; 
+	color: blue; 
+}
 
-
-<section><h2 >Dataproc: Creation</h2>
-<ul>
-<li>Type "Dataproc" into the search bar, the first result takes me to a "clusters" tab in "Dataproc"
-<li>Click around a bit and get a feel for things, then...
-<li>Create a new cluster.
-<li>This is not easy, so practice debugging:<ul>
-<li>For me: I couldn't get "Create Cluster" to work, so I used the cloud shell.
-<ul><li>Click the little <mat-icon role="img" class="mat-icon notranslate mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="svg" data-mat-icon-name="devshell" data-mat-icon-namespace="shellgm2-medium"><svg width="5%" height="5%" viewBox="0 0 24 24" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M16,0 L2,0 C0.9,0 0,0.9 0,2 L0,16 C0,17.1 0.9,18 2,18 L16,18 C17.1,18 18,17.1 18,16 L18,2 C18,0.9 17.1,0 16,0 Z M16,16 L2,16 L2,2 L16,2 L16,16 Z M10,11 L7,8 L4,8 L7,11 L4,14 L7,14 L10,11 Z M14,13 L14,12 L10,12 L10,13 L10,14 L14,14 L14,13 Z"></path></svg></mat-icon> to open cloud shell.
-<li>Review this documentation and think about how you would it on your own: <a href="https://cloud.google.com/dataproc/docs/guides/create-cluster#dataproc-create-cluster-gcloud">Create a cluster</a>
-<li>I used the following command without issue:
-<code>gcloud dataproc clusters create clever-name --region us-central1</code>
-<li>I selected US Central since US West seems finicky.
-<li>REMEMBER: Once you create a cluster, it will cost (a small amount of money) until deleted.
-<li>You may encounter errors, practice debugging them!
-</ul><li>I think on our EDU licenses we might sometimes just not get resources - that's okay, just play with the process a bit!
-</ul>
-</section>
-
-<section><h2 >Dataproc: Usage</h2>
-<ul>
-<li>Type "Compute Engine" into the search bar, the first result takes me to a "VM instances" tab in "Compute Engine"
-<li>There is one "m" (NameNode) and several "w" (DataNode) VMs, most likely
-<li>SSH into the NameNode
-<li>Do some standard Hadoop thing, like streaming wc+cat job over a curled text file.<ul>
-<ul><li>We'll come back to Hadoop in a bit.
-</ul>
-</section>
-
-<section><h2>Buckets: Creation</h2>
-<ul>
-<li>Type "Buckets" into the search bar, the first result takes me to a "buckets" tab in "Cloud Storage"
-<li>Click around a bit and get a feel for things, then...
-<li>Create a new bucket with a name you can remember, in a region you can remember
-<li>Other settings don't really affect us, but I turned off soft delete to use less storage.
-<li>If you still don't have console access, I have an email into support and you can find a partner for the first part.
-<li>REMEMBER: Once you create a bucket, it will cost (a small amount of money) until deleted.
-</ul>
+#fancy, #both { 
+	font-style: italics; 
+}</code>
 </section>
 
 
-<section><h2>Buckets: File Transfer</h2>
-<ul>
-<li>Once my bucket is created, I have a few options for the Bucket:
-<ul><li>Upload files
-<li>Upload folder
-<li>Create folder
-<li>Transfer data
-</ul>
-<li>Click around a bit a get a feel for things
-<li>We will transfer data into this bucket a bit latter.
-<li>Put a pin here.
-<li>Maybe upload any text file for now.
-</ul>
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a directory that implements a webpage:
+	<ul><li>Maintain the index.html webpage:
+	<ul><li>Named "Hello World Page"
+	<li>With a content header "A Webpage"
+	<li>With paragraph containing the text "Hello, World!"
+	<li>With at least one comment.
+	<li>Properly indented.</ul>
+	<li>Additionally create a "style.css" stylesheet.<ul>
+	<li>Take the css styles from the header style element index.html
+	<li>Alter index.html to refer to the stylesheet
+	<li>Change the header color in styles.css to make sure it worked.
+	</ul>
+	</ul>
+	</ul>
+	<p>This is the "hyper" in HTML, as we are now linking pages.
 </section>
 
-<section><h2>Dataproc+Compute+Buckets</h2>
-<ul>
-<li>Now we use the Google Storage Connector
-<ul><li>With an HDFS enabled Compute Engine SSH session, and a 
-<li>Bucket in Cloud Storage with an uploaded file,
-<li>List the Google Cloud files via HDFS
-<code>hadoop fs -ls gs://bucket/dir/file</code>
-<li>You'll need to edit the command a bit to work.
-<li><b>This is how to use Hadoop without curl!</b></ul>
-<li>Cloud-first Hadoop! Just like that! But wait...
-</section>
-
-<section><h2 >Transfer Data</h2>
-<ul><li>Uploading files from a device is weird...
-<ul><li>We want to be able to scale 20+ TB! We don't (likely) have 20 TB HDDs.
-<li>We might want to use other peoples data without copying it a bunch of times
-<li>We might want to draw data from various sources!
-</ul>
-<li>Solution: "Transfer Data"
-</code></section>
-
-<section><h2 >Back to Bucket</h2>
-<ul><li>Go back to your Bucket
-<li>Bucket Details
-<li>Transfer Data
-<li>Transfer Data In
-<li>Source type
-<li>Select "URL list"
-<li>Next Step
-</code></section>
-
-
-<section><h2 id="hw">TSV</h2>
-<ul><li>You've seen a CSV, now create a TSV:
-<li>Follow <a href="https://cloud.google.com/storage-transfer/docs/create-url-list">these instructions</a>
-<li>Here is <a href="https://raw.githubusercontent.com/cd-public/bookstage/main/utils/books.tsv">an example tsv</a>
-<li>I used the following Python libraries:
-<code class="Python">import os, hashlib, base64</code>
-<li>I used the following constants:
-<code class="Python">PREFIX = 'https://raw.githubusercontent.com/cd-public/books/main/' # DONT scrape Gutenberg
-BK_DIR = '../books/'</code>
-<li>I consulted the following Base64 table: <a href="https://en.wikipedia.org/wiki/Base64">Wikipedia</a>
-<li>Create a file, "make_tsv.py", that when directed to a local directory BK_DIR associated with a Github "raw" url PREFIX , creates a Google-compliant .tsv file with url, file size, and md5 checksum.
-<li>Push "make_tsv.py" and a sample tsv e.g. "books.tsv" to a Github repo somewhere and share it with me.
-<li>You probably want to do this in a Linux environment. Think about why!
-</code></section>
-
-<section><h2>Check your work</h2>
-<ul><li>You may test your "books.tsv" by using it for File Transfer In.
-<li>This will create a "Job" in GCP you can track.
-<li>If it works, you'll see this:
-<img src="imgs/job.png">
-<li>If not, you should get some helpful error messages!
-<li>You can then run mapred jobs over these files!
-</code></section>
 
 </div>
 </div>

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Web Stack</title>
+  <title>Web Design</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -25,7 +25,7 @@
 
 
 <section>
-  <h1 class="title">Web Stack</h1>
+  <h1 class="title">Web Design</h1>
   <p class="author">Calvin (Deutschbein)<br>
   <p class="date">Async
   <p class="date">Cloud
@@ -35,6 +35,13 @@
 <h2>Announcements</h2>
 <ul>
 <li>Out-of-sequence lecture on web technologies.
+<li>The cloud is used for, pretty much
+<ul><li>Big Data
+<li>The Internet
+</ul>
+<li>Before we get into the 2nd use, we'll talk a bit about webpages
+</ul>
+<p>Today was going to be Flask, but better to do HTML/CSS/JS first.
 </section>
 <section>
 <h2>Big Idea</h2>
@@ -55,16 +62,23 @@
 <h2>Today</h2>
 <ul>
 <li>Big Idea: browsers and servers<ul>
-<li>Browsers (clients):<ul>
-<li><b>HTML</b>
-<li><b>CSS</b>
-<li>JavaScript
+<li><b>Browsers (clients):<ul>
+<li>HTML</b>
+<li><b>CSS
+<li>JavaScript</b>
 </ul>
 <li>Servers:<ul>
 <li>Python (Flask/Django)</li>
 <li>C (NGINX/HTTPD) </li>
 <li>SQL</li>
 </ul>
+</section>
+
+<section id="HTML">
+  <h1 class="title">HTML</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Async
+  <p class="date">Cloud
 </section>
 
 <section>
@@ -85,7 +99,7 @@
 <section>
     <h2>WHATWG</h2>
     <ul>
-	<li>The HTML standard is maintained by WHATWG (Web Hypertext Application Technology Working Group) and W3C (World Wide Web Consortium).
+	<li>The HTML standard is maintained by<ul><li> WHATWG (Web Hypertext Application Technology Working Group), and<li>W3C (World Wide Web Consortium).</ul>
 	<li>The standard is available <a href="https://html.spec.whatwg.org/">here</a>.
 	<li>It is dense reading and not totally necessary. In practice:
 	<ul>
@@ -145,7 +159,7 @@
 
 <section>
 <h2>Void Elements</h2>
-<p>Some HTML elements with no content will only contain a free-standing tag.</p>
+<p>Some HTML elements with no content will only contain a free-standing tag.
 <ul>
 <li>These have multiple names, I will call them "void elements".<ul>
 <li>C: <code class="java">void main(int argc, const char * argv[])</code></li>
@@ -199,7 +213,7 @@
 	<li>How would you create the following:
 	<br><span style="background-color:white">Hello,</span>
 	<br><span style="background-color:white">world!</span>
-	<li>Think try out some elements, like 'p' and 'br'.
+	<li>Try out some elements, like 'p' and 'br'.
 	<li>Should you use void or contentful elements?
 </section>
 
@@ -226,7 +240,7 @@
     <ul>
 	<li>A well-formed HTML webpage additional contains:
 	<ul>
-	<li>A header, like the one we needed in our .tsv files, which is a void tag:
+	<li>A file header, like the one we needed in our .tsv files, which is a void tag:
 	<code class="HTML">&lt;!DOCTYPE html&gt;</code>
 	<li>An outermost "html" element, which optionally specifies the page language:
 	<code class="HTML">&lt;html lang="en"&gt;</code><ul>
@@ -308,6 +322,8 @@ Gutenberg metadata much faster than by scraping.
 	<li>Attributes make tagging much more expressive.
 	<li>We saw our first example of an attribute with the 'html' outermost start tag.
 	<code class="HTML">&lt;html lang="en"&gt;</code>
+	<li>And of a hyperlink.
+	<code class="HTML">&lt;a href="demo.html"&gt;simple&lt;/a&gt;</code>
 	<li>Attribute are how the 'img' element's void tag determines which image to display.
 	<code class="HTML">&lt;img src="imgs/01.png"&gt;</code>
 	<li>Which also provides an example of a multiple attribute element.
@@ -351,17 +367,17 @@ main
 	<li>Create a webpage:
 	<ul><li>Named "Hello World Page"
 	<li>With a content header "A Webpage"
-	<li>With paragraph containing the text "Hello, World!"
+	<li>With paragraph containing the text "Hello World!" split over two lines
 	<li>With at least one comment.
 	<li>Properly indented.
 	<li>Use attributes:<ul>
-	<li>Bold the "Hello, World!" text.
+	<li>Bold the "Hello World!" text.
 	<li>Make the header red, blue, or green.
 	<li>Italicize the "World!" text.
 	</ul>
 	</ul>
 	</ul>
-	<p>Once this is working, experiment more. Try an image.
+	<p>Once this is working, experiment more. Try an image or hyperlink.
 </section>
 
 
@@ -371,8 +387,8 @@ main
 <li>Element<ul>
 <li>Start Tag<ul>
 <li>Attributes<ul>
-<li>Attribute value</li>
-<li>Attribute name</li></ul></li></ul>
+<li>Attribute name</li>
+<li>Attribute value</li></ul></li></ul>
 </li><li>Content<ul>
 <li>Text, or
 <li>Element(s)</li></ul>
@@ -395,25 +411,25 @@ main
 <section>
 <h2>HTML</h2>
 <ul>
-<p>HTML is a mark-up language. It was meant to:</p>
+<p>HTML is a mark-up language. It was meant to:
 <ul>
 <li>Hold content</li>
 <li>Describe relationships between content</li>
 </ul>
-<p>It was not meant to:</p>
+<p>It was not meant to:
 <ul>
 <li>Define the appearance of content</li>
 <li>Describe a webpage, rather than webpage contents</li>
 </ul>
-<p>Consider the following HTML snippet</p>
-<p>Are <code>&#60;p&#62;</code> and <code>&#60;strong&#62;</code> the same kind of thing?</p>
+<p>Consider the following HTML snippet
+<p>Are <code>&#60;p&#62;</code> and <code>&#60;strong&#62;</code> the same kind of thing?
 </ul>
 </section>
 
 <section>
 <h2>Style and Atomicity</h2>
 <ul>
-<p>HTML styling threatened the atomicity of elements, by conflating holding content with styling content.</p><table border="1">
+<p>Conflating holding content with styling content became confusing.<table border="1">
             <thead>
                 <tr>
                     <th colspan="2">Content-holding elements</th>
@@ -468,7 +484,7 @@ main
 <section>
 <h2>Attributes</h2>
 <ul>
-<p>Like elements, attributes differ in functionality</p>
+<p>Like elements, attributes differ in functionality
 <ul>
 <li>'href' and 'src' are mandatory for their elements '&#60;a&#62;' and '&#60;img&#62;'</li>
 <li>'width' is an attribute for some elements yet may be used within a 'style'</li>
@@ -476,14 +492,14 @@ main
 <li>'style' is never necessary, yet always valid.</li>
 <li>'style' has "key value pairs" instead of values.</li>
 </ul>
-<p>What is the pattern here?</p>
+<p>What is the pattern here?
 </ul>
 </section>
 
 <section>
 <h2>Style</h2>
 <ul>
-<p>Style plays by its own rules.</p>
+<p>Style plays by its own rules.
 <ul>
 <li>Styles may be specified inline with elements (or in a head style element)</li>
 <li>Styles have an internal notation style using colons and semicolons, as well as keywords.</li>
@@ -493,10 +509,17 @@ main
 </ul>
 </section>
 
+<section id="CSS">
+  <h1 class="title">CSS</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Async
+  <p class="date">Cloud
+</section>
+
 <section>
 <h2>CSS</h2>
 <ul>
-<p>Style attributes and elements are written in <em>CSS</em>, or "Cascading Style Sheets"</p>
+<p>Style attributes and elements are written in <em>CSS</em>, or "Cascading Style Sheets"
 <ul>
 <li>The atomic unit of CSS is a rule, which contains
 <ul>
@@ -506,7 +529,7 @@ main
 <li>Properties, punctuated by colons, and,</li>
 <li>Values</li>
 </ul></li></ul></li></ul></li></ul>
-<p>When we write CSS inside HTML:</p>
+<p>When we write CSS inside HTML:
 <ul><li>In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
 <li>In style elements in headers, we write full CSS rules.</li>
 </ul>
@@ -516,8 +539,10 @@ main
 <section>
 <h2>Style Attributes</h2>
 <ul>
-<p>Consider the following HTML snippet with a style attribute.</p>
+<ul><li>Consider the following HTML snippet with a style attribute.
 <code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
+<li>It looks like this:
+<p style="font-weight:bold">Coffee
 <ul>
 <li>Recall: In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
 <li>Recall: A declaration block... contains<ul>
@@ -530,7 +555,7 @@ main
 
 <section>
 <h2>Finger Binary</h2>
-<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
+<p>I am going to ask thought provoking questions and would like you to show your answer using "finger binary".
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -552,9 +577,9 @@ main
 <section>
 <h2>Preview Question 1</h2>
 <ul>
-<p>Consider the following HTML snippet.</p>
+<p>Consider the following HTML snippet.
 <code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
-<p>What is this?<code>style="font-weight:bold"</code></p>
+<p>What is this?<code>style="font-weight:bold"</code>
 <ol>
 <li>A CSS declaration block</li>
 <li>A CSS rule</li>
@@ -567,9 +592,9 @@ main
 <section>
 <h2>Preview Question 2</h2>
 <ul>
-<p>Consider the following HTML snippet.</p>
+<p>Consider the following HTML snippet.
 <code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
-<p>What is <code>font-weight:bold</code></p>
+<p>What is <code>font-weight:bold</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -584,9 +609,9 @@ main
 <section>
 <h2>Preview Question 3</h2>
 <ul>
-<p>Consider the following HTML snippet.</p>
+<p>Consider the following HTML snippet.
 <code>&#60;p style="font-weight:bold;color:magenta;"&#62;Coffee&#60;/p&#62; </code>
-<p>What is <code>font-weight:bold;color:magenta;</code></p>
+<p>What is <code>font-weight:bold;color:magenta;</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -601,9 +626,9 @@ main
 <section>
 <h2>Preview Question 4</h2>
 <ul>
-<p>Consider the following HTML snippet.</p>
+<p>Consider the following HTML snippet.
 <code>&#60;p style="font-weight:bold;color:magenta;"&#62;Coffee&#60;/p&#62; </code>
-<p>What is <code>font-weight:bold;</code></p>
+<p>What is <code>font-weight:bold;</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -618,9 +643,9 @@ main
 <section>
 <h2>Preview Question 5</h2>
 <ul>
-<p>Consider the following HTML snippet.</p>
+<p>Consider the following HTML snippet.
 <code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
-<p>What is <code>font-weight</code></p>
+<p>What is <code>font-weight</code>
 <ol>
 <li>A property</li>
 <li>A rule</li>
@@ -633,9 +658,9 @@ main
 <section>
 <h2>Preview Question 6</h2>
 <ul>
-<p>Consider the following HTML snippet.</p>
+<p>Consider the following HTML snippet.
 <code>&#60;p style="font-weight:bold"&#62;Coffee&#60;/p&#62; </code>
-<p>What is <code>bold</code></p>
+<p>What is <code>bold</code>
 <ol>
 <li>A property</li>
 <li>A rule</li>
@@ -648,7 +673,7 @@ main
 <section>
 <h2>Style elements</h2>
 <ul>
-<p>This is an HTML webpage with a style element.</p><code class="html">&#60;!DOCTYPE html&#62;
+<p>This is an HTML webpage with a style element.<code class="html">&#60;!DOCTYPE html&#62;
 &#60;html lang="en"&#62;
  &#60;head&#62;
   &#60;style&#62;
@@ -670,10 +695,10 @@ main
 <section>
 <h2>Preview Question 7</h2>
 <ul>
-<p>Consider the following HTML excerpt.</p><code>  &#60;style&#62;
+<p>Consider the following HTML excerpt.<code>  &#60;style&#62;
    p { background: blue; color: white; }
   &#60;/style&#62;</code>
-<p>What is <code>p { background: blue; color: white; }</code></p>
+<p>What is <code>p { background: blue; color: white; }</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -688,9 +713,9 @@ main
 <section>
 <h2>Preview Question 8</h2>
 <ul>
-<p>Consider the following HTML excerpt.</p>
-<p>What is <code>p { background: blue; color: white; }</code></p>
-<p>What is <code>p</code></p>
+<p>Consider the following HTML excerpt.
+<p>What is <code>p { background: blue; color: white; }</code>
+<p>What is <code>p</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -704,9 +729,9 @@ main
 <section>
 <h2>Preview Question 9</h2>
 <ul>
-<p>Consider the following HTML excerpt.</p>
-<p>What is <code>p { background: blue; color: white; }</code></p>
-<p>What is <code>{ background: blue; color: white; }</code></p>
+<p>Consider the following HTML excerpt.
+<p>What is <code>p { background: blue; color: white; }</code>
+<p>What is <code>{ background: blue; color: white; }</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -719,9 +744,9 @@ main
 <section>
 <h2>Preview Question A</h2>
 <ul>
-<p>Consider the following HTML excerpt.</p>
-<p>What is <code>p { background: blue; color: white; }</code></p>
-<p>What is <code>background: blue;</code></p>
+<p>Consider the following HTML excerpt.
+<p>What is <code>p { background: blue; color: white; }</code>
+<p>What is <code>background: blue;</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -734,9 +759,9 @@ main
 <section>
 <h2>Preview Question B</h2>
 <ul>
-<p>Consider the following HTML excerpt.</p>
-<p>What is <code>p { background: blue; color: white; }</code></p>
-<p>What is <code>background</code></p>
+<p>Consider the following HTML excerpt.
+<p>What is <code>p { background: blue; color: white; }</code>
+<p>What is <code>background</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -749,9 +774,9 @@ main
 <section>
 <h2>Preview Question C</h2>
 <ul>
-<p>Consider the following HTML excerpt.</p>
-<p>What is <code>p { background: blue; color: white; }</code></p>
-<p>What is <code>blue</code></p>
+<p>Consider the following HTML excerpt.
+<p>What is <code>p { background: blue; color: white; }</code>
+<p>What is <code>blue</code>
 <ol>
 <li>A declaration</li>
 <li>A declaration block</li>
@@ -877,25 +902,26 @@ main
 	<li>With at least one comment.
 	<li>Properly indented.
 	<li>Style using a 'style' element in the 'head' element.<ul>
-	<li>Bold the "Hello, World!" text, denoted with a class like 'bold'.
+	<li>Bold the "Hello, World!" text, denoted with a class like 'bolded'.
 	<li>Make the header red, blue, or green, with a class like 'colour'.
 	<li>Italicize the "World!" text, with a class like 'fancy'.
 	</ul>
 	</ul>
 	</ul>
+	<p>Try with ids as well as classes.
 </section>
 
 <section>
 <h2>Standalone CSS</h2>
-<p>It is most common to write CSS separately, in a .css file.</p><ul>
+<p>It is most common to write CSS separately, in a .css file.<ul>
 <li>Good aesthetics: Uniform style across pages</li>
 <li>Good coding: Factorization</li>
 </ul>
-<p>Simply reference the relevant stylesheet using the following in the HTML head:</p><ul>
+<p>Simply reference the relevant stylesheet using the following in the HTML head:<ul>
 <code><link rel="stylesheet" href="./filename.css"/></code>
 </section>
 <section>
-<ul><li>page.html</p>
+<ul><li>page.html
 <code class="html" style="max-height:900px">&#60;!DOCTYPE html&#62;
 &#60;html lang="en"&#62;
  &#60;head&#62;
@@ -908,7 +934,7 @@ main
   &#60;p id="both"&#62;Both&#60;/p&#62;
  &#60;/body&#62;
 &#60;/html&#62;</code>
-<p><li>filename.css</p>
+<p><li>filename.css
 <code class="css">   p { background: blue; color: white; }
    .invert, #both { background: white; color: blue; }
    #fancy, #both { font-style: italics; }</code>
@@ -953,6 +979,500 @@ main
 	<p>This is the "hyper" in HTML, as we are now linking pages.
 </section>
 
+<section>
+    <h2>Something like:</h2>
+
+<table>
+<colgroup>
+<col style="width: 60%">
+<col style="width: 40%">
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+index.html
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p&gt;This page is just a demo.&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code>
+</td>
+<td style="text-align: left;">
+styles.css
+<code class="css">p 
+{ 
+	background: blue; 
+	color: white; 
+}
+</code>
+</td>
+
+</tr>
+</tbody>
+</table>
+<p>They just have to be in the same directory.<ul>
+<code class="bash">$ ls -al *.html *.css
+-rw-r--r-- 1 cd-desk 197121 161 Jun 20 11:05 index.html
+-rw-r--r-- 1 cd-desk 197121  47 Jun 20 11:06 styles.css
+</code>
+</section>
+
+<section>
+    <h2>Aside:</h2>
+    <ul>
+	<li>I'm used to seeing a lot more CSS than HTML
+	<li>Generally, CSS has to handle a lot of cases
+	<li>It can be quite verbose
+	<li>Most pages have relatively little content
+	<li>Most pages (that we see) are richly designed.
+	<li>Look at Willamette:
+<code class="bash">user@DESKTOP-THMS2PJ:~$ curl https://willamette.edu/ 2>/dev/null| wc
+    647    2677   46650
+</code><code class="bash">
+user@DESKTOP-THMS2PJ:~$ curl https://willamette.edu/css/dist/style.css 2>/dev/null | wc
+   9022   28518  292022
+</code>
+</ul>
+<p>What is that bash command doing?</section>
+
+<section>
+    <h2>Aside:</h2>
+    <ul>
+	<li>CSS comments are "C" style.
+	<code class="CSS">
+/* This is a comment */</code>
+	<li>They begin with '/*' and end with '*/'
+	<li>They can span multiple lines.
+	<li>I don't use them a lot, but they show up when looking at other webpages, here's Willamette.edu/css/dist/style.css:
+	<code class="CSS">.two-column-group {
+  width: 100%;
+  /* Chrome, Safari */
+  page-break-inside: avoid;
+  /* Theoretically FF 20+ */
+  -moz-column-break-inside: avoid;
+  break-inside: avoid-column;
+  /* IE 11 */
+  display: table;
+  /* Actually FF 20+ */ }</code>
+	
+	<li>These comments are about browser compatibility, a common topic.
+</code>
+</ul></section>
+
+<section>
+    <h2>Exercise:</h2>
+    <ul>
+	<li>We have seen an element and an attribute named "style" and seen style defined in an external file.
+	<li>We have not seen what happens when these conflict.
+	<li>Using your web design skills, determine how conflicts are resolved between:
+	<ul>
+	<li>Style elements in headers and style files in link elements in headers
+	<li>Style defined by element, class, and a id selectors.
+	<li>Style in headers and style in elements.
+	</ul>
+	<li>Create a self-documenting HTML webpage with CSS style sheet describing conflict resolution.
+	<li>Stage the webpage as a Github page using the following <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site">guide</a>.
+	<li>Find a partner and verify your findings on another device.
+	<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;style&gt; p { color: blue; } &lt;/style&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p style="color: red;"&gt;If this text is blue, a style element in the header has precedence over a style attribute in a content-holding element.&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</code>
+</section>
+
+
+<section>
+<h2>HTML/CSS</h2>
+<ul><li>HTML/CSS hold and style data.
+<ul>
+<li>CSS styling is mostly static, based on enviroment.</li>
+<li>HTML styling is most unsupported, and can be indeterminate.</li>
+<li>When underspecified, browser defaults determine styling.</li>
+</ul>
+<li>What if we want to:
+<ul>
+<li>Change styles without a reload?</li>
+<li>Change content without a reload?</li>
+<li>Change rendering while maintaining printability?</li>
+</ul>
+<li>Consider the case of websites with dark modes.
+</section>
+<section>
+<h2>HTML and CSS</h2>
+<p><em>All of HTML/CSS gives <b>static</b> styling</em>.
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>HTML is a
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute value</li>
+<li>Attribute name</li></li></li></ul></li></ul>
+<li>Content</li>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></li></ul></li></ul></li></ul>
+</td>
+<td style="text-align: left;">
+<p>CSS is a
+<ul>
+<li>Rule<ul>
+<li>Selector(s)</li>
+<li>Declaration Block<ul>
+<li>Declaration<ul>
+<li>Property</li>
+<li>Value</li></li></ul></li></ul></li></ul></li>
+<li>Attribute Value<ul>
+<li>Declaration Block<ul><li>...
+</tbody></table>
+</section>
+
+<section id="js">
+  <h1 class="title">JavaScript</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Async
+  <p class="date">Cloud
+</section>
+<section>
+<h2>Scripting</h2>
+<ul><li>Introduce the contentful element<code>&#60;script&#62;</code>
+<li>In the context of HTML/CSS, we may perform some limiting scripting.</li>
+<code>&#60;script&#62;alert('Hello, world!');&#60;/script&#62;</code>
+<li>This scripting language is JavaScript, and it is the embedded scripting language of HTML.</li>
+<li>It is the most popular language in the world BY FAR (close to double all other languages put together)</li>
+<li>Most people I know that use it hate it.
+</ul>
+<p>Let's hear it for JavaScript, folks.
+</section>
+<section>
+<h2>Alert</h2>
+<ul><li>Hello world is a bit odd in JavaScript because it isn't really it's own language*
+<li>It doesn't have a print statement (how could it?) but and isn't invoked at command line or in an IDE.
+<li>We can use some HTML and CSS to call a JavaScript function like so.
+<code class="html">&#60;button onclick="SomeFunc()" style="background:white;color:black;font-size:40px"&#62;Push for alert!&#60;/button&#62;</code>
+<button onclick="hello()" style="background:white;color:black;font-size:40px">Push for alert!</button>
+<li>This does nothing because I haven't written "SomeFunc()".
+<p>*In addition to not being its own language, it also is its own language, but more on that latter.
+</section>
+<section>
+<h2>Alert</h2>
+<ul><li>No easy way to start, so we start in the middle.
+<li>We can make a JavaScript function to send a "hello world" alert.:
+<code class="html">&#60;script type="text/javascript"&#62;
+    function SendAlert(){
+        alert('Hello World');
+    }
+&#60;/script&#62;</code>
+<li>Think: Where should this element be placed within an HTML file?
+</section>
+<section>
+<h2>Alert</h2>
+<ul><li>With both the script:
+<code class="html">&#60;script type="text/javascript"&#62;
+    function SendAlert() {
+        alert('Hello World');
+    }
+&#60;/script&#62;</code>
+<li>and the button updated to "SendAlert"
+<code class="html">&#60;button onclick="SendAlert()" style="background:white;color:black;font;font-size:40px"&#62;Push for alert!&#60;/button&#62;</code>
+<script type="text/javascript">
+    function SendAlert() {
+        alert('Hello World');
+    }
+</script>
+<button onclick="SendAlert()" style="background:white;color:black;font;font-size:40px">Push for alert!</button>
+<li>I am able to see a "hello world" alert pop up in my browser.
+<p>This may require some debugging with browser permissions - it is a pop-up after all!
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a webpage, that may be index.html but updated:
+	<ul><li>With a script element.
+	<li>With an alert within the script element.</ul>
+	<li>Determine how to make the script run:<ul>
+	<li>When the page loads.
+	<li>When a button element is pressed.
+	</ul>
+	<li>Formulate an opinion on:<ul>
+	<li>The best place in an HTML webpage to place a script element
+	<li>The best way to indent JavaScript codeblocks in script elements
+	<li>The best way to indent JavaScript generally
+	</ul></ul>
+	<p>Once this is working, experiment more. Does JavaScript work on Github pages?
+</section>
+
+<section>
+<h2>JavaScript</h2>
+<p>JavaScript is a full-featured language, with the associated benefits and costs
+<ul>
+<li>JavaScript lines are semi-colon terminated (like C/C++/Java, not like Python)
+<li>JavaScript ignores whitespace (like C, not like Python)
+<li>JavaScript expressions may contain linebreaks for readability (like C, not like Python)
+<li>JavaScript codeblocks are joined with curly braces (like C and CSS, not like Python)
+<li>JavaScript has important keywords (like C and Python)
+<li>JavaScript is case-sensitive - use camel case.
+</ul>
+<p>JavaScript and Java have no relation. The language's actual name is ECMAScript.
+</section>
+<section>
+<h2>Variables</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li><code>var</code> declares a variable. <code>let</code> and <code>const</code> are variations.<ul>
+<li><code>var</code> is old, and bad in a complicated way. Don't worry about it.
+<li><code>const</code> makes a constant - write all your code with constants initially.
+</section>
+<section>
+<h2>Use Const</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>Change a <code>const</code> to a <code>let</code> if and only if you most update the value of the variable.
+
+<code class="html">&#60;script type="text/javascript"&#62;
+	function SendAlert() {
+		const greeting = 'Hello World';
+		alert(greeting);
+	}
+&#60;/script&#62;</code>
+</section>
+<section>
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li><code>if</code> and <code>for</code> behave "as expected", but use C/C++/Java syntax (not R/Python)
+<ul><li>The R/Python "for" loop is a "for each" loop, which is theoretically different in programming language theory.</ul>
+<li>Use <code>if</code> with a condition in parenthesis and a code block in curly braces.
+<code class="js">function SendAlert() {
+	let greeting = 'Hello World';
+	if (navigator.userAgent.indexOf("Firefox") != -1) {
+		let greeting = 'You have good taste.';
+	}
+	alert(greeting);
+}</code>
+<li>What do we think 'navigator.userAgent.indexOf' means?
+</section>
+<section>
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>Extend <code>if</code> with <code>else</code></li>
+<li>Here's an extended conditional block:
+<code class="js" style="max-height:900px;max-width:2500px">function SendAlert() {
+	let greeting = 'Whatever I guess.';
+	if (navigator.userAgent.indexOf("Firefox")!=-1) {
+		greeting = 'You have good taste.';
+	} else if (navigator.userAgent.indexOf("MSIE")!=-1) {
+		greeting = 'Get Firefox.';
+	} else {
+		;
+	}
+	alert(greeting);
+}</code>
+</section>
+<section>
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>JavaScript <code>for</code> uses, say traditional "for" instead of R/Python "for each".</li>
+<li>There is a three part statement include in parenthesis:<ul>
+<li>First, an initializing condition.
+<ul><li>As a convenience but not a requirements, this usually sets a variable for testing using <code>let</code></ul>
+<li>Then, a terminating condition. This usually is a test of the variable.
+<li>Then, an incrementing condition. This usually is an update to the variable.</ul>
+<code class="js" style="max-height:900px;max-width:2500px">let text = "";
+for (let i = 0; i < 5; i++) {
+  text += "The number is " + i + "\n";
+}
+alert(text);</code></ul>
+<p>Note we get to use either single or double quotes on strings.
+</section>
+<section>
+<h2>Functions</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>JavaScript <code>function</code> creates a function that may be called by name.
+<ul><li>Can be called by an HTML button.</li>
+<li>Can be called elsewhere in a script.</li></ul>
+<li>It is similar enough to Python <code>def</code> and R <code>function</code>
+<li>They may take arguments, and have return values using a control flow <code>return</code>
+<ul><li>'Control flow' means isn't applied as a function, like R language 'return()'</ul>
+<code class="js">function triple(n) {
+	return 3 * n;
+}
+</code></ul>
+<p>Note we get to use R/Python/C/Java etc. style arithmetic.
+</section>
+<section>
+<h2>Notes</h2>
+<ul>
+<li>JavaScript numbers are all floats.
+<li>JavaScript has both <code>null</code> and <code>undefined</code> for case and error handling.
+<li>JavaScript has zero-indexed strings that can use single or double quotes.
+<li>JavaScript has many features that integrate with html, but no real "print".
+<li>Comment JavaScript by prefixing with double slash<code>// That is, C++-style single-line comments</code></ul>
+</section>
+<section>
+<h2>Dark Mode</h2>
+<p>We can use JavaScript to create dark modes
+<ul>
+<li>Create a CSS class for dark mode.
+<li>Create a JavaScript function that toggles the class of an HTML element.
+<li>Create an HTML button that calls the JavaScript function.
+</section>
+<section>
+<h2>CSS Class</h2>
+<p>I like cyan on black.
+<ul>
+<code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code>
+</section>
+<section>
+<h2>JavaScript function</h2>
+<ul>
+<li>I use a built-in object to list everything in the HTML body. <code>document.body.classList</code></li>
+<li>I can add or remove a class to the body element with toggle:
+
+<code class="css">function toggler() {
+	document.body.classList.toggle("dark-mode");	   
+}
+</code>
+<li>Recall
+<code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code>
+</section>
+<section>
+<h2>HTML elements</h2>
+<ul>
+<li>I use a <code>button</code> element with an <code>onclick</code> attribute.</li>
+
+<code class="html"><button onclick="toggler()" >Toggle dark mode</button>
+</code>
+<p>Recall
+
+<code class="css">function toggler() {
+	document.body.classList.toggle("dark-mode");	   
+}
+</code>
+<code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}</code>
+<p>See the <a href="https://zagreb-ethf23.github.io/html/resume.html">example</a>.
+
+</section>
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Add a dark mode toggle to your index.html</ul>
+<p>See the <a href="https://zagreb-ethf23.github.io/html/resume.html">example</a>.
+</section>
+
+<section>
+<h2>Standalone .js</h2>
+<p>I see JavaScript "embedded" much more than CSS<ul>
+<li>Most JavaScript is used on a single page, so why factor it out</li>
+<li>Keeps the scripts and the elements that call/interact together</li>
+</ul>
+<p>But there's a lot of .js libraries so we need to practice linking.<ul>
+<code class="HTML">&lt;script type="text/javascript" src="scripts.js"&gt;</code>
+</section>
+
+<section>
+    <h2>Something like:</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+index.html
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+  &lt;script type="text/javascript" src="scripts.js"&gt;&lt;script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p&gt;Oh I'll need a button won't I?&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code>
+</td>
+<td style="text-align: left;">
+styles.css
+<code class="css">.dark {
+	/* I like cyan and black */
+	background-color: black;
+	color: #00ffff;
+}
+</code><br>
+scripts.js
+<code class="js">function toggler() {
+	// using a const to linebreak
+	const bd = document.body;
+	bd.classList.toggle("dark");	   
+}
+</code>
+</td>
+
+</tr>
+</tbody>
+</table>
+<p>They just have to be in the same directory.<ul>
+<code class="bash">$ ls -al *.html *.css *.js
+-rw-r--r-- 1 cd-desk 197121 337 Jun 20 13:57 index.html
+-rw-r--r-- 1 cd-desk 197121  97 Jun 20 13:56 scripts.js
+-rw-r--r-- 1 cd-desk 197121  55 Jun 20 13:55 styles.css</code>
+</section>
+
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Have index.html, scripts.js, and styles.css define a Github page.</ul>
+<p>See an <a href="https://github.com/cd-public/js_demo">example</a>.
+</section>
+
+<section>
+<h2>Coding Demo</h2>
+<ul>
+<p>As time allows.
+<ul>
+<li>console.log
+<li>getElementById
+<li>.innerHTML
+<li>Interview questions
+</section>
 
 </div>
 </div>

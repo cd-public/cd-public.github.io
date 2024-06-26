@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Spark</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="graph">
+  <h1 class="title">Graph</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 07
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>Starting Spark.
+<li>There was no homework this week (&NotExists; HW6)
+<ul><li>You either should've played around with HTML and Github pages, or looked into perspectives on cloud computing, but don't owe me a product.</ul>
+<li>HW7 will be in Spark<ul>
+<li>Code factoring "Merrer"
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Big Idea: Graphs, to introduce...
+<li>Spark</li>
+<ul>
+<li>Spark "generalizes" MapReduce using graph theory
+<li>Graph theory always good to know
+</ul>
+<li>On Web: PageRank is a graph
+<li>In Architecture: Networks are a graph
+<li>In data: Geolocations can be stored as graphs, etc.
+</ul><br>
+<img width="40%"  src="https://i.imgur.com/wYl211y.png">
+</section>
+
+<section>
+    <h2>Graphs</h2>
+    <ul>
+	<li>There are many ways to understand graphs, but I actually think graph theory is quite accessible.
+	<li>I think it's also easier when using a running example.
+	<li>I will also use a running example, Amtrak 🚄
+	</ul>
+	<img width="80%" src="https://media.amtrak.com/wp-content/uploads/2021/04/Proposed_Amtrak_Routes_April_2_2021_v4-scaled.jpg">
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+        <ul><li>A graph is an <strong>ordered pair</strong>.<ul>
+		<li>That is: two things, in a fixed order.
+		<li>An ordered pair can be thought of as a sequence of length 2
+		<code class="python">a = "one thing"
+b = "another thing"
+ordered_pair = [a,b]</code>
+		<li>An ordered pair can be thought of as a tuple of length 2, a 2-ple.
+		<code class="R">a <- "one thing"
+b <- "another thing"
+ordered_pair <- c(a,b)</code>
+<li>A graph is not a set:
+<code class="Python">&gt;&gt;&gt; [a,b][0]
+'one thing'
+&gt;&gt;&gt; {a,b}[0]
+&lt;stdin&gt;:1: SyntaxWarning: 'set' object is not subscriptable; perhaps you missed a comma?
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'set' object is not subscriptable</code>
+</section>
+
+<section >
+<h2>Aside: Sets and pairs</h2>
+<ul style="width:100%">It is... not impossible to make ordered pairs out of sets. Take a number plane:</ul>
+
+<p>y=2</p>
+<p><span style="position:relative;top:-380px">x=-2</span>
+<span style="vertical-align:middle;" onclick="draw1();">
+  <canvas id="plot1"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">x=2</span>
+<p>y=-2</p>
+<script>
+function draw1()
+{
+	const plot1 = document.getElementById("plot1") ;
+	const ctx1 = plot1.getContext("2d");
+	ctx1.fillStyle = "black";	
+	ctx1.fillRect(400, 0, 5, 800) ;
+	ctx1.fillRect(0, 400, 800, 5) ;
+	
+	ctx1.fillRect(395, 200, 15, 5) ;
+	ctx1.fillRect(395, 600, 15, 5) ;
+	ctx1.fillRect(200, 395, 5, 15) ;
+	ctx1.fillRect(600, 395, 5, 15) ;
+}</script>
+</section>
+
+
+<section >
+<h2>Aside: Sets and pairs</h2>
+<ul style="width:100%"><li>Denote ordered pair (.5,1.5) in <span style="color:red">red</span>. <li>We regard the first value as the x-value and the horizontal value by <em>social convention</em>.</ul>
+
+<p>y=2</p>
+<p><span style="position:relative;top:-380px">x=-2</span>
+<span style="vertical-align:middle;" onclick="draw2();">
+  <canvas id="plot2"  width="800" height="800" style="background-color:white"></canvas>
+</span>
+<span style="position:relative;top:-380px">x=2</span>
+<p>y=-2</p>
+<script>
+function draw2()
+{
+	const plot2 = document.getElementById("plot2") ;
+	const ctx2 = plot2.getContext("2d");
+	ctx2.fillStyle = "black";	
+	ctx2.fillRect(400, 0, 5, 800) ;
+	ctx2.fillRect(0, 400, 800, 5) ;
+	
+	ctx2.fillRect(395, 200, 15, 5) ;
+	ctx2.fillRect(395, 600, 15, 5) ;
+	ctx2.fillRect(200, 395, 5, 15) ;
+	ctx2.fillRect(600, 395, 5, 15) ;
+	
+	ctx2.fillStyle = "red";	
+	ctx2.fillRect(495, 95, 10, 10) ;
+	ctx2.fillRect(495, 95, 10, 10) ;
+}</script>
+</section>
+
+<section>
+    <h2>Pair: Definition</h2>
+        <ul><li>We construct pairs from sets.<ul>
+		<li>An ordered pair is a set of cardinality two. (2 elements)
+		<li>One element of the set is a set of cardinality one. (1 element)
+		<li>The other element of the set is a set of cardinality two (2 elements)
+		<li>The element of the set of cardinality one is one of the two elements of the set of cardinality two.
+		<li>The element of both sets is regarded as the first element.
+		<li>This doesn't work in Python since Python sets can't contain other sets:
+<code class="Python">&gt;&gt;&gt; [a,b] # ordered pair
+['one thing', 'another thing']
+&gt;&gt;&gt; {{a},{a,b}} # ordered pair with sets
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+&gt;&gt;&gt;</code>
+TypeError: unhashable type: 'set'</code>
+<li>But this is an implementation hurdle, and not a logical one.
+</ul>
+<li>Define: An ordered pair is a set of two elements, a set containing the head element of the pair, and a set containing both elements of the pair.
+</section>
+
+<section>
+    <h2>Pair: Definition</h2>
+<ul style="width:100%"><li>An ordered pair of two elements is a set of two elements, a set containing the head item in the pair, and a set containing both items in the pair.<ul>
+<li>We denote this set '<em>p</em>'</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">(<em>a</em>, <em>b</em>) := <em>p</em> : { {<em>a</em>} , {<em>a</em>, <em>b</em>} }</div>
+<ul style="width:100%"><li>Extract the head item by taking the intersection of all of the elements of <em>p</em><ul>
+<li>I denote this 'Head(<em>p</em>)'</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">Head(<em>p</em>) := <em>x</em> : <em>x</em> &in; &cap; <em>p</em></div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">Head(<em>p</em>) := <em>x</em> : &forall; <em>Y</em> &in; <em>p</em> : <em>x</em> &in; <em>Y</em></div>
+<ul style="width:100%"><li>The tail is the sole element of the union that is not an element of the intersection, with the caveat that we do not consider the case in which the head and tail differ<ul>
+<li>I denote this 'Tail(<em>p</em>)'</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">Tail(<em>p</em>) := <em>x</em> : <em>x</em> &in;  &cup; <em>p</em> &setminus; &cap; <em>p</em></div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">Tail(<em>p</em>) := <em>x</em> : &exist; <em>Y<sub>1</sub></em>, <em>Y<sub>2</sub></em> &in; <em>p</em> : <em>x</em> &in; <em>Y<sub>1</sub></em> &and; <em>x</em>  &notin; <em>Y<sub>2</sub></em></div>
+<p>This can be generalized to construct sequences out of sets, and to create graphs out of sets, mostly as a curiousity.
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+        <ul><li>A graph is an <strong>ordered pair</strong>.<ul>
+		<li>That is: two things, in a fixed order.
+		<li>An ordered pair can be thought of as a sequence of length 2
+		<code class="python">a = "one thing"
+b = "another thing"
+ordered_pair = [a,b]</code>
+		<li>An ordered pair can be thought of as a tuple of length 2, a 2-ple.
+		<code class="R">a <- "one thing"
+b <- "another thing"
+ordered_pair <- c(a,b)</code>
+<li>A graph can be thought of as a set, but it might be hard to think that way.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">(<em>a</em>, <em>b</em>) := <em>p</em> : { {<em>a</em>} , {<em>a</em>, <em>b</em>} }</div>
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+        <ul style="width:100%"><li>A graph is an <strong>ordered pair</strong> that we denote as '<em>G</em>'<li>We denote the two elements of the pair as:
+<ul><li><em>V</em> for vertices<li><em>E</em> for edges</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>G</em> = (<em>V</em>, <em>E</em>)</div>
+<ul style="width:100%"><li>In our Amtrak example:
+<ul><li><em>V</em>, the vertices, are stations or stops or cities, <ul><li>like Portland and Seattle, or <li>like Kings St Station and Central Station</ul></ul>
+<ul><li><em>E</em>, the edges, are the connections to adjacent stations<ul><li>like Portland and Oregon City, or Portland and Vancouver, WA.
+<li>It is generally easier to think of <em>E</em> as atomic connections just to have a smaller <em>E</em></ul>
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+        <ul style="width:100%"><li>A <em>Amtrak</em> is an <strong>ordered pair</strong><li>We denote the two elements of the pair as:
+<ul><li><em>Stations</em> for train stations used by Amtrak passengers, and <li><em>Trains</em> which Amtrak passengers ride between stations.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>Amtrak</em> = (<em>Stations</em>, <em>Trains</em>)</div>
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+        <ul style="width:100%"><li>A graph is an <strong>ordered pair</strong> that we denote as '<em>G</em>'</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>G</em> = (<em>V</em>, <em>E</em>)</div>
+<ul style="width:100%"><li><em>V</em> is a set of elements termed 'vertices', 'nodes', or 'points'<ul>
+<li>We have talked about nodes before... when?</ul>
+<ul style="width:100%"><li>In our Amtrak example:<ul>
+<li>I will term them "stations".
+<li>Let us consider the "Amtrak Cascades"
+<li>The set of vertices is the set of stations:</ul></ul></ul></ul>
+<table style="width:100%">
+<tr><td><code style="width:100%" class='LISP'>ALBANY
+BELLINGHAM
+CENTRALIA
+EDMONDS
+EUGENE</code></td>
+<td><code style="width:100%" class='LISP'>EVERETT
+KELSO/LONGVIEW
+MOUNT VERNON
+OLYMPIA/LACEY
+OREGON CITY</code></td>
+<td><code style="width:100%" class='LISP'>PORTLAND
+SALEM
+SEATTLE
+STANWOOD
+TACOMA</td></code></td>
+<td><code style="width:100%" class='LISP'>TUKWILA
+VANCOUVER BC
+VANCOUVER WA
+</code></td></tr>
+</table>
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+        <ul style="width:100%"><li>A graph is an <strong>ordered pair</strong> that we denote as '<em>G</em>'</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>G</em> = (<em>V</em>, <em>E</em>)</div>
+<ul style="width:100%"><li><em>V</em> is vertices<ul style="width:100%"><li>Restrict our example to the PDX<->SEA 6x daily trains:</ul></ul>
+<table style="width:100%">
+    <colgroup>
+       <col span="1" style="width: 25%;">
+       <col span="1" style="width: 25%;">
+       <col span="1" style="width: 25%;">
+       <col span="1" style="width: 25%;">
+    </colgroup>
+<tr><td><code style="width:100%" class='LISP'>CENTRALIA
+KELSO/LONGVIEW</code></td>
+<td><code style="width:100%" class='LISP'>OLYMPIA/LACEY
+PORTLAND</code></td>
+<td><code style="width:100%" class='LISP'>SEATTLE
+TACOMA</td></code></td>
+<td><code style="width:100%" class='LISP'>TUKWILA
+VANCOUVER WA
+</code></td></tr>
+</table>
+<ul style="width:100%"><li><em>E</em> is a set of elements termed 'edges', 'links', or 'lines'<ul>
+<li>The edges are pairs of vertices
+<li>Now we have to make a decision...
+<li>In an <em>undirected graph</em>, edges are unordered pairs (sets of cardinality two)
+<li>In an <em>directed graph</em>, edges are ordered pairs (not subsets then)
+</ul>
+<li>Amtrak is undirected - all connections are bidirectional.
+<ul><li>That is, for all stations in Amtrak, if there is outgoing route <em>to</em> some other station, there is an incoming route <em>from</em> that same station.
+</section>
+
+
+<section>
+    <h2>Graph: Definition</h2>
+<ul style="width:100%"><li><em>E</em> is a set of elements termed 'edges', 'links', or 'lines'<ul>
+<li>The edges are pairs of vertices</ul>
+<li>Now we have to make a decision...<ul>
+<li>In an <em>undirected graph</em>, edges are unordered pairs (sets of cardinality two)
+<li>In an <em>directed graph</em>, edges are ordered pairs (not subsets then)
+</ul>
+<li>Amtrak is undirected - all connections are bidirectional.
+<ul><li>That is, for all stations in Amtrak, if there is outgoing route <em>to</em> some other station, there is an incoming route <em>from</em> that same station.</ul>
+<li>Hadoop is directed.
+<ul><li>The NameNode may forward Python scripts to the DataNodes with '-file'
+<li>DataNodes may not pass scripts back (or they have no Hadoop-ly way to do so).</ul>
+<li>The internet is directed.
+<ul><li>We may use 'curl' to download files from a url, but going the other way (creating files at a url) is highly nontrivial.
+<li>We use Github to do this (in this class) but that means we don't have an 'edge' directly to a url - Github has an edge and just lets us use it.</ul>
+</section>
+
+
+<section>
+    <h2>Graph: Definition</h2>
+<ul style="width:100%"><li><em>E</em> is a set of pairs of vertices<ul>
+<li>Let's look at some pairs... are these edges?</ul></ul><table style="width:100%">
+    <colgroup>
+       <col span="1" style="width: 25%;">
+       <col span="1" style="width: 25%;">
+       <col span="1" style="width: 25%;">
+       <col span="1" style="width: 25%;">
+    </colgroup>
+<tr><td><code style="width:100%" class='LISP'>CENTRALIA
+KELSO/LONGVIEW</code></td>
+<td><code style="width:100%" class='LISP'>OLYMPIA/LACEY
+PORTLAND</code></td>
+<td><code style="width:100%" class='LISP'>SEATTLE
+TACOMA</td></code></td>
+<td><code style="width:100%" class='LISP'>TUKWILA
+VANCOUVER WA
+</code></td></tr>
+</table>
+<ul style="width:100%"><li>Let's take a look at the route with the stations in order of geography rather than alphabet:
+<code class="LISP">SEATTLE
+TUKWILA
+TACOMA
+OLYMPIA/LACEY
+CENTRALIA
+KELSO/LONGVIEW
+VANCOUVER WA
+PORTLAND</code>
+<li>The first pair - Centralia and Keslo/Longview - is an edge.<ul>
+<li>We see that these two stations are adjacent, between Olympia and Vancouver WA.
+</ul>
+<li>The others, like Seattle and Tacoma, are not edges.<ul>
+<li>We can go from Seattle to Tacoma, but we stop at Tukwila in between
+<li>So there is no train from Seattle to Tacoma - only from Seattle to Tukwila, and Tukwila to Tacoma
+</ul>
+<li>This graph is undirected - Seattle is next to Tukwila, and Tukwila is next to Seattle
+</section>
+
+<section>
+    <h2>Graph: Definition</h2>
+<ul style="width:100%"><li><em>E</em> is a set of pairs of stations<ul>
+<li>Our edges are pairs of <em>adjacent</em> stations
+<li>There are 8 stations so there are 7 edges</ul></ul><table style="width:100%">
+    <colgroup>
+       <col span="1" style="width: 50%;">
+       <col span="1" style="width: 50%;">
+    </colgroup>
+<tr><td><code style="width:100%" class='HTML'>(SEATTLE,        TUKWILA)
+(TUKWILA,        TACOMA)
+(TACOMA,         OLYMPIA/LACEY)
+(OLYMPIA/LACEY,  CENTRALIA)</code></td>
+<td><code style="width:100%" class='HTML'>(CENTRALIA,      KELSO/LONGVIEW)
+(KELSO/LONGVIEW, VANCOUVER WA)
+(VANCOUVER WA,   PORTLAND)</code></td>
+</table>
+<ul style="width:100%"><li>I use tuple notion here, with parens, but it would be equally proper to use set notatation for an undirected graph.
+<li>Also I maintained geographic ordering (as a convenience) but it would be more proper to have no particular order since <em>E</em> is a set.</ul><table style="width:100%">
+    <colgroup>
+       <col span="1" style="width: 50%;">
+       <col span="1" style="width: 50%;">
+    </colgroup>
+<tr><td><code style="width:100%" class='HTML'>{CENTRALIA,      KELSO/LONGVIEW}
+{KELSO/LONGVIEW, VANCOUVER WA}
+{OLYMPIA/LACEY,  CENTRALIA}
+{SEATTLE,        TUKWILA}</code></td>
+<td><code style="width:100%" class='HTML'>{TACOMA,         OLYMPIA/LACEY}
+{TUKWILA,        TACOMA}
+{VANCOUVER WA,   PORTLAND}</code></td>
+</table>
+</section>
+<section>
+    <h2>Graph: Definition</h2>
+<ul style="width:100%"><li>We can express G using only sets over elements of stations (this is basically JSON):
+<code style="height: 1000px; overflow: scroll;" class="JSON">G = {
+	V = {
+		SEATTLE,
+		TUKWILA,
+		TACOMA,
+		OLYMPIA/LACEY,
+		CENTRALIA,
+		KELSO/LONGVIEW,
+		VANCOUVER WA
+		PORTLAND,
+	}, 
+	{
+		V,
+		E = {
+				{
+					TUKWILA,
+					TACOMA
+				},
+				{
+					TACOMA,
+					OLYMPIA/LACEY
+				},
+				{
+					OLYMPIA/LACEY,
+					CENTRALIA
+				},
+				{
+					CENTRALIA,
+					KELSO/LONGVIEW
+				},
+				{
+					KELSO/LONGVIEW,
+					VANCOUVER WA
+				},
+				{
+					VANCOUVER WA,
+					PORTLAND
+				}
+			}
+		}
+	}
+}</code>
+</section>
+
+<section>
+    <h2>Graph: Exercise</h2>
+<ul style="width:100%"><li>Amtrak has recently added a number of regional lines, includin the Hiawatha, with service from Milwaukee to the world's greatest city, Chicago.
+<blockquote>From the grandeur of Grant Park’s Buckingham Fountain to iconic museums and skyscrapers, see for yourself why Chicago was once dubbed “Paris on the Prairie.” Engage in retail therapy on the Magnificent Mile or root for the home team within the friendly confines of famed Wrigley Field.</blockquote>
+<li>As an exercise, construct the graph of the Hiawatha route using the JSON-ish notation I used for Cascades.
+<li>The route is described <a href="https://www.amtrak.com/routes/hiawatha-train.html">here</a> and contains five stations.
+<li>You may use the three letter codes like "MKE" and "CHI" as a notational convenience if you would like.
+<li>As a bonus: Write valid json. Here's a <a href="https://jsonformatter.curiousconcept.com/#">tester</a>.
+</ul>
+<p>Fun fact: Chicago Union Station is designated with Chicago's three letter code "CHI" - beating out Midway (MDW) and even the worlds busiest airport from 1963-1998 - O'Hare (ORD) #Trains🚆<ul>
+<code style="height: 200px; overflow: scroll;" class="JSON">G = {
+	V = {
+		SEATTLE,
+		TUKWILA,
+		TACOMA,
+		OLYMPIA/LACEY,
+		CENTRALIA,
+		KELSO/LONGVIEW,
+		VANCOUVER WA
+		PORTLAND,
+	}, 
+	{
+		V,
+		E = {
+				{
+					TUKWILA,
+					TACOMA
+				},
+				{
+					TACOMA,
+					OLYMPIA/LACEY
+				},
+				{
+					OLYMPIA/LACEY,
+					CENTRALIA
+				},
+				{
+					CENTRALIA,
+					KELSO/LONGVIEW
+				},
+				{
+					KELSO/LONGVIEW,
+					VANCOUVER WA
+				},
+				{
+					VANCOUVER WA,
+					PORTLAND
+				}
+			}
+		}
+	}
+}</code>
+</section>
+
+<section>
+<h2>Hadoop MapReduce</h2>
+<h3>Inputs and Outputs</h3>
+<ul>
+<li>The MapReduce framework operates exclusively on &lt;key, value&gt; pairs, that is, the framework views the input to the job as a set of &lt;key, value&gt; pairs and produces a set of &lt;key, value&gt; pairs as the output of the job, conceivably of different types.
+<li style="text-decoration: line-through;">The key and value classes have to be serializable by the framework and hence need to implement the <a href="../../api/org/apache/hadoop/io/Writable.html">Writable</a> interface. Additionally, the key classes have to implement the <a href="../../api/org/apache/hadoop/io/WritableComparable.html">WritableComparable</a> interface to facilitate sorting by the framework.</p>
+<li>Input and Output types of a MapReduce job:
+<p>(input) &lt;k1, v1&gt; -&gt; <b>map</b> -&gt; &lt;k2, v2&gt; -&gt; <b>combine</b> -&gt; &lt;k2, v2&gt; -&gt; <b>reduce</b> -&gt; &lt;k3, v3&gt; (output)</p>
+</ul>
+<p>Oh no - I sure hope MapReduce isn't a graph. (HDFS is also a graph, but a different graph)</section>
+
+<section>
+<h2>It's a Graph</h2>
+<ul>
+<li>The key-value pairs (files in HDFS) are nodes and the operations are the edges.
+<li>Here's a <a href="https://jsonformatter.curiousconcept.com/#">valid</a> JSON description of MapReduce as a graph. Note that here we have ordering.
+<code class="JSON">{
+	"hadoop_mapreduce": {
+		"vertices" : {
+			"input" : "&lt;k1, v1&gt;",
+			"": "&lt;k2, v2&gt;",
+			"output": "&lt;k3, v3&gt;"
+		},
+		"edges": {
+			"map": [
+				"&lt;k1, v1&gt;",
+				"&lt;k2, v2&gt;"
+			],
+			"reduce": [
+				"&lt;k2, v2&gt;", 
+				"&lt;k3, v3&gt;"
+			],
+		}
+	}
+}</code></section>
+
+<section>
+<h2>WordCount</h2>
+<ul>
+<code class="JSON">{
+	"wordcount": {
+		"key_value_pairs" : {
+			"input" : "filename:text",
+			"": "word:1",
+			"output": "word:count"
+		},
+		"scripts": {
+			"mapper.py": [
+				"filename:text",
+				"word:1"
+			],
+			"reducer.py": [
+				"word:1", 
+				"word:count"
+			],
+		}
+	}
+}</code></section>
+
+<section>
+<h2>The Word Is Not Enough</h2>
+<ul>
+<li>Simply counting words is inadequate for many applications.
+<li>Example: Is "run" one or two words.
+<li>Are these really the same word (first two results Google News "run" search):
+<a href="https://www.forbes.com/sites/johnwerner/2024/06/24/making-our-new-ai-programs-run-better/"><blockquote>Making Our New AI Programs Run Better</blockquote></a>
+<a href="https://www.forbes.com/sites/jackmagruder/2024/06/24/abrams-gore-lead-nationals-young-controllable-corps-in-playoff-run/"><blockquote>Abrams, Gore Lead Nationals' Young, Controllable Corps In Playoff Run</blockquote></a>
+<ul><li>Is "run" a noun or a verb.
+<li>Is noun.run and verb.run the same word?
+<li>Should they be the same word?
+<li>How do we tell from a corpus?
+</section>
+
+<section>
+<h2>POS Tagging</h2>
+<ul>
+<li>I think of words in terms of their role with in a sentence.
+<ul><li>That is, an independent clause is composed of a subject and a predicate.
+<ul><li>A subject is a noun or noun phrase.
+<li>A predicate is a verb phrase or a verb phrase, and optionally an direct and possibly indirect object.
+<ul><li>Objects are nouns or noun phrases, etc.
+</ul></ul></ul>
+<li>These aren't exactly sentences (the first is a verb phrase, the second is a independent clause which could be a sentence), but they are close enough.
+<li>I tag the "part of speech" of each sentence using nltk, a UPenn NLP toolkit for Python
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Noun_phrase_chunking_with_NLTK.svg/2560px-Noun_phrase_chunking_with_NLTK.svg.png">
+<a href="https://www.forbes.com/sites/johnwerner/2024/06/24/making-our-new-ai-programs-run-better/"><blockquote>Making Our New AI Programs Run Better</blockquote></a>
+<a href="https://www.forbes.com/sites/jackmagruder/2024/06/24/abrams-gore-lead-nationals-young-controllable-corps-in-playoff-run/"><blockquote>Abrams, Gore Lead Nationals' Young, Controllable Corps In Playoff Run</blockquote></a>
+</section>
+
+<section>
+<h2>POS Tagging</h2>
+<ul>
+<li>nltk seems pretty straight forward (my first time using a Python tagger) but I had to rephrase the first headline into a sentence.
+<code class="Python">>>> nltk.pos_tag("Spark is making our new AI programs run better.".split())
+[('Spark', 'NNP'), ('is', 'VBZ'), ('making', 'VBG'), ('our', 'PRP$'), ('new', 'JJ'), ('AI', 'NNP'), ('programs', 'NNS'), ('run', 'VBP'), ('better.', 'RB')]</code>
+<li>Emphasis here:
+<code class="Python">('run', 'VBP')</code>
+<li>With an incomplete sentence, it inferred the leading verb was a proper noun. Whoops.
+<code class="Python">>>> nltk.pos_tag("Making Our New AI Programs Run Better".split())
+[('Making', 'VBG'), ('Our', 'PRP$'), ('New', 'NNP'), ('AI', 'NNP'), ('Programs', 'NNP'), ('Run', 'NNP'), ('Better', 'NNP')]</code>
+<li>Emphasis here:
+<code class="Python">('run', 'NNP')</code>
+<li>In this latter case, nltk infers a 5-word proper noun.
+<li>As ever, our jobs are safe from the threat of AI
+<li>(Actually ChatGPT got this one right but shhhh - <a href="https://cs.nyu.edu/~grishman/jet/guide/PennPOS.html">VBP is also more specific than VB</a>)
+<code class="LISP">Making/VBG Our/PRP$ New/JJ AI/NN Programs/NNS Run/VB Better/RBR</code>
+</section>
+
+
+<section>
+<h2>POS Tagging</h2>
+<ul>
+<li>So we have:
+<code class="Python">('run', 'VBP')</code>
+<li>And a second headline:
+<code class="Python">[('Abrams,', 'NNP'), ('Gore', 'NNP'), ('Lead', 'NNP'), ('Nationals’', 'NNP'), ('Young,', 'NNP'), ('Controllable', 'NNP'), ('Corps', 'NNP'), ('In', 'IN'), ('Playoff', 'NNP'), ('Run', 'NNP')]</code>
+<li>Wow, all NNP (proper nouns) again, let's clean it up and retry:
+<code class="Python">>>> nltk.pos_tag("Abrams and Gore lead Nationals' young, controllable corps in playoff run".split())
+[('Abrams', 'NNP'), ('and', 'CC'), ('Gore', 'NNP'), ('lead', 'VBP'), ("Nationals'", 'NNP'), ('young,', 'NNP'), ('controllable', 'JJ'), ('corps', 'NN'), ('in', 'IN'), ('playoff', 'NN'), ('run', 'NN')]</code>
+<li>Okay, now we have something to work with:
+<code class="Python">('run', 'NN')</code>
+<li>So 'run' can be a noun or a verb (or misclassified due to headlines being unusual).</ul>
+<p>Ponder: Why might we have converted all text to lowercase for an assignment?
+</section>
+
+<section>
+<h2>WordxTagCount</h2>
+<ul>
+<code class="JSON">{
+	"word_x_tagcount": {
+		"key_value_pairs" : {
+			"input" : "filename:text",
+			"": "word:tag",
+			"": "word_x_tag:1",
+			"output": "word_x_tag:count"
+		}
+	}
+}</code>
+</ul><p>This is, to me, an interesting an pretty straightforward application, but it already pushes against the limits of MapReduce.
+<p>Sure, we could do a map only run, or overload a mapper.py, but there has to be a better way right?</section>
+
+<section>
+<h2>DAGS</h2>
+<ul><li>The "better way" is a directed acyclic graph, or "DAG".</ul><br>
+<a title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img width="20%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a>
+<p>"In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles."<br>
+<em>We already know what a directed graph is (in excruciating detail)</em></section>
+
+
+<section>
+<h2>Cycles</h2>
+<p>We'll build cycles real quick, then back to cloud.
+<ul><li><em>E</em> is a set of pairs of elements of <em>V</em>.<li>We can think of edges in a graph as a homogenous binary relation.
+<ul><li>Homogenous: From a set (the set of vertices) to itself.
+<li>Binary: Over two elements (just like edges)
+<li>Relation: A set
+</ul>
+<li>"Transitive closures" are defined over homogenous binary relations, so we can take a "transitive closure" over edges.
+</ul></section>
+
+
+<section>
+<h2>Cartesian product</h2>
+
+<ul style="width:100%"><li>A relation <em>R</em> over a set <em>S</em> is a set of pairs of elements of <em>S</em>
+<ul><li>Or: a subset of the set of all pairs of elements</ul>
+<li>We denote all pairs using a "Cartesian product":</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>S</em> &times; <em>S</em></div>
+<ul style="width:100%"><li>For example, over the set of primary colors <em>C</em>:</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>C</em> = { <span style="color:blue">B</span>, <span style="color:green">G</span>, <span style="color:red">R</span> } </div>
+<ul style="width:100%"><li>The Cartesian product is all pairs:</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>C</em> &times; <em>C</em> = { (<span style="color:blue">B</span>, <span style="color:green">G</span>), (<span style="color:blue">B</span>, <span style="color:red">R</span>), (<span style="color:green">G</span>, <span style="color:blue">B</span>), (<span style="color:green">G</span>, <span style="color:red">R</span>),(<span style="color:red">R</span>, <span style="color:blue">B</span>), (<span style="color:red">R</span>, <span style="color:green">G</span>) } </div>
+<ul style="width:100%"><li>Order matters.</ul>
+</ul></section>
+
+<section>
+<h2>Relation</h2>
+
+<ul style="width:100%"><li>A relation <em>R</em> over a set <em>S</em> is a set of pairs of elements of <em>S</em>
+<ul><li>Or: a subset of the set of all pairs of elements in is transitive</ul>
+<li>We begin with the Cartesian product:</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>C</em> &times; <em>C</em> = { (<span style="color:blue">B</span>, <span style="color:green">G</span>), (<span style="color:blue">B</span>, <span style="color:red">R</span>), (<span style="color:green">G</span>, <span style="color:blue">B</span>), (<span style="color:green">G</span>, <span style="color:red">R</span>),(<span style="color:red">R</span>, <span style="color:blue">B</span>), (<span style="color:red">R</span>, <span style="color:green">G</span>) } </div>
+<ul style="width:100%"><li>We consider a subset of <em>C</em> &times; <em>C</em>: colors in "wavelength" order, which we term <em>W</em>
+<ul><li><span style="color:red">R</span> has a higher wavelength than <span style="color:green">G</span></ul></ul>
+
+
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">(<span style="color:red">R</span>, <span style="color:green">G</span>) &in; <em>W</em> &subset; <em>C</em> &times; <em>C</em>  </div>
+
+
+<ul style="width:100%">
+<ul><li><span style="color:green">G</span> has a higher wavelength than <span style="color:blue">B</span></ul></ul>
+
+
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">(<span style="color:green">G</span>, <span style="color:blue">B</span>) &in; <em>W</em> &subset; <em>C</em> &times; <em>C</em>  </div>
+<ul style="width:100%">
+<ul><li>As a notional convenience, this is often expressed as, with elements as lower case letters, <em><span style="color:green">g</span>W<span style="color:blue">b</span></em></ul></ul>
+
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em><span style="color:green">g</span>W<span style="color:blue">b</span></em> := (<span style="color:green">G</span>, <span style="color:blue">B</span>) &in; <em>W</em> &subset; <em>C</em> &times; <em>C</em>  </div>
+</section>
+
+<section>
+<h2>Transitivity</h2>
+
+<ul style="width:100%"><li>So we take relation <em>W</em> over a set <em>C</em> to be the following:</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>W</em> &subset; <em>C</em> &times; <em>C</em> = { (<span style="color:red">R</span>, <span style="color:green">G</span>), (<span style="color:green">G</span>, <span style="color:blue">B</span>) } </div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>W</em> = { <em><span style="color:red">r</span>W<span style="color:green">g</span></em>, <em><span style="color:green">g</span>W<span style="color:blue">b</span></em> } </div>
+<ul style="width:100%"><li>What does this tell us about the relation between <span style="color:red">r</span> and <span style="color:blue">b</span>?
+<li>Well, so far, nothing. But...<ul><li>if <span style="color:red">r</span> has a higher wavelength than <span style="color:green">g</span>
+<li>and <span style="color:green">g</span> has a great wavelength than <span style="color:blue">b</span>
+<li>does it follow that <span style="color:red">r</span> has a great wavelength than <span style="color:blue">b</span>?</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em><span style="color:red">r</span>W<span style="color:blue">b</span></em></div>
+<ul style="width:100%"><li>This is called <strong>transitivity</strong> or the transitive property</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><strong>Transitivity</strong> := &forall; <em>x</em>, <em>y</em>, <em>z</em>: <em>xRy</em> &and; <em>yRz</em> &rArr; <em>xRz</em></div>
+</section>
+
+<section>
+<h2>Closure</h2>
+
+<ul style="width:100%"><li>Our initial relation was not transitive.</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>W</em> = { <em><span style="color:red">r</span>W<span style="color:green">g</span></em>, <em><span style="color:green">g</span>W<span style="color:blue">b</span></em> } </div>
+<ul style="width:100%"><li>As in the Amtrak case, we considered only adjacent elements as a convenience, but that doesn't tell us if e.g. we can get from Seattle to Eugene.
+<li>To do that, we need to to preserve transitivity - and we do so using the notion of <strong>transitive closure</strong>
+<li>We denote the transitive closure <em>R<sup>+</sup></em>
+<ul><li>The transitive closure <em>R<sup>+</sup></em> of some relation <em>R</em> must contain all elements of <em>R</em>.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>R<sup>+</sup></em> &sup; <em>R</em> </div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&forall; <em>xRy</em> : <em>xR<sup>+</sup>y</em></div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&forall; {<em>x</em>, <em>y</em>} &in; <em>R</em>, &exist; {<em>x</em>, <em>y</em>} &in; <em>R<sup>+</sup></em></div>
+</ul></section>
+
+<section>
+<h2>Closure</h2>
+
+<ul style="width:100%"><li>We denote the transitive closure <em>R<sup>+</sup></em>
+<ul><li>The transitive closure <em>R<sup>+</sup></em> of some relation <em>R</em> must contain all elements of <em>R</em>.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>R<sup>+</sup></em> &sup; <em>R</em> </div>
+<ul style="width:100%"><ul><li>The transitive closure <em>R<sup>+</sup></em> of some relation <em>R</em> must be transitive.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&forall; <em>x</em>, <em>y</em>, <em>z</em>: <em>xR<sup>+</sup>y</em> &and; <em>yR<sup>+</sup>z</em> &rArr; <em>xR<sup>+</sup>z</em></div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&forall; {<em>x</em>, <em>y</em>}, {<em>y</em>, <em>z</em>} &in; <em>R</em>, &exist; {<em>x</em>, <em>z</em>} &in; <em>R<sup>+</sup></em></div>
+<ul style="width:100%"><ul><ul><li>Note: since this is a "for all", it means as we are required to add new elements to maintain transitivity, transitivity must apply to those new elements.
+<li>So, if we add <em>SeattleAmtrakTacoma</em> because we have <em>SeattleAmtrakTukwila</em> and <em>TukwilaAmtrakTacoma</em>...
+<li>We will then have to add <em>SeattleAmtrakOlympia</em> because <em>Amtrak</em> also contains <em>TukwilaAmtrakOlympia</em>
+<li>Maybe this looks a little nicer with 3 letter station names and and train numbers (for Cascades 503) rather than just "Amtrak":
+<ul><li><em>sea503<sup>+</sup>tac</em><li><em>sea503<sup>+</sup>olw</em></ul></ul>
+</ul></section>
+
+
+<section>
+<h2>Closure</h2>
+
+<ul style="width:100%"><li>We denote the transitive closure <em>R<sup>+</sup></em>
+<ul><li>The transitive closure <em>R<sup>+</sup></em> of some relation <em>R</em> must contain all elements of <em>R</em>.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>R<sup>+</sup></em> &sup; <em>R</em> </div>
+<ul style="width:100%"><ul><li>The transitive closure <em>R<sup>+</sup></em> of some relation <em>R</em> must be transitive.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&forall; <em>x</em>, <em>y</em>, <em>z</em>: <em>xR<sup>+</sup>y</em> &and; <em>yR<sup>+</sup>z</em> &rArr; <em>xR<sup>+</sup>z</em></div>
+<ul style="width:100%"><ul><li><em>R<sup>+</sup></em> must be the smallest possible relation for that is a transitive superset of <em>R</em>.
+<ul><li>Cartesian Product is always transitive and a superset, but not always the smallest satisfying set.</ul></ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>R<sup>+</sup></em> : &forall; <em>R'</em> &sub; <em>S</em> &times; <em>S</em>: <br> <em>R'</em> &sup; <em>R</em> &and; <strong>Transitive</strong>(<em>R'</em>) : <br>
+|<em>R<sup>+</sup></em>| &lt; |<em>R'</em>| &and; <em>R<sup>+</sup></em> &sup; <em>R</em> &and; <strong>Transitive</strong>(<em>R'</em>)<br></div>
+</ul></section>
+
+<section>
+<h2>Cycles</h2>
+
+<ul style="width:100%"><li>We use transitive closure to define cycles
+<ul><li>We consider a graph</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>G</em> = (<em>V</em>, <em>E</em>)</div>
+<ul style="width:100%"><ul><li>We note that <em>E</em> is a homogenous binary relation over <em>V</em>
+<li>We consider that <em>E<sup>+</sup></em> the transitive closure of <em>E</em></ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>E<sup>+</sup></em> &sup; <em>E</em> </div>
+<ul style="width:100%"><ul><li><em>G</em> contains a cycle (has the property of being cyclic) if <em>E<sup>+</sup></em> contains an edge from a node to itself.</ul></ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><strong>Cyclic</strong>(<em>G</em>) := &exist; <em>v</em> : <em>vE<sup>+</sup>v</em></div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><strong>Cyclic</strong>(<em>G</em>  = (<em>V</em>, <em>E</em>)) := &exist; <em>v</em> &in; <em>V</em>: {<em>v</em>, <em>v</em>} &in; E<sup>+</sup></div>
+<ul style="width:100%"><ul><li>Some notes:<ul>
+<li>Cycles are defined to be non-trivial, which means they don't contain "loops", so or an edge from a node to itself.
+<ul><li>We don't think about this with Amtrak because we don't take a train from Portland to Portland</ul>
+<li>Circuits, walks, paths, and trails are also defined in graph theory and are related.
+<li>Direct paths and undirected paths are, of course, distinct but intuitively so.
+<ul><li>Cascades 503, which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.
+<li>The Cascades route, which runs service between Vancouver BC and Eugene, has both edges.
+</ul></section>
+
+
+<section>
+<h2>DAGS</h2>
+<p>"In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles."<br>
+<ul style="width:100%"><li>So it is a graph</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><em>G</em> = (<em>V</em>, <em>E</em>)</div>
+<ul style="width:100%"><li>It is directed, so <em>E</em> is a set of ordered pairs</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'"><strong>Ordered</strong>(<em>e</em>) &forall; <em>e</em> &in; <em>E</em></div>
+<ul style="width:100%"><li>It contains no cycles</ul>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&not;<strong>Cyclic</strong>(<em>G</em>)</div>
+<div width="100%" style="border: 5px solid;background-color:white;font-family:'monotype'">&NotExists; <em>v</em> &in; <em>V</em>: <em>vE<sup>+</sup>v</em></div>
+</section>
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li>Cascades 503 is a directed acyclic graph.
+<ul><li>It has edges from all relative northern stations to all relative southern stations for all stations between Seattle and Portland inclusive.</ul>
+<li>Color wavelength is a directed acyclic graph.
+<ul><li>There is no color that is both higher wavelength and lower wavelength than some other color.</ul>
+<li>The sentence syntax tree from nltk is a directed acyclic graph.
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Noun_phrase_chunking_with_NLTK.svg/2560px-Noun_phrase_chunking_with_NLTK.svg.png">
+<ul><li>Sentences (S) contain words or phrases, and phrases (<em>x</em>P) contain words, but no phrases contain a sentence or words contain a phrase.</ul>
+<li>MapReduce is a directed acyclic graph.
+<ul><li>Neither Map nor Reduce accept as input anything that they have output, or is constructed from their outputs.</ul>
+</section>
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li><em>Directed Acyclic Graphs generalize MapReduce</em><code class="JSON">{
+	"word_x_tagcount": {
+		"key_value_pairs" : {
+			"input" : "filename:text",
+			"": "word:tag",
+			"": "word_x_tag:1",
+			"output": "word_x_tag:count"
+		}
+	}
+}</code>
+<li>Note: So far all of our examples have been restricted subsets of DAGS (they are paths or trees).
+</section>
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li>The common case for directed acyclic graphs is something that is just a linear sequence of dependencies - like MapReduce, but longer.
+<li>This is graph theoretic concept of a path:
+<ul><li>A walk is a sequence of edges which joins a sequence of vertices
+<li>A trail is a walk in which all edges are distinct
+<li>A path is a trail in which all vertices are distinct.
+</ul>
+<li>We have a path because each intermediate result is required to calculate the next result.
+<li>Here's an example from the Spark documentation:</ul><br>
+<img src="https://spark.apache.org/docs/3.3.0/img/JobPageDetail2.png">
+</section>
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li>But DAGS can also support some output be dependent on more than one input:</ul><br>
+
+<img src="https://spark.apache.org/docs/3.3.0/img/AllStagesPageDetail5.png">
+<ul style="width:100%"><li>This is graph theoretic concept of a directed acyclic graph:
+<ul><li>All edges are directed
+<li>There are no cycles
+</section>
+
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li>One example of a DAG is academic citation:</ul><br>
+
+<img src="https://raw.githubusercontent.com/lanstonchu/citation-graph/master/citation%20graph.jpg">
+<ul style="width:100%"><li>Why is this a DAG?:
+<ul><li>An earlier cannot cite a latter work (it doesn't exist)
+<li>Time both provides directedness and prevents cycleness.
+</section>
+
+
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li>Another example is scheduling</ul><br>
+<a title="Jeremykemp, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Pert_chart_colored.svg"><img width="40%" alt="Pert chart colored" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Pert_chart_colored.svg/256px-Pert_chart_colored.svg.png?20120114054732"></a>
+<ul style="width:100%"><li>Why is this a DAG?:
+<ul><li>This is a program evaluation and review technique (PERT) chart
+<li>Vertices are goals, and edges are time to complete these taks
+<li>Some task require prior completion of earlier tasks.
+</section>
+
+<section>
+<h2>DAGS</h2>
+<ul style="width:100%"><li>The BS CS undergraduate degree is a DAG</ul><br>
+<img src="https://cd-public.github.io/advising/photos/cs.png">
+<ul style="width:100%"><li>Why is this a DAG?:
+<ul><li>Students must to take Intro to Programming to learn iteration (for loops) for Advanced Mathematics and Data Structures.
+<li>Students must learn induction (Advanced Mathematics) and recursion (Data Structures) to learn Algorithms
+</section>
+
+
+<section>
+<h2>Closing Thoughts</h2>
+<ul style="width:100%"><li>Graph theory shows up a lot
+<ul><li>If you realize you're dealing with graphs, you can look up the answer more easily
+</ul><li>Graphs are a good way to think of complex cloud computing problems
+<li>MapReduce used a very simple graph
+<li>We may want to do problems that aren't MapReduce shaped
+</section>
+
+
+<section id="spark">
+  <h1 class="title">PySpark</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 07
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Spark</h2>
+<ul><li>Spark does DAGS and we're doing Spark.
+<ul><li>Quick: Can we express arithmetic as DAGS?<li>Wha about scripts?</ul>
+<li>A DAG is a natural way to express computation.
+<li>So, we introduce Spark, using Docker and a QuickStart guide.
+<li>I have a README called "<a href="https://gist.github.com/cd-public/ee75511095b8b78b21761a72fd930fe5">PySpark.md</a>" or use these slides.
+</section>
+
+    <section>
+	<h2>Options</h2>
+	<ul>
+        <li>Docker Desktop (Recommended)
+        <ul>
+            <li>In a strange twist of fate, PySpark, the Python interface with ASF Spark, does have an image on Docker Hub but for some reason is named 'spark-py' instead of 'PySpark':</li>
+            <li><a href="https://hub.docker.com/r/apache/spark-py">spark-py</a></li>
+            <li>R programmers will be interested to note that there also exists spark-r.</li>
+        </ul>
+        <li>Google Dataproc
+        <ul>
+            <li>If you do not wish to use Docker locally on your device, you can cloud deploy, though this will be slower for our small examples. Simply create a Dataproc cluster, and ssh into the main node. From there, you will be able to use PySpark amicably.</li>
+        </ul>
+    <li>Google Compute Engine Container
+        <ul>
+            <li>It is also possible to run a spark-py image as a container within Google Compute Engine.</li>
+        </ul>
+    <li>Google Compute Engine Docker
+        <ul>
+            <li>It is also possible to run a spark-py image within Docker in a Linux Compute Engine.</li>
+        </ul>
+    <li>Azure and AWS</li>
+        <ul>
+            <li>I have successful run Docker Hub images via Azure Artifact Registry under the free educational tier of Azure.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Docker</h2>
+        <ul>
+            <li>The remaining operations will assume spark-py usage as a local container within Docker Desktop, but are either PySpark operations that will be common across all PySpark installs or general computing techniques already covered across multiple platforms.</li>
+            <li>If you get stuck with something, check your notes or ask questions!</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Quickstart</h2>
+        <ul>
+            <li>The following is an exact quote from the Docker Hub spark-py page:</li>
+            <li>"The easiest way to start using PySpark is through the Python shell:"</li>
+            <li><code class="bash">docker run -it apache/spark-py /opt/spark/bin/pyspark</code></li>
+            <li>"And run the following command, which should also return 1,000,000,000:"</li>
+            <li><code class="python">>>> spark.range(1000 * 1000 * 1000).count()</code></li>
+            <li>When this test is completed, I exited the Docker PySpark instance with ctrl+z or the command of your choice.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>docker ps</h2>
+        <ul>
+            <li>I used 'docker ps' to determine the name of my running spark-py container.</li>
+            <li><code class="bash">docker ps</code></li>
+            <li>This yielded:</li>
+            <li><code class="bash">CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS     NAMES
+2082ade8bf02   apache/spark-py   "/opt/entrypoint.sh …"   23 minutes ago   Up 23 minutes             romantic_ellis</code></li>
+            <li>So I would use 'romantic_ellis' in latter commands.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>docker exec</h2>
+        <ul>
+            <li>I used 'docker exec' to reenter the container in a bash, rather than PySpark, session, in order to make some alterations to the in-container environment.</li>
+            <li><code class="bash">docker exec -it romantic_ellis /bin/bash</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Test PySpark</h2>
+        <ul>
+            <li>The first thing to do from bash within the spark-py container, is to make sure you can get PySpark back. I used the absolute path:</li>
+            <li><code class="python">/opt/spark/bin/pyspark</code></li>
+            <li>In Dataproc, I was able to simply use</li>
+            <li><code class="python">pyspark</code></li>
+            <li>Which was a nicety!</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Acquire sample data</h2>
+        <ul>
+            <li>As ever, I will use the Pride and Prejudice .txt ebook from Project Gutenberg. There are 4 ways to move this text file into the local environment where PySpark is running, 3 each for Docker and for Dataproc.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>os.system</h2>
+        <ul>
+            <li>We can leave our PySpark interactive session online and use Python 'os.system' to run a command, in this case a curl.</li>
+            <li><code class="python">os.system('curl https://raw.githubusercontent.com/cd-public/books/main/pg1342.txt -o austen.txt')</code></li>
+            <li>Once I had run the curl, I used 'ls' and 'pwd' to make sure I had the file I wanted. Overall, it looked like this:</li>
+            <li><code class="python">>>> os.system('ls -al ; pwd')
+total 756
+drwxrwxr-x 1 root root   4096 Jun 26 04:34 .
+drwxr-xr-x 1 root root   4096 Apr 14  2023 ..
+-rw-r--r-- 1 185  root 757509 Jun 26 05:07 austen.txt
+-rw-r--r-- 1 185  root      0 Jun 26 04:31 java_opts.txt
+-rwxr-xr-x 1 root root    543 Jun 26 04:34 SimpleApp.py
+/opt/spark/work-dir<br>0<br>>></code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>curl</h2>
+        <ul>
+            <li>As an alternative, leave the PySpark instance:</li>
+            <li><code class="python">exit()</code></li>
+            <li>And curl normally:</li>
+            <li><code class="bash">curl https://raw.githubusercontent.com/cd-public/books/main/pg1342.txt -o austen.txt</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>docker cp</h2>
+        <ul>
+            <li>If you are working with a Docker container, you can curl from outside the container, download through a web browser, or even simply write a text file of your choice, then use docker ps and docker cp to move the file into the container. I had to use docker ps again here, because I'd forgotten what it was before.</li>
+            <li>My container was named 'romantic_ellis' and I ran docker cp in a directory within which I had an 'austen.txt'</li>
+            <li><code class="bash">docker cp austen.txt romantic_ellis:/opt/spark/work-dir</code></li>
+            <li>Note - I used tab autocomplete after typing 'docker cp au', but had to write the entire container name and address manually. This worked from Windows or Linux.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Cloud Storage connector</h2>
+        <ul>
+            <li>If you working in Dataproc, you can use the Cloud Storage connector with a url list to load files. I tested this when I had a Dataproc instance that could not connect to the internet. I leave it as an exercise for advanced students.</li>
+            <li><a href="https://cloud.google.com/dataproc/docs/concepts/connectors/cloud-storage">Cloud Storage connector</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Spark Quick Start</h2>
+        <ul>
+            <li>The following is adapted from official Spark documentation:</li>
+            <li><a href="https://spark.apache.org/docs/latest/quick-start.html">Quick Start</a></li>
+            <li>"Spark’s shell provides a simple way to learn the API, as well as a powerful tool to analyze data interactively."</li>
+            <li>According to the official documentation, only Scala and Python Spark shells are offered.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Spark DataFrames</h2>
+        <ul>
+            <li>In brief, PySpark's primary abstraction is a distributed collection of items called a DataFrame to be consistent with the data frame concept in Pandas and R.</li>
+            <li>To me, I think of Spark DataFrames and R Vectors the same way - everything in Spark is a DataFrame, everything in R is a vector (everything in Python/Java is an object, etc.).</li>
+        </ul><br><br><br>
+        <h4>Note</h4>
+        <ul>
+            <li>I will now preface all commands input into PySpark with the Pythonic '>>>'</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Read in a file</h2>
+        <ul>
+            <li>From within a PySpark instance, execute the following:</li>
+            <li><code class="python">>>> textFile = spark.read.text("austen.txt")</code></li>
+            <li>textFile is a Python object that refers to a Spark DataFrame. We can treat it the same way we treat a Pandas DataFrame, more or less.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Examine DataFrame</h2>
+        <ul>
+            <li>You can get values from DataFrame directly, by calling some actions, or transform the DataFrame to get a new one.</li>
+            <code class="python">>>> textFile.count()  # Number of rows in this DataFrame
+14911
+>>> textFile.first()  # First row in this DataFrame
+Row(value='The Project Gutenberg eBook of Pride and Prejudice')</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Transform DataFrame</h2>
+        <ul>
+            <li>Now let’s transform this DataFrame to a new one. We call 'filter' to return a new DataFrame with a subset of the lines in the file.</li>
+            <li><code class="python">linesWithPride = textFile.filter(textFile.value.contains("pride"))</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Chain Operations</h2>
+        <ul>
+            <li>We can chain together transformations and actions:</li>
+            <li><code class="python">>>> textFile.filter(textFile.value.contains("pride")).count() # How many lines contain "pride"?
+43
+>> textFile.filter(textFile.value.contains("spark")).count() # How many lines contain "spark"?
+2</code></li>
+            <li>I am assuming Elizabeth Bennett was enrolled in evening Cloud Computing courses and all mentions of spark where referring to this lecture.</li>
+            <li><code class="python">>>> textFile.filter(textFile.value.contains("spark")).first()
+Row(value='for an answer. Mrs. Bennet’s eyes sparkled with pleasure, and she was')</code></li>
+            <li>Ah! Well, nevertheless...</li>
+        </ul>
+    </section>
+    <section>
+        <h2>MaxWords</h2>
+        <ul>
+            <li>Let’s say we want to find the line with the most words.</li>
+            <li>We import pyspark.sql.functions, which provides a lot of convenient functions to build a new Column from an old one.</li>
+            <li><code class="python">>>> from pyspark.sql import functions as sf # for "SQL Functions"</code></li>
+            <li>Then we execute this massive command - look through it and see what you understand. Perhaps take a minute to run components, perhaps storing intermediate results in variables and examining them.</li>
+            <li><code class="python">>>> textFile.select(sf.size(sf.split(textFile.value, "\s+")).name("numWords")).agg(sf.max(sf.col("numWords"))).collect()<br>[Row(max(numWords)=15)]</code></li>
+            <li>This first maps a line to an integer value and aliases it as “numWords”, creating a new DataFrame. <li>'agg' is called on that DataFrame to find the largest word count. <li>The arguments to 'select' and 'agg' are both Column, we can use 'df.colName' to get a column from a DataFrame.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>WordCount</h2>
+        <ul>
+            <li>To quote Spark directly: "One common data flow pattern is MapReduce, as popularized by Hadoop. Spark can implement MapReduce flows easily:"</li>
+            <li><code class="python">>>> wordCounts = textFile.select(sf.explode(sf.split(textFile.value, "\s+")).alias("word")).groupBy("word").count()</code></li>
+            <li>Here, we use the 'explode' function in 'select', to transform a Dataset of lines to a Dataset of words, and then combine 'groupBy' and 'count' to compute the per-word counts in the file as a DataFrame of 2 columns: “word” and “count”.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Timing</h2>
+        <ul>
+            <li>You can also see how long it takes.</li>
+            <li><code class="python">>>> import time
+>>> x, wordCounts, y = time.time(), textFile.select(sf.explode(sf.split(textFile.value, "\s+")).alias("word")).grou<br>pBy("word").count(), time.time()
+>>> y-x
+0.032294511795043945</code></li>
+            <li>0.03 seconds. Not bad!</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Collect</h2>
+        <ul>
+            <li>To collect the word counts in our shell, we can call collect. Be warned, this will be massive:</li>
+            <li><code class="python">>>> wordCounts.collect()</code></li>
+            <li>The last entry I see is:</li>
+            <li><code class="python">Row(word='ridicule,', count=1)</code></li>
+            <li>It is worth thinking about how this would be applied to directory of files a la Hadoop rather than a single object.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Self-Contained Applications</h2>
+        <ul>
+            <li>Now we will show how to write an application using the Python API (PySpark).</li>
+            <li>As an example, we’ll create a simple Spark application, 'SimpleApp.py':</li>
+            <li><code class="python">"""SimpleApp.py"""
+from pyspark.sql import SparkSession
+
+textFile = "/opt/spark/work-dir/austen.txt"  # Should be some file on your system
+spark = SparkSession.builder.appName("SimpleApp").getOrCreate()
+textData = spark.read.text(textFile).cache() # cache for performance
+
+numAs = textData.filter(textData.value.contains('a')).count()
+numBs = textData.filter(textData.value.contains('b')).count()
+
+print("Lines with a: %i, lines with b: %i" % (numAs, numBs))
+
+spark.stop()</code></li>
+            <li>There's a variety of ways to get get such a script into your container. As a courtesy, I have created a Github Gist:</li>
+            <li><a href="https://gist.githubusercontent.com/cd-public/6c5557273cac589af02e370cdf8e4d51/raw/d348d39c3b1b187a76c4dd3a8936bb0891052f9d/SimpleApp.py">SimpleApp.py</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Find Spark Submit</h2>
+        <ul>
+            <li>As with Hadoop streaming, Spark has an interface to submit Python, or in this case PySpark, scripts.
+			<li>It is the 'spark-submit' script found wherever you find PySpark.
+			<li>Per the Docker Hub readme, we invoked PySpark from '/opt/spark/bin'
+			<liu>Examine that directory for spark-submit.</li>
+            <li><code class="bash">ls /opt/spark/bin/</code></li>
+            <li>Or to see fewer results</li>
+            <li><code class="bash">ls /opt/spark/bin/spark-submit</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Submit SimpleApp.py</h2>
+        <ul>
+            <li>Submit the PySpark job.</li>
+            <li><code class="bash">/opt/spark/bin/spark-submit SimpleApp.py</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>INFO suppression</h2>
+        <ul>
+            <li>I got an inordinate number of INFO messages that made seeing output challenging.<li>These messages are all logged to "stderr" rather than "stdout", and therefore could not be easily captured pipes.<li>'stderr' has the alias '2' at the command line, at least as far as I know, and I redirected all such messages to nowhere with the following command.</li>
+            <li><code class="bash">/opt/spark/bin/spark-submit SimpleApp.py 2>/dev/null</code></li>
+            <li><a href="https://unix.stackexchange.com/questions/581240/what-is-the-use-of-script-2-dev-null-in-the-following-script">Read more</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Output</h2>
+        <ul>
+            <li>I got this:</li>
+            <li><code class="python">Lines with a: 11235, lines with b: 6167</code></li>
+        </ul>
+    </section>
+    <section id="hw">
+        <h2>Homework</h2>
+        <ul>
+            <li>We know R, Python, and now (mostly) Spark
+			<li>Spark provides sample apps in both R and Python, but different examples in each.
+			<code># For Scala and Java, use run-example:
+./bin/run-example SparkPi
+
+# For Python examples, use spark-submit directly:
+./bin/spark-submit examples/src/main/python/pi.py
+
+# For R examples, use spark-submit directly:
+./bin/spark-submit examples/src/main/r/dataframe.R</code>
+<li>Only Python should work in the spark-py container, but all should work in Dataproc.
+<li>If you wish to run the R example, simple run it in the spark-r container.
+<li>They are easy to find on <a href="https://github.com/apache/spark/tree/master/examples/src/main">Github</a>
+    </section>
+	
+    <section>
+        <h2>Homework</h2>
+		<ul><li>Choose one.
+        <ul>
+            <li>Tanslate "pi.py" to be "pi.R"
+			<li>Translate "dataframe.R" to be "dataframe.py"
+			</ul>
+		<li>Verify the correctness, likely in spark-py and spark-r containers or via Dataproc
+<li>Submit either pi.r or dataframe.py to me in the matter of your choosing.
+		<li>I will run them under spark-submit.
+		</ul>
+		<p>I haven't really figured out how to give homework feedback since everything submitted has been perfect and all bad results are non-submissions. Mostly let me know if you have questions.
+	</section>
+	
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

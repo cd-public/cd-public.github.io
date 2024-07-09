@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NLP</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section>
+  <h1 class="title">NLP</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 09
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to DATA-599: Cloud Computing!</li>
+<li>Applying Spark.
+<li>HW7, the translation assignment, is due right now.
+<li>HW7 will be to finish the in-class Spark assignment today
+<li>HW8 will be to finish the in-class Spark assignment today<ul><li>I think it may seem relatively involved (we'll see)<ul>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Big Idea: NLP, to sell Spark as the "one stop shop" of cloud computing
+<ul>
+<li>Spark has built in support for most forms of big computation
+<li>Works well under a variety of interfaces
+<ul>
+<li>Docker
+<li>Dataproc
+<li>Colab
+</ul></ul></ul><br>
+<img width="40%"  src="imgs/sparkeco.png">
+<p>Spark boasts of a large eco-system - and it's not wrong!
+</section>
+
+<section>
+    <h2>NLP</h2><center>
+<blockquote class="twitter-tweet"><p lang="zxx" dir="ltr"><a href="https://t.co/i4FJ2n1yme">pic.twitter.com/i4FJ2n1yme</a></p>&mdash; Stat Arb (@quant_arb) <a href="https://twitter.com/quant_arb/status/1810074815727882422?ref_src=twsrc%5Etfw">July 7, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> </center>
+</section>
+<section>
+    <h2>NLP</h2>
+	<h4>Natural Language Processing</h4>
+    <ul>
+	<li>Natural language processing (NLP) is an interdisciplinary subfield of computer science and artificial intelligence.
+	<li>It is primarily concerned with providing computers the ability to process data encoded in natural language and is thus closely related to information retrieval, knowledge representation and computational linguistics, a subfield of linguistics.
+	<li>Typically data is collected in text corpora, using either rule-based, statistical or neural-based approaches of machine learning and deep learning. 
+	<li>Major tasks in natural language processing are speech recognition, text classification, natural-language understanding, and natural-language generation. 
+	</ul>
+	<p>Also: I wanted to teach an NLP class this term :P
+</section>
+
+<section>
+    <h2>Language</h2>
+        <ul><li>What does it mean to understand a language?<ul>
+		<li>"Stop"
+		<li>"Turn up"
+		<li>"Volume six"
+		<li>"Repeat"
+		<li>"No"
+		<li>"Hello?"
+		<li>"When's the flight?"
+</ul></ul><br>
+<img width="30%" src="https://m.media-amazon.com/images/I/61PgTvpCWRL._AC_SL1000_.jpg">
+</section>
+
+<section >
+    <h2>Language</h2>
+        <ul><li>What does it mean to understand a language?<ul>
+		<li>Phonology
+		<ul><li>pot [pʰ] vs spot [p]</ul>
+		<li>Morphology
+		<ul><li>pre vs ly vs big</ul>
+		<li>Lexemes
+		<ul><li>ran == run</ul>
+		<li>Syntax
+		<ul><li>Greatest teacher failure is.</ul>
+		<li>Semantics
+		<ul><li>Ram vs ram</ul>
+		<li>Pragmatics
+		<ul><li>Colorless green ideas sleep furiously</ul>
+		<li>Discourse
+		<ul><li>Democratic Party vs 
+		<li>Democratic People's Republic of Korea vs 
+		<li>Democratic Republic of the Congo
+		<li>Democracy of our own</ul>
+</section>
+
+
+<section >
+<h2>Syntax</h2>
+<ul style="width:100%"><li>Syntax concerns the proper ordering of words and its affect on meaning.<ul>
+<li>The dog bit the cat.
+<li>The cat bit the dog.
+<li>The dog the cat bit.
+<li>Bit cat dog the the.
+</ul></ul><br>
+<img src="https://upload.wikimedia.org/wikipedia/en/6/64/CatDog.jpeg">
+<ul style="width:100%"><li>Yoda was the canonical example for years and years before being acquired by The Mouse.<ul>
+<li>There is no try.
+<li>Patience you must have.
+<li>Miss them do not.
+<li>Truly wonderful the mind of a a child is.</ul></ul><br>
+<img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Yoda_Empire_Strikes_Back.png">
+
+
+</section>
+
+<section >
+<h2>Semantics</h2>
+<ul style="width:100%"><li>Semantics concerns the (literal) meaning of words, phrases, and sentences.<ul>
+<li>Literally as in "as written"
+<li>Perhaps as "denotation" vs "connotation".
+<li>We can consider e.g. plant:<ul>
+<li>"Plant" as a member species of the eurkaryotes that form the taxonomical kingdom <b>Plantae</b>
+<li>"Plant" as a facilty for production, such as a power plant or manufacturing plant.
+<li>"Plant" as a stage of the agricultural process.</ul></ul></ul><br>
+<img height="300px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Photosynthesis_en.svg/1280px-Photosynthesis_en.svg.png">
+<img height="300px" src="https://media.wired.com/photos/61e9e944844ec857b7138316/master/w_2240,c_limit/Science_UK_GettyImages-1237492583.jpg">
+<img height="300px" src="https://www.thoughtco.com/thmb/yb2K1DvSeqm9hujz9coRHR65An0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/177680720-56a2ad2a3df78cf77278b56e.jpg">
+<p>Consider plants and energy production.
+</section>
+
+</section>
+
+
+<section >
+<h2>Pragmatics</h2>
+<ul style="width:100%"><li>Well-formed sentences may be meaningless.<ul>
+<li>In HTML:
+<code class="HTML"><b><br></b></code>
+<li>The famous English example is "Colorless green ideas sleep furiously."
+<li>It was coined by Chomsky in 1957.
+<li>Since then:<ul>
+<li>Technologies have become "green"<ul><li>Hydrogen is a "colorless green" fuel.</ul>
+<li>Desktop computers now sleep, and often operate "furiously" when under high compute loads.<ul><li>When I "sleep" my PC after doing distributed computing, it "sleeps furiously".</ul></ul>
+</section>
+
+
+<section >
+<h2>Ambiguity</h2>
+<ul ><li>Unsurprisingly a problem with speech recognition.<ul>
+<li>"Recognize speech" vs. "wreck a nice beach"
+<li>"Save a wretch like me" vs "Sailorish like me"
+<li>"Alice in Chains" vs "Allison Chance"</ul></ul><br>
+<img width="50%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Alice_in_Chains_Live_Leeds_2018.jpg/2560px-Alice_in_Chains_Live_Leeds_2018.jpg"><img width="50%" src="https://res.cloudinary.com/luxuryp/images/w_960,c_limit,f_auto,q_auto/bsttcfddf7ehtsjn2xv2/anchoredrealestate-logo-horiz-white-web">
+</section>
+
+<section>
+<h2>Best Friend</h2>
+<ul><li>Here's a real thing that actually happened in real life.
+<ul><li>Saweetie features Doja Cat on "Best Friend"
+<li>Saweetie's team pushed music videos transcribing on of Doja's lines as
+<blockquote>She off her fish, I said, uh uh don't go there</blockquote>
+</ul></ul>
+<a href="https://youtu.be/_xJUCsyMQes?feature=shared&t=127"><img width="50%" src="imgs/fish.png"></a>
+</section>
+
+<section>
+<h2>Best Friend</h2>
+<ul><li>Here's a real thing that actually happened in real life.
+<ul><li>The original lyric video also mistranscribed this line, but was taken down.
+<li>The new lyric video has only ~10M vs 300M views! but has the line as: 
+<blockquote>She off her fifth shot, I said, uh uh don't go there</blockquote>
+</ul></ul>
+<a href="https://youtu.be/JwPwZ98c26o?feature=shared&t=94"><img width="50%" src="imgs/fifth.png"></a>
+</section>
+
+
+<section>
+<h2>Best Friend</h2>
+<ul><li>Here's a real thing that actually happened in real life.
+<ul><li>Doja Cat has since deleted her Twitter but did weigh in on the controvery:
+<a href="https://web.archive.org/web/20210406043236/https://twitter.com/DojaCat/status/1353927764684902400"><blockquote>whoever puttin the lyrics of my verse on bestfriend as "she off her fish" needs to get slapped with a size 10 flip flop my guy</blockquote></a>
+<li>It's worth noting even the corrected lyrics mistranscibed "mm mm" as "uh uh".
+<a href="https://web.archive.org/web/20210408184622/https://twitter.com/DojaCat/status/1353927952145158144"><blockquote>She off her fifth shot, I said, mm mm don't go there</blockquote></a>
+</ul></ul>
+</section>
+
+
+<section>
+<h2>Best Friend</h2>
+<ul><li>Here's a real thing that actually happened in real life.
+<ul><li>It's worth noting there were some fairly advanced lyrics in Best Friend.<UL>
+<li>Saweetie slant rhymes "bestie" with Tesla
+<li>Saweetie says Doja "looks good(t) with a 't' at the end"
+<li>Doja does wordplay "ain't dumb but she my tweedledee"
+</ul>
+<li>So probably the AIs aren't doing too well on this, but you would expect the Saweetie/Doja team to get the phonology correct!
+</ul></ul>
+<em>Linguistics is hard, basically</em><br>
+<em>See also: Cultural competency</em>
+</section>
+
+
+
+<section >
+<h2>Ambiguity</h2>
+<ul ><li>Speach recognition<ul>
+<li>"Recognize speech" vs. "wreck a nice beach"</ul>
+<li>Syntactic analysis.<ul>
+<li>"I ate spaghetti <b>with</b> chopsticks."
+<li>"I ate spaghetti <b>with</b> <s>meat</s>veggieballs."
+<li>"I ate spaghetti <b>with</b> Hillary."
+<li>"I ate spaghetti <b>with</b> zeal and fervor."
+</section>
+
+
+
+<section >
+<h2>Case Explosion</h2>
+<ul style="width:70%"><li>Syntactic Ambiguity compounds rapidly.
+<li>We consider the case of adposition (prepositional) phrases<ul>
+<li>The cannonical adposition phrase is:
+<blockquote>The quick brown fox jumps <b>over the lazy dog</b>,</blockquote>
+<li>It consists of an adposition ('over') and a noun phrase ('the lazy dog')
+<li>A minimal example would be:
+<blockquote>I go <b>to class</b>.</blockquote>
+<li>It consists of an adposition ('to') and a noun phrase ('class')
+<li>'to' and 'over' are <b>pre</b>positions - prefix operators on noun phrases.
+<li>There also ambipositions and circumpositions...<ul>
+<li>Ambi: The term 'notwithstanding' with 'concerns' before or after. 
+<li>Circum: 'from * on' supports most time and place noun phrases.</ul>
+<li>English has loan inpositions (like '+') such as <em>magna <b>cum</b> laude</em>.
+<li>Dubiously non-standard English via prepospition stranding has postpositions.
+<blockquote>I don't know <b>where from</b>.</blockquote>
+</section>
+
+
+
+<section >
+<h2>Case Explosion</h2>
+<ul style="width:70%"><li>Syntactic Ambiguity compounds rapidly.
+<li>We consider the case of adposition (prepositional) phrases<ul>
+<li>The cannonical adposition phrase is:
+<blockquote>The quick brown fox jumps <b>over the lazy dog</b>,</blockquote>
+<li>It consists of an adposition ('over') and a noun phrase ('the lazy dog')
+<li>A minimal example would be:
+<blockquote>I go <b>to class</b>.</blockquote>
+<li>It consists of an adposition ('to') and a noun phrase ('class')
+<li>'to' and 'over' are <b>pre</b>positions - prefix operators on noun phrases.
+<li>There also ambipositions and circumpositions...<ul>
+<li>Ambi: The term 'notwithstanding' with 'concerns' before or after. 
+<li>Circum: 'from * on' supports most time and place noun phrases.</ul>
+<li>English has loan inpositions (like '+') such as <em>magna <b>cum</b> laude</em>.
+<li>Dubiously non-standard English via prepospition stranding has postpositions.
+<blockquote>I don't know <b>where from</b>.</blockquote>
+</section>
+
+
+<section >
+<h2>Case Explosion</h2>
+<ul style="width:70%"><li>Syntactic Ambiguity compounds rapidly.
+<blockquote>I saw the satellite with the telescope.</blockquote>
+<li>I use *ML to denote the two meanings:
+</ul></ul>
+
+
+<table style="width:100%">
+    <colgroup>
+       <col span="1" style="width: 50%;">
+       <col span="1" style="width: 50%;">
+    </colgroup>
+<tr><td><code style="width:100%" class='HTML'><sbj>I</sbj>
+<vrb>
+  saw
+  <obj class="direct_object">
+    the satellite
+  </obj>
+  <adp class="adverbial">
+    with
+    <obj>
+      the telescope
+    </obj>
+  </adp>
+</vrb></code></td>
+<td><code style="width:100%" class='HTML'><sbj>I</sbj>
+<vrb>
+  saw
+  <obj class="direct_object">
+    the satellite
+    <adp class="adjectival">
+      with
+      <obj>
+        the telescope
+      </obj>
+    </adp>
+  </obj>
+</vrb></code></td>
+</table>
+</section>
+
+
+
+<section >
+<h2>Case Explosion</h2>
+<ul style="width:70%"><li>Syntactic Ambiguity compounds rapidly.
+<li>Adposition phrase binding drives case explosion along Catalan numbers.<ul>
+<li>002: I saw the satellite with the telescope.
+<li>005: I saw the satellite with the telescope made by NASA.
+<li>014: I saw the satellite with the telescope made by NASA on the space coast.
+<li>042: I saw the satellite with the telescope made by NASA on the space coast overnight.
+<li>132: I saw the satellite with the telescope made by NASA on the space coast overnight last year.
+</ul></ul><br><br>
+<em>Amtrak serves the space coast by the way.</em>
+</section>
+
+
+<section >
+<h2>Case Explosion</h2>
+<ul style="width:100%"><li>Syntactic Ambiguity compounds rapidly.
+<li>Adposition phrase binding drives case explosion along Catalan numbers.<ul>
+<li>The Catalan's aren't too bad, they count recursively defined objects (like sentences with unbound adpositions).</ul></ul><br>
+<img width="100%" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/58374aa2b2e2c016a5b313e2bbd59940a2e1a5f9">
+<ul style="width:100%"><li>Easiest for me is <code class="python">def fact(n):
+	return n * fact(n-1) if n > 1 else 1
+
+def catalan(n):
+	return fact(2 * n) // (fact(n + 1) * fact(n))</code>
+<li>Check them out:
+<code class="python">>>> {n:catalan(n) for n in range(1,11)}
+{1: 1, 2: 2, 3: 5, 4: 14, 5: 42, 6: 132, 7: 429, 8: 1430, 9: 4862, 10: 16796}</code></ul>
+<p>Takeaway: Growth is extremely exponential (closer to <em>n<sup>n</sup></em> than <em>2<sup>n</sup></em>)</p>
+</section>
+
+
+<section >
+<h2>Ambiguity</h2>
+<ul ><li>Speach recognition<ul>
+<li>"Recognize speech" vs. "wreck a nice beach"</ul>
+<li>Syntactic analysis.<ul>
+<li>"I saw the satellite with the telescope."</ul>
+<li>Semantic analysis<ul>
+<li>"The bull is in the pen." vs. "The ink is in the pen."</ul>
+</section>
+
+
+<section >
+<h2>Semantics</h2>
+<ul ><li>Semantic ambiguity leads to what I lovingly refer to as "bad jokes".<ul>
+<li>A: "We are looking for a thief with a bicycle."
+<li>B: "Wouldn't it be better using your eyes."
+</ul>
+<li>Can also lead to actual confusion.<ul>
+<li>"Our house is in a row."
+<ul><li>"We have a row house."
+<li>"Our legislative branch is having an internal dispute."</ul></ul>
+<li>Comes up in teaching programming<ul>
+<li>"While you are at the store, buy some kombucha" is an infinite loop:
+<code class="python">def request():
+	while at_store():
+		buch = buch + 1</code></ul>
+</section>
+
+<section >
+<h2>Ambiguity</h2>
+<ul ><li>Speach recognition<ul>
+<li>"Recognize speech" vs. "wreck a nice beach"</ul>
+<li>Syntactic analysis.<ul>
+<li>"I saw the satellite with the telescope."</ul>
+<li>Semantic analysis<ul>
+<li>"The bull is in the pen." vs. "The ink is in the pen."</ul>
+<li>Pragmatic analysis (this is not even remotely a true story)<ul>
+<li>STUDENT: "Is this homework on the Sapir-Whorf Hypothesis for a grade."
+<li>ME: "It is ungraded."
+<li><em>&lt;Student graduates&gt;</em>
+<li>STUDENT: "Prof I can't get hired because I don't study the Sapir-Whorf Hypothesis."
+<li>ME: "I use ungrading which because I believe supports better learning outcomes, not because you shouldn't study."</ul>
+</section>
+
+
+<section >
+<h2>Ambiguity</h2>
+<ul ><li>Speach recognition<ul>
+<li>Why is Language Ambiguous?</ul>
+<li>Unique expressions would be large and difficult to communicate.<ul>
+<li>Most arrangements convey no useful meaning.</ul>
+<li>Resolvable ambiguity compresses information/data.
+<li>Language is "naturally occuring" and ambiguity emerged incidentally.
+<li>Sometimes this leads to problems. Oh well.<ul>
+<li>For computers, it leads to big problems.
+</section>
+
+<section >
+<h2>NLP tasks</h2>
+<ul ><li>NLP mostly does three things<ul>
+<li>Syntax<ul>
+<li>Word segmentation
+<li>Morphological analysis
+<li>Part-of-speech tagging
+<li>Phrase chunking
+<li>Syntactic Parsing
+</ul>
+<li>Semantics<ul>
+<li>Word Sense Disambiguation (WSD)
+<li>Semantic Role Labeling (SRL)
+<li>Semantic parsing
+<li>Textual entailment</ul>
+<li>Pragmatics<ul>
+<li>Co-reference
+<li>Information Extraction (IE)
+<li>Question answering
+<li>Text summarization
+<li>Chatbots
+<li>Machine Translation
+</section>
+
+<section>
+  <h2>Word Segmentation</h2>
+  <ul>
+    <li>Breaking a string of characters into a sequence of words.</li>
+    <li>In some written languages (e.g. Chinese) words are not separated by spaces.</li>
+    <li>Even in English, characters other than white-space can be used to separate words [e.g. , ; . - : ( ) ]</li>
+    <li>Examples from English URLs:<ul>
+    <li>jumptheshark.com -> jump the shark .com</li>
+    <li>myspace.com/pluckerswingbar -> myspace .com pluckers wing bar</li>
+    <li>myspace.com/pluckerswingbar -> myspace .com plucker swing bar</li></ul>
+	<li>A personal favorite: The Freakybuttrue Peculiarium and Museum<br>
+	<img width="30%" src="https://cdn11.bigcommerce.com/s-8hmyg03dat/images/stencil/1737w/carousel/30/Exterior_shop.jpg">
+	<ul><li>I parsed as "Freaky but true"
+	<li>A colleague parsed as "Freaky butt rue"
+	<li>Hilarity ensued, etc. (I was correct we checked).
+  </ul>
+</section>
+
+<section>
+  <h2>Morphological Analysis</h2>
+  <ul>
+    <li>A morpheme is the smallest linguistic unit that has semantic meaning </li><ul>
+    <li>e.g. “carry”, “pre”, “ed”, “ly”, “s”</li></ul>
+    <li>Morphological analysis is the task of segmenting a word into its morphemes:<ul>
+    <li>carried -> carry + ed (past tense)</li>
+    <li>independently -> in + (depend + ent) + ly</li>
+    <li>Googlers -> (Google + er) + s (plural)</li>
+    <li>unlockable -?> un + (lock + able) : (un + lock) + able</li></ul>
+	<li>In English: words are not atomic.
+  </ul>
+</section>
+
+<section>
+  <h2>Part Of Speech (POS) Tagging</h2>
+  <ul>
+    <li>Annotate each word in a sentence with a part-of-speech.</li>
+    <li>Useful for subsequent syntactic parsing and word sense disambiguation.</li>
+<table border="1">
+  <tr>
+    <td>I</td>
+    <td>ate</td>
+    <td>the</td>
+    <td>spaghetti</td>
+    <td>with</td>
+    <td>meatballs.</td>
+  </tr>
+  <tr>
+    <td>Pro</td>
+    <td>V</td>
+    <td>Det</td>
+    <td>N</td>
+    <td>Prep</td>
+    <td>N</td>
+  </tr>
+</table><br><table border="1">
+  <tr>
+    <td>John</td>
+    <td>saw</td>
+    <td>the</td>
+    <td>saw</td>
+    <td>and</td>
+    <td>decided</td>
+    <td>to</td>
+    <td>take</td>
+    <td>it</td>
+    <td>to</td>
+    <td>the</td>
+    <td>table.</td>
+  </tr>
+  <tr>
+    <td>PN</td>
+    <td>V</td>
+    <td>Det</td>
+    <td>N</td>
+    <td>Con</td>
+    <td>V</td>
+    <td>Part</td>
+    <td>V</td>
+    <td>Pro</td>
+    <td>Prep</td>
+    <td>Det</td>
+    <td>N</td>
+  </tr>
+</table>
+  </ul>
+  <p>We've seen this one before, of course.
+</section>
+
+<section>
+  <h2>Phrase Chunking</h2>
+  <ul>
+    <li>Find all non-recursive noun phrases (NPs) and verb phrases (VPs) in a sentence.</li>
+	<ul><li>Not just done in natural languages!
+	<li>Done with HTML!
+	<li>A 'non-recursive phrase' is textual content with no internal HTML elements.
+	</ul>In English:
+<ul>
+  <li>
+    [NP <span style="color:red;">I</span>] 
+    [VP <span style="color:green;">ate</span>] 
+    [NP <span style="color:red;">the spaghetti</span>] 
+    [PP <span style="color:blue;">with</span>] 
+    [NP <span style="color:red;">meatballs.</span>]
+  </li>
+  <li>
+    [NP <span style="color:red;">He</span>] 
+    [VP <span style="color:green;">reckons</span>] 
+    [NP <span style="color:red;">the current account deficit</span>] 
+    [VP <span style="color:green;">will narrow</span>] 
+    [PP <span style="color:blue;">to</span>] 
+    [NP <span style="color:red;">only # 1.8 billion</span>] 
+    [PP <span style="color:blue;">in</span>] 
+    [NP <span style="color:red;">September</span>]
+  </li>
+</ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Syntactic Parsing</h2>
+  <ul>
+    <li>Produce the correct syntactic parse tree for a sentence.</li>
+	<img src="imgs/syntree.png">
+  </ul>
+</section>
+
+<section >
+<h2>NLP tasks</h2>
+<ul ><li>NLP mostly does three things<s><ul>
+<li>Syntax<ul>
+<li>Word segmentation
+<li>Morphological analysis
+<li>Part-of-speech tagging
+<li>Phrase chunking
+<li>Syntactic Parsing
+</ul></s>
+<li>Semantics<ul>
+<li>Word Sense Disambiguation (WSD)
+<li>Semantic Role Labeling (SRL)
+<li>Semantic parsing
+<li>Textual entailment</ul>
+<li>Pragmatics<ul>
+<li>Co-reference
+<li>Information Extraction (IE)
+<li>Question answering
+<li>Text summarization
+<li>Chatbots
+<li>Machine Translation
+</section>
+<section>
+  <h2>Word Sense Disambiguation (WSD)</h2>
+  <ul>
+    <li>Words in natural language usually have a fair number of different possible meanings.<ul>
+    <li>We may have a lot of interest in computational linguistics.</li>
+    <li>We may have a lot of interest on a debt of some kind.</li></ul>
+    <li>For many tasks (question answering, translation), the proper sense of each ambiguous word in a sentence must be determined.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Semantic Role Labeling (SRL)</h2>
+  <ul>
+    <li>For each clause, determine the semantic role played by each noun phrase that is an argument to the verb.</li>
+<ul>
+  <li>
+    <span style="color:red;">agent</span> 
+    <span style="color:orange;">patient</span> 
+    <span style="color:green;">source</span> 
+    <span style="color:blue;">destination</span> 
+    <span style="color:purple;">instrument</span>
+  </li>
+  <li>
+    <span style="color:red;">John</span> drove 
+    <span style="color:orange;">Mary</span> from 
+    <span style="color:green;">Austin</span> to 
+    <span style="color:blue;">Dallas</span> in 
+    <span style="color:purple;">his Toyota Prius</span>.
+  </li>
+  <li>
+    <span style="color:purple;">The hammer</span> broke 
+    <span style="color:orange;">the window</span>.
+  </li>
+</ul>
+    <li>Also referred to a “case role analysis,” “thematic analysis,” and “shallow semantic parsing”</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Semantic Parsing</h2>
+  <ul>
+    <li>A semantic parser maps a natural-language sentence to a complete, detailed semantic representation (logical form).</li>
+    <li>For many applications, the desired output is immediately executable by another program.</li>
+    <li>Example: Mapping an English database query to Prolog:</li>
+    <li>How many cities are there in the US?</li>
+	<code class="prolog">  answer(A, 
+  &nbsp;&nbsp;&nbsp;&nbsp;count(B, 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(city(B), 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loc(B, C), 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const(C, countryid(USA))), 
+  &nbsp;&nbsp;&nbsp;&nbsp;A))
+</code>
+  </ul>
+  <p>I don't know Prolog, I just hear this is correct.
+</section>
+
+<section>
+  <h2>Textual Entailment</h2>
+  <ul>
+    <li>Determine whether one natural language sentence entails (implies) another under an ordinary interpretation.</li>
+    <li>E.g., “US Womens are playing in the world cup. -> Some women are playing a sport.”</li>
+  </ul>
+</section>
+
+
+<section>
+  <h2>Pragmatics/Discourse Tasks</h2>
+  <ul>
+    <li>Anaphora Resolution/Co-Reference</li>
+    <ul>
+      <li>Determine which phrases in a document refer to the same underlying entity.</li><ul>
+      <li>I put the carrot on the plate and ate it.<ul>
+	  <li>Did I eat the plate?</ul>
+      <li>Biden supports Netanyahu. But the head of government cannot act without the legislature.<ul>
+	  <li>Who is the head of government?</ul> </ul> 
+      <li>Some cases require difficult reasoning, a famous example:<ul>
+      <li>Today was Jack's birthday. Penny and Janet went to the store. They were going to get presents. Janet decided to get a kite. "Don't do that," said Penny. "Jack has a kite. He will make you take it back."</li>
+    </ul></ul></ul>
+	<p>Really hard when moving across domans e.g. ask synthetic chemists about experiments.
+  </ul>
+</section>
+
+<section >
+<h2>NLP tasks</h2>
+<ul ><li>NLP mostly does three things<s><ul>
+<li>Syntax<ul>
+<li>Word segmentation
+<li>Morphological analysis
+<li>Part-of-speech tagging
+<li>Phrase chunking
+<li>Syntactic Parsing
+</ul></s>
+<li><s>Semantics<ul>
+<li>Word Sense Disambiguation (WSD)
+<li>Semantic Role Labeling (SRL)
+<li>Semantic parsing
+<li>Textual entailment</ul></s>
+<li>Pragmatics<ul>
+<li>Co-reference
+<li>Information Extraction (IE)
+<li>Question answering
+<li>Text summarization
+<li>Chatbots
+<li>Machine Translation
+</section>
+
+
+<section>
+  <h2>Information Extraction (IE)</h2>
+  <ul>
+    <li>Identify phrases in language that refer to specific types of entities and relations in text.</li>
+    <li>Named entity recognition is the task of identifying names of people, places, organizations, etc. in text.</li>
+<ul>
+  <li><span style="color:red;">people</span>, <span style="color:green;">organizations</span>, <span style="color:purple;">places</span></li>
+  <li><span style="color:red;">Michael Dell</span> is the CEO of <span style="color:green;">Dell Computer Corporation</span> and lives in <span style="color:purple;">Austin, Texas</span>.</li>
+  </ul><li>Relation extraction identifies specific relations between entities.</li><ul>
+  <li><span style="color:red;">Michael Dell</span> is the CEO of <span style="color:green;">Dell Computer Corporation</span> and lives in Austin, Texas.</li>
+  <li><span style="color:red;">Michael Dell</span> is the <span style="color:orange;">CEO of</span> Dell Computer Corporation and <span style="color:brown;">lives in</span> <span style="color:purple;">Austin, Texas</span>.</li>
+</ul></ul></ul>
+<p>Is Dell from Texas?
+  </ul>
+</section>
+
+<section>
+  <h2>Question Answering</h2>
+  <ul>
+    <li>Directly answer natural language questions based on information presented in a corpora of textual documents (e.g., the web).<ul>
+    <li>Who is the prime minister of Great Britain?<ul>
+    <li>Keir Starmer</ul>
+    <li>Who is the president of France?<ul>
+    <li>Wouldn't we all like to know. (I wasn't good enough at NLP to figure this out)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Text Summarization</h2>
+  <ul>
+    <li>Produce a short summary of one or many longer document(s).</li>
+    <li>Article:</ul></ul><br>
+	<span style="font-size:8px;line-height:.1">On 9 June 2024, following the results of the 2024 European Parliament elections in which his centrist grouping received only 14.6% of the votes, finishing nearly 17 points behind Le Pen's RN party, Macron unexpectedly dissolved the National Assembly and called for an early legislative election to be held on 30 June and 7 July 2024.[303]
+
+In the first round of the election, on 30 June, Macron's grouping received only 20.04% of the votes nationwide, placing third well behind the hard-right RN (33.15%) and the left-wing NFP alliance (27.99%), which constituted the worst electoral performance for a governing coalition in a general election since the start of the modern French Republic in 1870.[304] Exit polls released shortly after 8pm on 30 June suggested the RN-led alliance was on course to win either a plurality of seats or an outright majority in the second round, while Macron's coalition was set to lose at least half of the seats it won in 2022.[305]
+
+In the second round, on 7 July, Macron was handed another hung parliament with the left-wing coalition unexpectedly winning a plurality of seats though 90 to 100 seats short of an overall majority, leaving the left theoretically unable to form a government on its own. Macron's grouping lost both 86 seats and its status as the largest parliamentary bloc while the RN-led alliance, though dramatically underperforming the polls, still managed to make significant gains, eventually becoming the largest single party in the new National Assembly. The results presented unprecedented potential for political crisis and parliamentary gridlock.[306]
+17th National Assembly of France, elected in 2024.
+
+Shortly after exit polls were released on the night of 7 July, Macron's Prime Minister, Gabriel Attal, announced he would tender his resignation to the President. The following day, Macron refused Attal's resignation, instead asking him to stay on until a new government can be formed.</span>
+    <li>Summary: In mid-2024, Macron's centrist coalition placed third in French legislative elections, leading to a hung parliament. Macron retained his Prime Minister and started forming a new government amidst political uncertainty.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Spoken Dialogue Systems -- Chatbots</h2>
+  <ul>
+    <li>By the way all slides were generated by ChatGPT today</li>
+    <li>I did feed it a slide deck from Cornell first though, which is mostly understood</li>
+    <li>I had to fix a lot.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Machine Translation</h2>
+  <ul>
+    <li>I asked ChatGPT to translate the Catalan function to R</li>
+	<code class="R">fact <- function(n) {
+  if (n > 1) {
+    return(n * fact(n - 1))
+  } else {
+    return(1)
+  }
+}
+
+catalan <- function(n) {
+  return(fact(2 * n) / (fact(n + 1) * fact(n)))
+}</code>
+<li>Looks good to me.
+  </ul>
+</section>
+
+<section>
+  <h2>Ambiguity for Translation</h2>
+  <ul>
+    <li>An apocryphal story is that an early MT system gave the following results when translating from English to Russian and then back to English:<ul>
+    <li>“The spirit is willing but the flesh is weak.” -> “The liquor is good but the meat is spoiled.”</li>
+    <li>“Out of sight, out of mind.” -> “Invisible idiot.”</li>
+  </ul>
+</section>
+<section ><s>
+<h2>NLP tasks</h2>
+<ul ><li>NLP mostly does three things<ul>
+<li>Syntax<ul>
+<li>Word segmentation
+<li>Morphological analysis
+<li>Part-of-speech tagging
+<li>Phrase chunking
+<li>Syntactic Parsing
+</ul>
+<li>Semantics<ul>
+<li>Word Sense Disambiguation (WSD)
+<li>Semantic Role Labeling (SRL)
+<li>Semantic parsing
+<li>Textual entailment</ul>
+<li>Pragmatics<ul>
+<li>Co-reference
+<li>Information Extraction (IE)
+<li>Question answering
+<li>Text summarization
+<li>Chatbots
+<li>Machine Translation</s>
+</section>
+
+
+<section id="sapir">
+  <h1 class="title">Sapir-Whorf</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 09
+  <p class="date">Cloud
+</section>
+
+
+<section >
+<h2>Sapir-Whorf</h2>
+<ul ><li>Strong vs. Weak
+<li>Láadan and Butler
+<li>Scientific Method
+</section>
+
+<section>
+  <h2>Strong form</h2>
+  <ul>
+    <li>
+      The strong form of the Sapir-Whorf hypothesis is <strong>linguistic determinism</strong>
+	  <ul><li>Language determines thought
+	  <li>Linguistic categories limit and shape cognitive processes
+	  <li>Speakers of different languages perceive and conceptualize the world differently based on the linguistic structures available to them.
+	  <li>Language not only influences but also determines how individuals think and perceive reality.
+	</ul></ul>
+	<p>Generally regarded as disproven (I disagree but am in a minority).
+
+</section>
+<section>
+  <h2>Weak form</h2>
+  <ul>
+    <li>
+      The weak form of the Sapir-Whorf hypothesis is <strong>linguistic relativity</strong><ul>
+	  <li>Language influences but does not determine thought
+	  <li>Language influences the ways in which individuals perceive and categorize experiences. 
+	  <li>This perspective allows for cognitive universals across languages
+	  <li>This acknowledges that language can affect thinking patterns and cognitive processes.
+    </li>
+	<p>Generally regarded as proven, as least as usually defined.
+  </ul>
+</section>
+
+<section>
+<h2>Weak Example</h2>
+<ul><li>A new bridge in 2004:
+<blockquote>When the Viaduct de Millau opened in the south of France in 2004, this tallest bridge in the world won worldwide accolades. German newspapers described how it "floated above the clouds" with "elegance and lightness" and "breathtaking" beauty. In France, papers praised the "immense" "concrete giant." Was it mere coincidence that the Germans saw beauty where the French saw heft and power? Lera Boroditsky thinks not.</blockquote>
+<li>Newsweek claims:
+<blockquote>In German, the noun for bridge, Brücke, is feminine. In French, pont is masculine. German speakers saw prototypically female features; French speakers, masculine ones.</blockquote>
+<li><a href="https://www.newsweek.com/why-language-may-shape-our-thoughts-81725">Read more.</a>
+</section>
+
+<section>
+  <h2>Language Láadan</h2>
+  <ul>
+    <li>
+      Láadan is a constructed language created by linguist Suzette Haden Elgin in 1982. 
+    <li>It was designed specifically to explore the Sapir-Whorf hypothesis, particularly its feminist implications.
+    </li>
+    <li>
+      <strong>Key Features:</strong>
+      <ul>
+        <li><strong>Emphasis on Emotions:</strong> Láadan includes words and grammatical structures that emphasize emotional expression and communication, which are sometimes considered more nuanced than in natural languages.</li>
+        <li><strong>Feminist Linguistics:</strong> Láadan was developed with the intention of expressing the experiences and perspectives of women more fully than natural languages do, reflecting a feminist critique of linguistic and cultural norms.</li>
+      </ul>
+    </li>
+	<li>I should note, I can find no evidence Elgin emphasized emotion, but it is commonly remarked that Láadan does so in secondary sources. 🤔
+	<li>According to Elgin, this is designed to counter male-centered language's limitations on women, who are forced to respond "I know I said that, but I meant this". 
+  </ul>
+</section>
+
+<section>
+  <h2>Judith Butler</h2>
+  <ul>
+    <li>
+      Judith Butler, a philosopher and gender theorist, introduced the concept of gender performativity in their work "Gender Trouble" (1990). 
+	  <li>Gender is not an inherent or static identity but rather a social and linguistic construct that is performed and reiterated through language and other social practices.
+    </li>
+    <li>
+      <strong>Key Aspects:</strong>
+      <ul>
+        <li><strong>Performativity:</strong> Butler argues that gender is enacted and performed repeatedly through speech acts, gestures, and other everyday actions. These performances create and reinforce gender identities within social contexts.</li>
+        <li><strong>Language as Constitutive:</strong> Language plays a crucial role in the construction of gender identities by prescribing and regulating norms of speech, behavior, and appearance that are associated with specific genders.</li>
+        <li><strong>Critique of Essentialism:</strong> Butler's theory challenges essentialist views of gender, which posit that gender identities are natural or biologically determined. Instead, they argues for understanding gender as a dynamic and contingent product of social interactions and linguistic practices.</li>
+      </ul>
+    </li>
+	<li>When ChatGPT formatted these slides from text to HTML, it changed Butler's pronouns (I corrected them back I hope).
+  </ul>
+</section>
+
+<section>
+  <h2>Janelle Monae</h2>
+  <ul>
+    <li>
+      Back on my music video nonsense.
+	  <li>In 2018, Janelle Monae (famously, <a href="https://www.latimes.com/entertainment-arts/books/story/2022-04-22/janelle-monae-nonbinary-pronouns-festival-of-books">free-ass motherf—, they/them, her/she</a>) released "Screwed" and was wearing a top adorned with "Subject Not Object"</li></ul></ul>
+	  <img src="https://i.dailymail.co.uk/1s/2019/01/08/16/8255852-6567907-Janelle_performs_You_f_ed_the_world_up_now_we_ll_f_it_all_back_d-a-1_1546963631579.jpg">
+	  
+      <ul>
+        <li>Talking about subject/object and pronouns at the same time is very interesting. Why?
+		<li>My training: binary gendered personal pronouns are:
+		<ul><li>Masculine: He/him/his
+		<li>Feminine: She/her/hers
+		</ul><li>The only problem is those aren't actually equivalent in English.
+		</ul>
+</section>
+
+
+<section>
+  <h2>Subject not Object</h2>
+  <ul>
+		<li>My training: binary gendered personal pronouns are:
+		<ul><li>Masculine: He/him/his
+		<li>Feminine: She/her/hers
+		</ul><li>Actual:
+		<ul>
+		<li>Feminine: She/her/her/hers<li>Masculine: He/him/his/his
+		</ul>
+		<li>Consider:<ul>
+		<li>She ran / He ran  
+<li>I saw her / I saw him
+<li>I know her name / I know his name
+<li>That is hers / That is his
+</section>
+
+<section>
+<h2>SparkNLP</h2>
+<ul><li>Don't take my word for it, ask SparkNLP.
+<code class="Python">['ShePRP ranVBD',
+ 'HePRP ranVBD',
+ 'IPRP sawVBD herPRP$',
+ 'IPRP sawVBD himPRP',
+ 'IPRP knowVBP herPRP nameNN',
+ 'IPRP knowVBP hisPRP$ nameNN',
+ 'ThatDT isVBZ hersNNS',
+ 'ThatDT isVBZ hisPRP$']</code>
+ <li>herPRP$ != herPRP.
+ <li>These are contrived examples so there's a lot of noise.
+ </section>
+ 
+<section>
+<h2>Scientific Method</h2>
+<ul><li>I don't remember how to do science but Wikipedia says to do this:<ul>
+<ol><li>Define a question
+<li>Gather information and resources (observe)
+<li>Form an explanatory hypothesis
+<li>Test the hypothesis by performing an experiment and collecting data in a reproducible manner
+<li>Analyze the data
+</ol>
+ </section>
+
+<section>
+<h2>Scientific Method</h2>
+<ul><li>I would like to know:<ul>
+<li>In a given corpus, is there a statistically significant difference between subject and object frequencies for feminine and masculine personal pronouns?
+<li>Bonus: Does the distribution of genders within the corpus authors meaningful impact this result?</ul>
+<li>Prepare a report.md that contains:
+<ul>
+<li>An introduction section, explaining how you formulate the problem.
+<li>A methodology section, explaining your datasets and your technologies (SparkNLP, most likely)
+<li>Your hypothesis, its own section.
+<li>An evaluation section, outlining how you conducted your test, reproducibly
+<ul><li>It must contain actionable source code.
+<li>It must contain at least one embedded data visualization.</ul>
+<li>A conclusion section.
+</ul>
+<li>Make a slide deck of 5 slides to present your findings. ppt or <a href="https://github.com/cd-public/slide_portable/">HTML</a>
+<li>Pairs okay.
+<ul><li>Work time on SparkNLP rest of today (probably not too long)
+<li>Work time on SparkNLP 6 PM - 8 PM next week
+<li>Workshopping writing / science / presentations second half of next week (I'll have a demo).
+<li>Goal: Lightning talks 6 PM - 7:30 PM week of 29 Jul (2 weeks)
+</ul><li>My goal: Give you time to meaningfully use these tools that isn't after 8 PM, a chance to talk about them.
+
+ </section>
+
+
+<section id="sparknlp">
+  <h1 class="title">SparkNLP</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 09
+  <p class="date">Cloud
+</section>
+
+    <section>
+        <h2>Setting up SparkNLP</h2>
+        <ul>
+            <li>First we use curl's best friend, wget, to grab the SparkNLP install script.</li>
+            <li>Original file is located at <a href="https://colab.research.google.com/drive/1n5esx7DfKr1PNoLXxyrS4BjNXnQshu4k">https://colab.research.google.com/drive/1n5esx7DfKr1PNoLXxyrS4BjNXnQshu4k</a></li>
+            <code class="Python">!wget http://setup.johnsnowlabs.com/colab.sh -O - | bash</code>
+			<ul><li>In colab, we use the '!' (say: 'bang') prefix to run bash commands.</ul>
+            <li>Then in a latter cell we can import sparknlp and start a spark session.
+			<code class="Python">import sparknlp
+spark = sparknlp.start()</code></li>
+            <li>I also import a pipeline to do the pos tagging.
+			<code class="Python">from sparknlp.pretrained import PretrainedPipeline</code></li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>Analyzing 'Headlines' with SparkNLP</h2>
+        <ul>
+            <li>Last week I used headlines, today I just put in my sample sentences.</li>
+            <li><code class="Python">hls = [
+    "She ran",
+    "He ran",
+    "I saw her",
+    "I saw him",
+    "I know her name",
+    "I know his name",
+    "That is hers",
+    "That is his"
+]</code></li>
+            <li>Let's use SparkNLP to analyze these headlines:</li>
+            <li><code class="Python"># Use list comprehension to annotate headlines
+dfs = [pipeline.annotate(hl) for hl in hls]</code></li>
+<li>There's a variety of techniques to examine a dataframe. See what you're working with!
+        </ul>
+		<p>"with" as a "postposition"
+    </section>
+    
+    <section>
+        <h2>Fusing Part-of-Speech Tags</h2>
+        <ul>
+            <li>Extract words (tokens) and parts-of-speech:</li><code class="Python">tok_tag = [(df['token'], df['pos']) for df in dfs]</code></li>
+            <li>Fuse part-of-speech tags to words:</li>
+            <code class="Python">zips = [list(zip(tt[0], tt[1])) for tt in tok_tag]</code></li>
+        </ul>
+		<p>What does 'zip' do? Is it the right tool here? Do you know a pandas/dplyr alternative?
+    </section>
+    
+    <section>
+        <h2>Analyzing eBooks with Spark</h2>
+        <ul>
+            <li>Let's analyze an eBook:</li>
+            <li><code class="Python">!curl "https://raw.githubusercontent.com/cd-public/books/main/pg1342.txt" -o austen.txt</code></li>
+            <li>Read in the eBook:</li><code class="Python">austen = open('austen.txt').read()</code></li>
+            <li>Annotate (part of) the eBook:</li>
+            <li><code class="Python"># whole thing will be slow - probably better in Dataproc.
+pipeline.annotate(austen[:100])['pos']</code></li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>Word Count with Spark</h2>
+        <ul>
+            <li>Count words in the eBook:</li>
+            <li><code class="Python"># Import SparkSession - this is no longer SparkNLP btw
+from pyspark.sql import SparkSession</code></li>
+            <li>Create Spark session<code class="Python">spark = SparkSession.builder.appName("demo").getOrCreate()</code></li>
+            <li>Count words:<code class="Python">counts = ( # its map reduce folks
+    austen.flatMap(lambda line: line.split(" "))
+    .map(lambda word: (word, 1))
+    .reduceByKey(lambda a, b: a + b)
+)</code></li>
+            <li>Display first 10 word counts:<code class="Python">counts.collect()[:10]</code></li>
+        </ul>
+    </section>
+
+
+<section id="hw">
+<h2>HW/Project, again</h2>
+<ul><li>I would like to know:<ul>
+<li>In a given corpus, is there a statistically significant difference between subject and object frequencies for feminine and masculine personal pronouns?
+<li>Bonus: Does the distribution of genders within the corpus authors meaningful impact this result?</ul>
+<li>Prepare a report.md that contains:
+<ul>
+<li>An introduction section, explaining how you formulate the problem.
+<li>A methodology section, explaining your datasets and your technologies (SparkNLP, most likely)
+<li>Your hypothesis, its own section.
+<li>An evaluation section, outlining how you conducted your test, reproducibly
+<ul><li>It must contain actionable source code.
+<li>It must contain at least one embedded data visualization.</ul>
+<li>A conclusion section.
+</ul>
+<li>Make a slide deck of 5 slides to present your findings. ppt or <a href="https://github.com/cd-public/slide_portable/">HTML</a>
+<li>Pairs okay.
+<ul><li>Work time on SparkNLP rest of today (probably not too long)
+<li>Work time on SparkNLP 6 PM - 8 PM next week
+<li>Workshopping writing / science / presentations second half of next week (I'll have a demo).
+<li>Goal: Lightning talks 6 PM - 7:30 PM week of 29 Jul (2 weeks)
+</ul><li>My goal: Give you time to meaningfully use these tools that isn't after 8 PM, a chance to talk about them.
+
+ </section>
+
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

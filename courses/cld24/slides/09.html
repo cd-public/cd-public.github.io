@@ -850,12 +850,21 @@ catalan <- function(n) {
     <li>
       <strong>Key Features:</strong>
       <ul>
-        <li><strong>Emphasis on Emotions:</strong> Láadan includes words and grammatical structures that emphasize emotional expression and communication, which are sometimes considered more nuanced than in natural languages.</li>
         <li><strong>Feminist Linguistics:</strong> Láadan was developed with the intention of expressing the experiences and perspectives of women more fully than natural languages do, reflecting a feminist critique of linguistic and cultural norms.</li>
+        <li><strong>Emphasis on Emotions:</strong> Láadan includes words and grammatical structures that emphasize emotional expression and communication, which are sometimes considered more nuanced than in natural languages.</li>
       </ul>
     </li>
-	<li>I should note, I can find no evidence Elgin emphasized emotion, but it is commonly remarked that Láadan does so in secondary sources. 🤔
 	<li>According to Elgin, this is designed to counter male-centered language's limitations on women, who are forced to respond "I know I said that, but I meant this". 
+  </ul>
+</section>
+
+
+<section>
+  <h2>Language Láadan</h2>
+  <ul>
+    <li>
+      Read Suzette Hadan Elgin on Láadan <a href="https://www.sfwa.org/members/elgin/Laadan.html">here</a>.
+	  <blockquote>Nevertheless, there's a theory that women are distressed because existing human languages are inadequate to express their perceptions; if that theory has any validity, it would seem that women would welcome a language that better served that purpose.</blockquote>
   </ul>
 </section>
 
@@ -875,6 +884,7 @@ catalan <- function(n) {
       </ul>
     </li>
 	<li>When ChatGPT formatted these slides from text to HTML, it changed Butler's pronouns (I corrected them back I hope).
+	<li>My takeaway: Language constructs gender, a minimum in part.
   </ul>
 </section>
 
@@ -902,7 +912,7 @@ catalan <- function(n) {
 		<li>My training: binary gendered personal pronouns are:
 		<ul><li>Masculine: He/him/his
 		<li>Feminine: She/her/hers
-		</ul><li>Actual:
+		</ul><li>Actual (order change):
 		<ul>
 		<li>Feminine: She/her/her/hers<li>Masculine: He/him/his/his
 		</ul>
@@ -926,6 +936,10 @@ catalan <- function(n) {
  'ThatDT isVBZ hisPRP$']</code>
  <li>herPRP$ != herPRP.
  <li>These are contrived examples so there's a lot of noise.
+ <li>SparkNLP failed to differentiate the two 'his' cases, and to parse 'her/him' as the same part of speech.
+ <li>I... did not expect it to struggle here!
+<a href="https://cs.nyu.edu/~grishman/jet/guide/PennPOS.html"> <blockquote>PRP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Personal pronoun<br>
+PRP$&nbsp;&nbsp;&nbsp;&nbsp;Possessive pronoun</blockquote></a>
  </section>
  
 <section>

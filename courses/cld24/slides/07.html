@@ -972,8 +972,7 @@ drwxrwxr-x 1 root root   4096 Jun 26 04:34 .
 drwxr-xr-x 1 root root   4096 Apr 14  2023 ..
 -rw-r--r-- 1 185  root 757509 Jun 26 05:07 austen.txt
 -rw-r--r-- 1 185  root      0 Jun 26 04:31 java_opts.txt
--rwxr-xr-x 1 root root    543 Jun 26 04:34 SimpleApp.py
-/opt/spark/work-dir<br>0<br>>></code></li>
+-rwxr-xr-x 1 root root    543 Jun 26 04:34 SimpleApp.py</code></li>
         </ul>
     </section>
     <section>
@@ -1067,7 +1066,8 @@ Row(value='for an answer. Mrs. Bennet’s eyes sparkled with pleasure, and she w
             <li>We import pyspark.sql.functions, which provides a lot of convenient functions to build a new Column from an old one.</li>
             <li><code class="python">>>> from pyspark.sql import functions as sf # for "SQL Functions"</code></li>
             <li>Then we execute this massive command - look through it and see what you understand. Perhaps take a minute to run components, perhaps storing intermediate results in variables and examining them.</li>
-            <li><code class="python">>>> textFile.select(sf.size(sf.split(textFile.value, "\s+")).name("numWords")).agg(sf.max(sf.col("numWords"))).collect()<br>[Row(max(numWords)=15)]</code></li>
+            <li><code class="python">>>> textFile.select(sf.size(sf.split(textFile.value, "\s+")).name("numWords")).agg(sf.max(sf.col("numWords"))).collect()
+[Row(max(numWords)=15)]</code></li>
             <li>This first maps a line to an integer value and aliases it as “numWords”, creating a new DataFrame. <li>'agg' is called on that DataFrame to find the largest word count. <li>The arguments to 'select' and 'agg' are both Column, we can use 'df.colName' to get a column from a DataFrame.</li>
         </ul>
     </section>
@@ -1084,7 +1084,7 @@ Row(value='for an answer. Mrs. Bennet’s eyes sparkled with pleasure, and she w
         <ul>
             <li>You can also see how long it takes.</li>
             <li><code class="python">>>> import time
->>> x, wordCounts, y = time.time(), textFile.select(sf.explode(sf.split(textFile.value, "\s+")).alias("word")).grou<br>pBy("word").count(), time.time()
+>>> x, wordCounts, y = time.time(), textFile.select(sf.explode(sf.split(textFile.value, "\s+")).alias("word")).groupBy("word").count(), time.time()
 >>> y-x
 0.032294511795043945</code></li>
             <li>0.03 seconds. Not bad!</li>

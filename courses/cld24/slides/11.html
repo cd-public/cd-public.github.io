@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section>
+  <h1 class="title">JavaScript</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 11
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Recall the out-of-sequence lecture on web technologies.
+<li>The cloud is used for, pretty much
+<ul><li>Big Data
+<li>The Internet
+</ul>
+<li>We did 2/3 of the web - HTML and CSS, but no JS.
+</ul>
+<p>We don't need to be JS pros, but we do need to be aware of JS.
+</section>
+<section>
+<h2>Big Idea</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Browsers (clients) [front end]:<ul>
+<li>HTML
+<li>CSS
+<li>JavaScript
+</ul>
+<li>Servers [back end]:<ul>
+<li>Python (Flask/Django)</li>
+<li>C (NGINX/HTTPD) </li>
+<li>SQL</li>
+</ul>
+</section>
+<section>
+<h2>Javascript "Creep"</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Browsers (clients) [front end]:<ul>
+<li>HTML
+<li>CSS
+<li>JavaScript
+</ul>
+<li>Servers [back end]:<ul>
+<li>JavaScript (Node.js)</li>
+<li>SQL</li>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Front end:<ul>
+<li>HTML
+<li>CSS
+<li><b>JavaScript</b>
+</ul>
+<li>Servers [back end]:<ul>
+<li>JavaScript (Node.js)</li>
+<li>SQL</li>
+</ul>
+</section>
+
+<section>
+    <h2>RECALL: Webpages</h2>
+    <ul>
+	<li>An HTML webpage has a bit more to it than just tags.
+	<code class="HTML">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Sample page&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;h1&gt;Sample page&lt;/h1&gt;
+  &lt;p&gt;This is a &lt;a href="demo.html"&gt;simple&lt;/a&gt; sample.&lt;/p&gt;
+  &lt;!-- this is a comment --&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</code>
+	<p>This is directly from the living standard and uses identation except on inline links.
+</section>
+
+<section>
+<h2>Grammar:</h2>
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute name</li>
+<li>Attribute value</li></ul></li></ul>
+</li><li>Content<ul>
+<li>Text, or
+<li>Element(s)</li></ul>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></ul></li></ul></li></ul>
+</section>
+
+<section>
+<h2>Webpage:</h2>
+<ul>
+<li>HTML<ul>
+<li>Head<ul>
+<li>Elements</ul>
+</li><li>Body<ul>
+<li>Elements<ul>
+</section>
+
+<section>
+<h2>HTML</h2>
+<ul>
+<p>HTML is a mark-up language. It was meant to:
+<ul>
+<li>Hold content</li>
+<li>Describe relationships between content</li>
+</ul>
+<p>It was not meant to:
+<ul>
+<li>Define the appearance of content</li>
+<li>Describe a webpage, rather than webpage contents</li>
+</ul>
+<p>Consider the following HTML snippet
+<p>Are <code>&#60;p&#62;</code> and <code>&#60;strong&#62;</code> the same kind of thing?
+</ul>
+</section>
+
+<section>
+<h2>Style</h2>
+<ul>
+<p>Style plays by its own rules.
+<ul>
+<li>Styles may be specified inline with elements (or in a head style element)</li>
+<li>Styles have an internal notation style using colons and semicolons, as well as keywords.</li>
+<li>Styles almost appear to be <em>written in another language</em></li>
+</ul>
+<p>That is: Do we really need <em>n</em> ways to to express a concept as simple as bold?
+</ul>
+</section>
+
+<section>
+<h2>CSS</h2>
+<ul>
+<p>Style attributes and elements are written in <em>CSS</em>, or "Cascading Style Sheets"
+<ul>
+<li>The atomic unit of CSS is a rule, which contains
+<ul>
+<li>A selector, which references an HTML element, and</li>
+<li>A declaration block surrounded with by curly braces, which contains<ul>
+<li>Declarations, terminated by semi-colons, which contain:<ul>
+<li>Properties, punctuated by colons, and,</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+<p>When we write CSS inside HTML:
+<ul><li>In style attributes, we only include the declaration block within quotation marks rather than curly braces.</li>
+<li>In style elements in headers, we write full CSS rules.</li>
+</ul>
+</ul>
+</section>
+
+<section>
+<h2>CSS</h2>
+<ul>
+<li>Rule
+<ul>
+<li>Selector</li>
+<li>{Declaration block}<ul>
+<li>Declarations;<ul>
+<li>Properties:</li>
+<li>Values</li>
+</ul></li></ul></li></ul></li></ul>
+</section>
+
+<section>
+<h2>Standalone CSS</h2>
+<p>It is most common to write CSS separately, in a .css file.<ul>
+<li>Good aesthetics: Uniform style across pages</li>
+<li>Good coding: Factorization</li>
+</ul>
+<p>Simply reference the relevant stylesheet using the following in the HTML head:<ul>
+<code><link rel="stylesheet" href="./filename.css"/></code>
+</section>
+<section>
+<ul><li>page.html
+<code class="html" style="max-height:900px">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;
+ &#60;head&#62;
+  <link rel="stylesheet" href="./filename.css"/>
+ &#60;/head&#62;
+ &#60;body&#62;
+  &#60;p&#62;Normal&#60;/p&#62;
+  &#60;p class="invert"&#62;Invert&#60;/p&#62;
+  &#60;p id="fancy"&#62;Fancy&#60;/p&#62;
+  &#60;p id="both"&#62;Both&#60;/p&#62;
+ &#60;/body&#62;
+&#60;/html&#62;</code>
+<p><li>filename.css
+<code class="css">   p { background: blue; color: white; }
+   .invert, #both { background: white; color: blue; }
+   #fancy, #both { font-style: italics; }</code>
+   </ul>
+   <p>Usually the names are "index.html" and "styles.css"
+</section>
+<section>
+<ul><li>Like HTML, CSS is easier with indentation. Here's one method:
+<code class="css" style="max-height:900px">p { 
+	background: blue; 
+	color: white; 
+}
+   
+.invert, #both { 
+	background: white; 
+	color: blue; 
+}
+
+#fancy, #both { 
+	font-style: italics; 
+}</code>
+</section>
+
+
+<section>
+    <h2>Review:</h2>
+    <ul>
+	<li>Create a directory that implements a webpage:
+	<ul><li>Maintain the index.html webpage:
+	<ul><li>Named "Hello World Page"
+	<li>With a content header "A Webpage"
+	<li>With paragraph containing the text "Hello, World!"
+	<li>With at least one comment.
+	<li>Properly indented.</ul>
+	<li>Additionally create a "style.css" stylesheet.<ul>
+	<li>Take the css styles from the header style element index.html
+	<li>Alter index.html to refer to the stylesheet
+	<li>Change the header color in styles.css to make sure it worked.
+	</ul>
+	</ul>
+	</ul>
+	<p>This is the "hyper" in HTML, as we are now linking pages.
+</section>
+
+<section>
+    <h2>Something like:</h2>
+
+<table>
+<colgroup>
+<col style="width: 60%">
+<col style="width: 40%">
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+index.html
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p&gt;This page is just a demo.&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code>
+</td>
+<td style="text-align: left;">
+styles.css
+<code class="css">p 
+{ 
+	background: blue; 
+	color: white; 
+}
+</code>
+</td>
+
+</tr>
+</tbody>
+</table>
+<p>They just have to be in the same directory.<ul>
+<code class="bash">$ ls -al *.html *.css
+-rw-r--r-- 1 cd-desk 197121 161 Jun 20 11:05 index.html
+-rw-r--r-- 1 cd-desk 197121  47 Jun 20 11:06 styles.css
+</code>
+</section>
+
+<section>
+    <h2>Aside:</h2>
+    <ul>
+	<li>I'm used to seeing a lot more CSS than HTML
+	<li>Generally, CSS has to handle a lot of cases
+	<li>It can be quite verbose
+	<li>Most pages have relatively little content
+	<li>Most pages (that we see) are richly designed.
+	<li>Look at Willamette:
+<code class="bash">user@DESKTOP-THMS2PJ:~$ curl https://willamette.edu/ 2>/dev/null| wc
+    647    2677   46650
+</code><code class="bash">
+user@DESKTOP-THMS2PJ:~$ curl https://willamette.edu/css/dist/style.css 2>/dev/null | wc
+   9022   28518  292022
+</code>
+</ul>
+<p>What is that bash command doing?</section>
+
+
+<section>
+<h2>HTML/CSS</h2>
+<ul><li>HTML/CSS hold and style data.
+<ul>
+<li>CSS styling is mostly static, based on enviroment.</li>
+<li>HTML styling is most unsupported, and can be indeterminate.</li>
+<li>When underspecified, browser defaults determine styling.</li>
+</ul>
+<li>What if we want to:
+<ul>
+<li>Change styles without a reload?</li>
+<li>Change content without a reload?</li>
+<li>Change rendering while maintaining printability?</li>
+</ul>
+<li>Consider the case of websites with dark modes.
+</section>
+<section>
+<h2>HTML and CSS</h2>
+<p><em>All of HTML/CSS gives <b>static</b> styling</em>.
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>HTML is a
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute value</li>
+<li>Attribute name</li></li></li></ul></li></ul>
+<li>Content</li>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></li></ul></li></ul></li></ul>
+</td>
+<td style="text-align: left;">
+<p>CSS is a
+<ul>
+<li>Rule<ul>
+<li>Selector(s)</li>
+<li>Declaration Block<ul>
+<li>Declaration<ul>
+<li>Property</li>
+<li>Value</li></li></ul></li></ul></li></ul></li>
+<li>Attribute Value<ul>
+<li>Declaration Block<ul><li>...
+</tbody></table>
+</section>
+
+<section>
+<h2>End Review</h2>
+<ul><li>If there are an HTML, CSS, or conceptual questions: ask now.
+<li>I may not know the answers but it's good to ask!
+</section>
+
+<section>
+<h2>Scripting</h2>
+<ul><li>Introduce the contentful element<code>&#60;script&#62;</code>
+<li>In the context of HTML/CSS, we may perform some limiting scripting.</li>
+<code>&#60;script&#62;alert('Hello, world!');&#60;/script&#62;</code>
+<li>This scripting language is JavaScript, and it is the embedded scripting language of HTML.</li>
+<li>It is the most popular language in the world BY FAR (close to double all other languages put together)</li>
+<li>Most people I know that use it hate it.
+</ul>
+<p>Let's hear it for JavaScript, folks.
+</section>
+<section>
+<h2>Alert</h2>
+<ul><li>Hello world is a bit odd in JavaScript because it isn't really it's own language*
+<li>It doesn't have a print statement (how could it?) and isn't invoked at command line (Python/Bash) or in an IDE (R/Python).
+<li>We can use some HTML and CSS to call a JavaScript function like so.
+<code class="html">&#60;button onclick="SomeFunc()" style="background:white;color:black;font-size:40px"&#62;Push for alert!&#60;/button&#62;</code>
+<button onclick="hello()" style="background:white;color:black;font-size:40px">Push for alert!</button>
+<li>This does nothing because I haven't written "SomeFunc()".
+<p>*In addition to not being its own language, it also is its own language (Node), but more on that latter.
+</section>
+<section>
+<h2>Alert</h2>
+<ul><li>No easy way to start, so we start in the middle.
+<li>We can make a JavaScript function to send a "hello world" alert.:
+<code class="html">&#60;script type="text/javascript"&#62;
+    function SendAlert(){
+        alert('Hello World');
+    }
+&#60;/script&#62;</code>
+<li>Think: Where should this element be placed within an HTML file?
+</section>
+<section>
+<h2>Alert</h2>
+<ul><li>With both the script:
+<code class="html">&#60;script type="text/javascript"&#62;
+    function SendAlert() {
+        alert('Hello World');
+    }
+&#60;/script&#62;</code>
+<li>and the button updated to "SendAlert"
+<code class="html">&#60;button onclick="SendAlert()" style="background:white;color:black;font;font-size:40px"&#62;Push for alert!&#60;/button&#62;</code>
+<script type="text/javascript">
+    function SendAlert() {
+        alert('Hello World');
+    }
+</script>
+<button onclick="SendAlert()" style="background:white;color:black;font;font-size:40px">Push for alert!</button>
+<li>I am able to see a "hello world" alert pop up in my browser.
+<p>This may require some debugging with browser permissions - it is a pop-up after all!
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Create a webpage, that may be index.html but updated:
+	<ul><li>With a script element.
+	<li>With an alert within the script element.</ul>
+	<li>Determine how to make the script run:<ul>
+	<li>When the page loads.
+	<li>When a button element is pressed.
+	</ul>
+	<li>Formulate an opinion on:<ul>
+	<li>The best place in an HTML webpage to place a script element
+	<li>The best way to indent JavaScript codeblocks in script elements
+	<li>The best way to indent JavaScript generally
+	</ul></ul>
+	<p>Once this is working, experiment more. Does JavaScript work on Github pages?
+</section>
+
+<section>
+<h2>JavaScript</h2>
+<p>JavaScript is a full-featured language, with the associated benefits and costs
+<ul>
+<li>JavaScript lines are semi-colon terminated (like C/C++/Java, not like Python)
+<li>JavaScript ignores whitespace (like C, not like Python)
+<li>JavaScript expressions may contain linebreaks for readability (like C, not like Python)
+<li>JavaScript codeblocks are joined with curly braces (like C and CSS, not like Python)
+<li>JavaScript has important keywords (like C and Python)
+<li>JavaScript is case-sensitive - use camel case.
+</ul>
+<p>JavaScript and Java have no relation. The language's actual name is ECMAScript.
+</section>
+<section>
+<h2>Variables</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li><code>var</code> declares a variable. <code>let</code> and <code>const</code> are variations.<ul>
+<li><code>var</code> is old, and bad in a complicated way. Don't worry about it.
+<li><code>const</code> makes a constant - write all your code with constants initially.
+</section>
+<section>
+<h2>Use Const</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>Change a <code>const</code> to a <code>let</code> if and only if you most update the value of the variable.
+
+<code class="html">&#60;script type="text/javascript"&#62;
+	function SendAlert() {
+		const greeting = 'Hello World';
+		alert(greeting);
+	}
+&#60;/script&#62;</code>
+</section>
+<section>
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li><code>if</code> and <code>for</code> behave "as expected", but use C/C++/Java syntax (not R/Python)
+<ul><li>The R/Python "for" loop is a "for each" loop, which is theoretically different in programming language theory.</ul>
+<li>Use <code>if</code> with a condition in parenthesis and a code block in curly braces.
+<code class="js">function SendAlert() {
+	let greeting = 'Hello World';
+	if (navigator.userAgent.indexOf("Firefox") != -1) {
+		let greeting = 'You have good taste.';
+	}
+	alert(greeting);
+}</code>
+<li>What do we think 'navigator.userAgent.indexOf' means?
+</section>
+<section>
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>Extend <code>if</code> with <code>else</code></li>
+<li>Here's an extended conditional block:
+<code class="js" style="max-height:900px;max-width:2500px">function SendAlert() {
+	let greeting = 'Whatever I guess.';
+	if (navigator.userAgent.indexOf("Firefox")!=-1) {
+		greeting = 'You have good taste.';
+	} else if (navigator.userAgent.indexOf("MSIE")!=-1) {
+		greeting = 'Get Firefox.';
+	} else {
+		;
+	}
+	alert(greeting);
+}</code>
+</section>
+<section>
+<h2>Control Flow</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>JavaScript <code>for</code> uses, say traditional "for" instead of R/Python "for each".</li>
+<li>There is a three part statement include in parenthesis:<ul>
+<li>First, an initializing condition.
+<ul><li>As a convenience but not a requirements, this usually sets a variable for testing using <code>let</code></ul>
+<li>Then, a terminating condition. This usually is a test of the variable.
+<li>Then, an incrementing condition. This usually is an update to the variable.</ul>
+<code class="js" style="max-height:900px;max-width:2500px">let text = "";
+for (let i = 0; i < 5; i++) {
+  text += "The number is " + i + "\n";
+}
+alert(text);</code></ul>
+<p>Note we get to use either single or double quotes on strings.
+</section>
+<section>
+<h2>Functions</h2>
+<p>JavaScript has many useful keywords.
+<ul>
+<li>JavaScript <code>function</code> creates a function that may be called by name.
+<ul><li>Can be called by an HTML button.</li>
+<li>Can be called elsewhere in a script.</li></ul>
+<li>It is similar enough to Python <code>def</code> and R <code>function</code>
+<li>They may take arguments, and have return values using a control flow <code>return</code>
+<ul><li>'Control flow' means isn't applied as a function, like R language 'return()'</ul>
+<code class="js">function triple(n) {
+	return 3 * n;
+}
+</code></ul>
+<p>Note we get to use R/Python/C/Java etc. style arithmetic.
+</section>
+<section>
+<h2>Notes</h2>
+<ul>
+<li>JavaScript numbers are all floats.
+<li>JavaScript has both <code>null</code> and <code>undefined</code> for case and error handling.
+<li>JavaScript has zero-indexed strings that can use single or double quotes.
+<li>JavaScript has many features that integrate with html, but no real "print".
+<li>Comment JavaScript by prefixing with double slash<code>// That is, C++-style single-line comments</code></ul>
+</section>
+<section>
+<h2>Dark Mode</h2>
+<p>We can use JavaScript to create dark modes
+<ul>
+<li>Create a CSS class for dark mode.
+<li>Create a JavaScript function that toggles the class of an HTML element.
+<li>Create an HTML button that calls the JavaScript function.
+</section>
+<section>
+<h2>CSS Class</h2>
+<p>I like cyan on black.
+<ul>
+<code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code>
+</section>
+<section>
+<h2>JavaScript function</h2>
+<ul>
+<li>I use a built-in object to list everything in the HTML body. <code>document.body.classList</code></li>
+<li>I can add or remove a class to the body element with toggle:
+
+<code class="css">function toggler() {
+	document.body.classList.toggle("dark-mode");	   
+}
+</code>
+<li>Recall
+<code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}
+</code>
+</section>
+<section>
+<h2>HTML elements</h2>
+<ul>
+<li>I use a <code>button</code> element with an <code>onclick</code> attribute.</li>
+
+<code class="html"><button onclick="toggler()" >Toggle dark mode</button>
+</code>
+<p>Recall
+
+<code class="css">function toggler() {
+	document.body.classList.toggle("dark-mode");	   
+}
+</code>
+<code class="css">.dark-mode {
+	background-color: black;
+	color: #00ffff;
+}</code>
+<p>See the <a href="https://zagreb-ethf23.github.io/html/resume.html">example</a>.
+
+</section>
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Add a dark mode toggle to your index.html</ul>
+<p>See the <a href="https://zagreb-ethf23.github.io/html/resume.html">example</a>.
+</section>
+
+<section>
+<h2>Standalone .js</h2>
+<p>I see JavaScript "embedded" much more than CSS<ul>
+<li>Most JavaScript is used on a single page, so why factor it out</li>
+<li>Keeps the scripts and the elements that call/interact together</li>
+</ul>
+<p>But there's a lot of .js libraries so we need to practice linking.<ul>
+<code class="HTML">&lt;script type="text/javascript" src="scripts.js"&gt;</code>
+</section>
+
+<section>
+    <h2>Something like:</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+index.html
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+  &lt;script type="text/javascript" src="scripts.js"&gt;&lt;script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p&gt;Oh I'll need a button won't I?&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code>
+</td>
+<td style="text-align: left;">
+styles.css
+<code class="css">.dark {
+	/* I like cyan and black */
+	background-color: black;
+	color: #00ffff;
+}
+</code><br>
+scripts.js
+<code class="js">function toggler() {
+	// using a const to linebreak
+	const bd = document.body;
+	bd.classList.toggle("dark");	   
+}
+</code>
+</td>
+
+</tr>
+</tbody>
+</table>
+<p>They just have to be in the same directory.<ul>
+<code class="bash">$ ls -al *.html *.css *.js
+-rw-r--r-- 1 cd-desk 197121 337 Jun 20 13:57 index.html
+-rw-r--r-- 1 cd-desk 197121  97 Jun 20 13:56 scripts.js
+-rw-r--r-- 1 cd-desk 197121  55 Jun 20 13:55 styles.css</code>
+</section>
+
+</section>
+
+<section>
+    <h2>Try it:</h2>
+    <ul>
+	<li>Have index.html, scripts.js, and styles.css define a Github page.</ul>
+	<li>Advanced students: Implement a feature that reads user input, such as an echo or calculate feature.
+<p>See an <a href="https://github.com/cd-public/js_demo">example</a>.
+</section>
+
+<section>
+<h2>Coding Demo</h2>
+<ul>
+<p>As time allows.
+<ul>
+<li>console.log
+<li>getElementById
+<li>.innerHTML
+<li>Interview questions
+</section>
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Node.js</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+.g { /* _g_reen. */
+  border: 1px solid #121213 ;
+  background-color: #538D4E ;
+}
+
+.y { /* _y_ellow */
+  border: 1px solid #121213 ;
+  background-color: #B59F3B ;
+}
+
+.r { /* g_r_ay. I thought misses were in red not in gray - whoops. */
+  border: 1px solid #121213 ;
+  background-color: #3A3A3C ;
+}
+
+#w {
+  border: 2px solid #3A3A3C ;
+  width: 64px;
+  font-size: 200%;
+  height: 64px;
+  font-family: monospace;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section>
+  <h1 class="title">Node.js</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 12
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>We have now 'learned' the front-end (browser) web technologies.
+<li>We can now "recycle" that knowledge into back-end (server) web technologies.
+<li>This lecture - on Node.js - closes the loop on "what the cloud does"
+<ul><li>vs Spark, which answers "how").
+</section>
+
+
+<section>
+<h2>Prep work</h2>
+<ul>
+<li>You may wish to:
+<ul><li>Install Node.js (<a href="https://nodejs.org/en/download/prebuilt-installer/current">link</a>)
+<li>Clone + Run 'docker-nodejs-sample' from <a href="https://github.com/docker/docker-nodejs-sample">Github</a>
+<li>I won't assume you have Node.js but WOW is it easier to use.
+</section>
+
+<section>
+<h2>Big Idea</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Browsers (clients) [front end]:<ul>
+<li>HTML
+<li>CSS
+<li>JavaScript
+</ul>
+<li>Servers [back end]:<ul>
+<li>Python (Flask/Django)</li>
+<li>C (NGINX/HTTPD) </li>
+<li>SQL</li>
+</ul>
+</section>
+<section>
+<h2>Javascript "Creep"</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Browsers (clients) [front end]:<ul>
+<li>HTML
+<li>CSS
+<li>JavaScript
+</ul>
+<li>Servers [back end]:<ul>
+<li>JavaScript (Node.js)</li>
+<li>SQL</li>
+</ul>
+</section>
+<section>
+<h2>Today</h2>
+<ul>
+<li>Big Idea: browsers and servers<ul>
+<li>Front end:<ul>
+<li>HTML
+<li>CSS
+<li>JavaScript
+</ul>
+<li>Servers [back end]:<ul>
+<li>JavaScript (<b>Node.js</b>)</li>
+<li>SQL</li>
+</ul>
+</section>
+
+<section>
+    <h2>This is our HTML+CSS</h2>
+
+<table>
+<colgroup>
+<col style="width: 60%">
+<col style="width: 40%">
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+index.html
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p&gt;This page is just a demo.&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code>
+</td>
+<td style="text-align: left;">
+styles.css
+<code class="css">p 
+{ 
+	background: blue; 
+	color: white; 
+}
+</code>
+</td>
+
+</tr>
+</tbody>
+</table>
+<p>They just have to be in the same directory.<ul>
+<code class="bash">$ ls -al *.html *.css
+-rw-r--r-- 1 cd-desk 197121 161 Jun 20 11:05 index.html
+-rw-r--r-- 1 cd-desk 197121  47 Jun 20 11:06 styles.css
+</code>
+</section>
+
+<section>
+<h2>HTML and CSS</h2>
+<p><em>All of HTML/CSS gives <b>static</b> styling</em>.
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>HTML is a
+<ul>
+<li>Element<ul>
+<li>Start Tag<ul>
+<li>Attributes<ul>
+<li>Attribute value</li>
+<li>Attribute name</li></li></li></ul></li></ul>
+<li>Content</li>
+<li>End Tag</li></ul></li>
+<li>Element<ul>
+<li>Void Tag<ul>
+<li>Attributes<ul><li>...</li></li></ul></li></ul></li></ul>
+</td>
+<td style="text-align: left;">
+<p>CSS is a
+<ul>
+<li>Rule<ul>
+<li>Selector(s)</li>
+<li>Declaration Block<ul>
+<li>Declaration<ul>
+<li>Property</li>
+<li>Value</li></li></ul></li></ul></li></ul></li>
+<li>Attribute Value<ul>
+<li>Declaration Block<ul><li>...
+</tbody></table>
+</section>
+
+<section>
+<h2>Standalone .js</h2>
+<p>I see JavaScript "embedded" much more than CSS<ul>
+<li>Most JavaScript is used on a single page, so why factor it out</li>
+<li>Keeps the scripts and the elements that call/interact together</li>
+</ul>
+<p>But there's a lot of .js libraries so we need to practice linking.<ul>
+<code class="HTML">&lt;script type="text/javascript" src="scripts.js"&gt;</code>
+</section>
+
+<section>
+    <h2>Something like:</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="even">
+<td style="text-align: left;">
+index.html
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+ &lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+  &lt;script type="text/javascript" src="scripts.js"&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;p&gt;Oh I'll need a button won't I?&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code>
+</td>
+<td style="text-align: left;">
+styles.css
+<code class="css">.dark {
+	/* I like cyan and black */
+	background-color: black;
+	color: #00ffff;
+}
+</code><br>
+scripts.js
+<code class="js">function toggler() {
+	// using a const to linebreak
+	const bd = document.body;
+	bd.classList.toggle("dark");	   
+}
+</code>
+</td>
+
+</tr>
+</tbody>
+</table>
+<p>They just have to be in the same directory.<ul>
+<code class="bash">$ ls -al *.html *.css *.js
+-rw-r--r-- 1 cd-desk 197121 337 Jun 20 13:57 index.html
+-rw-r--r-- 1 cd-desk 197121  97 Jun 20 13:56 scripts.js
+-rw-r--r-- 1 cd-desk 197121  55 Jun 20 13:55 styles.css</code>
+</section>
+
+</section>
+
+<section>
+<h2>Was: Coding Demo</h2>
+<ul>
+<p>Was: As time allows.
+<ul>
+<li>console.log
+<li>getElementById
+<li>.innerHTML
+</ul>
+<p>Or... the end of review...</p>
+</section>
+
+<section>
+<h2>Running Example: Wordle</h2>
+<ul>
+<p><a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a>...
+<ul>
+<li>Has an HTML webpage that contains content (various letters)
+<li>Has critical styling (letter/box coloring) via CSS.
+<li>Updates content without a page reload via JavaScript.
+<li>Interfaces with a remote server that knows todays word. (Node.js)
+</ul>
+<p>As I see it...
+<ul style="font-family:monospace"><li>index.html
+<li>styles.css
+<li>script.js
+<li>server.js
+</section>
+
+<section>
+<h2>Index.html</h2>
+<ul>
+<p>To begin, let's make an HTML webpage. What will it contain?
+<ul>
+<li>A head element, containing
+<ul><li>A head element, containing
+<ul><li>A title element
+<li>A style element or a link element to a .css file
+<li>A script element
+</ul></ul>
+<li>A body element, containing
+<ul><li>An element managing input of some kind, with
+<ul><li>An attribute that invokes a script of 
+</ul>
+<li>An element managing output of some kind, with
+<ul><li>An id that allows the script to update its content/style
+</section>
+
+<section>
+    <h2>HTML</h2>
+<ul style="width:100%">
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+
+  &lt;head&gt;
+    &lt;title&gt;Not Quite Wordle&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+    &lt;script type="text/javascript" src="script.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  
+  &lt;body onload="start()"&gt;
+    &lt;input id='inputElement' type="text" minlength="5" maxlength="5"&gt;
+    &lt;button type="button" onclick="check()"&gt;Check&lt;/button&gt;
+    &lt;table id="gameboard"&gt;&lt;/table&gt;
+  &lt;/body&gt;
+  
+&lt;/html&gt;</code>
+</ul>
+<p>How do you feel about this indentation and these newlines?
+</section>
+
+<section>
+    <h2>Embedded Ex.</h2>
+<ul style="width:100%"><li>This part:
+<code class="html">    &lt;input id='inputElement' type="text" minlength="5" maxlength="5"&gt;
+    &lt;button type="button" onclick="check()"&gt;Check&lt;/button&gt;
+    &lt;table id="gameboard"&gt;&lt;/table&gt;</code>
+<li>Looks like this:<br>
+    <input type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check()">Check</button>
+    <table ></table>
+<li>The 'center' element can make it a bit nicer.
+</ul>
+<center>
+    <input type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check()">Check</button>
+    <table ></table>
+</center>
+<ul style="width:100%"><li>If at all possible, mousoever the input field.
+<li>What is the mouseover text?
+<li>What about when you type a bit?
+
+</section>
+
+
+<section>
+    <h2>Alert</h2>
+<ul style="width:100%"><li>By default, check() doesn't do anything.
+<li>But it can.
+<li>Let's go to script.js and define a check function.
+<code class="js">function check() {
+	alert("Ch-Check It Out") ;
+}</code>
+<script>function check_pg16() {
+	alert("Ch-Check It Out") ;
+}</script>
+<li>I promise that isn't a Beastie Boys reference (it is)
+<li>Alert is good enough for quick testing purposes... let's try it.
+</ul>
+<center>
+    <input id='inputElement' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg16()">Check</button>
+    <table id="gameboard"></table>
+</center>
+<ul style="width:100%"><li>Well, that's a start, but is a long way from wordle:
+<ul><li>We aren't updating page content.
+<li>We aren't reading the input.
+
+</section>
+
+
+<section>
+    <h2>getElementById</h2>
+<ul style="width:100%"><li>We can use getElementByID
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById"><code class='lisp'>The getElementById() method of the Document interface returns an Element object representing the element whose id property matches the specified string. Since element IDs are required to be unique if specified, they're a useful way to get access to a specific element quickly.</code></a>
+<li>We helpfully had given our input field an id.
+<code class="html">&lt;input id='inputElement' type="text" minlength="5" maxlength="5"&gt;</code>
+<li>Let's go to script.js and define a check function.
+<code class="js">function check() {
+	alert(document.getElementById('inputElement')) ;
+}</code>
+<script>function check_pg17() {
+	alert(document.getElementById('inputElement_pg17')) ;
+}</script>
+<li>Alert is good enough for quick testing purposes... let's try it.
+</ul>
+<center>
+    <input id='inputElement_pg17' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg17()">Check</button>
+    <table id="gameboard"></table>
+</center>
+<ul style="width:100%"><li>Oh - that's a <b>JAVASCRIPT OBJECT</b> that <em>REFERS</em> to an <b>HTML ELEMENT</b> it is <em>NOT</em> a string.
+<li>What does that mean?
+</section>
+
+
+<section>
+    <h2>ELement.value</h2>
+<ul style="width:100%"><li>We can use Element.value
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element"><code class='lisp'>Element is the most general base class from which all element objects (i.e. objects that represent elements) in a Document inherit. It only has methods and properties common to all kinds of elements. More specific classes inherit from Element.</code></a>
+<li>Editorializing: Under no circumstances should you ever think about objects.
+<li>That said, this object has a 'property' called 'value' that contains the text within the input field.
+<code class="html">&lt;input id='inputElement' type="text" minlength="5" maxlength="5"&gt;</code>
+<li>Let's go to script.js and define a check function.
+<code class="js">function check() {
+	alert(document.getElementById('inputElement').value) ;
+}</code>
+<script>function check_pg18() {
+	alert(document.getElementById('inputElement_pg18').value) ;
+}</script>
+<li>Alert is good enough for quick testing purposes... let's try it.
+</ul>
+<center>
+    <input id='inputElement_pg18' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg18()">Check</button>
+    <table id="gameboard"></table>
+</center>
+<ul style="width:100%"><li>Oh - that's a <b>VALUE</b> of a <b>PROPERTY</b> of a <b>JAVASCRIPT OBJECT</b> that <em>REFERS</em> to the <b>CONTENT</b> of an <b>HTML ELEMENT</b> and it <em>IS</em> a string.
+<li>What does that mean?
+</section>
+
+
+
+<section>
+    <h2>Element.innerHTML</h2>
+<ul style="width:100%"><li>We can use Element.innerHTML to show this content on the page.
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"><code class='lisp'>The Element property innerHTML gets or sets the HTML or XML markup contained within the element.</code></a>
+<li>Setting 'innerHTML' is to me, the 2nd of 3 ways to 'print' in .js, the first being alert.
+<li>Remember the gameboard?
+<code class="html">&lt;table id="gameboard"&gt;&lt;/table&gt;</code>
+<li>Tables are a whole thing in HTML, but for now let's naively just place some plaintext within.
+<code class="js">function check() {
+	const inEle = document.getElementById('inputElement') ;
+	const gmBrd = document.getElementById('gameboard')
+	gmBrd.innerHTML = inEle.value ;
+}</code>
+<script>function check_pg19() {
+	const inEle = document.getElementById('inputElement_pg19') ;
+	const gmBrd = document.getElementById('gameboard_pg19')
+	gmBrd.innerHTML = inEle.value ;
+}</script><li>Try it out...
+</ul>
+<center>
+    <input id='inputElement_pg19' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg19()">Check</button>
+    <table id="gameboard_pg19"></table>
+</center>
+<ul style="width:100%">
+<li>Inspect / view selection source / etc.
+</section>
+
+<section>
+    <h2>Text processing</h2>
+<ul style="width:100%"><li>Wordle renders everything in capital letters.<ul>
+<li>'Capital letters' is not a reference to 'DVNO' (2007) by French electro house duo Justice.</ul>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase"><code class='lisp'>The toUpperCase() method of String values returns this string converted to uppercase.</code></a>
+<li>JavaScript sees heavy usage in text processing (since it's the scripting language for a text mark up language) and has great built-in methods.
+<li>Emphasis <em>method</em> - we invoke the toUpperCase() call as a 'method' of a string, like so...
+<code class="js">function check() {
+	const inEle = document.getElementById('inputElement') ;
+	const gmBrd = document.getElementById('gameboard')
+	const inStr = inEle.value ;         // lack () means 'property' (data)
+	const upStr = inStr.toUpperCase() ; // have () means 'method'   (compute)
+	gmBrd.innerHTML = upStr ;
+}</code>
+<script>function check_pg20() {
+	const inEle = document.getElementById('inputElement_pg20') ;
+	const gmBrd = document.getElementById('gameboard_pg20')
+	const inStr = inEle.value ;  // no () means 'property'
+	const upStr = inStr.toUpperCase() ; // yes () means 'method'
+	gmBrd.innerHTML = upStr ;
+}</script>
+<li>Try it out...
+</ul>
+<center>
+    <input id='inputElement_pg20' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg20()">Check</button>
+    <table id="gameboard_pg20"></table>
+</center>
+<ul style="width:100%">
+<li>Inspect / view selection source / etc.
+</section>
+
+
+<section>
+    <h2>console.log()</h2>
+<ul style="width:100%"><li>It is comically difficult to use JavaScript while debugging solely with innerHTML and alert
+<li>The last and greatest print alternative is console.log()
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/console/log_static"><code class='lisp'>The console.log() static method outputs a message to the console.</code></a>
+<li>To the... hold on,,, to the WHAT now???
+<li>There's usually (I can't check Safari) a 'console' tab under the 'inspect' menu in web browsers.
+<code class="js">function check() {
+	const inEle = document.getElementById('inputElement') ;
+	console.log(inEle) ;
+	const gmBrd = document.getElementById('gameboard')
+	console.log(gmBrd) ;
+	const inStr = inEle.value ;         // lack () means 'property' (data)
+	console.log(inStr) ;
+	const upStr = inStr.toUpperCase() ; // have () means 'method'   (compute)
+	console.log(upStr) ;
+	gmBrd.innerHTML = upStr ;
+}</code>
+<script>function check_pg21() {
+	const inEle = document.getElementById('inputElement_pg21') ;
+	console.log(inEle) ;
+	const gmBrd = document.getElementById('gameboard_pg21')
+	console.log(gmBrd) ;
+	const inStr = inEle.value ;  // no () means 'property'
+	console.log(inStr) ;
+	const upStr = inStr.toUpperCase() ; // yes () means 'method'
+	console.log(upStr) ;
+	gmBrd.innerHTML = upStr ;
+}</script>
+<li>Try it out...
+</ul>
+<center>
+    <input id='inputElement_pg21' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg21()">Check</button>
+    <table id="gameboard_pg21"></table>
+</center>
+<ul style="width:100%">
+<li>Check the console!
+</section>
+
+
+<section>
+    <h2>console.log()</h2>
+<ul style="width:100%"><li>I got:
+<code class="js">&lt;input id="inputElement_pg21" type="text" minlength="5" maxlength="5"&gt;	12.html:522:10
+&lt;table id="gameboard_pg21"&gt;	12.html:524:10
+asd 12.html:526:10
+ASD 12.html:528:10</code>
+<li>You can also just type in whatever...
+<code>console.log(6 + 7) ;
+13 debugger eval code:1:9
+undefined
+</code><li>Try it out...
+</ul>
+</section>
+
+
+<section>
+    <h2>node.js</h2>
+<ul style="width:100%"><li>At some point (in 2009) someone (a URochester Math PhD dropout) thought...
+<blockquote>Wait why don't I just make a commandline .js utility instead of having to use the console?"</blockquote>
+<li>That project became Node.js and JavaScript became the most powerful language in the universe.
+<code class="bash">C:\Users\cd-desk>node
+Welcome to Node.js v20.12.2.
+Type ".help" for more information.
+> console.log(6 + 7)
+13
+undefined
+>
+</code>
+<li>We can use .js...
+<ul><li>By installing and invoking 'node' at command line
+<li>By invoking 'node' inside a node.js docker image
+<li>Via the 'Node.js' program</ul>
+<code class="bash">user@DESKTOP-THMS2PJ:~$ node
+Command 'node' not found, but can be installed with:
+sudo apt install nodejs</code>
+</ul>
+</section>
+
+
+<section>
+    <h2>docker</h2>
+<ul style="width:100%"><li>If you don't have node but do have docker...
+<code class="bash">C:\Users\cd-desk>docker run -it node:alpine node
+Unable to find image 'node:alpine' locally
+alpine: Pulling from library/node
+c6a83fedfae6: Already exists
+8d90f41c769e: Already exists
+c4f54159f74a: Already exists
+6ecb2bd0d8e8: Already exists
+Digest: sha256:39005f06b2fae765764d6fdf20ad1c4d0890f5ad3e1f39b56a18768334b8ecd6
+Status: Downloaded newer image for node:alpine
+Welcome to Node.js v22.5.1.
+Type ".help" for more information.
+> console.log(6 + 7)
+13
+undefined
+>
+</code>
+<li>node:alpine uses an ultralight OS & downloads about 10x faster than the baseline 'node'
+<li>The 2nd 'node' is the command to invoke within the container so we get the '>'
+</ul>
+</section>
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>With Node.js we can do something a bit different.
+<li>Rather than write code that runs in a browser...<ul>
+<li>We can write code that hosts a webpage
+<li>This webpage will be accessible at some url
+<li>It will not be invoked via a script element</ul>
+<li>Let's look at a minimal example.
+<li>I am loosely following <a href="https://www.w3schools.com/nodejs/nodejs_http.asp">this guide</a> from W3
+<code class="lisp">Node.js has a built-in module called HTTP, which allows Node.js to transfer data over the Hyper Text Transfer Protocol (HTTP).
+
+To include the HTTP module, use the require() method...
+</code>
+<li>Note: We will now be using the command 'node server.js' to run a .js program.
+<li>Previously we used 'node' with no argument to have an interactive .js interpreter.
+<li>I will begin showing the example outside of Docker, then show Docker
+</ul>
+</section>
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>First we create our file, server.js, with some boilerplate.
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080) ;
+</code>
+<li>The first line includes the server library for HTTP, the hypertext transfer protocol
+<ul><li>'require' is like 'import' in Python or 'library' in R
+<li>'require' is Node.js specific and not part of base JavaScript
+<li>There is an 'import' in JavaScript but we will not discuss it - it's a little to 'software engineering'
+</ul>
+</ul>
+</section>
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>First we create our file, server.js, with some boilerplate.
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080);
+</code>
+<li>The second code block defines a function 'serverFunc'
+<ul><li>This function defines how to take a request 'req' and return a response 'res'
+<li>These will be HTTP requests asking for a webpage, interfacing with an API, etc.
+<li>Usually these will be HTML or JSON formatted responses.
+<li>This minimal example responds with plain text.
+<li>res.end() is necessary to denote the response isn't waiting for anything.
+</ul>
+</ul>
+</section>
+
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>First we create our file, server.js, with some boilerplate.
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080) ;
+</code>
+<li>The third code block calls the createServer method from the HTTP module.
+<ul><li>This method requires a function that processes requests and responses
+<ul><li>We use serverFunc()</ul>
+<li>It accepts a variety of possible options to configure the server.
+<ul><li>We use none
+<li>Read more in the <a href="https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener">documentation</a></ul>
+<li>We can think of this as configuring what webpages could be served but not beginning to serve webpages.
+<li>We can think of this as configuring without actually turning on the server.
+</ul>
+</ul>
+</section>
+
+
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>First we create our file, server.js, with some boilerplate.
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080) ;
+</code>
+<li>The fourth code block calls the listen method from the server object.
+<ul><li>This takes a configured server and connects it some port.
+<ul><li>In general, websites are on port 80
+<li>While learning, we use other, arbitrary ports.
+<li>8080 is an official alternate HTTP port
+<li>When just coding, I often use 8083 which is not for anything at all.
+<li>Read more about port numbers on <a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers">Wikipedia</a></ul>
+</ul>
+</ul>
+</section>
+
+
+<section>
+    <h2>via node</h2>
+<ul style="width:100%"><li>With server.js...
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080) ;
+</code>
+<li>...and a local 'node' installation, we can come online via
+<code class="bash">node server.js</code>
+<li>You can access the hosted page at <a href="http://localhost:8080">http://localhost:8080</a> or <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a>
+<li>What do you expect to find?
+<li>What do you find?
+</ul>
+</ul>
+</section>
+
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>With docker, we have a complication.
+<li>The server will listen on some port, but by default, that port will be local within the docker container.
+<li>We need to...
+<ul><li>Create a node docker container
+<li>Configure a port to connect to servers within that container
+<li>Copy server.js into the docker container
+<li>Run 'node server.js' within the container
+</ul>
+<li>We could follow the official 'docker-nodejs-sample' from <a href="https://github.com/docker/docker-nodejs-sample">Docker Github</a>...
+<li>Or just do a minimal example here, using 'compose'
+<code class="lisp">Compose simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
+</code>
+</section>
+
+<section>
+<h2>via Docker</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>We need to...
+<ul><li>Create a node docker container
+<li>Configure a port to connect
+<li>Copy server.js into the docker container
+<li>Run 'node server.js' within the container
+</td>
+<td style="text-align: left;">
+<p>We create a Dockerfile
+<code>FROM node:alpine
+EXPOSE 8080
+COPY server.js .
+CMD node server.js</code>
+</tbody></table>
+<hr>
+<ul><li>Read more about a Dockerfile <a href="https://docs.docker.com/reference/dockerfile/">here</a>
+<li>If you use the example repository, 'docker init' will guide you through configuration.
+<li>Autogenerated / example files tend to be 'heavyweight'
+<ul><li>They deal with cases more specific than we need to just learn the ideas
+<li>If you are using this professionally, then it matters.
+</section>
+
+
+<section>
+<h2>via Docker</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>My Dockerfile
+<code>FROM node:alpine
+EXPOSE 8080
+COPY server.js .
+CMD node server.js</code>
+</td>
+<td style="text-align: left;">
+<p>'docker init' Dockerfile
+<code style="max-height:500px"># syntax=docker/dockerfile:1
+
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Dockerfile reference guide at
+# https://docs.docker.com/go/dockerfile-reference/
+
+# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+
+ARG NODE_VERSION=20.12.2
+
+FROM node:${NODE_VERSION}-alpine
+
+# Use production node environment by default.
+ENV NODE_ENV production
+
+
+WORKDIR /usr/src/app
+
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.npm to speed up subsequent builds.
+# Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
+# into this layer.
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=package-lock.json,target=package-lock.json \
+    --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev
+
+# Run the application as a non-root user.
+USER node
+
+# Copy the rest of the source files into the image.
+COPY . .
+
+# Expose the port that the application listens on.
+EXPOSE 8080
+
+# Run the application.
+CMD node src/index.js
+
+</tbody></table>
+<hr>
+<ul><li>I think this is a good example of confusion / complexity in cloud computing.
+</section>
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>Let's go over 'docker init' though!
+<code style="max-height:800px" class="lisp">PS C:\Users\cd-desk\Documents\dev\node> docker init
+
+Welcome to the Docker Init CLI!
+
+This utility will walk you through creating the following files with sensible defaults for your project:
+  - .dockerignore
+  - Dockerfile
+  - compose.yaml
+  - README.Docker.md
+
+Let's get started!
+
+? What application platform does your project use? Node
+? What version of Node do you want to use? 20.12.2
+? Which package manager do you want to use? npm
+? What command do you want to use to start the app? node server.js
+? What port does your server listen on? 8080
+
+✔ Created → .dockerignore
+✔ Created → Dockerfile
+✔ Created → compose.yaml
+✔ Created → README.Docker.md
+
+→ Your Docker files are ready!
+  Review your Docker files and tailor them to your application.
+  Consult README.Docker.md for information about using the generated files.
+
+What's next?
+  Start your application by running → docker compose up --build
+  Your application will be available at http://localhost:8080
+</code>
+</section>
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>Let's go over 'docker init' though!
+<li>First:
+<code style="max-height:800px" class="lisp">PS C:\Users\cd-desk\Documents\dev\node> docker init
+
+Welcome to the Docker Init CLI!
+
+This utility will walk you through creating the following files with sensible defaults for your project:
+  - .dockerignore
+  - Dockerfile
+  - compose.yaml
+  - README.Docker.md
+</code>
+<li>'docker init' will make 4 files...
+<ul><li>.dockerignore
+<li>Dockerfile
+<li>compose.yaml
+<li>README.Docker.md
+</ul>
+<li>We don't care about the README or the .dockerignore (probably), and we made our own Dockerfile...
+<li>But we may still need a compose.yaml. Keep that in mind.
+</section>
+
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>Let's go over 'docker init' though!
+<li>The following are prompts - I had to answer these questions.
+<li>You can try too!
+<code style="max-height:800px" class="lisp">Let's get started!
+
+? What application platform does your project use? Node
+? What version of Node do you want to use? 20.12.2
+? Which package manager do you want to use? npm
+? What command do you want to use to start the app? node server.js
+? What port does your server listen on? 8080
+</code>
+<li>As a rule, especially with a smaller application, it's enough enough to use defaults!
+<ul><li>Sure, we have to use node (that's the point), but
+<li>We probably don't care about version
+<li>We probably don't care about package manager (think pip vs conda)</ul>
+<li>We do have to remember our .js file name
+<li>We do have to remember the port we listen on.</ul>
+<p>When making our own Dockerfile, we can leave out the things we don't care about (e.g. node version)
+</section>
+
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>Let's go over 'docker init' though!
+<li>The following are prompts - I had to answer these questions.
+<li>You can try too!
+<code style="max-height:800px" class="lisp">✔ Created → .dockerignore
+✔ Created → Dockerfile
+✔ Created → compose.yaml
+✔ Created → README.Docker.md
+
+→ Your Docker files are ready!
+  Review your Docker files and tailor them to your application.
+  Consult README.Docker.md for information about using the generated files.
+
+What's next?
+  Start your application by running → docker compose up --build
+  Your application will be available at http://localhost:8080
+</code>
+<li>This tells us some useful things!
+<ul><li>This tells us the docker command 'docker compose up --build'
+<li>This tells us the location of the server once built!
+</section>
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>We can also consult the readme
+<li>It reiterates the commands & locations.
+<code style="max-height:800px" class="lisp">### Building and running your application
+
+When you're ready, start your application by running:
+`docker compose up --build`.
+
+Your application will be available at http://localhost:8080.</code>
+<li>But there's more...
+</section>
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>We can also consult the readme
+<li>It points out that this is cloud computing technology.
+<code style="max-height:800px" class="lisp">### Deploying your application to the cloud
+
+First, build your image, e.g.: `docker build -t myapp .`.
+If your cloud uses a different CPU architecture than your development
+machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
+you'll want to build the image for that platform, e.g.:
+`docker build --platform=linux/amd64 -t myapp .`.
+
+Then, push it to your registry, e.g. `docker push myregistry.com/myapp`.
+
+Consult Docker's [getting started](https://docs.docker.com/go/get-started-sharing/)
+docs for more detail on building and pushing.</code>
+<li>Dockerhub recently started rate limiting, whatever that is, a broke my demo pipeline.
+<li>But in late February I was easily staging these containers onto Azure student tier and hosting webpages.
+<li>The workaround is a bit of a headache, but be aware this was free and easy as recently as the beginning of the term.
+</section>
+
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>Let's close the loop on 'docker init'
+<li>We haven't resolved the compose.yaml issue without using init.
+<code class="bash">PS C:\dev\word\server> ls
+
+
+    Directory: C:\dev\word\server
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         7/30/2024  11:41 AM            193 Dockerfile
+-a----         7/29/2024   3:08 PM          62555 server.js
+
+PS C:\Users\cd-desk\Documents\dev\word\server> docker compose up --build
+no configuration file provided: not found</code>
+<li>I found the compose documentation quite confusing as it is intended, I believe, for multi-container ecosystems like docker-hadoop.
+<li>You can see for yourself, here's one of several pages: <a href="https://docs.docker.com/compose/compose-application-model/#the-compose-file">link</a>
+</section>
+
+
+
+
+<section>
+    <h2>via docker</h2>
+<ul style="width:100%"><li>Let's close the loop on 'docker init'
+<li>It's a simple enough matter to review the generate compose.yaml and see what's in there:
+<code class="yaml">services:
+  server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:8080</code>
+<li>It looks like we need to specify a file path (context: .) and the port usage
+<li>NODE_ENV probably won't affect us: <a href="https://nodejs.org/en/learn/getting-started/nodejs-the-difference-between-development-and-production">link</a>
+<li>We say "NODE_ENV" is a software engineering thing, and remove it, and move on.
+</section>
+
+
+<section>
+<h2>via Docker</h2>
+
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>Dockerfile
+<code>FROM node:alpine
+EXPOSE 8080
+COPY server.js .
+CMD node server.js</code>
+</td>
+<td style="text-align: left;">
+<p>compose.yaml
+<code style="max-height:500px">services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+</tbody></table>
+<hr>
+<ul><li>A bit of overhead, but it works.
+<code>cd-desk@DESKTOP ~/dev/word/server$ ls
+Dockerfile  compose.yaml  server.js
+
+cd-desk@DESKTOP ~/dev/word/server$ docker compose up --build 2>/dev/null
+[+] Building 0.5s (7/7) FINISHED                                 docker:default
+</code>
+<p>Snip<code>[+] Running 1/0
+ ✔ Container server-server-1  Created                                      0.0s
+Attaching to server-1
+</code>
+</section>
+
+<section>
+<h2>End Docker</h2>
+<ul><li>With a fully operational Docker implementation, we will no longer think about where node is running.
+</section>
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>With a server live, we should look at a request.
+<li>Add a console.log() call to 'print' the request.
+<li>Think: Where will it be printed?
+<li>To begin:<ul>
+<li>Save your .js file...
+<li>...run it in node, and...
+<li>...navigate to <a href="http://localhost:8080">http://localhost:8080</a></ul>
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  console.log(req) ; // This is new.
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080) ;
+</code></ul>
+<p>You will need to restart the server if you edit server.js for changes to be reflected.
+</section>
+
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%"><li>With a server live, we should look at a request.
+<li>By accessing the server, you generate a request that you can view wherever you console.log()'ed
+<code style="max-height: 800px;" class="json">&lt;ref *2&gt; IncomingMessage {
+  _events: {
+    close: undefined,
+    error: undefined,
+    data: undefined,
+    end: undefined,
+    readable: undefined
+  },
+  _readableState: ReadableState {
+    highWaterMark: 16384,
+    buffer: [],
+    bufferIndex: 0,
+    length: 0,
+    pipes: [],
+    awaitDrainWriters: null,
+    [Symbol(kState)]: 1315084
+  },
+  _maxListeners: undefined,
+  socket: &lt;ref *1&gt; Socket {
+    connecting: false,
+    _hadError: false,
+    _parent: null,
+    _host: null,
+    _closeAfterHandlingError: false,
+    _events: {
+      close: [Array],
+      error: [Function: socketOnError],
+      prefinish: undefined,
+      finish: undefined,
+      drain: [Function: bound socketOnDrain],
+      data: [Function: bound socketOnData],
+      end: [Array],
+      readable: undefined,
+      timeout: [Function: socketOnTimeout],
+      resume: [Function: onSocketResume],
+      pause: [Function: onSocketPause]
+    },
+    _readableState: ReadableState {
+      highWaterMark: 16384,
+      buffer: [],
+      bufferIndex: 0,
+      length: 0,
+      pipes: [],
+      awaitDrainWriters: null,
+      [Symbol(kState)]: 193997060
+    },
+    _writableState: WritableState {
+      highWaterMark: 16384,
+      length: 0,
+      corked: 0,
+      onwrite: [Function: bound onwrite],
+      writelen: 0,
+      bufferedIndex: 0,
+      pendingcb: 0,
+      [Symbol(kState)]: 17564420,
+      [Symbol(kBufferedValue)]: null
+    },
+    allowHalfOpen: true,
+    _maxListeners: undefined,
+    _eventsCount: 8,
+    _sockname: null,
+    _pendingData: null,
+    _pendingEncoding: '',
+    server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    _server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    parser: HTTPParser {
+      '0': null,
+      '1': [Function: parserOnHeaders],
+      '2': [Function: parserOnHeadersComplete],
+      '3': [Function: parserOnBody],
+      '4': [Function: parserOnMessageComplete],
+      '5': [Function: bound onParserExecute],
+      '6': [Function: bound onParserTimeout],
+      _headers: [],
+      _url: '',
+      socket: [Circular *1],
+      incoming: [Circular *2],
+      outgoing: null,
+      maxHeaderPairs: 2000,
+      _consumed: true,
+      onIncoming: [Function: bound parserOnIncoming],
+      joinDuplicateHeaders: null,
+      [Symbol(resource_symbol)]: [HTTPServerAsyncResource]
+    },
+    on: [Function: socketListenerWrap],
+    addListener: [Function: socketListenerWrap],
+    prependListener: [Function: socketListenerWrap],
+    setEncoding: [Function: socketSetEncoding],
+    _paused: false,
+    _httpMessage: ServerResponse {
+      _events: [Object: null prototype],
+      _eventsCount: 1,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      destroyed: false,
+      _last: false,
+      chunkedEncoding: false,
+      shouldKeepAlive: true,
+      maxRequestsOnConnectionReached: false,
+      _defaultKeepAlive: true,
+      useChunkedEncodingByDefault: true,
+      sendDate: true,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      strictContentLength: false,
+      _contentLength: null,
+      _hasBody: true,
+      _trailer: '',
+      finished: false,
+      _headerSent: false,
+      _closed: false,
+      socket: [Circular *1],
+      _header: null,
+      _keepAliveTimeout: 5000,
+      _onPendingData: [Function: bound updateOutgoingData],
+      req: [Circular *2],
+      _sent100: false,
+      _expect_continue: false,
+      _maxRequestsPerSocket: 0,
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(kBytesWritten)]: 0,
+      [Symbol(kNeedDrain)]: false,
+      [Symbol(corked)]: 0,
+      [Symbol(kOutHeaders)]: null,
+      [Symbol(errored)]: null,
+      [Symbol(kHighWaterMark)]: 16384,
+      [Symbol(kRejectNonStandardBodyWrites)]: false,
+      [Symbol(kUniqueHeaders)]: null
+    },
+    [Symbol(async_id_symbol)]: 5,
+    [Symbol(kHandle)]: TCP {
+      reading: true,
+      onconnection: null,
+      _consumed: true,
+      [Symbol(owner_symbol)]: [Circular *1]
+    },
+    [Symbol(lastWriteQueueSize)]: 0,
+    [Symbol(timeout)]: null,
+    [Symbol(kBuffer)]: null,
+    [Symbol(kBufferCb)]: null,
+    [Symbol(kBufferGen)]: null,
+    [Symbol(shapeMode)]: true,
+    [Symbol(kCapture)]: false,
+    [Symbol(kSetNoDelay)]: true,
+    [Symbol(kSetKeepAlive)]: false,
+    [Symbol(kSetKeepAliveInitialDelay)]: 0,
+    [Symbol(kBytesRead)]: 0,
+    [Symbol(kBytesWritten)]: 0
+  },
+  httpVersionMajor: 1,
+  httpVersionMinor: 1,
+  httpVersion: '1.1',
+  complete: false,
+  rawHeaders: [
+    'Host',
+    '127.0.0.1:8080',
+    'User-Agent',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0',
+    'Accept',
+    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
+    'Accept-Language',
+    'en-US,en;q=0.5',
+    'Accept-Encoding',
+    'gzip, deflate, br, zstd',
+    'DNT',
+    '1',
+    'Connection',
+    'keep-alive',
+    'Upgrade-Insecure-Requests',
+    '1',
+    'Sec-Fetch-Dest',
+    'document',
+    'Sec-Fetch-Mode',
+    'navigate',
+    'Sec-Fetch-Site',
+    'none',
+    'Sec-Fetch-User',
+    '?1',
+    'Priority',
+    'u=0, i'
+  ],
+  rawTrailers: [],
+  joinDuplicateHeaders: null,
+  aborted: false,
+  upgrade: false,
+  url: '/',
+  method: 'GET',
+  statusCode: null,
+  statusMessage: null,
+  client: &lt;ref *1&gt; Socket {
+    connecting: false,
+    _hadError: false,
+    _parent: null,
+    _host: null,
+    _closeAfterHandlingError: false,
+    _events: {
+      close: [Array],
+      error: [Function: socketOnError],
+      prefinish: undefined,
+      finish: undefined,
+      drain: [Function: bound socketOnDrain],
+      data: [Function: bound socketOnData],
+      end: [Array],
+      readable: undefined,
+      timeout: [Function: socketOnTimeout],
+      resume: [Function: onSocketResume],
+      pause: [Function: onSocketPause]
+    },
+    _readableState: ReadableState {
+      highWaterMark: 16384,
+      buffer: [],
+      bufferIndex: 0,
+      length: 0,
+      pipes: [],
+      awaitDrainWriters: null,
+      [Symbol(kState)]: 193997060
+    },
+    _writableState: WritableState {
+      highWaterMark: 16384,
+      length: 0,
+      corked: 0,
+      onwrite: [Function: bound onwrite],
+      writelen: 0,
+      bufferedIndex: 0,
+      pendingcb: 0,
+      [Symbol(kState)]: 17564420,
+      [Symbol(kBufferedValue)]: null
+    },
+    allowHalfOpen: true,
+    _maxListeners: undefined,
+    _eventsCount: 8,
+    _sockname: null,
+    _pendingData: null,
+    _pendingEncoding: '',
+    server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    _server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    parser: HTTPParser {
+      '0': null,
+      '1': [Function: parserOnHeaders],
+      '2': [Function: parserOnHeadersComplete],
+      '3': [Function: parserOnBody],
+      '4': [Function: parserOnMessageComplete],
+      '5': [Function: bound onParserExecute],
+      '6': [Function: bound onParserTimeout],
+      _headers: [],
+      _url: '',
+      socket: [Circular *1],
+      incoming: [Circular *2],
+      outgoing: null,
+      maxHeaderPairs: 2000,
+      _consumed: true,
+      onIncoming: [Function: bound parserOnIncoming],
+      joinDuplicateHeaders: null,
+      [Symbol(resource_symbol)]: [HTTPServerAsyncResource]
+    },
+    on: [Function: socketListenerWrap],
+    addListener: [Function: socketListenerWrap],
+    prependListener: [Function: socketListenerWrap],
+    setEncoding: [Function: socketSetEncoding],
+    _paused: false,
+    _httpMessage: ServerResponse {
+      _events: [Object: null prototype],
+      _eventsCount: 1,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      destroyed: false,
+      _last: false,
+      chunkedEncoding: false,
+      shouldKeepAlive: true,
+      maxRequestsOnConnectionReached: false,
+      _defaultKeepAlive: true,
+      useChunkedEncodingByDefault: true,
+      sendDate: true,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      strictContentLength: false,
+      _contentLength: null,
+      _hasBody: true,
+      _trailer: '',
+      finished: false,
+      _headerSent: false,
+      _closed: false,
+      socket: [Circular *1],
+      _header: null,
+      _keepAliveTimeout: 5000,
+      _onPendingData: [Function: bound updateOutgoingData],
+      req: [Circular *2],
+      _sent100: false,
+      _expect_continue: false,
+      _maxRequestsPerSocket: 0,
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(kBytesWritten)]: 0,
+      [Symbol(kNeedDrain)]: false,
+      [Symbol(corked)]: 0,
+      [Symbol(kOutHeaders)]: null,
+      [Symbol(errored)]: null,
+      [Symbol(kHighWaterMark)]: 16384,
+      [Symbol(kRejectNonStandardBodyWrites)]: false,
+      [Symbol(kUniqueHeaders)]: null
+    },
+    [Symbol(async_id_symbol)]: 5,
+    [Symbol(kHandle)]: TCP {
+      reading: true,
+      onconnection: null,
+      _consumed: true,
+      [Symbol(owner_symbol)]: [Circular *1]
+    },
+    [Symbol(lastWriteQueueSize)]: 0,
+    [Symbol(timeout)]: null,
+    [Symbol(kBuffer)]: null,
+    [Symbol(kBufferCb)]: null,
+    [Symbol(kBufferGen)]: null,
+    [Symbol(shapeMode)]: true,
+    [Symbol(kCapture)]: false,
+    [Symbol(kSetNoDelay)]: true,
+    [Symbol(kSetKeepAlive)]: false,
+    [Symbol(kSetKeepAliveInitialDelay)]: 0,
+    [Symbol(kBytesRead)]: 0,
+    [Symbol(kBytesWritten)]: 0
+  },
+  _consuming: false,
+  _dumped: false,
+  [Symbol(shapeMode)]: true,
+  [Symbol(kCapture)]: false,
+  [Symbol(kHeaders)]: {
+    host: '127.0.0.1:8080',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0',
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
+    'accept-language': 'en-US,en;q=0.5',
+    'accept-encoding': 'gzip, deflate, br, zstd',
+    dnt: '1',
+    connection: 'keep-alive',
+    'upgrade-insecure-requests': '1',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': 'none',
+    'sec-fetch-user': '?1',
+    priority: 'u=0, i'
+  },
+  [Symbol(kHeadersCount)]: 26,
+  [Symbol(kTrailers)]: null,
+  [Symbol(kTrailersCount)]: 0
+}
+&lt;ref *2&gt; IncomingMessage {
+  _events: {
+    close: undefined,
+    error: undefined,
+    data: undefined,
+    end: undefined,
+    readable: undefined
+  },
+  _readableState: ReadableState {
+    highWaterMark: 16384,
+    buffer: [],
+    bufferIndex: 0,
+    length: 0,
+    pipes: [],
+    awaitDrainWriters: null,
+    [Symbol(kState)]: 1315084
+  },
+  _maxListeners: undefined,
+  socket: &lt;ref *1&gt; Socket {
+    connecting: false,
+    _hadError: false,
+    _parent: null,
+    _host: null,
+    _closeAfterHandlingError: false,
+    _events: {
+      close: [Array],
+      error: [Function: socketOnError],
+      prefinish: undefined,
+      finish: undefined,
+      drain: [Function: bound socketOnDrain],
+      data: [Function: bound socketOnData],
+      end: [Array],
+      readable: undefined,
+      timeout: [Function: socketOnTimeout],
+      resume: [Function: onSocketResume],
+      pause: [Function: onSocketPause]
+    },
+    _readableState: ReadableState {
+      highWaterMark: 16384,
+      buffer: [],
+      bufferIndex: 0,
+      length: 0,
+      pipes: [],
+      awaitDrainWriters: null,
+      [Symbol(kState)]: 193997060
+    },
+    _writableState: WritableState {
+      highWaterMark: 16384,
+      length: 0,
+      corked: 0,
+      onwrite: [Function: bound onwrite],
+      writelen: 0,
+      bufferedIndex: 0,
+      pendingcb: 0,
+      [Symbol(kState)]: 17563908,
+      [Symbol(kBufferedValue)]: null,
+      [Symbol(kWriteCbValue)]: [Function (anonymous)],
+      [Symbol(kAfterWriteTickInfoValue)]: null
+    },
+    allowHalfOpen: true,
+    _maxListeners: undefined,
+    _eventsCount: 8,
+    _sockname: null,
+    _pendingData: null,
+    _pendingEncoding: '',
+    server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    _server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    parser: HTTPParser {
+      '0': null,
+      '1': [Function: parserOnHeaders],
+      '2': [Function: parserOnHeadersComplete],
+      '3': [Function: parserOnBody],
+      '4': [Function: parserOnMessageComplete],
+      '5': [Function: bound onParserExecute],
+      '6': [Function: bound onParserTimeout],
+      _headers: [],
+      _url: '',
+      socket: [Circular *1],
+      incoming: [Circular *2],
+      outgoing: null,
+      maxHeaderPairs: 2000,
+      _consumed: true,
+      onIncoming: [Function: bound parserOnIncoming],
+      joinDuplicateHeaders: null,
+      [Symbol(resource_symbol)]: [HTTPServerAsyncResource]
+    },
+    on: [Function: socketListenerWrap],
+    addListener: [Function: socketListenerWrap],
+    prependListener: [Function: socketListenerWrap],
+    setEncoding: [Function: socketSetEncoding],
+    _paused: false,
+    _httpMessage: ServerResponse {
+      _events: [Object: null prototype],
+      _eventsCount: 1,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      destroyed: false,
+      _last: false,
+      chunkedEncoding: false,
+      shouldKeepAlive: true,
+      maxRequestsOnConnectionReached: false,
+      _defaultKeepAlive: true,
+      useChunkedEncodingByDefault: true,
+      sendDate: true,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      strictContentLength: false,
+      _contentLength: null,
+      _hasBody: true,
+      _trailer: '',
+      finished: false,
+      _headerSent: false,
+      _closed: false,
+      socket: [Circular *1],
+      _header: null,
+      _keepAliveTimeout: 5000,
+      _onPendingData: [Function: bound updateOutgoingData],
+      req: [Circular *2],
+      _sent100: false,
+      _expect_continue: false,
+      _maxRequestsPerSocket: 0,
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(kBytesWritten)]: 0,
+      [Symbol(kNeedDrain)]: false,
+      [Symbol(corked)]: 0,
+      [Symbol(kOutHeaders)]: null,
+      [Symbol(errored)]: null,
+      [Symbol(kHighWaterMark)]: 16384,
+      [Symbol(kRejectNonStandardBodyWrites)]: false,
+      [Symbol(kUniqueHeaders)]: null
+    },
+    timeout: 0,
+    [Symbol(async_id_symbol)]: 5,
+    [Symbol(kHandle)]: TCP {
+      reading: true,
+      onconnection: null,
+      _consumed: true,
+      [Symbol(owner_symbol)]: [Circular *1]
+    },
+    [Symbol(lastWriteQueueSize)]: 0,
+    [Symbol(timeout)]: Timeout {
+      _idleTimeout: -1,
+      _idlePrev: null,
+      _idleNext: null,
+      _idleStart: 2299,
+      _onTimeout: null,
+      _timerArgs: undefined,
+      _repeat: null,
+      _destroyed: true,
+      [Symbol(refed)]: false,
+      [Symbol(kHasPrimitive)]: false,
+      [Symbol(asyncId)]: 18,
+      [Symbol(triggerId)]: 14
+    },
+    [Symbol(kBuffer)]: null,
+    [Symbol(kBufferCb)]: null,
+    [Symbol(kBufferGen)]: null,
+    [Symbol(shapeMode)]: true,
+    [Symbol(kCapture)]: false,
+    [Symbol(kSetNoDelay)]: true,
+    [Symbol(kSetKeepAlive)]: false,
+    [Symbol(kSetKeepAliveInitialDelay)]: 0,
+    [Symbol(kBytesRead)]: 0,
+    [Symbol(kBytesWritten)]: 0
+  },
+  httpVersionMajor: 1,
+  httpVersionMinor: 1,
+  httpVersion: '1.1',
+  complete: false,
+  rawHeaders: [
+    'Host',
+    '127.0.0.1:8080',
+    'User-Agent',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0',
+    'Accept',
+    'image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5',
+    'Accept-Language',
+    'en-US,en;q=0.5',
+    'Accept-Encoding',
+    'gzip, deflate, br, zstd',
+    'DNT',
+    '1',
+    'Connection',
+    'keep-alive',
+    'Referer',
+    'http://127.0.0.1:8080/',
+    'Sec-Fetch-Dest',
+    'image',
+    'Sec-Fetch-Mode',
+    'no-cors',
+    'Sec-Fetch-Site',
+    'same-origin',
+    'Priority',
+    'u=6'
+  ],
+  rawTrailers: [],
+  joinDuplicateHeaders: null,
+  aborted: false,
+  upgrade: false,
+  url: '/favicon.ico',
+  method: 'GET',
+  statusCode: null,
+  statusMessage: null,
+  client: &lt;ref *1&gt; Socket {
+    connecting: false,
+    _hadError: false,
+    _parent: null,
+    _host: null,
+    _closeAfterHandlingError: false,
+    _events: {
+      close: [Array],
+      error: [Function: socketOnError],
+      prefinish: undefined,
+      finish: undefined,
+      drain: [Function: bound socketOnDrain],
+      data: [Function: bound socketOnData],
+      end: [Array],
+      readable: undefined,
+      timeout: [Function: socketOnTimeout],
+      resume: [Function: onSocketResume],
+      pause: [Function: onSocketPause]
+    },
+    _readableState: ReadableState {
+      highWaterMark: 16384,
+      buffer: [],
+      bufferIndex: 0,
+      length: 0,
+      pipes: [],
+      awaitDrainWriters: null,
+      [Symbol(kState)]: 193997060
+    },
+    _writableState: WritableState {
+      highWaterMark: 16384,
+      length: 0,
+      corked: 0,
+      onwrite: [Function: bound onwrite],
+      writelen: 0,
+      bufferedIndex: 0,
+      pendingcb: 0,
+      [Symbol(kState)]: 17563908,
+      [Symbol(kBufferedValue)]: null,
+      [Symbol(kWriteCbValue)]: [Function (anonymous)],
+      [Symbol(kAfterWriteTickInfoValue)]: null
+    },
+    allowHalfOpen: true,
+    _maxListeners: undefined,
+    _eventsCount: 8,
+    _sockname: null,
+    _pendingData: null,
+    _pendingEncoding: '',
+    server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    _server: Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 3,
+      _maxListeners: undefined,
+      _connections: 1,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      _listeningId: 1,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::8080',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 2,
+      [Symbol(kUniqueHeaders)]: null,
+      [Symbol(http.server.connections)]: ConnectionsList {},
+      [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+        _idleTimeout: 30000,
+        _idlePrev: [TimersList],
+        _idleNext: [TimersList],
+        _idleStart: 22,
+        _onTimeout: [Function: bound checkConnections],
+        _timerArgs: undefined,
+        _repeat: 30000,
+        _destroyed: false,
+        [Symbol(refed)]: false,
+        [Symbol(kHasPrimitive)]: false,
+        [Symbol(asyncId)]: 4,
+        [Symbol(triggerId)]: 3
+      }
+    },
+    parser: HTTPParser {
+      '0': null,
+      '1': [Function: parserOnHeaders],
+      '2': [Function: parserOnHeadersComplete],
+      '3': [Function: parserOnBody],
+      '4': [Function: parserOnMessageComplete],
+      '5': [Function: bound onParserExecute],
+      '6': [Function: bound onParserTimeout],
+      _headers: [],
+      _url: '',
+      socket: [Circular *1],
+      incoming: [Circular *2],
+      outgoing: null,
+      maxHeaderPairs: 2000,
+      _consumed: true,
+      onIncoming: [Function: bound parserOnIncoming],
+      joinDuplicateHeaders: null,
+      [Symbol(resource_symbol)]: [HTTPServerAsyncResource]
+    },
+    on: [Function: socketListenerWrap],
+    addListener: [Function: socketListenerWrap],
+    prependListener: [Function: socketListenerWrap],
+    setEncoding: [Function: socketSetEncoding],
+    _paused: false,
+    _httpMessage: ServerResponse {
+      _events: [Object: null prototype],
+      _eventsCount: 1,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      destroyed: false,
+      _last: false,
+      chunkedEncoding: false,
+      shouldKeepAlive: true,
+      maxRequestsOnConnectionReached: false,
+      _defaultKeepAlive: true,
+      useChunkedEncodingByDefault: true,
+      sendDate: true,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      strictContentLength: false,
+      _contentLength: null,
+      _hasBody: true,
+      _trailer: '',
+      finished: false,
+      _headerSent: false,
+      _closed: false,
+      socket: [Circular *1],
+      _header: null,
+      _keepAliveTimeout: 5000,
+      _onPendingData: [Function: bound updateOutgoingData],
+      req: [Circular *2],
+      _sent100: false,
+      _expect_continue: false,
+      _maxRequestsPerSocket: 0,
+      [Symbol(shapeMode)]: false,
+      [Symbol(kCapture)]: false,
+      [Symbol(kBytesWritten)]: 0,
+      [Symbol(kNeedDrain)]: false,
+      [Symbol(corked)]: 0,
+      [Symbol(kOutHeaders)]: null,
+      [Symbol(errored)]: null,
+      [Symbol(kHighWaterMark)]: 16384,
+      [Symbol(kRejectNonStandardBodyWrites)]: false,
+      [Symbol(kUniqueHeaders)]: null
+    },
+    timeout: 0,
+    [Symbol(async_id_symbol)]: 5,
+    [Symbol(kHandle)]: TCP {
+      reading: true,
+      onconnection: null,
+      _consumed: true,
+      [Symbol(owner_symbol)]: [Circular *1]
+    },
+    [Symbol(lastWriteQueueSize)]: 0,
+    [Symbol(timeout)]: Timeout {
+      _idleTimeout: -1,
+      _idlePrev: null,
+      _idleNext: null,
+      _idleStart: 2299,
+      _onTimeout: null,
+      _timerArgs: undefined,
+      _repeat: null,
+      _destroyed: true,
+      [Symbol(refed)]: false,
+      [Symbol(kHasPrimitive)]: false,
+      [Symbol(asyncId)]: 18,
+      [Symbol(triggerId)]: 14
+    },
+    [Symbol(kBuffer)]: null,
+    [Symbol(kBufferCb)]: null,
+    [Symbol(kBufferGen)]: null,
+    [Symbol(shapeMode)]: true,
+    [Symbol(kCapture)]: false,
+    [Symbol(kSetNoDelay)]: true,
+    [Symbol(kSetKeepAlive)]: false,
+    [Symbol(kSetKeepAliveInitialDelay)]: 0,
+    [Symbol(kBytesRead)]: 0,
+    [Symbol(kBytesWritten)]: 0
+  },
+  _consuming: false,
+  _dumped: false,
+  [Symbol(shapeMode)]: true,
+  [Symbol(kCapture)]: false,
+  [Symbol(kHeaders)]: {
+    host: '127.0.0.1:8080',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0',
+    accept: 'image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5',
+    'accept-language': 'en-US,en;q=0.5',
+    'accept-encoding': 'gzip, deflate, br, zstd',
+    dnt: '1',
+    connection: 'keep-alive',
+    referer: 'http://127.0.0.1:8080/',
+    'sec-fetch-dest': 'image',
+    'sec-fetch-mode': 'no-cors',
+    'sec-fetch-site': 'same-origin',
+    priority: 'u=6'
+  },
+  [Symbol(kHeadersCount)]: 24,
+  [Symbol(kTrailers)]: null,
+  [Symbol(kTrailersCount)]: 0
+}
+</code>
+</section>
+
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%">
+<li>We can get a bit more excitement with our beloved command 'curl'
+<code class="bash">C:\Users\cd-desk> curl http://localhost:8080
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {72, 101, 108, 108...}
+RawContent        : HTTP/1.1 200 OK
+                    Connection: keep-alive
+                    Keep-Alive: timeout=5
+                    Transfer-Encoding: chunked
+                    Date: Tue, 30 Jul 2024 05:07:50 GMT
+
+                    Hello World!
+Headers           : {[Connection, keep-alive], [Keep-Alive, timeout=5], [Transfer-Encoding, chunked], [Date, Tue, 30
+                    Jul 2024 05:07:50 GMT]}
+RawContentLength  : 12</code>
+</ul><p>Files cannot be 'curl'ed - curl here finds a live, HTTP-compliant server.
+</section>
+
+<section>
+    <h2>Backend</h2>
+<ul style="width:100%">
+<li>Basically, node server.js is serving utf-8/ascii
+<li>Review the snippet:
+<code class="bash">Content           : {72, 101, 108, 108...}</code>
+<li>Those are the character codes for 'Hello World!'
+<code class="python">>>> vals = [72, 101, 108, 108]
+>>> [chr(v) for v in vals]
+['H', 'e', 'l', 'l']
+>>></code>
+<li>Takeaway: We can transmit data over HTTP.
+
+</section>
+
+
+<section>
+<h2>Running Example: Wordle</h2>
+<ul>
+<p><a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a>...
+<ul>
+<li>We habe an HTML webpage that reads and displays text.
+<li>We haven't looked at CSS yet, that's okay.
+<li>We have a script that processes text on the HTML page.
+<li>We have a remote server that transmits text.
+</ul>
+<p>As I see it...
+<ul style="font-family:monospace"><li>index.html
+<li>styles.css
+<li>script.js
+<li>server.js
+</ul>
+<p>Let's connect the backend (server) to the frontend (everything else).
+</section>
+
+<section>
+    <h2>APIs</h2>
+<ul style="width:100%"><li>Wordle renders everything in capital letters.<ul>
+<li>'Capital letters' is not a reference to the Fifty Shades Freed official soundtrack</ul>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase"><code class='lisp'>The toUpperCase() method of String values returns this string converted to uppercase.</code></a>
+<li>This is a silly example, but let's
+<ul><li>Transmit the input word to the server, 
+<li>Capitalize it there, then...
+<li>Transmit it back.</ul>
+<li>But first, let's read anything from the server at all.
+<li>Many ways, this one feels the best to me, adapted from <a href="https://stackoverflow.com/a/51854096">Stack Overflow</a>
+<code class="js">async function readFromRemote() {
+  const msg = await fetch("https://cat-fact.herokuapp.com/facts") ;
+  const jsn = await msg.json() ;
+  console.log(jsn) ;
+} </code>
+<li>A lot going on here.
+</section>
+
+
+<section>
+    <h2>async</h2>
+<ul style="width:100%">
+<li>A lot going on here, from <a href="https://stackoverflow.com/a/51854096">Stack Overflow</a>
+<li>
+<code class="js">async function readFromRemote() {
+  const msg = await fetch("https://cat-fact.herokuapp.com/facts") ;
+  const jsn = await msg.json() ;
+  console.log(jsn) ;
+} </code>
+<li>First, the declaration:
+<code class="js">async function readFromRemote() {</code>
+<li>We introduce the 'async' keyword. Why?
+<ul><li>Usually in .js, one line of code is run, and the browser/node immediately proceeds to the next.
+<li>When dealing with a remote server, it could take some time get a message back.
+<li>So, async let's the browser/node know that it might need to a wait a minute.
+</ul>
+</section>
+
+<section>
+    <h2>await</h2>
+<ul style="width:100%">
+<li>A lot going on here, from <a href="https://stackoverflow.com/a/51854096">Stack Overflow</a>
+<li>
+<code class="js">async function readFromRemote() {
+  const msg = await fetch("https://cat-fact.herokuapp.com/facts") ;
+  const jsn = await msg.json() ;
+  console.log(jsn) ;
+} </code>
+<li>Then, fetch
+<code class="js">const msg = await fetch("https://cat-fact.herokuapp.com/facts") ;</code>
+<li>Fetch is mostly used for apis.
+<ul><li>It returns something called a promise, which isn't a value, but could be someday.
+<li>In the async environment, we can use 'await' to hang around until the promise resolves to value.
+<li>Vocab word: promise
+<li>The rest is just usually .js / programming, with a single url argument.
+</ul>
+<li>Cat fact seems to have gone offline while working on this presentation, but you can try other APIs.
+<li>This is why we 'await' - you never know if the remote server is actually there, or not!</ul>
+<p>Bonus: Why is 'msg' a 'const'?
+</section>
+
+
+<section>
+    <h2>json</h2>
+<ul style="width:100%">
+<li>A lot going on here, from <a href="https://stackoverflow.com/a/51854096">Stack Overflow</a>
+<li>
+<code class="js">async function readFromRemote() {
+  const msg = await fetch("https://cat-fact.herokuapp.com/facts") ;
+  const jsn = await msg.json() ;
+  console.log(jsn) ;
+} </code>
+<li>Then, we unpack the message.
+<code class="js">const jsn = await msg.json() ;</code>
+<li>As we've seen from console.log() and 'curl', messages can be a lot.
+<li>We can follow the convention of tying them up in neat .json packages for transmition.
+<ul><li>We do still have to await here - you can try out what happens if you don't.
+<li>We don't have to use json, its just a convention (and with good reason).</ul>
+</section>
+
+
+<section>
+    <h2>json</h2>
+<ul style="width:100%">
+<li>A lot going on here, from <a href="https://stackoverflow.com/a/51854096">Stack Overflow</a>
+<li>
+<code class="js">async function readFromRemote() {
+  const msg = await fetch("https://meowfacts.herokuapp.com/") ;
+  const jsn = await msg.json() ;
+  const fct = jsn['data'];
+  alert(fct) ;
+}</code>
+<li>We can even just attach 'readFromRemote()' to a button.
+<script>async function readFromRemote() {
+  const msg = await fetch("https://meowfacts.herokuapp.com/") ;
+  const jsn = await msg.json() ;
+  const fct = jsn['data'];
+  alert(fct) ;
+}</script><br>
+    <button type="button" onclick="readFromRemote()">Click to 'readFromRemote()'</button>
+</section>
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%">
+<li>We can just as easily read from our own server.js instance running via node at localhost:8080</a>
+<li>
+<code class="js">async function readFromRemote() {
+  const msg = await fetch("https://localhost:8080") ;
+} </code>
+<li>But we'll enounter two problems.
+<ul><li>We aren't yet transmitting in json, and really we should be, and...
+<li>For well-formed security reasons, .js is extremely nervous about running locally.
+</ul>
+<li>We need to jsonify and we need to signal we are okay with some insecure behavior, just for now.
+</section>
+
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here was our server.js
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}
+
+serverObj = http.createServer(serverFunc) ;
+
+serverObj.listen(8080) ;
+</code>
+<li>Let's switch to json!
+</section>
+
+<section>
+<h2>via Docker</h2>
+
+<table style="min-width: 100%">
+<colgroup>
+<col style="min-width: 45%">
+<col style="min-width: 55%">
+</colgroup>
+<tbody>
+<tr >
+<td style="text-align: left;">
+<p>Naive
+<code>function serverFunc(req, res) {
+  res.write('Hello World!') ; 
+  res.end() ; 
+}</code>
+</td>
+<td style="text-align: left;">
+<p>json-ly
+
+<code>function serverFunc(req, res) {
+	res.writeHead(200, 
+	              {'Content-Type': 
+	               'application/json'});
+	res.end(JSON.stringify({
+		data: 'Hello World!',
+	})) ;
+}) ;</code>
+</tbody></table>
+<hr>
+<ul><li>That's a little cramped, let's look at it all together.
+</code>
+</section>
+
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the json-ly server.js
+<code class="js">const http = require('http');
+
+function serverFunc(req, res) {
+	const hdr = {'Content-Type': 'application/json'} ;
+	const str = {'data': 'Hello World!'} ;
+	const jsn = JSON.stringify(str) ;
+	res.writeHead(200, hdr);
+	res.end(jsn) ;
+}
+serverObj = http.createServer(serverFunc)
+
+serverObj.listen(8080);
+
+</code>
+<li>Let's examine it.
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the json-ly server.js
+<code class="js">function serverFunc(req, res) {
+	const hdr = {'Content-Type': 'application/json'} ;
+	const str = {'data': 'Hello World!'} ;
+	const jsn = JSON.stringify(str) ;
+	res.writeHead(200, hdr);
+	res.end(jsn) ;
+}</code>
+<li>Let's examine it.
+<code class='js'>const hdr = {'Content-Type': 'application/json'} ;</code>
+<li>With HTML and TSV files, we always had a header in the first line.
+<li>An HTTP response isn't so different from a file.
+<li>So we add a header specifying file type - in this case, json.
+<li>It's application data because it can be used in application directly by .js, <a href="https://www.ietf.org/rfc/rfc4627.txt">Read more.</a>.
+<li>Note this is meta-json - it's json about json. If we sent an image, the header would still be in json.
+</section>
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the json-ly server.js
+<code class="js">function serverFunc(req, res) {
+	const hdr = {'Content-Type': 'application/json'} ;
+	const str = {'data': 'Hello World!'} ;
+	const jsn = JSON.stringify(str) ;
+	res.writeHead(200, hdr);
+	res.end(jsn) ;
+}</code>
+<li>Let's examine it.
+<code class='js'>const str = {'data': 'Hello World!'} ;</code>
+<li>I packaged my string as a data field in a small .json
+<li>Do whatever you want!
+<li>Just remember you'll be reading this on the other end of the wire, in script.js.
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the json-ly server.js
+<code class="js">function serverFunc(req, res) {
+	const hdr = {'Content-Type': 'application/json'} ;
+	const str = {'data': 'Hello World!'} ;
+	const jsn = JSON.stringify(str) ;
+	res.writeHead(200, hdr);
+	res.end(jsn) ;
+}</code>
+<li>Let's examine it.
+<code class='js'>const jsn = JSON.stringify(str) ;</code>
+<li>As with text, .js has robust built-in support for JSON.
+<li>This is the most common way, to my knowledge, to create a .json payload, but there's at least several others that work quite well.
+<li>Read more <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">here</a>
+</section>
+
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the json-ly server.js
+<code class="js">function serverFunc(req, res) {
+	const hdr = {'Content-Type': 'application/json'} ;
+	const str = {'data': 'Hello World!'} ;
+	const jsn = JSON.stringify(str) ;
+	res.writeHead(200, hdr);
+	res.end(jsn) ;
+}</code>
+<li>Let's examine it.
+<code class='js'>res.writeHead(200, hdr);</code>
+<li>A'200' is the default HTTP status, and often needs to be included in any non-trivial message.
+<li>We also include our content-type notice here.
+<li>A response header is not unlike an HTML webpage head - it's useful information about the main body of the message.
+<li>This header will help fetch() understand what it is reading over in script.js
+</section>
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the json-ly server.js
+<code class="js">function serverFunc(req, res) {
+	const hdr = {'Content-Type': 'application/json'} ;
+	const str = {'data': 'Hello World!'} ;
+	const jsn = JSON.stringify(str) ;
+	res.writeHead(200, hdr);
+	res.end(jsn) ;
+}</code>
+<li>Let's examine it.
+<code class='js'>res.end(jsn) ;</code>
+<li>We end and send off the message with jsn object within.
+<li>You can also write then end, etc, but this is common for transmitting a discrete object.</ul>
+<p>We are close... but we still have to address our security concern.
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the UNSAFE json-ly server.js
+<code class="js">function serverFunc(req, res) {
+    const hdr = {'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'} ;
+    const str = {'data': 'Hello World!'} ;
+    const jsn = JSON.stringify(str) ;
+    res.writeHead(200, hdr);
+    res.end(jsn) ;
+}</code>
+<li>Let's examine it.
+<code class='js'>'Access-Control-Allow-Origin': '*'</code>
+<li>Adding this to the header also a backend and frontend to communicate over any (*) network.
+<li>Don't do this in real life, but it's fine in class.</ul>
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Here is the UNSAFE json-ly server.js
+<code class="js">function serverFunc(req, res) {
+    const hdr = {'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'} ;
+    const str = {'data': 'Hello World!'} ;
+    const jsn = JSON.stringify(str) ;
+    res.writeHead(200, hdr);
+    res.end(jsn) ;
+}</code>
+<li>This would amicably interface with the following, in script.js
+<code class='js'>async function readFromRemote() {
+  const msg = await fetch("https://localhost:8080") ; // was: meowfacts
+  const jsn = await msg.json() ;
+  const fct = jsn['data'];
+  alert(fct) ;
+}</code>
+<li>Test it!
+</section>
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Our initial test case though was not see 'hello world', but to actually meaningfully compute on a remote server.
+<li>This is a silly example, but let's
+<ul><li>Transmit the input word to the server, 
+<li>Capitalize it there, then...
+<li>Transmit it back.</ul>
+<li>Remember reading input?
+<code class='js'>async function readFromRemote() {
+  const inEle = document.getElementById('inputElement') ;
+  const inStr = inEle.value ;
+  const msg = await fetch("https://localhost:8080") ; // was: meowfacts
+  const jsn = await msg.json() ;
+  const fct = jsn['data'];
+  alert(fct) ;
+}</code>
+<li>Wait... how to we communicate with the server?
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Do a bit of testing.
+<ul><li>Rather than just access localhost:8080, add something to the 'url'
+<li>Specifically, I added a word to the end: something easy to find, like 'aegis'
+<li>Then I console.log() the entire request within server.js
+<li>Then I read the entire log looking for aegis.
+<li>Remember reading input?
+<code class="js">function serverFunc(req, res) {
+    console.log(req) ;
+}</code>
+<li>I start the server and capture its output to a file.
+<code class="bash">node server.js > out.txt</code>
+<li>In a separate window, I curl the server.
+<code class="bash">curl 127.0.0.1:8080/aegis</code>
+<li>Then I can simply search the output for 'aegis':
+<code class="json">  url: '/aegis'</code>
+<li>I found this in line 272 with an editor, grep seemed unstable on binary json data.<ul><li>Apparently there's json specific utilities. I say: out of scope.
+</section>
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Do a bit of testing.
+<ul><li>Apparently that request is a .json file, so let's take advantage of that:
+<code class="js">function serverFunc(req, res) {
+    console.log(req['url']) ;
+}</code>
+<li>I start the server as is, just to see.
+<code class="bash">node server.js</code>
+<li>In a separate window, I curl the server.
+<code class="bash">curl 127.0.0.1:8080/aegis</code>
+<li>Here's what I see (just happened to use powershell, it doesn't matter):
+<code class="bash">PS C:\dev> node server.js
+/aegis</code>
+<li>Oh, that's actually... extremely nice.
+</section>
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>We change 'Hello World!' to 'req['url'].toUpperCase()
+<code class="js">function serverFunc(req, res) {
+    const hdr = {'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'} ;
+    const str = {'data': req['url'].toUpperCase()} ;
+    const jsn = JSON.stringify(str) ;
+    res.writeHead(200, hdr);
+    res.end(jsn) ;
+}</code>
+<li>We append the input word after a single '/' to the target url.
+<code class='js'>async function readFromRemote() {
+  const inEle = document.getElementById('inputElement') ;
+  const inStr = inEle.value ;
+  const msg = await fetch("https://localhost:8080/" + inEle.value) ;
+  const jsn = await msg.json() ;
+  const fct = jsn['data'];
+  alert(fct) ;
+}</code>
+<li>Test it!
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>I tested with curl.
+<code class="bash">PS C:\Users\cd-desk> curl 127.0.0.1:8080/aegis
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"data":"/AEGIS"}
+RawContent        : HTTP/1.1 200 OK
+                    Access-Control-Allow-Origin: *
+                    Connection: keep-alive
+                    Keep-Alive: timeout=5
+                    Transfer-Encoding: chunked
+                    Content-Type: application/json
+                    Date: Tue, 30 Jul 2024 21:48:27 GMT
+
+                    {"dat...</code>
+<li>This is known as "cloud computing" (especially if node is invoked on AWS/AZ/GCP).
+</section>
+
+
+<section>
+    <h2>server.js</h2>
+<ul style="width:100%"><li>Wordle is a bit more involved than case change, so write a helper function.
+<code class="js">function serverFunc(req, res) {
+    const hdr = {'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'} ;
+    const str = {data: wordleHelper(req['url'])} ;
+    const jsn = JSON.stringify(str) ;
+    res.writeHead(200, hdr);
+    res.end(jsn) ;
+}</code>
+<li>Then we can write a function that, given an input word and target word, returns a wordle coloration.
+<code class='js'>const tword = 'blimp' // ChatGPT said this was the funniest possible word
+
+function wordleHelper(iword) {
+	// What I did:
+	// return g for inplace, y for inword, r for nothing
+	// return all x's for non-word
+	return "rrgyr" ; // for e.g. 'trips'
+}</code>
+<li>I leave this as an exercise to the interested student. There's a wordlist <a href="http://nifty.stanford.edu/2022/eroberts-spelling-bee-wordle/">here</a>.
+</section>
+
+
+<section>
+    <h2>script.js</h2>
+<ul style="width:100%"><li>We can return now to script.js.
+<li>
+<code class='js'>async function readFromRemote() {
+  const inEle = document.getElementById('inputElement') ;
+  const inStr = inEle.value ;
+  const msg = await fetch("https://localhost:8080/" + inEle.value) ;
+  const jsn = await msg.json() ;
+  const gyr = jsn['data']; // would be e.g. "rrgyr" for 'trips'
+  updateBoard(inStr, gyr) ;
+}</code>
+<li>Now we simply need to style the letters in e.g. 'trips' within the table element 'gameboard'
+<code class='js'>function updateBoard(word, gyr) {
+  const inEle = document.getElementById('gameboard') ;
+  // What next?
+}</code>
+</section>
+
+<section>
+    <h2>script.js</h2>
+<ul style="width:100%"><li>We utilize 'innerHTML' to populate a table.
+<code class='js'>function updateBoard(word, gyr) {
+  const inEle = document.getElementById('gameboard') ;
+  // update innerHTML here.
+}</code>
+<li>Let's look at a minimal HTML table example, from <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics">MDN</a>
+<code class='html'>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Data 1&lt;/th&gt;
+    &lt;th style="background-color: yellow"&gt;Data 2&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Calcutta&lt;/td&gt;
+    &lt;td style="background-color: yellow"&gt;Orange&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Robots&lt;/td&gt;
+    &lt;td style="background-color: yellow"&gt;Jazz&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</code>
+</section>
+
+
+<section>
+    <h2>script.js</h2>
+<ul style="width:100%">
+<code class='html'>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Data 1&lt;/th&gt;
+    &lt;th style="background-color: yellow"&gt;Data 2&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Calcutta&lt;/td&gt;
+    &lt;td style="background-color: yellow"&gt;Orange&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Robots&lt;/td&gt;
+    &lt;td style="background-color: yellow"&gt;Jazz&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</code>
+<li>Gives:
+<table>
+  <tr>
+    <th>Data 1</th>
+    <th style="background-color: yellow">Data 2</th>
+  </tr>
+  <tr>
+    <td>Calcutta</td>
+    <td style="background-color: yellow">Orange</td>
+  </tr>
+  <tr>
+    <td>Robots</td>
+    <td style="background-color: yellow">Jazz</td>
+  </tr>
+</table>
+
+</section>
+
+
+
+<section>
+    <h2>script.js</h2>
+<ul style="width:100%"><li>Basically, a table element wraps tr (table row) elements that wrap td (table data) elements.
+<li>We don't need a header, so I take it out.
+<code class='html'>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Calcutta&lt;/td&gt;
+    &lt;td style="background-color: yellow"&gt;Orange&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Robots&lt;/td&gt;
+    &lt;td style="background-color: yellow"&gt;Jazz&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</code>
+<li>Gives:
+<table>
+  <tr>
+    <td>Calcutta</td>
+    <td style="background-color: yellow">Orange</td>
+  </tr>
+  <tr>
+    <td>Robots</td>
+    <td style="background-color: yellow">Jazz</td>
+  </tr>
+</table>
+
+</section>
+
+
+
+<section>
+    <h2>script.js</h2>
+<ul style="width:100%"><li>So given a word and a coloration/styling, we need to generate a 'tr' with 5 internal 'td's
+<li>We need appropriate styling for the 'td's.
+<li>It's simple enough to begin with no styling.
+<li>Let's go to script.js and define a check function.
+<li>We'll just read from two inputs for now.
+<code class="js">function check() {
+	const inEle1 = document.getElementById('inputElement1').value ;
+	const inEle2 = document.getElementById('inputElement2').value ;
+	let newInner = "" ;
+	for (let i = 0; i < 5; i++) {
+		newInner += '&lt;td&gt;' + inEle1[i] + '&lt;/td&gt;'
+	}
+	document.getElementById('gameboard').innerHTML = newInner ;
+}}</code>
+<script>function check_pg75() {
+	const inEle1 = document.getElementById('inputElement1_pg75').value ;
+	const inEle2 = document.getElementById('inputElement2_pg75').value ;
+	let newInner = ""
+	for (let i = 0; i < 5; i++) {
+		newInner += '<td>' + inEle1[i] + '</td>'
+	}
+	document.getElementById('gameboard_pg75').innerHTML = newInner ;
+}</script>
+</ul>
+<center>
+    <input id='inputElement1_pg75' type="text" minlength="5" maxlength="5">
+    <input id='inputElement2_pg75' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg75()">Check</button>
+    <table id="gameboard_pg75"></table>
+</center>
+<ul style="width:100%">
+<li>This isn't styled at all, but it can be.
+</section>
+
+
+<section>
+    <h2>styles.css</h2>
+<ul style="width:100%"><li>To get this looking more wordle-like, I went to the wordle site with a color picker.
+<li>Anyways, you can edit this however you like but I used:
+<code class='css'>td {
+  border: 1px solid #121213 ;
+  width: 64px; height: 64px;
+  font-size: 200%; font-family: monospace; font-weight: bold;
+  text-align: center; color: white;
+}
+
+.g { /* _g_reen. */
+  background-color: #538D4E ;
+}
+
+.y { /* _y_ellow */
+  background-color: #B59F3B ;
+}
+
+.r { /* g_r_ay. I thought misses were in red not in gray - whoops. */
+  background-color: #3A3A3C ;
+}
+</code>
+</section>
+
+
+<section>
+    <h2>styles.css</h2>
+<ul style="width:100%"><li>To get this looking more wordle-like, I went to the wordle site with a color picker.
+<li>Anyways, you can edit this however you like but I used:
+<code class='css'>td {
+  border: 1px solid #121213 ;
+  width: 64px; height: 64px;
+  font-size: 200%; font-family: monospace; font-weight: bold;
+  text-align: center; color: white;
+}
+</code>
+<li>This part:
+<ul><li>Outlines every table cell in a dark gray
+<li>Makes boxes squares using pixel values (but won't scale well on different screen, I'd assume)
+<li>Makes the font big and bold, and makes letters the same width.
+<li>Centers letters in their boxes, and makes the letters appear in white.
+</section>
+
+
+
+<section>
+    <h2>styles.css</h2>
+<ul style="width:100%"><li>To get this looking more wordle-like, I went to the wordle site with a color picker.
+<li>Anyways, you can edit this however you like but I used:
+<code class='css'>
+.g { /* _g_reen. */
+  background-color: #538D4E ;
+}
+
+.y { /* _y_ellow */
+  background-color: #B59F3B ;
+}
+
+.r { /* g_r_ay. I thought misses were in red not in gray - whoops. */
+  background-color: #3A3A3C ;
+}
+</code>
+<li>This part:
+<ul><li>Defines names of three class, 'g','y', and 'r'
+<li>Gives these colors chosen by NYT to show up high contrast on their dark background and white letters.
+</section>
+
+
+<section>
+    <h2>styles.css</h2>
+<ul style="width:100%"><li>Since I use tables elswhere in my slides, it's relatively goofy to embed this...
+<li>So this isn't going to look great...
+<li>But you'll see the point.
+<code class="js">function check() {
+	const inEle1 = document.getElementById('inputElement1').value ;
+	const inEle2 = document.getElementById('inputElement2').value ;
+	let newInner = "" ;
+	for (let i = 0; i < 5; i++) {
+		newInner += '&lt;td class=\'' + inEle2[i] + '\'&gt;' + inEle1[i] + '&lt;/td&gt;'
+	}
+	document.getElementById('gameboard').innerHTML = newInner ;
+}}</code>
+<script>function check_pg79() {
+	const inEle1 = document.getElementById('inputElement1_pg79').value ;
+	const inEle2 = document.getElementById('inputElement2_pg79').value ;
+	let newInner = ""
+	for (let i = 0; i < 5; i++) {
+		newInner += '<td id=\'w\' class=\'' + inEle2[i] + '\'>' + inEle1[i] + '</td>'
+	}
+	document.getElementById('gameboard_pg79').innerHTML = newInner ;
+}</script>
+</ul>
+<center>
+    <input id='inputElement1_pg79' type="text" minlength="5" maxlength="5">
+    <input id='inputElement2_pg79' type="text" minlength="5" maxlength="5">
+    <button type="button" onclick="check_pg79()">Check</button>
+    <table id="gameboard_pg79"></table>
+</center>
+<ul style="width:100%">
+<li>This isn't touching node, but it could be.
+</section>
+
+
+
+<section>
+    <h2>Demo</h2>
+<ul style="width:100%"><li>If we made it this far.
+<li>Go here <a href="https://github.com/cd-public/wordish">https://github.com/cd-public/wordish</a>
+<li>Fix things.
+</section>
+
+
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

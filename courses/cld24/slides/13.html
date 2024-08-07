@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blockchain</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+.g { /* _g_reen. */
+  border: 1px solid #121213 ;
+  background-color: #538D4E ;
+}
+
+.y { /* _y_ellow */
+  border: 1px solid #121213 ;
+  background-color: #B59F3B ;
+}
+
+.r { /* g_r_ay. I thought misses were in red not in gray - whoops. */
+  border: 1px solid #121213 ;
+  background-color: #3A3A3C ;
+}
+
+#w {
+  border: 2px solid #3A3A3C ;
+  width: 64px;
+  font-size: 200%;
+  height: 64px;
+  font-family: monospace;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section>
+  <h1 class="title">Blockchain</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">Week 13
+  <p class="date">Cloud
+</section>
+
+<section>
+<h2>Lecture Week</h2>
+<ul>
+<li>Our lectueres will focus on the idea of "distributed consensus"
+<li>Our first lecture is on blockchain / bit coin.
+<li>Follow along with <a href="https://bitcoin.org/bitcoin.pdf">pdf</a>, or...
+<li>Read the <a href="http://p2pfoundation.ning.com/forum/topics/bitcoin-open-source?xg_source=activity">Forum post</a>
+</ul><br>
+<img src="https://pbs.twimg.com/media/GUUPCaWWMAESLLA?format=jpg">
+<p>Don't read this, it wasn't very good.
+</section>
+
+<section>
+<h2>Big Idea</h2>
+<ul>
+<li>The cloud is distributed.<ul>
+<li>Servers in different locations
+<li>Some erratic/malicious actors
+<li>Trust is hard</ul>
+<li>Consensus is good<ul>
+<li>The e.g. Olympic Medal Count should be the same every on Earth</li>
+<li>Looking up the count shouldn't require reading from a server in Paris</li>
+<li>See also: buy/sell/trade</li>
+</ul>
+</section>
+<section>
+<h2>The Stage</h2>
+<ul>
+<li>18 August 2008<ul>
+<li>Dotcom crash (~2000)<ul>
+<li>Many digital currency failed
+<li>Many ecommerce sites failed
+<li>Most large sites (Amazon, Cisco) contracted ~80%
+</ul>
+<li>Great Recession (~2007-)<ul>
+<li>Traditional currency liquity crises</li>
+<li>Many internet banks (e.g. Net.B@nk) fail</li>
+</ul></ul></ul>
+<p>There is a growing political/economic rift between 'Tech' / San Francisco and 'Banks' / New York.
+</section>
+<section>
+<h2>The Stage</h2>
+<ul>
+<li>18 August 2008<ul>
+<li>Satoshi Nakamoto ('SN') who may or may not exist<ul>
+<li>Someone (???) registered bitcoin.org
+<li>'SN' emails a cryptography enthusiast group
+<li>'SN' publishes first 'block 3 Jan 2009
+<li>'SN' releases source code demo 8 Jan 2009
+<li>Laslzo Hanyecz buys 2 pizzas on 22 May 22
+<ul><li>They cost 10000 coins, now 2/3 of billion USD
+</section>
+<section>
+<h2>Features</h2>
+<ul>
+<li>Bitcoin/Blockchain<ul>
+<li>Has no central server<ul>
+<li>Not like ecash with DigiCash, Inc. (failed in Dotcom)
+<li>Not like USD with the US Treasury (~failed in Great Recession)
+</ul><li>Allows <b>transactions</b><ul>
+<li>I can transfer <em>n</em> coins to someone
+</ul><li>Achieves consensus<ul>
+<li>Transactions cannot be 'repudiated' (no chargeback)
+<li>Cannot spend coins you don't have
+</ul><li>Relies on cryptography (instead of servers)
+<ul><li>Uses RSA for privacy/anonymity
+<li>Uses SHA for nonrepudiation
+</ul><li>Uses 'proof of work'
+</ul></ul>
+<p>Satoshi: All previous currencies failed due to decentralization, modern crypto can displace decentralization.
+</section>
+
+
+<section>
+<h2>Bitcoin</h2>
+<blockquote>In
+this paper, we propose a solution to the double-spending problem using a peer-to-peer distributed
+timestamp server to generate computational proof of the chronological order of transactions</blockquote>
+<ul>
+<li>Peer-to-peer
+<li>Distributed
+<li>Timestamped (gulp)
+<li>Computational proofs
+<li>Chronological ordering
+<li>Transactions
+</ul></ul>
+<p>We have seen distribution (Hadoop jobs), transactions (Hadoop file system changes) and some proofs (TSV hashes).
+</section>
+
+
+
+<section>
+<h2>Transactions</h2>
+<blockquote>We define an electronic coin as a chain of digital signatures</blockquote>
+<ul>
+<li>Rather than a physical coin, an electronic coin is a record.
+<ul><li>Records can be stored in multiple locations, coins cannot
+<li>Records can produced by anyone, coins cannot
+<li>Records describe ownership, coins cannot
+<ul><li>I can lose, find, or forge a coin, not so for a record (of past events)
+</section>
+
+
+
+<section>
+<h2>Transactions</h2>
+<blockquote>We define an electronic coin as a chain of digital signatures</blockquote>
+<ul>
+<li>To make signatures, we use RSA. <a href="https://cd-public.github.io/courses/old/secs24/slides/slides/rsa.html#/keygen">Read more.</a>
+<ul><li>RSA generates a public key and a private key.
+<li>The public key can be distributed as an ID
+<li>The private key can 'sign' transactions
+<li>Anyone can 'verify' a signed transaction using only the public key.
+</ul><li>In practice<ul>
+<li>Generate keys.
+<li>Encrypt an arbitrary value with private key to make a cypher text
+<li>Release value, cyphertext, and public key
+<li>'Anyone' can verify the validity
+<li>Only you can sign things with the given public key.
+<li>Records describe ownership, coins cannot
+<ul><li>I can lose, find, or forge a coin, not so for a record (of past events)
+</section>
+
+
+
+<section>
+<h2>RSA</h2>
+<blockquote>We define an electronic coin as a chain of digital signatures</blockquote>
+<ul>
+<li>Good RSA is in libraries and doesn't show keys, I write my own <a href="https://colab.research.google.com/drive/1bt78_8FYhLgMnXKc2iPdWh6ydWUnlwBe?usp=sharing">'bad' RSA </a>
+<ul><li>I have a lot of RSA colabs floating around if you don't like that one.
+<li>Generate a "public key" and "private key"
+<code class="python">>>> publ, priv
+([3271400545326497, 5], [3271400545326497, 5, 981420127133051])</code>
+<li>Use a simply encryption function, which takes the public key.
+<code class="python">def encrypt(m, key):
+  [n, e] = key # modulus, encrypter
+  return (m ** e) % n</code>
+<li>Naive decryption is simple
+<code class="python">def decrypt(m, key): # Naive
+  [n, e, d] = # modulus, encrypter, decrypter
+  return (m ** d) % n</code>
+</ul><li>This doesn't work (too much math) but easy to optimize.
+</section>
+
+<section>
+    <h2>Try it</h2>
+<ul><li>It easy enough to to grab a key from an existing implementation and make a signature.
+<code class="python">publ, priv = ([3271400545326497, 5], [3271400545326497, 5, 981420127133051])
+
+print('publ:', publ)
+print('priv:', priv)
+
+scrt = 0xDADA599CC24 # no 't' in hex, so dada science
+
+print('scrt:', hex(scrt))
+
+cyfr = encrypt(scrt, publ)
+
+print('cyfr:', cyfr)</code>
+<li>I could say
+<code>Hi my key is [3271400545326497, 5] and my secret is  15039458823204 and my cypher is 2294094055741586 so if cyfr ** key[0] mod key[1] == scrt, then I am me.</code>
+<li>This is approximately impossible to impersonate.
+</section>
+
+
+<section>
+    <h2>Impersonation</h2>
+<ul><li>Suppose we wish to do a digital identity theft.
+<li>We would need to find some private key that generates a public key that generates the same signatures.
+<li>So given some input value (a not-secret secret) and output cypher text, we have to find a private key. 
+<code class="python"># find [x,y] s.t.
+assert(encrypt(0xDADA599CC24),[x,y]) == 2294094055741586)</code>
+<li>We can imagine roughly how difficult that is.
+<li>Most cryptographical algorithms are indistinguishable from producing random values, uniformly distributed in some range.
+<li>The range is unknown but can be approximated.
+<li>If they fail to be random, they are generally retired quickly (like MD5).
+<li>On average, a random number is in the middle of the range within which it was selected so,
+<li>We'd need 2294094055741586 * 2 = ~45 quadrillion guesses.
+<code class="python">>>> start, _, end = time(), make_keys(7), time() ; print(end-start)
+0.0070955753326416016</code>
+<li>45q guess times .007 seconds is ~1 million years (in Colab)
+</section>
+
+
+
+<section>
+<h2>A coin</h2>
+<ul><li>We imagine a coin contains:
+<ol><li>The public key of the current owner
+<li>The record of all previous owners
+<li>The signature of the previous owner, generated over (1) and (2)
+<code class="python">class Coin:
+
+    def __init__(self, recv_publ, send_sign, prev_coin):
+        self.recv_publ = recv_publ
+        self.send_sign = send_sign
+        self.prev_coin = prev_coin
+
+    def verify(self):
+        send_publ = self.prev_coin.recv_publ
+        test = decrypt(self.send_sign, send_publ)
+        return test == self.prev_coin.send_sign</code></ol>
+<li>We can verify transactions include the appropriate actors using decryption.
+</section>
+
+
+<section>
+<h2>A coin</h2>
+<ul><li>We can visualize as follows:</ul>
+<img width="85%" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Bitcoin_Transaction_Visual.svg">
+<p>This is a Satoshi Nakamoto graphic.
+</section>
+
+<section>
+<h2>Orienting Ourselves</h2>
+<ul><li>Ways of doing transactions<ul>
+<li>To receive $ via direct deposit, I need to
+<ul><li>Go to a physical bank
+<li>Speak to a teller
+<li>Provide ID
+<li>Open an account
+<li>Receiving routing and account numbers.
+</ul><li>To receive $ venmo/cashapp/paypal, I need to
+<ul><li>Have a mobile device
+<li>Connect the mobile device to internet
+<li>Download an application (closed source)
+<li>2FA, usually via SMS text
+</ul><li>To Bitcoin I need to
+<ul><li>Generate a public and private key
+<li>Connect to the internet on a device with the public key
+<li>Share my public key with the sender
+<li>Literally never allow my private key to be anywhere
+<li>Find a Bitcoin:USD seller
+<li>Sign their public key with my private key
+<li>Get $ from that seller, somehow
+</section>
+
+<section>
+    <h2>Doublecount</h2>
+<blockquote>The problem of course is the payee can't verify that one of the owners did not double-spend
+the coin.</blockquote>
+<ul><li>To doublecount I could
+<ul><li>Generate a public and private key
+<li>Connect to the internet on a device with the public key
+<li>Share my public key with the sender
+<li>Literally never allow my private key to be anywhere
+<li>Find two Bitcoin:USD sellers
+<li>Sign my coin over to both sellers.
+<li>Cash out twice.
+<li>Unless?
+</ul></ul>
+<p>Banks with physical currency disallow this (only <em>n</em> coins). 	
+
+</section>
+
+
+<section>
+    <h2>Doublecount</h2>
+<blockquote>The problem of course is the payee can't verify that one of the owners did not double-spend
+the coin.</blockquote>
+<ul><li>Banks with only <em>n</em> coins are <b>the exact problem</b>
+<ul><li>The bank is sole arbiter of providing credit with those coins.
+<li>Banks with finite coins are vulnerable to bank runs.
+<li>Banks have operating expenses that incur transaction costs.
+<li>A bank must be trusted (very tough in early 2009, or... ever?)
+</section>
+
+
+<section>
+    <h2>Doublecount</h2>
+<ul><li>Bitcoin has a, say, "public transaction ledger"
+<ul><li>All transactions are logged publicly (and verifiable publicly)
+<li>These transactions in aggregate form the blockchain.
+<li>As on ~now the chain is ~600 GB
+<li>It can be "pruned" down to ~5 GB
+<ul><li>All transactions ever vs. most recent transactions
+</ul><li>Remember, transactions = coins.<br>
+<a href="https://www.statista.com/statistics/647523/worldwide-bitcoin-blockchain-size/" rel="nofollow"><img src="https://www.statista.com/graphic/1/647523/worldwide-bitcoin-blockchain-size.jpg" alt="Statistic: Size of the Bitcoin blockchain from January 2009 to June 2, 2024 (in gigabytes) | Statista" style="width: 100%; height: auto !important; max-width:1000px;-ms-interpolation-mode: bicubic;"/></a><br />Find more statistics at  <a href="https://www.statista.com" rel="nofollow">Statista</a>
+</section>
+
+<section>
+<h2>Aside: Metadata</h2>
+<ul>
+<li>In theory, Bitcoin can be anonymous.
+<ul><li>I generate a key, never tell anyone.
+<li>Participate like anyone else.
+<li>The key has nothing in common with my identity.
+</ul><li>In practice, some limitations.
+<ul><li>If a coin is used for something illegal (e.g. ransom), its full ownership is known.
+<li>If that coin is ever exchanged for currency/material, someone (e.g. DoJ) can seize assets.
+<li>Users take on risks trading 'tainted' coins
+<li>This is a low-grade failure of decentralization.
+</ul>
+<li><a href=https://www.justice.gov/opa/pr/department-justice-seizes-23-million-cryptocurrency-paid-ransomware-extortionists-darkside">Department of Justice Seizes $2.3 Million in Cryptocurrency Paid to the Ransomware Extortionists Darkside</a>
+
+</section>
+
+
+<section>
+<h2>Aside: Scaling</h2>
+<ul>
+<li>In theory, Bitcoin scales linearly.
+<ul><li>A new block is made every 10 minutes.
+<li>Blocks are of fixed size.
+</ul><li>In practice, this caps the rate of verifiable transactions.
+<ul><li>Instead, we can add blocks more often, and then...
+<li>Size increases exponentially.
+<li>Servers grow too large.
+<li>Large servers force centralization.
+</ul><li>Probably (?) the next biggest cryptocurrency, Ethereum, uses ~30s not 10m blocks.
+</section>
+
+
+
+<section>
+<h2>Timestamps</h2>
+<blockquote>The solution we propose begins with a timestamp server</blockquote>
+<ul>
+<li>So, every transaction is publicly announced.
+<li>Remember, coins and transactions are the same thing!
+<li>Every so often, transactions are bundled together into a "block"
+<li>Blocks are also publicly announced.
+<li>A timestamp is included in the block.
+<li>The previous block is included in the current block.
+<li>The block is 'hashed' - similar to signatures.
+<li>Faux blocks are similarly difficult to make as it is to impersonate a coin owner.
+</section>
+
+<section>
+<h2>Timestamps</h2>
+<ul><li>We can visualize as follows:</ul>
+<img width="85%" src="https://i.sstatic.net/Kjh2Z.png">
+<p>This is a Satoshi Nakamoto graphic.
+</section>
+
+
+
+
+<section>
+<h2>Hash</h2>
+<blockquote>A timestamp server works by taking a
+hash of a block of items to be timestamped and widely publishing the has...</blockquote>
+<ul>
+<li>We need to talk about hashes.
+<li>Public and private keys are one type of hash, an "asymetrical encryption" hash<ul>
+<li>These take some public key, some secret, and a produce a "hash" - the cypher.
+<li>These hashes can be converted back into the secret using the private key.
+<li>Every so often, transactions are bundled together into a "block"</ul>
+<li>Key idea: hashes take information and turn it into numbers.
+<li>Blocks use another kind of hashes - one way hashes.
+<ul><li>A one way hash takes a lot of data and makes a little number.
+<li>Any change to the data will cause unpredictable changes to the little number.
+<li>The famous one-way hash is SHA-2.
+<li>A bad one (it's too predictable) is Python hash().
+</section>
+
+
+
+
+<section>
+<h2>Hash</h2>
+<blockquote>A timestamp server works by taking a
+hash of a block of items to be timestamped and widely publishing the has...</blockquote>
+<ul>
+<li>We need to talk about hashes.
+<li>A bad one (it's too predictable) is Python hash().
+<code class="python">>>> _ = [print(hash(letter)) for letter in 'abcdefghij']
+-8156815850407114277
+-6671149546890779454
+-567017624368950047
+2945276378980864315
+-765044014258050898
+2581667378065197127
+7670434498702662081
+4131342484919641447
+3642600460884024132
+2981054005799172012</code>
+<li>Small changes to the data lead to big changes to to the hash.
+<li>Suppose I want a 5 letter string that hashes to 8369401262520837091.
+<li>How long would it take to find?
+</section>
+
+<section>
+<h2>A coin</h2>
+<ul><li>Recall coins, which contain:
+<ol><li>The public key of the current owner
+<li>The record of all previous owners
+<li>The signature of the previous owner, generated over (1) and (2)
+<code class="python">class Coin:
+
+    def __init__(self, recv_publ, send_sign, prev_coin):
+        self.recv_publ = recv_publ
+        self.send_sign = send_sign
+        self.prev_coin = prev_coin
+
+    def verify(self):
+        send_publ = self.prev_coin.recv_publ
+        test = decrypt(self.send_sign, send_publ)
+        return test == self.prev_coin.send_sign</code></ol>
+<li>We can verify transactions include the appropriate actors using decryption.
+</section>
+
+
+<section>
+<h2>A coin</h2>
+<ul><li>To simply this example, we won't verify coins.
+<li>We'll just imagine we have 10 of them, with arbitrary values.
+<code class="python">>>> from random import randint
+>>> rs = [[randint(0,1024 * 1024) for _ in range(3)] for _ in range(10)]</code>
+<li>We make 10 such coins.
+<code class="python">>>> coins = tuple([Coin(*r) for r in rs]) # extract args from list
+>>> coins[0]
+&lt;Coin object at 0x7f765208eb90&gt;</code>
+<li>This is 10 coins and also a record of ten transactions.
+<li>We can hash this value.
+<li>Note - it must be tuple not a list to hash. Why?
+<code class="python">>>> hash(coins)
+-3062210909194693700</code>
+<li>We change one value - falsify the recipient of the last transaction.
+</section>
+
+<section>
+<h2>Falsification</h2>
+<ul><li>We change one value - falsify the recipient of the last transaction.
+<li>We'll just imagine we have 10 of them, with arbitrary values.
+<code class="python">>>> bad_rs = rs
+>>> bad_rs[9][0] = 'calvin'
+>>> coins = tuple([Coin(*r) for r in bad_rs])
+>>> hash(coins)
+8074320215446001420 # was -3062210909194693700</code>
+<li>Wow! That's very different.
+<li>So all we need to do then to make a block is...
+<ol><li>Include all our transactions in some data structure.
+<li>Include a timestamp.
+<li>Include a hash of all the previous transactions.
+</ol>
+<li>And it starts getting really hard to lie, cheat and steal.
+</section>
+
+
+<section>
+<h2>Implementation</h2>
+<ul><li>We can basically combine them in Python like so:
+<code class="python">class Block:
+    
+    def __init__(self, some_trns, prev_blck):
+        self.some_trns = tuple(some_trns) # make sure its hashable
+        self.time_stmp = time.time()
+        self.prev_hash = hash(prev_blck) # blocks are big, hashes are little</code>
+<li>And we recall what some transactions look like:
+<code class="python">some_trns = tuple([Coin(*r) for r in rs])</code>
+<li>This is good at locking in transactions - it's hard to lie about what you said happened.
+<li>But it doesn't make it hard to make blocks... I just lie, then hash.
+<li>We need some way to make creating blocks non-trivial, so we have only one accepted ledger.
+</section>
+
+
+
+<section>
+<h2>Proof of Work</h2>
+<ul><li>Bitcoin uses "proof of work" to incentivize consistency.
+<ul><li>Basically: Blocks are hard to make
+<li>Making a block means the transactions in them happened
+<li>It is hard to make competing blocks with fake transactions
+<li>So once a transaction is in a block, it is relatively secure.
+<li>The whole public can agree, by verifying blocks, who owns which coin.
+</ul><li>Bitcoin achieves this via a nonce.
+<ul><li>'Nonce' for '<em>n</em> once' - a number only used once.
+<li>This number is added to the block, with the timestamp, past hash, and transactions.
+</ul><li>Bitcoin achieves this via many zeros.
+<ul><li>The nonce selected must cause the hash of the new block to have some number of leading or tailing zeros.
+<li>For example, a hash must be a multiple of 100.
+<li>This is 100 times harder to compute - you have to try, on average, 100 nonces.
+<li>Hashing is kinda expensive.</ul>
+<li>So find a satisfying nonce - via guess and check - takes work, and this work protects the transactions.
+</section>
+
+
+<section>
+<h2>Timestamps</h2>
+<ul><li>We can visualize as follows:</ul>
+<img width="85%" src="https://academy.bsvblockchain.org/storage/photos/11196/the-bitcoin-white-paper-proof-of-work-1.png">
+<p>This is a Satoshi Nakamoto graphic.
+</section>
+
+<section>
+<h2>Implementation</h2>
+<ul><li>Make a block except the nonce.
+<li>Pick arbitrary nonce.
+<li>Then loop:
+<ul><li>While the hash of the block doesn't have some trailing zeros...
+<li>Pick a new nonce.
+</ul>
+<code class="python">class Block:
+    
+    def __init__(self, some_trns, prev_blck, many_zero = 1):
+        self.some_trns = tuple(some_trns) # make sure its hashable
+        self.time_stmp = time()
+        self.prev_hash = hash(prev_blck) # blocks are big, hashes are little
+        self.nmbr_once = 0
+        h = 1
+        while h:
+            self.nmbr_once += 1
+            h = hash(self) % (10 ** self.many_zero)
+
+    def __hash__(self): # custom hash as a convenience
+        return hash(self.some_trns) ^ hash(self.time_stmp) ^
+               hash(self.prev_hash) ^ hash(self.nmbr_once)</code>
+</section>
+
+
+<section>
+<h2>Proof of work</h2>
+<ul><li>The difficult of making new blocks increases exponentially...
+<code class="python">>>> start, _, end = time(), Block(coins,0,0), time() ; print(end-start)
+1.239776611328125e-05
+>>> start, _, end = time(), Block(coins,0,2), time() ; print(end-start)
+6.103515625e-05
+>>> start, _, end = time(), Block(coins,0,5), time() ; print(end-start)
+0.012163400650024414
+>>> start, _, end = time(), Block(coins,0,7), time() ; print(end-start)
+4.2955498695373535</code>
+<li>This was on Desktop (Colab would cut me off).
+<li>Python hash() is very fast and easy compared to accepted hash standards.
+</section>
+
+<section>
+<h2>Why Proof-of-Work</h2>
+<blockquote>The proof-of-work also solves the problem of determining representation in majority decision
+making</blockquote>
+<ul><li>SN: One vote per address (e.g. url) privileges whoever has centralized address authority.
+<ul><li>You know how to make servers with an address now.
+<li>Bitcoin and Node.js are both 2009 releases</ul>
+<li>SN: Proof-of-work is "one-CPU-one-vote"
+<ul><li>CD: In absolutely no way is this decentralized
+<li>CD: ~65% of active/public CPUs are owned by AWS/AZ/GCP
+<li>CD: A cryptography expert happens to have a proposed a currency that would be de facto centralized by the NSA and its tera+scale cryptography datacenters at time of proposal.
+</ul>
+</section>
+
+<section>
+<h2>Bookkeeping</h2>
+<blockquote>The majority
+decision is represented by the longest chain, which has the greatest proof-of-work effort invested
+in it.</blockquote>
+<ul><li>This means: older transactions are more secure.
+<li>Forks can happen (two hashes discovered on different contents within nanoseconds)
+<li>Most famous fork: Bitcoin and Bitcoin Cash
+<li>The chain gets more secure every 10 minutes.
+</section>
+<section>
+<h2>Bookkeeping</h2>
+<blockquote>If a majority of CPU power is controlled by honest nodes, the honest chain will grow the
+fastest and outpace any competing chains.</blockquote>
+<ul><li>Big 'if'
+<li>Bitcoin mostly useful for transactions that can't be done by banks (e.g. ~legal cannabis)
+<li>Bitcoin is specialized for dishonest and dishonest-adjacent transactions
+<li>The same authorities with majority of CPU power (trillion dollar companies, US Govt) also influence or control fiat currency (USD, Apple/Google Pay)
+</section>
+<section>
+<h2>Bookkeeping</h2>
+<blockquote>To compensate for increasing hardware speed and varying interest in running nodes over time,
+the proof-of-work difficulty is determined by a moving average targeting an average number of
+blocks per hour.</blockquote>
+<ul><li>Bitcoin becomes less efficient/more costly to use over time (by necessity)
+</ul>
+</section>
+
+
+<section>
+<h2>Bookkeeping</h2>
+<blockquote>The majority
+decision is represented by the longest chain, which has the greatest proof-of-work effort invested
+in it.</blockquote>
+<ul><li>This means: older transactions are more secure.
+<li>Forks can happen (two hashes discovered on different contents within nanoseconds)
+<li>Most famous fork: Bitcoin and Bitcoin Cash
+<li>The chain gets more secure every 10 minutes.
+</section>
+<section>
+<h2>Bookkeeping</h2>
+<blockquote>If a majority of CPU power is controlled by honest nodes, the honest chain will grow the
+fastest and outpace any competing chains.</blockquote>
+<ul><li>Big 'if'
+<li>Bitcoin mostly useful for transactions that can't be done by banks (e.g. ~legal cannabis)
+<li>Bitcoin is specialized for dishonest and dishonest-adjacent transactions
+<li>The same authorities with majority of CPU power (trillion dollar companies, US Govt) also influence or control fiat currency (USD, Apple/Google Pay)
+</section>
+<section>
+<h2>Bookkeeping</h2>
+<blockquote>To compensate for increasing hardware speed and varying interest in running nodes over time,
+the proof-of-work difficulty is determined by a moving average targeting an average number of
+blocks per hour.</blockquote>
+<ul><li>Bitcoin becomes less efficient/more costly to use over time (by necessity)
+</ul>
+</section>
+
+
+
+
+<section>
+<h2>The Bitcoin Network</h2>
+<ul><li>Like Hadoop, Bitcoin has a corresponding network technology.
+<li>This technology describes relationships and capabilities of devices on a network.
+<li>vs. Hadoop, it displays homogeniety - all nodes are simply Bitcoin nodes.
+<ul><li>Partial clients are de facto not part of the network.
+</ul><li>The network operates as follows (SN:)
+<ol>
+
+<li>New transactions are broadcast to all nodes
+<li>Each node collects new transactions into a block.
+<li>Each node works on finding a difficult proof-of-work for its block.
+<li>When a node finds a proof-of-work, it broadcasts the block to all nodes.
+<li>Nodes accept the block only if all transactions in it are valid and not already spent.
+<li>Nodes express their acceptance of the block by working on creating the next block in the
+chain, using the hash of the accepted block as the previous hash
+</ul>
+</section>
+
+
+
+
+<section>
+<h2>Broadcast</h2>
+<blockquote>New transactions are broadcast to all nodes</blockquote>
+<ul><li>You have seen broadcasts:
+<ul><li>Within Node.js, our server could receive information and broadcast it publicly.
+<li>There is <a href="https://www.npmjs.com/package/bitcoin-core">existing support</a> in the npm (node package manager) ecosystem.
+<li>You shouldn't mine in Node.js and you shouldn't store on network, but it's worth a look.
+</ul><li>There is nothing wrong with thinking of the Bitcoin network as many Node.js servers pinging each other.
+<li>Doing this well, much less exhaustively, is non-trivial, but doing it "at all" is easy.
+</ul>
+</section>
+
+
+
+<section>
+<h2>Collect</h2>
+<blockquote>Each node collects new transactions into a block.</blockquote>
+<ul><li>We haven't written a true collector, but we're close.
+<li>I always think of blocks visually like so:
+<table style="font-size:200%;outline:solid">
+<tr><td style="outline:solid">Transaction History<td style="outline:solid">Timestamp
+<tr><td style="outline:solid">Hash of Last Block<td style="outline:solid">Nonce</table>
+<li>A lot of the work of assembly a block is piecing together a transaction history from hearing individual transactions.
+<li>More on that latter.
+</ul>
+</section>
+
+
+
+<section>
+<h2>Work</h2>
+<blockquote>Each node works on finding a difficult proof-of-work for its block</blockquote>
+<ul><li>This is also called mining, hashing.
+<li>We have basically written a miner in Python, and SHA-2 is used the same way.
+<li>This is more computationally and less networking intensive.
+<li>Bitcoin collapses if SHA-2 becomes too easy (unlikely)
+<li>Bitcoin collapses if SHA-2 becomes unprofitable (possibly already the case)
+<li>Bitcoin official uses leading, rather than tailing, zeros.
+<ul><li>I didn't do this because Python hashes weren't a fixed size AFAIK
+<li>SHA-2 has fixed 256 ('SHA-256') or 512 ('SHA-512') bit lengths, and a few less common lengths.
+</ul>
+</section>
+
+
+
+<section>
+<h2>Broadcast II</h2>
+<blockquote>When a node finds a proof-of-work, it broadcasts the block to all nodes.</blockquote>
+<ul><li>Only miners must listen for transactions.
+<li>All users must listen for blocks.
+<li>When your transaction is in a block, its means you gained/lost a coin.
+<li>Until then, in flux.
+<li>Still a bit sketchy until there's a latter block frankly
+<ul><li>That is, your transaction is in a block for which that block's hash is in a broadcasted block
+</ul><li>In practice, things work well when most nodes are reached.
+<li>In practice, doing quick transactions isn't feasible.
+</ul>
+</section>
+
+
+
+<section>
+<h2>Accept</h2>
+<blockquote>Nodes accept the block only if all transactions in it are valid and not already spent.</blockquote>
+<ul><li>All nodes inspect transaction history for doublecounts, etc.
+<li>If found, they keep working on the 'old' block, which isn't fraudulent
+<li>Fraudelent blocks are expensive to make and unlikely to be accepted.
+<li>This stage is why transactions take a moment to be 'confirmed' by the decentralized network.
+</ul>
+</section>
+
+
+
+<section>
+<h2>Express</h2>
+<blockquote>Nodes express their acceptance of the block by working on creating the next block in the
+chain, using the hash of the accepted block as the previous hash.</blockquote>
+<ul><li>Imagine<ul>
+<li>I wish to pay a barista one currency.
+<li>My Node.js instance pings a number of remote servers with this transaction.
+<li>Servers are working on Block 0, and hold onto my transaction for now.
+<li>Block 0 nonce is discovered and broadcast
+<li>Servers advance to work on Block 1a and incorporate my transaction into their history
+<li>Block 1a nonce is discovered and broadcast
+<li>Servers advance to work on Block 2a
+<li>Or, my transaction is found to be fraudulent and a majority of servers reject Block 1a
+<li>Otherwise, Block 1b may be discovered and become part of the longest, and therefore correct, chain.
+<li>The transaction only "has occured" if and when Block 2a is the longest chain
+<li>It can still be "undone" by Block 3b discover before 3a, but this is (extremely) unlikely
+</ul>
+</section>
+
+
+<section>
+<h2>The Bitcoin Network</h2>
+
+<ul><li>The network operates as follows (CD:)
+<ol>
+
+<li>Broadcast (Transactions)
+<li>Collect
+<li>Work/Mine
+<li>Broadcast (Block)
+<li>Accept
+<li>Express
+</ul>
+</section>
+
+
+<section>
+<h2>Incentive</h2>
+<ul><li>The system only works if there's a reason to invest in mining<ul>
+<li>Mining require compute power, and increasing powerful hardware over time.
+<li>Mining requires electricity
+<li>Mining requires high throughput internet access
+<li>Mining is high risk, as being the nonce-discovering node is unlikely.
+</ul>
+<blockquote>By convention, the first transaction in a block is a special transaction that starts a new coin owned
+by the creator of the block.</blockquote>
+<code class="python">class Block:
+    
+    def __init__(self, some_trns, prev_blck, many_zero = 1):
+        self.some_trns = tuple(some_trns.insert(0, Coin(my_public_key, None, None)))</code>
+<li>The successful miner may invent a coin out of thin air (well, out of CPU)
+<li>This is where coins come from!
+<li>They are legitimized by the block being accepted, same as any other transaction
+</section>
+
+
+
+<section>
+<h2>Incentive</h2>
+<ul><li>The system only works if there's a reason to invest in mining
+<blockquote>The incentive can also be funded with transaction fees</blockquote>
+<ul><li>If you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.
+<li>This is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.
+<li>Transaction fees allow inflationless mining.
+<li>The last bitcoin (21M'th) will be mined circa 2140 and the system will be fee-only at that time.
+<blockquote>The incentive may help encourage nodes to stay honest.</blockquote>
+<li>SN, paraphrased: Fees will likely be more lucrative than theft.
+<li>CD: Attackers will likely be political motivated to destabilize the currency.
+</section>
+
+
+<section>
+<h2>Pruning</h2>
+<ul><li>Bitcoin scaling is a real problem, but
+<li>There's a lot of ways to handle that.
+<li>Only the most recent transaction on a coin must be saved, for example.
+<blockquote>Once the latest transaction in a coin is buried under enough blocks, the spent transactions before
+it can be discarded to save disk space.</blockquote>
+<li>This is done using a little thing called "Merkle Tree" which happens to be...
+<li>A Directed Acyclic Graph</ul><a title="Jerry Huddleston from Hampton, Minnesota, US, CC BY 2.0 &lt;https://creativecommons.org/licenses/by/2.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Southwest_Chief_at_Laguna,_February_2020.jpg"><img width="512" alt="Southwest Chief at Laguna, February 2020" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Southwest_Chief_at_Laguna%2C_February_2020.jpg/512px-Southwest_Chief_at_Laguna%2C_February_2020.jpg?20200304215534"></a>
+<p><em>Graph Theory: Cool, Fun, Practical</em>
+</section>
+
+<section>
+<h2>Merkle Tree</h2>
+<ul><li>Disclosure: Wikipedia claims Merkle Trees are a computer science topic:
+<blockquote>In cryptography and computer science, a hash tree or Merkle tree is a tree in which...</blockquote>
+<li>I am a computer scientist.
+<li>I'm sorry! I think they're really cool!
+<li>Anyways a 'tree' is a DAG where:
+<ul><li>There is a root node, with no incoming edges
+<li>Every other edge has exactly one incoming edge</ul></ul><br>
+<a title="Paddy3118, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg"><img width="20%" alt="Tree (computer science)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tree_%28computer_science%29.svg/256px-Tree_%28computer_science%29.svg.png?20191020090628"></a>
+<p>I should probably say "hash tree" (descriptive name) but I'm really used to hearing "Merkle tree".
+</section>
+
+
+<section>
+<h2>Merkle Tree</h2>
+<ul><li>New term: Leaf (or leaf node)
+<ul><li>A leaf is a vertex (or node) of a tree with no outgoing edges.
+</ul><li>In a hash tree, a leaf node contains some data and a hash of that data.
+<code class="python"># Github Copilot wrote this given the name
+class HashTreeLeaf:
+    
+    def __init__(self, data):
+        self.data = data
+        self.hash = hash(data)
+        
+    def __hash__(self):
+        return self.hash</code>
+</section>
+
+
+<section>
+<h2>Merkle Tree</h2>
+<ul><li>Every other node <em>n</em> contains:
+<ul><li>A hash
+<li>Computed over the the hashs
+<li>Of the nodes, for which
+<li><em>n</em> has a corresponding outgoing edge.
+</ul>
+<li>To my knowledge, all Merkle/hash trees are binary trees
+<ul><li>A binary tree is a tree in which no node has more than two outgoing edges.</ul>
+<code class="python"># Github Copilot wrote this given the name
+class HashTreeNode:
+    
+    def __init__(self, left, rite):
+        assert(left != None) # added by cd
+        self.left = left
+        self.rite = rite
+        self.hash = hash(left)^hash(rite)
+        
+    def __hash__(self):
+        return self.hash</code>
+<li>This allows non-leaf nodes to have one or two outgoing edges.
+</section>
+
+<section>
+<h2>Binary Tree Ops</h2>
+<ul><li>Binary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.
+<li>They are not in scope here.
+<li>If you need to implement a Merkle tree, find someone else's "binary search tree" code and add the hashing to it.
+<li>Generative AIs (all, not just Github Copilot) can usually do BSTs in any given language.
+<li>They cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.
+<li>Realistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes).
+</section>
+
+<section>
+<h2>Merkle Tree</h2>
+<ul><li>This is a very good visualization:<br>
+
+<a title="Azaghal, CC0, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Hash_Tree.svg"><img width="1024" alt="Hash Tree" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Hash_Tree.svg/1024px-Hash_Tree.svg.png?20150407051809"></a>
+<li>All data/coins/transactions are in leaf nodes
+<li>Extremely difficulty to falsify anything, due to all the computed hashes
+<li>Old transactions can be discarded
+<li>Old enough trees may be empty (!!!) if all constituent coins are spent.
+<li>This is <em>likely</em> since the most used coins are... the most used coins.
+</section>
+
+<section>
+<h2>Merkle Tree</h2>
+<ul><li>This is a very good visualization of pruning:</ul><br>
+<img src="https://academy.bsvblockchain.org/storage/photos/13290/Reclaiming%20Disk%20Space.png">
+
+<p>This is a Satoshi Nakamoto graphic.
+</section>
+
+<section>
+<h2>Pruning Use</h2>
+<ul><li>I am unable to characterize expected savings to pruning:
+<ul><li>Users report around 100x (500GB to 5GB)
+<li>Most coins appear to be part of zero transactions
+<li>Some large clusters of coins, like SN's, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.
+<li>So coin velocity, median/average transactions, frequency are all very difficult to characterize.
+<li>Also likely volatile.
+</ul>
+<li>In general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.
+<li>In general: Hard for competing standards to catch on.
+</section>
+
+
+<section>
+<h2>Pruning Efficacy</h2>
+<ul><li>We can see how much better one Merkle tree is if maximally pruned.
+<ul><li>Have around 4k transactions per block
+<li>So for binary Merkle trees, that is log<sub>2</sub>(4k) ~= 12 levels
+<li>That is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.
+<li>&Sigma; 2<sup><em>n</em></sup> = 2<sup><em>n+1</em></sup>-1, or
+<code class="python">>>> sigma = lambda x : sum([2 ** n for n in range(x+1)])
+>>> close = lambda x : 2 ** (x + 1) - 1 # for "closed form"
+>>> for x in range(50):
+...     assert(close(x) == sigma(x))
+...
+>>></code>
+<li>Any unpruned tree would have 2^13-1 internal and 2^12 leaf nodes
+<li>A tree with one remaining transaction would have on leaf node and two internal nodes per 'level'
+<li>That is, 2*12 internal and 1 leaf node.
+<code class="python">>>> savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 )
+>>> savin(10)
+0.006838163464669489
+>>> savin(12)
+0.002034670790266135</code>
+</section>
+
+<section>
+<h2>On Memory Usage</h2>
+<ul><li>Arithmetic!
+<blockquote>A block header with no transactions would be about 80 bytes. If we suppose blocks are
+generated every 10 minutes, 80 bytes * 6 * 24 * 365 = 4.2MB per year. </blockquote>
+<li>I don't think that estimate is accurate but I'm not sure why it wouldn't be. I think SN is only counting the block headers, not the trees?
+<blockquote>With computer systems
+typically selling with 2GB of RAM as of 2008, and Moore's Law predicting current growth of
+1.2GB per year, storage should not be a problem even if the block headers must be kept in
+memory</blockquote>
+<li>In 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)
+<blockquote>It is possible to verify payments without running a full network node.</blockquote>
+<li>SN notes you can just submit a transaction and if it's accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories.
+</section>
+
+<section>
+<h2>Transactions</h2>
+<ul><li>We previously imagined a coin contains:
+<ol><li>The public key of the current owner
+<li>The record of all previous owners
+<li>The signature of the previous owner, generated over (1) and (2)</ol>
+<li>These are all integers, more or less, that can be verified.
+<code class="python">>>> Coin(*[randint(0,1024 * 1024) for _ in range(3)]) 
+&lt;Coin object at 0x7f765208eb90&gt; # NOT verified </code>
+<li>Well... there's actually no reason to have a single former owner or future owner.
+<li>So transactions can have multiple inputs before being bundled in hash trees.
+<li>We can think of them as dictionaries of send/recieve signatures and values.
+<ul><li>After this semester, we will change ownership of evening classes!
+<code class="python">>>> Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1}
+         {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1}
+         hash(...)) 
+&lt;Coin object at 0x7f765208eb90&gt;</code>
+<li>This has a de facto negative transaction fee (it's a bad metaphor)
+<ul><li>Mostly: This allows transactions to not all be off the same price.
+<li>This allows using a unique ID for transactions and still spend all at once.
+</section>
+
+
+<section>
+<h2>Multi Transaction</h2>
+<ul><li>We can visualize as follows:</ul><br>
+<img width="50%" src="https://academy.bsvblockchain.org/storage/photos/15967/1w.png">
+
+<p>This is a Satoshi Nakamoto graphic.
+</section>
+
+
+
+<section>
+<h2>Privacy</h2>
+<blockquote>The necessity to announce all transactions publicly
+precludes this method, but privacy can still be maintained by breaking the flow of information in
+another place: by keeping public keys anonymous.</blockquote>
+<ul><li>SN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.
+<li>CD claims the considerable metadata leaks are a marked loss in privacy, but that's okay.
+<li>Banks have full knowledge and routinely have e.g. data breaches, illegal ad targetting, etc.
+<li><a href="https://www.justice.gov/opa/pr/wells-fargo-agrees-pay-3-billion-resolve-criminal-and-civil-investigations-sales-practices">Wells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization</a>
+<li>This 'big banks perspective actually isn't too far off.
+<blockquote>This is
+similar to the level of information released by stock exchanges</blockquote>
+<li>Lastly - if you have been part of <em>n</em> transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.
+<blockquote>As an additional firewall, a new key pair should be used for each transaction to keep them
+from being linked to a common owner.</blockquote>
+
+</section>
+
+<section>
+<h2>Privacy</h2>
+<ul><li>We can visualize as follows:</ul><br>
+<img width="50%" src="https://miro.medium.com/v2/resize:fit:1400/1*bE7DuVZlL_LVNe8R1t_qJA.png">
+
+<p>This is a Satoshi Nakamoto graphic.
+</section>
+
+
+<section>
+<h2>Bonus: Calculations</h2>
+<ul><li>SN closes with a brief essay on probability, including calculations in the C programming language
+<li>Also known as: my favorite thing.
+<li>Regard the following as bonus slides, but that are really cool!
+</section>
+
+
+
+<section>
+<h2>Calculations</h2>
+<blockquote>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest
+chain.</blockquote>
+<ul><li>In the (quite) early days, gaining a control of a majority of miners was regarded as impossible.
+<li>In 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.
+<li>Read more on <a href="https://en.wikipedia.org/wiki/GHash.io">Wikipedia</a>
+<li>GHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.
+<li>In any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed.
+</section>
+
+
+<section>
+<h2>Calculations</h2>
+<blockquote>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest
+chain.</blockquote>
+<ul><li>We use a "Binomial Random Walk"
+<ul><li>We progress along the integer number line, that is, {..., -1, 0, 1, 2...}
+<li>The value given is the length lead maintained by the "honest" (non-attacker) chain.
+<li>So if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.
+</ul>
+<li>Attacker outpacing is equivalent to the "Gambler's Ruin" problem.
+<ul><li>Gambler has infinite $ and targets breakeven in potentially infinite time
+</ul><li>SN uses mathematical notation, I'll use Python.
+<code class="Python">def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk):
+    assert(prob_next_hnst + prob_next_attk == 1)
+    z    = attk_blck_bhnd
+    p, q = prob_next_hnst,  prob_next_attk
+    if (p <= q):
+        return 1
+    if (p > q):
+        return (q / p) ** z</code>
+<li>prob_attk_ctch(z, p, q) is the probabilty an attacker <em>z</em> blocks behind an honest
+chain catches up given that the attack controls fraction share <em>q</em> &in; [0,1] of the total nodes.
+</section>
+
+<section>
+<h2>Calculations</h2>
+<blockquote>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest
+chain.</blockquote>
+<ul><li>Much easier if we consider a single attacker calculating their catchup probability.
+<code class="Python">def prob_ctch(blck_bhnd, node_frac):
+    z, p, q = blck_bhnd, 1 - node_frac, node_frac
+    if (p <= q):
+        return 1
+    if (p > q):
+        return (q / p) ** z</code>
+<li>These numbers are actually higher than I intuitively expected, using e.g. GHash.io's 40% (assuming GHash.io somehow became compromised)
+<code class="python">>>>> {n:prob_ctch(n, .4) for n in range(1,10,2)}
+{1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946}
+>>> {n/10:prob_ctch(3, n/10) for n in range(1,5)}
+{0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}</code>
+</section>
+
+
+<section>
+<h2>Calculations</h2>
+<blockquote>Given our assumption that <em>p > q</em>, the probability drops exponentially as the number of blocks the
+attacker has to catch up with increases.</blockquote>
+<ul><li>It occurs to me I can write this in .js with a canvas element.</ul><br>
+<script>
+function qz(z, q) {
+    const p = 1 - q
+    if (p <= q) {
+        return 1
+    } else if (p > q) {
+        return Math.pow(q / p, z)
+    }
+}
+
+function draw() {
+    const q = document.getElementById('q').value
+    const z = document.getElementById('z').value
+    const c = document.getElementById('plot').getContext("2d")
+    c.strokeStyle = "white"
+    c.clearRect(0,0,800,800)
+    c.strokeStyle = "black"
+    for ( let i = 0 ; i < 800 ; i++ ) {
+       c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2)
+    }
+}
+</script>
+<input value=".4" type="number" min="0" max="0.5" id="q"> 
+<button onclick="draw()" type="button">Set <em>q</em> &in; (0,.5)</button>
+<input value="5"  type="number" min="1"           id="z"> 
+<button onclick="draw()" type="button">Set <em>z</em> &gt; 0     </button><br>
+<canvas style="background-color:white" id="plot" width="800" height="800"></canvas>
+</section>
+
+<section>
+<h2>code</h2>
+<ul>
+<code style="max-height:1000px" class="html">&lt;script&gt;
+function qz(z, q) {
+    const p = 1 - q
+    if (p &lt;= q) {
+        return 1
+    } else if (p &gt; q) {
+        return Math.pow(q / p, z)
+    }
+}
+
+function draw() {
+    const q = document.getElementById('q').value
+    const z = document.getElementById('z').value
+    const c = document.getElementById('plot').getContext("2d")
+    c.strokeStyle = "white"
+    c.clearRect(0,0,800,800)
+    c.strokeStyle = "black"
+    for ( let i = 0 ; i &lt; 800 ; i++ ) {
+       c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2)
+    }
+}
+&lt;/script&gt;
+&lt;input value=".4" type="number" min="0" max="0.5" id="q"&gt; 
+&lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;q&lt;/em&gt; &in; (0,.5)&lt;/button&gt;
+&lt;input value="5"  type="number" min="1"           id="z"&gt; 
+&lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0     &lt;/button&gt;&lt;br&gt;
+&lt;canvas style="background-color:white" id="plot" width="800" height="800"&gt;&lt;/canvas&gt;</code>
+</section>
+
+
+<section>
+<h2>FIN</h2>
+<ul>
+<li>Distributed consensus is non-trivial.
+<li>It tends to rely on math in the most classical sense of the term.
+<li>It allows a lot of new possibilities.
+<li>It uses a lot of cloud technologies.
+<li>It powers a lot of cloud technologies.</ul><br><br><table style="font-size:200%;outline:solid">
+<tr><td style="outline:solid">Merkle Root<td style="outline:solid">Timestamp
+<tr><td style="outline:solid">Hash of Last Block<td style="outline:solid">Nonce</table>
+</section>
+
+</div>
+</div>
+
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        hash: true,
+        keyboard: true,
+        overview: true,
+        center: false,
+        touch: true,
+        loop: false,
+        rtl: false,
+        navigationMode: 'default',
+        shuffle: false,
+        fragmentInURL: true,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        preloadIframes: null,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: null,
+        defaultTiming: null,
+        hideInactiveCursor: true,
+        hideCursorTime: 5000,
+        previewLinks: false,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        viewDistance: 3,
+        mobileViewDistance: 2,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+		math: {
+		  CommonHTML: {scale: 80},
+		},
+	reveald3: {
+			runLastState: true, // true/false, default: true
+			onSlideChangedDelay: 200,
+			mapPath: false, // true / false / "spefific/path/as/string", default: false
+			tryFallbackURL: true, // true/false, default false
+			disableCheckFile: false, //default false
+		 },
+
+        // reveal.js plugins
+        plugins: [
+		  RevealMath,
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom,
+		  RevealChart,
+		  RevealChalkboard,
+        ],
+		chalkboard: {
+		boardmarkerWidth: 4,
+        chalkWidth: 7,
+		boardmarkers : [
+                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+        ],
+        chalks: [
+                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
+                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
+                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
+                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
+                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
+                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
+                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
+        ]
+		},
+		dependencies: [
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
+			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
+		],
+      });
+    </script>
+    </body>
+</html>

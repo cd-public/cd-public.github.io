@@ -59,12 +59,12 @@
 <section>
 <h2>Lecture Week</h2>
 <ul>
-<li>Our lectueres will focus on the idea of "distributed consensus"
+<li>Our lecturs will focus on the idea of "distributed consensus"
 <li>Our first lecture is on blockchain / bit coin.
 <li>Follow along with <a href="https://bitcoin.org/bitcoin.pdf">pdf</a>, or...
-<li>Read the <a href="http://p2pfoundation.ning.com/forum/topics/bitcoin-open-source?xg_source=activity">Forum post</a>
+<li>Read the <a href="http://p2pfoundation.ning.com/forum/topics/bitcoin-open-source?xg_source=activity">forum post</a>
 </ul><br>
-<img src="https://pbs.twimg.com/media/GUUPCaWWMAESLLA?format=jpg">
+<img src="imgs/forbaby.jpg">
 <p>Don't read this, it wasn't very good.
 </section>
 
@@ -88,13 +88,15 @@
 <li>Dotcom crash (~2000)<ul>
 <li>Many digital currency failed
 <li>Many ecommerce sites failed
+<li>Many internet banks (e.g. Net.B@nk) fail</li>
 <li>Most large sites (Amazon, Cisco) contracted ~80%
 </ul>
 <li>Great Recession (~2007-)<ul>
-<li>Traditional currency liquity crises</li>
-<li>Many internet banks (e.g. Net.B@nk) fail</li>
+<li>Traditional currency liquity crises
+<li>Many banks fail
+<li>Many surviving banks reorganize</li>
 </ul></ul></ul>
-<p>There is a growing political/economic rift between 'Tech' / San Francisco and 'Banks' / New York.
+<p>CD: There is a growing political/economic rift between 'Tech' / San Francisco and 'Banks' / New York.
 </section>
 <section>
 <h2>The Stage</h2>
@@ -103,10 +105,10 @@
 <li>Satoshi Nakamoto ('SN') who may or may not exist<ul>
 <li>Someone (???) registered bitcoin.org
 <li>'SN' emails a cryptography enthusiast group
-<li>'SN' publishes first 'block 3 Jan 2009
+<li>'SN' publishes first block 3 Jan 2009
 <li>'SN' releases source code demo 8 Jan 2009
-<li>Laslzo Hanyecz buys 2 pizzas on 22 May 22
-<ul><li>They cost 10000 coins, now 2/3 of billion USD
+<li>Laslzo Hanyecz buys 2 pizzas on 22 May 2010
+<ul><li>They cost 10000 coins, now 2/3 of a billion USD
 </section>
 <section>
 <h2>Features</h2>
@@ -125,7 +127,7 @@
 <li>Uses SHA for nonrepudiation
 </ul><li>Uses 'proof of work'
 </ul></ul>
-<p>Satoshi: All previous currencies failed due to decentralization, modern crypto can displace decentralization.
+<p>SN: All previous currencies failed due to decentralization, modern crypto can displace decentralization.
 </section>
 
 
@@ -171,8 +173,8 @@ timestamp server to generate computational proof of the chronological order of t
 <li>Anyone can 'verify' a signed transaction using only the public key.
 </ul><li>In practice<ul>
 <li>Generate keys.
-<li>Encrypt an arbitrary value with private key to make a cypher text
-<li>Release value, cyphertext, and public key
+<li>Encrypt an arbitrary value with private key to make a cipher text
+<li>Release value, ciphertext, and public key
 <li>'Anyone' can verify the validity
 <li>Only you can sign things with the given public key.
 <li>Records describe ownership, coins cannot
@@ -190,7 +192,7 @@ timestamp server to generate computational proof of the chronological order of t
 <li>Generate a "public key" and "private key"
 <code class="python">>>> publ, priv
 ([3271400545326497, 5], [3271400545326497, 5, 981420127133051])</code>
-<li>Use a simply encryption function, which takes the public key.
+<li>Use a simple encryption function, which takes the public key.
 <code class="python">def encrypt(m, key):
   [n, e] = key # modulus, encrypter
   return (m ** e) % n</code>
@@ -198,7 +200,7 @@ timestamp server to generate computational proof of the chronological order of t
 <code class="python">def decrypt(m, key): # Naive
   [n, e, d] = # modulus, encrypter, decrypter
   return (m ** d) % n</code>
-</ul><li>This doesn't work (too much math) but easy to optimize.
+</ul><li>This doesn't work (why not?) but easy to optimize.
 </section>
 
 <section>
@@ -217,7 +219,7 @@ cyfr = encrypt(scrt, publ)
 
 print('cyfr:', cyfr)</code>
 <li>I could say
-<code>Hi my key is [3271400545326497, 5] and my secret is  15039458823204 and my cypher is 2294094055741586 so if cyfr ** key[0] mod key[1] == scrt, then I am me.</code>
+<code>Hi my key is [3271400545326497, 5] and my secret is  0xdada599cc24 and my cypher is 2294094055741586 so if cyfr ** key[0] mod key[1] == scrt, then I am me.</code>
 <li>This is approximately impossible to impersonate.
 </section>
 
@@ -225,8 +227,8 @@ print('cyfr:', cyfr)</code>
 <section>
     <h2>Impersonation</h2>
 <ul><li>Suppose we wish to do a digital identity theft.
-<li>We would need to find some private key that generates a public key that generates the same signatures.
-<li>So given some input value (a not-secret secret) and output cypher text, we have to find a private key. 
+<li>Need a private key that generates a public key that generates the same signatures.
+<li>So given some input value (a not-secret secret) and output cipher text, we have to find a private key. 
 <code class="python"># find [x,y] s.t.
 assert(encrypt(0xDADA599CC24),[x,y]) == 2294094055741586)</code>
 <li>We can imagine roughly how difficult that is.
@@ -278,12 +280,12 @@ assert(encrypt(0xDADA599CC24),[x,y]) == 2294094055741586)</code>
 <li>Speak to a teller
 <li>Provide ID
 <li>Open an account
-<li>Receiving routing and account numbers.
+<li>Receive routing and account numbers.
 </ul><li>To receive $ venmo/cashapp/paypal, I need to
 <ul><li>Have a mobile device
 <li>Connect the mobile device to internet
 <li>Download an application (closed source)
-<li>2FA, usually via SMS text
+<li>2FA, usually via SMS text (so need a phone plan)
 </ul><li>To Bitcoin I need to
 <ul><li>Generate a public and private key
 <li>Connect to the internet on a device with the public key
@@ -402,7 +404,7 @@ hash of a block of items to be timestamped and widely publishing the has...</blo
 <ul>
 <li>We need to talk about hashes.
 <li>Public and private keys are one type of hash, an "asymetrical encryption" hash<ul>
-<li>These take some public key, some secret, and a produce a "hash" - the cypher.
+<li>These take some public key, some secret, and a produce a "hash" - the cipher.
 <li>These hashes can be converted back into the secret using the private key.
 <li>Every so often, transactions are bundled together into a "block"</ul>
 <li>Key idea: hashes take information and turn it into numbers.

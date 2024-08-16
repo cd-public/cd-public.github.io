@@ -1,0 +1,185 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{quoting}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{DATA-352W: Ethics, Teamwork, Communication}
+\author{Calvin Deutschbein (they)}
+\date{Willamette University, Spring 2024}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize Intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{ckdeutschbein@willamette.edu} & Web: \href{https://cd-public.github.io/l}{\tt\bf cd-public.github.io/}  \\
+
+ Office Hours: By Appt. on TTh  &  Lecture MW 1:10-2:40 PM \\
+
+ Office: Zoom, Ford 3rd Floor & Lecture Hall: Ford Hall 302\\
+ & \\
+&  \\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+
+Scientists with backgrounds in data and computing face both novel challenges in ethics, teamwork, and communication and existing challenges in novel contexts. Human-centered scientists must be able to analyze, act upon, and argue in support of ethical use of technologies. Topics will include labor policies including hiring practices and workplace non-discrimination, tech monopolies and their global impact, open source projects and datasets (namely GitHub), socially responsible research, and accessibility of technologies. To develop a vocabulary to advocate and collaborate, students will collaboratively prepare technical reports and presentations and build technical blog posts with embedded data/computing resources and visualizations. 
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Required Materials}
+
+Lecture materials will be available on the \href{https://cd-public.github.io/courses/eths24}{course webpage}.
+
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Prerequisites}
+
+Students should have some experience in data and computing, either DATA-151, CS-151, or equivalent. Interested students without the pre-requisities are encourage to inquire with the course instructor via email.
+
+\section*{Accessability}
+
+I will make every effort to ensure all coursework and materials are accessible to all students, including working with on-campus specialists. However, there is always room for improvement. I always appreciate hearing from students about how I can make the course more accessible, so please reach out if there is something I can be doing better!
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+This course will teach you the skills, knowledge, and confidence necessary to reason about data and computing and to argue effectively for responsible use of these technologies. You will:
+\begin{itemize}
+\item    evaluate comparative merits of a technology,
+\item    contextualize implications of technology deployments,
+\item    recognize inherent moral, political, and ethical questions in technology,
+\item    use data and computing to construct compelling arguments,
+\item    develop and maintain a sense of self in a dehumanizing industry
+\end{itemize}
+This course will equip you apply notions of ethics to your other coursework, within computing and data as well as within the college, and empower you to be a responsible scientist and member of an increasingly computer reliant society.
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+The course will be composed of in-class lectures, in-class discussions, and out of classing reading and response writing. We will do some writing in class, which may be completed either using paper or a computer.
+
+\subsection*{Lecture Structure}
+
+
+\bigskip
+\noindent Lectures will be primarily be delivered via webhosted HTML5+CSS via Reveal.js. While I will make every effort to follow best practices for accessible teaching, I will make mistakes! Please, if you find some material is inaccessible for any reason
+do not hesitate to reach out. If you do not like these types of slides, you can tell me but you can also make not of it in your course evaluation - I'm trying things out!
+
+
+\subsection*{Homework Structure}
+
+\bigskip
+\noindent Homeworks will consist of weekly writing assignments that are meant to engage with relevant ethical texts as well as exercise some common communication skills within the fields of data and computing. In practice, you will be expected to write approximately a one-page reaction paper and web-host it.
+
+\bigskip
+\noindent Homework assignment will be due at 1:10 PM on Wednesdays so we can discuss them in class on the 
+day they are due.
+
+\bigskip
+\noindent As a rule, I encourage students to submit their assignment as-is at the due date and not to
+submit late work. By way of explanation, it is my experience as both a student and a grader that time spent working on assignments after their deadline is often better spent working on the next assignment.
+
+\bigskip
+\noindent As-is submission is supported in the grading policy which emphasizes engagement over output.
+
+
+\subsection*{Feedback and Grading}
+After some consideration, I've decided to move away from a traditional grading structure for this class. Rather than assign work with intent of assess student progress, assignments in this course will instead have the purpose of student learning. Consequentially, I intend to do the following.
+\begin{itemize}
+	\item Students will begin the course with a grade of an "A"
+	\subitem Students will be expected to attend class.
+	\subitem Students will be expected to participate in class.
+	\subitem Students will be expected to treat fellow students with respect.
+	\subitem Students will be expected to complete response assignments.
+	\item Students will be contacted privately by the course instructor in the unusual event they are not meeting expectations.
+	\subitem Students will not have an expectation of perfection.
+	\subitem Students will not lose points or a grade without discussion.
+	\subitem Students will have a chance to explain their engagement with the course.
+	\item Students collectively within the class as a whole will receive collective feedback on ethics, communication, and teamwork.
+	\subitem Students will receive limited individual feedback in unique cases.
+	\subitem Students will be expected to provide respectful individual feedback to one another.
+	\subitem Students will be able to request feedback from the instructor at any time.
+	\subitem Students will receive narrative rather than quantitative feedback.
+\end{itemize}
+
+\input{college}
+
+\input{college}
+
+\end{document}
+

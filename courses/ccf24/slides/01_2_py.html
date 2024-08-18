@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Thinking Machines</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">Thinking Machines</h1>
+  <h2>IDS 101</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>21 Aug '24</h2>
+  <h2>Opening Days 1</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>Things to do:
+<ul>
+<li>Access the course webpage at <a href="https://cd-public.github.io/courses/ccf24/">here!</a>
+<ul>
+<li>There is also a link to the course webpage from the Canvas site</li>
+<li>Probably searching something close to my name will get you there.
+</ul></li>
+<li>Join the class Discord server for ease of communication and
+announcements<ul>
+<li>I will email you a link!</li>
+</ul>
+<li>Fill out the section availability form <a href="https://forms.gle/75s2M4XhQt23iFdY8">here</a></li>
+<li>Bring computer to class from now on.
+<ul><li>Let me know if you need one, I'll figure it out</li>
+</ul></li>
+</section>
+
+<section>
+<h2>About Me</h2>
+<dl>
+<dt>Name</dt>
+<dd>Calvin (Deutschbein) 
+</dd>
+<dt>Call me</dt>
+<dd>(Professor) Calvin 
+</dd>
+<dt>Pronouns</dt>
+<dd>they/them
+</dd>
+<dt>Office</dt>
+<dd><strong>Ford</strong> 3rd Floor
+</dd>
+<dt>Office Hours</dt>
+<dd>Discord me between 12:00 AM and 11:59 PM
+<dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+<dd>~24 hour maximum response time
+</dd>
+<dt>Website:</dt>
+<dd><a href="cd-public.github.io4">cd-public.github.io</a>
+</dd>
+</dl>
+</section>
+<section>
+<h2>Background</h2>
+<dl>
+<dt>Thesis Title</dt>
+<dd>Mining Secure Behavior of Hardware Designs
+</dd>
+<dt>Plain English</dt>
+<dd>Just as there are bugs in code that makes <b>software</b>, modern <b>hardware</b> is also written in code and therefore may contain bugs. I find these bugs.
+</dd>
+<dt>Thesis</dt>
+<dd>Specification mining can discover properties that can be used to verify the secure
+behavior of closed source CISC CPU designs, properties that can be used to verify
+the temporal correctness of CPU designs, and hyperproperties that can be used to
+verify that modules, SoCs, and CPUs have secure information flow.
+</dd>
+<dt>Some partners</dt>
+<dd>Intel Corporation, Semiconductor Research Corporation, Synopsys, MITRE, Cycuity
+</dd>
+</dl>
+</section>
+
+
+<section>
+<h2>Background</h2>
+<dl>
+<dt>Enhance!</dt>
+<dd>Just as there are bugs in code that makes software, modern <b>hardware</b> is also <b>written in code</b> and therefore may contain bugs. I find these bugs.
+</dd>
+<dt>Enhance!</dt>
+<dd>Specification mining can discover properties that can be used to verify the secure
+<strong>behavior</strong> of closed source CISC CPU <strong>designs</strong>, properties that can be used to verify
+the temporal correctness of CPU designs, and hyperproperties that can be used to
+verify that modules, SoCs, and CPUs have secure information flow.
+</section>
+
+<section>
+<h2>Background</h2>
+<dl>
+<dt>My subject:</dt>
+<dd>I study <b>physical devices</b> that either think, or do something an awful lot like thinking.
+</dd>
+<dt>My technique:</dt>
+<dd>I use <b>code</b> that is ran *on the devices I study* to measure how these devices think... or whatever they do instead of thinking.
+</dl>
+</section>
+
+<section>
+<h2>Course Description</h2>
+<ul>
+<li>Artifical intelligence, machine learning, big data, and large scale computing have captured the collective imaginations of millions people across a range of technical expertise.<ul>
+<li>Yet each of these buzzwords is rooted in a central promise: that machines may think. 
+</ul>
+<li>Guided by student inquiry, we will learn how to construct thinking - or the appearance thereof - from basic computation. 
+<ul>
+<li>Using the shared language of computer code, we use programming as a way to bridge the gap between thinking humans and thinking machines.</li>
+<li>With this shared experience, we will be able to reflect more thoughtfully on the implications of thinking machines on the self, culture, and society. 
+</ul>
+</section>
+
+<section>
+<h2>student inquiry</h2>
+<ul>
+<li>Let’s start the class off right away with an exercise designed for:<ul>
+<li>Groups
+<li>Discussion
+<li>Disagreement, and
+<li>Deep critical thinking
+</ul>
+</section>
+
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<h4>Be sure to introduce yourselves!</h4>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+
+</section>
+
+<section>
+<h2>Colab</h2>
+<ul>
+<li>Take notes<ul>
+<li>Navigate to <a href="https://colab.research.google.com">https://colab.research.google.com</a>
+<li>Make a "New Notebook"
+<li>Name it something, like CC_8_21, you'll remember
+<li>For each question, +Text and record
+<li>You can remove the "Code" block by clicking the trashcan
+<li>Share with your group and with me!
+</ul>
+</section>
+
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">What are the goals of a university education?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">How does a person learn something new?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">What do you reasonably expect to remember from your courses in 20 years?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">What is the value of making mistakes in the learning process?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Question #5</h2>
+<blockquote style="color:white;font-size:200%">How do we create a safe environment where risk taking is encouraged and productive failure is valued?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+<section>
+<h2>Closing Thoughts</h2>
+
+<ul >
+<li><b>Try!</b> You will have to try very hard to work through this material. Trying is exactly what we’re after since it is ultimately what leads to innovative thinking.
+<li><b>Fail!</b> More accurately, don’t be afraid to fail. You should write code, work problems, and prove theorems then be completely unafraid to scrap what you’ve done and redo it from scratch.
+<li><b>Collaborate!</b> You should collaborate with your peers with the following caveats:<ul><li>
+        When you are done collaborating you should go your separate ways. <li>When you write your solution it should be your own work!</ul>
+<li><b>Enjoy!</b> Part of the fun is that you get to experience what it is like being a scientist. It takes hard work but ultimately this should be fun!
+
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

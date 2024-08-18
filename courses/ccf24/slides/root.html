@@ -2,1176 +2,757 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>FLP</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>enum</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
-  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
     div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-.g { /* _g_reen. */
-  border: 1px solid #121213 ;
-  background-color: #538D4E ;
-}
-
-.y { /* _y_ellow */
-  border: 1px solid #121213 ;
-  background-color: #B59F3B ;
-}
-
-.r { /* g_r_ay. I thought misses were in red not in gray - whoops. */
-  border: 1px solid #121213 ;
-  background-color: #3A3A3C ;
-}
-
-#w {
-  border: 2px solid #3A3A3C ;
-  width: 64px;
-  font-size: 200%;
-  height: 64px;
-  font-family: monospace;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-}
   </style>
-  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
 
-
 <section>
-  <h1 class="title">FLP</h1>
-  <p class="author">Calvin (Deutschbein)<br>
-  <p class="date">Week 14
-  <p class="date">Cloud
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">enum</h1>
+  <h2>CS 271</h2>
+  <h2>Prof. Calvin</h2>
+  <h2>06 Mar 24</h2>
+  <h2>w07d01</h2>
 </section>
-
 <section>
-<h2>Lecture Week</h2>
+<h2>Announcements</h2>
 <ul>
-<li>Our lectures will focus on the idea of "distributed consensus"
-<li>Our first lecture is on how that is impossible, called "FLP"
-<ul><li>Named after the authors, Fischer, Lynch, and Paterson</ul>
-<li>Basically, non-technical people kept asking technical people for something that they were pretty sure was impossible.
-<li>In 1985 Nancy Lynch proved it was impossible
-<li>All later computing then is done in the context of understanding limitations, e.g. Bitcoin
-<li>Recall: Bitcoin only defeats malicious attackers at high probability, not with certainty</ul>
-<p>Nancy Lynch holds a special place in lore as the person that proved the haters wrong.
+<li>Recall: No class March 13.
+<li>Recall: Garmin trip on March 14
+<li>Tentative: Systems midterm week of 3/18.
+<li>HW1: Buddhabrot
+<ul><li>Today is the second "scaffolding" lecture.
+<li>You should be advancing until you get stuck between each class
+<li>You should bring questions to class.
+<li>Submit best effort on <b>Relaxed Deadline</b> 3/11.
 </section>
-
 <section>
-<h2>Big Idea</h2>
+<h2>Today</h2>
+<dl>
+<dt>Enums
+<dt>Unions
+<dd>Tagged Unions
+</section>
+<section>
+<h2>Finger Binary</h2>
+<p>I am going to ask review questions and would like you to show your answer using "finger binary".</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/closed-fist-0.png"><br>0b00 == 0</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/thumb-raised1.png"><br>0b01 == 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/indexraised2.png"><br>0b10 == 2</td>
+<td style="text-align: center;"><img width="70%" src="https://www.convertbinary.com/wp-content/uploads/3.png"><br>0x11 == 3</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
 <ul>
-<li>The cloud is distributed.<ul>
-<li>Servers in different locations
-<li>Some erratic/malicious actors
-<li>Trust is hard</ul>
-<li>It would be nice to get everyone on the same page<ul>
-<li>It's impossible</li>
-<li>Not only impossible, provably impossible</li>
-<li>So we just do our best</li>
-</ul></ul>
-<p>Recall: <p>Every <em>n</em> seconds a cloud HDD dies. <p>What if both HDDs holding the only two copies die within a second?
-</section>
-
-
-<section>
-<h2>FLP</h2>
-<ul>
-<li>I think this the root PDF, from <a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf">CSAIL @ MIT</a><ul>
-<li>Title: Impossibility of Distributed Consensus with One Faulty
-Process
-<li>Authors: 
-<ul><li>Michael J Fishcher (Yale)
-<li>Nancy A. Lynch (MIT)
-<li>Michael S. Paterson (Warwick)
-</ul><li>Published in "Journal of the Association for Computing Machinery" in 1985
-<li>142 citations in the last 6 weeks (it's current, basically)
-</section>
-
-
-<section>
-<h2>The Stage</h2>
-<ul>
-<li>1985: FLP<ul>
-<li>1978: Time, Clocks, and the
-Ordering of Events in
-a Distributed System<ul>
-<li>First troubling signs - no way to establish precise clocks across networks
-</ul>
-<li>1982: The Byzantine Generals Problem
-<ul><li>1/3 of malicious actors enough to confound a network</ul>
-<li>1982: Internet Protocol Suite launches
-<ul><li>Internet exists in earliest form
-</ul>
-<li>1984: Using Time Instead of Timeout
-for Fault-Tolerant Distributed Systems<ul>
-<li>Costs appear to approach infinite as reliability increases in distributed applications
-</ul>
-<li>1985: Distributed Snapshots<ul>
-<li>It appears only a subset of conditions about a network can be inferred by network nodes
-</ul>
-<li>FLP: Impossibility of Distributed Consensus with One Faulty
-Process<ul>
-<li>Any system with a non-zero error rate cannot reach consensus.
-</ul>
-<li>1989: First internet service providers launch globally</ul></ul>
-<p>Paxos, a latter algorithm, is the next best thing given FLP, and the basis of most of the tools we used this term.
-</section>
-<section>
-<h2>Features</h2>
-<ul>
-<li>Asynchronity<ul>
-<li>We don't know how long a server will take to respond
-<li>Recall: JavaScript <span style="font-family: 'Courier Prime';background-color:black;color:cyan"> await <span>
-<li><em>Cloud applications are universally asynchronous</em>
-</ul><li><b>Binary</b> choice<ul>
-<li>Servers only must choose yes/no.
-<li>Example: do I accept this Bitcoin block
-<li>Accept/Express stages of Bitcoin network 6 steps.
-</ul><li>Failure case: Non-termination<ul>
-<li>No algorithm for deciding accept/reject can be sure to terminate, ever
-<li>Example: Bitcoin vs Bitcoin Cash fork (should never resolve)
-</ul><li>Failure Cause
-<ul><li>Single error in single node
-</ul></ul>
-<p>FLP: No previous asynchronous algorithms achieved consensus and termination. It is impossible.
-</section>
-
-
-<section>
-<h2>The Problem</h2>
-<blockquote>The problem of reaching agreement among remote processesis one of the most
-fundamental problems in distributed computing and is at the core of many algorithms for distributed data processing, distributed file management, and fault-tolerant distributed applications.</blockquote>
-<ul>
-<li>Asynchrous
-<li>Distributed
-<li>Agreement / Consensus
-<li>Fault-tolerant
-<li>Terminating
-</ul></ul>
-<p>We have seen asynchronous distributed agreement that is not fault-tolerant and non-terminating (bitcoin).
-</section>
-
-
-
-<section>
-<h2>Transaction Commit</h2>
-<blockquote>A well-known form of the problem is the “transaction commit problem,” which
-arises in distributed database system...</blockquote>
-<ul>
-<li>That is, it arises in HDFS.
-<ul><li>&exist; a data manager (name node)
-<li>&exist; some transactions like 
-<code class="bash">hdfs dfs -mkdir /test-1-input
-hdfs dfs -copyFromLocal -f /app/data/*.txt /test-1-input/</code>
-<li>HDFS has data duplication, so files must be copied to 2+ remote servers
-<li>How does the name node respond if one server is silent?</ul></ul>
-<blockquote>Whatever decision is made, all data managers must make the same decision in
-order to preserve the consistency of the database</blockquote>
-</section>
-
-
-
-<section>
-<h2>Trivial Case</h2>
-<blockquote>Reaching the type of agreement needed for the “commit” problem is straightforward if the participating processes and the network are completely reliable.</blockquote>
-<ul>
-<li>In your experience: was HDFS reliable?
-<ul><li>Should it be?
-<li>Can it be?</ul>
-<li>At any "interesting scale" (a scale where technology matters), reliablility is hard.
-<ul><li>Any data over large geographic areas requires replication transferred over data lines
-<li>Any data set of reasonable size doesn't fit on a single device
-<li>Any data set of appreciable age must be shifted to devices with remaining lifespan
-</li>
-</ul><li>In practice<ul>
-<li>HDFS felt more reliable on a single device (not dataproc)
-<li>HDFS was unusably slow without dataproc (SparkNLP in Colab)
-<li>We have to solve distributed consensus to e.g. quantify global social media sentiment post-2010
-</section>
-
-
-
-<section>
-<h2>Non-trivial Case</h2>
-<blockquote>However, real systems are subject to a number of possible faults, such as process crashes,
-network partitioning, and lost, distorted, or duplicated messages</blockquote>
-<ul>
-<li>Process crash
-<ul><li>What happens when we try to run serverful Wordish with no remote server?
-<li>Did we test our front end in Opera? In iOS Gmail app internal browser? For screenreader? Etc.
-<li>We saw many .js "crashes" during development.
-</ul>
-<li>Network partitioning
-<ul><li>Serverful Wordish used a local server... 
-<li>...what if a server was live, but inside a remote container?
-<li>The front end and back end must both be live and be on the same network!
-<li>What if e.g. Willamette campus network crashes?</ul>
-<li>Lost/distorted/duplicated messages
-<ul><li>Classic example: order something online twice by accident.
-<li>In bitcoin, usually a message corruption detected with changes to the hash
-<code class="python">>>> _ = print(str1), print(str2), print(hash(str1)), print(hash(str2))
-hello world
-hello world
--4739061604425626928
-376519601689898932</code>
-<li>Any data set of reasonable size doesn't fit on a single device
-<li>Any data set of appreciable age must be shifted to devices with remaining lifespan
-</li>
-</ul><li>In practice<ul>
-<li>HDFS felt more reliable on a single device (not dataproc)
-<li>HDFS was unusably slow without dataproc (SparkNLP in Colab)
-<li>We have to solve distributed consensus to e.g. quantify newmedia bias post-2010
-</section>
-
-<section>
-<h2>Fault-tolerance</h2>
-<blockquote>Of course, any protocol can be
-overwhelmed by faults that are too frequent or too severe, so the best that one can
-hope for is a protocol that is tolerant to a prescribed number of “expected” faults.</blockquote>
-<ul><li>Recall: Dataproc prompts users to decide on 1 (normal) or 3 (high availability) name nodes for HDFS
-<li>We can also measure loss, but more easily, delay, over networks.
-<code class="bash">Pinging douyin.com [122.14.229.127] with 32 bytes of data:
-...
-
-Ping statistics for 122.14.229.127:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 163ms, Maximum = 163ms, Average = 163ms
-
-Pinging tiktok.com [3.163.165.29] with 32 bytes of data:
-...
-
-Ping statistics for 3.163.165.29:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 5ms, Maximum = 5ms, Average = 5ms</code>
-</section>
-
-<section>
-    <h2>FLP Result</h2>
-<ul><li>FLP assumes:
-<ul><li>No lost or corrupted messages.
-<li>Exactly one system crash
-<li>Graceful system crash
-<ul><li>No malicious actions
-<li>No irregularities
-<li>Simply no more messages
-<li>This is equivalent to indefinite message delay
-</ul></ul>
-</ul><p>By triggering a crash in a single system at a particular time, the whole network unrecoverably fails.
-<p><em>Could be a relevant security result, but not presented that way...</em>
-</section>
-
-
-<section>
-    <h2>The Consensus Problem</h2>
-<ul><li>Basically a formulation for decision problems (yes/no) to distributed systems.
-<ul><li><em>n></em>1 processes have an initial value <em>x</em> &in; { 0, 1 }<ul>
-<li>For example, a node application called "consensus.js"
-<code class="js">const x = Math.round(Math.random()) ; 
-console.log(x) ;</code>
-<li>... and take <em>n=</em>3
-<code class="bash">python -c "import os; [os.system(\"node consensus.js\") for _ in range(3)]"
-0
-0
-1</code>
-<li>In this initial state, our processes have no achieved consensus
-<li>Of course, this is the common (<em>n</em>=3 -> <em>P</em> ~= .75) case
-<li>In general, <em>P</em> = 1 - 1 / 2<sup>n - 1</sup>
-<code class="py">>>> {n:1 - 1/(2 ** ( n - 1 )) for n in range(3,9)}
-{3: 0.75, 4: 0.875, 5: 0.9375, 6: 0.96875, 7: 0.984375, 8: 0.9921875}</code>
-<li>Dataproc defaults to 3 namenodes, my processor has 8 cores</ul>
-<li>The FLP proof allows a softening of this definition of consensus, however...
-</section>
-
-
-
-<section>
-    <h2>The Consensus Problem</h2>
-	<blockquote>For the purpose of the impossibility proof, we require only that some process
-eventually make a decision.</blockquote>
-<ul><li>As a simplifying assumption, require exactly 1 node to find consensus.<ul>
-<li>This isn't practical, but systems rarely require all nodes
-<li>Bitcoin: Enough nodes to have majority of compute.
-<li>HDFS: Simple majority of name nodes.
-</ul>
-<li>The offline (also called 'trivial') solution is ruled out:
-<ul><li>Cannot simply always select 0 or 1 regardless of other nodes.
-<li>Then it's not a decision problem!
-<li>One example: the majority
-<code class='js'>for ( let i = 0 ; i < lst.length ; i++ ) {
-	lst[i] = Math.round(Math.random()) ;
-}
-Math.round(lst.reduce( (x,y) => x + y, 0 )  / lst.length) ;</code>
-<li>Another example: the 1s digit of the hash some/all decision values.
-</section>
-
-<section>
-<h2>Process</h2>
-<ul><li>I have said
-<ol><li>Process
-<li>Node
-<li>Server
+<code class="c">struct big_secret_struct 
+{
+	char *most_embarrasing_fact ;
+	char *fav_password ;
+	uint32_t ssn ;
+}</code></ul>
+<p>Where should this structure be declared.</p>
+<div>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>// main.h </code></li>
+<li style="padding-bottom: .3em;"><code>// main.c </code></li>
+<li style="padding-bottom: .3em;"><code>// big_secret.h </code></li>
+<li style="padding-bottom: .3em;"><code>// big_secret.c </code></li>
 </ol>
-<li>For FLP, these are formally called "processes"
-<li>FLP allows processes to do all the following atomically:
-<ul><li>Receive, or attempt to receive, a message
-<li>Compute based on the message
-<li>Transmit a computed message to (up to) all other processes
-</ul>
-<li>Messages
-<ul><li>Are always delivered
-<li>Are not always read, but...
-<li>... are always read if a process attempts to receive infinitely many times
-<li>May be delayed
-<li>May be out-of-order
-</ul><code class='js'>async function attempt(x) {
-	const msg = await fetch("http://localhost:8080/") ;
-	const jsn = await msg.json() ;
-	return jsn['data'] ;
-} </code>
-</section>
-
-
-<section>
-<h2>Consensus Protocol</h2>
-<ul><li>A <em>consensus protocol</em> denoted <em>P</em><ul>
-<li>is defined over a number of process denoted <em>N</em> such that <em>N</em> &geq; 2
-<li>is composed of processes denoted <em>p</em> with
-<ul><li>a 'one-bit', that is, { 0, 1 } <em>input register</em> denoted <em>x<sub>p</sub></em>
-<li>a { <em>b</em>, 0, 1 } <em>output register</em> denoted <em>y<sub>p</sub></em>
-<ul><li>where <em>b</em> denotes "blank" - the initial state and pre-decision state
-</ul></ul></ul>
-<li>Perhaps visualized as
-<code>{ 0, 1 } => { _, 0, 1 }, 
-{ 0, 1 } => { _, 0, 1 }, 
-{ 0, 1 } => { _, 0, 1 }</code>
-<li>I have used randomization to set initial values, which is fine, but
-<li>FLP requires the decision maing process be deterministic
-<li>That is, given some set of starting values and messages received, the same messages must always be sent.
-</section>
-
-
-
-<section>
-<h2>Messages</h2>
-<ul><li>We have previously transmitted something a lot like a message with API calls
-<li>FLP defines a <em>message system</em> as a follows:
-<ul><li>A <em>message</em> is an orderer pair* (<em>p</em>, <em>m</em>)<ul>
-<li><em>p</em> is the name of destination process
-<li><em>m</em> is the message value, we can think of them as finite strings or finite values
-</ul></ul><li>All undelivered messages persist in a <em>message buffer</em>
-<li>FLP thinks of the message buffer as a "multiset" which is a set that can contain multiple elements but is not still not ordered.
-<ul><li> {0,1} can be a set or multiset
-<li>{0,1,1} can be a multiset but not a set
-<li>{0,1,1}={1,1,0}
-</ul>
-<li>Unlike processes, the message system is non-deterministic
-<li>Due to the set implementation, messages are delivered in truly arbitrary order
-<li>This captures how networks work in practice
-</section>
-
-
-
-<section>
-<h2>Message System</h2>
-<ul><li>Any process <em>p</em> may at any time 'send' a message
-<ul><li>The message system defines an operation 
-<code class='js'>function send(p, m)</code><ul>
-<li>Send accepts a message (<em>p</em>, <em>m</em>)
-<li>It has no return value
-<li>This message is introduced to the internal multiset <em>message buffer</em>
-<li>It is guaranteed to persist in the multiset unless delivered
-</ul>
-<li>The message system defines an operation
-<code class='js'>function receive(p)</code><ul>
-<li>Receive accepts a process name <em>p</em>
-<li>It has a return value based on two cases:
-<ul><li>Either a message for <em>p</em> is deleted from the buffer and returned, or
-<li>A special null marker is returned and the buffer is unchanged
-<li>Receive may return null with outstanding messages, or not.
-<ul><li>A <em>message</em> is an orderer pair* (<em>p</em>, <em>m</em>)<ul>
-<li><em>p</em> is the name of destination process
-<li><em>m</em> is the message value, we can think of them as finite strings or finite values
-</ul></ul></ul></ul></ul><li>We can implement a message system.
-</section>
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%"><li>We can implement a message system.
-<code class='js'>// msgSys.js
-const http = require('http');
-function serverFunc(req, res) {
-    const hdr = {'Content-Type': 'application/json',
-                 'Access-Control-Allow-Origin': '*'} ;
-    const str = {'data': messageSystem(req['url'])} ;
-    const jsn = JSON.stringify(str) ;
-    res.writeHead(200, hdr);
-    res.end(jsn) ;
-}
-http.createServer(serverFunc).listen(8080)
-
-function messageSystem(url) {
-	// maintain buffer
-	return null ; // always allowed
-}</code>
-</section>
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%"><li>We can implement a message system.
-<blockquote>The message system maintains a multiset, called the
-message buffer, of messages that have been sent but not yet delivered</blockquote>
-<code class='js'>// msgSys.js
-
-// server code snipped
-
-const messageBuffer = {}
-
-function messageSystem(url) {
-	// maintain buffer
-	return null ; // always allowed
-}</code>
-</section>
-
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%"><li>We can implement a message system.
-<blockquote> It supports
-two abstract operations:</blockquote>
-<li>Send and receive.
-<code class='js'>// msgSys.js
-
-// server code snipped
-
-const messageBuffer = {}
-
-function messageSystem(url) {
-	console.log(url.split('/')) ;
-	return null ; // always allowed
-}</code>
-<li>If we try to reach an endpoint while the server is online, e.g. via curl
-<code class="bash">PS C:\Users\cd-desk> curl http://localhost:8080/send/a/1</code>
-<li>We can interpet the message system as an api call.
-<code class="bash">PS C:\Users\cd-desk\Documents\dev\word\server> node msgSys.js
-[ '', 'send', 'a', '1' ]</code>
-</section>
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%">
-<li>Send and receive.
-<code class='js'>function send(p,m) {
-	console.log('send') ;
-	return null ;
-}
-
-function receive(p) {
-	console.log('receive') ;
-	return null ;
-}
-
-function messageSystem(url) {
-	[discard, op, p, m] = url.split('/')) ;
-	if ( op == 'send' ) {
-		return send(p,m) ;
-	} else if ( op == 'receive' ) {
-		return receive(p) ;
-	}
-	return null ; // always allowed
-}</code></section>
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%">
-<li>Send and receive.
-<li>If we try to reach an endpoint while the server is online, e.g. via curl
-<code class="bash">PS C:\Users\cd-desk> curl http://localhost:8080/send/a/1
-PS C:\Users\cd-desk> curl http://localhost:8080/receive/b</code>
-<li>We can interpet the message system as an api call.
-<code class="bash">PS C:\Users\cd-desk\Documents\dev\word\server> node msgSys.js
-send
-receive</code>
-</section>
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%">
-<li>Send places a message in the message buffer.
-
-
-<code class='js'>const messageBuffer = {} ;
-const buf = messageBuffer ;
-
-function send(p,m) {
-	// 2 cases - first message to p, or not
-	if (!(p in buf)) {
-		// add p to buffer with an empty list
-		buf[p] = [] ;
-	}
-	buf[p].push(m) ;
-	console.log(buf) ;
-	return null ;
-}</code></section>
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%">
-<li>We can inspect the message buffer.
-<li>We implement the message system as an api.
-<code class="bash">PS C:\Users\cd-desk\Documents\dev\word\server> node msgSys.js</code>
-<li>We go to another terminal and curl 3 times.
-<code class="bash">curl http://localhost:8080/send/a/1
-curl http://localhost:8080/send/a/2
-curl http://localhost:8080/send/b/2</code>
-<li>We return to the terminal with the server running.
-<code class="js">{ a: [ '1' ] }
-{ a: [ '1', '2' ] }
-{ a: [ '1', '2' ], b: [ '1' ] }</code>
-<li>Note - valid message values are not restricted to be among the  possible output values { <em>b</em>, 0, 1 }
-</section>
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%">
-<li>Receive requests a message from the buffer.
-<code class='js'>function receive(p) {
-	// flip a coin, return null if heads (or if no messages)
-	if( Math.round(Math.random()) || !(p in buf)) {
-		return null ;
-	}
-	// otherwise, pop a random message from the buffer.
-	return buf[p].splice(Math.floor(Math.random() * buf[p].length),1) ;
-}</code>
-<li>The message system is permitted and required to be non-deterministic, so we use Math.random()
-<li>To pick a random message, we multiply a random value variable times array length then round down
-<li>"splice" is removes and returns an element from an array, like Python pop
-<code class="py">>>> lst = [1,2,3]
->>> lst.pop(1)
-2
->>> lst
-[1, 3]</code>
-<li>.js pop and .py pop are different, I found out 10 seconds ago. <a href="https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript">More</a>.</section>
-
-
-
-
-<section>
-<h2>msgsys.js</h2>
-<ul style="width:100%">
-<li>This is an FLP message system as an API.
-<code style="max-height:800px" class='js'>// msgSys.js
-const http = require('http');
-function serverFunc(req, res) {
-    const hdr = {'Content-Type': 'application/json',
-                 'Access-Control-Allow-Origin': '*'} ;
-    const str = {'data': messageSystem(req['url'])} ;
-    const jsn = JSON.stringify(str) ;
-    res.writeHead(200, hdr);
-    res.end(jsn) ;
-}
-http.createServer(serverFunc).listen(8080)
-
-const messageBuffer = {} ;
-const buf = messageBuffer ;
-
-function send(p,m) {
-	// 2 cases - first message, or not
-	if (!(p in buf)) {
-		// add p to buffer with an empty list
-		buf[p] = [] ;
-	}
-	buf[p].push(m) ;
-	console.log(buf) ;
-	return null ;
-}
-function receive(p) {
-	// flip a coin, return null if heads (or if no messages)
-	if( Math.round(Math.random()) || !(p in buf)) {
-		return null ;
-	}
-	// otherwise, pop a random message from the buffer.
-	return buf[p].splice(Math.floor(Math.random() * buf[p].length),1) ;
-}
-
-function messageSystem(url) {
-	[discard, op, p, m] = url.split('/') ;
-	if ( op == 'send' ) {
-		return send(p,m) ;
-	} else if ( op == 'receive' ) {
-		return receive(p) ;
-	}
-	return null ; // always allowed
-}</code>
-<li><a href="https://gist.github.com/cd-public/d434b316dc027a4808571e1690fd592c">Gist</a>
-<li>Understanding check: How do we change the likelihood of a message delay?</section>
-
-
-<section>
-<h2>Proof Time</h2>
-<ul><li>"Now back to the good part" - me
-</section>
-
-<section>
-<h2>Configuration</h2>
-<ul><li>The <em>configuration</em> denoted <em>C</em> of the distributed system is the internal state of each process and the message buffer.
-<ul><li>There are potentially infinite such states.
-<li>Consider a multiset with one value infinitely many times.</ul>
-<li>The <em>initial configuration</em> is simply the input value of each process (and an empty input buffer).
-<ul><li>This can be represented as a bit string of length <em>n</em>
-<li>There are 2<sup><em>n</em></sup> possible initial configurations.
-</ul><li>A <em>step</em> is an atomic update to the configuration.
-<ul><li>It corresponds to an atomic operation by one process.
-<li>Recall: FLP allows processes to do all the following atomically:
-<ul><li>Receive, or attempt to receive, a message
-<li>Compute based on the message
-<li>Transmit a computed message to (up to) all other processes
-</ul>
-<li>The state of the message buffer and of one process may change.
-<li>All changes are deterministic based on the popped message (<em>p</em>, <em>m</em>) and <em>C</em>.
-</section>
-
-
-<section>
-<h2>Events</h2>
-<ul><li>The <em>configuration</em> of the distributed system is the internal state of each process and the message buffer.
-<li>A <em>step</em> is an atomic update to the configuration.
-<ul><li>All changes are deterministic based on the popped message (<em>p</em>, <em>m</em>) and <em>C</em>.</ul>
-<li>Given this understanding, we term message reception an <em>event</em>
-<ul><li>'The receipt of <em>m</em> by <em>p</em> is an event'
-<li>Say <em>e</em> = (<em>p</em>, <em>m</em>)
-<li>A curl is an event (it updated the terminal and may have updated the server)
-<li>FLP use <em>e</em>(<em>C</em>) to denote the configuration after event.
-<li>We can regard events as functions over the configuration, or say we "apply" an event to the configuration.
-</section>
-
-
-
-<section>
-<h2>Reach</h2>
-<ul><li>The <em>schedule</em> from <em>C</em> is a series...
-<ul><li>A series is ordered collection of elements.
-<code class="py">>>> [1,2,3] == [3,2,1]
-False
->>> {1,2,3} == {3,2,1}
-True</code>
-<li>A schedule is a sequence of events.
-<li>We denote schedules with &sigma;, lower-case sigma (&Sigma;)
-<ul><li>We could say a schedule &sigma; is a list of events
-<code class="py">σ = [(p0,m0),(p1,m1),(p2,m2)]</code>
-</ul></ul>
-<li>A <em>run</em> is the sequence of steps associated with a schedule &sigma;
-<ul><li>Compared to a schedule, a <em>run</em> requires computation to determine things like:
-<ul><li>Message buffer contents
-<li>Output registers values
-<li>Consensus (or not)</ul></ul></ul>
-<p>Only a bit more vocab, hang in there.
-</section>
-
-
-<section>
-<h2>Reach</h2>
-<ul><li>Like events, we can apply schedules to configurations.
-<li>We denote as &sigma;(<em>C</em>)
-<ul><li>&sigma; = [<em>e<sub>0</sub></em>, <em>e<sub>1</sub></em>] &rArr; &sigma;(<em>C</em>) = <em>e<sub>1</sub></em>(<em>e<sub>0</sub></em>(<em>C</em>))
-<li>That is a reduce operation.
-</ul><li>We say &sigma;(<em>C</em>) is <em>reachable</em> from <em>C</em>
-<li>Any configurations reachable from some initial configuration are <em>accessible</em>
-<ul><li>Reachability is relative to given configuration.
-</ul></ul>
-<p>All set, onto the proof.
-</section>
-
-
-<section>
-<h2>Lemma 1</h2>
-<h4>Commutative Property of Schedules</h4>
-<table>
-<tr>
-<td>
-<ul><li>Given
-<ul><li>Some configuration <em>C</em>
-<li>Two schedules &sigma;<sub>1</sub>, &sigma;<sub>2</sub>
-<li>Let &sigma;<em><sub>i</sub></em>(<em>C</em>) = <em>C<sub>i</sub></em>
-</ul><li>If
-<ul><li>FLP: "Set of processes taking steps are disjoint"
-<li>That is, &forall; (<em>p</em>,<em>e</em>) &in; &sigma;<sub>1</sub> : (<em>p'</em>,<em>e'</em>) &in; &sigma;<sub>2</sub> &rArr; <em>p</em> &ne; <em>p'</em>
-<li>And vice versa, or say
-<li>{ <em>p</em> : (<em>p</em>,<em>e</em>) &in; &sigma;<sub>1</sub> } &cap; { <em>p</em> : (<em>p</em>,<em>e</em>) &in; &sigma;<sub>2</sub> } = &empty;
-</ul><li>Then
-<ul><li>Denote &sigma;<sub>2</sub>(<em>C</em><sub>1</sub>) as <em>C</em><sub>3</sub>
-<li><em>C</em><sub>3</sub> = &sigma;<sub>1</sub>(<em>C</em><sub>2</sub>)
-</ul>
-<li>Shorter:
-<ul><li>{ <em>p</em> &in; &sigma;<sub>1</sub> } &cap; { <em>p</em> &in; &sigma;<sub>2</sub> } = &empty; &rArr; &sigma;<sub>2</sub>(&sigma;<sub>1</sub>(<em>C</em>)) = &sigma;<sub>1</sub>(&sigma;<sub>2</sub>(<em>C</em>))
-<li>This is commutativity, similar to<code class="py">>>> 1 + 2 == 2 + 1
-True</code>
-<td>
-
-<img height="900px" src="imgs/fig1.png">
-</table>
-</section>
-
-<section>
-<h2>Proof</h2>
-<h4>Of Lemma 1</h4>
-<blockquote>The result follows at once from the system definition, since &sigma;<sub>1</sub> and &sigma;<sub>2</sub>
-do not interact. </blockquote>
-<ul><li>Sure.
-<li>That could feel a lot more rigorous to me.
-<li>Nevertheless, we get to use the Q.E.D. square. &#x220e;</ul>
-<blockquote>Quod erat demonstrandum</blockquote>
-<p>-FLP
-</section>
-
-
-
-<section>
-<h2>Decisions</h2>
-<ul><li>Recall we are trying to decide something (like whether to accept a Bitcoin block)
-<li>We say a configuration <em>C</em> has a <em>decision value</em>
-<ul><li>if a constituent process <em>p</em> 
-<li>has set its output register <em>y<sub>p</sub></em>
-<li>to a non-<em>b</em> value - that is, to 0 or 1
-</ul><li>A consensus protocol is <ul><li><em>partially correct</em> if:
-<ol><li>No accessible (initial state relative) configuration has more than one decision value.
-<li>&forall; <em>v</em> &in; { 0, 1 } : &exist; some initial configuration which leads to <em>v</em></ol></ul>
-<li>A process is
-<ul><li><em>Nonfaulty</em> if it may take infinitely many steps (that is, doesn't crash)
-<li><em>Faulty</em> if it may take only finitely many steps (crashes at some point)</ul>
-<li>A run (recall: sequence of steps associated with a schedule) is
-<ul><li><em>Admissible</em> if
-<ul><li>at most one process is faulty and,
-<li>all messages are eventually received.
-</section>
-
-
-
-<section>
-<h2>Decisions</h2>
-<ul><li>A run (recall: sequence of steps associated with a schedule) is
-<ul><li><em>Admissible</em> if
-<ul><li>at most one process is faulty and,
-<li>all messages are eventually received.
-</ul>
-<li><em>Deciding</em> if
-<ul><li>FLP: "Some process reaches a decision state"
-<li>I would say instead, it contains a configuration <em>C</em> with a decision value.
-</ul></ul>
-<li>A consensus protocol <em>P</em> is 
-<ul><li><em>Totally correct in spite of one fault</em> if it is
-<ol><li>Partially correct (no more than one decision + can make any decision)
-<li>All admissible runs are deciding runs.
-</ul></ul></ul><p>FLP: We show every partially correct protocol has a non-deciding admissible run.
-</section>
-
-
-
-
-<section>
-<h2>Theorem 1</h2>
-<h4>Impossibility of Distributed Consensus with One Faulty
-Process</h4>
-<p>No consensus protocol is totally correct in spite of one fault.
-<ul><li>Proof sketch:
-<ul><li>Prove by contradiction
-<li>Find a case under which the protocol remains indecisive (fails to terminate)
-<ol><li>Find an initial configuration for which the decision is not predetermined.
-<li>Construct an admissible run that never commits to a decision.</ul>
-<li>FLP decompose this into two lemmas.
-</section>
-
-
-
-<section>
-<h2>Valency</h2>
-<p>We introduce valency to describe initial conditions.
-<ul><li>Let
-<ul><li><em>C</em> be a configuration, and
-<li><em>V</em> &subseteq; { 0, 1 } be the set of decision values of configurations reachable from <em>C</em>
-</ul><li>Define<ul>
-<li><em>Bivalence</em>: <em>C</em> is <em>bivalent</em>  if |<em>V</em>| = 2, that is, V = { 0, 1 }
-<li><em>0-valence</em>: <em>C</em> is <em>0-valent</em>  if <em>V</em> = { 0 }
-<li><em>1-valence</em>: <em>C</em> is <em>1-valent</em> if <em>V</em> = { 1 }
-<li><em>Univalence</em>: <em>C</em> is <em>univalent</em> if |<em>V</em>| = 1, that is, V &in; { { 0 }, { 1 } }
-</ul><li>We don't have to think about nonvalency since we assume all admissible runs are deciding runs.
-</section>
-
-
-
-<section>
-<h2>Lemma 2</h2>
-<h4>Initial bivalency</h4>
-<ul><li>We assume by contradiction that <em>P</em> has no bivalent initial configuration.
-<ul><li>Given partial correctness, <em>P</em> must have 0-valent and 1-valent initial configurations.
-<li>Define <em>adjacency</em>: Two initial configurations are <em>adjacent</em> if 
-<ul><li>FLP: they differ only in the initial value of input register <em>x<sub>p</sub></em> of single process <em>p</em>
-<li>CD: The bitstring storing their initial configuration differs by a single bit.
-</ul><li>FLP: Any
-two initial configurations are joined by a chain of initial configurations, each
-adjacent to the next.
-<ul><li>CD: Any bitstring can be editted to any other bitstring, one bit at a time.
-<li>CD: We can regard bitstrings as nodes in a graph, and single bit edits as edges.
-</ul><li>FLP: Hence, there must exist a 0-valent initial configuration <em>C</em><sub>0</sub>
-adjacent to a 1-valent initial configuration <em>C</em><sub>1</sub>
-<ul><li>CD: Dividing a set of contiguous integers, like [0, 255], into two non-empty sets will necessarily place two integers that differ by one into separate sets. <em>Proof on board if we need it</em><code class="py">>>> d = {0:[],1:[]} ; _ = [d[randint(0,1)].append(i) for i in range(256)]
->>> [(d[0][i],d[1][i]) for i in range(len(d[1])) if abs(d[0][i]-d[1][i])<2][0]
-(14, 15)</code>
-</ul><li>FLP: Let <em>p</em> be the process in whose initial
-value they differ.
-</section>
-
-
-<section>
-<h2>Lemma 2</h2>
-<h4>Initial bivalency</h4>
-<ul><li>We assume by contradiction that <em>P</em> has no bivalent initial configuration.
-<ul><li>Given partial correctness, <em>P</em> must have 0-valent and 1-valent initial configurations.
-<li>&exist; 0-valent initial configuration <em>C</em><sub>0</sub>
-adjacent to a 1-valent initial configuration <em>C</em><sub>1</sub>
-<li>Let <em>p</em> be the process in whose initial value they differ.
-<li>Consider some run &sigma; from <em>C</em><sub>0</sub> for which <em>p</em> takes no steps
-<li>&sigma; may also be applied to <em>C</em><sub>1</sub> as they differ only in <em>p</em>
-<li>FLP: It is easily shown that both runs eventually reach the
-same decision value.
-<ul><li>CD: The value is not reached by <em>p</em> as <em>p</em> takes no steps.
-<li>CD: All other values are the same in both cases by Lemma 1.
-</ul>
-<li>Since the runs do not differ, they most have the same decision value.
-<li>So <em>P</em> must have some configuration with initial bivalency. &#x220e;</ul></ul>
-<blockquote>Quod erat demonstrandum</blockquote>
-<p>-FLP
-</section>
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Ongoing bivalency</h4>
-<ul><li>Let
-<ul><li><em>C</em> be a bivalent configuration of <em>P</em>
-<li><em>e</em> = (<em>p</em>, <em>m</em>) by an event applicable to <em>C</em>
-<li>Let <em>&Copf;</em> be the set of configurations reachable from <em>C</em> without applying <em>e</em>
-<li>Let &DD;  = <em>e</em>( <em>&Copf;</em> ) = { <em>e</em>(<em>E</em>) | <em>E</em> &in; <em>&Copf;</em> and <em>e</em> is applicable to <em>E</em> }
-<ul><li>CD: Applicability is trivial here (messages can be delayed indefinitely) but FLP state it
-</ul></ul>
-<li>Then
-<ul><li>&DD; contains a bivalent configuration.
-</ul><li>We will prove by contradiction. 
-</section>
-
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Proof</h4>
-<ul><li>Note:
-<ul><li>Since <em>e</em> is applicable to <em>C</em>, so by reachability of <em>&Copf;</em> and delayability of <em>e</em>, <em>e</em> is applicable to every <em>E</em> &in; <em>&Copf;</em>
-</ul><li>Assume
-<ul><li>&DD; is univalent.
-</ul><li>We derive a contradiction
-<li>Let
-<ul><li><em>E<sub>i</sub></em> be an <em>i</em>-valent configuration reachable from <em>C</em>.
-<ul><li>&forall; <em>i</em>  &exist; <em>E<sub>i</sub></em> (by the assumptions and by Lemma 2)</ul></ul>
-<li>If <ul><li><em>E<sub>i</sub></em> &in; <em>&Copf;</em>
-<ul><li>Let<ul><li><em>F<sub>i</sub></em> = <em>e</em>(<em>E<sub>i</sub></em>) &in; &DD;</ul></ul>
-<li>Else
-<ul><li><em>e</em> was applied to reach <em>E<sub>i</sub></em>, so
-<ul><li>&exist; <em>F<sub>i</sub></em> &in; &DD; from which <em>E<sub>i</sub></em> is reachable
-</ul></ul></ul><li>CD: Basically: We have a univalent configuration without a given step applied.
-</section>
-
-
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Proof</h4>
-<ul>
-<li><em>F<sub>i</sub></em> is <em>i</em>-valent as
-<ul><li><em>F<sub>i</sub></em> is not bivalent as <ul><li><em>F<sub>i</sub></em> &in; &DD;, and <li>&DD;  is assumed to have no bivalent configurations</ul></ul>
-<ul><li><em>F<sub>i</sub></em> has some valence as <em>F<sub>i</sub></em> either <ul><li>reaches <em>E<sub>i</sub></em> <li>or is reachable from <em>E<sub>i</sub></em>
-</ul></ul><li>&DD; contains both 0-valent and 1-valent configurations, as <ul><li>&forall; <em>i</em> &in; { 0, 1, } : &exist; <em>F<sub>i</sub></em> &in; &DD;</ul>
-</section>
-
-
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Definition</h4>
-<ul>
-<li>We term two configurations <em>neighbors</em> if one results from another in a single step.
-<ul><li><em>neighbors</em>(<em>C</em>, <em>C'</em>) &rArr; &exist; <em>e</em> : <ul><li><em>e</em>(<em>C</em>) = <em>C'</em> &or; <li><em>e</em>(<em>C'</em>) = <em>C</em></ul></ul>
-<li>We will now show that 
-<ul><li>&exist; <em>C</em><sub>1</sub>, <em>C</em><sub>2</sub> &in; <em>&Copf;</em> : 
-<ul><li><em>neighbors</em>( <em>C</em><sub>0</sub>, <em>C</em><sub>1</sub> ) &and;
-<li> &forall; <em>i</em> &in; { 0, 1 } : &exist; <em>D<sub>i</sub></em> = <em>e</em>(<em>C<sub>i</sub></em>)</ul>
-<li>That is, &exist; <em>e'</em> : <em>C</em><sub>0</sub> = <em>e'</em> (<em>C</em><sub>1</sub>) where <em>e'</em> = (<em>p'</em>, <em>m'</em>)
-<ul><li>We use tick marks to differentiate this event from the event applied when defining &DD;</ul>
-
-<li>We will evaluate two cases.
-</section>
-
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Case 1</h4>
-<table>
-<tr>
-<td style="width:60%">
-<ul><li>Easy case.
-<li>If <ul><li><em>p</em> &ne; <em>p'</em></ul><li>then
-<ul><li><em>D</em><sub>1</sub> = <em>e'</em>(<em>D</em><sub>0</sub>) (by Lemma 1)
-</ul><li>This is impossible.
-<ul><li><em>D</em><sub>0</sub> is 0-valent
-<li>Valency captures the reachable decision values.
-<li>If <ul><li><em>D</em><sub>1</sub> = <em>e'</em>(<em>D</em><sub>0</sub>) </ul><li>then <ul><li><em>D</em><sub>1</sub> is reachable,</ul><li> but
-<li><em>D</em><sub>1</sub> is 1-valent.
-<li>No 1-valent configuration may be reachable by a 0-valent configuration.</ul><li>We have derived a contradiction in this case, and now must only consider the <em>p</em> = <em>p'</em> case.
-<td style="width:40%">
-
-<img height="900px" src="imgs/fig2.png">
-</table>
-</section>
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Case 2</h4>
-<table>
-<tr>
-<td>
-<ul><li>Longer case.
-<li>If <ul><li><em>p</em> = <em>p'</em></ul><li>then
-<ul><li>Consider a (1) finite (2) deciding run from <em>C</em><sub>0</sub>
-<ul><li>in which <em>p</em> takes no steps i.e. &NotExists; <em>e</em> = (<em>p</em>,<em>m</em>)
-</ul><li>Let
-<ul><li>&sigma; be the schedule of this run and 
-<li><em>A</em> = &sigma;(<em>C</em><sub>0</sub>) be the resulting configuration.
-</ul><li>By Lemma 1, we have
-<ul><li><em>e</em>(<em>A</em>) = <em>E</em><sub>0</sub> (0-valent)
-<li><em>e</em>(<em>e'</em>(<em>A</em>)) = <em>E</em><sub>1</sub> (1-valent)
-</ul><li>This is a contradiction.
-<ul><li>We constructed <em>A</em> to be deciding (univalent)
-<li>We showed it to be bivalent.
-<td>
-
-
-<img height="800px" src="imgs/fig3.png">
-</table>
-</section>
-
-
-<section>
-<h2>Lemma 3</h2>
-<h4>Ongoing bivalency</h4>
-<ul><li>Let
-<ul><li><em>C</em> be a bivalent configuration of <em>P</em>
-<li><em>e</em> = (<em>p</em>, <em>m</em>) by an event applicable to <em>C</em>
-<li>Let <em>&Copf;</em> be the set of configurations reachable from <em>C</em> without applying <em>e</em>
-<li>Let &DD;  = <em>e</em>( <em>&Copf;</em> ) = { <em>e</em>(<em>E</em>) | <em>E</em> &in; <em>&Copf;</em> and <em>e</em> is applicable to <em>E</em> }
-</ul>
-<li>Then
-<ul><li>&DD; contains a bivalent configuration.
-</ul><li>We proved by contradiction. &#x220e;</ul></ul>
-<blockquote>Quod erat demonstrandum</blockquote>
-<p>-FLP
-</section>
-
-
-
-<section>
-<h2>Theorem 1</h2>
-<h4>Impossibility of Distributed Consensus with One Faulty
-Process</h4>
-<p>No consensus protocol is totally correct in spite of one fault.
-<ul><li>Proof sketch:
-<ul><li>Prove by contradiction
-<li>Find a case under which the protocol remains indecisive (fails to terminate)
-<ol><li>Find an initial configuration for which the decision is not predetermined.
-<li>Construct an admissible run that never commits to a decision.</ul>
-<li>FLP decompose this into two lemmas.
-<li>We now have (1) and an important step toward (2).
-<li>We continue the main proof.
-</section>
-
-<section>
-<h2>Theorem 1</h2>
-<h4>Impossibility of Distributed Consensus with One Faulty
-Process</h4>
-<ul><li>Key insight:
-<ul><li>Any deciding run from a bivalent initial configuration becomes univalent at some point.
-<li>So &exist; some step that goes from bivalent to univalent.
-<li>Simply* avoid this step.
-</ul>
-<li>We construct an infinite, bivalent run from a bivalent initial configuration.
-<ul><li>We ensure admissability
-<ul><li>At most one faulty process.
-<li>All messages to nonfaulty processes eventually received.
-
-</ul><li>We construct to ensure admissibility
-<ul><li>A queue of processes is maintained with processes in an arbitrary order.
-<li>The message buffer is maintained such that the earliest sent messages are first (in order).
-<li>We define a <em>stage</em>.
-<ul><li>A stage consists of arbitrarily many steps.
-<li>The final step in the stage occurs when first process in the process queue receives its earliest message (or no message if none).
-<li>This process is moved to the end of the queue.
-</ul><li>We may repeat stages infinitely, which guarantees receipt of all messages.
-</section>
-
-
-<section>
-<h2>Theorem 1</h2>
-<h4>Impossibility of Distributed Consensus with One Faulty
-Process</h4>
-<ul><li>Let <em>C</em><sub>init</sub> be a bivalent initial configuration (by Lemma 2)
-<li>We proceed from this initial configuration in stages.
-<li>We maintain bivalency as follows:
-<ul><li>We begin with an initial bivalent configuration <em>C</em> and a process queue headed by process <em>p</em>
-<li>Let<ul>
-<li><em>C</em> be some initial bivalent configuration
-<li><em>p</em> be the process at the head of the process queue
-<li><em>m</em> be the earliest message to <em>p</em> or the special null message.
-<li><em>e</em> = (<em>m</em>, <em>p</em>)
-</ul><li>By Lemma 3 there is some bivalent configuration <em>C'</em> = <em>e</em>(&sigma;(<em>C</em>)).
-<ul><li>Take this schedule to be the stage.
-</ul><li>Each stage ends in a bivalent configuration, so &exist; an infinitie admissiable run with no decision.
-<li>Therefore, consensus protocol <em>P</em> is not totally correct. &#x220e;</ul></ul>
-<blockquote>Quod erat demonstrandum</blockquote>
-<p>-FLP
-</section>
-
-
-
-<section>
-<h2>Theorem 1</h2>
-<h4>Impossibility of Distributed Consensus with One Faulty
-Process</h4>
-<ul><li>Shorter.
-<ul><li>We have to initially have something that isn't decided, or consensus is meaningless.
-<li>We have to be able to make a decision eventually (or etc.)
-<li>So at some point consensus is reached by a fixed step.
-<li>If the process in that step crashes, consensus is not reached.
-<li>If things were close, consensus is never reached.
-</ul><li>If two groups of 50-&epsilon;% of Bitcoin miners pick different blocks,
-then there will be a Bitcoin split.
-</section>
-
 </div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">struct ret_two_vals_struct 
+{
+	uint64_t val0 ;
+	uint64_t val1 ;
+}</code></ul>
+<p>Where should this structure be declared.</p>
+<div>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>// main.h </code></li>
+<li style="padding-bottom: .3em;"><code>// main.c </code></li>
+<li style="padding-bottom: .3em;"><code>// ret_two_vals.h </code></li>
+<li style="padding-bottom: .3em;"><code>// ret_two_vals.c </code></li>
+</ol>
 </div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<ul>
+<code class="c">typedef struct bst_struct *bst ;</code></ul>
+<p>What is sizeof(bst)?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>sizeof(void *)             == 8</code></li>
+<li style="padding-bottom: .3em;"><code>sizeof(int)                == 4</code></li>
+<li style="padding-bottom: .3em;"><code>sizeof(char)               == 1</code></li>
+<li style="padding-bottom: .3em;"><code>sizeof (struct bst_struct) == ??</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
 
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/notes/notes.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/search/search.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/zoom/zoom.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/Chart.min.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chart/plugin.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/chalkboard/plugin.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
-  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
 
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>How to compile test.c?</p>
+<div >
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>gcc test.c</code></li>
+<li style="padding-bottom: .3em;"><code>gcc test.c -w</code></li>
+<li style="padding-bottom: .3em;"><code>gcc test.c pair.h</code></li>
+<li style="padding-bottom: .3em;"><code>gcc test.c pair.c</code></li>
+</ol>
+</div>
+</section>
+<section>
+<h2>Review Question</h2>
+<div style="outline-style:double;background-color:cyan">
+<p>Did the last slide contain a memory leak?</p>
+<ol start="0">
+<li style="padding-bottom: .3em;"><code>0</code></li>
+<li style="padding-bottom: .3em;"><code>1</code></li>
+</ol>
+</div>
+</section>
+
+<section>
+<h2>Review</h2><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul><li>This is our first example of a code base spanning multiple files.
+<ul><li>As an aside, getting used to this is one reason to learn C: I expect you to deal with files a lot more industry than you do here.
+</ul>
+<li>Previously we used the particularly unseemly:
+<code>gcc test.c pair.c</code>
+<li>This won't scale well on projects of any reasonable size and is annoying to type and remember.
+<li>In practice we have also already simplified the command considerably by using default output names:
+<code>gcc -o tester test.c pair.c</code>
+<li>And in practice we should specify things like where to look for includes (such as in the current directory "."):
+<code>gcc -o tester test.c pair.c -I.</code>
+<li>And perhaps we need to include system libraries, such as math library to use abs():
+<code>gcc -o tester test.c pair.c -I. -lm</code>
+</section>
+
+<section>
+<h2>Teaser</h2><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul><li>This is our first example of a code base spanning multiple files.
+<li>Previously we used the particularly unseemly:
+<code>gcc test.c pair.c</code>
+<li>It would be nice to have a single command the compiles or files, and program that command.
+<code>make</code>
+</section>
+
+<section>
+<h2>Teaser</h2>
+<ul style="width: 100%"><li>Enterprising students may have realized we have something of a solution to this:
+<code class="C">#include &lt;stdlib.h&gt;
+
+int main() 
+{ 
+  system("touch test.txt") ;
+  return 0 ;
+}</code>
+<li>Using system() which, to be clear, you should never use for security reasons, you can run commands from inside programs.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ rm test.txt ; ls ; gcc test.c ; ./a.out ; ls
+a.out  test.c
+a.out  test.c  test.txt
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>Teaser</h2>
+<ul style="width: 100%"><li>Some of you may prefer the 2008 gritty reboot, Python (Python3)
+<code class="Python">from os import system
+
+if __name__ == "__main__":
+    system("touch test.txt")</code>
+<li>I included the main boilerplate to make a point about languages.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ rm test.txt ; ls ; python test.py ; ls
+test.c  test.py
+test.c  test.py  test.txt
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>I don't love you using system in Python either, but Python at least is a scripting language and we are, afterall, writing a script here.
+</section>
+
+<section>
+<h2>Teaser</h2>
+<ul style="width: 100%"><li>Did someone say scripting language.
+<code class="Python"># test.sh
+# octothorpe hashtags like Python - scripting language buddies!
+
+touch test.txt</code>
+<li>We are working in shell after all.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ./test.sh
+bash: ./test.sh: Permission denied
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+<li>The shell correctly notes scripting shell commands shouldn't be done lightly, so I promptly ignore the warning by modifying file permissions to be maximimally permissive (this is octal - all 1s)
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ chmod 777
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ rm test.txt ; ls ; ./test.sh ; ls
+test.c  test.py  test.sh
+test.c  test.py  test.sh  test.txt
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+<li>Anyways, eventually enough starting coders deleted their operating system with poorly formed and highly permissioned commands that some designers set out to <b>make</b> a solution.
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>Makefile</dt>
+<dd>rules
+<dd>.o files
+<dd>compile flags
+<dt>More on -&gt;
+<dt>Enums
+<dt>Unions
+<dd>Tagged Unions
+</section>
+
+<section>
+<h2>Make</h2><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul style="width: 100%"><li>We basically want this functionality:
+<code class="C">void main(void) { 
+  system("gcc test.c pair.c -o tester") ;
+}</code>
+<li>We essentially compile this manually once to make "make":
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc makemaker.c -o make -w
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make
+make: *** No targets specified and no makefile found.  Stop.
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>Oh make is an existing bash command that we can't overwrite by creating an executable of that name.
+<li>Let's just use that then, instead of compile system() calls.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<h4>Colby College rip</h4>
+<p>I was watching Japanese children's live action super hero television shows in class when this was taught to me in 2012, so I actually learned it from this webpage at Colby College and from Stack Overflow.</p>
+<table style="width:100%">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>We will specifically use the 2 .c and 1 .h example here.
+<li>When in doubt, Google "makefile tutorial" and try links until you find something that is short enough you can understand it.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<table style="width:100%">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>make is GNU utility. It is quite common, though gradually being displaced by CMake, which you will learn on-the-job and quite easily if you know Make already.
+<li>We can think of a GNU utility as a command line utility, akin to gcc.
+<li>make is not C specific but is C intended.
+<li>make's actions are defined by a Makefile (usually capitalized) which is an ascii file with a specific grammar and only a filename (that is, no file extension like Makefile.txt).
+</section>
+
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<table style="width:100%">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="even">
+
+<td style="text-align: left;">
+<code class="C">// test.c
+#include "pair.h"
+
+int main() 
+{
+  pair p = newp(); 
+  return 0 ;
+}</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">#ifndef PAIR_H
+#define PAIR_H
+
+typedef struct pair_s 
+              *pair ;
+	
+pair newp() ;
+#endif
+</code>
+</td>
+
+<td style="text-align: left;">
+<code class="C">// pair.c
+#include "pair.h"
+
+struct pair_s { 
+  int32_t x, y ; } ;
+
+pair newp() {
+  return malloc(8) ; }
+</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>We suggested compiling test.c into executable tester via the following command:
+<code>gcc -o tester test.c pair.c -I.</code>
+<li>It is a simple enough matter to create a corresponding Makefile
+<code>tester: test.c pair.c
+	gcc -o tester test.c pair.c -I.</code>
+<li>Let's unpack what is going on here.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>It is a simple enough matter to create a corresponding Makefile
+<code>tester: test.c pair.c
+	gcc -o tester test.c pair.c -I.</code>
+<li>Let's unpack what is going on here.
+<code>target … : prerequisites …
+	recipe</code>
+<li>These <b>must</b> be indented with a single tab.
+<li>The atomic unit of a Makefile is a rule, which consists of a target, prequisities, and recipe.
+<ul><li>The target is the name the command, similar to the name of a function
+<ul><li>In Makefiles with multiple rules, we can say "make &lt;target name&gt;" to make a specific executable or dependency.
+<li>Common names include the name of the executable, "all", and "clean"
+<li>If "make" is run with no arguments, the first rule is made.
+</ul>
+<li>The prerequisites is a list of files needed to run the recipe.
+<ul><li>This prevents repeat work - make examines files to ensure they are changed since last compile
+</ul>
+<li>This scales in usefulness as Makefiles scale in size and projects scale in filecount.
+<li>The recipe is the GCC command.
+<ul><li>It may span multiple lines if needed for some reason.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>It is a simple enough matter to create a corresponding Makefile
+<code>tester: test.c pair.c
+     gcc -o tester test.c pair.c -I.</code>
+<li>If you put this rule into a file called Makefile or makefile and then type make on the command line it will execute the compile command as you have written it in the makefile.
+<li>make with no arguments executes the first rule in the file.
+<li>putting the list of files on which the command depends on the first line after the :, make knows that the rule tester needs to be executed if any of those files change.
+<li><b>One very important thing to note is that there is a tab before the gcc command in the makefile.</b>
+<li>This implementation contains some inefficiency and doesn't teach some techniques... let's refine it.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Was:
+<code>tester: test.c pair.c
+     gcc -o tester test.c pair.c -I.</code>
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.o pair.o
+	$(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>make supports constants
+<ul><li>Imagine you wanted to... port some C code to C++ (gcc -> g++ ezpz)
+<li>Imagine you wanted to... use pow (exponents), sqrt, or abs (absolute value) (add -lm)
+<li>This is virtually identical to how BASH implements variables by the way:
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ STRING="hi"
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ echo $STRING
+hi
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$</code>
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Was:
+<code>tester: test.c pair.c
+	gcc -o tester test.c pair.c -I.</code>
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.o pair.o
+	$(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>.o files are a machine-readable intermediate between a .c file and an executable.
+<li>Most libraries, (like the C standard library "libc" that contains stdio and stdlib) are implemented as masses of .o files accessed through apt.
+<li>We can use .o files with our own headers by instructing gcc to target .o files for input or output.
+<li>Using .o files allows simplified compilation when only one dependency is modified.
+<ul><li>You do not want to recompile stdlib.h every time you compile a 4 line file with one malloc.
+</ul>
+<li>When when include .o files in a recipe, make infers how to generate these files itself.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.o pair.o
+	$(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>When when include .o files in a recipe, make infers how to generate these files itself.
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make
+gcc -I.   -c -o test.o test.c
+gcc -I.   -c -o pair.o pair.c
+gcc -o tester test.o pair.o -I.
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+<li>These .o files will only be regenerated if the corresponding .c file changes - try changing only one .c file.
+<li>Wait what happens if we modify pair.h?
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Was:
+<code>CC=gcc
+CFLAGS=-I.
+
+tester: test.c pair.c
+     $(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>Is now:
+<code>CC=gcc
+CFLAGS=-I.
+DEPS=pair.h
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $&lt; $(CFLAGS)
+
+tester: test.o pair.o
+     $(CC) -o tester test.o pair.o $(CFLAGS)</code>
+<li>Lot of symbolic notation here, but most of it isn't too confusing in context.
+</section>
+
+<section>
+<ul style="width:100%">
+<code>CC=gcc
+CFLAGS=-I.
+DEPS=pair.h
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $&lt; $(CFLAGS)
+
+tester: test.c pair.c
+     $(CC) -o tester test.o pair.o $(CFLAGS)</code>
+	 <br>
+<li><code>%.o / %.c</code>
+<ul><li>% is the wildcard, standing in for any file name ending with .o or .c</ul>
+<li><code>-c</code>
+<ul><li>Bizarrely, the -c flag directs gcc to make a -o file (it describes the input type)</ul>
+<li><code>-o</code>
+<ul><li>This directs the output name, but in this case also output file type because...</ul>
+<li><code>$@</code>
+<ul><li>This uses the built-in variable @ to refer to the rule name - the .o file in this case</ul>
+<li><code>$&lt;</code>
+<ul><li>This uses the built-in variable &lt; to refer to the "first" dependency - the .c file in this case</ul>
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Stopping here:
+<code>CC=gcc
+CFLAGS=-I.
+DEPS=pair.h
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $&lt; $(CFLAGS)
+
+tester: test.o pair.o
+     $(CC) -o tester test.o pair.o $(CFLAGS)
+	 
+clean:
+	rm -f *.o</code>
+<li>clean is a massive boon to file management - every time you have too many files around, modify the rule to do what you want.
+<li>The next compile after a clean is slower, but that's okay.
+</section>
+
+<section>
+<h2><a href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Makefile tutorial</a></h2>
+<ul style="width:100%">
+<li>Usage example:
+<code>user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ls
+Makefile  pair.c  pair.h  test.c
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make
+gcc -c -o test.o test.c -I.
+gcc -c -o pair.o pair.c -I.
+gcc -o tester test.o pair.o -I.
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ls
+Makefile  pair.c  pair.h  pair.o  test.c  test.o  tester
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ make clean
+rm -f *.o
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ls
+Makefile  pair.c  pair.h  test.c  tester
+user@DESKTOP-THMS2PJ:~/dev/projs/pair$ </code>
+</section>
+
+<section>
+<h2>Today</h2>
+<dl>
+<dt>✓ Makefile</dt>
+<dd>✓ rules
+<dd>✓ .o files
+<dd>✓ compile flags
+<dt>More on -&gt;
+<dt>Enums
+<dt>Unions
+<dd>Tagged Unions
+</section>
+
+
+
+ </div>
+  </div>
   <script>
       Reveal.initialize({
         progress: true,
         slideNumber: true,
-        hash: true,
-        keyboard: true,
-        overview: true,
         center: false,
-        touch: true,
-        loop: false,
-        rtl: false,
-        navigationMode: 'default',
-        shuffle: false,
         fragmentInURL: true,
-        embedded: false,
-        help: true,
-        showNotes: false,
-        preloadIframes: null,
-        autoSlide: 0,
-        autoSlideStoppable: true,
-        autoSlideMethod: null,
-        defaultTiming: null,
-        hideInactiveCursor: true,
-        hideCursorTime: 5000,
-        previewLinks: false,
-        transition: 'slide', // none/fade/slide/convex/concave/zoom
-        transitionSpeed: 'default', // default/fast/slow
-        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
-        viewDistance: 3,
-        mobileViewDistance: 2,
         width: 1920,
         height: 1200,
         display: 'block',
-		math: {
-		  CommonHTML: {scale: 80},
-		},
-	reveald3: {
-			runLastState: true, // true/false, default: true
-			onSlideChangedDelay: 200,
-			mapPath: false, // true / false / "spefific/path/as/string", default: false
-			tryFallbackURL: true, // true/false, default false
-			disableCheckFile: false, //default false
-		 },
-
         // reveal.js plugins
         plugins: [
-		  RevealMath,
           RevealHighlight,
-          RevealNotes,
-          RevealSearch,
-          RevealZoom,
-		  RevealChart,
-		  RevealChalkboard,
         ],
-		chalkboard: {
-		boardmarkerWidth: 4,
-        chalkWidth: 7,
-		boardmarkers : [
-                { color: 'rgba(248,248,242,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
-                { color: 'rgba(102,217,239,1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
-                { color: 'rgba(249,38,114,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
-                { color: 'rgba(166,226,46,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
-                { color: 'rgba(253,151,31,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
-                { color: 'rgba(174,129,255,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
-                { color: 'rgba(255,231,146,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
-        ],
-        chalks: [
-                { color: 'rgba(248,248,242,0.5)', cursor: 'url(' + path + 'img/chalk-white.png), auto'},
-                { color: 'rgba(102,217,239,0.5)', cursor: 'url(' + path + 'img/chalk-blue.png), auto'},
-                { color: 'rgba(249,38,114,0.5)', cursor: 'url(' + path + 'img/chalk-red.png), auto'},
-                { color: 'rgba(166,226,46,0.5)', cursor: 'url(' + path + 'img/chalk-green.png), auto'},
-                { color: 'rgba(253,151,31,0.5)', cursor: 'url(' + path + 'img/chalk-orange.png), auto'},
-                { color: 'rgba(174,129,255,0.5)', cursor: 'url(' + path + 'img/chalk-purple.png), auto'},
-                { color: 'rgba(255,231,146,0.5)', cursor: 'url(' + path + 'img/chalk-yellow.png), auto'}
-        ]
-		},
-		dependencies: [
-			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/title-footer/title-footer.css"}); } },
-			{ src: "https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/d3/reveald3.js" },
-		],
       });
     </script>
     </body>

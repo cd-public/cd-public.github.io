@@ -2,10 +2,10 @@
 <html lang="en-US">
 
 <head>
-	<title>Cloud Computing</title>
+	<title>Thinking Machines</title>
 
 	<!-- CSS Files -->
-	<link rel="stylesheet" href="../../../css/tabs.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../css/tabs.css" type="text/css" media="all">
 </head>
 
 <body>
@@ -13,129 +13,158 @@
 		<input type="radio" name="tabs" id="tab1" checked="checked">
 		<label for="tab1">Home</label>
 		<div class="tab">
-			<h4>DATA-599 Top: Cloud Computing</h4>
-			<p>Summer 2024, Willamette University
-			<p>Wed 6:00 PM Salem, Ford 302
-			<p>Thr 6:00 PM Portland, Connor Classroom
+			<h4>IDS 101: College Colloquium: Thinking Machines</h4>
+			<p>Fall 2024, Willamette University
+			<p>MWF 12:00 - 1:00 PM Salem, Ford 201
 			<p><a href="syllabus/syllabus.pdf" target="_blank">Syllabus</a>
 			<h4>Instructor</h4>
 			<p><a href="https://cd-public.github.io/">Calvin Deutschbein</a>
 			<p><a href="mailto:ckdeutschbein@willamette.edu">ckdeutschbein@willamette.edu</a>
 			<p>Ford 3rd Floor
 			<h4>Course Description</h4>
-			<p>This course introduces cloud computing as the solution to the problem of data-intensive programming at
-				scale. We will survey the existing techniques in computing, their algorithmic basis, and explore them in
-				practice. With the motivating example of the MapReduce programming model, will examine Microsoft Azure,
-				Google Cloud, Amazon Web Services, three common commercial platforms for cloud computing, and Hadoop, an
-				open-source alternative. The course will be supplemented with discussions of virtualization and cloud
-				security. Experience coding in Python is recommended.
+			<p>Artifical intelligence, machine learning, big data, and large scale computing have captured the collective imaginations of millions people across a range of technical expertise. Yet each of these buzzwords is rooted in a central promise: that machines may think.
+
+<p>Guided by student inquiry, we will learn how to construct thinking - or the appearance thereof - from basic computation. Using the shared language of computer code, we use programming as a way to bridge the gap between thinking humans and thinking machines. With this shared experience, we will be able to reflect more thoughtfully on the implications of thinking machines on the self, culture, and society.
+
 		</div>
 		<input type="radio" name="tabs" id="tab2">
 		<label for="tab2">Schedule</label>
+		
 		<div class="tab">
-			<table style="width:100%;background-color:#A0A0A0">
+		<h2>Opening Days</h2>
+			<table style="width:100%;background-color:#A0A0A0;font-family:monospace">
 					<tr style="background-color:#00BBBB">
 				<tbody>
-						<th><b>Week</b></th>
-						<th><b>Salem</b></th>
-						<th><b>Portland</b></th>
-						<th><b>HW</b></th>
+						<th><b>Day</b></th>
+						<th><b>Date</b></th>
+						<th><b>Time</b></th>
+						<th><b>Room</b></th>
+						<th><b>Materials</b></th>
 					</tr>
 					<tr style="background-color:#00DDDD">
-						<td>01 (15/16 May)</td>
-						<td colspan="2"><a href="slides/01.html">Intro</a></td>
-						<td><a
-								href="https://colab.research.google.com/drive/1WA6rGf2bdb7IRiGceUTnIpCOGgd8lG7l?usp=sharing">Functional</a>
-						</td>
+						<td>Wed</td>
+						<td>08/21</td>
+						<td>4:00- 5:30 PM</td>
+						<td>Ford 202</td>
+						<td><a href="slides/01_1_ibl.html">Slides</a></td>
 					</tr>
 					<tr style="background-color:#00DDDD">
-						<td>02 (22/23 May)</td>
-						<td><a href="slides/02.html">Two Maps</a> <a href="slides/02.html#/pt1">pt 1</a> and <a
-								href="slides/02.html#/pt2">pt 2</a></td>
-						<td><a href="https://mms.pnsqc.org/Calendar/moreinfo.php?eventid=117065">6-8PM PNSQC Field
-								Trip</a> | 8:30-10:00 PM <a href="slides/02.html">Two Maps</a> <a
-								href="slides/02.html">pt 1</a></td>
-						<td><a
-								href="https://colab.research.google.com/drive/1miDzAUeuuzpQLlQvDYJsCIwtRJ104Ot3?usp=sharing">Fold</a>
-						</td>
+						<td>Thr</td>
+						<td>08/22</td>
+						<td>1:30- 3:00 PM</td>
+						<td>Ford 202</td>
+						<td>Soon&trade;</td>
 					</tr>
 					<tr style="background-color:#00DDDD">
-						<td>03 (29/30 May)</td>
-						<td>6 PM <a href="slides/03.html">Hadoop</a> + 8 PM <a
-								href="https://mms.pnsqc.org/Calendar/moreinfo.php?eventid=117065">PNSQC</a> Make up</td>
-						<td>5:30 PM <a href="https://www.meetup.com/pdxpython/events/300479434/">Python Event</a> + 7:30
-							PM <a href="slides/03.html">Hadoop</a></td>
-						<td>Write your own version of <a
-								href="https://gist.github.com/cd-public/ecd6ef9150bfd3d6ab3494ac55aedb45">README.md</a>
-						</td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>04 (05/06 Jun)</td>
-						<td colspan="2"><a href="slides/04.html">HDFS</a> and <a
-								href="slides/04.html#/Streaming">Streaming</a></td>
-						<td><a href="slides/04.html#/hw">(Actual) WordCount</a></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>05 (12/13 Jun)</td>
-						<td colspan="2"><a href="slides/05.html">Architecture</a> and <a
-								href="slides/05.html#/Dataproc">Dataproc</a></td>
-						<td><a href="slides/05.html#/hw">make_tsv.py</a></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>06 (19/20 Jun)</td>
-						<td style="background-color:#FF0000">JUNETEENTH: NO CLASS. Make-up: <a
-								href="slides/perspectives.html">Perspectives</a></td>
-						<td><a href="slides/async.html#/HTML">HTML</a> / <a href="slides/async.html#/CSS">CSS</a> / .<a href="slides/async.html#/js">js</a></td>
-						<td style="background-color:#DDDDDD"></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>07 (26/27 Jun)</td>
-						<td colspan="2"><a href="slides/07.html">Graphs</a> and <a
-								href="slides/07.html#/spark">PySpark</a></td>
-						<td><a href="slides/07.html#/hw">Spark-R</a></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>08 (03/04 Jul)</td>
-						<td><a href="slides/async.html#/HTML">HTML</a> / <a href="slides/async.html#/CSS">CSS</a> / .<a href="slides/async.html#/js">js</a></td>
-						<td style="background-color:#FF0000">4 JULY: NO CLASS. Make-up: <a
-								href="slides/perspectives.html">Perspectives</a></td>
-						<td style="background-color:#DDDDDD"></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>09 (10/11 Jul)</td>
-						<td colspan="2"><a href="slides/09.html">NLP</a> / <a href="slides/09.html#/sapir">Sapir-Whorf</a> / <a href="slides/09.html#/sparknlp">SparkNLP<a/></td>
-						<td> <a href="slides/09.html#/hw">NLP Project</a></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>10 (17/18 Jul)</td>
-						<td>Work Time</td>
-						<td>6 PM <a href="https://www.meetup.com/owasp-portland-chapter/events/301487187/">OWASP</a> + 8 PM Work Time</td>
-						<td style="background-color:#DDDDDD"></td>
-					</tr>
-
-					<tr style="background-color:#00DDDD">
-						<td>11 (24/25 Jul)</td>
-						<td colspan="2">Talks + <a href="slides/11.html">JavaScript</a></td>
-						<td style="background-color:#DDDDDD"></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>12 (31/01 Aug)</td>
-						<td colspan="2"><a href="slides/12.html">Node.js</a></td>
-						<td style="background-color:#DDDDDD"></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>13 (07/08 Aug)</td>
-						<td colspan="2">Blockchain <a href="slides/13.html">Slides</a> <a href="https://www.youtube.com/watch?v=WA66fxGFHkM">Video</a></td>
-						<td style="background-color:#DDDDDD"></td>
-					</tr>
-					<tr style="background-color:#00DDDD">
-						<td>14 (14/15 Aug)</td>
-						<td>FLP <a href="slides/14.html">Slides</a> <a href="https://youtu.be/RXoy5P2kF2o">Video</a></td>
-						<td><a href="https://github.com/jamesmontemagno/eShopLite">.NET Aspire</a></td>
-						<td style="background-color:#DDDDDD"></td>
+						<td>Fri</td>
+						<td>08/23</td>
+						<td>9:00-10:30 AM</td>
+						<td>Ford 202</td>
+						<td>Soon&trade;</td>
 					</tr>
 				</tbody>
 			</table>
+			<h2>Fall Semester</h2>
+			<table style="width:100%;background-color:#A0A0A0;font-family:monospace">
+					<tr style="background-color:#00BBBB">
+				<tbody>
+						<th><b>Week</b></th>
+						<th><b>Mon</b></th>
+						<th><b>Wed</b></th>
+						<th><b>Fri</b></th>
+						<th><b>HW</b></th>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>01 (26 Aug)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>02 (02 Sep)</td><td style="background-color:#FF0000">LABOR DAY: NO CLASS.</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>03 (09 Sep)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>04 (16 Sep)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>05 (23 Sep)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>05 (30 Sep)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>06 (07 Oct)</td>
+						<td></td>
+						<td></td>
+						<td style="background-color:#FF0000">FALL BREAK DAY: NO CLASS.</td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>07 (14 Oct)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>08 (21 Oct)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>09 (28 Oct)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>10 (04 Nov)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>11 (11 Nov)</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr style="background-color:#00DDDD">
+						<td>12 (18 Nov)</td>
+						<td></td>
+						<td></td>
+						<td style="background-color:#FF0000">Colloquium Ends: NO CLASS.</td>
+						<td></td>
+					</tr>
+
 			</section>
 		</div>
 

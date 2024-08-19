@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Python</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">python</h1>
+  <h2>Opening Days 2</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>Opening Days: Day 2... Did you?
+
+<ul>
+<li>Get ~8 hours of sleep</li>
+<li>Drink water</li>
+<li>Eat at least one vegetable</li>
+<li>Wash your hands</li>
+</ul></li>
+<li>I sure hope you have a computer today.<ul>
+<li>If not, we improvise</li>
+</ul>
+<li>How about those machines that might be thinking, eh?
+<ul><li>Today's lecture loosely adapted from <a href="https://numericalmethodssullivan.github.io/ch-python.html">here</a>.</li>
+
+</section>
+
+<section>
+<h2>Python</h2>
+<ul>
+<li>This semester we will use <b>Python</b></li>
+<li>Python is a language, but a novel kind of language.
+<ul><li>Languages like English, Mandarin, Arabic are <b>natural</b> languages<ul>
+<li>They emerged as a result of historical and cultural processes.
+<li>They are ill-defined - it is ambigious whether a well-formed English sentence may terminate with a preposition.
+<li>They (usually) are well suited to vocalization or some other form of human communication, like sign language
+</ul>
+<li>Python is a <b>constructed</b> language
+<ul><li>Languages like Elvish, Klingon, and JavaScript are constructed by linguistics for some purpose.
+<li>They are designed, rather than evolved.
+<li>Often they are precisely defined by community groups of thinking humans maintain a ruleset followed by thinking machines.
+<li>Many constructed languages are programming or scripting languages.
+<ul><li>These languages are intended to be interpreted by computers rather than vocalized.</ul>
+</ul></ul>
+</section>
+
+
+<section>
+<h2>Python</h2>
+<ul>
+<li>This semester we will use <b>Python</b></li>
+<li>Python is a language, but a novel kind of language.
+<ul><li>Languages like English, Mandarin, Arabic are <b>natural</b> languages
+<li>Python is a <b>constructed</b> language
+</ul><li>We can differentiate thinking humans from thinking machines in perhaps a similar way.
+<ul><li>Humans are <b>natural</b> thinkers.
+<ul><li>Humans and human culture emerged consistent with naturalistic process over time.</ul>
+<li>Machines are <b>constructed</b> thinkers.
+<ul><li>Machines are designed, engineered, and ultimately constructed by some other entity (humans).
+</section>
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<h4>Be sure to introduce yourselves!</h4>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+
+</section>
+
+<section>
+<h2>Colab</h2>
+<ul>
+<li>Take notes<ul>
+<li>Navigate to <a href="https://colab.research.google.com">https://colab.research.google.com</a>
+<li>Make a "New Notebook"
+<li>Name it something, like CC_8_22, you'll remember
+<li>For each question, +Text and record
+<li>You can remove the "Code" block by clicking the trashcan
+<li>Share with your group and with me!
+</ul>
+</section>
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">How do I understand myself in relation to <b>thought</b> and <b>language</b>?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">How do I understand myself in relation to <b>nature</b> and <b>construction</b>?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">How would I imaging a <em>thinking machine</em> understand the self in relation to <b>nature</b> and <b>construction</b>?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">How would I imaging a <em>thinking machine</em> understand the self in relation to <b>thought</b> and <b>language</b>?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Thinking and Expressing</h2>
+<ul>
+<li>As humans, we are accustomed to vocalization and textual expression between one another.
+<ul><li>Through <b>natural</b> languages.
+</ul>
+<li>How might we expect a thinking machine to express thought?<ul><li>Through <b>constructed</b> and especially <b>programming</b> languages.
+</ul>
+</section>
+
+<section>
+<h2>Hello, World!</h2>
+<ul>
+<li>Let's consider a famous example: the <a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program">"Hello, World!" program</a>
+<li>Go into your Colab notebook (perhaps a copy of the group notebook)
+<li>Create a new "Text" block that reads:
+<ul><li>"<b>Exercise A.1</b> Have Python print <math style="background-color:#000000;">Hello, World!</math> to the screen."
+<li>Use double stars ** to click the "B" button to make the exercise name bold.
+<li>Use ` tick marks or click the "<>" button to style "Hello, World!" differently, to denote it is "printed".</ul>
+<li>Create a new "Code" block.<ul>
+<li>You will be prompted:
+<code class="py">Start coding or g͟e͟n͟e͟r͟a͟t͟e with AI.</code>
+<li>Determine how to make the "Hello, World!" program.
+<ul><li>You may chat with the AI.
+<li>You may read the Wikipedia link
+<li>You may use other resources at your disposal.
+</ul>
+<li>Once you have successfully written the program, add another "Text" block explaining your thought process.
+</section>
+
+
+<section>
+<h2>Hello, World!</h2>
+<ul>
+<li>Here is a lightly redacted example:<br>
+<img src="imgs/hello_world_ex.png"><br>
+<li>What do you notice?<ul><li>What does this tell you about "generate"?
+</section>
+
+
+<section>
+<h2>Hello, You!</h2>
+<ul>
+
+<li>Create a new "Text" block that reads:
+<ul><li>"<b>Exercise A.2</b> Have Python print your preferred name to the screen."</ul>
+<li>Create a new "Code" block.<ul>
+<li>You will be prompted:
+<code class="py">Start coding or g͟e͟n͟e͟r͟a͟t͟e with AI.</code>
+<li>Determine how to complete this task.
+<ul><li>Will you use the same steps as last time?
+<li>Has your previous experience informed how you work with machines?
+<li>What have you learned?
+</ul>
+<li>Once you have successfully written the program, add another "Text" block explaining your thought process.
+</section>
+
+
+
+<section>
+<h2>On Colab</h2>
+<ul>
+
+<li><b>Exercise A.3</b> Learn a bit more about Colab.
+<li>Figure out how to:
+<ul><li>Save a notebook.
+<li>Load a notebook.
+<ul><li>Load a brand new notebook.
+<li>Load a notebook you saved in Google Drive
+<li>Load a notebook you saved on your computer.
+</ul>
+<li>Share a notebook with your instructors and peers.<li>Write and <b>format</b> text in "Text" blocks.
+<ul><li>Bold<li>Italicize<li>Underline<li>Quote<li>Code, and<li> Hyperlink (perhaps to Wikipedia or OpenAI chat you used to figure something out)
+</ul>
+<li>Change between "Text" and "Code" blocks using only the keyboard shortcuts.
+</section>
+
+<section>
+<h2>Question #5</h2>
+<blockquote style="color:white;font-size:200%">How did you decide whether and how to use AI to generate your responses to A.1, A.2, and/or A.3?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Arithmetic</h2>
+<ul>
+
+<li>Compared to humans, I find machines are much better at doing what I call "arithmetic".
+<li>I do arithmetic in my life when I'm trying to estimate when to leave my home to reach campus.
+<ul><li>I enter I-5 at mile 298.
+<li>I exit I-5 at mile 260.
+<li>I-5 has a 55 mph speedlimit from 298 to 289 then 65.
+<li>It takes ~40 minutes to get to 260.
+</ul>
+<li>Or I can ask a computer.
+<code class="py">(298 - 289) * (55/60) + (289-260) * (65/60)
+39.666666666666664</code>
+<ul><li>Oh wow - that's a lot faster, easier, more accurate, and more trustworthy.
+</ul><li>To ease into approaching how machines may think we'll start with arithmetic:
+<ul><li>It's easy for machines.
+<li>It can be useful for us.
+</section>
+
+
+<section>
+<h2>Arithmetic</h2>
+<ul>
+<li>Python has many of the expected arithmetic operations, and some extra fun* ones too.
+<ul>
+<li>Addition: <math style="background-color:#000000;">+</math>
+<li>Subtraction: <math style="background-color:#000000;">-</math>
+<li>Multiplication: <math style="background-color:#000000;">*</math>
+<li>Division: <math style="background-color:#000000;">/</math>
+</ul><li>And some and some extra fun* ones too.<ul>
+<li>Integer Division <math style="background-color:#000000;">/</math>
+<ul><li>5/2 is 2.5, but 5//2 is 2 (an integer, or whole number)</ul>
+<li>Modulo <math style="background-color:#000000;">%</math>
+<ul><li>5%2 is 1, but 4%2 is 0 (Modulo is the remainder)</ul>
+<li>Exponentiation <math style="background-color:#000000;">**</math>
+<ul><li>5**2 is 25, 5^2 is... something else.</ul>
+</section>
+
+
+<section>
+<h2>Question #6</h2>
+<blockquote style="color:white;font-size:200%">Can you think of a question you've left unanswered to because the arithmetic to answer them felt too daunting?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+<section>
+<h2>Operations</h2>
+<ul>
+
+<li><b>Exercise A.4</b> Testing operations.
+<li>Take two numbers: <math style="background-color:#000000;">123456789</math> and <math style="background-color:#000000;">12345</math> (selected to be easy to type)
+<li>Estimate and record your estimate of the value from using each of the arithmetic operations over these two values.
+<li>Using "Code" blocks in Colab, calculate the results.
+<ul><li><math style="background-color:#000000;">123456789 + 12345</math> (Addition)
+<li><math style="background-color:#000000;">123456789 - 12345</math> (Subtraction)
+<li><math style="background-color:#000000;">123456789 * 12345</math> (Multiplication)
+<li><math style="background-color:#000000;">123456789 / 12345</math> (Division)
+<li><math style="background-color:#000000;">123456789 // 12345</math> (Integer Division)
+<li><math style="background-color:#000000;">123456789 % 12345</math> (Modulo)
+<li><math style="background-color:#000000;">123456789 ** 12345</math> (Exponentiation)
+<ul><li>Take special note of what happens here.</ul>
+<li><math style="background-color:#000000;">123456789 ^ 12345</math> (Something else)
+<ul><li>Describe vaguely what you think might be happening here.</ul>
+</section>
+
+<!--
+<section>
+<h2>Types</h2>
+<ul>
+<li>We usually do arithmetic over variables, which are assigned values in Python using <math style="background-color:#000000;">=</math>
+<li>Numerical variables can be
+<ul><li>Integers, called "ints" are whole numbers, like 4 or -7 
+<li>Floating point values, called "floats", are all other numbers like 4.7 or -7.4
+</ul><li>You can determine whether a variable is an integer or a float using type().
+<ul><li>type() is like print(), but prints the type of a thing rather than it's value.
+<code>type(4.7)</code>
+<li>I am informing you about type(), versus referring you to Gemini, Google, or Wikipedia,
+<li>I found it hard to ask the write questions to get meaningful answers.
+<li>As an exercise, see what you can find!
+</section>
+
+
+<section>
+<h2>Types</h2>
+<ul>
+<li><b>Exercise A.5</b> Type Checking
+<li>Select any two "ints" and any two "floats".
+<li>Verify they are "ints" and "floats" using type()
+<li>Estimate and record your estimate of the type of the result of each of the operations...<ul>
+<li>
+<math style="background-color:#000000;">+</math>, 
+<math style="background-color:#000000;">-</math>, 
+<math style="background-color:#000000;">*</math>, 
+<math style="background-color:#000000;">/</math>, 
+<math style="background-color:#000000;">/</math>, 
+<math style="background-color:#000000;">%</math>
+</ul><li>...over
+<ul><li>Two ints
+<li>Two floats
+<li>An int and float</ul>
+</section>
+-->
+
+<section>
+<h2>Variables</h2>
+<ul>
+<li>We can also use variables in Python.
+<li>There are some restrictions on names - mostly that they can't contain spaces.<ul>
+<li>We can use single letter names, like <math style="background-color:#000000;">=</math>
+<li>We can use underscores as spaces, also called "snake case", like <math style="background-color:#000000;">my_variable</math>
+<li>We can use capitalization to start words, also called "camel case", like <math style="background-color:#000000;">myVariable</math>
+</ul>
+<li>We <em>assign</em> the <em>value</em> of a <em>variable</em> <math style="background-color:#000000;">=</math>
+<ul><code class="py">x = 1</code>
+<li>There must be a valid variable name on the left side of the "="
+<li>There must be some valid value on the right side
+</ul>
+<li>It's important to different assignment "single equals" "=" from equality testing "double equals" "=="
+</section>
+
+<section>
+<h2>Variables</h2>
+<ul>
+<li><b>Exercise A.5</b> One or two equal signs.
+<li>Select any two integers and assign them to any two variable names, such as "x" or "y"
+<ul><li>It will help latter if the first value is much larger than the second, but you can always change latter.</ul>
+<li>Calculate the integer "quotient" (the result of integer divison) and remainder of the two values
+<ul><li>What operations should you use?
+<li>Store the result of each in a variable, for latter</ul>
+<li>Use "double equals" to check if 
+<ul><li>the smaller value (say, y)
+<li>times the quotient (say, q)
+<li>plus the remainder (say, r)
+<li>is equal to the larger value (say, x)
+</section>
+
+
+
+<section>
+<h2>Question #7</h2>
+<blockquote style="color:white;font-size:200%">What do you like or dislike about Python compared to other ways you've performed arithmetic in the past?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+<section>
+<h2>Homework</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<li>Write code to define positive integers <math style="background-color:#000000;">a</math>, <math style="background-color:#000000;">b</math>, and <math style="background-color:#000000;">c</math> of your own choosing.
+<li>Calculate <math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup>, <math style="background-color:#000000;">b</math><sup><math style="background-color:#000000;">2</math></sup>, and <math style="background-color:#000000;">c</math><sup><math style="background-color:#000000;">2</math></sup>
+<li>Check to see if your three values form a Pythagorean Triple such that <math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup><math style="background-color:#000000;"> + b</math><sup><math style="background-color:#000000;">2</math></sup><math style="background-color:#000000;"> = c</math><sup><math style="background-color:#000000;">2</math></sup>.
+<li>Have Python print True or False to verify that you do, or do not, have a Pythagorean Triple defined.
+<li>Hint: You will need to use double and single equals as well as print()
+</ul>
+<li>You may make a copy of <a href="https://colab.research.google.com/drive/1JaOY-0TKgRFwTxC0sdg_xGYOOMXhSU8I?usp=sharing">this Notebook</a> and share it with me and anyone with whom you collaborate.
+<ul><li>You may give me or Shouvik edit permissions.
+<li>You may only give your peers view or comment permissions.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

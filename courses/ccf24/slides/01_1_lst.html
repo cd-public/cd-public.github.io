@@ -199,12 +199,88 @@ a, b = 1,2,3</code></ul>
 <li>Previously we did every square individually
 <code class="py">def triple_check(a, b, c):
 	print(a*a + b*b == c*c)</code>
-<li><b>List comprehension</b> gives us a way to square <em>every member</em> of a list<code class="py">squares = [x*x for x in t]</code><ul><li>'squares' is the name of the list
+<li><b>List comprehension</b> gives us a way to square <em>every member</em> of a list<code class="py">squares = [x*x for x in t]</code>
+<!--
+<ul><li>'squares' is the name of the list
 <li>'x*x' is the arithmetic performed
 <li>'for x' gives the variable name we can use for each member of the list
 <li>'in t' gives the name of the list
 </ul>
+-->
 <li>If we 'print' the variable 'squares' we get the list of squares:<code class="py">[36, 64, 100]</code>
+</section>
+
+<section>
+<h2>Comprehension</h2>
+<ul>
+<li><b>Exercise A.7</b> Write a function that prints a list with 7 added to all numbers in the list.<ul>
+<li>Consider the following:
+<code class="py">squares = [x*x for x in t]</code>
+<li>What does this code do?
+<ul><li>What is 'squares'?
+<li>What is 'x*x'?
+<li>What is 'for x'?
+<li>What is 'in t'?</ul></ul>
+<ul><li>Write a function, say "add_seven()"...
+</section>
+
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">What process do you use to understand code?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Indices</h2>
+<ul>
+<li><b>Exercise A.8</b> Write a function prints the sum of the final element of a list.<ul>
+<li>Consider the following:
+<code class="py">conts =
+['Africa', 'Americas', 'Antarctica', 'Eurasia', 'Oceania']
+print(conts[1])</code>
+<li>What does the <math style="background-color:#000000;">1</math> in this code do?
+<li>What happens if you change it to
+<ul><li>Large values, like <math style="background-color:#000000;">400</math> or <math style="background-color:#000000;">400 ** 400</math>?
+<li>Non-integer values, like <math style="background-color:#000000;">0.5</math>?
+<li>Anything else?</ul></ul>
+<ul><li>Write a function, say "print_last()"...
+</section>
+
+
+<section>
+<h2>Question #5</h2>
+<blockquote style="color:white;font-size:200%">What are the uses and limitations of creativity in Python?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Homework</h2>
+<ul>
+<li><b>Homework 2</b> Order of Operations<ul>
+<li>There is this arithmetic concept called "order of operations" sometimes called PEMDAS:
+<ul>
+
+<li><b>P</b>arenthesis
+<li><b>E</b>xponentiation
+<li><b>M</b>ultiplication/<b>D</b>ivision
+<li><b>A</b>ddition/<b>S</b>ubtraction
+</ul>
+<li>Conduct a series of tests to determine whether Python follows PEMDAS rules or not. 
+<li>You may make a copy of <a href="https://colab.research.google.com/drive/13vmhSqEnK9_xIQBYSUl885hl7OG8UfuL?usp=sharing">this Notebook</a> and share it with me and anyone with whom you collaborate.
+<ul><li>Give Shouvik and I edit permissions.
+<li>Due Fri @ 12 Noon (We'll discuss it in class)
+<li>You may only give your peers view or comment permissions.
 </section>
 
  </div>

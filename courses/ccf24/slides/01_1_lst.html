@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Lists</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">Lists</h1>
+  <h2>Mon W1</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>It's other first week of class!
+<li>Today we're doing something interesting I hope
+<ul>
+<li>"Arithmetic is boring." -everyone except me
+<li>"Long division? I'm in college." -everyone except me
+<li>"Can I teach them something cool?" -Shouvik
+<li>"We don't have to be having fun for it to be fun." -me
+</ul></li>
+<li>I've seen a lot of chatter about a thing called a "presidential election" lately; let's look into that.<ul>
+<li>It's all the kids* are talking about these days.
+<li><blockquote class="twitter-tweet" data-lang="en" data-theme="dark"><p lang="tl" dir="ltr">kamala IS brat</p>&mdash; Charli (@charli_xcx) <a href="https://twitter.com/charli_xcx/status/1815182384066707861?ref_src=twsrc%5Etfw">July 22, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> </li>
+</section>
+
+<section>
+<h2>Electors</h2>
+<ul>
+<li>This week, we I propose we tackle a political science question:
+<li>So here's the the presidential elections in the U.S. - they aren't.<ul><li>Aren't presidential elections, that is. <a href="https://www.usa.gov/electoral-college#:~:text=The%20Electoral%20College%20is%20not,the%20electors%27%20votes%20by%20Congress">Read more</a>.
+<li>Instead, some subset of people living in the U.S. vote for something called "electors".
+<li>Then these "electors" vote for presidents.
+</ul>
+<li>Not everyone loves this.<ul>
+<li>It might also be illegal.
+<li><a href="https://red.library.usd.edu/cgi/viewcontent.cgi?article=1063&context=sdlrev">Read more</a>.
+</ul>
+<li>Today's lecture brought to you by the University's "Strategic Plan"
+<ul><li>There are three "areas of focus":
+<ul><li>Big data and human-centered computing
+<li>Democratic Institutions
+<li>Climate Change
+</section>
+
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<h4>Be sure to introduce yourselves!</h4>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+</section>
+
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">Whose values are reflected in the University's Strategic Goals?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+<br>
+<center style="outline-style: solid;outline-color:white"><p>Big data and human-centered computing
+<p>Democratic Institutions
+<p>Climate Change</center>
+</section>
+
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">How can thinking machines help us explore the idea of "electors"?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Python</h2>
+<ul>
+<li>Recall we have thematically introduced annoyance to resolve in latter lectures.</li>
+<li>I found writing out this expression "annoying":
+<code class="py">def triple_check(a, b, c):
+	print(a*a + b*b == c*c)</code>
+<li>Thinking machines are better at some things than I am, like:
+<ul><li>Arithmetic
+<li>Doing the same task over and over.
+</ul>
+<li>So I should find a way to ask the machine to do this for me.
+<ul><li>I want a way to say "take these variables and do the same the same thing to all of them.
+<li>Python has my favorite way to do that of any programming language!
+<li>Those "things" could be information about electors... or whatever.
+</section>
+
+
+<section>
+<h2>Tuple</h2>
+<ul>
+<li>Tuples are the (one of the) ways Python solves this problem.</li>
+<li>Instead of saying, here are three variables "a", "b", and "c"
+<code class="py">a, b, c = 6, 8, 10</code>
+<li>We can make a variable for the whole triple, say "t".
+<code class="py">t = 6, 8, 10</code>
+<li>This, uh, does so happen to break "triple_check"
+<code style="max-height:400px" class="py">---------------------------------------------------------------------------
+
+TypeError                                 Traceback (most recent call last)
+
+&lt;ipython-input-10-267dfa60672e&gt; in &lt;cell line: 1&gt;()
+----> 1 triple_check(t)
+
+TypeError: triple_check() missing 2 required positional arguments: 'b' and 'c'</code>
+</section>
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">Read the error message.<br>What do you think it means?<br>How might you fix (or try to fix) it?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>List</h2>
+<ul>
+<li>Okay so we have our triple:
+<code class="py">t = 6, 8, 10</code>
+<li>I always get nervous about this notion because to me it feels ambigious.
+<ul><li>What would the following mean:
+<code class="py">b = x, y
+a, b = 1,2,3</code></ul>
+<li>Here is another, more explicit, way to put multiple things together.
+<code class="py">t = [6, 8, 10]</code>
+<li>This forms a list, and I like using lists better because...<ul>
+<li>Visually, they are enclosed in square brackets "[]" which I find easy to see.
+<li>Lists have a nice feature - comprehension - that we can use.
+</ul>
+</section>
+
+<section>
+<h2>Comprehension</h2>
+<ul>
+<li>Now say we want to "check" this list
+<code class="py">t = [6, 8, 10]</code>
+<li>Previously we did every square individually
+<code class="py">def triple_check(a, b, c):
+	print(a*a + b*b == c*c)</code>
+<li><b>List comprehension</b> gives us a way to square <em>every member</em> of a list<code class="py">squares = [x*x for x in t]</code><ul><li>'squares' is the name of the list
+<li>'x*x' is the arithmetic performed
+<li>'for x' gives the variable name we can use for each member of the list
+<li>'in t' gives the name of the list
+</ul>
+<li>If we 'print' the variable 'squares' we get the list of squares:<code class="py">[36, 64, 100]</code>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

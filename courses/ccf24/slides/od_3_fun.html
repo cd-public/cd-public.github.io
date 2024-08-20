@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Functions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">function</h1>
+  <h2>Opening Days 3</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>Opening Days: Day 3... Do you know where to procure?
+<ul>
+<li>Over-the-counter medication</li>
+<li>Prescription medication</li>
+<li>A COVID vaccine</li>
+<li>Specialty foods, like electrolyte or meal-replacers</li>
+</ul></li>
+<li>How did the <a href="https://colab.research.google.com/drive/1JaOY-0TKgRFwTxC0sdg_xGYOOMXhSU8I?usp=sharing">Pythagorean Triples</a> homework go?<ul>
+<li>Some parts were intended to be obnoxious.</li>
+<li>I hope you were rigorous around<ul>
+<li>Text formatting
+<li>Recording your thoughts
+<li>Collaborating</li>
+</ul><li>Mostly because it's good practice.</ul>
+<li>Today's lecture loosely adapted from <a href="https://docs.racket-lang.org/guide/syntax-overview.html">here</a> but in a nonobvious way so maybe stay away from that link for now.</li>
+</section>
+
+<section>
+<h2>Python</h2>
+<ul>
+<li>This semester we will use <b>Python</b></li>
+<li>Python is a language, but a novel kind of language.
+<ul><li>
+    Python is free,
+<li>Python is very widely used,
+<li>Python is flexible,
+<li>Python is relatively easy to learn,
+<li>and Python is quite powerful.
+</ul>
+<li>It may be the case that Python can be thought of as the language in which a machine may think.
+<ul><li>Deliberately weak claim.</ul>
+</section>
+
+<section>
+<h2>Pythogoras</h2>
+<ul>
+<li>Let's review the homework
+<ul><li>If I were you I would:
+<ul><li>Leave my original homework unaltered.
+<li>Append anything you learn today to the end.
+<li>Thereby preserve a record you can look back on.
+</ul>
+<li>Some elements of the homework were "deliberately annoying"
+<ul><li>We want to introduce "problems" or even just annoyances before we introduce their solutions.
+<li>This is supported by some educational literature - you'll just have to let me know what you think.
+</section>
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<li>Write code to define positive integers <math style="background-color:#000000;">a</math>, <math style="background-color:#000000;">b</math>, and <math style="background-color:#000000;">c</math> of your own choosing.
+<li>A few solutions.
+<ul><li>Multi-line, multi-cell.<ul>
+<li>Create 3 "Code" blocks.
+<li>Assign one variable in each.
+<code class="py">a = 3</code><br>
+<code class="py">b = 4</code><br>
+<code class="py">c = 5</code><br>
+<li>A good way to make quick changes to individual variables.
+<li>Cell structure is more complicated.
+</section>
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<li>Write code to define positive integers <math style="background-color:#000000;">a</math>, <math style="background-color:#000000;">b</math>, and <math style="background-color:#000000;">c</math> of your own choosing.
+<li>A few solutions.
+<ul><li>Multi-line, single-cell.<ul>
+<li>Create 1 "Code" block.
+<li>Make three lines, one variable in each.
+<code class="py">a = 3
+b = 4
+c = 5</code><br>
+<li>A good way to use fewer cells.
+<li>Individual cells are more complex.
+<li>This is the Gemini (AI) solution.
+</section>
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<li>Write code to define positive integers <math style="background-color:#000000;">a</math>, <math style="background-color:#000000;">b</math>, and <math style="background-color:#000000;">c</math> of your own choosing.
+<li>A few solutions.
+<ul><li>Single-line<ul>
+<li>I haven't shown you this, but I when dealing with a "triple" I like to assign it all at once.
+<li>I use commas to assign 3 variable names to 3 values.
+<code class="py">a, b, c = 3, 4, 5</code><br>
+<li>I was able to get Gemini to do this with the following prompt:
+<code class="lisp">Write code to define positive integers a, b, and c of your own choosing in a single line</code>
+<li>This line is harder to read and weirder to edit, but
+<li>There are many fewer lines.
+</section>
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<h4>Be sure to introduce yourselves!</h4>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+</section>
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">How do you decide how to express yourself in a constructed language?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul><br><br>
+<p>If your initial answer is e.g. "I just do the first thing I think of" or "I just follow a guide" - dig deeper. <p>Why is that the first thing you think of? <p>How do you choose a guide? <p>How do you decide what prompt to give an AI?
+</section>
+
+
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<li>Calculate <math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup>, <math style="background-color:#000000;">b</math><sup><math style="background-color:#000000;">2</math></sup>, and <math style="background-color:#000000;">c</math><sup><math style="background-color:#000000;">2</math></sup>
+<li>As with picking values, a few options:
+<ul><li>Multi-cell
+<li>Multi-line / single-cell
+<li>Single-line
+</ul><li>But an addition wrinkle: <math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup> is not meaningful Python
+<ul><li>This is an example of something that exists in a natural language but not a constructed langage.
+<li>Python, and many other programming languages, often lack to notion of "superscripts" or raised text.
+<li>Natural languages, which may have initially been written by hand on paper, can easily accomodate these features.
+</section>
+
+
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<ul><li><math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup> is not meaningful Python<li>So what do we do?
+<li>"Squaring" can be thought of, in my mind, in two ways.
+<ul><li><b>Multiply</b>: I square some value by multipling that value by itself.
+<code class="py">a_squared = a *  a</code>
+<li><b>Exponentiation</b>: I square some value by raising it to the second power.
+<code class="py">a_squared = a ** 2</code>
+<li>I should also verify:
+<code class="py">a ** 2 == a * a</code>
+</section>
+
+
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<ul><li><math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup> is not meaningful Python<li>So what do we do?
+<li>"Squaring" can be thought of, in my mind, in two ways.
+<li>I gravitate toward multiplication.
+<ul><li>In my mind: multiplication is easier that exponentiation, so I'll use that.
+</ul>
+<li>So I could write, perhaps:
+<code>a_2, b_2, c_2 = a*a, b*b, c*c</code>
+<li>Gemini did something quite different (for me):
+<code># prompt: Calculate a2, b2, and c2
+
+a2 = a**2
+b2 = b**2
+c2 = c**2</code>
+</ul>
+</section>
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">What are some reasons humans and machines may choose different ways to solve the same problems?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul><br>
+<p>Did you use the same or different solutions than a machine might?
+
+</section>
+
+
+
+<section>
+<h2>Review:</h2>
+<ul>
+<li><b>Homework 1</b> Pythagorean Triples<ul>
+<ul>
+<li>Check to see if your three values form a Pythagorean Triple such that <math style="background-color:#000000;">a</math><sup><math style="background-color:#000000;">2</math></sup><math style="background-color:#000000;"> + b</math><sup><math style="background-color:#000000;">2</math></sup><math style="background-color:#000000;"> = c</math><sup><math style="background-color:#000000;">2</math></sup>.
+<li>Have Python print True or False to verify that you do, or do not, have a Pythagorean Triple defined.
+<li>Hint: You will need to use double and single equals as well as print()
+<ul><li>We use double equals to determine the true/false value of the equality.
+<code class="py">a_2 + b_2 = c_2</code>
+</code>
+<li>We can use single equals again to assign the result to a variable.
+<code class="py">is_triple = a_2 + b_2 = c_2
+</code>
+<li>We can use print() to "print" to true/false
+<code class="py">print(is_triple)
+</code>
+<li>We could, of course, do everything in a single line
+<code class="py">print(a*a + b*b = c*c)</code></ul>
+<li>I asked for print make an important point:
+<code class="py">is_triple == print(is_triple) # this is "False"
+</code>
+<ul><li>Printing true/false and determining true/false are different things - it's good to keep this in mind.
+</section>
+
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">Reflect on what you learned about<ul>
+<li>Python
+<li>Thinking
+<li>Language, and
+<li>Machines
+</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul><br>
+</section>
+<section>
+<h2>Functions 0</h2>
+<ul>
+<li>Suppose we wish to check more than one triple.
+<ul><li>We could, for example, have two Code cells:
+<li>In the first, we assign variables:
+<code class="py">a, b, c = 3, 4, 5</code>
+<li>In the second, we print:
+<code class="py">print(a*a + b*b == c*c)</code>
+<li>Then it is simply a matter of changing the variables and "running" two cells.</ul><center>
+<img src="imgs/triple.gif"></center>
+<li>Essentially, we have created a way to take three numbers and return a true/false value.
+<li>We term this idea a <em>function</em>.
+</section><section>
+<h2>Functions 1</h2>
+<ul>
+<li>Rather than assign variables in one cell, and record some arithmetic in another, we can make a function that allows us to "apply" arithmetic.
+<li>Python contains the "def" keyword to make functions:
+<ul>
+<ul><li>It works a lot like assigning variables, but more involved:
+<li>First, we have to write the keyword, "def", for define:
+<code class="py">def</code>
+</section>
+
+<section>
+<h2>Functions 2</h2>
+<ul>
+<li>Rather than assign variables in one cell, and record some arithmetic in another, we can make a function that allows us to "apply" arithmetic.
+<li>Python contains the "def" keyword to make functions:
+<ul>
+<ul>
+<li>Then after a space, we give the name of a function, like "triple_check"
+<code class="py">def triple_check</code>
+</ul>
+</section>
+
+<section>
+<h2>Functions 3</h2>
+<ul>
+<li>Python contains the "def" keyword to make functions:
+<ul>
+<ul><li>After the name of the function, we need to provide some variables to function (or potentially no values)
+<ul><li>In our case, three numbers, "a", "b", and "c"
+<li>We separate values from each other with commas
+<li>We separate variable names from function names by placing them all within a pair of parentheses "()"
+</ul>
+<code class="py">def triple_check(a, b, c)</code>
+</section>
+
+<section>
+<h2>Functions 3</h2>
+<ul>
+<li>Python contains the "def" keyword to make functions:
+<ul>
+<ul><li>This gives the name of a function and how to use it
+<ul><li>It does not explain what arithmetic to do.
+<li>We end the "def" line with a colon ":"
+<li>We go to the next line (usually with enter) 
+<li>We indent once (usually with a tab)
+<li>We write some arithmetic
+</ul>
+<code class="py">def triple_check(a, b, c):
+	print(a*a + b*b == c*c)</code>
+</section>
+
+
+<section>
+<h2>Functions 4</h2>
+<ul>
+<li>Let's see it in action.
+<table width="100%">
+<tr><th>Functionless</th><th>Function-ily</th></tr>
+<tr><td><img width="750px" src="imgs/triple.gif"></td><td><img width="750px" src="imgs/func.gif"></td></table>
+</section>
+
+<section>
+<h2>Recall:</h2>
+<ul>
+<li><b>Exercise A.5</b> One or two equal signs.
+<li>Select any two integers and assign them to any two variable names, such as "x" or "y"
+<ul><li>It will help latter if the first value is much larger than the second, but you can always change latter.</ul>
+<li>Calculate the integer "quotient" (the result of integer divison) and remainder of the two values
+<ul><li>What operations should you use?
+<li>Store the result of each in a variable, for latter</ul>
+<li>Use "double equals" to check if 
+<ul><li>the smaller value (say, y)
+<li>times the quotient (say, q)
+<li>plus the remainder (say, r)
+<li>is equal to the larger value (say, x)
+</section>
+
+
+<section>
+<h2>For Today:</h2>
+<ul>
+<li><b>Exercise A.6</b> A novel function.<ul>
+<li>Write a function that, given two numbers, say "a", "b", prints "True" if:
+<ul><li>the second value (say, y)
+<li>times the quotient of the two values
+<li>plus the modulo of the two values
+<li>is equal to the first of the two values (say, x)
+</ul>
+<li>And prints "False" otherwise.
+</section>
+
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">What are some ways you think or act that feel like functions?
+</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul><br>
+<p>In your group, you may also wish to discuss how you feel about functions, Python, Opening Days, etc. Feel free to do so!
+</section>
+
+
+<section>
+<h2>No Homework</h2>
+<ul>
+<li>Be ready to begin the first week of your other classes!
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

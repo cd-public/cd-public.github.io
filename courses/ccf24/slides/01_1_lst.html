@@ -36,14 +36,15 @@
 <li>"Can I teach them something cool?" -Shouvik
 <li>"We don't have to be having fun for it to be fun." -me
 </ul></li>
+<li>How about "data" - I hear "data" is cool.<!--
 <li>I've seen a lot of chatter about a thing called a "presidential election" lately; let's look into that.<ul>
 <li>It's all the kids* are talking about these days.
-<li><blockquote class="twitter-tweet" data-lang="en" data-theme="dark"><p lang="tl" dir="ltr">kamala IS brat</p>&mdash; Charli (@charli_xcx) <a href="https://twitter.com/charli_xcx/status/1815182384066707861?ref_src=twsrc%5Etfw">July 22, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> </li>
+<li><blockquote class="twitter-tweet" data-lang="en" data-theme="dark"><p lang="tl" dir="ltr">kamala IS brat</p>&mdash; Charli (@charli_xcx) <a href="https://twitter.com/charli_xcx/status/1815182384066707861?ref_src=twsrc%5Etfw">July 22, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> </li>-->
 </section>
-
 <section>
-<h2>Electors</h2>
+<h2>Data</h2>
 <ul>
+<!--
 <li>This week, we I propose we tackle a political science question:
 <li>So here's the the presidential elections in the U.S. - they aren't.<ul><li>Aren't presidential elections, that is. <a href="https://www.usa.gov/electoral-college#:~:text=The%20Electoral%20College%20is%20not,the%20electors%27%20votes%20by%20Congress">Read more</a>.
 <li>Instead, some subset of people living in the U.S. vote for something called "electors".
@@ -53,13 +54,13 @@
 <li>It might also be illegal.
 <li><a href="https://red.library.usd.edu/cgi/viewcontent.cgi?article=1063&context=sdlrev">Read more</a>.
 </ul>
+-->
 <li>Today's lecture brought to you by the University's "Strategic Plan"
-<ul><li>There are three "areas of focus":
+<li>There are three "areas of focus":
 <ul><li>Big data and human-centered computing
 <li>Democratic Institutions
 <li>Climate Change
 </section>
-
 
 <section>
 <script>
@@ -98,7 +99,7 @@ function scramb() {
 </table>
 </section>
 
-
+<!--
 <section>
 <h2>Question #1</h2>
 <blockquote style="color:white;font-size:200%">Whose values are reflected in the University's Strategic Goals?</blockquote>
@@ -113,11 +114,11 @@ function scramb() {
 <p>Democratic Institutions
 <p>Climate Change</center>
 </section>
-
+-->
 
 <section>
-<h2>Question #2</h2>
-<blockquote style="color:white;font-size:200%">How can thinking machines help us explore the idea of "electors"?</blockquote>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">How can thinking machines help us explore the idea of "data"?</blockquote>
 
 <ul style="text-align: center;">
 <li><b>Think</b> about a possible answer on your own
@@ -131,8 +132,7 @@ function scramb() {
 <ul>
 <li>Recall we have thematically introduced annoyance to resolve in latter lectures.</li>
 <li>I found writing out this expression "annoying":
-<code class="py">def triple_check(a, b, c):
-	print(a*a + b*b == c*c)</code>
+<code class="py">triple_check = lambda a, b, c: print(a*a + b*b == c*c)</code>
 <li>Thinking machines are better at some things than I am, like:
 <ul><li>Arithmetic
 <li>Doing the same task over and over.
@@ -197,8 +197,8 @@ a, b = 1,2,3</code></ul>
 <li>Now say we want to "check" this list
 <code class="py">t = [6, 8, 10]</code>
 <li>Previously we did every square individually
-<code class="py">def triple_check(a, b, c):
-	print(a*a + b*b == c*c)</code>
+
+<code class="py">triple_check = lambda a, b, c: print(a*a + b*b == c*c)</code>
 <li><b>List comprehension</b> gives us a way to square <em>every member</em> of a list<code class="py">squares = [x*x for x in t]</code>
 <!--
 <ul><li>'squares' is the name of the list

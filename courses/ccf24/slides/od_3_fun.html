@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Functions</title>
+  <title>lambda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <style>
     code{white-space: pre-wrap;}
@@ -21,7 +21,7 @@
 
 <section>
 <br><br><br>
-  <h1 style="font-family: monospace;text-transform: lowercase;">function</h1>
+  <h1 style="font-family: monospace;text-transform: lowercase;">lambda</h1>
   <h2>Opening Days 3</h2>
 </section>
 <section>
@@ -351,14 +351,13 @@ c2 = c**2</code>
 <section>
 <h2>Functions</h2>
 <ul>
-<li>Python contains the "def" keyword to make functions:
+<li>Python contains the "lambda" keyword to make functions:
 <li>Let's see it in action.
 <table width="100%">
 <tr><th>Functionless</th><th>Function-ily</th></tr>
 <tr><td><img width="750px" src="imgs/triple.gif"></td><td><img width="750px" src="imgs/func.gif"></td></table>
 <li>It looks like this:
-<code class="py">def triple_check(a, b, c):
-	print(a*a + b*b == c*c)</code>
+<code class="py">triple_check = lambda a, b, c: print(a*a + b*b == c*c)</code>
 <li>Now: explore how functions work and can be used.
 </section>
 

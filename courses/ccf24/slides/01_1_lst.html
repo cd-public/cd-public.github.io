@@ -178,7 +178,7 @@ TypeError: triple_check() missing 2 required positional arguments: 'b' and 'c'</
 <ul>
 <li>Okay so we have our triple:
 <code class="py">t = 6, 8, 10</code>
-<li>I always get nervous about this notion because to me it feels ambigious.
+<li>I always get nervous about this way of writing because to me it feels ambigious.
 <ul><li>What would the following mean:
 <code class="py">b = x, y
 a, b = 1,2,3</code></ul>
@@ -198,7 +198,7 @@ a, b = 1,2,3</code></ul>
 <li>Previously we did every square individually
 
 <code class="py">triple_check = lambda a, b, c: print(a*a + b*b == c*c)</code>
-<li><b>List comprehension</b> gives us a way to square <em>every member</em> of a list<code class="py">squares = [x*x for x in t]</code>
+<li><b>List comprehension</b> gives us a way to do more than just one arithmetic operation at a time<code class="py">squares = [x*x for x in t]</code>
 <!--
 <ul><li>'squares' is the name of the list
 <li>'x*x' is the arithmetic performed
@@ -206,7 +206,6 @@ a, b = 1,2,3</code></ul>
 <li>'in t' gives the name of the list
 </ul>
 -->
-<li>If we 'print' the variable 'squares' we get the list of squares:<code class="py">[36, 64, 100]</code>
 </section>
 
 <section>

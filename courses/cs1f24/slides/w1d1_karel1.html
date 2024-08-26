@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Karel 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section style="background-color: #8acf00;">
+  <h1 style="width:1080px;height:1080px;
+        font-size: 48px;
+        color: #000000;
+        background-color: #8acf00;
+        font-weight: 500;
+        font-family: Archivo Narrow, sans-serif;
+        font-family: arial_narrowregular, Arial Narrow, sans-serif;
+        font-size: 280px;
+        text-align: center;
+        filter: blur(2px);
+        width: 100%;">cs151</h1>
+</section>
+
+<section>
+  <img src="imgs/qr.png">
+  <h1 class="title">Welcome!</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W1D1: 26 Aug</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to CS-151: Intro to Programming with Python!
+<li>By <b>FRIDAY 11:59 PM</b>: Fill out <a href="https://forms.gle/8yh95AGSnLatMh8HA">this survey</a>
+<ul><li>There are weekly, 1 hour meetings with peer tutors on Wednesday or Thursday.
+<li>Attending these is 10% of your grade.
+<li>Read the instructions carefully and fill out as many times as you can!
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 0".
+<ul><li>A minimal problem set to familiarize yourself with how to submit coding assignments.
+<li>Links will be posted on the course website and on the Discord
+<ul><li>They will not be posted on Canvas or via email to help encourage you to use the website and Discord
+</ul>
+</section>
+
+
+<section>
+<h2>In general</h2>
+<ul>
+<ul><li>Visit the webpage @ <a href="https://cd-public.github.io/courses/cs1f24">cd-public.github.io/courses/cs1f24</a><ul>
+<li>Linked from Canvas
+<li>2nd Google result for "calvin deutschbein courses"
+<li>4th Google result for "calvin willamette courses" (easier to spell)</ul>
+<li>The syllabus and calendar are there for you - check exam days, mostly.
+<li>Join the Discord server - you got an email invite from me ("ckdeutschbein@")
+<li>Bring a computer if at all possible, or let me know to find you one.
+<ul><li>Set up your computer for the term.
+<li>Website -> Resources -> Setup. Video guides.
+</ul>
+</section>
+
+<section>
+<h2>About Me</h2>
+<dl>
+<dt>Name</dt>
+<dd>Calvin (Deutschbein) 
+</dd>
+<dt>Call me</dt>
+<dd>(Professor) Calvin 
+</dd>
+<dt>Pronouns</dt>
+<dd>they/them
+</dd>
+<dt>Office</dt>
+<dd><strong>Ford</strong> 3rd Floor
+</dd>
+<dt>Office Hours</dt>
+<dd>Discord me between 12:00 AM and 11:59 PM
+<dd>Catch me after CS151 (11:20-12:00) or my CC (1:00)
+<dt>Email:</dt>
+<dd>ckdeutschbein@willamette.edu
+<dd>~24 hour maximum response time, I do Discord before email
+</dd>
+<dt>Website:</dt>
+<dd><a href="cd-public.github.io4">cd-public.github.io</a>
+</dd>
+</dl>
+</section>
+<section>
+<h2>Background</h2>
+<dl>
+<dt>Thesis Title</dt>
+<dd>Mining Secure Behavior of Hardware Designs
+</dd>
+<dt>Plain English</dt>
+<dd>Just as there are bugs in code that makes <b>software</b>, modern <b>hardware</b> is also written in code and therefore may contain bugs. I find these bugs.
+</dd>
+<dt>Thesis</dt>
+<dd>Specification mining can discover properties that can be used to verify the secure
+behavior of closed source CISC CPU designs, properties that can be used to verify
+the temporal correctness of CPU designs, and hyperproperties that can be used to
+verify that modules, SoCs, and CPUs have secure information flow.
+</dd>
+<dt>Some partners</dt>
+<dd>Intel Corporation, Semiconductor Research Corporation, Synopsys, MITRE, Cycuity
+</dd>
+</dl>
+</section>
+<section>
+<h2>Course Structure</h2>
+<ul>
+	<li>Class on MWF
+	<li>Section on either W or Th.
+	<ul><li>10% of final grade for section attendance.</ul>
+	<li>Code assignment every Monday 11:59 PM
+	<ul>
+		<li>5 problem sets - series of small puzzle-like programs
+		<li>Latter, 5 projects - one holisitic program
+		<li>50% of final grade total (20 for problem sets, 30 for projects)
+	</ul>
+	<li>Two Midterms (open book/note)
+	<ul>
+		<li>Friday of Week 6 - October 4
+		<li>Friday of Week 11 - November 8
+		<li>10% of final grade each
+	</ul>
+	<li>Final exam (open book/note)
+	<ul>
+		<li>8 AM to 11 AM on either 11 Dec or 12 Dec
+		<li>20% of final grade
+	</ul></ul>
+	<p>My goal is to help 100% of students achieve an A in this course.
+</section>
+
+<section>
+<h2>Sections</h2>
+<ul>
+<li >Everyone will be placed into small sections of 8-10 students, with one section leader</li>
+<li >All section leaders are students who recently took and excelled in this course</li>
+<li >Will meet as a group with your section leader once a week for an hour to go over and work on problems
+<ul>
+<li >These meetings will be on Wednesdays or Thursdays</li>
+<li >Poll out <strong>today</strong>, finalize by Friday.</li>
+</ul></li>
+<li>Section leaders will also serve as a secondary source you can ask for help or guidance from throughout the week
+<ul>
+<li >This tutoring is part of their job! Don’t hesitateto ask them for some extra assistance!</li>
+</ul></li>
+<li>Planning to start section meetings <em>next</em> week</li>
+<blockquote>Small sections are mandatory. They help you, and your attendance helps your peers. As a result, we have a policy for attendance. Every unexcused absence after the third will result in a 5% deduction, per absence, to your final grade. If you cannot attend your section, reach out and we will place you in a section at another time.</blockquote>
+</section>
+
+
+<section>
+<h2>Academic Honesty</h2>
+<ul>
+<li >You must write your code yourself.
+<ul>
+<li>You may "use" AIs like ChatGPT, Gemini, to "write" your code. They are okay at it, but not great.
+<ul><li>You must cite what you used with the prompt, both for honesty and so I can provide feedback.</li></ul>
+<li>You may collaborate with your peers but may not copy their work.
+<ul><li>Peer collaboration requires enthusiastic consent by all parties.</li>
+<li>You must say who you worked with, again to help me understand how to provide feedback.</li></ul>
+<li>You may use online communities, most like Stack Overflow and GeeksforGeeks
+<ul><li>In fact, you should. They are better than the AIs, and learning to use them is more rewarding.
+<li>Do not copy solutions from these sites, use them to learn how to solve a problem then write yourself.
+<li>Please cite - I want you to learn to use these and will often have suggestions.
+</ul>
+<li>Dishonesty is when you take work (code) someone else did and claim you did yourself.
+</section>
+
+
+<section>
+<h2>Citation</h2>
+<div>
+<ul>
+<li>Professor Jed Rembold did most of the work to make these slides.
+<li>If you see him around ask him:
+<blockquote>What is the square root of <em>E</em> over <em>m</em>?</blockquote>
+<li>(He was recently in the Washington Post for proving some of Einstein's work - fun!)
+</section>
+
+<section>
+<h2>Speaking of Code</h2>
+<div>
+<ul>
+<li>Python: It's the <a href="https://survey.stackoverflow.co/2023/#section-admired-and-desired-programming-scripting-and-markup-languages">real deal</a>.
+<ul>
+<li>Python is my favorite to express ideas by typing
+<li>It has notable advantage over unformated text or prose.
+<li>Like speaking, writing, or typing it has a learning curve.
+<li>Like speaking, writing, or typing, once I learned it I used it alot.
+</ul>
+<li>We start this class with a subset of Python called "Karel".
+<ul><li>This reminds me typing of while I had to look at the keyboard.
+</ul>
+</section>
+
+<section>
+  <h1 class="title">Karel 1</h1>
+  <p class="author">Calvin (Deutschbein)<br>
+  <p class="date">W1D1: 26 Aug
+</section>
+
+<section>
+<h2>Karel</h2>
+<ul>
+<li>Imagine a robot on flat surface, like my robot vacuum.
+<ul><li>The robot 'eats' socks and then needs rescued.</ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4XT6Gw_Aw28?si=itzAzc27C1-E3358" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<li>We assume the world is a grid.
+<li>Karel as a a few actions:
+<ul>
+<li>Can move forward one space</li>
+<li>Can turn left 90 degrees (just like NASCAR 🏎️)</li>
+<li>Can pick up a 'beeper'</li>
+<li>Can drop off a 'beeper'</li>
+</ul></li>
+<li>We will be spending the first several class days getting Karel to solve a wide
+variety of problems
+<ul>
+<li>This content is not in your book, but more in-depth descriptions can
+be found <a href="https://willamette.edu/~esroberts/pykarel/reader/01-IntroducingKarel.html">here</a>
+</section>
+
+<section><h2>The World</h2>
+<table>
+<tr><td width="50%" style="vertical-align:top">
+<ul>
+<li>Karel’s world is defined on a grid
+<!--<ul>
+<li><em>avenues</em> run north-south</li>
+<li><em>streets</em> run east-west</li>
+<li>The <em>intersection</em> between a street and avenue is called a
+corner</li>
+</ul></li>-->
+<li>Compass directions are maplike
+<ul><li>Up is North, Down is South
+<li>Right is East, Left is West
+<li>Oregon would be in the <em>upper left</em> #PNW </li></ul>
+<li>Walls are impassable</li>
+<li>'Beepers' are diamonds
+<ul><li>Do not ask me why they are called beepers.
+<li>I will make something up.
+<li>We just had to call them something, okay?</ul></li>
+<li>Karel is an irregular pentagon.
+<ul><li>I have no idea what to call that shape.</li>
+<li>&lt;checks notes&gt; it says here "house-shaped"
+</ul>
+</div>
+<td width="50%"><img
+data-src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/09798d6dcd5d446eb614a9423c8092c705b331ac.svg"
+style="width:100.0%" />
+</table>
+</section>
+<section><h2>Commands</h2>
+<ul>
+<li>Karel can perform 4 actions: Two to move, and two to beep.<br>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code class="python">move()</code></td>
+<td style="text-align: left;">Moves Karel forward one intersection in
+whatever direction they are facing</td>
+</tr>
+<tr class="even">
+<td
+style="text-align: left;"><code class="python">turn_left()</code></td>
+<td style="text-align: left;">Rotates Karel 90 deg
+counter-clockwise</td>
+</tr>
+<tr class="odd">
+<td
+style="text-align: left;"><code class="python">pick_beeper()</code></td>
+<td style="text-align: left;">Picks up a beeper on the ground</td>
+</tr>
+<tr class="even">
+<td
+style="text-align: left;"><code class="python">put_beeper()</code></td>
+<td style="text-align: left;">Places a beeper on the ground</td>
+</tr>
+</tbody>
+</table></li>
+<li>By performing a bunch of actions, one after another, Karel can get up to all manner of hijinks.</li>
+</ul>
+</section>
+
+<section><h2>Example</h2>
+<table>
+<tr><td width="50%" style="vertical-align:top">
+<ul>
+<li>Karel’s world is defined on a grid
+<!--<ul>
+<li><em>avenues</em> run north-south</li>
+<li><em>streets</em> run east-west</li>
+<li>The <em>intersection</em> between a street and avenue is called a
+corner</li>
+</ul></li>-->
+<li>Suppose Karel is in Oregon (the <em>upper left</em>)
+<li>Karel yearns for gatorque down in Florida.
+<li>The US interstate highway runs on a grid.
+<ul><li>There's also some missing connections e.g.:
+<li>Boise, Idaho, to Las Vegas, Nevada, or 
+<li>Salem, Maine, to Richmond, Virginia.
+</ul><li>We imagine a (very simplified) map as like so.
+<li>Take a moment to write out how to move, and left-turn, to get to the delicious gatorque.
+<li>pick-beeper could be named pick-gatorque in this instance.
+<td width="50%"><img
+data-src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/2f23aa67af9dd68dfb3635c94e79e7f1f75413b0.svg"
+style="width:100.0%" />
+</table>
+</section>
+
+<section><h2>Example</h2>
+<table>
+<tr><td width="35%" style="vertical-align:top"><ul><li>Start here...<img
+data-src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/2f23aa67af9dd68dfb3635c94e79e7f1f75413b0.svg"
+style="width:100.0%" />
+
+<td width="30%" style="vertical-align:top"><ul><li>Specify 2 actions...<code>move()
+turn_left()
+</code>
+<li>Each action gets its own line.<td>
+
+<td width="35%" style="vertical-align:top"><ul><li>Karel is now here...<img
+data-src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/09798d6dcd5d446eb614a9423c8092c705b331ac.svg"
+style="width:100.0%" />
+<li>Karel! That way is poutine not gatorque!
+</table>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

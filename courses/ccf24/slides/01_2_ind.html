@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>indices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">indices</h1>
+  <h2>Wed W1</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>It's other first week of class!
+<li>
+<ul>
+<li>My SSN is 123 45 6789 (this is true)
+<code class='py'>ssn = ['123', '45', '6789']</code>
+<li>I should get someone to do this math for me.
+<code class='py'>squares = [x * x for x in t]</code>
+<li >What was that threeth (not third) thing you said again.
+<code class='py'>ssn[3]</code>
+<li>That one throws an error. What was the oneth (not first) thing I said?
+<code class='py'>print(ssn[1])</code>
+<li>It was
+<code class='py'>45</code>
+<li>Why no quotes?
+</section>
+
+<section>
+<h2>WHY NO QUOTES</h2>
+<img height="100%" src="imgs/ssn.png">
+<ul><li>Surely we can acknowledge this is worth thinking about in the future right.
+</section>
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+</section>
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">
+What is the smallest number of apples someone can have?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+<br>
+<center style="outline-style: solid;outline-color:white"><p>Big data and human-centered computing
+<p>Democratic Institutions
+<p>Climate Change</center>
+</section>
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">
+What is the smallest number of which a machine can think?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">
+What is the largest number of which a machine can think?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Python</h2>
+<ul>
+<li>Recall we have thematically introduced annoyance to resolve in latter lectures.</li>
+<li><b>Exercise A.8</b> Write a function prints the final element of a list.<ul>
+<li>Consider the following:
+<code class="py">conts =
+['Africa', 'Americas', 'Antarctica', 'Eurasia', 'Oceania']
+print(conts[1])</code>
+<li>What does the <span  style="background-color:#000000;">1</span > in this code do?
+<li>What happens if you change it to
+<ul><li>Large values, like <span style="background-color:#000000;">400</span > or <span  style="background-color:#000000;">400 ** 400</span >?
+<li>Non-integer values, like <span  style="background-color:#000000;">0.5</span >?
+<li>Anything else?</ul></ul>
+<ul><li>I asked for small, large, and non-whole numbers.
+<li><em>What type of number did I leave out?</em>
+</section>
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">
+How can we think critically about questions posed to us by our circumstances or by other thinkers?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Python deals well with numbers, and, now we know, things that aren't numbers.</li>
+<li>I don't know what a continent is and I'm afraid to ask at this point, but not a number.
+<li>When we have a ordered collection of letters...
+<ul><li>They aren't words but the aren't not words either.
+</ul>
+<li>We call that a string.
+<li>It is ordered, so 'abc' is not the same as 'cba'
+<code class="py">'abc' != 'cba'</code>
+<ul><li>What does '!=' mean?</ul>
+<li>Basically strings are like lists.
+<code class="py">'abc'[1] == ['a', 'b', 'c'][1]</code>
+<li>But can only hold 'characters' - basically the symbols we can type.
+</section>
+
+
+<section>
+<h2>Python</h2>
+<ul>
+<li>Recall we have thematically introduced annoyance to resolve in latter lectures.</li>
+<li><b>Exercise A.9</b> Determine how indices of lists work.<ul>
+<li>Consider the following:
+<code class="py">str = 'abcdefghijklmnopqrstuvwxyz'
+print(strs[4:20:7])</code>
+<li>What does the <span  style="background-color:#000000;">4</span > in this code do?
+<li>What does the <span  style="background-color:#000000;">20</span > in this code do?
+<li>What does the <span  style="background-color:#000000;">7</span > in this code do?
+<li>What happens if you remove one of the three? Remove two?
+<li>In triple_check, we found some arrangements of three numbers sometimes have a nice property.
+<ul><li>Say, for triple_check to return True, 'c' needed to be larger than 'a' and 'b'
+</section>
+
+<section>
+<h2>Homework</h2>
+<ul>
+<li><b>Homework 2</b> Order of Operations<ul>
+<li>There is this arithmetic concept called "order of operations" sometimes called PEMDAS:
+<ul>
+
+<li><b>P</b>arenthesis
+<li><b>E</b>xponentiation
+<li><b>M</b>ultiplication/<b>D</b>ivision
+<li><b>A</b>ddition/<b>S</b>ubtraction
+</ul>
+<li>Conduct a series of tests to determine whether Python follows PEMDAS rules or not. 
+<li>You may make a copy of <a href="https://colab.research.google.com/drive/13vmhSqEnK9_xIQBYSUl885hl7OG8UfuL?usp=sharing">this Notebook</a> and share it with me and anyone with whom you collaborate.
+<ul><li>Give Shouvik and I edit permissions.
+<li>Due Fri @ 12 Noon (so we're able to discuss it in class)
+<li>You may only give your peers view or comment permissions.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

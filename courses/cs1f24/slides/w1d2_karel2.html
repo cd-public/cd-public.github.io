@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Karel 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Karel 2</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W1D2: 28 Aug</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to CS-151: Intro to Programming with Python!
+<li>By <b>FRIDAY 11:59 PM</b>: Fill out <a href="https://forms.gle/8yh95AGSnLatMh8HA">this survey</a>
+<ul><li>There are weekly, 1 hour meetings with peer tutors on Wednesday or Thursday.
+<li>Attending these is 10% of your grade.
+<li>Read the instructions carefully and fill out as many times as you can!
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Introductions" assignment. <em>22 done + 6 start out of 49</em>
+<ul><li>A minimal problem set to familiarize yourself with how to submit coding assignments.
+<li>Links will be posted on the course website and on the Discord.
+<ul><li>They will not be posted on Canvas or via email to help encourage you to use the website and Discord
+</ul>
+</section>
+
+
+<section>
+<h2>In general</h2>
+<ul>
+<ul><li>Visit the webpage @ <a href="https://cd-public.github.io/courses/cs1f24">cd-public.github.io/courses/cs1f24</a><ul>
+<li>Linked from Canvas
+<li>2nd Google result for "calvin deutschbein courses"
+<li>4th Google result for "calvin willamette courses" (easier to spell)</ul>
+<li>The syllabus and calendar are there for you - check exam days, mostly.
+<li>Join the Discord server - you got an email invite from me ("ckdeutschbein@")
+<li>Bring a computer if at all possible, or let me know to find you one.
+<ul><li>Set up your computer for the term.
+<li>Website &rArr; Resources &rArr; Setup. Video guides.
+<li>Going to try to make this happen today.
+</ul>
+</section>
+
+<section><h2>Commands</h2>
+<ul>
+<li>Karel can perform 4 actions: Two to move, and two to beep.<br>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code class="python">move()</code></td>
+<td style="text-align: left;">Moves Karel forward one intersection in
+whatever direction they are facing</td>
+</tr>
+<tr class="even">
+<td
+style="text-align: left;"><code class="python">turn_left()</code></td>
+<td style="text-align: left;">Rotates Karel 90 deg
+counter-clockwise</td>
+</tr>
+<tr class="odd">
+<td
+style="text-align: left;"><code class="python">pick_beeper()</code></td>
+<td style="text-align: left;">Picks up a beeper on the ground</td>
+</tr>
+<tr class="even">
+<td
+style="text-align: left;"><code class="python">put_beeper()</code></td>
+<td style="text-align: left;">Places a beeper on the ground</td>
+</tr>
+</tbody>
+</table></li>
+<li>By performing a bunch of actions, one after another, Karel can get up to all manner of hijinks.</li>
+<li>Read more about Karel <a href="https://willamette.edu/~esroberts/pykarel/reader/01-IntroducingKarel.html">here</a>.
+</ul>
+</section>
+
+<section><h2>Example</h2>
+<table>
+<tr><td width="35%" style="vertical-align:top"><ul><li>Start here...<img
+data-src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/2f23aa67af9dd68dfb3635c94e79e7f1f75413b0.svg"
+style="width:100.0%" />
+
+<td width="30%" style="vertical-align:top"><ul><li>Specify 2 actions...<code>move()
+turn_left()
+</code>
+<li>Each action gets its own line.<td>
+
+<td width="35%" style="vertical-align:top"><ul><li>Karel is now here...<img
+data-src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/09798d6dcd5d446eb614a9423c8092c705b331ac.svg"
+style="width:100.0%" />
+<li>Karel! That way is poutine not gatorque!
+</table>
+</section>
+
+<section>
+<h2>One Solution</h2>
+<ul>
+<code class="python" style="max-height:800px">move()
+turn_left()
+turn_left()
+turn_left()
+move()
+turn_left()
+move()
+turn_left()
+turn_left()
+turn_left()
+move()
+pick_beeper()
+turn_left()
+turn_left()
+turn_left()
+move()
+move()
+put_beeper()</code>
+<p>Okay... that was fun. Now where do I run this code?
+</section>
+
+<section>
+<h2>Let's do it</h2>
+<ul>
+<li>Go to this Github link: <a href="https://github.com/cd-public/first_karel">https://github.com/cd-public/first_karel</a>
+<li>Click big-ish green button toward the top right labelled:<br>
+<button style="font-size:300%;border-radius: 12px;background-color: #04AA6D;">&lt;&gt; Code &#9660;</button></code></a>
+<li>Select the last option: "📄 Download ZIP"
+<ul><li>'ZIP' is a type of file containining other files.</ul>
+<li>Find your browser "Downloads"<ul><li>Usually a downward pointing arrow ⬇️ <li>Usually in the top right of Chrome/Safari/etc by the address bar.</ul>
+<li>Click on the file within browser "Downloads", and usually an explorer/finder menu opens.
+<li>In the explorer/finder menu, <b>right</b> or <b>double</b> click to "unzip"
+<ul><li>You might be asked for an unzip destination - remember what you pick (or the default)!
+<li>Keep explorer/finder open!
+</section>
+
+<section>
+<h2>Let's do it</h2>
+<ul>
+<li>Previously we: downloading and unzipped a ZIP file from Github
+<li>The unzipped "file" is not a folder/directory - it contains other files.
+<ul><li>'karel.py' is a big scary file that describes how robots work
+<li>'first_karel.py' is small files of a few lines we can read an understand.
+</ul>
+<li>The next slides will describe 'first_karel.py', but before going on...<ul>
+<li>If you followed the setup guide, double-clicking karel.py will open a window with the robot in it.
+<ul><li>If that is you, start programming Karel to do stuff, like making a smiley face.</ul></ul>
+<li>Read more about Karel <a href="https://willamette.edu/~esroberts/pykarel/reader/01-IntroducingKarel.html">here</a>.
+</section>
+
+<section>
+<h2>Sidebar: Setup</h2>
+<ul>
+<li>It would be good to get unstuck on setup wherever you are currently stuck now.
+<li>Go to the <a href="https://cd-public.github.io/courses/cs1f24/index.html">Resources tab</a>
+<li>Follow the Prof. Jed Rembold guide, or
+<li>Download &amp; Install Python
+				<ul>
+					<li>Download Link: <a href="https://www.python.org/downloads/">Python</a>
+					</li><li><b>IMPORTANT</b>: Select "Add python.exe to PATH" while installing.
+				</li></ul>
+				</li><li>Download and install a program to edit Python files.
+				<ul>
+					<li>Download Link (Win): <a href="https://notepad-plus-plus.org/downloads/v8.6.7/">Notepad++</a>
+					<li>Download Link (Mac): <a href="https://www.barebones.com/products/bbedit/">BBEdit</a>
+				</li></ul>
+				</li><li>Download, unzip, and execute the "HW00" files. Use either a:
+			</li></ul>
+</section>
+
+<section>
+<h2>Sidebar: "pillow"</h2>
+<ul>
+<li>Besides Python, Karel needs one other thing.
+<li>The Python Image Library: "pillow"
+<li>(It was called PIL and now isn't? I don't know).
+<li>Once you have installed Python, open windows command line or terminal
+<ul><li>Win: Press windows key &rArr; type 'cmd'&rArr; press enter, or
+<li>Mac: Spotlight &rArr; type 'terminal' &rArr; press enter
+</ul>
+<li>You'll get a box you can type in, maybe it looks like:
+<code class="bash">Microsoft Windows [Version 10.0.19045.4780]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\cd-desk></code>
+<li>Type "pip install pillow" and press enter.
+<li>If nothing happens, there's a problem with Python and we should chat.
+</section>
+
+<section>
+<h2>End Sidebar?</h2>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 65%" />
+</colgroup>
+<tbody>
+<tr >
+<td style="vertical-align:top"><ul>
+<li>If you have the combination of factors resulting in setup:
+<ul><li>Python
+<li>An editor
+<li>Pillow
+<li>The files from Github</ul>
+<li>Double-click 'first_karel.py':
+<ul><li>If you double-click "karel.py", you'll get errors.
+<li>'first_karel' (arbitrary name) is some commands for Karel
+<li>'karel' (fixed name) is the program that reads Karel commands</td>
+<td ><img src="imgs/first_karel.png"></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>first_karel</h2>
+<ul>
+<li>This is the full text of 'first_karel.py':
+<code class="python">import karel
+
+def main():
+	move()</code>
+<li>The only part of that you have heard of before is "move()"
+<li>You can put whatever you want where move is, like
+<code class="python" style="max-height:200px">move()
+turn_left()
+turn_left()
+turn_left()
+move()
+turn_left()
+move()
+turn_left()
+turn_left()
+turn_left()
+move()
+pick_beeper()
+turn_left()
+turn_left()
+turn_left()
+move()
+move()
+put_beeper()</code>
+</section>
+
+
+<section>
+<h2><code>import karel</code></h2>
+<ul>
+<li>If we just wrote "move()" in a Python (.py) file, it is unclear what "move()" means:
+<ul><li>Who are what is supposed to move?
+<li>How big of a move?
+<li>What direction?
+<li>How should the programmer be informed of the move?
+</ul>
+<li>Karel.py answers all these questions.
+<ul>
+<li>Karel.py describes an imaginary robot on an imaginary grid
+<li>The imaginary grid gives the size of the move
+<li>The direction the imaginary robot faces gies the direction.
+<li>Karel.py also tells Python how to display this world to us as humans with a pop up.
+</section>
+
+
+<section>
+<h2><code>import karel</code></h2>
+<ul>
+<li>By saying "import karel" at the beginning of a Python (.py) file...
+<ul><li>Python looks for a karel.py file
+<li>Python, hopefully, finds that in the same directory as our .py file
+<li>Python includes and runs all the code in that file
+<li>When it is done, "move()" is clearly defined.</ul><li>This is like...<ul>
+<li>Turning on a Maps app <em>before</em> hearing directions.
+<li>Saying "hey, can you help with directions" to your copilot/navigator
+<li>Setting expectations at a workshop, e.g. "we are going to do icebreakers"
+</ul><li>We have to configure out computer so we both have clear expectations.
+</section>
+
+<section>
+<h2><code>def main():</code></h2>
+<ul>
+<li>After importing, we define something with "def"
+<li>In a ancient coding language called "C", every program needed something called a "main function".
+<a href="https://learn.microsoft.com/en-us/cpp/c-language/main-function-and-program-execution?view=msvc-170"><code class="lisp">Every C program has a primary function that must be named main. The main function serves as the starting point for program execution. It usually controls program execution by directing the calls to other functions in the program.</code></a><ul>
+<li>Python is a program that is written in C - so there's some C influence.
+<li>Karel is older than Python!</ul>
+<li>When you click the play button:<br><img src="https://willamette.edu/~esroberts/pykarel/reader/images/Run.png" alt="Run button" style="height:100px; margin-right:10px;"><br>
+Karel performs the actions beneath and indented from "def main():"
+</section>
+
+<section>
+<h2><code>def main():</code></h2>
+<ul>
+<li>This main function determined <em>what to do <b>first</b></em>.
+<li>We want to do the same with Karel - we want to be clear what actions to take and where to begin.<ul>
+<li>We can think of main as a way specify that when we say "turn left" as:
+<code>turn_left()</code>
+<li>... that we mean "turn left now" not, say, there may be a left turn in the future.
+</ul><li>When I talk to driver, the difference between "our next turn is a left" and "turn left here".
+<ul><li>What is the difference? How would we articulate this to a robot? (like <a href="https://gemini.google.com/share/3122d8626858">Gemini</a>)
+</section>
+
+
+<section>
+<h2>Your turn:</h2>
+<ul>
+<li>Update "first_karel.py" to move Karel to one of the four centermost squares.
+<ul><li>You decide the square.
+<li>You decide which way Karel points once arrived.
+</ul>
+<li>Challenge problem: Gatorque. (I've learned maybe its stylized "Gatorcue?" Does anyone know?)
+<ul><li>Download this <a href="https://gist.githubusercontent.com/cd-public/d9bcb7e5b594307e76668e2a423f1632/raw/21930818c7625c8dbd21335f235471ee8866755c/first_karel.w">'world' (.w) file</a>.
+<li>"karel.py" know how to read world (.w) files.
+<li>Since it has the same name as the Python (.py) file it will load automatically if they are in the same folder.
+<li>Update "first_karel.py" to go find a delicious snack.
+</section>
+
+
+<section>
+<h2>Closing Thoughts</h2>
+<ul>
+<li>We can use "def" to make collections of actions other than "main".
+<li>We can treat these collections the same way we treat "move()" and "turn_left()"
+<li>We can make, for example, "reverse()":
+<code class="py">def reverse():
+	turn_left()
+	turn_left()
+</code>
+<li>Test this, and collections of actions of your own!
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to CS-151: Intro to Programming with Python!
+<li>By <b>FRIDAY 11:59 PM</b>: Fill out <a href="https://forms.gle/8yh95AGSnLatMh8HA">this survey</a>
+<ul><li>There are weekly, 1 hour meetings with peer tutors on Wednesday or Thursday.
+<li>Attending these is 10% of your grade.
+<li>Read the instructions carefully and fill out as many times as you can!
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Introductions" assignment.
+<ul><li>A minimal problem set to familiarize yourself with how to submit coding assignments.
+<li>Links will be posted on the course website and on the Discord.
+<ul><li>They will not be posted on Canvas or via email to help encourage you to use the website and Discord
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

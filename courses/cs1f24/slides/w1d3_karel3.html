@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Karel 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Karel 3</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W1D3: 30 Aug</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to CS-151: Intro to Programming with Python!
+<li>By <b>FRIDAY 11:59 PM</b>: Fill out <a href="https://forms.gle/8yh95AGSnLatMh8HA">this survey</a>
+<ul><li>There are weekly, 1 hour meetings with peer tutors on Wednesday or Thursday.
+<li>Attending these is 10% of your grade.
+<li>Read the instructions carefully and fill out as many times as you can!
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Introductions" assignment. <em>31 done + 8 start out of 48</em>
+<ul><li>A minimal problem set to familiarize yourself with how to submit coding assignments.
+<li>Links will be posted on the course website and on the Discord.
+<ul><li>They will not be posted on Canvas or via email to help encourage you to use the website and Discord</ul></ul>
+<li>Other stuff<ul><li>Visit the webpage @ <a href="https://cd-public.github.io/courses/cs1f24">cd-public.github.io/courses/cs1f24</a>
+<li>Join the Discord server - you got an email invite from me ("ckdeutschbein@")
+<li>Bring a computer if at all possible, or let me know to find you one.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>"Control Flow"
+<li>Avoiding repeating ourselves, as much as possible.
+<ul><li>The "def" (for "define") keyword and functions
+<li>The "for" keyword and loops
+<li>The "if" keyword and conditionals
+<li>The "while" keyword and conditional loops
+</ul>
+</section>
+
+<section>
+<h2>Functions</h2>
+<ul>
+<li>Rather than turn left three times, we can make a turn right "function"</ul>
+</ul>
+<table style="width: 100%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><h4>Define</th>
+<th style="text-align: left;"><h4>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+<p>Format:</p><ul><li>'def' keyword, followed by
+<li>a function name, like "turn_right"
+<li>parens "()" and a colon ':'
+<li>a newline ("enter") and indent ("tab")
+<li>some 'code block' like 3 turns</ul>
+<p>Example:</p><code class="python">def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+</code>
+
+
+<td style="text-align: left;">
+<p>Format:</p><ul><li>like "move()" or "turn_left()"
+<li>write the function name, like "turn_right"
+<li>follow with open and close parens "()"
+<li>that's it!<br><br>
+<p>Example:</p><code class="python">def main():
+    turn_right()
+    move()
+    turn_right()
+</code>
+<p>Nascar no more!
+
+
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<section><h2>Potholes</h2>
+<ul><li>Willamette Week: "<a href="https://www.wweek.com/news/2024/04/24/see-portlands-biggest-pothole/">See Portland’s Biggest Pothole"</a>
+<img src="https://www.wweek.com/resizer/v2/2PYNHAEEDVFQRJ7ZGHQODITXGY.jpg?smart=true&auth=8fb66ec8210621f8a2b806318b0c5a28270a8021979fa6be185a110fae5d7dd3&width=1600&height=900">
+<li>We'll put our best robot on the case.
+<li><em>Ask me what I think about austerity, but not during class...</em>
+</section>
+
+<section><h2>Potholes</h2>
+<ul><li>We can imagine potholes as being as kind of scooped out spaces at the bottom/south of our grid.</a>
+<img width="70%" src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/ebf4f8c1ff8af2623c84c5c09aaf321cf46b092c.svg">
+<li>We can write a "fill pothole" function to place a beeper (tar) in a pothole (space).
+<li><em>Ask me about the word "function" and my municipal government... but not during class!</em>
+</section>
+
+
+<section>
+<h2>Potholes &rArr; Notholes &lt;slaps knee&gt;</h2>
+<table style="width: 100%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="vertical-align:top;text-align: left;">
+<code class="python" style="max-height:800px">def fill_pothole():
+    turn_right()
+    move()
+    put_beeper()
+    turn_left()
+    turn_left()
+    move()
+    turn_right()
+    
+def main():
+    move()
+    fill_pothole()
+    move()
+    move()
+    fill_pothole()
+    move()
+</code>
+
+
+<td style="text-align: left;">
+<img width="100%" src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/ebf4f8c1ff8af2623c84c5c09aaf321cf46b092c.svg">
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<section><h2>Sidebar: Comments</h2>
+<h4>Or "What does "fill_pothole" mean?"</h4>
+<ul>
+<li>It is <strong>always</strong> a good idea to document and leave
+notes to yourself</li>
+<li><em>Comments</em> are pieces of text in your program that are
+ignored when the program is run</li>
+<li>Python comments are denoted with a leading hashtag:
+<ul>
+<li>Everything following a hashtag (#) on the same
+line is ignored</p>
+<code class="python">def fill_pothole():
+    # Places a beeper to Karel's right and returns</span></code></pre>
+<li>"Until you write code that works the first time, you should comment every line." - me
+</ul>
+<li>Triple quote method: we can include multiple lines of text inside triple quotes.</p>
+<code class="python">def fill_pothole():
+    """ Two
+        lines"""</span></code></pre>
+<ul>
+<li>This isn't a true comment, but we use it to give instructions on assignments.</li>
+<li>My advice: Use #</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2>Potholes &rArr; Notholes &lt;slaps knee&gt;</h2>
+<ul>
+<code class="python" style="max-height:800px">def fill_pothole():
+    turn_right() # face pothole
+    move() # go to pothole
+    put_beeper() # place "tar"
+    turn_left() # reverse 1/2
+    turn_left() # reverse 2/2
+    move() # exit pothole
+    turn_right() # return to original direction
+</code>
+<li>If you don't <em>type</em> this much, at least <em>think</em> this much.
+<li><em>If I ask you what a line of code does, be ready to answer.</em>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul><li><b>&check;</b> "def" (for "define") keyword and functions
+<li>The "for" keyword and loops
+<li>The "if" keyword and conditionals
+<li>The "while" keyword and conditional loops
+</ul>
+</section>
+
+
+<section>
+<h2>Loops</h2>
+<ul>
+<li>I don't like typing something more than once.
+<li>Example:</p><code class="python">def turn_right():
+    turn_left() # turn right 1/3
+    turn_left() # turn right 2/3
+    turn_left() # turn right 3/3
+</code>
+<li>If I want to do something some known number of times, I can use a <em>loop</em>
+<li>My favorite kind of loop is a "for" loop, with the "for" keyword
+<li>Example:</p><code class="python">def turn_right():
+    for i in range(3): # do something 3 times
+        turn_left() # the thing to do 3 times
+</code>
+<li>'i' stands 'iterations', and is historical name like 'main'
+<li>But unlike main, it can be changed to any other name (within reason)
+</section>
+
+<section>
+<h2>Exercise</h2>
+<ul>
+<li>Write "move_five" and "turn_around" with "for" loops.
+<li>Use comments 
+<ul><li>(it doesn't matter what you think "move_five" means, just it does waht you said it does)
+</ul>
+<li>Reminder:
+<code class="python">for j in range(n):
+    # statements to be repeated</code>
+<ul>
+<li>"n" is the number of times to repeat</li>
+<li>'j' stands 'jterations' (you don't have to use 'i')
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li><b>&check;</b> "def" (for "define") keyword and functions
+<li><b>&check;</b> "for" keyword and loops
+<li>The "if" keyword and conditionals
+<li>The "while" keyword and conditional loops
+</ul>
+</section>
+
+<section>
+<h2>Listening & Learning</h2>
+<p>Karel is a good listener and can answer the following questions:</p>
+<table style="width: 100%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tr><td><code class="python">front_is_clear()</code> 
+<td><code class="python">front_is_blocked()</code>
+<tr><td><code class="python">left_is_clear()</code> 
+<td><code class="python">left_is_blocked()</code>
+<tr><td><code class="python">right_is_clear()</code> 
+<td><code class="python">right_is_blocked()</code>
+<tr><td><code class="python">beepers_present()</code> 
+<td><code class="python">no_beepers_present()</code>
+<tr><td><code class="python">facing_north()</code> 
+<td><code class="python">not_facing_north()</code>
+<tr><td><code class="python">facing_south()</code> 
+<td><code class="python">not_facing_south()</code>
+<tr><td><code class="python">facing_east()</code> 
+<td><code class="python">not_facing_east()</code>
+<tr><td><code class="python">facing_west()</code> 
+<td><code class="python">not_facing_west()</code>
+</table>
+</section>
+
+<section>
+<h2>How to ask</h2>
+<p>Karel can answer, how can we ask?</p>
+<ul><li>Introducing the "if" statement.
+<li>We can ask Karel to check if, say:
+<code class="python">no_beepers_present()</code> 
+<li>Before we ask Karel to, say:
+<code class="python">put_beeper()</code>
+<li>We imagine this prevents multiple pothole filling bots from doubling up on work.
+<li>We use the 'if' statement to do this.
+<code class="python">if beepers_present():
+    put_beeper()</code>
+<li>As with "def" and "for", we have parens "()", colon ":", newline (enter) and indent (tab)    
+</section>
+
+
+<section><h2>Potholes</h2>
+<ul><li>We can imagine potholes as gaps in beeper coverage over the bottom/south of our grid.</a>
+<img width="70%" src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/f5e34386327812a742ff5ef483cc0fb963073c34.svg">
+<li>We can write a "fill pothole" function to place a beeper (tar) anywhere there isn't a beeper.
+</section>
+
+
+<section>
+<h2>Potholes &rArr; Notholes &lt;slaps knee&gt;</h2>
+<table style="width: 100%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="vertical-align:top;text-align: left;">
+<code class="python" style="max-height:800px">def fill_and_move():
+    if beepers_present():
+        put_beeper()
+    move()
+    
+def main():
+    for k in range(4):
+        fill_and_move()
+</code>
+
+
+<td style="text-align: left;">
+<img width="100%" src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/f5e34386327812a742ff5ef483cc0fb963073c34.svg">
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<section>
+<h2>How to ask</h2>
+<p>Karel can answer, how can we ask?</p>
+<ul><li>Introducing the "while" statement.
+<li>As in, "keep working on &lt;something&gt; while it isn't finished"
+<li>We can ask Karel to check if, say:
+<code class="python">front_is_clear()</code> 
+<li>Before we ask Karel to, say:
+<code class="python">fill_and_move()</code>
+<li>This allows us to "pave" with beepers a road of any length!
+<li>We use the 'if' statement to do this.
+<code class="python">while front_is_clear():
+    fill_and_move()</code>
+<li>As with "def", "for", and 'if' we have parens "()", colon ":", newline (enter) and indent (tab)    
+</section>
+
+<section>
+<h2>Potholes &rArr; Notholes &lt;slaps knee&gt;</h2>
+<table style="width: 100%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="vertical-align:top;text-align: left;">
+<code class="python" style="max-height:800px">def fill_and_move():
+    if beepers_present():
+        put_beeper()
+    move()
+    
+def main():
+    while front_is_clear():
+        fill_and_move()
+</code>
+
+
+<td style="text-align: left;">
+<img width="100%" src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/f5e34386327812a742ff5ef483cc0fb963073c34.svg">
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<section>
+<h2>Exercise</h2>
+<ul>
+<li>Do "Problem Set 1: Karel"
+<ul><li>Use comments 
+<li>The first problem "newspaper" benefits from functions, and perhaps for loops
+<ul><li>It is possible, but annoying, to do without either</ul>
+<li>The second problem, "painting" benefits from 'while' loops (and could use 'if')
+<ul><li>I used four (4) 'while' loops, and no 'if' statements or 'for' loops
+</section>
+
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>FRIDAY 11:59 PM</b>: Fill out <a href="https://forms.gle/8yh95AGSnLatMh8HA">this survey</a>
+<ul><li>There are weekly, 1 hour meetings with peer tutors on Wednesday or Thursday.
+<li>Attending these is 10% of your grade.
+<li>Read the instructions carefully and fill out as many times as you can!
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Introductions" assignment.
+<ul><li>A minimal problem set to familiarize yourself with how to submit coding assignments.
+<li>Links will be posted on the course website and on the Discord.
+<ul><li>They will not be posted on Canvas or via email to help encourage you to use the website and Discord
+</ul></ul>
+<li>By <em>NEXT</em> <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

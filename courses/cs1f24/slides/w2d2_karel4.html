@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Karel 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Karel 4</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W2D2: 4 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Starting this week... sections!
+<ul><li>1 hour sometime on W or Th
+<li>Mandatory: Each missed section is 5% off final grade (more or less)
+<li>Help us help you - if you have a conflict, get sick, etc. - reach out ASAP.
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Running Karel review.<ul>
+<li>Github classroom.
+<li>Extracting Zip files.
+<li>Running Karel.
+</ul>
+<li>"Control Flow" again.
+<ul><li>The "def" (for "define") keyword and functions
+<li>The "for" keyword and loops
+<li>The "if" keyword and conditionals
+<li>The "while" keyword and conditional loops
+</ul>
+</section>
+
+<section>
+<h2>Course Webpage</h2>
+<ul>
+<li>From the <a href="https://cd-public.github.io/courses/cs1f24/index.html">course webpage</a>...
+<li>Select <a href="https://cd-public.github.io/courses/cs1f24/hws/ps1.html">"Problem Set 1: Karel"</a> </a></ul></ul>
+<img width="100%" src="imgs/ps1_0.png">
+</section>
+
+<section>
+<h2>Problem Set 1: Karel</h2>
+<ul>
+<li>From <a href="https://cd-public.github.io/courses/cs1f24/hws/ps1.html">"Problem Set 1: Karel"</a>...
+<li>Select the hyperlink to Github Classroom.
+<ul><li>It will be labeled as "Github Classroom Link"
+<li>It will be of the form "https://classroom.github.com" and some trailing letters and numbers.</ul></ul>
+<img width="100%" src="imgs/ps1_1.png">
+</section>
+
+<section>
+<h2>Github Classroom: Pre-Accept</h2>
+<ul>
+<li>From the link to Github Classroom.
+<li>Select <button style="font-size:100%;border-radius: 12px;background-color: #04AA6D;color:white">Accept this assignment</button>.
+<ul><li>You will have to wait a moment.</ul></ul>
+<img width="70%" src="imgs/ps1_2.png">
+</section>
+
+
+<section>
+<h2>Github Classroom: Post-Accept</h2>
+<ul>
+<li>From <button style="font-size:100%;border-radius: 12px;background-color: #04AA6D;color:white">Accept this assignment</button>...
+<li>Select the link to the assignment repository.
+<ul><li>It will be labeled as "Your assignment repository has been created."
+<li>It will be of the form "https://github.com/<em>&lt;your @&gt;</em>/problem-set-1-karel-<em>&lt;your @&gt;</em></ul></ul>
+<img width="70%" src="imgs/ps1_3.png">
+</section>
+
+
+
+<section>
+<h2>Assignment Repository</h2>
+<ul>
+<li>From the assignment repository....
+<li>Select <button style="font-size:100%;border-radius: 12px;background-color: #04AA6D;color:white">&lt;&gt; Code ▼</button></ul>
+<img width="70%" src="imgs/ps1_4.png">
+</section>
+
+
+<section>
+<h2>Download ZIP</h2>
+<ul>
+<li>From <button style="font-size:100%;border-radius: 12px;background-color: #04AA6D;color:white">&lt;&gt; Code ▼</button>...
+<li>Select "Download ZIP"<ul>
+<li>Your browser will begin downloading a file.</ul></ul>
+<img width="35%" src="imgs/ps1_5.png">
+</section>
+
+<section>
+<h2>Browser Downloads</h2>
+<ul>
+<li>From the browser pop-up for downloading a file...
+<li>Select "problem-set-1-karel-<em>&lt;your @&gt;</em>-main"<ul>
+<li>A new window will open with the ZIP file</ul></ul>
+<img width="100%" src="imgs/ps1_6.png">
+</section>
+
+
+<section>
+<h2>ZIP File Window</h2>
+<ul>
+<li>From the ZIP file window...
+<li>Select "Extract: Compressed Folder Tools"</ul>
+<img width="100%" src="imgs/ps1_7.png">
+<p>I believe on Mac you can simply doubleclick.
+</section>
+
+<section>
+<h2>Compressed Folder Tools</h2>
+<ul>
+<li>From the "Compressed Folder Tools"
+<li>Select "Extract all"<ul>
+<li>A menu will open</ul></ul>
+<img width="100%" src="imgs/ps1_8.png">
+</section>
+
+
+<section>
+<h2>Extract Menu</h2>
+<ul>
+<li>From the new menu (called "Select a Destination and Extract Files")
+<li>Select "Extract"<ul>
+<li>A new window will open with a folder (<em>not</em> a ZIP file) called "problem-set-1-karel-<em>&lt;your @&gt;</em>-main"</ul></ul>
+<img width="50%" src="imgs/ps1_9.png">
+</section>
+
+
+<section>
+<h2>Folder Window</h2>
+<ul>
+<li>From the new folder window
+<li>Select "problem-set-1-karel-<em>&lt;your @&gt;</em>-main"
+<li>A new window will open with a folder (<em>not</em> a ZIP file) called "problem-set-1-karel-<em>&lt;your @&gt;</em>-main"</ul></ul>
+<img width="100%" src="imgs/ps1_a.png">
+</section>
+
+
+<section>
+<h2>Files Window</h2>
+<ul>
+<li>From "problem-set-1-karel-<em>&lt;your @&gt;</em>-main" folder
+<li>Right-click "Karel_Newspaper.py"<ul>
+<li>Find a way to run "Karel_Newspaper.py", such via Python, in IDLE, or in VS Code
+<li>Find a way to edit "Karel_Newspaper.py", such as via Notepad++, BBEdit, or in VS Code
+<img width="100%" src="imgs/ps1_b.png">
+</section>
+
+
+
+<section>
+<h2>How I Code 1</h2>
+<ul>
+<li>I leave open the folder to double-click "Karel_Newspaper.py" to test my code.
+<li>I open "Karel_Newspaper.py" in Notepad++ to edit my code.
+<ul><li>Before doing anything else, I add a move() command to every function, just to make sure Karel moves at all.
+<li>This is <em>before</em> I double-click:</ul></ul>
+<img width="100%" src="imgs/ps1_c.png">
+</section>
+
+
+
+<section>
+<h2>How I Code 2</h2>
+<ul>
+<li>This is <em>after</em> I double-click:</ul></ul>
+<img width="100%" src="imgs/ps1_d.png">
+</section>
+
+
+<section>
+<h2>How I Code 3</h2>
+<ul>
+<li>This is <em>after</em> I click the "play" button (Karel moves once for the single move in main):</ul>
+<img width="100%" src="imgs/ps1_e.png">
+</section>
+
+
+<section>
+<h2>How I Code 4</h2>
+<ul>
+<li>I relaunch Karel every time I run (Karel seems very buggy to me)
+<li>I sometimes leave Karel open while writing code to look at the world.
+<li>As a rule, I do not write/change more than one line of code without testing.</ul>
+<img width="100%" src="imgs/ps1_c.png">
+</section>
+
+<section>
+<h2>How I Submit 1 </h2>
+<ul>
+<li>When I am done, I "submit" the homework via Github classroom.
+</ul>
+<img width="100%" src="imgs/gcr_1.png">
+</section>
+<!--
+<section>
+<h2>How I Submit 2 </h2>
+<ul>
+<li>I select <em>the entire .py file</em> via "ctrl+a"/"cmd+a"
+<ul><li>Or use... "Edit"&rArr;"Select All"
+</ul>
+<li>I copy the selection via "ctrl+c"/"cmd+c"
+<ul><li>Or use... "Edit"&rArr;"Copy"
+</ul>
+<img width="100%" src="imgs/gcr_2.png">
+</section>
+-->
+
+
+<section>
+<h2>How I Submit 2 </h2>
+<ul>
+<li>In Github classroom I double-click the relevant Python (.py) file
+<ul><li>In this case "Karel_Newspaper.py"
+</ul></ul>
+<img width="100%" src="imgs/gcr_3.png">
+</section>
+
+
+<section>
+<h2>How I Submit 3 </h2>
+<ul>
+<li>From the relevant Python (.py) file's page on Github, select the (very tiny) edit button, donated with an icon that may look like a pen or pencil.</ul>
+<img width="100%" src="imgs/gcr_4.png">
+</section>
+
+<section>
+<h2>How I Submit 4 </h2>
+<ul>
+<li>This opens the Github online editor:</ul>
+<img width="100%" src="imgs/gcr_5.png">
+</section>
+
+
+<section>
+<h2>How I Submit 5</h2>
+<ul>
+<li>Select all text in the Github online editor (via ctrl+a or cmd+a)</ul>
+<img width="100%" src="imgs/gcr_6.png">
+</section>
+
+<section>
+<h2>How I Submit 6</h2>
+<ul>
+<li>Delete all text in the Github online editor (via  Backspace "&larr;" or Delete "DEL" )</ul>
+<img width="100%" src="imgs/gcr_7.png">
+</section>
+
+
+<section>
+<h2>How I Submit 7</h2>
+<ul>
+<li>Select all text in Notepad++ or equivalent (via ctrl+a or cmd+a)</ul>
+<img width="100%" src="imgs/gcr_8.png">
+</section>
+
+<section>
+<h2>How I Submit 8</h2>
+<ul>
+<li>Copy (ctrl/cmd+c) in Notepad++ and Paste (ctrl/cmd+c) in Github, or...
+<li>Drag and drop:</ul>
+<img width="100%" src="imgs/drag_and_drop.gif">
+</section>
+
+
+<section>
+<h2>How I Submit 9</h2>
+<ul>
+<li>Select <button style="font-size:100%;border-radius: 12px;background-color: #04AA6D;color:white">Commit changes...</button></ul>
+<img width="100%" src="imgs/gcr_9.png">
+</section>
+
+
+
+<section>
+<h2>Submitted!</h2>
+<ul>
+<li>Select <button style="font-size:100%;border-radius: 12px;background-color: #04AA6D;color:white">Commit changes</button> (with no "...")<ul>
+<li>When you press that button, the work is "turned in"
+<li>You may update it any time until the due date!</ul></ul>
+<img width="40%" src="imgs/gcr_a.png">
+</section>
+
+
+
+<section>
+<h2>How do I know?</h2>
+<ul>
+<li>You can make sure the homework is submitted by downloading the zip file again and making sure your code runs the way you expect!
+<li>I would do this until you feel confident or just to set your mind at ease!
+<li>You may update it any time until the due date!
+<li>You can see here it says it is updated:</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li><em>&check;</em> Running Karel review.<ul>
+<li><em>&check;</em> Github classroom.
+<li><em>&check;</em> Extracting Zip files.
+<li><em>&check;</em> Running Karel.
+</ul>
+<li>"Control Flow" again.
+<ul><li>The "def" (for "define") keyword and functions
+<li>The "for" keyword and loops
+<li>The "if" keyword and conditionals
+<li>The "while" keyword and conditional loops
+</section>
+
+<section>
+<h2>Control Flow</h2>
+<ul>
+<table style="width:100%">
+<thead>
+  <tr>
+    <td style="width:20%" colspan="2"></td>
+    <td style="width:80%" colspan="2"><em>Does it happen more than once?</em></td>
+  </tr>
+</thead>
+<thead>
+  <tr >
+    <td style="width:20%" colspan="2"></td>
+    <td style="width:40%;outline:solid"><b>No</b></td>
+    <td style="width:40%;outline:solid"><b>Yes</b> (it's a loop)</td>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td  rowspan="2"><em>Is it conditional <br>(do we ask Karel a question)?</em></td>
+    <td style="outline:solid"><b>No</b></td>
+    <td><ul><li>'def' functions
+    <li>Define a series of actions
+    <li>We can "call" functions
+    <li><em>Code in 'def' doesn't run unless called
+    </td>
+    <td><ul><li>'for' loop
+    <li>Code in the loop runs <em>i</em> times
+    <li>Good for repeated actions</td>
+  </tr>
+  <tr>
+    <td style="outline:solid"><b>Yes</b></td>
+    <td><ul><li>'if' statement
+    <li>Code in the statement runs <em>if</em> Karel answers "yes" to some question
+    <li>Good if what you want to do depends on walls/beepers/etc</td>
+    <td><ul><li>'while' loop
+    <li>Code in the statement runs <em>as long as</em> Karel answers "yes" to some question
+    <li>Good for complete tasks that require repeated actions.</td>
+  </tr>
+</tbody>
+</table>
+</section>
+
+
+
+<section>
+<h2>naskarel</h2>
+<ul><li>Imagine Karel on a 10x10 grid.
+<li>Karel wants to pretend to be a NASCAR and race around the outside.
+<li>The outside is always ten spaces long.
+<li>We could do this:
+<code style="max-height:600px" class="python">import karel
+
+def main():
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left() # can only turn left
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left() # can only turn left
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left() # can only turn left
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    </code>
+</code>
+</section>
+
+<section>
+<h2>naskarel: def</h2>
+<ul><li>Imagine Karel on a 10x10 grid.
+<li>Karel wants to pretend to be a NASCAR and race around the outside.
+<li>The outside is always ten spaces long.
+<li>Or we could use define (at the bottom) and call (within main) "move_nine"
+<table style="width:100%">
+<tr><td style="width:50%">
+<code style="max-height:600px" class="python">import karel
+
+def main():
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()</code></td><td style="width:50%">
+   <code style="max-height:600px" class="python">import karel
+
+def main():
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    
+def move_nine():
+    move() # 1
+    move() # 2
+    move() # 3
+    move() # 4
+    move() # 5
+    move() # 6
+    move() # 7
+    move() # 8
+    move() # 9</code>
+    </td></tr></table></ul>
+    <p>Which is easier?
+</section>
+
+<section>
+<h2>Anatomy of a def</h2>
+<table style="width:100%">
+<tr><td style="width:50%">
+<ul><li>'def' <em>diverts</em> control flow unlike 'if', 'while', 'for'
+<ul><li>We write def <em>after</em> the end of main, and after an empty line
+<li>The code written in the def doesn't "run" unless the function name is "called" in main
+</ul><li>We can call the code written in def by name as many times as we want. but...
+<li>Each time we "call" it, it runs only once.
+<li>We call this the 'define":
+<code class="python">def turn_around():
+    turn_left()
+    turn_left()
+</code>
+<li>And this "calling" the function (by name):
+<code class="python">def main():
+    # turn left 2x
+    turn_around() 
+    </code>
+
+
+</td><td style="width:50%">
+   <code style="max-height:900px" class="python">import karel
+
+def main():
+    move_nine() # call
+    turn_left()
+    move_nine() # call
+    turn_left()
+    move_nine() # call
+    turn_left()
+    move_nine() # call
+    turn_left()
+    
+def move_nine(): # define
+    move() # 1
+    move() # 2
+    move() # 3
+    move() # 4
+    move() # 5
+    move() # 6
+    move() # 7
+    move() # 8
+    move() # 9</code>
+    </td></tr></table></ul>
+    <p>Which is easier?
+</section>
+
+<section>
+<h2>naskarel: for</h2>
+<ul><li>Imagine Karel on a 10x10 grid.
+<li>Karel wants to pretend to be a NASCAR and race around the outside.
+<li>The outside is always ten spaces long.
+<li>We could for loops to move across all ten spaces.
+<table style="width:100%">
+<tr><td style="width:50%">
+<code style="max-height:600px" class="python">import karel
+
+def main():
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()</code></td><td style="width:50%">
+   <code style="max-height:600px" class="python">import karel
+
+def main():
+    for i in range(9):
+        move()
+    turn_left()
+    for i in range(9):
+        move()
+    turn_left()
+    for i in range(9):
+        move()
+    turn_left()
+    for i in range(9):
+        move()
+    turn_left()</code>
+    </td></tr></table></ul>
+    <p>Which is easier?
+</section>
+
+<section>
+<h2>naskarel: double or nothing</h2>
+<ul><li>Imagine Karel on a 10x10 grid.
+<li>Karel wants to pretend to be a NASCAR and race around the outside.
+<li>The outside is always ten spaces long.
+<li>We use a for loop in a function to make nicer code...
+<table style="width:100%">
+<tr><td style="width:50%">
+<code style="max-height:600px" class="python">import karel
+
+def main():
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()</code></td><td style="width:50%">
+   <code style="max-height:600px" class="python">import karel
+
+def main():
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    
+def move_nine():
+    for i in range(9):
+        move()</code>
+    </td></tr></table></ul>
+    <p>Which is easier?
+</section>
+
+<section>
+<h2>naskarel: double or nothing</h2>
+<ul><li>Imagine Karel on a 10x10 grid.
+<li>Karel wants to pretend to be a NASCAR and race around the outside.
+<li>The outside is always ten spaces long.
+<li>This makes it easier to see we can loop in main as well!
+<table style="width:100%">
+<tr>
+<td style="width:50%"><code style="max-height:600px" class="python">import karel
+
+def main():
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    move_nine()
+    turn_left()
+    
+def move_nine():
+    for i in range(9):
+        move()</code></td>
+<td style="width:50%"><code style="max-height:600px" class="python">import karel
+
+def main():
+    for i in range(4):
+        move_nine()
+        turn_left()
+    
+def move_nine():
+    for i in range(9):
+        move()</code></td>
+
+</tr></table></ul>
+    <p>Which is easier?
+</section>
+
+<section>
+<h2>naskarel: 40 vs 7 lines</h2>
+<table style="width:100%">
+<tr><td style="width:50%">
+<code style="max-height:900px" class="python">import karel
+
+def main():
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()
+    move() # move to end
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    move()
+    turn_left()</code></td><td style="width:50%">
+   <code style="max-height:900px" class="python">import karel
+
+def main():
+    for i in range(4):
+        move_nine()
+        turn_left()
+    
+def move_nine():
+    for i in range(9):
+        move()</code>
+    </td></tr></table></ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li><em>&check;</em> Running Karel review.<ul>
+<li><em>&check;</em> Github classroom.
+<li><em>&check;</em> Extracting Zip files.
+<li><em>&check;</em> Running Karel.
+</ul>
+<li>"Control Flow" again.
+<ul><li><em>&check;</em>The "def" (for "define") keyword and functions
+<li><em>&check;</em>The "for" keyword and loops
+<li>The "if" keyword and conditionals
+<li>The "while" keyword and conditional loops
+</section>
+
+
+
+<section>
+<h2>Unlost</h2>
+<ul><li>Imagine Karel_Newspaper but with variable houses.</ul>
+<img src="../hws/imgs/ps1_1.png">
+<p>What if this were 2x2?<br> (I was talking to my elders about home-ownership this weekend 😭)
+</section>
+
+
+
+<section>
+<h2>Unlost</h2>
+<ul><li>We cou</ul>
+<img src="../hws/imgs/ps1_1.png">
+<p>What if this were 2x2?<br> (I was talking to my elders about home-ownership this weekend 😭)
+</section>
+
+
+<section>
+<h2>unlost</h2>
+<ul>
+<table style="width:100%">
+<tr>
+<td style="width:50%;vertical-align:top"><ul><li>We could:<ul>
+<li>Drop a beeper
+<li>Cling to the left wall until we find a beeper.
+<li>Pick it up and turn around.
+<li>Cling to the right wall until we find a beeper.</td>
+
+<td style="width:50%"><img src="../hws/imgs/ps1_1.png"></td>
+
+</tr></table></ul>
+    <p>Not necessarily easier, but more general.
+    <p>On the homework, you can't drop a beeper (you have none) - I'm not doing the problem for you.
+</section>
+
+<section>
+<h2>unlost</h2>
+<ul>
+<table style="width:100%">
+<tr>
+<td style="width:55%;vertical-align:top"><code style="max-height:900px" class="python">import karel
+
+def main():
+    put_beeper()
+    cling_left_until_beeper()
+    pick_and_rev()
+    cling_right_until_beeper()
+    pick_beeper()
+    
+def cling_left_until_beeper():
+    move()
+
+def pick_and_rev():
+    move()
+    
+def cling_right_until_beeper():
+    move()</code></td>
+<td style="width:45%"><img src="../hws/imgs/ps1_1.png"></td>
+</tr></table></ul>
+</section>
+
+<section>
+<h2>unlost</h2>
+<ul>
+<table style="width:100%">
+<tr>
+<td style="width:55%;vertical-align:top"><code style="max-height:900px" class="python">import karel
+
+def main():
+    put_beeper()
+    cling_left_until_beeper()
+    pick_and_rev()
+    cling_right_until_beeper()
+    pick_beeper()
+    
+def cling_left_until_beeper():
+    # this will hit walls
+    while no_beepers_present():
+        move() 
+
+def pick_and_rev():
+    move()
+    
+def cling_right_until_beeper():
+    move()</code></td>
+<td style="width:45%"><img src="../hws/imgs/ps1_1.png"></td>
+</tr></table></ul>
+</section>
+
+<section>
+<h2>unlost</h2>
+<ul>
+<table style="width:100%">
+<tr>
+<td style="width:55%;vertical-align:top"><code style="max-height:900px" class="python">import karel
+
+def main():
+    put_beeper()
+    cling_left_until_beeper()
+    pick_and_rev()
+    cling_right_until_beeper()
+    pick_beeper()
+    
+def cling_left_until_beeper():
+    while no_beepers_present():
+        if front_is_blocked():
+            # avoid walls
+            turn_right() 
+            # or 3 left
+        move() 
+
+def pick_and_rev():
+    move()
+    
+def cling_right_until_beeper():
+    move()</code></td>
+<td style="width:45%"><img src="../hws/imgs/ps1_1.png"></td>
+</tr></table></ul>
+</section>
+
+<section>
+<h2>unlost</h2>
+<ul>
+<table style="width:100%">
+<tr>
+<td style="width:55%;vertical-align:top"><code style="max-height:900px" class="python">import karel
+
+def main():
+    put_beeper()
+    cling_left_until_beeper()
+    pick_and_rev()
+    cling_right_until_beeper()
+    pick_beeper()
+    
+def cling_left_until_beeper():
+    while no_beepers_present():
+        if front_is_blocked():
+            # avoid walls
+            turn_right() 
+            # or 3 left
+        if left_is_clear():
+            # 'cling' left
+            turn_left()
+        move() 
+
+def pick_and_rev():
+    move()
+    
+def cling_right_until_beeper():
+    move()</code></td>
+<td style="width:45%"><img src="../hws/imgs/ps1_1.png"></td>
+</tr></table></ul>
+</section>
+
+
+<section>
+<h2>unlost</h2>
+<ul><li>Like this:<br></ul>
+<img width="100%" src="imgs/cling.gif">
+</section>
+
+
+<section>
+<h2>unlost</h2>
+<ul><li>Try it:
+<code style="max-height:900px" class="python">def main():
+    while no_beepers_present():
+        if front_is_blocked():
+            # avoid walls
+            turn_left()
+            turn_left()
+            turn_left()
+            # or 3 left
+        if left_is_clear():
+            # 'cling' left
+            turn_left()
+        move()</code>
+</section>
+
+<section>
+<h2>Exercise</h2>
+<ul>
+<li>Do "Problem Set 1: Karel"
+<ul><li>Use comments 
+<li>The first problem "newspaper" benefits from functions, and perhaps for loops
+<ul><li>It is possible, but annoying, to do without either</ul>
+<li>The second problem, "painting" benefits from 'while' loops (and could use 'if')
+<ul><li>I used four (4) 'while' loops, and no 'if' statements or 'for' loops
+</section>
+
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Starting this week... sections!
+<ul><li>1 hour sometime on W or Th
+<li>Mandatory: Each missed section is 5% off final grade (more or less)
+<li>Help us help you - if you have a conflict, get sick, etc. - reach out ASAP.
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

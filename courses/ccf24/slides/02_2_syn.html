@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>synthesis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">synthesis</h1>
+  <h2>Wed W2</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>Week 2!
+<ul>
+<li>My SSN is 123 45 6789 (this is true)
+<code class='py'>ssn = '123456789'</code>
+<li>Usually we break into "chunks"
+<code class='py'>ssn = [ssn[:3], ssn[3:5], ssn[5:]]</code>
+<li>What is the first (zeroth) digit of the second (oneth) chunk?
+<code class='py'>print(ssn[1][0])</code>
+<li>It was
+<code class='py'>4</code>
+<li>I'll term this style of thinking "synthesis".
+</section>
+
+<section>
+<h2>Scary</h2>
+<ul><li>I think we can all agree this looks bad:
+<code class='py'>[ssn[:3], ssn[3:5], ssn[5:]][1][0]</code>
+<li>But it is understandable to a thinking machine
+<li>We may wish instead to say:
+<ul><li>If I split my ssn into chunks...
+<li>of size 3, 2, and 4...
+<li>and inspect the second/oneth chunk...
+<li>and of that chunk inspect the first/zeroth piece...
+<li>That is the first letter of the second chunk of my ssn.
+</ul>
+<li>This style of speaking is uncommon verbally, but is quite common when <em>trying to understand</em>
+<ul><li>What is the <em>x</em> of the <em>y</em> of the <em>z</em>
+<li>What is the <em>free throw percentage</em> of the <em>point guard</em> of the <em>division champion team</em>
+<li>What are the <em>units</em> of the <em>energy E</em> of <em>E = mc<sup>2</sup></em>
+</section>
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+</section>
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">
+What did you learn about the aims of university education in week one?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+<br>
+</section>
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">How do you differentiate styles of thinking used in high school class and college classes?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">What is the most challenging thinking technique you have used in your life so far?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Python for Data Science</h2>
+<ul>
+<li>One way we can model synthesis is by combining Python techniques with themselves or with each other.</li>
+<li>Moving beyond our intro to Python, we begin chapter B: Data Science...
+<li><b>Exercise B.1</b> Write a function prints all the pairs of a list.<ul>
+<li>Consider the following:
+<code class="py">conts = ['Africa', 'Americas', 'Antarctica', 'Eurasia', 'Oceania']</code>
+<li>How can we use list comprehension(s):
+<code class="py">[&lt;something&gt; for c in conts]</code>
+<li>To create pairs.
+<ul><li>Should we use a lambda expression, like the famous expression "cons":
+<code class="py">cons = lambda x, y : [x, y]</code>
+<li>Should we use lambda expressions within lambdas, like this technique for list reversal:
+<code class="py">rev = lambda x : [e for e in x[::-1]]</code>
+<li>It is okay if these look confusion - just explore them!</ul></ul>
+</section>
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">What do you do when given a hard problem?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Homework</h2>
+<ul>
+<li><b>Homework 3</b> Electoral Votes<ul>
+<li>Using multiple line strings, the new .split() method, and what you know about indices, write code that takes the information from <a href="https://www.archives.gov/electoral-college/allocation">Archives.gov</a> and creates a list of states and their number of electoral votes.
+
+<li>This is a special list that will help us latter.
+<ul style="font-style:italic">
+<li>You may need many lines of code or many cells.
+<li>Whatever you submit you should test using "run all" or "ctrl+F9" to make sure that when I run your code, or when you run the code in the future, that it does what you expect.</ul>
+<li>You may make a copy of <a href="https://colab.research.google.com/drive/1q4_nSLp-ChaPqYSO5Syo7cJ1nTQvds43?usp=sharing">this Notebook</a> and share it with me and anyone with whom you collaborate.
+<ul><li>Give Shouvik and I edit permissions.
+<li>Due Fri @ 12 Noon (so we're able to discuss it in class)
+<li>You may only give your peers view or comment permissions.
+</ul><li>It is more important to try things that interest you than to complete the assignment.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

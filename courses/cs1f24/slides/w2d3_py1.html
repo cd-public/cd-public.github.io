@@ -115,12 +115,26 @@ def main():
 
 <section>
 <h2>Running hello.py</h2>
-<ul><li>In what I will call the "terminal", type "python" or "python3"
+<ul><li>In what I will call the "terminal", type "python" (Win) or "python3" (Mac*)
 <li>This will change the terminal so that it is expecting to read Python
 <li>You will be able to tell because it will look like this:
 <code class="bash">Python 3.12.5 (tags/v3.12.5:ff3bc82, Aug  6 2024, 20:45:27) [MSC v.1940 64 bit (AMD64)] on win32
 Type "help", "copyright", "credits" or "license" for more information.
 >>> </code>
+<li>The shorthand of the three '&gt;' is the how to tell where to type Python code.
+<code class="python">&gt;&gt;&gt;</code>
+</section>
+
+
+<section>
+<h2>Running hello.py</h2>
+<ul>
+<li>My experience: Students often do not read the text in the terminal.<br>
+<img width="100%" src="imgs/python_tweet.png">
+<li>That is less than a tweet of text.
+<li>I will often ask e.g. "do you have Python open?" to 🦗🦗🦗
+<li>Be present; be thoughtful; be curious.
+<li>This terminal may look scary, but it tries to help you and I know you can understand much of it.
 </section>
 
 
@@ -146,19 +160,6 @@ hello world
 # but I would never be able to figure that out</code>
 </section>
 
-
-<section>
-<h2>Suppose...</h2>
-<ul><li>Like many other living beings, I eat food.
-<ul><li>Vegetable check!</ul>
-<li>But how much food?
-<li>I am approximately 32 years old, eat approximately 2000 calories per day.
-<li>I couldn't even guess when I started eating 2000/day, so I'll assume always.
-<li>How can I use Python to calculate this?
-<code style="max-height:600px" class="python">2000 * 32 * 365</code>
-<li>Okay... but how does that help me?
-<li>How do I see the solution?
-</section>
 
 <section>
 <h2>Suppose...</h2>
@@ -228,9 +229,7 @@ C:\Users\cd-desk\Downloads\problem-set-1-karel-cd-public-main\problem-set-1-kare
 <li>Then I can type:
 <code class="bash">python Karel_Newspaper.py</code>
 <li>It looks like:
-<code class="bash">C:\Users\cd-desk\Downloads\problem-set-1-karel-cd-public-main\problem-set-1-karel-cd-public-main>cd ../../..
-
-C:\Users\cd-desk>cd Downloads\problem-set-1-karel-cd-public-main\problem-set-1-karel-cd-public-main
+<code class="bash">C:\Users\cd-desk>cd Downloads\problem-set-1-karel-cd-public-main\problem-set-1-karel-cd-public-main
 
 C:\Users\cd-desk\Downloads\problem-set-1-karel-cd-public-main\problem-set-1-karel-cd-public-main>python Karel_Newspaper.py</code>
 <li>That is a very long file path and could justifiably feel annoying to you, but we can imagine it as:
@@ -248,10 +247,10 @@ C:\Users\cd-desk\Downloads\problem-set-1-karel-cd-public-main\problem-set-1-kare
 
 <section>
 <h2>=</h2>
-<ul><li>We can use this to make arithmetic easier to understand and appreciate.
+<ul><li>We can use this to make arithmetic easier to understand and appreciate.</ul>
 <table style="width:100%">
 <tr>
-<td style="width:50%">
+<td style="width:50%"><p>In the terminal...
 <code class="bash">C:\Users\me>python
 Python 3.12.5...
 Type "help"...
@@ -260,18 +259,17 @@ Type "help"...
 >>> days_per_year = 365
 >>> days = years * days_per_year
 >>> calories_per_day * days
-23360000
->>></code></td>
+23360000</code></td>
 <td style="width:50%"><b>cal.py</b><code style="max-height:600px" class="python"># CALvinORIES
 calories_per_day = 2000
 years = 32
 days_per_year = 365
 days = years * days_per_year
-print(calories_per_day * days)</code><p>In the terminal...<code class="bash">C:\Users\me>python cal.py
+print(calories_per_day * days)</code><br><p>In the terminal...<br><code class="bash">C:\Users\me>python cal.py
 23360000
 </code></td>
 </tr></table>
-<li>Try it!
+<ul><li>Try it!
 </section>
 
 <section>

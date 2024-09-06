@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Problem Set 1: Karel</title>
+		<title>Problem Set 2: Checkers</title>
 		<style>
 		.page {
 			width: 9in ;
@@ -20,6 +20,9 @@
 		}
 		th {
 			text-align: left ;
+		}
+		td {
+			text-align: center ;
 		}
 		</style>
 		<style type="text/css" media="print">
@@ -44,44 +47,54 @@
 				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
 				<div class="page_inner"><center>
 					<h4>CS 151: Intro to Programming in Python</h4>
-					<h1>Problem Set 1: Karel</h1>
-                    <h3>Due: Monday, 9 September, 11:59 PM</h3>
-                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/yf7pux_8">https://classroom.github.com/a/yf7pux_8</a>
+					<h1>Problem Set 2: Checkers</h1>
+                    <h3>Due: Monday, 16 September, 11:59 PM</h3>
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/MCr3kGDD">https://classroom.github.com/a/MCr3kGDD</a>
                     <hr>
                     </center>
-					<p>This is a problem set of two problems, each of which has template files within which you will complete your work. Retrieve the assignment from the link below, download the ZIP (.zip) file, then extract all files. I would highly suggest then keeping the entire folder open in explorer/finder, to best edit the different files.<p>When you are finished, upload your completed templates back to Github, either via Github's "upload files" option or by using the "copy" and "paste" commands with Github's online file editor. Don’t change file names or add or remove files: overwrite the original template files.
+					<p>This is a problem set of three problems:
+                    <ul>
+                        <li>One last Karel problem
+                        <li>The first Python problem
+                        <li>One thinking problem
+                    </ul>
+                    Each has template files within which you will complete your work.
 					<hr>
                     <h2>Files:</h2>
-					<h3>1. Karel Newspaper</h3>
-					<p>Relevant files:
+					<h3>1. Checkerboard</h3>
                     <ul>
                         <li>Update (only) this file:
                         <ul>
-                            <li>Karel_Newspaper.py</li>
+                            <li>Prob1.py</li>
                         </ul>
                         <li>You will need to have these files in the same folder/directory:
                         <ul>
                             <li>karel.py</li>
-                            <li>Karel_Newspaper.w</li>
+                            <li>Prob1.w</li>
+                            <li>1x8.w</li>
+                            <li>5x3.w</li>
+                            <li>5x5.w</li>
+                            <li>8x1.w</li>
                         </ul>
                     </ul>
-					<h3>2. Karel Painting</h3>
-					<p>Relevant files:
+					<h3>2. <code>divisible_by_six_or_seven</code></h3>
                     <ul>
                         <li>Update (only) this file:
                         <ul>
-                            <li>Karel_Painting.py</li>
+                            <li>Prob2.py</li>
                         </ul>
-                        <li>You will need to have these files in the same folder/directory:
+                        <li>You will may also use:
                         <ul>
-                            <li>karel.py</li>
-                            <li>Karel_Painting.w</li>
-                            <li>Painting1.w</li>
-                            <li>Painting2.w</li>
-                            <li>Painting3.w</li>
+                            <li>test_ps2.py</li>
                         </ul>
                     </ul>
-                    <p>You may wish to make note of the cases - all words are capitalized except the special "karel.py" Python file, which is lower-case.
+					<h3>3. Both Squares</h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob3.txt</li>
+                        </ul>
+                    </ul>
 				</div>
 			</div>
 		</div>
@@ -91,19 +104,33 @@
 				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
 				<div class="page_inner">
                     <h2>Problems:</h2>
-                    <h3>Problem 1: Karel Newspaper</h3>
+                    <h3>Problem 1: Karel Checkerboard</h3>
 					<p>We imagine Karel:
                     <ol>
-                        <li>Begins within the upper-left/northwest of a "house", a 3x3 enclosure of walls with a single opening on the center-right/east,
-                        <li>Wishes to retrieve a "newspaper", a beeper immediately outside the sole opening, and
-                        <li>Wishes to return to the starting point in the upper-left/northwest.
+                        <li>Begins in the bottom left corner, facing toward the right.
+                        <li>Wishes to place a beeper on half of squares.
+                        <li>Wishes no beepers to be on squares with a beeper immediately above, below, left, or right.
+                        <ul>
+                            <li>We term this the "checkboard" pattern.
+                        </ul>
                     </ol>
-                    <center><img width="70%" src="imgs/ps1_1.png"></center>
-                    <p>You do not need to use conditional 'if' statements or 'while' loops for this task, but you are welcome to do so.
-                    <p>You are not-quite-required to use more than one function (that is, more functions than just the required 'main' function) for this task. You are encouraged to use a function for at least two of the three steps.
-                    <h4>How I solved the Problem</h4>
-                    <p>My solution contained around 60 lines of Python (.py) including comments. I utilized the four functions provided in the template - main() and three optional functions. I used no 'if', 'while', or 'for' statements or loops. I expect using 'for' would reduced my lines-of-code by around 5, to around 50. My longest function was "return_to_start" at around 15 lines.
-                    <p>I did <em>not</em> successfully complete the task on my first attempt, confusing left and right in one case, and moving too many steps and colliding with a wall in another.
+                    <center><img width="100%" src="imgs/ps2_1.png"></center>
+                    <p>Make sure you your program works on the following grid sizes:
+                    <table style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td>8x8
+                                <td>1x8
+                                <td>5x3
+                                <td>5x5
+                                <td>8x1
+                             </tr>
+                        </tbody>
+                    </table>
+                    <p>Karel may end anywhere on the grid but should not end with an error. There are always two acceptbale checkerboard patterns (bottom left has, or does not have, a beeper).
+                    <h4>How I solved Problem 1</h4>
+                    <p><b>If/else, a special case of if, was covered minimally in class, but of great use here.</b> <a href="https://www.geeksforgeeks.org/python-if-else/">Read more.</a> My solution contained around 32 lines of Python (.py) excluding comments. I utilized four functions in addition to main() and three optional functions. I used one 'for', one 'while', and two 'if/else' statements. 
+                    <p>I did <em>not</em> successfully complete the task on my first attempt, but solution worked when I added appropriate 'else' branches to my 'if/else' statements.
                 </div>
 			</div>
 		</div>
@@ -112,22 +139,28 @@
 			<div class="page_outer">
 				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
 				<div class="page_inner">
-					<h2>Problems, Cont.:</h2>
-                    <h3>Problem 2: Karel Painting</h3>
-					<p>We imagine Karel:
-                    <ol>
-                        <li>Begins above the top right of a "house"
+                    <h3>Problem 2: <code>divisible_by_six_or_seven</code></h3>
+					<p>Prob2.py contains a few lines under a comment named "boilerplate" that allow you test your code, but is otherwise mostly empty. Write your solution as specified above this "boilerplate" which you are encouraged to leave unaltered.
+                    <p>Write a function called <code>divisible_by_six_or_seven</code>, that
+                    <ul>
+                        <li><code>divisible_by_six_or_seven</code> accepts two arguments: a smaller integer value that I will call <code>x</code> and a larger integer value, that I will call <code>y</code>.
+                        <li><code>divisible_by_six_or_seven</code> prints every number...
                         <ul>
-                            <li>For this problem, we regard a "house" as a rectangular (4-sided) enclosure of walls with a single opening somwhere on the right, but which may be of any size.
-                            <li>For this problem, Karel may initially face in any direction.
+                            <li>from <code>x</code> to <code>y</code>, including <code>x</code> and <code>y</code>, 
+                            <li>that is divisible by six (6) or seven (7), but 
+                            <li>not divisble by both six (6) and seven (7).
                         </ul>
-                        <li>Wishes to "paint" the "house" by placing a beeper immediately outside every the top/north, left/west, and bottom/south wall of the "house", and
-                        <li>Wishes to enter through the opening on the right/east.
-                    </ol>
-                    <center><img width="100%" src="imgs/ps1_2.png"></center>
-                    <p>The core learning objective of this problem requires you to write one Python (.py) file which may successful paint all four world (.w) files, despite differences in the "houses". You will need to use conditional 'if' statements or 'while' loops for this task, and are encouraged to use functions. My solution did not use a 'for' loop, but I thought there was one obviously place it could have.
-                    <p>There will always be at least two grid spaces between the "house" and the boundary of the grid.
-                    <p>There will always be an opening/door but it will not always be centered within the right/east wall.
+                        <li><code>divisible_by_six_or_seven</code> may print these numbers <b>in any order</b>
+                        <li><code>divisible_by_six_or_seven</code>, after printing all the numbers, will <b>return</b> (<em>not</em> print) how many numbers were printed.
+                    </ul>
+                    <p>I have written a small web application to help you. It allows you to input two values, and see the expected "print" and "return" results. <a href="ps2_prob2.html">Link</a>.
+                    <h4>How I solved Problem 2</h4>
+                    <p>I used one 'for' loop over a range created by the 'range()' function, similar to Karel 'for' loops. For me, this 'for' loop created a list, of which I could calculate the length with the 'len()' function. Within this loop, I used a series of 'if' statements, modulo '%' operations, and comparisons to zero using double equals '=='. There are many ways to structure these statements, and you should do what makes the most sense for you.
+                    <p>I was able to complete this task on my first attempt, but it took many tests before I convinced myself that it was correct. Also, I wrote the helper demonstration before attempting this task, and I took several attempts (at least 3) to create the code for demonstration.
+                    <h4>Extra Credit</h4>
+                    <p>I have discovered a solution that requires a single line of code - that is, my Prob2.py takes only one line. I used a list comprehension and a lambda expression to achieve this.
+                    <p>Any student able to write, and explain, a single-line solution to Problem 2 will receive up one assignment worth of extra credit. The explanation is required because I believe generative AI programs may be able to solve this question quite easily, but I am doubtful you will be able to explain the code that they write. And if you can explain the code, then it doesn't matter that an AI wrote it.
+                    <p>If you would like to attempt this extra credit assignment, submit your single-line solution and schedule a time to meet with me to convince me you understand it.
 				</div>
 			</div>
 		</div>
@@ -136,39 +169,27 @@
 			<div class="page_outer">
 				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
 				<div class="page_inner">
-                    <h4>How I solved the Problem</h4>
-                    <p>My solution used four "while" loops, one for each of the three steps numbered above. For one of the tasks, I used one inner while loop placed inside an outer while loop. In every case, having each while loop contained within it's own function made the most sense to me, so in one case I had a function, which contained a while loop, which contained a function, which contained a while loop.
-                    <p>In my code, I see one clear place I could have used a 'for' loop instead of a while loop.
-                    <p>I used no 'if' statements.
-                    <p>Almost all of my movement and placement occurred within loops.
-                    <p>I did <em>not</em> successfully complete the task on my first attempt, as I did not realize Karel could start facing in any direction because I did not read the directions completely before testing my code. My code did work after fixing this single error, but I was quite surprised when it worked.
-					<hr>
-					<h4>Hints Provided by Prof. Jed Rembold</h4>
-                    <p>In addition to the notes on how I solved this problem, here are some hints provided by Prof. Jed Rembold, who designed this assignment. I used all three of these hints:
-					<ul>
-                        <li>Really think of how you want to decompose this problem. I would argue that you are essentially trying to accomplish the same task 3 different times, so that might guide or inspire how you want to break things down.
-                        <li>Just because loops will be useful, you don’t need to have all your code inside the loop! Frequently, you might need a line or two of code outside any loops to “reposition” Karel a bit.
-                        <li>You have lots of potential predicate functions (functions used within "while" loops or "if" statements) to choose from to determine where the wall is that you are trying to paint and move along. Many of them can work, but some streamline the code more than others.
+                    <h3>Problem 3: Squares</h3>
+                    <p><b>You do not need to write code for Problem 3</b>
+					<p>Prob3.txt is a text (.txt) file and not a Python (.py) file. That is because Problem 3 is a writing problem: write out in prose, as if you are speaking to me, how you would solve the following problem.
+                    <p>Consider two squares.
+                    <ul>
+                        <li>One square of side length <code>A</code> that is greater than zero (0)<br><code>A > 0</code>
+                        <li>One square of side length <code>B</code> that is greater than zero (0)<br><code>B > 0</code>
+                        <li>They overlap by a distance <code>d</code> greater or equal to zero (0) and less than or equal to <code>A</code><br><code>0 &leq; d &leq; A</code>
+                        <li>We imagine the square are lined up horizontally (left-to-right) on the bottom and overlap horizontally (left-to-right).
                     </ul>
-					<hr>
-					<h4>Final Checks</h4>
-					<ul>
-                        <li>Make sure you have practiced decomposition in both problems: breaking the overall problem up into smaller problems and using helper functions to group up the commands to solve that smaller problem.
-                        <li>Make sure you have used comments to document your code. At the very least, you should have a comment explaining what each helper function is doing.
-                        <li>Make sure you have filled out the meta-data at the top of the template, in particular indicating if you worked with anyone or used an online resources. This is so I can support you better!
+                    <p>We ask you to find the total area covered by both squares, without counting overlapping area twice.
+                    <p>If <code>d</code> is equal to 0, then the total area is equal to <code>A * A + B * B</code>
+                    <p>If <code>d</code> is equal to <code>A</code>, then the total area is equal to the larger of <code>A * A</code> or <code>B * B</code>
+                    <p>I have written a small web application to help you. It allows you to input three values, and see the expected area. <a href="ps2_prob3.html">Link</a>.
+                    <p><b>You do not need to write code for Problem 3</b>
+                    <h4>Hints</h4>
+                    <ul>
+                        <li>You just need the shaded area, so be careful you don’t “double count” the overlapping region.
+                        <li>You don’t know which square is larger, so you may need your algorithm to adjust depending on the inputs.
+                        <li>It might be useful to map out the major possible configurations to ensure your algorithm works for all of them.
                     </ul>
-					<hr>
-                    <p>It may be non-obvious how to change world (.w) files. Here is an animated demonstration. Notice the slight delay between selecting files and the Karel window updating:
-				</div>
-			</div>
-		</div>
-       <div class="page">
-           <div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
-                <div class="page_outer">
-                    <div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
-                    <div class="page_inner">
-                    <center><img src="imgs/ps1_3.gif"></center>
-                    </div>
 				</div>
 			</div>
 		</div>

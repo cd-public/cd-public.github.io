@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Range</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Range</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W3Wed: 11 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<li>One writing problem.
+</ul>
+<li>Sections reminder: Wed & Thurs PM.
+<ul>
+<li>Problems: email jjrembold@, you may cc ckdeutschbein@</ul>
+<center><img src="imgs/section.png"></center>
+<li>PS1: Crushed. <em>Mission: All A's</em> is a go! 🚀
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<br>
+<code class="python">range()</code>
+<br>
+<code class="python">and / or / not</code>
+<br>
+<code class="python">def / return</code>
+<br>
+</ul>
+</section>
+
+<section>
+<h2><code class="python">range()</code></h2>
+<img style="width:3000px;height:900px;overflow: hidden;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Himalaya_sud_avion.JPG/1920px-Himalaya_sud_avion.JPG">
+<p>The Anapurna range of the Himalayas (that mountain is ~5 miles tall)
+</section>
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>Remember this:
+<code class="python">def turn_right():
+    for i in range(3):
+        turn_left()</code>
+<li>Like the Anapurna range (look it was just a cool picture okay) of the Himalayas...
+<li>A range of some integer <em>n</em> is part of the number line (from neg to pos infinity)
+<li>In Karel we didn't worry about the numbers, but we are Arithmetic Appreciators&trade; now 
+</section>
+
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>The easiest way to examine range() is with print()
+<code class="python">>>> print(range(10))
+range(0, 10)</code>
+<li>Um... what?
+<li>Okay fun fact - range just starts at zero by default, but we can change that...
+<code class="python">>>> print(range(5,10))
+range(5, 10)</code>
+<li>Variety of uses for this - usually reading a file and cutting off headings for me.
+</section>
+
+
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>The easiest way to examine range() is with print()...
+<li>But we shouldn't just print the range itself!
+<li>We often use 'range()' with 'for'
+<code class="python">>>> for i in range(3): # smaller so its easy to work with
+...     print(i)
+...
+0
+1
+2</code>
+<li>Recall: we say "range(3)" but we get "range(0,3)"
+<li>So ranges include the first number and stop right before the second.
+<li>Why include zero?<ul>
+<li>What is the first hour of the day? (12hr or 24hr clock?)
+<li>What is the fewest number of apples you can have?
+</section>
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>The easiest way to examine range() is with print()...
+<code class="python">>>> for i in range(4,6):
+...     print(i)
+...
+4
+5</code>
+<li>We can also do non-zero starts.
+</section>
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>Often we use for and range when we want to check for something, like multiples of 5.
+<code class="python">>>> for i in range(25,50):
+...     if i % 5 == 0:
+...             print(i)
+...
+25
+30
+35
+40
+45</code>
+<li>One can imagine how this may be useful
+<ul><li>Check every 50th entry to see if it seems valid.
+<li>Divide up some tasks among <em>n</em> people.
+</section>
+
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>There is a forbidden (it's not forbidden) third value that can be supplied to a range, that we usually call the step size:
+<code class="python">>>> for i in range(25,50,10):
+...     print(i)
+...
+25
+35
+45</code>
+<li>I use this sometimes, but usually inner if is fine, unless...
+</section>
+
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>By the way you can make any of these values negative.
+<code class="python">>>> for i in range(15,10,-2):
+...     print(i)
+...
+15
+13
+11</code>
+<li>For whatever reason, I'm always reversing orders:<ul>
+<li>Review the homeworks that were turned in last, first
+<li>Use reverse alphabetical order to offset years of alphabetization
+<li>In a big file: start reading from the end (latest entries)
+</section>
+
+
+<section>
+<h2><code class="python">range()</code></h2>
+<ul><li>I like range...
+<code class="python">for i in range(15,10,-2):
+   print(i)</code>
+<li>... but also like while:
+<code class="python">i = 15
+while i > 10:
+    print(i)
+    i = i - 2</code>
+<li>These are identical. Use what you like.
+<li>You will need* to use on PS2 Problem 2.
+<ul><li>There is a very challenging way to use only 'if'
+<li>I don't have it working yet but it looks possible. Office hours.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<br>
+<code class="python">&check;: range()</code>
+<br>
+<code class="python">and / or / not</code>
+<br>
+<code class="python">def / return</code>
+<br>
+</ul>
+</section>
+
+<section>
+<h2>Booleans</h2>
+<ul>
+<li>There's these things called booleans.
+<code class="python">&gt;&gt;&gt; type(1)
+&lt;class 'int'&gt;</code>
+<code class="python">&gt;&gt;&gt; type(1.0)
+&lt;class 'float'&gt;</code>
+<code class="python">&gt;&gt;&gt; type(1==1.0)
+&lt;class 'bool'&gt;
+&gt;&gt;&gt; type(False)</code>
+<code class="python">&lt;class 'bool'&gt;</code>
+<li>'True' and 'False' are booleans and nothing else is a boolean.
+</section>
+
+<section>
+<h2>Booleans</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>The is such thing as boolean arithmetic
+<li>Easy ones:
+<table>
+<tr><td><code class="python">a and b </code></td><td>True if 'a' and 'b' are True</td>       <tr>
+<tr><td><code class="python">a or b </code></td><td>True if 'a' or 'b' be True</td>       <tr>
+<tr><td><code class="python">not a</code></td><td>True if 'a' is not True ('a' is False)</td>       <tr>
+</table></td><td style="width:50%">
+<code class="python">>>> a = True
+>>> b = False
+>>> a and b
+False
+>>> a or b
+True
+>>> not a
+False</code></td></tr></table>
+<p>In general: if you aren't sure, just check.
+</section>
+
+
+<section>
+<h2>Truthiness</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>If Python expects a boolean, like in an 'if', it turns to turn whatever it gets into a boolean.
+<li>You can test by writing 'if' statements, or by turning things into booleans with 'bool()'
+<li>This is sometimes called "truthiness" - I don't love it (do you?)
+<li>Here's some "falsy" values
+<table>
+<tr><td><code class="python">0</code></td><td style="vertical-align:top">Non-zero values are treated like True</td>       <tr>
+<tr><td><code class="python">0.0</code></td><td style="vertical-align:top">Non-zero values are treated like True</td>       <tr>
+<tr><td><code class="python">""</code></td><td style="vertical-align:top">Imagine if we want to print nothing.</td>       <tr>
+<tr><td><code class="python">None</code></td><td style="vertical-align:top">None is the return value of a function with no return (???)</td>       <tr>
+</table></td><td style="width:50%">
+<code class="python">>>> if 0:
+...     print('hi')
+...
+>>> if "":
+...     print('hi')
+...
+>>> if print():
+...     print('hi')
+...
+
+>>> if .1:
+...     print('hi')
+...
+hi
+>>> bool(0)
+False</code></td></tr></table>
+<p>In general: if you aren't sure, just check.
+</section>
+
+<section>
+<h2>Truthiness</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>While goofy, it allows for some shortcuts.
+<li>Let's find some multiples of 3.
+<table style="vertical-align:center">
+<tr><td width="60%"><code class="python">val % div</code></td><td style="vertical-align:top">Is non-zero if 'val' divided 'div' has <em>some</em> remainder</td>       <tr>
+<tr><td><code class="python">val % div == 0</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>no</em> remainder</td>       <tr>
+<tr><td><code class="python">bool(val % div)</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>some</em> remainder</td>       <tr>
+<tr><td><code class="python">not val % div</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>no</em> remainder</td>       <tr>
+</table></td><td style="width:50%">
+<code class="python">>>> for i in range(10,20):
+...     if i % 3 == 0:
+...             print(i)
+...     if not i % 3:
+...             print(i)
+...
+12
+12
+15
+15
+18
+18
+>>></code></td></tr></table>
+</section>
+
+
+<section>
+<h2>All together</h2>
+<ul>
+<code class="python">>>> for i in range(0,50,5):
+...     if not i % 3:
+...             print(i)
+...
+0
+15
+30
+45
+>>></code>
+<li>Same as:
+<code class="python">>>> for i in range(50):
+...     if i % 3 == 0 and i % 5 == 0:
+...             print(i)</code></ul>
+<p>I took a whole class in undergrad on "counting two ways" (it was fun!)
+</section>
+
+
+
+<section>
+<h2>Disambiguate</h2>
+<ul>
+<li>If you get confused looking at something:
+<code class="python">>>> for i in range(50):
+...     if i % 3 == 0 and i % 5 == 0:
+...             print(i)</code>
+<li>Add parenthesis:
+<code class="python">>>> for i in range(50):
+...     if ((i % 3) == 0) and ((i % 5) == 0):
+...             print(i)</code>
+<li>Or use variables.
+<code class="python">>>> for i in range(50):
+...     rem3 = (i % 3)
+        rem5 = (i % 5)
+        if not rem3 and not rem5: # 'not' any remainder,
+...             print(i)</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<br>
+<code class="python">&check;: range()</code>
+<br>
+<code class="python">&check;: and / or / not</code>
+<br>
+<code class="python">def / return</code>
+<br>
+</ul>
+</section>
+
+<section>
+<h2>Type hints</h2>
+<ul>
+<li>You basically know what types are now:
+<ul><li>int
+<li>float
+<li>bool
+<li>Whatever "hello world" is - we'll get there
+</ul>
+<code class="python">>>> type('hi') # to be continued...</code>
+<li>The ONLY way I wrapped my head around functions was by remembering this:
+<code class="python">def add(x,y):
+    return x + y</code>
+<li>Was a function that takes two ints and returns one int
+<li>Call this a "function type"
+</section>
+
+
+<section>
+<h2>Type hints</h2>
+<ul>
+<li>PS2 Problem 2 asks for a function that takes two ints and returns one int.
+<li>And it ALSO prints a whole bunch of stuff (ints, more or less - we'll get there)
+<li>In Python we can state what the function type is with "type hints":
+<ul><li>This are basically a special kind of comment - they don't affect code.</ul>
+<code class="python">def divide(x, y): # no hints
+    return x / y
+    
+def intdiv(x:int, y:int) -> int: # yes hints
+    return x // y</code>
+<li>You are not required to use type hints in this class...
+<li>But my brain requires me to use function types to teach this class.
+</section>
+
+<section>
+<h2>Type hints</h2>
+<ul>
+<li>We term the things that go into function "parameters" or "arguments"
+<ul><li>Sometimes we say "inputs" but that can get confusing - stay tuned.
+</ul>
+<li>We term the things that come out of functions "return values"
+<li>A function with no return value, like 'print', returns "None" - which is a special value and a special type.
+<code class="Python">>>> type(None)
+&lt;class 'NoneType'&gt;</code><code class="Python">
+>>> type(print('hi'))
+hi
+&lt;class 'NoneType'&gt;</code>
+<li>Why do I bring this up?
+</section>
+
+<section>
+<h2>Type hints</h2>
+<ul>
+<li>You should only ever omit return values *on purpose* (realistically: never until you are an expert)
+<code class="python">>>> def print_sum_of(x:int,y:int) -> None:
+...     print(x + y)
+...
+>>> type(print_sum_of(3,4))
+7
+&lt;class 'NoneType'&gt;
+>>></code>
+<li>Code like this will be easier to fix if you try to, say:
+<code class="python">>>> x = print_sum_of(3,4)
+7
+>>> x
+>>></code>
+<li>Wait - I said print_sum should return None! Why am I saving that in x!
+
+</section>
+
+<section>
+<h2>Exercise</h2>
+<ul>
+<li>Do "Problem Set 2: Checkers"
+<ul><li>One Karel problem (probably) using "if" and "while"
+<code class="python">def check_move():
+    if no_beepers_present():
+        move()
+        put_beeper()
+    else:
+        move()</code>
+<li>One Python problem using arithmetic and (probably) "for"
+<code class="Python">def divisible_by_six_or_seven(x:int, y:int) -> int:
+    # there must be the possibility of something printing in here
+    return # must return an int
+</code>
+<li>One writing problem
+
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<li>One writing problem.
+</ul>
+<li>Sections reminder: Wed & Thurs PM.
+<ul>
+<li>Problems: email jjrembold@, you may cc ckdeutschbein@</ul>
+<center><img src="imgs/section.png"></center>
+<li>PS1: Crushed. <em>Mission: All A's</em> is a go! 🚀
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

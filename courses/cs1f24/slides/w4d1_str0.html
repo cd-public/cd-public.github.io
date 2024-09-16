@@ -49,13 +49,13 @@
 <li>String arithmetic
 <ul><li>Addition / Multiplication
 <li>Comparison
-</ul>
+</ul><!--
 <li>String indices
 <ul><li>String slices</ul>
 <li>String other
 <ul><li>len()
 <li>in
-</ul>
+</ul>-->
 </section>
 
 <section>
@@ -67,6 +67,11 @@ hello world</code>
 <li>This is snippets of text in Python are called 'strings'
 <code class="python">>>> type(x)
 &lt;class 'str'&gt;</code>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
 <li>Strings rule, they are basically what I use Python for the most.
 <code class="python">>>> for student in cs_majors:
 ...     if 'Sophomore' in student:
@@ -85,6 +90,11 @@ hello world</code>
 <li>But could be better
 <code class="python">>>> 9.9 ** 20 + 1000 == 9.9 ** 20
 True</code>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
 <li>I do not know how Python could be better with strings.
 <li>I copy-pasted the entirety of <a href="https://raw.githubusercontent.com/cd-public/books/1f05cf11b2c6188d27124335195ea4e6ae562003/pg1342.txt">Pride and Prejudice</a> into Python
 <code class="python">>>> letters = 0
@@ -115,7 +125,43 @@ True</code>
 
 
 <section>
-<h2>Strings</h2>
+<h2>Strings 1</h2>
+<ul>
+<li>Four ways to make a variable that is a string.
+<ul><li>1. Use single quotes.
+<code class="python">name = 'calvin'</code>
+
+</section>
+
+
+<section>
+<h2>Strings 2</h2>
+<ul>
+<li>Four ways to make a variable that is a string.
+<ul><li>1. Use single quotes.
+<code class="python">name = 'calvin'</code>
+<li>2. Use double quotes, which allows counting single quotes.
+<code class="python">name = "L'Ouverture"</code>
+
+</section>
+
+<section>
+<h2>Strings 3</h2>
+<ul>
+<li>Four ways to make a variable that is a string.
+<ul><li>1. Use single quotes.
+<code class="python">name = 'calvin'</code>
+<li>2. Use double quotes, which allows counting single quotes.
+<code class="python">name = "L'Ouverture"</code>
+<li>3. Use three double quotes, which allows spanning multiple lines
+<code class="python">book = """It is a truth universally acknowledged, that a single man in possession of a good fortune must be in want of a wife.
+
+However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the mind"""</code>
+</section>
+
+
+<section>
+<h2>Strings 4</h2>
 <ul>
 <li>Four ways to make a variable that is a string.
 <ul><li>1. Use single quotes.
@@ -128,11 +174,29 @@ True</code>
 However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the mind"""</code>
 <li>4. Use the str() function, which makes a non-string into a string.
 <code class="python">number = str(105 * 4)</code>
-
-
-
 </section>
 
+
+
+<section>
+<h2>Strings 4 Again</h2>
+<ul>
+<li>Emphasis
+<li>4. Use the str() function, which makes a non-string into a string.
+<code class="python">number = str(105 * 4)</code>
+<li>Be advised:
+<ul><li>The string "10" and the value 10 (no quotes) are not equal.
+<code class="python">>>> str(10) == 10
+False</code>
+<li>Always check with type()!
+<code class="python">>>> x = 10
+>>> type(x)
+&lt;class 'int'&gt;</code>
+<code class="python">>>> x = str(x)
+>>> type(x)
+&lt;class 'str'&gt;</code>
+<li>Use type()!
+</section>
 
 <section>
 <h2>Today</h2>
@@ -141,11 +205,13 @@ However little known the feelings or views of such a man may be on his first ent
 <ul><li>Addition / Multiplication
 <li>Comparison
 </ul>
+<!--
 <li>String indices
 <ul><li>String slices</ul>
 <li>String other
 <ul><li>len()
 <li>in
+-->
 </ul>
 </section>
 
@@ -162,7 +228,9 @@ CS151</code>
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 TypeError: can only concatenate str (not "int") to str</code>
-<li>I am confident you can read and understand this error code if you see it by focusing on the last line.
+<li>I am confident you can read and understand this error code if you see it.
+<li>Read the the last line.
+</ul>
 
 
 </section>
@@ -179,10 +247,10 @@ TypeError: can only concatenate str (not "int") to str</code>
 <li>The most common case for me: adding spaces.
 <code class="python">>>> number = 151
 >>> prefix = 'CS'
->>> prefix + ' ' +  str(number)
+>>> prefix + ' ' + str(number)
 'CS151'</code>
-<li>I pretty much always forget a space on one side of the plus or another - just check your work.
-<li>Oh and by the way - subtraction does not work
+<li>NOTE: I pretty much always forget a plus '+' on one side of the space.
+<li>Subtraction does not work
 <ul><li>What would it even do?
 </section>
 
@@ -191,12 +259,20 @@ TypeError: can only concatenate str (not "int") to str</code>
 <h2>String *</h2>
 <ul>
 <li>I do a lot better reading things when they align vertically, like I did here with 'number' and 'prefix':
+<ul><li>That is, the single-equals assignment '=' is vertical aligned, one over another</ul>
 <code class="python">>>> number = 151
 >>> prefix = 'CS'</code>
+</section>
+
+
+<section>
+<h2>String *</h2>
+<ul>
 <li>I also teach classes called:
-<ul><li>CS 151
+<ul style="font-family:monospace;font-size:larger"><li>CS 151
 <li>IDS 101
 <li>DATA 599</ul>
+<li>This is hard on my eyes - it isn't easy to see, for example, DATA 599 is a graduate class (500-level)
 <li>I solve this by... adding spaces!
 <ul><li>This is called 'right padding' is one of the most used techniques in text processing!
 </section>
@@ -211,7 +287,15 @@ TypeError: can only concatenate str (not "int") to str</code>
 </ul><li>We can actually use it on more than just strings...
 <code class="python">>>> len(range(0,50,7)) # 0, 7, 14, 21... 28, 35, 42, 49
 8</code>
-<li>But it works very well on strings.
+</section>
+
+
+
+<section>
+<h2><code>len()</code></h2>
+<ul>
+<li>Python includes a handy built-in function called len() to help us here.
+<li>It works very well on strings.
 <code class="python">>>> letters
 1496244
 >>> len(book)
@@ -306,12 +390,13 @@ hihihi</code>
 <ul><li><b>&check;</b>: Addition / Multiplication
 <li>Comparison
 </ul>
+<!--
 <li>String indices
 <ul><li>String slices</ul>
 <li>String other
 <ul><li>len()
 <li>in
-</ul>
+-->
 </section>
 
 
@@ -376,15 +461,16 @@ True
 <ul><li><b>&check;</b>: Addition / Multiplication
 <li><b>&check;</b>: Comparison
 </ul>
+<!--
 <li>String indices
 <ul><li>String slices</ul>
 <li>String other
 <ul><li>len()
 <li>in
-</ul>
+-->
 </section>
 
-
+<!--
 <section>
 <h2>Strings</h2>
 <ul>
@@ -404,6 +490,7 @@ s</code>
 <li>Time to talk about <em>indices</em>
 
 </section>
+-->
 
 <section>
 <h2>Announcements</h2>

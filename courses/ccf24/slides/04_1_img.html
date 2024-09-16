@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Images</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">Images</h1>
+  <h2>Mon W1</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>Week 4!
+<li>Shouvik, who is allegedly cool and fun, made us look at this on Friday:
+<code class='py'>import numpy as np
+
+img_arr = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])</code>
+<li>At least I think that's what happened, I found it boring and fell asleep instantly.
+<li>In my dream, I imaged the impossible... what if numpy was good?
+</section>
+
+
+
+<section>
+<h2>Images</h2>
+<ul><li>I literally only ever used numpy for one thing ever.
+<code class='py'>import numpy as np
+from PIL import Image as im</code>
+<li>I used it with the famous "Python Image Library" to make digital art.
+<li>This is an actual assignment in one of my upper division classes: <a href="https://github.com/cd-public/cs271wu/blob/main/hw2/brot.py">brot.py</a></ul>
+<img height="1000px" src="https://raw.githubusercontent.com/cd-public/cs271wu/main/hw2/buddhabrot_from_c.png">
+</section>
+
+
+
+<section>
+<h2>Images</h2>
+<ul><li>It is relatively easy to convert a np array into an image:
+<ul><li>A numpy array is a basically a list of rows.
+<li>Each row is a list of "pixels" - the tiniest unit our screen can display.
+<li>The value in some pixel in some row gives how bright that pixel is.
+</ul><li>Image a computer doing pointillism, perhaps.
+<blockquote>Pointillism is a technique of painting in which small, distinct dots of color are applied in patterns to form an image. </blockquote>
+<li>So we say: take 2 steps over and 1 steps down, and using a relatively dark color, perhaps.
+<code class="python">step_over = 2
+step_down = 1
+brightnes =  0 # relatively dark
+img_arr[step_over][step_down] = brightnes</code>
+<li>By the way I have no idea if over/down is correct - check it by making things bright or dark.
+</section>
+
+
+<section>
+<h2>Images</h2>
+<ul><li>Once we have set any brightness in our array, we use the following code from the image library:
+<code class="Python">im.fromarray(img_arr) 
+# 'im.fromarray' from PIL
+# 'img_arr' we just made</code>
+<li>I think by default this doesn't work because PIL has very specific tastes in arrays.
+<li>Recall: Shouvik told us arrays have different types.
+</section>
+
+
+<section>
+<h2>Images</h2>
+<ul><li>For whatever reason, we have to use "np.uint8" (look it up when you feel like it)
+<code class="Python">img_arr = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+]).astype(np.uint8) # From an error message
+
+im.fromarray(img_arr)</code>
+<li>This will make a very small image.
+</section>
+
+<section>
+<h2>Images</h2>
+<ul><li>To make something big enough to see...
+<code class="Python"># let's make a 110 by 120 image of brightness 130
+
+reg_arr = [[130 for i in range(110)] for i in range(120)]
+
+img_arr = np.array(reg_arr).astype(np.uint8)
+
+im.fromarray(img_arr)</code>
+<li>This will make a very small image.
+</section>
+
+
+<section>
+<script>
+const cc = [
+	"Clevenger, Mia K.",
+	"crone, Jack",
+	"Davis, Jacob C.",
+	"Dockter, Alexis S.",
+	"Huffington, Sofia H.",
+	"Lewenstein, Elliott L.",
+	"Martin, Julia A.",
+	"Mead, Landon C.",
+	"Pagone, Cody E.",
+	"Weis, Gabriella L.",
+	"Weisz, Ben M.",
+	"Wiggins, Pearson",
+	"Woodward, Jasper G."
+] ;
+
+function scramb() {
+	const d = {} ;
+	cc.forEach((element) => d[Math.random()*1000] = "<td>" + element) ;
+	const s = Object.keys(d).sort() ;
+	const ids = ["r1", "r2", "r3", "r4"] ;
+	let ind = 0 ;
+	ids.forEach((id) => document.getElementById(id).innerHTML = "") ;
+	s.forEach((val) => document.getElementById(ids[Math.floor(ind++/4)]).innerHTML += d[val]) ;
+}</script>
+<button style="font-size:100%" onclick="scramb()"><h2>Form GRoups</h2></button>
+<table style="color:white"><tbody><thead><tr><th width="25%">Group 1</th><th>Group 2</th><th>Group 3</th><th>Group 4</th><tr>
+<tr id="r1">
+<tr id="r2">
+<tr id="r3">
+<tr id="r4">
+</table>
+</section>
+
+
+
+<section>
+<h2>Question #1</h2>
+<blockquote style="color:white;font-size:200%">
+How are you enjoying CC so far?</blockquote>
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+<br>
+</section>
+
+<section>
+<h2>Question #2</h2>
+<blockquote style="color:white;font-size:200%">Do we like images more than, say, lists or pandas dataframes or numpy arrays?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+<br>
+</section>
+
+<section>
+<h2>Question #3</h2>
+<blockquote style="color:white;font-size:200%">What makes something art?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Digital Art</h2>
+<ul>
+<li><b>Exercise C.1</b> Create something you find beautiful.<ul>
+<li>Consider the following:
+<ul>
+<li>You can determine maximum brightness by increasing it until something breaks.
+<li>Computer monitors don't display only brightness, but color, using 3 brightnesses.
+<li>Gradients, changes in color over space, occur by determining color based on the position in an image.
+</ul>
+<li>I claim: beauty is created by community - work together to design and build.</ul>
+<code class="Python"># let's make a 110 by 120 image of increasing brightness.
+
+reg_arr = [[i for i in range(110)] for j in range(120)]
+
+img_arr = np.array(reg_arr, dtype=np.uint8)
+
+im.fromarray(img_arr)</code>
+</section>
+
+
+<section>
+<h2>Bonus</h2>
+<ul>
+<li><b>Exercise C.1</b> Create something you find beautiful.<ul>
+<li>My first thing:
+<code class="python">reg_arr = [[i for i in range(110)] for j in range(120)]
+
+img_arr = np.array(reg_arr).astype(np.uint8)
+
+im.fromarray(img_arr)</code>
+</ul></ul>
+<img width="512px" src="imgs/first.png"></code>
+</section>
+
+<section>
+<h2>Bonus</h2>
+<ul>
+<li><b>Exercise C.1</b> Create something you find beautiful.<ul>
+<li>Something beautiful (to me):
+<code class="python">im.fromarray(np.array([[[i + j, i + -j,-i + j] for i in range(255)] for j in range(255)]).astype(np.uint8))</code>
+<li>Cramming this all on one line is admittedly obnoxious, but I hope will make you thing for yourself while still learning something (let me know).
+</ul></ul>
+<img width="512px" src="imgs/fun.png"></code>
+</section>
+
+<section>
+<h2>Question #4</h2>
+<blockquote style="color:white;font-size:200%">What do you do when given a hard problem?</blockquote>
+
+<ul style="text-align: center;">
+<li><b>Think</b> about a possible answer on your own
+<li><b>Discuss</b> your answers with the rest of the group
+<li><b>Record</b> a summary of each group’s discussion
+</ul>
+</section>
+
+<section>
+<h2>Homework</h2>
+<ul>
+<li><b>Homework 3</b> Electoral Votes<ul>
+<li>Using multiple line strings, the new .split() method, and what you know about indices, write code that takes the information from <a href="https://www.archives.gov/electoral-college/allocation">Archives.gov</a> and creates a list of states and their number of electoral votes.
+
+<li>This is a special list that will help us latter.
+<ul style="font-style:italic">
+<li>You may need many lines of code or many cells.
+<li>Whatever you submit you should test using "run all" or "ctrl+F9" to make sure that when I run your code, or when you run the code in the future, that it does what you expect.</ul>
+<li>You may make a copy of <a href="https://colab.research.google.com/drive/1q4_nSLp-ChaPqYSO5Syo7cJ1nTQvds43?usp=sharing">this Notebook</a> and share it with me and anyone with whom you collaborate.
+<ul><li>Give Shouvik and I edit permissions.
+<li>Due Fri @ 12 Noon (so we're able to discuss it in class)
+<li>You may only give your peers view or comment permissions.
+</ul><li>It is more important to try things that interest you than to complete the assignment.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

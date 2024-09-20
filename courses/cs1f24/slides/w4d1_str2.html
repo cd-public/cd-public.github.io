@@ -7,6 +7,13 @@
   <style>
     code{white-space: pre-wrap;}
     div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
   </style>
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
   <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
@@ -40,7 +47,7 @@
 <h2>Today</h2>
 <ul>
 <li>String loops
-<li>String indicies
+<li>String indices
 <li>String slices
 </section>
 
@@ -143,45 +150,6 @@ s</code>
 <li>Time to talk about <em>indices</em>
 </section>
 
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Two ways to look at a single character/letter in a string.
-<ul><li>1. Use a 'for' loop over the string.
-<code class="python">>>> for letter in "cs":
-...     print(letter)
-...
-c
-s</code>
-<li>2. Use a 'for' loop over the length of the string...
-<code class="python">>>> for i in range(len('cs')):
-...     print('cs'[i]) # get it? csi?
-...
-c
-s</code>
-<li>Time to talk about <em>indices</em>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Example: 'i' before 'e'
-<li>Use a 'for' loop over the length of the string...
-<code class="python">word = "lied"
-# word = "veil"
-for i in range(len(word)):
-    print(word[i])</code>
-<li>See what prints:</em>
-<code class="python">l
-i
-e
-d</code>
-</section>
-
-
-
 <section>
 <h2>Strings</h2>
 <ul>
@@ -276,9 +244,11 @@ False
 <li>Example: 'i' before 'e'
 <li>Also - we have to make sure it works if 'i' is the first letter.
 <code class="python">>>> i_before_e('icee') # its a disaster</code>
-<li>Why? We don't return True ever - we should if we get to the *end of the string* (then we know we have no more i's that might be after e's).
+<li>'i' is in position 0, so i_before_e checks <em>negative</em> one.
+<li>This checks the end of the list - where there is an 'e'.
+<li>
 <code class="python">def i_before_e(word:str) -> bool:
-    for index in range(1, len(word)):
+    for index in range(1, len(word)): # fix is here.
         if word[index] == 'i' and word[index-1] == 'e':
                 return False
     return True # this is indented the same as the 'for' loop</code>
@@ -286,10 +256,28 @@ False
 
 
 <section>
+<h2>Strings</h2>
+<ul>
+<li>Negative indicies.
+                    <table>
+                        <!--<tr><td class="box"><td class="box">0</td><td class="box">1</td><td class="box">2</td><td class="box">3</td><td class="box">4</td><td class="box">5</td><td class="box">6</td><td class="box">7</td><td class="box">8</td><td class="box">9</td><td class="box">10</td><td class="box">11</td><td class="box">12</td><td class="box">13</td><td class="box">14</td></tr>-->
+                        <tr><td class="box">h</td><td class="box">e</td><td class="box">l</td><td class="box">l</td><td class="box">o</td><td class="box"></td><td class="box">w</td><td class="box">o</td><td class="box">r</td><td class="box">l</td><td class="box">d</td></tr>
+                        <tr><td class="box">0</td><td class="box">1</td><td class="box">2</td><td class="box">3</td><td class="box">4</td><td class="box">5</td><td class="box">6</td><td class="box">7</td><td class="box">8</td><td class="box">9</td><td class="box">10</td></tr>
+                        <tr><td class="box">-10</td><td class="box">-9</td><td class="box">-9</td><td class="box">-8</td><td class="box">-7</td><td class="box">-6</td><td class="box">-5</td><td class="box">-4</td><td class="box">-3</td><td class="box">-2</td><td class="box">-1</td></tr>
+                    </table>
+                    
+<code class="python">>>> "hello world"[-3]
+'r'
+>>> "hello world"[8]
+'r'</code>
+</section>
+
+
+<section>
 <h2>Today</h2>
 <ul>
 <li><b>&check;</b>: String loops
-<li><b>&check;</b>: String indicies
+<li><b>&check;</b>: String indices
 <li>String slices
 </section>
 
@@ -370,7 +358,7 @@ for i in range(9,20,3):
 <section>
 <h2>Strings</h2>
 <ul>
-<li>Mostly useful on homework to check some but all of a list for something (repeated letters)
+<li>Mostly useful on homework to check the rest of string for something (repeated letters)
 <li>Remove spaces:
 <code class="python">def remove_space(s:str) -> str: # given string, make new string
     for i in range(len(s)): # check each letter
@@ -381,6 +369,58 @@ for i in range(9,20,3):
 'helloworld'</code>
 </section>
 
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>You can do other changes, like
+<li>Remove spaces:
+<code class="python">def space_to_underscore(s:str) -> str:
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + "_" + s[i+1:] </code>
+<li>Reverse a string with a negative step:
+<code class="python">>>> space_to_underscore("hello world")
+'hello_world'</code>
+<li>This only works on the first space.
+<code class="python">>>> space_to_underscore("world")
+>>></code>
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Remove spaces:
+<code class="python">def space_to_underscore(s:str) -> str:
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + "_" + s[i+1:]
+    return s # return 's' if no spaces </code>
+<li>Reverse a string with a negative step:
+<code class="python">>>> space_to_underscore("hello world")
+'hello_world'</code>
+<li>This only works on the first space.
+<code class="python">>>> space_to_underscore("world")
+'world'</code>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Remove spaces:
+<code class="python">def spaces_to_underscores(s:str) -> str:
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + "_" + spaces_to_underscores(s[i+1:])
+    return s # return 's' if no spaces</code>
+<li>We already know how to remove one space, so we just remove the next space the same way.
+<code class="python">>>> spaces_to_underscores("thats me espresso")
+'thats_me_espresso'</code>
+<li>This works on any number of spaces (before only worked on exactly one).
+</section>
+
 <section>
 <h2>Announcements</h2>
 <ul>
@@ -388,11 +428,11 @@ for i in range(9,20,3):
 <code style="max-height:1000px" class="python">def n_spaces_before(n:int,s:str) -> NoneType: # print -> None
     print(n * ' ', s) # test - that is 'n times space plus s'
 
-def no_vowels(word):
-    vowels = "aeiou"
-    for letter in word:
-        if letter not in vowels:
-            print(letter)</code>
+def spaces_to_underscores(s):
+    for i in range(len(s)):
+        if s[i] == " ":
+            return s[:i] + "_" + spaces_to_underscores(s[i+1:])
+    return s</code>
 </ul>
 </section>
  </div>

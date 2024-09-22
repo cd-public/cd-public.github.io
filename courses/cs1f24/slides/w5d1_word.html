@@ -250,289 +250,144 @@ GUESS = Guess.upper() # use upper if you've made upper</code>
 
 
 <section>
-<h2>Milestone 1</h2>
+<h2>Milestone 2</h2>
 <ul>
-<li>By Wednesday 11:59 PM
-<li>Check a guess
-<li>Something like...
-<code class="python">def wordle():
+<li>By Thursday 11:59 PM
+<li>Color the letters.
+<li>I wrote <code class="python">color_row(row:int, answer:str)</code>
+<ul>
+    <li>Find and color the correct (green) letters first
+    <ul>
+        <li>Avoid coloring a letter yellow if it is in the correct position.
+        <li>Track if there's double letters - maintain a string of remaining letters, perhaps.
+    </ul>
+    <li>Find and color the present (yellow) letters next.
+    <ul>
+        <li>Track if there's double letters - maintain a string of remaining letters, perhaps.
+    </ul>
+    <li>Color remaining letters gray.
+    <li>Test your code rigorously:
+    <ul>
+        <li>Use the "Sassy" guess with "Glass" answer
+    </ul>
+    </ul>
+</ul>
+</section>
+<section>
+<h2>Milestone 2</h2>
+<ul>
+<li>By Thursday 11:59 PM
+<li>Color the letters.
+<li>We provide the following colors via <code>from WordleGraphics import *</code>
+<table style="width: 100%">
+<thead>
+<tr>
+<th style="width: 50%">Color</th>
+<th style="width: 50%">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr     >
+<td><code>CORRECT_COLOR</code></td>
+<td>A shade of green</td>
+</tr>
+<tr     >
+<td><code>PRESENT_COLOR</code></td>
+<td>A shade of brownish yellow</td>
+</tr>
+<tr     >
+<td><code>MISSING_COLOR</code></td>
+<td>A shade of gray</td>
+</tr>
+<tr     >
+<td><code>UNKNOWN_COLOR</code></td>
+<td>Initial white color</td>
+</tr>
+</tbody>
+</table>
+</section>
 
-    def enter_action():
-        if # your code here
-            gw.show_message("That's a 5 letter English word")
-        else:
-            gw.show_message("Not in word list")</code>
-<li>I used my "row_to_word" from Milestone 0
-<li>I used "in" and "ENGLISH_WORDS", like PS3.2
+<section>
+<h2>Milestone 3</h2>
+<ul>
+<li>By Friday 11:59 PM
+<li>Random word
+<ul>
+    <li>Generate a random 5-letter word.
+    <ul>
+        <li><code class="python">import random # we'll discuss further - don't worry</code>
+    </ul>
+    <li>Hold this word in a variable
+    <li>Evaluate a guess against this answer.
+    <li>Test your code more than once to ensure the word changes.
+    <ul>
+        <li>You may wish to share the answer via a <code>gw.show_message()</code>
+    </ul>
+</ul>
+<li>This code randomizes the order of `ENGLISH_WORDS`
+<code class="python">random.shuffle(ENGLISH_WORDS) # de-alphabetizes
+for word in ENGLISH_WORDS:
+    print(word) # prints words in a random order</code>
+</ul>
+</section>
+
+<section>
+<h2>Milestone 4</h2>
+<ul>
+<li>By Saturday 11:59 PM
+<li>Change Rows
+<ul>
+    <li>After a guess, move to the next row.
+    <ul>
+        <li>Use 'gw.set_current_row(row_idx)' and 'gw.get_current_row()'.
+    </ul>
+    <li>If the guess is equal to the answer:
+    <ul>
+        <li><code>gw.show_message("something nice not literally this")</code>
+        <li><code>gw.set_current_row(N_ROWS) # stop reading</code>
+    </ul>
+    <li>If the current row number is equal to 'N_ROWS' without a successful guess...
+    <ul>
+        <li><code>gw.show_message("reveal the answer")</code>
+    </ul>
+</ul>
 </section>
 
 
 <section>
-<h2>Strings</h2>
+<h2>Milestone 5 + Extensions</h2>
 <ul>
-<li>Example: 'i' before 'e'
-<li>We are only worried about 'e' and 'i'
-<code class="python">word = "lied"
-# word = "veil"
-for index in range(len(word)):
-    if word[index] == 'i':
-        # check the letter *before* the 'i'
-        print(word[index-1])</code>
-<li>See what prints:</em>
-<code class="python">l</code>
-<li>'i' never follows an 'e', so this is okay!
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Example: 'i' before 'e'
-<li>We are only worried about 'e' and 'i'
-<code class="python"># word = "lied"
-word = "veil"
-for index in range(len(word)):
-    if word[index] == 'i':
-        # check the letter *before* the 'i'
-        print(word[index-1])</code>
-<li>See what prints:</em>
-<code class="python">e</code>
-<li>'i' follows an 'e', so this is bad!
-</section>
-
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Example: 'i' before 'e'
-<li>Instead of printing 'e' (or not) we return false.
-<code class="python">def i_before_e(word:str) -> bool:
-    for index in range(len(word)):
-        if word[index] == 'i':
-            # check the letter *before* the 'i'
-            if word[index-1] == 'e':
-                return False</code>
-<li>We can test:</em>
-<code class="python">>>> i_before_e('veil')
-False
->>></code>
-</section>
-
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Example: 'i' before 'e'
-<li>This breaks on 'lied':
-<code class="python">>>> i_before_e('lied')
->>></code>
-<li>Why? We don't return True ever - we should if we get to the *end of the string* (then we know we have no more i's that might be after e's).
-<code class="python">def i_before_e(word:str) -> bool:
-    for index in range(len(word)):
-        if word[index] == 'i':
-            # check the letter *before* the 'i'
-            if word[index-1] == 'e':
-                return False
-    return True # this is indented the same as the 'for' loop</code>
-</section>
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Example: 'i' before 'e'
-<li>Also - we have to make sure it works if 'i' is the first letter.
-<code class="python">>>> i_before_e('icee') # its a disaster</code>
-<li>'i' is in position 0, so i_before_e checks <em>negative</em> one.
-<li>This checks the end of the list - where there is an 'e'.
-<li>
-<code class="python">def i_before_e(word:str) -> bool:
-    for index in range(1, len(word)): # fix is here.
-        if word[index] == 'i' and word[index-1] == 'e':
-                return False
-    return True # this is indented the same as the 'for' loop</code>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Negative indicies.
-                    <table>
-                        <!--<tr><td class="box"><td class="box">0</td><td class="box">1</td><td class="box">2</td><td class="box">3</td><td class="box">4</td><td class="box">5</td><td class="box">6</td><td class="box">7</td><td class="box">8</td><td class="box">9</td><td class="box">10</td><td class="box">11</td><td class="box">12</td><td class="box">13</td><td class="box">14</td></tr>-->
-                        <tr><td class="box">h</td><td class="box">e</td><td class="box">l</td><td class="box">l</td><td class="box">o</td><td class="box"></td><td class="box">w</td><td class="box">o</td><td class="box">r</td><td class="box">l</td><td class="box">d</td></tr>
-                        <tr><td class="box">0</td><td class="box">1</td><td class="box">2</td><td class="box">3</td><td class="box">4</td><td class="box">5</td><td class="box">6</td><td class="box">7</td><td class="box">8</td><td class="box">9</td><td class="box">10</td></tr>
-                        <tr><td class="box">-10</td><td class="box">-9</td><td class="box">-9</td><td class="box">-8</td><td class="box">-7</td><td class="box">-6</td><td class="box">-5</td><td class="box">-4</td><td class="box">-3</td><td class="box">-2</td><td class="box">-1</td></tr>
-                    </table>
-                    
-<code class="python">>>> "hello world"[-3]
-'r'
->>> "hello world"[8]
-'r'</code>
-</section>
-
-
-<section>
-<h2>Today</h2>
-<ul>
-<li><b>&check;</b>: String loops
-<li><b>&check;</b>: String indices
-<li>String slices
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>This is annoying:
-<code class="python">if word[index] == 'i' and word[index-1] == 'e':</code>
-<li>It doesn't have to be.
-<li>Strings are like ranges, and we give an index like we give a range.
-</section>
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>We can use ranges to see certain letters:
-<code class="python">abcs = 'abcdefghijklmnopqrstuvwxyz'
-for i in range(9,20,3):
-    print(i, abcs[i])
-</code>
-<li>This was as close as I could get to a word: "jumps" no vowels.
-<code class="python">9 j
-12 m
-15 p
-18 s
-</code>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>We can use this with "+" to make new words...
-<code class="python">abcs = 'abcdefghijklmnopqrstuvwxyz'
-new_word = ""
-for i in range(9,20,3):
-    new_word += abcs[i]</code>
-<li>This was as close as I could get to a word: "jumps" no vowels.
-<code class="python">>>> print(new_word)
-jmps
-</code>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>This:
-<code class="python">new_word = ""
-for i in range(9,20,3):
-    new_word += abcs[i]</code>
-<li>is the same as this:
-<code class="python">new_word = abcs[9:20:3]</code>
-<li>Check it out:
-<code class="python">>>> abcs[9:20:3]
-'jmps'
->>></code>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Recall: This is start, end, step.
-<li>Like range, we can leave some things out. (Omit start/end to get "the rest"
-<code class="python">>>> "hello world"[:5]
-'hello'
->>> "hello world"[5:]
-' world'</code>
-<li>Reverse a string with a negative step:
-<code class="python">>>> "deeps"[::-1]
-'speed'</code>
-</section>
-
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Mostly useful on homework to check the rest of string for something (repeated letters)
-<li>Remove spaces:
-<code class="python">def remove_space(s:str) -> str: # given string, make new string
-    for i in range(len(s)): # check each letter
-        if s[i] == " ": # if letter is space...
-            return s[:i] + s[i+1:] # before space + after space</code>
-<li>Reverse a string with a negative step:
-<code class="python">>>> remove_space("hello world")
-'helloworld'</code>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>You can do other changes, like
-<li>Remove spaces:
-<code class="python">def space_to_underscore(s:str) -> str:
-    for i in range(len(s)): # check each letter
-        if s[i] == " ": # if letter is space...
-            return s[:i] + "_" + s[i+1:] </code>
-<li>Reverse a string with a negative step:
-<code class="python">>>> space_to_underscore("hello world")
-'hello_world'</code>
-<li>This only works on the first space.
-<code class="python">>>> space_to_underscore("world")
->>></code>
-</section>
-
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Remove spaces:
-<code class="python">def space_to_underscore(s:str) -> str:
-    for i in range(len(s)): # check each letter
-        if s[i] == " ": # if letter is space...
-            return s[:i] + "_" + s[i+1:]
-    return s # return 's' if no spaces </code>
-<li>Reverse a string with a negative step:
-<code class="python">>>> space_to_underscore("hello world")
-'hello_world'</code>
-<li>This only works on the first space.
-<code class="python">>>> space_to_underscore("world")
-'world'</code>
-</section>
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>Remove spaces:
-<code class="python">def spaces_to_underscores(s:str) -> str:
-    for i in range(len(s)): # check each letter
-        if s[i] == " ": # if letter is space...
-            return s[:i] + "_" + spaces_to_underscores(s[i+1:])
-    return s # return 's' if no spaces</code>
-<li>We already know how to remove one space, so we just remove the next space the same way.
-<code class="python">>>> spaces_to_underscores("thats me espresso")
-'thats_me_espresso'</code>
-<li>This works on any number of spaces (before only worked on exactly one).
+<li>By Monday
+<li>Finish up the last milestone and any extensions.
+<li>Get this turned in comfortably ahead of time in case there's a disaster:
+<ul><li>Influenza
+<li>Computer crash
+<li>Zamboni rampage
+<li>Cool new TV show comes out
+</ul>
+<li>Let's all get A's on this please.
 </section>
 
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
-<code style="max-height:1000px" class="python">def n_spaces_before(n:int,s:str) -> NoneType: # print -> None
-    print(n * ' ', s) # test - that is 'n times space plus s'
-
-def spaces_to_underscores(s):
-    for i in range(len(s)):
-        if s[i] == " ":
-            return s[:i] + "_" + spaces_to_underscores(s[i+1:])
-    return s</code>
+<li>By <b>11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<code class="python">def spaces_to_underscores(s:str) -> str:
+    new = ""
+    for index in range(len(s)):
+        if s[index] in " ":
+            new += "_"
+        else:
+            new += s[index]            
+    return new</code>
+    
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
 </ul>
 </section>
  </div>

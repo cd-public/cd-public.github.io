@@ -235,19 +235,19 @@ if __name__ == "__main__":
                         <div class="details">
                             <p> Be advised, words from <code>ENGLISH_WORDS</code> are all (ironically) lower-case and all displayed letters in Wordle are capitalized (upper-case). You don't need to work with ENGLISH_WORDS yet but I recommend doing something like the following:
                             <hr><pre style="font-size:larger"><code ># to see if a word is in ENGLISH_WORDS, make it lower case.
-    guess_str = "Hello"
-    guess_low = guess_str.lower()
-    guess_cap = guess_str.upper()
-    print(guess_str, guess_str in ENGLISH_WORDS) # Hello False
-    print(guess_low, guess_low in ENGLISH_WORDS) # hello True
-    print(guess_cap, guess_cap in ENGLISH_WORDS) # HELLO False
+guess_str = "Hello"
+guess_low = guess_str.lower()
+guess_cap = guess_str.upper()
+print(guess_str, guess_str in ENGLISH_WORDS) # Hello False
+print(guess_low, guess_low in ENGLISH_WORDS) # hello True
+print(guess_cap, guess_cap in ENGLISH_WORDS) # HELLO False
 
-    # places 'H' in the upper left
-    gw.set_square_letter(0,0,guess_cap[0])</code></pre><hr>
+# places 'H' in the upper left
+gw.set_square_letter(0,0,guess_cap[0])</code></pre><hr>
                             <p>While it differs from typical Python variable name conventions, it could be helpful to use variable names like:
                             <hr><pre style="font-size:larger"><code >Guess = "Hello"
-    guess = Guess.lower()
-    GUESS = Guess.upper()</code></pre>
+guess = Guess.lower()
+GUESS = Guess.upper()</code></pre>
                         </div>
                     </div>
                     <hr>
@@ -300,10 +300,10 @@ if __name__ == "__main__":
                             <p>Once "Wordle.py" may color a guess based on some provided answer, begin Milestone 3.  You are highly encouraged to submit your code at each milestone on Github classroom.
                             <p><b>Some Notes</b> The following would place an "H" in the upper left and color the "H" green, as if the guess was "Hello" and the answer was "Hasty".
                             <hr><pre style="font-size:larger"><code >answr_str = "Hasty" # you set this "manually" in Wordle.py
-    guess_str = "Hello" # ideally get this via "word_from_row"
-    guess_cap = guess_str.upper()
-    gw.set_square_letter(0,0,guess_cap[0])
-    gw.set_square_color(0,0,CORRECT_COLOR)</code></pre><hr>
+guess_str = "Hello" # ideally get this via "word_from_row"
+guess_cap = guess_str.upper()
+gw.set_square_letter(0,0,guess_cap[0])
+gw.set_square_color(0,0,CORRECT_COLOR)</code></pre><hr>
                             <p>We provide the following colors, that you may use due to the <code>from WordleGraphics import *</code> line in Wordle.py including them, much like using <code>move()</code> after <code>import karel</code>.
                             <table style="width: 100%">
                             <thead>

@@ -106,93 +106,164 @@ if __name__ == "__main__":
 
 
 <section>
-<h2>Strings</h2>
+<h2>WordleGraphics</h2>
 <ul>
-<li>Example: remove vowels:
-<ul><li>Use a 'for' loop over the string.
-<code class="python">for letter in "abcdef":
-    print(letter)</code>
-<li>What will this print?
-<code class="python">a
-b
-c
-d
-e
-f</code>
-<li>Say we wish to examine values. We use 'in'
+<li>We provide "WordleGraphics" which includes the following:
+                            <table style="width: 100%">
+                            <thead>
+                            <tr>
+                            <th style="width: 55%">Function</th>
+                            <th style="width: 45%">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr     >
+                            <td><code>gw.set_square_letter(row, col, l)</code></td>
+                            <td>Sets the letter in the specified row and col</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.get_square_letter(row, col)</code></td>
+                            <td>Returns letter in the specified row and col</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.add_enter_listener(func)</code></td>
+                            <td>Specifies function run when enter pressed</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.show_message(msg)</code></td>
+                            <td>Shows a message below the squares</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.set_square_color(row, col, c)</code></td>
+                            <td>Sets the color of the specified square</td>
+                            </tr>
+                            <tr     >
+                            <!--<td><code>gw.get_square_color(row, col)</code></td>
+                            <td>Returns the color of the specified square</td>
+                            </tr>-->
+                            <tr     >
+                            <td><code>gw.set_current_row(row_idx)</code></td>
+                            <td>Sets row where typed characters appear</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.get_current_row()</code></td>
+                            <td>Returns the current row index</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.set_key_color(letter, color)</code></td>
+                            <td>Sets the color of the specified key letter</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.get_key_color(letter)</code></td>
+                            <td>Returns the color of the specified key letter</td>
+                            </tr>
+                            </tbody>
+                            </table>
 </section>
 
 
 
 <section>
-<h2>Strings</h2>
+<h2>Milestones</h2>
 <ul>
-<li>Example: remove vowels:
-<ul><li>We use the special "in" keyword.
-<code class="python">vowels = "aeiou"
-for letter in "abcdef":
-    print(letter, letter in vowels)</code>
-<li>What will this print?
-<code class="python">a True
-b False
-c False
-d False
-e True
-f False</code>
-<li>Say we wish to remove values. We use 'if'
+<li>Aim to complete at least one milestone per day.
+<li>Submit your code on Github after every milestone.
+<ul><li>If your computer explodes, you lose nothing.
+</ul>
+<li>Milestones in general should be equal-to or less-than problem set problems.
+<li>But they build on each other (can't skip around).
 </section>
 
 
 <section>
-<h2>Strings</h2>
+<h2>Milestone 0</h2>
 <ul>
-<li>Example: remove vowels:
-<ul><li>We use the special "if" keyword.
-<code class="python">vowels = "aeiou"
-for letter in "abcdef":
-    if letter not in vowels:
-        print(letter)</code>
-<li>What will this print?
-<code class="python">b
-c
-d
-f</code>
+<li>By Tuesday 11:59 PM
+<li>Display a word
+<li>I wrote:
+<ul>
+    <li><code>word_to_row(word:str, row:int)</code>
+    <li><code>word_from_row(row:int) -> str</code>
+</ul>
+</section>
+
+
+
+<section>
+<h2>Hint</h2>
+<ul>
+<li>Here is where I put them:
+<code class="python">def wordle():
+        # The main function to play the Wordle game.
+
+        def enter_action():
+            # What should happen when RETURN/ENTER is pressed.
+            gw.show_message("To do: enter_action")
+            
+        def word_to_row(word:str, row:int):
+            gw.show_message("To do: word_to_row")
+            
+        def word_from_row(row:int) -> str:
+            gw.show_message("To do: row_to_word")
+            return "" # placeholder</code>
+</section>
+
+
+
+<section>
+<h2>Hint</h2>
+<ul>
+<li>Look out for capitalization.
+<code class="python"># to see if a word is in ENGLISH_WORDS, make it lower case.
+guess_str = "Hello"
+guess_low = guess_str.lower()
+guess_cap = guess_str.upper()
+print(guess_str, guess_str in ENGLISH_WORDS) # Hello False
+print(guess_low, guess_low in ENGLISH_WORDS) # hello True
+print(guess_cap, guess_cap in ENGLISH_WORDS) # HELLO False
+
+# places 'H' in the upper left
+gw.set_square_letter(0,0,guess_cap[0]</code>
+<li>Here's one trick:
+<code class="python">Guess = "Hello" # use a mixed capital name for unknown
+guess = Guess.lower() # use lower if you've made lower
+GUESS = Guess.upper() # use upper if you've made upper</code>
 </section>
 
 
 <section>
-<h2>Strings</h2>
+<h2>Milestone 1</h2>
 <ul>
-<li>Two ways to look at a single character/letter in a string.
-<ul><li>1. Use a 'for' loop over the string.
-<code class="python">>>> for letter in "cs":
-...     print(letter)
-...
-c
-s</code>
-<li>2. Use a 'for' loop over the length of the string...
-<code class="python">>>> for i in range(len('cs')):
-...     print('cs'[i]) # get it? csi?
-...
-c
-s</code>
-<li>Time to talk about <em>indices</em>
+<li>By Wednesday 11:59 PM
+<li>Check a guess
+<li>Something like...
+<code class="python">def wordle():
+
+    def enter_action():
+        if # your code here
+            gw.show_message("That's a 5 letter English word")
+        else:
+            gw.show_message("Not in word list")</code>
+<li>I used my "row_to_word" from Milestone 0
+<li>I used "in" and "ENGLISH_WORDS", like PS3.2
 </section>
 
+
 <section>
-<h2>Strings</h2>
+<h2>Milestone 1</h2>
 <ul>
-<li>Example: 'i' before 'e'
-<li>Use a 'for' loop over the length of the string...
-<code class="python">word = "lied"
-# word = "veil"
-for i in range(len(word)):
-    print(word[i])</code>
-<li>See what prints:</em>
-<code class="python">l
-i
-e
-d</code>
+<li>By Wednesday 11:59 PM
+<li>Check a guess
+<li>Something like...
+<code class="python">def wordle():
+
+    def enter_action():
+        if # your code here
+            gw.show_message("That's a 5 letter English word")
+        else:
+            gw.show_message("Not in word list")</code>
+<li>I used my "row_to_word" from Milestone 0
+<li>I used "in" and "ENGLISH_WORDS", like PS3.2
 </section>
 
 

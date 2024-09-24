@@ -651,19 +651,6 @@ specified size</li>
     
 
 <section>
-<h2>Redact</h2>
-<ul><li>Suppose you want to take two strings, and one is secret (sh!)
-<li>Examine them to see if they have the same letters at the same position, and
-<li>"Redact" the letters that are the same in each word.
-<code class="python">def redact(word:str, secret:str) -> str:
-    for i in range(len(word)):
-        if word[i] == secret[i]:
-            word = word[:i] + '*' + word[i+1:]
-            DEBUG and print('Redact '+secret[i]+' at '+str(i))
-    return word</code>
-    </section>
-
-<section>
 <h2>Announcements</h2>
 <ul>
 <li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"

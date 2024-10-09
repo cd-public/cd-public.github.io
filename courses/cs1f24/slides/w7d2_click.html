@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Click</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Click</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W7Wed: 09 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Finally got to look at midterms, working on getting out some feedback. I can do grade checks by request until I get every thing out.
+<li>Problem Set 4: Graphics for Monday, 14 October, 11:59 PM.
+<li>Sections today and tomorrow.
+<li>EXTRA CREDIT: Post a selfie in the Discord/in a Discord DM to me while at the "SCIS Open House" for 
+<ul><li>+5% on your Midterm score.
+<li>Thursday 11:30-1:00 in the Ford 101 in the Discord
+<li>'SCIS Open House primarily directed at first year students who are interested in learning more about computer science/data science as majors.'
+<li>Let me know if you consent to have the selfie used in promotion materials or not.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Graphics Window
+<ul>
+<li>Events
+<li>State/attributes/fields</ul>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<canvas id='c5' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw5()
+                        {
+                            const x = parseInt(document.getElementById("x5").value) ;
+                            const y = parseInt(document.getElementById("y5").value) ;
+                            const w = parseInt(document.getElementById("w5").value) ;
+                            const h = parseInt(document.getElementById("h5").value) ;
+                            const g = document.getElementById("c5").getContext("2d") ; 
+                            g.reset();
+                            g.rect(x,y,w,h) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<code class="python">GRect(x,y,w,h) ;</code>
+<ul>
+<span style="font-size:larger;font-family:monospace">
+x = <input id="x5" style="font-size:larger" type="number" value="150">
+y = <input id="y5" style="font-size:larger" type="number" value="50"><br>
+w = <input id="w5" style="font-size:larger" type="number" value="200">
+h = <input id="h5" style="font-size:larger" type="number" value="100"></pre><br></ul>
+<button style="font-size:larger" onclick="draw5()">do_graphics()</button>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>What does each part do?
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    rect.set_filled(True)
+    rect.set_color("Blue")
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c8' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw8()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c8").getContext("2d") ; 
+                            g.fillStyle = "blue";
+                            g.fillRect(150,50,200,100) ;
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw8()">do_graphics()</button>
+</section>
+
+
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Why don't we just make a "rectangle" function...
+<code class="python">def do_graphics():
+
+    def my_rect(x,y,w,h,color):
+        rect = GRect(x,y,w,h)
+        rect.set_filled(True)
+        rect.set_color(color)
+        gw.add(rect)
+        
+    gw = GWindow(400,400)
+    my_rect(000,000,200,200, "Blue")
+    my_rect(100,100,200,200, "Red")
+
+do_graphics()
+</code></td><td>
+<canvas id='c9' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw9()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c9").getContext("2d") ; 
+                            g.fillStyle = "blue";
+                            g.fillRect(000,000,200,200) ;
+                            g.fillStyle = "red";
+                            g.fillRect(100,100,200,200) ;
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw9()">do_graphics()</button>
+</section>
+
+
+
+<section>
+<h2>Factoring</h2>
+<ul><li>We term the use a function like "my_rect" to be "factoring".
+<ul>
+<li>In math class, 2x<sup>2</sup> + 4x is equal to x(2x + 4).
+<li>We factor out what happens to x.
+<li>In this class, my_rect factors out what happens to 'rect'
+<code class="python">def my_rect(x,y,w,h,color):
+    rect = GRect(x,y,w,h)
+    rect.set_filled(True)
+    rect.set_color(color)
+    gw.add(rect)
+</code>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Graphics Window
+<ul>
+<li>Events
+<li>State/attributes/fields</ul>
+</section>
+
+
+<section>
+<h2>Events</h2>
+<ul><li>We added a rectangle to the graphics window to allow us to see a rectangle.
+<li>We can add another kind of thing, a listener.
+<ul>
+<li>This is like the "enter action" in wordle.
+</ul>
+<li>Beyond showing graphics, PGL can also *respond to user input*.
+<li>It does this telling the graphics window to call a function when a certain user action happens.
+<li>Today, we will use the click action.
+<a href="https://willamette.edu/~esroberts/python/pgldoc/">
+    <blockquote>
+        <b>add<span class="underscore">_</span>event<span
+                class="underscore">_</span>listener</b>(<var>type</var>,<var> fn</var>)</code></h3>
+        <dl>
+            <dd>Registers a new listener for events of the specified type occuring
+                in the window.
+                The <i>type</i> parameter should be one of the strings
+                "<span>mousedown</span>", "<span>mouseup</span>", "<span>click</span>",
+                "<span>mousemove</span>", "<span>mousemove</span>", or "<span>drag</span>".
+
+            </dd>
+            <dd style="padding-top:8px;">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td width="100" valign="top"><b>Usage:</b><span>&nbsp;</span></td>
+                            <td><span>timer = gw.add<span class="underscore">_</span>event<span
+                                        class="underscore">_</span>listener(type, fn)</span>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td width="100" valign="top"><b>Parameter:</b><span>&nbsp;</span></td>
+                            <td valign="top">
+                                <table cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr>
+                                            <td><span>type&nbsp;</span>&nbsp;</td>
+                                            <td>The event type
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>fn&nbsp;</span>&nbsp;</td>
+                                            <td>The callback function</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+        </dl>
+    </blockquote>
+</a>
+
+
+</section>
+
+
+<section>
+<h2>Events</h2>
+<ul><li>To my knowledge, there is nowhere in the pgl documentation that shows how to make an event listener for a click event.
+<li>To my knowledge, this is the minimal possible example.
+<code class="python">from pgl import *
+
+def click_func(e): # 'e' is a "MouseEvent"
+    print(e) # let's look at 'e'
+
+gw = GWindow(400,400)
+gw.add_event_listener("click",click_func)
+</code>
+<li>It doesn't print anything particularly helpful:
+<code class="python">&lt;pgl.GMouseEvent object at 0x000001FA27BDCBC0&gt;</code>
+</section>
+
+<section>
+<h2>Events</h2>
+<ul><li>The "MouseEvent" thing has methods, like string.replace() or gw.add()
+<li>They are "get_x" and "get_y".
+<li>Let's use them.
+<code class="python">from pgl import *
+
+def click_func(e): # 'e' is a "MouseEvent"
+    print('x = ', e.get_x())
+    print('y = ', e.get_y())
+
+gw = GWindow(400,400)
+gw.add_event_listener("click",click_func)
+</code>
+<li>This prints the x,y location where the click occurred:
+<code class="python">x =  143
+y =  148</code>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<canvas id='c1' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function listener1(e)
+                        {
+                            const s = '(' + e.offsetX.toString() + ', ' + e.offsetY.toString() + ')'
+                            alert(s) ;
+                        }
+                    
+                        function draw1()
+                        {
+                            const g = document.getElementById("c1") ; 
+                            g.addEventListener("click", listener1, false) ;
+                        }
+</script><br>
+<button style="font-size:larger" onclick="draw1()">gw.add_event_listener('click',click_func)</button>
+<ul>
+</section>
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul><li>Instead of printing the location, let's add a small pink rectangle.
+<li>Remember to import and to use "my_rect" from earlier slides!
+<code class="python">def click_func(e):
+    x = e.get_x()
+    y = e.get_y()
+    my_rect(x,y,50,50,'pink')
+
+gw = GWindow(400,400)
+gw.add_event_listener("click",click_func)
+</code></td><td>
+<canvas id='c2' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function listener2(e)
+                        {
+                            const g = document.getElementById("c2").getContext("2d") ; 
+                            g.fillStyle = "pink" ;
+                            g.fillRect(e.offsetX, e.offsetY,50,50) ;
+                        }
+                    
+                        function draw2()
+                        {
+                            const g = document.getElementById("c2") ; 
+                            g.addEventListener("click", listener2, false) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw2()">gw.add_event_listener('click',click_func)</button>
+</section>
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul><li>We can 'center' the rectangle on the cursor by changing the x and y values by half the size.
+<li>Remember to import and to use "my_rect" from earlier slides!
+<code class="python">def click_func(e):
+    x = e.get_x()
+    y = e.get_y()
+    my_rect(x-25,y-25,50,50,'pink')
+
+gw = GWindow(400,400)
+gw.add_event_listener("click",click_func)
+</code></td><td>
+<canvas id='c3' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function listener3(e)
+                        {
+                            const g = document.getElementById("c3").getContext("2d") ; 
+                            g.fillStyle = "pink" ;
+                            g.fillRect(e.offsetX-25, e.offsetY-25,50,50) ;
+                        }
+                    
+                        function draw3()
+                        {
+                            const g = document.getElementById("c3") ; 
+                            g.addEventListener("click", listener3, false) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw3()">gw.add_event_listener('click',click_func)</button>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Graphics Window
+<ul>
+<li>&check; Events
+<li>State/attributes/fields</ul>
+</section>
+
+
+
+<section>
+<h2>State</h2>
+<ul><li>'State' is a technical term for "information that stays around after a function returns".
+<li>In computing, it is usually maintained by placing values, like a number or a GRect, inside of objects, like a GWindow.
+<ul><li>This is an "attribute" or "field" of the 'gw', an 'object'
+<li>Don't worry, we'll practice.</ul>
+<li>Things like string.replace() are a special type of attribute, called a method.
+<ul><li>A method is a function and an attribute - a function inside of some object.
+</ul><li>Everything in Python is an object, strings/bools/integers/graphics/rectangles/clicks.
+</section>
+
+
+
+<section>
+<h2>State</h2><ul>
+<li>Say we wish to only display the most recent box:
+<ul><li>We create something called "box" inside the GWindow - "gw.box"
+<li>We use "gw.box", rather than "rect", to store the return value of GRect.
+<li>We change the location of the box rather than making a new box.
+<ul><li>We use the new ".set_location(x,y)" to do this.
+<li>Overall, will look like:
+<code class="python">gw.box.set_location(x,y)</code></ul>
+<li>To my knowledge, this is the minimal possible example.
+</section>
+
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<code style="max-height:800px" class="python">from pgl import *
+
+# same click func
+def click_func(e):
+    x = e.get_x()
+    y = e.get_y()
+    gw.box.set_location(x,y)
+
+gw = GWindow(400,400)
+
+# same as my rect, but on "gw.box"
+gw.box = GRect(400,400,50,50)
+gw.box.set_filled(True)
+gw.box.set_color('pink')
+gw.add(gw.box)
+
+gw.add_event_listener("click",click_func)
+</code></td><td>
+<canvas id='c4' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function listener4(e)
+                        {
+                            const g = document.getElementById("c4").getContext("2d") ; 
+                            g.reset() ;
+                            g.fillStyle = "pink" ;
+                            g.fillRect(e.offsetX, e.offsetY,50,50) ;
+                        }
+                    
+                        function draw4()
+                        {
+                            const g = document.getElementById("c4") ; 
+                            g.addEventListener("click", listener4, false) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw4()">gw.add_event_listener('click',click_func)</button>
+</section>
+
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Grade checks by request until I get every thing out.
+<li>Problem Set 4: Graphics for Monday, 14 October, 11:59 PM.
+<li>Sections today and tomorrow.
+<li>EXTRA CREDIT: Post a selfie in the Discord/in a Discord DM to me while at the "SCIS Open House" for 
+<ul><li>+5% on your Midterm score.
+<li>Thursday 11:30-1:00 in the Ford 101 in the Discord
+<li>'SCIS Open House primarily directed at first year students who are interested in learning more about computer science/data science as majors.'
+<li>Let me know if you consent to have the selfie used in promotion materials or not.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

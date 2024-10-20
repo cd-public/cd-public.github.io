@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pixels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Pixels</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W9Mon: 21 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 2: Breakout for <strong>TONIGHT</strong> 11:59 PM.
+<ul><li>You should be done.
+<li>I will ask you if you are stuck in a minute.</ul>
+<li>I'll post PS5 tonight but you don't need to worry about until Wednesday. Only 2 problems.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Pixels
+<ul><li>Hexcodes
+<li>String operations
+<li>Gradients
+</section>
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<iframe
+  id="inlineFrameExample"
+  title="Inline Frame Example"
+  width="1800"
+  height="900"
+  src="https://htmlcolorcodes.com/color-picker/">
+</iframe>
+</section>
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>Example: #0F0300
+<li>Same as:
+<ul><li>R: 15
+<li>G: 3
+<li>B: 0
+</ul>
+<li>What is going on here.
+</section>
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>Hexcodes represent many colors as the amount of three primary colors that is present.
+<li>These colors are:
+<ul><li>Red
+<li>Green
+<li>Blue
+</ul>
+</ul>
+<img width="50%" src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/RGB_illumination.jpg">
+</section>
+
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>Hexcodes represent the amount using a number in hexadecimal
+<ul><li>Hex = 6
+<li>Decimal = 10
+<li>6 + 10 = 16
+</ul>Hexadecimal is a way of writing down numerical values.
+<ul><li>0-9 is the same as in decimal, our number system.
+<li>A is like our 10
+<li>B is like our 11
+<li>...
+<li>F is like our 15
+<li>10 is like our 16
+</ul>
+<li>We term our number system decimal or "base ten" and this to be hexadecimal "base sixteen"
+</ul>
+</section>
+
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>Hexcodes represent the amount using a number in hexadecimal
+<ul><li>Hex = 6
+<li>Decimal = 10
+<li>6 + 10 = 16
+</ul>Hexadecimal is a way of writing down numerical values.
+<ul><li>0-9 is the same as in decimal, our number system.
+<li>A is like our 10
+<li>B is like our 11
+<li>...
+<li>F is like our 15
+<li>10 is like our 16
+</ul>
+<li>We term our number system decimal or "base ten" and this to be hexadecimal "base sixteen"
+</ul>
+</section>
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>Helpfully, we never have to think about this ourselves..
+<code class="python">>>> hex(1)
+'0x1'
+>>> hex(10)
+'0xa'
+>>> hex(100)
+'0x64'</code>
+<li>Python helpfully includes the built-in 'hex' function
+<ul><li>It turns <em>integers</em> into <em>strings</em>.
+<li>It is like 'str()'
+</ul><li>Hexadecimal is commonly prefixed with "0x" to denote it is not decimal.
+</section>
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>It's easier the more we look at it, but you can also just use a color picker.
+<code class="python">>>> for i in range(0x8,0x12):
+...     print(str(i),hex(i))
+...
+8 0x8
+9 0x9
+10 0xa
+11 0xb
+12 0xc
+13 0xd
+14 0xe
+15 0xf
+16 0x10
+17 0x11</code>
+</section>
+
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>So we have:
+<ul><li>The brightness of 3 colors
+<li>Expressed in hexadecimal.
+</ul>
+<li>What else?
+</section>
+
+<section>
+<h2>Hexcodes</h2>
+<ul><li>What is the brightest color possible?
+<li>What number does that correspond to?
+<iframe
+  id="inlineFrameExample"
+  title="Inline Frame Example"
+  width="1800"
+  height="900"
+  src="https://htmlcolorcodes.com/color-picker/">
+</iframe>
+</section>
+
+
+<section>
+<h2>Hexcodes</h2>
+<ul><li>Maximum brightness is decimal 255 or hexadecimal 0xFF.
+<li>So:
+<ul><li><span style="height:1em;width:1em;color:#FFFFFF;background-color:#FFFFFF">W</span> 0xFFFFFF is white 
+<li><span style="height:1em;width:1em;color:#000000;background-color:#000000">W</span> 0x000000 is black
+<li><span style="height:1em;width:1em;color:#FF0000;background-color:#FF0000">W</span> 0xFF0000 is red
+<li><span style="height:1em;width:1em;color:#00FF00;background-color:#00FF00">W</span> 0x00FF00 is green
+<li><span style="height:1em;width:1em;color:#0000FF;background-color:#0000FF">W</span> 0x0000FF is blue
+</ul>
+</section>
+
+<section>
+<h2>Hexcodes</h2>
+<ul>
+<li>So we have:
+<ul><li>The brightness of 3 colors
+<li>Expressed in hexadecimal.
+<li>Up to decimal 255 or hexadecimal 0xFF.
+</ul>
+<li>For some reason, PGL (and HTML) prefix with '#' instead of '0x'
+</section>
+
+<section>
+<h2>Hexcodes</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<code class="python">from pgl import *
+
+max = 400
+colors = ['#FFFFFF','#FF0000','#00FF00','#0000FF']
+gw = GWindow(max,max)
+x = 0
+
+for color in colors:
+    r = GRect(x, 0, max // 4, max) # stripe
+    r.set_filled(True)
+    r.set_color(color) # color it in
+    gw.add(r)
+    x += max // 4 # move over
+</code></td><td>
+<canvas id='c1' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw1()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c1").getContext("2d") ; 
+                            g.fillStyle = "#FFFFFF" ;
+                            g.fillRect(000,0,100,400) ;
+                            g.fillStyle = "#FF0000" ;
+                            g.fillRect(100,0,100,400) ;
+                            g.fillStyle = "#00FF00" ;
+                            g.fillRect(200,0,100,400) ;
+                            g.fillStyle = "#0000FF" ;
+                            g.fillRect(300,0,100,400) ;
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw1()">Run!</button>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Pixels
+<ul><li>&check; Hexcodes
+<li>String operations
+<li>Gradients
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>What if we want to steadily increase brightness across the window?
+<li>I recommend changing size to 255 to make your life easier.
+<li>But basically, we need to take some numbers between 0 and 255...
+<li>And make a string that is 7 characters long and starts with '#'
+<code class="python"># take some colors, in red/green/blue, like:
+# [255, 0, 0]
+# and make a hexcode, like
+# '#FF0000'
+def to_color(rgbs):
+</code>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>We take a list of brightnesses...
+<li>...and return a string!
+<code class="python"># take some colors, in red/green/blue, like:
+# [255, 0, 0]
+# and make a hexcode, like
+# '#FF0000'
+def to_color(rgbs:list) -> str:
+</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>We can say that it's a list of integers like this:
+<code class="python"># e.g. [255, 0, 0] -> '#FF0000'
+def to_color(rgbs:list[int]) -> str:
+</code>
+<li>I imagine I'm saying "the things inside the list are ints"
+<li>This is optional.
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>First, we turn the integers into hex!
+<code class="python"># e.g. [255, 0, 0] -> '#FF0000'
+def to_color(rgbs:list[int]) -> str:
+    hexes = [hex(brightness) for brightness in rgbs]
+</code>
+<li>We can test this easily enough...
+<code class="python">>>> rgbs = [255,100,0]
+>>> hexes = [hex(brightness) for brightness in rgbs]
+>>> hexes
+['0xff', '0x64', '0x0']
+</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>In hexcodes, each color got only two letters!
+<li>And there's no 0x!
+<li>We use `.replace` to change the 'x' to a '0'
+<code class="python">def to_color(rgbs:list[int]) -> str:
+    hexes = [hex(brightness) for brightness in rgbs]
+    hexes = [color.replace('x','0') for color in hexes]
+</code>
+<li>We can test this easily enough...
+<code class="python">>>> hexes = [color.replace('x','0') for color in hexes]
+>>> hexes
+['00ff', '0064', '000']
+</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>In hexcodes, each color got only two letters!
+<li>And there's no 0x!
+<li>We use slices to take the last two characters, which store the values we need!
+<code class="python">def to_color(rgbs:list[int]) -> str:
+    hexes = [hex(brightness) for brightness in rgbs]
+    hexes = [color.replace('x','0') for color in hexes]
+    hexes = [color[-2:] for color in hexes] # last two
+</code>
+<li>We can test this easily enough...
+<code class="python">>>> hexes = [color[-2:] for color in hexes]
+>>> hexes
+['ff', '64', '00']
+</code>
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>We need a '#' before the code, and then we're done!
+<code class="python">def to_color(rgbs:list[int]) -> str:
+    hexes = [hex(brightness) for brightness in rgbs]
+    hexes = [color.replace('x','0') for color in hexes]
+    hexes = [color[-2:] for color in hexes] # last two
+    return '#' + "".join(hexes)
+</code>
+<li>We can test this easily enough...
+<code class="python">>>> to_color([100,0xff,255])
+'#64ffff'
+</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>A single line is fine, if you prefer.
+<code class="python">def to_color(rgbs:list[int]) -> str:
+    return '#' + "".join([hex(c).replace('x','0')[-2:] for c in rgbs])
+</code>
+<li>We can test this easily enough...
+<code class="python">>>> to_color([0,16,0x20])
+'#001020'
+</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Pixels
+<ul><li>&check; Hexcodes
+<li>&check; String operations
+<li>Gradients
+</section>
+
+<section>
+<h2>Gradients</h2>
+<ul>
+<li>I find solid colors ugly, so...
+<li>I write functions that make many rectangles of slowly changing colors.
+<li>A rectangle of size 1 by 1 is a pixel, the smallest unit possible.
+<li>I make minimally sized rectangles with minimally changing color and see what happens.
+</section>
+
+
+<section>
+<h2>Gradients</h2>
+<ul><code style="width:110%" class="python">from pgl import *
+
+max = 255   # better than 400 - 255 is max brightness
+dbg = False # I had to use this a lot
+
+gw = GWindow(max,max)
+
+def my_rect(x,y,w,h,color):
+    rect = GRect(x,y,w,h)
+    rect.set_filled(True)
+    rect.set_color(color)
+    gw.add(rect)
+
+def to_color(rgbs:list[int]) -> str:
+    return '#' + "".join([hex(c).replace('x','0')[-2:] for c in rgbs])</code>
+</section>
+
+<section>
+<h2>Gradients</h2>
+<ul>
+<li>As a first example, we can shade every pixel based on it's horizontal, 'x', or 'i' value, depending on your numbering convention.
+<code class="python">def pixel(x,y,color):
+    my_rect(x,y,1,1,color)
+
+for i in range(max):
+    for j in range(max):
+        pixel(i,j,to_color([i,0,0]))
+</code>
+<table><td style="vertical-align:top">
+<li>Basically, we have a 255 lists brightening from 0 to 255 (we show here in red only)
+<code class="python">[[0, 1, 2, ... , 254, 255],
+ [0, 1, 2, ... , 254, 255],
+ &lt; 252 more such lists &gt;
+ [0, 1, 2, ... , 254, 255]]</code></td><td>
+<script>
+function draw2()
+{
+    const s = 255 ;
+    const g = document.getElementById("c2").getContext("2d") ; 
+    for ( let i = 0 ; i < 255 ; i++ ) 
+    {
+        for ( let j = 0 ; j < 255 ; j++ )
+        {
+            g.fillStyle = "rgb(" + i.toString() + ", 0, 0)" ;
+            g.fillRect(i,j,1,1) ;
+        }
+    }
+}</script>
+<br><canvas id='c2' width="255" height="255" style="background-color:white"></canvas>
+<button style="font-size:larger" onclick="draw2()">Run!</button></td></table>
+</section>
+
+
+
+<section>
+<h2>Gradients</h2>
+<ul>
+<li>As a first example, we can shade every pixel based on it's horizontal, 'x', or 'i' value, depending on your numbering convention.
+<code style="width:120%" class="python">def pixel(x,y,color):
+    my_rect(x,y,1,1,color)
+
+[[pixel(i,j,to_color([i,j,0])) for j in range(max)] for i in range(max)]
+</code>
+
+<table><td style="vertical-align:top">
+<br><ul><li>Basically, we have a 255 rows of 255 columns of 3 colors, where the first color brightens left-to-right and the second color brightens top-to-bottom.
+<code class="python">[[[0,0,0],  [1,0,0],   ... [255,0,0]]
+  [0,1,0],  [1,1,0],   ... [255,1,0]],
+  &lt; 252 more such lists &gt;
+  [0,255,0],[1,255,0], ... [255,255,0]]]</code></td><td>
+<br><br><canvas id='c3' width="255" height="255" style="background-color:white"></canvas>
+
+<script>
+function draw3()
+{
+    const s = 255 ;
+    const g = document.getElementById("c3").getContext("2d") ; 
+    for ( let i = 0 ; i < 255 ; i++ ) 
+    {
+        for ( let j = 0 ; j < 255 ; j++ )
+        {
+            g.fillStyle = "rgb(" + i.toString() + "," + j.toString() + ", 0)" ;
+            g.fillRect(i,j,1,1) ;
+        }
+    }
+}</script><br>
+<button style="font-size:larger" onclick="draw3()">Run!</button></td></table>
+</section>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Pixels
+<ul><li>&check; Hexcodes
+<li>&check; String operations
+<li>&check;Gradients
+</ul>
+<li>Free bonus slides: GImage
+</section>
+
+<section>
+<h2><code class="python">GImage</code> </h2>
+<ul>
+<li>You can display an image from a file in PGL using
+<code class="python">GImage(filename, x, y)</code>
+<li>`filename' should be something like:</li>
+<li>Joint Photographic Experts Group (JPEG):
+<code class="python">fish.jpg</code></li>
+<li>Portable Network Graphics (PNG):
+<code class="python">fish.png</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2><code class="python">GImage</code> </h2>
+<ul>
+<li>Pick an image with a free distribution license, usually from Wikipedia.
+<li>That image is a link by the way.</ul>
+<a title="ed g2s • talk, CC BY-SA 3.0 &lt;http://creativecommons.org/licenses/by-sa/3.0/&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Pixel-example.png"><img width="256" alt="Pixel-example" src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Pixel-example.png?20230501143528"></a><ul>
+<code class="python">gw = GWindow(800, 550)
+image = GImage("Pixel-example.png") # GNU Free
+image.scale(gw.get_width() / image.get_width())
+gw.add(image)
+# can look at pixels too if you want - this will print A LOT
+print(image.get_pixel_array()) # this isn't neat rbg lists
+# more on pixel arrays next time
+</code>
+</section>
+
+<!--
+<section>
+<h2>Gradients</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>As a first example, we can shade every pixel based on it's horizontal, 'x', or 'i' value, depending on your numbering convention.
+<code class="python">def pixel(x,y,color):
+    my_rect(x,y,1,1,color)
+
+for i in range(max):
+    for j in range(max):
+        pixel(i,j,to_color([i,j,max(i,j)]))
+</code></td><td>
+<canvas id='c4' width="255" height="255" style="background-color:white"></canvas>
+</td>
+</table>
+<script>
+function draw4()
+{
+    const s = 255 ;
+    const g = document.getElementById("c4").getContext("2d") ; 
+    for ( let i = 0 ; i < 255 ; i++ ) 
+    {
+        for ( let j = 0 ; j < 255 ; j++ )
+        {
+            g.fillStyle = "rgb(" + i.toString() + "," + j.toString() + "," + Math.max(i,j).toString() +  ")" ;
+            g.fillRect(i,j,1,1) ;
+        }
+    }
+}</script>
+<button style="font-size:larger" onclick="draw4()">Run!</button>
+</section>-->
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 2: Breakout for <strong>TONIGHT</strong> 11:59 PM.
+<ul><li>You should be done.
+<li>I will ask you if you are stuck in a minute.</ul>
+<li>I'll post PS5 tonight but you don't need to worry about until Wednesday. Only 2 problems.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Problem Set 4: Histogram</title>
+		<style>
+		.page {
+			width: 9in ;
+			height: 11.5in;
+			margin: auto ;
+		}
+		.page_outer {
+			width: 8.5in;
+			height: 11in;
+			box-shadow: -.1in -.1in .25in darkgray, .1in .1in .25in gray;
+			position: relative ;
+		}
+		.page_inner{
+			margin: 1in;  
+			margin-top: .5in;  
+		}
+		th {
+			text-align: center ;
+            height: 1.5em;
+            width: 1.5em;
+            font-weight:normal;
+		}
+		td {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+            
+		}
+        code {
+            font-size: larger ;
+        }
+		</style>
+		<style type="text/css" media="print">
+			.page {
+				width: 8.5in;
+				height: 11in;
+				margin: auto ;
+			}
+			.page_outer {
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner"><center>
+					<h4>CS 151: Intro to Programming in Python</h4>
+					<h1>Problem Set 4: Histogram</h1>
+                    <h3>Due: Monday, 28 October, 11:59 PM</h3>
+                    <p>Github Classroom Link: <a href="">TODO</a>
+                    <hr>
+                    </center>
+					<p>This is a problem set of 2 problems, the first of which has 3 parts.
+					<hr>
+                    <h2>Files:</h2>
+					<h3>1. Histogram</h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob1.py</li>
+                        </ul>
+                        <li>You will also need:
+                        <ul>
+                            <li>pgl.py</li>
+                        </ul>
+                    </ul>
+					<h3>2. Magic Square</h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob2.py</li>
+                        </ul>
+                    </ul>
+                    <hr>
+                    <h2>Resources on PGL (Portable Graphics Library):</h2>
+                    <ul>
+                        <li><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/PythonSummary.html">Prof. Jed Rembold notes on PGL (and more)</a>
+                        <li><a href="https://willamette.edu/~esroberts/python/pgldoc/">Prof. Eric Roberts notes on PGL</a>
+                    </ul>
+				</div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h2>Problem 1: Histogram</h2>
+                    <p>Create histogram, or bar chart, based on how many times some value occurs in a list.
+                    <p>Consider the first 16 digits of π:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">PI_DIGITS = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]</code></pre><hr>
+                    <p>This would create histogram array as follows:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">HISTOGRAM = [0, 2, 1, 2, 1, 4, 1, 1, 1, 3]</code></pre><hr>
+                    <p>We visualize the array as follows:<br><br>
+                    <img width="100%" src="imgs/ps5_1.svg">
+                    <p>That is, there are zero <code style="font-size:larger">0</code>s in PI_DIGITS, there are two <code style="font-size:larger">1</code>s in PI_DIGITS,... there are three <code style="font-size:larger">9</code>s in PI_DIGITS.
+                    <h3>Problem 1a: <code style="font-size:larger">create_histogram_array</code></h3>
+                    <p>Write a function over a list of integers that returns a new, distinct list of integers that corresponds to the histogram values.
+                    <p><code style="font-size:larger">create_histogram_array(x)[i]</code> should be equal to the number of times <code>i</code> appears in <code>x</code>.
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">create_histogram_array(data:list[int])->list[int]</code></pre><hr>
+                    <p>It can be used as follows:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> PI_DIGITS
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]
+>>> create_histogram_array(PI_DIGITS)
+[0, 2, 1, 2, 1, 4, 1, 1, 1, 3]</code></pre><hr>
+                </div>
+			</div>
+		</div>
+        		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h2>Problems:</h2>
+                    <h3>Problem 1b: <code style="font-size:larger">print_histogram</code></h3>
+                    <p>Write a function over a list of integers that prints a labelled history of asterisks representing the histogram array. It will have type:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">print_histogram(hist:list[int])->None</code></pre><hr>
+                    <p>For each integer in <code style="font-size:larger">hist</code> print:
+                    <ol>
+                        <li>The index, beginning with zero and increasing.
+                        <li>A colon followed by a space "<code style="font-size:larger">: </code>".
+                        <li>A number of 'star' or 'asterisk' characters equal to the value hist[index].
+                    </ol>
+                    <p>It is most likely easier to see an example:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> PI_DIGITS
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]
+>>> create_histogram_array(PI_DIGITS)
+[0, 2, 1, 2, 1, 4, 1, 1, 1, 3]
+>>> h = create_histogram_array(PI_DIGITS) 
+>>> print_histogram(h)
+0: 
+1: **
+2: *
+3: **
+4: *
+5: ****
+6: *
+7: *
+8: *
+9: ***</code></pre><hr>
+                    <p>For example, '<code style="font-size:larger">5: ****</code>' represents that
+                    <ul>
+                        <li>The digit <code style="font-size:larger">5</code> appears 4 times in PI_DIGITS, and that 
+                        <li>The value of <code style="font-size:larger">h[5]</code> is <code style="font-size:larger">4</code>
+                    </ul>
+                </div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 1c: <code>graph_histogram</code></h3>
+                    <p>Write a function that graphs the histogram in a PGL window of size width by height, probably in red on white:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">graph_histogram(hist:list[int], width:int, height:int)</code></pre><hr>
+                    <p>For example, consider <code style="font-size:larger">graph_histogram(create_histogram_array(PI_DIGITS),400,400)</code>. I have added an outline to make the image more clear, but you do not need to add an outline.
+                    <center><img style="outline:solid" src="imgs/ps5_2.png"></center>
+                    <h4>How I solved it</h4>
+                    <p>For 1a, I created a list of length <code>max(data) + 1</code> of all zeros. I looped over data, and for each value, added one to the list index equal to the current value.
+                    <p>For 1b, I wrote a single list comprehension over the length of the histogram. I printed (the string representation of the index) plus (the formatting colon and space) plus (the histogram value times the asterisk character).
+                    <p>For 3b, I used <code>my_rect</code>. I calculated how wide each column would be, and how many pixels corresponded a histogram value of one (one of the asterisks from above). Then I looped over the histogram, adding rectangles displaced from the upperleft according to their index (from left) and histogram value less maximum value (from the top).
+				</div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 3: <code>clicky_box</code></h3>
+                    <p>The function <code>clicky_box</code> will
+                    <ul>
+                        <li>Display a randomly positioned square in a PGL graphics window
+                        <li>When the square is clicked, and only when the square is clicked, it will move to a different random part of the screen
+                        <li>Track the number of clicks in the lower left.
+                    </ul>
+                    <p><b>Firstly</b>, add a colored and filled square of size <code>SQUARE_SIZE</code> to the center of the window. You can choose the color of the square. Ensure your square is displaying centered in the screen when you run your program before continuing.
+                    <p><b>Optionally,</b> add a listener to your window which will listen for when the user presses down the mouse button, and calls the <code>on_mouse_down</code> function when that occurs. Run your program and ensure that, now, when you click the mouse anywhere in the window, a message prints to the terminal saying as much!
+                    <p><b>Next,</b> add/update <code>on_mouse_down</code> function so that if (and only if) you click inside the colored square, the square moves to a new random position that causes it to be entirely within the window bounds, that is, fully visible within the graphic window. Make sure that nothing happens if you click outside the square: it should only move if you clicked within the square boundry. 
+                    <blockquote>There are several ways you can check to see if the mouse was clicked within the confines of the square, some easier and some harder. You may want to look <a href="https://jrembold.github.io/Website_Backup/class_files/cs151/PythonSummary.html">here</a> to refresh your memory about some functions/methods that may be useful.</blockquote>
+                    <p><b>Lastly</b> maintain a "score" <code>SCORE_DX</code> from the left wall and <code>SCORE_DY</code> up from the bottom. Every time that you click inside the square, you want to add one to the score, and every time you click outside the square, set the score to 0. <blockquote>There are a few ways you could handle this. One would be to keep track of the score purely inside a <code>GLabel</code>, getthing and setting the text of the label as necessary. Another would be to create a variable which you would increment or reset as needed, and then update the <code>GLabel</code> from the variable. Just be aware that if you go the variable route, you will need to add that variable as an attribute to the GWindow, or else you won’t be able to globally set its value within the callback function. </blockquote>
+				</div>
+			</div>
+		</div>
+        <div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 3: <code>clicky_box</code></h3>
+                    <p>Here is demo. The label is a bit goofy looking due to web-embedding.
+                    <center><canvas id="someid" width="500px" height="500px" style="border:solid"></center>
+                    <script>
+                          const GW_WIDTH = 500;                      // Width of window
+                          const GW_HEIGHT = 500;                     // Height of window
+                          const SQUARE_SIZE = 50;                    // Width and height of square
+                          const SCORE_DX = 10;                       // Distance from left of window to origin
+                          const SCORE_DY = 40;                       // Distance up from bottom of window to baseline
+                          const SCORE_FONT = "bold 40pt serif";      // Font for score
+
+                          const canvas = document.getElementById('someid');
+                          const ctx = canvas.getContext('2d');
+                          let score = 0;
+
+                          // Function to get a random position for the square
+                          function get_r() {
+                            return Math.floor(Math.random() * (GW_WIDTH - SQUARE_SIZE));
+                          }
+
+                          // Function to draw the square at a specific location
+                          function drawSquare(x, y) {
+                            ctx.clearRect(0, 0, GW_WIDTH, GW_HEIGHT); // Clear the canvas
+                            ctx.fillStyle = "red";
+                            ctx.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+
+                            drawScore();
+                          }
+
+                          // Function to draw the score
+                          function drawScore() {
+                            ctx.font = SCORE_FONT;
+                            ctx.fillStyle = "black";
+                            ctx.fillText(score, SCORE_DX, GW_HEIGHT - SCORE_DY);
+                          }
+
+                          // Initial square position
+                          let squareX = GW_WIDTH / 2 - SQUARE_SIZE / 2;
+                          let squareY = GW_HEIGHT / 2 - SQUARE_SIZE / 2;
+                          drawSquare(squareX, squareY);
+
+                          // Mouse click event listener
+                          canvas.addEventListener('click', function(event) {
+                            const mouseX = event.offsetX;
+                            const mouseY = event.offsetY;
+
+                            // Check if the click is inside the square
+                            if (mouseX >= squareX && mouseX <= squareX + SQUARE_SIZE &&
+                                mouseY >= squareY && mouseY <= squareY + SQUARE_SIZE) {
+                              squareX = get_r();
+                              squareY = get_r();
+                              score++;
+                            } else {
+                              score = 0;
+                            }
+
+                            drawSquare(squareX, squareY);
+                          });
+                    </script>
+                    <hr>
+                    <p>This code snippet defines how to calculate a random integer between 0 and <code>SOME_VAL</code>
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">import random # at top of file, by other imports
+
+def get_r():
+    return random.randint(0, SOME_VAL)</code></pre><hr>
+                    <p>This code snippet defines how to configure a graphics window to perform a function after a click. Without this, 'on_mouse_down' will never run.
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">gw.add_event_listener("click", on_mouse_down)</code></pre><hr>
+                    
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>P3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">P3</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W9Fri: 25 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Problem Set 5 for Monday.
+<li>Project 3, which is PS5 is sorta part of, out today (I hope).
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Files into PGL
+<li>Writing files
+</section>
+
+<section>
+<h2><code class="python">GImage</code> </h2>
+<ul>
+<li>You can display an image from a file in PGL using
+<code class="python">GImage(filename, x, y)</code>
+<li>`filename' should be something like:</li>
+<li>Joint Photographic Experts Group (JPEG):
+<code class="python">fish.jpg</code></li>
+<li>Portable Network Graphics (PNG):
+<code class="python">fish.png</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2><code class="python">GImage</code> </h2>
+<ul>
+<li>This a picture that own rights to that you may use, of my cat Juniper.
+<li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
+</ul>
+<img style="height:800px" src="imgs/cat.png"><br>
+</code>
+</section>
+
+<section>
+<h2>Curl</h2>
+<ul>
+<li>These are free bonus slides.
+<li>When there are files we want to use that have some address on the internet:
+<ul><li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
+<li><a href="https://raw.githubusercontent.com/rembold-cs151-master/HW03/refs/heads/master/pgl.py">https://raw.githubusercontent.com/rembold-cs151-master/HW03/refs/heads/master/pgl.py</a></ul>
+<li>They can be downloaded via the "curl" command.
+<li>Curl is out of scope for this class, but fun and useful. It is a command like "python" - used at the command line.
+<code class="bash">C:\Users\cd-desk> python
+>>> print("hi")
+hi
+>>> exit()
+C:\Users\cd-desk> curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png -o cat.png
+C:\Users\cd-desk></code>
+</section>
+
+
+<section>
+<h2>System</h2>
+<ul>
+<li>These are free bonus slides.
+<li>We can use "curl" from inside Python, and in fact use any command, with Python's "system()", included in "os".
+<code class="python">>>> from os import *
+>>> system("curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png -o cat.png")
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 2362k  100 2362k    0     0  8004k      0 --:--:-- --:--:-- --:--:-- 8064k
+0</code>
+</section>
+
+
+
+<section>
+<h2>System</h2>
+<ul>
+<li>I almost always work with files that are free and open source online, and I download them via curl.
+<li>So I wanted to show you too!
+<li>Here is code that downloads pgl, downloads an image, then displays the image in pgl.
+<code style="width:300%" class="python">from os import system
+
+system("curl https://raw.githubusercontent.com/rembold-cs151-master/HW03/refs/heads/master/pgl.py -o pgl.py")
+system("curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png -o cat.png")
+
+from pgl import *
+
+pix = 800 # number of pixels
+
+gw = GWindow(pix, pix)
+image = GImage("cat.png")
+gw.add(image)</code>
+</section>
+
+
+
+<section>
+<h2>GImage</h2>
+<ul>
+<li>We only need to download once, so we remove the first three things after the first time we run the code...
+<code class="python">from pgl import *
+
+pix = 800 # number of pixels
+
+gw = GWindow(pix, pix)
+image = GImage("cat.png")
+gw.add(image)</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>&check; Files into PGL
+<li>Writing files
+</section>
+
+<section>
+<h2>Files</h2>
+<ul>
+<li>Suppose we want to convert the image to text art, where some text character represents cat and some other character represents everything else.
+<li>We use a variety of pgl and list techniques to accomplish this, culminating in the new thing of writing to a file.
+<code class="python">pix = 800 # number of pixels
+gw = GWindow(pix, pix)
+image = GImage("cat.png")
+gw.add(image)</code>
+</section>
+
+
+<section>
+<h2><code class="python">get_pixel_array()</code></h2>
+<ul>
+<li>What is a pixel array? Let's check.
+<code class="python">pix = 800 # number of pixels
+gw = GWindow(pix, pix)
+image = GImage("cat.png")
+gw.add(image)
+
+pixels = image.get_pixel_array()
+print(type(pixels))</code>
+<li>We see the following:
+<code class="bash">&lt;class 'list'&gt;</code>
+<li>A list! A list of what? And how big?
+</section>
+
+
+
+<section>
+<h2><code class="python">get_pixel_array()</code></h2>
+<ul>
+<li>Let's look at the first thing in first list in pixels...
+<code class="python">pixels = image.get_pixel_array()
+print(len(pixels))
+print(len(pixels[0]))
+print(type(pixels[0][0]))</code>
+<li>We see the following:
+<code class="bash">1315
+986
+&lt;class 'int'&gt;</code>
+<li>The image was taller than wide, so that 1315 should be the height.
+<li>And I guess each pixel is stored as an integer. Let's look at one.
+</section>
+
+
+<section>
+<h2>Refresher</h2>
+<ul>
+<li>This a picture that own rights to that you may use, of my cat Juniper.
+<li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
+</ul>
+<img style="height:800px" src="imgs/cat.png"><br>
+</code>
+</section>
+
+<section>
+<h2><code class="python">get_pixel_array()</code></h2>
+<ul>
+<li>And I guess each pixel is stored as an integer. Let's look at one.
+<code  class="python">pixels = image.get_pixel_array()
+print(pixels[0][0])</code>
+<li>We see the following:
+<code class="bash">4282337860</code>
+<li>Okay I have no idea what that is.
+<li>Time to introduce something new!
+</section>
+
+
+<section>
+<h2><code class="python">GImage.get_red()</code></h2>
+<ul>
+<li>PGL stores pixels as integers, but provides a way to look at tbrightness of each color of a pixel.
+<li>The way to look at red brightness is 'GImage.get_red', and the other colors are similar.
+<code  class="python">pixels = image.get_pixel_array()
+print(pixels[0][0])
+print(GImage.get_red(pixels[0][0]))</code>
+<li>We see the following:
+<code class="bash">4282337860
+63</code>
+<li>Ah! 63 is in the range from 0 to 255!
+<li>It's the red brightness!
+</section>
+
+
+<section>
+<h2><code class="python">GImage.get_red()</code></h2>
+<ul>
+<li>Juniper is orange/buff kitty likely to be brightest in red colors (I think).
+<li>She is sleeping on a stone/gray blanket that shouldn't have much red at all.
+<li>Let's print a dot '.' if brightness is below half (127)
+<li>Let's print zero '0' if brightness is above half (127)
+<li>Let's see what it looks like!
+<code  class="python">for row in pixels:
+    for pixel in row:
+        if GImage.get_red(pixel) > 127:
+            print('0')
+        else:
+            print('.')</code>
+<li>Oh that prints everything on its own line. Yuck!
+</section>
+
+
+
+<section>
+<h2><code class="python">GImage.get_red()</code></h2>
+<ul>
+<li>We'll use a list comprehension for each row.
+<li>We'll only look at every ~20th pixel, to make it smaller.
+<li>Let's see what it looks like!
+<code  class="python">def pixel_to_letter(pixel):
+    if GImage.get_red(pixel) > 127:
+        return '0'
+    return '.'
+
+for row in pixels[::20]:
+    s = [pixel_to_letter(pixel) for pixel in row[::20]]
+    print(s)</code>
+<li>Depending on how your VS Code is set up, I could finally see a cat here...
+</section>
+
+
+<section>
+<h2><code class="python">GImage.get_red()</code></h2>
+<ul>
+<li>Let's join each row to print strings instead of lists.
+<code  class="python">def pixel_to_letter(pixel):
+    if GImage.get_red(pixel) > 127:
+        return '0'
+    return '.'
+
+for row in pixels[::20]:
+    row_list = [pixel_to_letter(pixel) for pixel in row[::20]]
+    s = "".join(row_list)
+    print(s)</code>
+<li>This looks catlike to me, let me see if I can show you...
+</section>
+
+
+
+<section>
+<h2>Text</h2><ul>
+<table><td style="vertical-align:top;">
+<pre style="font-size:.3em;">.................................00...............
+................................000..........0....
+...............................000.0..............
+................................0..0..............
+..................................................
+..............................................0...
+...............................................0..
+..................................................
+..................................................
+...............................................0..
+...............................................0..
+..................................................
+.........................0.00000..................
+...............0000000000000000.00..............0.
+.............0000000000000000000000.............0.
+...........000000000.0000000000000000...........0.
+..........00000000000000000000000000000.........0.
+.........0000000000000000000000000000000..........
+........000000000000000000000000000000000........0
+........0000000000000000000000000000000000........
+.......000000000000000000000000000000000000.......
+......00000000000000000000000000000000000000......
+......000000000000000000000000000000000000000.....
+.....0000000000000000000000000000000000000000.....
+...0000000000000000000000000000000000000000000....
+..00000000000000000000000000000000000000000000....
+..000000000000000000000000000000000000000000000...
+...00.00000000000000000000000000000000000000000...
+........000000000000000000000000000000000000000...
+.........000000000000000000000000000000000000000..
+.........000000000000000000000000000000000000000..
+..........00000000000000000000000000000000000000..
+..............0000000000000000000000000000000000..
+..0............00000000000000000000000000000000...
+.0000.........000000000000000000000000000000000...
+..0000000....0000000000000000000000000000000000...
+..000000000000000000000000000000000000000000000...
+...0000000000000000000000000000000000000000000....
+...0000000000000000000000000000000000000000000....
+.....00000000000000000000000000000000000000000....
+....00000000000000000000000000000000000000000.....
+.....0000000000000000000000000000000000000000.....
+........000000000000000000000000000000000000......
+........000000000000000000000000000000000000......
+.......000000....00000000000000000000000000.......
+.......000000000..0.00000000000000000000000.......
+.......0000000000000000000000000000000000.........
+............0000000000000000000000000000..........
+.............00000000000000000000000000...........
+...............00000000000000000000000............
+..................0000000000000000000.............
+.......................0000000000000..............
+..............................000.0..........0....
+00000.............................................
+000000000.........................................
+00000000000.......................................
+000000000000......................................
+00000000000000....................................
+.00000000000000...................................
+0000000000000000...............................00.
+.0000000000000000.................................
+..000000000000000................................0
+0.0000000000000000...............................0
+0.0000000000000000................................
+00..000000000000000..............................0
+0..00000000000000000............................00
+</pre></td>
+<td>
+<img style="height:800px" src="imgs/cat.png">
+</td></table>
+</section>
+
+<section>
+<h2>Text</h2><ul>
+<li>Changing row[::20] to row[::10] to make the image wider gives:
+<table><td style="vertical-align:top;">
+<pre style="font-size:.3em;">.................................................................0000..............................
+...............................................................0000.00.0..................0........
+..............................................................0.000...0............................
+................................................................00.0.00....................0.......
+...........................................................0.......................................
+............................................................................................0......
+..............................................................................................00...
+.............................................................................................0.....
+.............................................................................................0.....
+..............................................................................................0....
+..............................................................................................0....
+...................................................................................................
+..................................................0..00.00000.0................................0...
+.............................0000000000000000000000000000.0000.00000...........................00..
+..........................0000000000000000000000000000000000000000000...........................0..
+......................000000000000000000.00000000000000000000000000000000.......................0..
+...................0000000000000000000000000000000000000000000000000000000000...................00.
+..................0000000000000000000000000000000000000000000000000000000000000....................
+................000000000000000000000000000000000000000000000000000000000000000000................0
+................0000000000000000000000000000000000000000000000000000000000000000000................
+.............0000000000000000000000000000000000000000000000000000000000000000000000000...........0.
+............000000000000000000000000000000000000000000000000000000000000000000000000000............
+............00000000000000000000000000000000000000000000000000000000000000000000000000000..........
+.........000000000000000000000000000000000000000000000000000000000000000000000000000000000.........
+......0000000000000000000000000000000000000000000000000000000000000000000000000000000000000........
+...00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.......
+...000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000......
+......0000.00000000000000000000000000000000000000000000000000000000000000000000000000000000000.....
+...............0000000000000000000000000000000000000000000000000000000000000000000000000000000.....
+.................000000000000000000000000000000000000000000000000000000000000000000000000000000....
+..................00000000000000000000000000000000000000000000000000000000000000000000000000000....
+....................000000000000000000000000000000000000000000000000000000000000000000000000000....
+...........................00000000000000000000000000000000000000000000000000000000000000000000....
+...00........................00000000000000000000000000000000000000000000000000000000000000000.....
+..0000000...................00000000000000000000000000000000000000000000000000000000000000000......
+....0000000000000........00000000000000000000000000000000000000000000000000000000000000000000......
+....00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000......
+......00000000000000000000000000000000000000000000000000000000000000000000000000000000000000.......
+......00000000000000000000000000000000000000000000000000000000000000000000000000000000000000.......
+..........000000000000000000000000000000000000000000000000000000000000000000000000000000000........
+........0000000000000000000000000000000000000000000000000000000000000000000000000000000000.........
+..........0000000000000000000000000000000000000000000000000000000000000000000000000000000..........
+...............0000000000000000000000000000000000000000000000000000000000000000000000000...........
+...............000000000000000000000000000000000000000000000000000000000000000000000000............
+..............000000000000.......00000000000000000000000000000000000000000000000000000.............
+.............000000000000000000....00..00000000000000000000000000000000000000000000000.............
+..............0000000.000000000000000000000000000000000000000000000000000000000000.................
+.......................000000000000000000000000000000000000000000000000000000000...................
+.........................00000000000000000000000000000000000000000000000000000.....................
+..............................0000000000000000000000000000000000000000000000.......................
+....................................0000000000000000000000000000000000000..........................
+..............................................00000000000000000000000.0............................
+............................................................00000...0.....................0........
+0000000000.................................................0.......................................
+00000000000000000..................................................................................
+000000000000000000000..............................................................................
+000000000000000000000000...........................................................................
+000000000000000000000000000........................................................................
+.00000000000000000000000000000.....................................................................
+0000000000000000000000000000000...............................................................0.0..
+.00000000000000000000000000000000................................................................0.
+...0000000000000000000000000000000................................................................0
+00..0000000000000000000000000000000...............................................................0
+0...0.000000000000000000000000000000...............................................................
+0.00...0000000000000000000000000000000.......................................................0...00
+00....000000000000000000000000000000000......................................................0.0000
+
+</pre></td>
+<td>
+<img style="height:800px" src="imgs/cat.png">
+</td></table>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul><li>&check; Files into PGL
+<li>Writing files
+</section>
+
+<section>
+<h2>File Write</h2>
+<ul><li>Say I want to send a picture of my cat to someone with PGL.
+<li>I use PGL to make a text file and send the text file.
+<li>This is impractical but the best I can do on short notice.
+<li>The following is how <a href="https://www.w3schools.com/python/python_file_write.asp">W3Schools</a> recommends writing a text file:
+<code class="python">f = open("demofile3.txt", "w")
+f.write("Woops! I have deleted the content!")
+f.close()
+
+#open and read the file after the overwriting:
+f = open("demofile3.txt", "r")
+print(f.read()) </code>
+</section>
+
+<section>
+<h2>File Write</h2>
+<ul><li>Test it.
+<code class="python">>>> f = open("demofile3.txt", "w")
+>>> f.write("Woops! I have deleted the content!")
+34
+>>> f.close()
+>>>
+>>> #open and read the file after the overwriting:
+>>> f = open("demofile3.txt", "r")
+>>> print(f.read())
+Woops! I have deleted the content!
+>>></code>
+<li>The "30" is the number of letters written.
+<li>The "Whoops" is due to the fact this will delete any pre-existing content in the file.
+<ul><li>Generally we want this - we write to a file, check if we like it, change the code, want to start over.
+</section>
+
+
+<section>
+<h2>File Write</h2>
+<ul><li>We'll open a file. We provide a filename and an opening type - "w" is for writing.
+<code class="python">f = open("cat.txt", "w")</code>
+<li>Then we change all the "print" statements to 'f.write'
+<code class="python">for row in pixels[::10]:
+    # was 20, now 10
+    row_list = [pixel_to_letter(pixel) for pixel in row[::20]]
+    s = "".join(row_list)
+    f.write(s)</code>
+<li>This will do one annoying: print adds a newline, write does not.
+<li>This will write every '.' and '0' in the same row!
+</section>
+
+
+<section>
+<h2>File Write</h2>
+<ul><li>Add a '\n' to the end of each row.
+<code class="python">f = open("cat.txt", "w")</code>
+<li>Then we change all the "print" statements to 'f.write'
+<code class="python">for row in pixels[::20]:
+    row_list = [pixel_to_letter(pixel) for pixel in row[::10]]
+    s = "".join(row_list)
+    f.write(s + '\n') # adding an "enter" </code>
+<li><a href="imgs/cat.txt">Let's look at it!</a>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Time to start problem set 5.
+<li>Sections today and tomorrow.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

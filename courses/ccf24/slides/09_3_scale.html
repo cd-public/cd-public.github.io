@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Scale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">Scale</h1>
+  <h2>Fri W3</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>It's Friday of week 9
+<li>Today we're doing something interesting I hope.
+<ul>
+<li>"Can I teach them something cool?" -Shouvik
+<li>An AI primer, pursuant to Week 2 deliverable: "Preliminary Analysis".
+<li>Should be generically good for art people as well, if indirectly.
+</section>
+<section>
+<h2>ML</h2>
+<ul>
+<li>Whirlwind tour, some review, some novel
+<li>Scale: Macronutrients
+<li>Linear Regression: Wealth vs Life Expectancy
+<li>Polynomial Regression: Wealth vs Life Expectancy
+</section>
+
+<section>
+<h2>Scale</h2>
+<ul>
+<li>Suppose we eat food.
+<li>FDA keeps track of food because it's the government or something.
+<li>Many people eat food for calories, a unit of energy.
+<li>Most calories come from protein, carbohydrates or fats.
+<li>Proteins and carbohydrates provide 4 calories per gram
+<li>Fats provide 9 calories per gram
+</ul><p>"Do it for the gram." - me
+</section>
+
+
+<section>
+<h2>Scale</h2>
+<ul>
+<code style="" class="py">     protein_value  fat_value  carbohydrate_value
+0             3.47       8.37                4.07
+1             4.27       8.79                3.87
+2             2.44       8.37                3.57
+3             2.44       8.37                3.57
+4             2.44       8.37                3.57
+..             ...        ...                 ...
+307           2.44       8.37                3.57
+308           2.44       8.37                3.57
+309           2.44       8.37                3.57
+310           2.44       8.37                3.57
+311           2.44       8.37                3.57
+
+[312 rows x 3 columns]</code>
+<li>We probably need to divide by cals/gram.
+</section>
+
+
+<section>
+<h2>Scale</h2>
+<ul>
+<code style="" class="py">df['fat_value'] = df['fat_value'] / 9
+df['carbohydrate_value'] = df['carbohydrate_value'] / 4
+df['protein_value'] = df['protein_value'] / 4
+print(df[:5])</code>
+<li>We get...
+<code style="" class="py">   protein_value  fat_value  carbohydrate_value
+0       0.216875   0.103333            0.254375
+1       0.266875   0.108519            0.241875
+2       0.152500   0.103333            0.223125
+3       0.152500   0.103333            0.223125
+4       0.152500   0.103333            0.223125
+</code>
+<li>Numbers much closer together.
+</section>
+
+<section>
+<h2>ML</h2>
+<ul>
+<li>Whirlwind tour, some review, some novel
+<li>&check; Scale: Macronutrients
+<li>Linear Regression: Wealth vs Life Expectancy
+<li>Polynomial Regression: Wealth vs Life Expectancy
+</section>
+
+<section>
+<h2>Linear Regression</h2>
+<ul>
+<li>People with more money might live longer, I don't know.
+<li>Sure seems like it'd help.
+<li>Is this true of countries?
+</section>
+
+
+<section>
+<h2>Linear Regression</h2>
+<ul>
+  <li>I didn't preserve this, but x is gdp and y is life expectancy.
+<code style="" class="py">           2022_x     2022_y
+0    33300.838819  74.992000
+1     1642.432039  62.899031
+2      352.603733  62.879000
+3     1788.875347  57.626176
+4     2933.484644  61.929000
+..            ...        ...
+260   3745.560367  72.598000
+261   5290.977397  79.524000
+263   6766.481254  61.480000
+264   1456.901570  61.803000
+265   1676.821489  59.391000</code>
+<li>Let's take a linear regression.
+</section>
+
+
+<section>
+<h2>Linear Regression</h2>
+<ul>
+<code style="" class="py"># prompt: sklearn linear regression over dataframe "both"
+
+from sklearn.linear_model import LinearRegression
+
+# Prepare the data for linear regression
+X = both[['2022_x']]  # GDP per capita in 2022
+y = both['2022_y']    # Life expectancy in 2022
+
+# Create and train the linear regression model
+model = LinearRegression()
+model.fit(X, y)
+
+# Print the model coefficients
+print("Coefficients:", model.coef_)
+print("Intercept:", model.intercept_)</code>
+</section>
+
+<section>
+<h2>Linear Regression</h2>
+<ul>
+<li>We get...
+<code style="" class="py">Coefficients: [0.00019047]
+Intercept: 68.69969966270624
+</code>
+<li>Let's plot it.</li></li></ul>
+  <img src="imgs/gdp_life_line.png">
+<ul><li>Oh that is high key not linear.
+</section>
+
+
+<section>
+<h2>ML</h2>
+<ul>
+<li>Whirlwind tour, some review, some novel
+<li>&check; Scale: Macronutrients
+<li>&check; Linear Regression: Wealth vs Life Expectancy
+<li>Polynomial Regression: Wealth vs Life Expectancy
+</section>
+
+
+<section>
+<h2>Polynomial Regression</h2>
+<ul>
+<li>That looked like a little money helped a lot, and a lot more money helped very little.
+<li>Lines don't do that, they just 📈
+<li>Let's try a parabola - a polynomial of degree 2.
+</section>
+
+
+<section>
+<ul>
+<li>Well actually a parabola will go up then down, so I did degree 3 whoops.
+<code class="py"># prompt: do polynomial regression of degree 3 over both
+
+# Create polynomial features up to degree 3
+from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=3)
+X_poly = poly.fit_transform(X)
+
+# Create and train the polynomial regression model
+model_poly = LinearRegression()
+model_poly.fit(X_poly, y)
+
+# Print the model coefficients
+print("Polynomial Coefficients:", model_poly.coef_)
+print("Polynomial Intercept:", model_poly.intercept_)</code>
+<li>Let's see it.
+</section>
+
+<section>
+<h2>Polynomial Regression</h2>
+<ul>
+<li>We get...
+<code style="" class="py">Polynomial Coefficients: [ 0.00000000e+00  7.16975595e-04 -8.57111644e-09  2.87583542e-14]
+Polynomial Intercept: 65.12557554366506</code>
+<li>Let's plot it.</li></li></ul>
+  <img src="imgs/gdp_life_poly.png">
+<ul><li>Oh that is high key not polynomial either lol.
+</section>
+
+
+<section>
+<h2>ML</h2>
+<ul>
+<li>Whirlwind tour, some review, some novel
+<li>&check; Scale: Macronutrients
+<li>&check; Linear Regression: Wealth vs Life Expectancy
+<li>&check; Polynomial Regression: Wealth vs Life Expectancy
+</section>
+
+
+<section>
+<h2>Scale</h2>
+<ul>
+<li>Suppose a little bit of something (money) helps a lot.
+<li>But a lot doesn't help anymore.
+<li>Think: Going from 99 to 100 thousand dollars isn't as impactful as going from 0 to 1.
+  <li>Usually that's a logarithm.
+</section>
+
+
+<section>
+<h2>Linear Regression</h2>
+<ul>
+<li>We get...
+<code style="" class="py">Coefficients: [4.54777158]
+Intercept: 31.58450749077179</code>
+<li>Let's plot it.</li></li></ul>
+  <img src="imgs/gdp_life_log.png">
+<ul><li>Yeah that's a log.
+</section>
+
+<section>
+<h2>Colab Link</h2>
+<ul>
+<li><a href="https://colab.research.google.com/drive/1DTZbUEDjTCcvzKO0lbYtdyaD42X5Ex0g?usp=sharing">Link</a>
+<li>If we have time I'll demo the wrangling.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

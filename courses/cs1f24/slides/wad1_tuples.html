@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tuple</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Tuple</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W10Mon: 28 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Problem Set 5 tonight.
+<li>Project 3 next Monday.
+  <ul>
+    <li>Milstones :3 by Tuesday
+    <li>Milestone 3 by Wednesday
+    <li>Milestone 4a by Thursday
+    <li>Milestone 4b by Friday
+    <li>Milestone 4c by Saturday
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Tuples
+  <ul>
+<li>Unpacking
+<li>Multiple Assignment
+<li>Enumerate
+<li>Zip
+</section>
+
+<section>
+<h2>Tuples</h2>
+<ul><li>Sometimes you have more than one thing.
+<ul><li>An image size: height by width
+<li>A class at Willamette: prefix and number
+<li>A favorite CS 151 instructor: type of professor and name
+<li>Favorite movie: Franchise and Entry, or Name and Year, or...
+</ul>
+<li>There are many ways to store these together. One is list.
+<li>The default in Python, though, is the <em>tuple</em>.
+<code class="python">>>> x = 1,2
+>>> type(x)
+&lt;class 'tuple'&gt;</code>
+</section>
+
+<section>
+<h2>Tuples</h2>
+<ul><li>Writing tuples
+<ul><li>With commas
+<code class="python">>>> x = 1,
+>>> type(x)
+&lt;class 'tuple'&gt;
+</code><code class="python">>>> x = 1,2
+>>> type(x)
+&lt;class 'tuple'&gt;
+</code><code class="python">>>> x = 1,2,
+>>> type(x)
+&lt;class 'tuple'&gt;
+</code><code class="python">>>> x = x, 3
+>>> type (x)
+&lt;class 'tuple'&gt;</code>
+</section>
+
+<section>
+<h2>Tuples</h2>
+<ul><li>Writing tuples
+<ul><li>Can also be in a return statement
+<code class="python">>>> def eminem(x):
+...     return min(x), max(x)
+...
+>>> x = [5,3,7,2,4,6,8]
+>>> mnm = eminem(x)
+>>> mnm
+(2, 8)
+>>> type(mnm)
+&lt;class 'tuple'&gt;</code>
+</section>
+
+<section>
+<h2>Tuples</h2>
+<ul><li>Writing tuples
+<ul><li>Like lists, but with parens
+<li>This is how they show up when printed.
+<code class="python">x = ("hello", "world")
+>>> type(x)
+&lt;class 'tuple'&gt;</code>
+<li>I strongly prefer this because it is easier to read for me.
+</section>
+
+
+<section>
+<h2>Tuples v Lists </h2>
+<ul><li>Wait these look just like lists with different parens?
+<ul><li>Kinda...
+<code class="python">>>> tup = (1,2,3)
+>>> lst = [1,2,3]
+>>> tup[0]
+1
+>>> lst[0]
+1
+>>> tup[:2]
+(1, 2)
+>>> lst[:2]
+[1, 2]
+>>> tup[::-1]
+(3, 2, 1)
+>>> lst[::-1]
+[3, 2, 1]</code>
+</section>
+
+
+<section>
+<h2>Tuples v Lists </h2>
+<ul><li>Exactly one difference.
+<ul><li>The elements of a tuple cannot be changed (like strings)
+<code class="python">>>> tup = (1,2,3)
+>>> lst = [1,2,3]
+>>> tup[1] = '4'
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'tuple' object does not support item assignment
+&gt;&gt;&gt; tup[1] = 4
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;TypeError: 'tuple' object does not support item assignment
+>>> lst[1] = 4
+>>> tup, lst
+((1, 2, 3), [1, 4, 3])</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Tuples
+  <ul>
+<li>Unpacking
+<li>Multiple Assignment
+<li>Enumerate
+<li>Zip
+</section>
+
+<section>
+<h2>Unpacking</h2>
+<ul><li>We can use "single equals assignment" to get things out of tuples.
+<li>Basically, by saying multiple variables, equal one value...
+<li>That value is sliced and diced up into the variables.
+<li><em>Usually</em> works "intuitively" (for some people)
+<code class="python">>>> course = "CS", 151, "Intro Py", "Fall", 2024
+>>> course
+('CS', 151, 'Intro Py', 'Fall', 2024)
+>>> pre, num, name, sem, yr = course
+>>> print(pre, num)
+CS 151</code>
+<li>Mostly: make sure there is one variable for each "thing" in the tuple.
+</section>
+
+<section>
+<h2>Unpacking</h2>
+<ul><li>By the way you can unpack lists.
+<li>I do this sometimes, not too often.
+<code class="python">>>> course = ["CS", 151, "Intro Py", "Fall", 2024]
+>>> pre, num, name, sem, yr = course
+>>> print(pre, num)
+CS 151</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Tuples
+  <ul>
+<li>&check; Unpacking
+<li>Multiple Assignment
+<li>Enumerate
+<li>Zip
+</section>
+
+<section>
+<h2>Multiple Assignment</h2>
+<ul><li>This means we can assign multiple variables to values in one line.
+<li>I <strong>love</strong> this.
+<code class="python">>>> c151, c152, d151, d152 = "intro py", "data struct", "intro r", "intro stat"
+>>> c151
+'intro py'</code>
+<li>Extremely good when trying to swap things around.<code class="python">>>> x, y = 16, 10
+>>> x, y = min(x,y), max(x,y)
+>>> x
+10</code>
+<li>"Technical interviews" for software jobs tend to ask stuff that is easier if you do this.
+</section>
+
+<section>
+<h2>Multiple Assignment</h2>
+<ul><li>Ascending values between two values.
+<li>This is the maximally correct solution to div6/7, which didn't check if the first value was the lower value.
+<li>I <strong>love</strong> this.
+<code class="python">>>> def vals_btw(x,y):
+...     x, y = min(x,y), max(x,y)
+...     return range(x,y)
+...
+>>> for i in vals_btw(15,10):
+...     print(i)
+...
+10
+11
+12
+13
+14</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Tuples
+  <ul>
+<li>&check; Unpacking
+<li>&check; Multiple Assignment
+<li>Enumerate
+<li>Zip
+</section>
+
+
+<section>
+<h2>Enumerate</h2>
+<ul><li>Some of you have found 'enumerate' already.
+<li>Gives you an element of a list/tuple and also its index.
+<li>It is literally impossible for me to use it because I forget if index or value is first, so I only ever use indices, but you are allowed to use it of course.
+<li>Also, if you haven't done PS5.1b by now, that is bad
+<code style="max-height:700px" class="python">>>> hist = [0, 2, 1, 2, 1, 4, 1, 1, 1, 3]
+>>> for index, value in enumerate(hist):
+...     print(index, ": " + value * "*")
+...
+0 :
+1 : **
+2 : *
+3 : **
+4 : *
+5 : ****
+6 : *
+7 : *
+8 : *
+9 : ***</code>
+</section>
+
+
+<section>
+<h2>Enumerate</h2>
+<ul><li>This is the other way.
+<li>Also, if you haven't done PS5.1b by now, that is bad
+<code style="max-height:700px" class="python">>>> hist = [0, 2, 1, 2, 1, 4, 1, 1, 1, 3]
+>>> _ = [print(i, " " + hist[i] * "*") for i in range(len(hist))]
+0
+1  **
+2  *
+3  **
+4  *
+5  ****
+6  *
+7  *
+8  *
+9  ***</code>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Tuples
+  <ul>
+<li>&check; Unpacking
+<li>&check; Multiple Assignment
+<li>&check; Enumerate
+<li>Zip
+</section>
+
+
+
+<section>
+<h2>Zip</h2>
+<ul><li>Some of you have found 'zip' already.
+<li>I have never used it
+  <ul><li>I just do a quick list comprehension</ul>
+<li>Very useful on "Green Screen" (milestone 3).
+<li>Could have seen use on wordle.
+<code style="max-height:700px" class="python">>>> [a == b for a, b in zip("hello","world")]
+[False, False, False, True, False]</code>
+</section>
+
+
+
+<section>
+<h2>Zip</h2>
+<ul><li>Can always do with list comps.
+<code style="max-height:700px" class="python">>>> h, w = "hello", "world"
+>>> [h[i] == w[i] for i in range(len(h))]
+[False, False, False, True, False]</code>
+<li>Easy to argue that is pretty inelegant.
+<li>On Milestone 3, use a zip probably over:
+<ul>
+  <li>Rows of pixels
+    <ul><li>One row from a foreground image.
+      <li>One row from a background image.
+      </li></li></ul></li>
+      <li>Check something (if its green) about the foreground pixel.
+        <li>If it is, set the background pixel to be equal to the foreground pixel.
+          <li>Wait - that sounds like an enum and a zip?
+
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Tuples
+  <ul>
+<li>&check; Unpacking
+<li>&check; Multiple Assignment
+<li>&check; Enumerate
+<li>&check; Zip
+</ul><li>Bonus slides: Records.
+</section>
+
+
+<section>
+<h2>Records</h2>
+<ul><li>We can "record" things on a "record"
+<li>A tuple, a list, or a mysterious third thing (a class, covered Wednesday) can be a record.
+<li>Usually, we interact with records without thinking about whether a list or tuple is being used.
+<code class="python">>>> course = "CS", 151, "Intro Py", "Fall", 2024
+>>> course
+('CS', 151, 'Intro Py', 'Fall', 2024)
+>>> pre, num, name, sem, yr = course
+>>> print(pre, num)
+CS 151</code>
+</section>
+
+
+<section>
+<h2>Records</h2>
+<ul><li>We can visualize records using the advising system. A course:
+  <ul><li>Has some prefix, like "CS" or "MATH"
+    <li>Has some level, like "100" or "300"
+      <ul><li>CS: 100-level is 1yr of programming, 200-level is application, 300-level is pretty much just CS 351, which requires MATH 251.
+        <ul><li>CS 370 Python Data Science, offered next term, would be a 100-level class under thes guidelines - it only requires CS 151! Go take it!
+          <li>CS 280 Human-Computer Interaction, offered every fall, is similar. If you don't want to major, CS 151 is enough to take that course!
+        </li></ul><li>MATH: 100-level is calculus/pre-calculus, 200-level requires calculus, 300-level require writing proofs (MATH 251), 400-level requires linear algebra (MATH 353)
+</section>
+
+
+
+<section>
+<h2>Records</h2>
+<ul><li>We can visualize records using the advising system. A course:
+<code class="python">course = "CS", 1, "Sp", 2025</code>
+<img src="imgs/cs151.png">
+</section>
+
+
+<section>
+<h2>Records</h2>
+<ul><li>We can visualize records using the advising system. A course:
+<code class="python">course = "MATH", 2, "Sp", 2025</code>
+<img src="imgs/math251.png">
+</section>
+
+
+<section>
+<h2>Records</h2>
+<ul><li>Both of the following correspond to the <em>idea</em> of a record.
+<ul><li>Tuples, and
+<code class="python">course = "CS", 1, "Sp", 2025</code>
+<li>Lists
+<code class="python">course = ["CS", 1, "Sp", 2025]</code>
+<img src="imgs/cs151.png">
+</section>
+
+
+<section>
+<h2>Records</h2>
+<ul><li>A record is an "abstraction" - a thing we use a computer to do.
+<li>A tuple or list is an "implementation" - a technology we use to do a thing
+<li>A class, taught Wednesday, is another way to work with records.
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Problem Set 5 tonight.
+<li>Project 3 next Monday.
+  <ul>
+    <li>Milstones :3 by Tuesday
+    <li>Milestone 3 by Wednesday
+    <li>Milestone 4a by Thursday
+    <li>Milestone 4b by Friday
+    <li>Milestone 4c by Saturday
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

@@ -50,7 +50,7 @@
 					<h1>Project 3: Imageshop</h1>
                     <h3>Due: Monday, 4 November, 11:59 PM</h3>
                     <p>Github Classroom Link: <a href="https://classroom.github.com/a/R5xAPke8">https://classroom.github.com/a/R5xAPke8</a>
-                    <p><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_Imageshop.html">Prof. Jed Rembold's alternate instructions</a>
+                    <p><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_ImageShop/">Prof. Jed Rembold's alternate instructions</a>
                     </center>
                     <div>
                     <hr>
@@ -239,6 +239,7 @@
 [0, 2, 3, 5, 6, 10, 11, 12, 13, 16]</code></pre>   
                             <hr>
                             <p><code>accs[2]</code> is equal to 3, because that is the sum of the values of all the elements of <code>hist</code> of index less than or equal to two, which in this case are 0, 2, and 1.
+                            <p>This code is covered in your section <a href="https://rembold-cs151-master.github.io/Section09/#/problem-3-cumulative-histograms">here</a>.
                             <p>Here are some examples:
                             <table>
                                 <tr style="">
@@ -277,16 +278,36 @@
                         <div class="details">
                             <b>Milestone 4c: Best By Saturday</b>
                             <p><em>This finishes Milestone 4.</em></p>
-                            <p>There is a lengthy description of the mathematics and reasoning of this milestone <a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_Imageshop.html#milestone-5c-the-histogram-equalization-algorithm">here</a>.
+                            <p>There is a lengthy description of the mathematics and reasoning of this milestone <a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_ImageShop/milestones/milestone4.html#the-histogram-equalization-algorithm">here</a>.
                             <p>For this milestone, update every pixel in the image.
                             <ul>
                                 <li>Calculate the luminence of the pixel.
-                                <li>Determine the value in the accumulation histogram of that corresponds to that luminance.
+                                <li>Determine the value in the accumulation histogram that corresponds to that luminance.
                                 <li>Divide that value by the number of pixels - this will be <code>len(array) * len(array[0])</code>.
                                 <li>Multiple that value by 255.
                                 <li>Set this final value to be the new pixel value.
                             </ul>
-                            <p>Here is an example of how to update do the first step - change a value based on an accumulation count.
+                            <p>That is, replace each luminance value (L) in the original image using the formula<br><br>
+                            <span class="math display"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                    xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <semantics>
+                        <mrow>
+                            <mtext>new&nbsp;luminance</mtext>
+                            <mo>=</mo>
+                            <mfrac>
+                                <mrow>
+                                    <mn>255</mn>
+                                    <mo>×</mo>
+                                    <mtext>&nbsp;cumulative&nbsp;histogram[L]</mtext>
+                                </mrow>
+                                <mtext>&nbsp;total&nbsp;number&nbsp;of&nbsp;pixels&nbsp;</mtext>
+                            </mfrac>
+                        </mrow>
+                        <annotation encoding="application/x-tex">\text{new luminance} = \frac{255 \times \text{
+                            cumulative histogram[L]}}{\text{ total number of pixels }} </annotation>
+                    </semantics>
+                </math></span>
+                            <p>Here is an example of how to do the first step - change a value based on an accumulation count.
                             <hr>
                             <pre><code>>>> PI_DIGITS
 [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]

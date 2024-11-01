@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Dictionaries</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Dictionaries</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W11Mon: 04 Nov<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 3 tonight.
+<li>Midterm Friday.
+<ul><li>Practice Exam posted.
+    <li>Tuples
+    <li>Pixels
+    <li>Lists
+    <li>Types
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Dictionaries
+  <ul>
+<li>Dictionaries and Maps
+<li>Editorializing
+<li>Keys and Values
+<li>In and Indices
+<li>Iteration
+<li>Methods
+</section>
+
+
+<section>
+<h2>Maps and Dictionaries</h2>
+<ul>
+<li>A common form of information associates pairs of data values
+<ul>
+<li>Commonly called a <em>map</em> in computer science</li>
+<li>Python calls such a structure a <em>dictionary</em></li>
+<li>I learned them as "hash tables"</li>
+</ul></li>
+</section>
+
+
+<section>
+<h2>Maps and Dictionaries</h2><ul>
+<li>A dictionary associates two different values:
+<ul>
+<li>A simple value called the <em>key</em>, which is often a string but
+doesn’t need to be</li>
+<li>A larger and more complex object called the <em>value</em></li>
+</ul></li>
+</section>
+
+
+<section>
+<h2>Maps and Dictionaries</h2><ul>
+<li>This idea of associating pairs of values is exhibited all over in
+the real world
+<ul>
+<li>Actual dictionaries! The words are the keys, the definitions the
+values.</li>
+<li>Web addresses! Keys are the urls, the values are the webpage
+contents.</li>
+<li>Humans! Keys are names, values are the actual people.
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2>Creating Dictionaries</h2>
+<ul>
+<li><p>Python dictionaries use squiggly brackets
+<code class="python">{}</code> to enclose their contents</p></li>
+<li><p>Can create an empty dictionary by providing no key-value
+pairs:</p>
+<code class="python">d = {}</code></li><li><p>Or via "dict()" (like list(), int(), etc)</p>
+<code class="python">d = dict()</code></li>
+<li>Separate keys from values with colons, separate key-value pairs from pairs with commas.
+
+<code class="mypython">skewlz = {'Willamette': "Bearcat", "Carolina": "Tarheel", "Chicago:": "Phoenix"}</code></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Creating Dictionaries</h2>
+<ul>
+<li>We look up values using a key:
+<code class="mypython">>>> skewlz = {'Willamette': "Bearcat", "Carolina": "Tarheel", "Chicago:": "Phoenix"}
+>>> skewlz["Carolina"]
+'Tarheel'
+>>> skewlz["Willamette"]
+'Bearcat'</code></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Dictionaries
+  <ul>
+<li>&check; Dictionaries and Maps
+<li>Editorializing
+<li>Keys and Values
+<li>In and Indices
+<li>Iteration
+<li>Methods
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>Known class-hater Calvin Deutschbein approves of maps.
+    <ul><li>"Map" is a functional idea, the not-class style of things
+        <li>Google, and latter other cloud provides, use maps heavily.
+        <ul><li>That is, in 2024, I expect the preponderance of computing to take place within a map framework.</ul>
+            <li>Maps seems very close to human reasoning in my impression.
+            </li>
+            <li>Consider - have you used a map? A dictionary?
+                <li>How a an object instantied from some class?
+                </section>
+
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>My brain works in maps.
+    <ul><li>When I met you in the early weeks of class, I was learning keys.
+        <ul><li>I learned to spell your name, where you commonly sat, etc.
+        </ul>
+        <li>Now I've learned more about you as people!
+        <li>Because of who I am as a person, I historically struggled with e.g. names, but...
+            <li>I programmed my brain with maps.
+
+            <li><i>Thank you for helping me!</i>
+
+                </section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Dictionaries
+  <ul>
+<li>&check; Dictionaries and Maps
+<li>&check; Editorializing
+<li>Keys and Values
+<li>In and Indices
+<li>Iteration
+<li>Methods
+</section>
+
+<section>
+<h2>Keys and Values</h2>
+<ul>
+<li>The value of a key-value pair can be <strong>any</strong> Python
+object, mutable or immutable
+<ul>
+<li>This include other dictionaries!</li>
+</ul></li>
+<li>The key is more restricted:
+<ul>
+<li>Must be immutable
+<ul>
+<li>So dictionaries or lists can <strong>not</strong> work as a key</li>
+<li>Tuples can though!</li>
+</ul></li>
+<li>Must be unique per dictionary</li>
+<code class="python">>>> d = {"Fav Prof":"Calvin", "Fav Prof":"Anyone else"}
+>>> d
+{'Fav Prof': 'Anyone else'}</code>
+</section>
+
+<section>
+<h2>Keys and Values</h2>
+<ul>
+<li>Must be unique per dictionary</li>
+<code class="python">>>> d = {"Fav Prof":"Calvin", "Fav Prof":"Anyone else"}
+>>> d
+{'Fav Prof': 'Anyone else'}</code>
+<li>Setting a key to have some value overwrites the previous value.
+<ul><li>Same as updating a variable
+    <li>Same as updating an attribute of a class.
+    <li>Same as updating an element of a list at some index.
+</ul><li>Wait... are Python variables... key-value pairs? (yes)
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Dictionaries
+  <ul>
+<li>&check; Dictionaries and Maps
+<li>&check; Editorializing
+<li>&check; Keys and Values
+<li>In and Indices
+<li>Iteration
+<li>Methods
+</section>
+
+<section>
+    <h2>Selection</h2>
+<ul>
+<li>The fundamental operation on dictionaries is selection, which is
+indicated with square brackets just like list/string/tuple:
+<code class="python">[]</code></p></li>
+<li>Dictionaries though are <strong>unordered</strong>, so it is not
+a numeric index</li>
+<li><p>You instead use the key directly to select corresponding
+values:</p>
+<code class="python">>>> movie = {"Franchise" : "Alien", "Entry": "Romulus"}
+>>> movie["Entry"]
+'Romulus'</code></pre></li>
+</ul>
+</section>
+
+<section>
+<h2>Non-numeric keys</h2>
+<ul>
+<li>With strings/lists/tuples we trivially knew what indices existed based on length.
+<li>Dictionaries are more complicated.  
+<li>If you attempt to index out a key that doesn’t exist:
+<code class="python">>>> movie["anything bad"]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in <module>
+KeyError: 'anything bad'</code>
+<li>Wow! There is not "anything bad" in Alien: Romulus!
+</section>
+
+<section>
+<h2>Non-numeric keys</h2>
+<ul>
+<li>If in doubt, check for the presence of a key with the special operator
+'in'
+<ul><li>Recall we used "in" many times with strings, like:
+    <code class="python">'ei' in word and 'cei' not in word</code>
+</li></ul><li>With dictionaries, we can if keys are 'in':
+<code class="python">>>> movie = {"Franchise" : "Alien", "Entry": "Romulus"}
+>>> "anything bad" in movie
+False
+>>> "Year" in movie
+True
+>>> "Franchise" in movie
+True</code></pre></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Non-numeric keys</h2>
+<ul>
+<li>Look out!
+<li>In strings/list/tuples, "in" checks values - the things that have an index.
+<li>In dictionaries, it checks the keys, not the values!
+    <code class="python">>>> "Alien" in movie
+False
+>>> "Franchise" in movie
+True
+>>> movie["Franchise"]
+'Alien'</code>
+</ul>
+</section>
+
+
+<section>
+<h2>Non-numeric keys</h2>
+<ul>
+<li>We can update values.
+<li>Some critics consider <em>Alien: Romulus</em> part of the larger "Alien vs Predator" franchise
+<li>They are wrong, but still deserve rights.
+<li>We can falsify our data entry to sate the Predator fanbase
+<code class="python">>>> movie = {"Franchise" : "Alien", "Entry": "Romulus"}
+>>> movie["Franchise"]
+'Alien'
+>>> movie["Franchise"] = "AVP"
+>>> movie["Franchise"]
+'AVP'</code>
+<li>Like the xenomorph, dictionaries may mutate.
+    <li>(Dictionaries are mutable)
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Dictionaries
+  <ul>
+<li>&check; Dictionaries and Maps
+<li>&check; Editorializing
+<li>&check; Keys and Values
+<li>&check; In and <s>Indices</s>Selectors
+<li>Iteration
+<li>Methods
+</section>
+
+<section><h2>Iterating through a Dictionary</h2>
+<ul>
+<li>I love for loops.</li>
+<code class="python">for key in movie:
+    value = movie[key]
+    print("The", key, "of the movie is", value)</code></pre></li>
+<li>This would give us, for example:
+<code class="lisp">The Franchise of the movie is Alien
+The Entry of the movie is Romulus</code>    
+</section>
+
+
+<section><h2>Iterating through a Dictionary</h2>
+<ul>
+<li>Like zip() and enumerate(), we have a bundle of tricks to look at 
+<s>indices</s>keys and values at the same time.
+<code class="python">for key, value in movie.items():
+    print("The", key, "of the movie is", value)</code></pre></li>
+<li>This would give us, for example:
+<code class="lisp">The Franchise of the movie is Alien
+The Entry of the movie is Romulus</code>    
+</section>
+
+
+
+<section><h2>Iterating through a Dictionary</h2>
+<ul>
+<li>What is "Alien"?
+<code class="python">>>> for key, value in movie.items():
+...     if value == "Alien":
+...         print(key)
+...
+Franchise</code></pre></li>
+<li>Wow, it's "the" franchise. Incredible.
+<li>What a time to be alive!
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Dictionaries
+  <ul>
+<li>&check; Dictionaries and Maps
+<li>&check; Editorializing
+<li>&check; Keys and Values
+<li>&check; In and <s>Indices</s>Selectors
+<li>&check; Iteration
+<li>Methods
+</section>
+
+
+<section>
+<h2>Common Dictionary Methods</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method call</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code class="mypython">len(d)</code></td>
+<td>Returns the number of key-value pairs in the dictionary</td>
+</tr>
+<tr class="even">
+<td><code class="mypython">d.get(key, value)</code></td>
+<td>Returns the value associated with the given key in the dictionary. If the key is not
+found, returns None</td>
+</tr>
+<tr class="odd">
+<td><code class="mypython">d.pop(key)</code></td>
+<td>Removes the key-value pair corresponding to
+key and returns the associated value. Will
+raise an error if the key is not found.</td>
+</tr>
+<tr class="even">
+<td><code class="mypython">d.clear()</code></td>
+<td>Removes all key-value pairs from the dictionary, leaving it
+empty.</td>
+</tr>
+<tr class="odd">
+<td><code class="mypython">d.items()</code></td>
+<td>Returns an iterable object that cycles through the successive tuples
+consisting of a key-value pair. Iterables are weird - either use this within a for loop, or convert it to a list with list()</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section>
+    <h2>Editorializing Again</h2>
+<ul>
+<li>My take on classes is a minority position.
+<li>Another take: Dictionaries are the "Pythonic" way to do records.
+<li>I find this to be a is a majority position, 
+<li>It is held by major language designers and most programers that use the language heavily.
+<li>Looks at this:
+<code class="python">console = {
+    'name': 'XBox',
+    'vers': 360,
+}</code></li>
+<li>It is impossible for me to believe that isn't better than writing a class.</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Dictionaries
+  <ul>
+<li>&check; Dictionaries and Maps
+<li>&check; Editorializing
+<li>&check; Keys and Values
+<li>&check; In and <s>Indices</s>Selectors
+<li>&check; Iteration
+<li>&check; Methods
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 3 tonight.
+<li>Midterm Friday.
+<ul><li>Practice Exam posted.
+    <li>Tuples
+    <li>Pixels
+    <li>Lists
+    <li>Types
+</section>
+
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

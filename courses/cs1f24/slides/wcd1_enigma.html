@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Enigma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Enigma</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W12Wed: 11 Nov<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Midterm Sketch
+<li>Project 5 Posted
+<li>Guest Lecture Wednesday
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Enigma<ul>
+    <li>Cryptography
+    <li>Rotations
+    <li>Ciphers
+    <li>Starter Code</ul>
+</section>
+
+<section>
+<h2>Cryptography</h2>
+<ul><li>The essence of P4: Enigma is cryptography.
+<li>Here are words I use to do cryptography.
+<li>"Encryption" takens a "plaintext" and produces a "cypertext".
+<li>A "cyphertext" is "encryped."
+<li>Here is a minimal example, encryption through reversal.
+<code class="python">def encrypt(plaintext:str) -> str:
+    cyphertext = plaintext[::-1]
+    return cyphertext</code>
+<li>We imagine this as a way to keep something secret.
+<code class="python">>>> encrypt("hello world")
+'dlrow olleh'</code>
+</section>
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Reversal is a little to boring and too easy.
+<li>A "rotation" (also called a "Caesar cipher") is more sophisticated.
+<li>It works by taking each letter and advancing it through the alphabet by some amount.
+<li>"D" is 3 further through the alphabet than "A".
+<code class="python">>>> _ = [print(i,c) for i,c in enumerate("ABCD")]
+0 A
+1 B
+2 C
+3 D
+</code>
+</section>
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Rotations are not too bad because we can solve them one letter at a time.
+<li>Basically we imagine it looks like this:
+<img width="100%"" src="imgs/plus3.svg">
+<li>The core insight here is we can consider each letter separately.
+<li>So we could write a function from one letter to another.
+<code class="python">def rotate(letter:str) -> str:
+    pass</code>
+</section>
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>We write a function from one letter to another.
+<code class="python">def rotate(letter:str) -> str:
+    pass</code>
+<li>To go from "A" to "D" we:
+<ul><li>Found the index of "A" in the alphabet
+<li>Added 3
+<li>Found the letter of that index in the alphabet.
+</section>
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>To go from "A" to "D" we:
+<ul><li>Found the index of "A" in the alphabet
+<code class="python">>>> s = "ABCD"
+>>> s.index("A")
+0</code>
+<li>"A" is at index 0 in the alphabet.
+<li><em>On Enigma, the full alphabet is defined in "EnigmaConstants.py"</em>
+<code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"</code>
+</section>
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>We write a function from one letter to another.
+<code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)</code>
+<li>To go from "A" to "D" we:
+<ul><li>&check; Found the index of "A" in the alphabet
+<li>Added 3
+<li>Found the letter of that index in the alphabet.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Enigma<ul>
+    <li>Cryptography
+    <li>Rotations
+    <li>Ciphers
+    <li>Starter Code</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

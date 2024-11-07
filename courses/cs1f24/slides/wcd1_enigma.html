@@ -135,15 +135,329 @@ def rotate(letter:str) -> str:
 <li>Found the letter of that index in the alphabet.
 </section>
 
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>We write a function from one letter to another.
+<code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    ind_in_abcs += 3</code>
+<li>To go from "A" to "D" we:
+<ul><li>&check; Found the index of "A" in the alphabet
+<li>&check; Added 3
+<li>Found the letter of that index in the alphabet.
+</section>
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>We write a function from one letter to another.
+<code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    ind_in_abcs += 3
+    return ALPHABET[ind_in_abcs]</code>
+<li>To go from "A" to "D" we:
+<ul><li>&check; Found the index of "A" in the alphabet
+<li>&check; Added 3
+<li>&check; Found the letter of that index in the alphabet.
+</section>
+
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>This is good:
+<code class="python">def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    ind_in_abcs += 3
+    return ALPHABET[ind_in_abcs]</code>
+<li>But it breaks if we try to rotate "Z"
+<code class="python">>>> rotate("Z")
+Traceback (most recent call last):
+IndexError: string index out of range</code>
+</section>
+
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>It breaks if we try to rotate "Z"
+<code class="python">>>> rotate("Z")
+Traceback (most recent call last):
+IndexError: string index out of range</code>
+<li>We need to "loop back" from index 25 ("Z" + 1) to 0 ("A").
+<code class="python">>>> (25 + 1) % 26
+0</code>
+</section>
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>This is good:
+<code class="python">def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    ind_in_abcs += 3
+    ind_in_abcs %= len(ALPHABET)
+    return ALPHABET[ind_in_abcs]</code>
+<li>Now we can rotate "Z"
+<code class="python">>>> rotate("Z")
+'C'</code>
+</section>
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Really though, we want to be able to specify how far we rotate..
+<code class="python">def rotate(letter:str, offset:int) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    ind_in_abcs += offset
+    ind_in_abcs %= len(ALPHABET)
+    return ALPHABET[ind_in_abcs]</code>
+<li>Now we can rotate "Z"
+<code class="python">>>> rotate("A",3)
+'D'
+>>> rotate("A",-1)
+'Z'</code>
+</section>
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Then we can encrypt (and decrypt)
+<code class="python">def encrypt(letter:str) -> str:
+    return rotate(letter, 17)
+
+def decrypt(letter:str) -> str:
+    return rotate(letter, -17)</code>
+<li>Now we can rotate "Z"
+<code class="python">>>> encrypt("A")
+'R'
+>>> decrypt(encrypt("A"))
+'A'</code>
+</section>
+
 <section>
 <h2>Today</h2>
 <ul>
 <li>Enigma<ul>
-    <li>Cryptography
-    <li>Rotations
+    <li>&check; Cryptography
+    <li>&check; Rotations
     <li>Ciphers
     <li>Starter Code</ul>
 </section>
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Let's look back at fixed offset rotate:
+<code class="python">def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    ind_in_abcs += 3
+    ind_in_abcs %= len(ALPHABET)
+    return ALPHABET[ind_in_abcs]</code>
+<li>We can think of this a rotation, or as a letter substitution.
+</section>
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Let's look back at fixed offset rotate:
+<code class="python">CIPHER = ALPHABET[3:] + ALPHABET[:3]
+# or 'DEFGHIJKLMNOPQRSTUVWXYZABC'
+
+def rotate(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    return CIPHER[ind_in_abcs]</code>
+<li>We can use a string to specify how we encrypt!
+<ul><li>The string is of length 26
+    <li>Only contains capital letters, and
+    <li>Contains no duplicates!
+</section>
+
+
+<section>
+<h2>Rotations</h2>
+<ul>
+<li>Ciphers don't only have to be rotations!
+<code class="python">ROTOR_PERMUTATIONS = [
+    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",  # Permutation for slow rotor      
+    "AJDKSIRUXBLHWTMCQGZNPYFVOE",  # Permutation for medium rotor    
+    "BDFHJLCPRTXVZNYEIWGAKMUSQO"   # Permutation for fast rotor      
+]</code>
+<li>Here are three historically significant rotations.
+<li>They were discovered by cool gay people that defeated the Nazis.
+<li>"Be gay, stop war crime."
+<li>They provided with Project 4.
+</section>
+
+
+<section>
+<h2>Ciphers</h2>
+<ul>
+<li>We can imagine encryption other than rotation.
+<li>We call these "letter-substitution ciphers" or "cryptograms"
+<li>I just call them ciphers (shorter)
+<code class="python">CIPHER = "BDFHJLCPRTXVZNYEIWGAKMUSQO"
+
+def encrypt(letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    return CIPHER[ind_in_abcs]</code>
+<li>This allows us to create codes!
+<li>We use a cipher, and some plaintext, to create encrypted "cyphertext"
+</section>
+
+<section>
+<h2>Ciphers</h2>
+<ul>
+<li>We may want to be able to use different ciphers, like the 3 from the assignment.
+<code class="python">def encrypt(cipher:str, letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    return cipher[ind_in_abcs]</code>
+<li>This way we can encrypt any letter with any cipher.
+</section>
+
+
+<section>
+<h2>Ciphers</h2>
+<ul>
+<li>To decrypt, we go backwards, but in a novel way.
+<ul><li>Rather than finding index in the alphabet, find index in the cipher!
+    <li>Rather than finding a corresponding letter in the cipher, find it in the alphabet!
+<code class="python">def encrypt(cipher:str, letter:str) -> str:
+    ind_in_abcs = ALPHABET.index(letter)
+    return cipher[ind_in_abcs]
+
+def decrypt(cipher:str, letter:str) -> str:
+    ind_in_ciph = cipher.index(letter)
+    return ALPHABET[ind_in_ciph]</code>
+<li>This way we can encrypt any letter with any cipher.
+</section>
+
+
+
+<section>
+<h2>Ciphers</h2>
+<ul>
+<li>To decrypt, we go backwards, but in a novel way.
+<code class="python">>>> encrypt(CIPHER, "M")
+'Z'
+>>> decrypt(CIPHER, "Z")
+'M'</code>
+<li>I also call these "forward and backward"
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Enigma<ul>
+    <li>&check; Cryptography
+    <li>&check; Rotations
+    <li>&check; Ciphers
+    <li>Starter Code</ul>
+</section>
+
+<section>
+<h2>Starter code</h2>
+<ul>
+<li>I found the starter code a bit confusing.
+<li>Basically, you need to know what certain methods are intended to do in EngimaModel.py.
+<ul><li>I ignored:
+    <ul><li>__init__
+        <li>add_view
+        <li>update</ul>
+    <li>On milestone 0, I updated:
+    <ul><li>key_pressed
+        <li>key_released
+        <li>is_key_down</ul>
+    <li>These are essentially parts of event listeners that attached to a graphics window in another file.
+</section>
+
+<section>
+<h2>Starter code</h2>
+<ul>
+    <li>On milestone 1, I updated:
+    <ul><li>key_pressed
+        <li>key_released
+        <li>is_lamp_on</ul>
+    <li>The key corresponds to the letter being encrypted, and the lamp corresponds to the return value of the encryption.
+    <li>On milestone 1, you haven't written any encrpytion, so they are the same!
+</section>
+
+
+<section>
+<h2>Starter code</h2>
+<ul>
+    <li>On milestone 2, I updated:
+    <ul><li>get_rotor_letter
+        <li>rotor_clicked</ul>
+    <li>Actually I forgot to do milestone 2 and did it after milestone 4.
+    <li>We'll get to that soon!
+</section>
+
+
+<section>
+<h2>Starter code</h2>
+<ul>
+    <li>On milestone 3, I updated:
+    <ul><li>key_pressed</ul>
+    <li>This is encryption with a single cipher.
+</section>
+
+<section>
+<h2>Debug Print</h2>
+<ul>
+    <li>Starting in milestone 3, I wrote very detailed print statements.
+    <li>This code is from milestone 3 part c, an optional milestone I made for myself.
+    <li>A letter is thrice encryped by all three rotors.
+    <li>Having this made the next milestone not only easier, but possible!
+    <code class="bash">Beginning loop with i = 2
+ before forward: letter = A letter's index in abcs   = 0
+ after  forward: letter = B letter's index in cipher = 0
+Beginning loop with i = 1
+ before forward: letter = B letter's index in abcs   = 1
+ after  forward: letter = J letter's index in cipher = 1
+Beginning loop with i = 0
+ before forward: letter = J letter's index in abcs   = 9
+ after  forward: letter = Z letter's index in cipher = 9</code></section>
+ <section>
+
+<h2>Starter code</h2>
+<ul>
+    <li>On milestone 4, I updated:
+    <ul><li>key_pressed</ul>
+    <li>On this milestone...
+    <ul><li>A letter is "forward" encrypted 3 times by 3 ciphers
+        <li>This letter is encrypted once more with a "reflector"
+        <li>The letter is "reverse" encryped <strong>backwards</strong> through the ciphers
+    </ul><li>The output result is a fully encrypted letter that lights up a corresponding lamp.
+
+</section><section>
+<h2>Starter code</h2>
+<ul>
+    <li>On milestone 5, I updated:
+    <ul><li>key_pressed</ul>
+    <li>On this milestone...
+    <ul><li>A letter previously based through 3 ciphers forward and backward.
+        <li>Now, I rotate the letter before and after passing through the cipher.
+        <li>We can think of this as 2 times 3 times 3 ciphers, or just as two for loops.
+    </ul><li>Not really understandable without Milestones 2 and 4, so just do those first!
+    <li>Then you're done!
+</section>
+
+<section>
+<h2>Visualizing</h2>
+<ul><li>Right-to-left-to-right.
+<img src="imgs/EnigmaInternals4.png">
 
  </div>
   </div>

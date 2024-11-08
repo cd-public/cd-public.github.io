@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.canva {
+  background: #f7f5ff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.circle {
+  width: 70vmin;
+  height: 70vmin;
+  background: #e8e0ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ghost {
+  position: relative;
+  border: 0.5vmin solid black;
+  width: 30vmin;
+  height: 30vmin;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom: 0;
+  box-sizing: border-box;
+  background: #FFDCDF;
+}
+
+.feets {
+  display: flex;
+  width: 30vmin;
+}
+
+.feets div {
+  width: 7.5vmin;
+  height: 6vmin;
+  border: 0.5vmin solid black;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top: 0;
+  background: #FFDCDF;
+}
+
+.peepers {
+  position: absolute;
+  width: 5vmin;
+  height: 5vmin;
+  background: #000;
+  border-radius: 50%;
+  top: 13vmin;
+  left: 5vmin;
+  box-shadow: 14vmin 0;
+}
+
+.peepers:before{
+  content: "";
+  position: absolute;
+  background: white;
+  width: 2.5vmin;
+  height: 2.5vmin;
+  border-radius: 50%;
+  left: 2vmin;
+  box-shadow: 14vmin 0 white;
+}
+
+.snoot {
+  position: absolute;
+  width: 4vmin;
+  height: 2vmin;
+  border: 0.7vmin solid black;
+  border-bottom-left-radius: 4vmin;
+  border-bottom-right-radius: 4vmin;
+  border-top: 0;
+  top: 16vmin;
+  left: 12vmin;
+}
+
+.left-waggler, .right-waggler {
+  position: absolute;
+  width: 4vmin;
+  height: 4vmin;
+  border: 0.5vmin solid black;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top: 0;
+}
+
+.left-waggler {
+  top: 22vmin;
+  left: 6vmin;
+  transform: rotate(-45deg)
+}
+
+.right-waggler{
+  top: 22vmin;
+  left: 18vmin;
+  transform: rotate(45deg)
+}
+
+</style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+<br><br><br>
+  <h1 style="font-family: monospace;text-transform: lowercase;">CSS</h1>
+  <h2>Art Week 1</h2>
+</section>
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Welcome to IDS-101-13: Thinking Machines!</li>
+<li>We learned a wee bit of .md.
+<li>We learned a smidgen of html
+<li>Time for a tad of CSS.
+<ul><li>Calvin's Stylin' Sheets
+<li>Also called, Cascading Style Sheets
+</ul></li>
+<li>CSS is a way to make HTML pretty.
+<li>Or just to make pretty, in general.
+</section>
+
+<section>
+<h2>Citation Needed</h2>
+<ul>
+<li>I am hopelessly derivative.
+<li>Today's lecture by Yosra Emad.
+<li>Here is the <a href="https://yosracodes.hashnode.dev/how-i-make-css-art">original</a>
+</ul><a href="https://yosracodes.hashnode.dev/how-i-make-css-art"><img width="60%" src="https://cdn.hashnode.com/res/hashnode/image/upload/v1632673889032/MNRnoWoyT.gif"></a>
+</section>
+
+<section>
+<h2>Our goal</h2>
+<ul>
+<li>Cute ghost.</ul>
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1632681251071/9ZrLjallM.png">?
+</section>
+
+
+
+<section>
+<h2>Process</h2>
+<ul>
+<li>Sketching<ul>
+<li>Basic Sketch</li>
+<li>Splitting the sketch into layers</li>
+</ul>
+</li>
+<li>Code<ul>
+<li>HTML</li>
+<li>Positioning</li>
+<li>Responsiveness</li>
+<li>CSS</li>
+</ul>
+</li>
+</ul>
+</section>
+
+<section>
+<h2>Sketching</h2>
+<ul>
+<li>I'd usually pop open good ole paint here.
+<li>Love me some paint.
+<li>Shout out paint.
+<li>Paint and I go way back.
+<li>Oh look a whiteboard.
+</ul>
+<img src="https://i.imgur.com/6bDKiB5.png">
+</section>
+
+
+<section>
+<h2>Splitting your Sketch into layers</h2>
+<ul>
+<li>I happened to yolo this lil spooker in a few stages
+<li>Those stages are layers.
+<li>Like in a terrestrial planet, or a particulary good meme.</ul>
+<img src="https://i.imgur.com/Efp9y4T.png">
+<ul><li>I named by layers: self, peepers, snoot, wagglers, and feets. I missed the sides. Whoops.
+</section>
+
+
+<section>
+<h2>The Yorsa Method</h2>
+<ul>
+<li>Planning how your HTML div tags will be structured to fit your needs for this CSS art.
+<li>The root div is called "canva"</li>
+<li>A "circle" layer behind the main CSS art to make it pop.</li>
+<li>Any two layers that are next to each other (not stacked on top of each other)
+<ul><li>Separate them by adding each one in its own "bubble" 
+<ul><li>Look at self and feets; they are next to each other; they don't overlap.)</li></ul></ul>
+<li>If something is too simple to have its own layer, don't name it.<ul><li>See the peepers layer, there is a pupil inside the peepers that isn't considered separately.</li>
+</ul>
+</section>
+
+<section>
+<h2>HTML</h2>
+<ul>
+<li>Layers are &lt;div&gt;'s
+<li>"div" is just what web designers use for everything, possible for a reason (I bet the reason is "because").
+<li>Like lists or lambdas, we can put divs inside of other divs.
+<li>Here's what it looks like:
+<code class="HTML"><div class="canva">
+    <div class="circle">
+        <div class="self"></div>
+        <div class="feets"></div>
+    </div>
+</div></code>
+<li>"self" and "feets" are adjacent (equally indented).
+<li>"self" and "feets" are on top of "circle", the background.
+</section>
+
+
+<section>
+<h2>FULL HTML</h2>
+<ul>
+<code class="HTML"><div class="canva">
+  <div class="circle">
+    <div class="ghost">
+      <div class="peepers"></div>
+      <div class="snoot"></div>
+      <div class="left-waggler"></div>
+      <div class="right-waggler"></div>
+    </div>
+    <div class="feets">
+      <div class="feets1"></div>
+      <div class="feets2"></div>
+      <div class="feets3"></div>
+      <div class="feets4"></div>
+    </div>
+  </div>
+</div>
+</code>
+</section>
+
+
+
+
+<section>
+<h2>Positioning</h2>
+<ul>
+<li>To make good CSS art, you must understand positioning very well.
+<li>The rule in CSS art is simple.
+<li>We will use a variety of tactics in CSS to position our feets and wagglers in appropriately cute locales.
+</section>
+
+<section>
+<h2>Step One: *</h2>
+<ul>
+<li>* refers to everything.
+<li>We want all our HTML art to have no margins or stretching
+<li>To do just what we write down (it's easier)
+<li>This isn't necessarily true by default, so we do:
+<code class="CSS">* {
+  margin: 0;
+  padding: 0;
+}</code>
+<li>This is called a "rule", and now all HTML things will have no margins.
+<li>Easy is good thumbs emoji.
+</section>
+<section>
+<h2>Canva</h2>
+<table style="width:100%">
+<td style="width:50%;vertical-align:top">
+<ul>
+<li>We make the "slate" we draw on, the canvas, named "canva"
+<li>We pick a background color.
+<li>We make 100% of the size of the window height and width.
+<li>I don't know what flex does, it's confusing.
+<li>We center everything, and make positioning relative to this div.
+<li>The . before canva means "this is somethings name"
+</td><td style="width:50%;vertical-align:top">
+<code class="CSS">.canva {
+  background: #f7f5ff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}</code></td></table>
+</section>
+
+<section>
+<div class="canva">
+</div>
+</section>
+
+<section>
+<h2>Circle</h2>
+<table style="width:100%">
+<td style="width:50%;vertical-align:top">
+<ul>
+<li>(in a Lil Nas X voice) we got a circle in the back
+<li>70% of the SMALLER of the height and width
+<li>Some other color idk change it I won't stop you.
+<li>I don't know what flex does, it's confusing.
+<li>We center everything, and make positioning relative to this div.
+</td><td style="width:50%;vertical-align:top">
+<code class="CSS">.circle {
+  width: 70vmin;
+  height: 70vmin;
+  background: #e8e0ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}</code></td></table>
+</section>
+
+<section>
+<div class="canva">
+  <div class="circle">
+  </div>
+</div>
+</section>
+
+
+<section>
+<h2>Ghost</h2>
+<table style="width:100%">
+<td style="width:50%;vertical-align:top">
+<ul>
+<li>The ghost gets an outline
+<li>30% of the SMALLER of the height and width
+<li>"border-radius" curves the outside, to make a smooth lil spooker
+<li>Then there's no bottom border (will be feets there) and a color
+</td><td style="width:50%;vertical-align:top">
+<code class="CSS">.ghost {
+  position: relative;
+  border: 0.5vmin solid black;
+  width: 30vmin;
+  height: 30vmin;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom: 0;
+  box-sizing: border-box;
+  background: #FFDCDF;
+}</code></td></table>
+</section>
+
+
+
+<section>
+<div class="canva">
+  <div class="circle">
+    <div class="ghost">
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+
+<section>
+<h2>Ghost</h2>
+<table style="width:100%">
+<td style="width:50%;vertical-align:top">
+<ul>
+<li>For example, here it is without border-radius
+</td><td style="width:50%;vertical-align:top">
+<code class="CSS">.ghost {
+  position: relative;
+  border: 0.5vmin solid black;
+  width: 30vmin;
+  height: 30vmin;
+  border-bottom: 0;
+  box-sizing: border-box;
+  background: #FFDCDF;
+}</code></td></table>
+</section>
+<section>
+<div class="canva">
+  <div class="circle">
+    <div style="  border-top-left-radius: 0%;
+  border-top-right-radius: 0%;" class="ghost">
+    </div>
+    <div class="feets">
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+
+
+<section>
+<h2>Feets</h2>
+<table style="width:100%">
+<td style="width:40%;vertical-align:top">
+<ul>
+<li>We have both feets, the collection of feet, and the individual feet, the divs inside of feets.
+<li>"Every feet is a member of the collective feets"
+<li>Feets are just as wide (30%) as the ghost
+<li>And then individual feet are 1/4 of that width
+<li>They have the same outline as ghost, and are rounded - but on the bottom.
+<li>Recall there are 4 feet inside feets - so we'll see 4 rounded bottoms.
+</td><td style="width:60%;vertical-align:top">
+<code class="CSS">.feets {
+  display: flex;
+  width: 30vmin;
+}
+
+.feets div {
+  width: 7.5vmin;
+  height: 6vmin;
+  border: 0.5vmin solid black;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top: 0;
+  background: #FFDCDF;
+}</code></td></table>
+</section>
+
+<section>
+<div class="canva">
+  <div class="circle">
+    <div class="ghost">
+    </div>
+    <div class="feets">
+      <div class="feets1"></div>
+      <div class="feets2"></div>
+      <div class="feets3"></div>
+      <div class="feets4"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<h2>Peepers</h2>
+<table style="width:100%">
+<td style="width:40%;vertical-align:top">
+<ul>
+<li>The peepers are just two circles at a certain location.
+<li>They are divs with a border radius (round)
+<li>They are 5% tall and dark in color.
+<li>We place them at an offset from the top and left.
+</td><td style="width:60%;vertical-align:top">
+<code class="CSS">.peepers {
+  position: absolute;
+  width: 5vmin;
+  height: 5vmin;
+  background: #000;
+  border-radius: 50%;
+  top: 13vmin;
+  left: 5vmin;
+  box-shadow: 14vmin 0;
+}</code></td></table>
+</section>
+
+<section>
+<h2>Peepers</h2>
+<table style="width:100%">
+<td style="width:40%;vertical-align:top">
+<ul>
+<li>Here we use the advanced technique (I learned it just).
+<li>Before - this allows us to apply two styles to one thing.
+<li>(There is also after, if we need).
+<li>We add no text - the content.
+<li>We keep everything in the same place, but add whites to the eyes
+<li>The whites are half the size of the full eye (2.5%)
+<li>They're in a fixed position - you can play around with that.
+</td><td style="width:60%;vertical-align:top">
+<code class="CSS">.peepers:before{
+  content: "";
+  position: absolute;
+  background: white;
+  width: 2.5vmin;
+  height: 2.5vmin;
+  border-radius: 50%;
+  left: 2vmin;
+  box-shadow: 14vmin 0 white;
+}</code></td></table>
+</section>
+
+<section>
+<div class="canva">
+  <div class="circle">
+    <div class="ghost">
+      <div class="peepers"></div>
+    </div>
+    <div class="feets">
+      <div class="feets1"></div>
+      <div class="feets2"></div>
+      <div class="feets3"></div>
+      <div class="feets4"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section>
+<h2>Snoot</h2>
+<table style="width:100%">
+<td style="width:40%;vertical-align:top">
+<ul>
+<li>The snoot, also known as the booplesnoot, is an inverted half circle outline.
+<li>We make something of size 4% by 2%
+<li>We give it a black outline.
+<li>We curve it by 4% - otherwise we get smooshed circle (loud booing)
+</td><td style="width:60%;vertical-align:top">
+<code class="CSS">.snoot {
+  position: absolute;
+  width: 4vmin;
+  height: 2vmin;
+  border: 0.7vmin solid black;
+  border-bottom-left-radius: 4vmin;
+  border-bottom-right-radius: 4vmin;
+  border-top: 0;
+  top: 16vmin;
+  left: 12vmin;
+}
+</code></td></table>
+</section>
+
+<section>
+<div class="canva">
+  <div class="circle">
+    <div class="ghost">
+      <div class="peepers"></div>
+      <div class="snoot"></div>
+    </div>
+    <div class="feets">
+      <div class="feets1"></div>
+      <div class="feets2"></div>
+      <div class="feets3"></div>
+      <div class="feets4"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section>
+<h2>Wagglers</h2>
+<table style="width:100%">
+<td style="width:40%;vertical-align:top">
+<ul>
+<li>For a bit of personality, I add wagglers: things that waggle
+<li>I'm a known finger waggler, so these are hands I guess.
+<li>Wagglers are like snoots but longer
+</td><td style="width:60%;vertical-align:top">
+<code class="CSS">.left-waggler, .right-waggler {
+  position: absolute;
+  width: 4vmin;
+  height: 4vmin;
+  border: 0.5vmin solid black;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top: 0;
+}
+</code></td></table>
+</section>
+
+<section>
+<h2>Wagglers</h2>
+<table style="width:100%">
+<td style="width:40%;vertical-align:top">
+<ul>
+<li>Critically the left and right wagglers are in different locations
+<li>We turn them both inwards 45 degrees
+<li>We place them in fixed positions on the screen - 
+<li>Both are 22% of the way down, but are either 6% or 18% "over" from the left
+</td><td style="width:60%;vertical-align:top">
+<code class="CSS">.left-waggler {
+  top: 22vmin;
+  left: 6vmin;
+  transform: rotate(-45deg)
+}
+.right-waggler{
+  top: 22vmin;
+  left: 18vmin;
+  transform: rotate(45deg)
+}
+</code></td></table>
+</section>
+
+<section>
+<div class="canva">
+  <div class="circle">
+    <div class="ghost">
+      <div class="peepers"></div>
+      <div class="snoot"></div>
+      <div class="left-waggler"></div>
+      <div class="right-waggler"></div>
+    </div>
+    <div class="feets">
+      <div class="feets1"></div>
+      <div class="feets2"></div>
+      <div class="feets3"></div>
+      <div class="feets4"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<h2>FIN</h2>
+<ul><li>Well I had a blast, I got to:<ul>
+<li>Place fun shapes on a screen
+<li>Use pretty colors
+<li>Use words to describe what each feature is called.
+<li>Be precise and iterative - I can make no mistakes!
+<li>Following along with someone else's artist process.
+</ul></ul>
+<p>Big thank you to Yosra!<br><img style="
+  border: 0.5vmin solid cyan;
+  border-radius: 25%;" src="https://cdn.hashnode.com/res/hashnode/image/upload/v1629746462483/EoKpC8toU.jpeg">
+</section>
+
+<section>
+<h2>NEXT TIME</h2>
+<ul><li>We're going to a musuem.
+<li>Be ready for visual critique.
+<li>Be ready to have fun.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

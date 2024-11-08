@@ -49,8 +49,7 @@
 				<div class="page_inner"><center>
 					<h1>Project 4: Enigma</h1>
                     <h3>Due: Monday, 18 November, 11:59 PM</h3>
-                    <p>For now, the code is here: <a href="https://github.com/rembold-cs151-master/Project_Enigma">https://github.com/rembold-cs151-master/Project_Enigma</a>
-                    <!--<p>Github Classroom Link: <a href="https://classroom.github.com/a/R5xAPke8">https://classroom.github.com/a/R5xAPke8</a>-->
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/x79VhtcS">https://classroom.github.com/a/x79VhtcS</a>
                     <p><a href="https://people.willamette.edu/~esroberts/roberts-enigma/Milestones/">Prof. Eric Roberts' alternate instructions</a>
                     <p><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_ImageShop/">Prof. Jed Rembold's alternate instructions</a>
                     </center>
@@ -128,23 +127,15 @@
                         <a id="hide2" href="#hide2" class="hide"><h3>2. <code>get_rotor_letter</code>, <code>rotor_clicked</code> [Show]</h3></a>
                         <a id="show2" href="#show2" class="show"><h3>2. <code>get_rotor_letter</code>, <code>rotor_clicked</code> [Hide]</h3></a>
                         <div class="details">
-                            <p><em>For this task you may want to create a </em><code>EnigmaRotor</code><em> class is in a new file </em><code>EnigmaRotor.py</code></p>
+                            <p><em>For this task you must create a </em><code>EnigmaRotor</code><em> class is in a new file </em><code>EnigmaRotor.py</code></p>
                             <blockquote>Track and display the "offset" of the rotors so that by clicking on the rotors that advance by one letter.</blockquote>
-                            <p>Jed Rembold and Eric Roberts do this milestone by implementing an <code>EnigmaRotor</code> class. I instead added rotors and offsets to the <code>EnigmaModel</code> class, and wrote a few helper functions.
                             <ul>
                                 <li>You need a way to track the "cipher" or "permutation" of a rotor. These ciphers are provided as strings of length 26 within which each letter of the alphabet occurs once as an upper case letter.
                                 <li>You will need a way to track the "offset" of a rotor. These offsets are integers corresponding to an index of alphabet, so they range from 0 to 25.
                                 <li>You will need a way to track three such ciphers and three such offets.
                                 <ul>
-                                    <li>You could create a list of three objects of the <code>EnigmaRotor</code> class.
-                                    <ul>
-                                        <li>If you do so, you may wish to change to Prof. Jed Rembold's guide.
-                                    </ul>
-                                    <li>You could create two lists of length 3: <!-- weird to mix strings and integers but it looks better to me -->
-                                    <ul>
-                                        <li>One list of three strings, corresponding to the ciphers.
-                                        <li>One list of three offsets, corresponding to the offset of the rotors.
-                                    </ul>
+                                    <li>Create a list of three objects of the <code>EnigmaRotor</code> class.
+                                    <li>Have a way to hold a "cipher" and an "offset" in the class.
                                 </ul>
                                 <li>You will need to display the offset of the rotors. By default, <code>get_rotor_letter</code> returns 'A' which corresponds to an offset of zero.
                                 <ul>
@@ -154,7 +145,7 @@
                                     
 def get_ith_letter(i:int)->str:
     return ALPHABET[i % 26]</code></pre><hr>
-                                    <li>I wrote this function outside of any class, in <code>EnigmaModel.py</code> just before the line "<code>class EnigmaModel:</code>".
+                                    <li>You could write such a function anywhere, but most likely wherever your rotor is implement.
                                     <li>The modulus (%) isn't necessary but might help latter.
                                 </ul>
                              </ul>
@@ -171,15 +162,9 @@ def get_ith_letter(i:int)->str:
                             <h4>3a: <code>forward</code></h4>
                             <h5>Where to write:</h5>
                             <p>While ultimately encryption occurs on a key press, we can write code elsewhere, in functions or methods, and call those functions or methods within the key press method.
-                            <p>I implemented the first stage, and in fact first three stages of encryption, with a function I called "forward".
-                            <p><em>Opt. 1</em> You may place the function in the same place as <code>get_ith_letter</code>.
-                            <p><em>Opt. 2</em> You may also want to write the function inside of <code>key_pressed</code>, because that was where the notion of forward encryption was meaningful - encryption occurs when a key is pressed. This means the code in the function would be indented to three levels:
-                            <ol>
-                                <li>I was working inside <code>class EnigmaModel</code>, the first level of indentation.
-                                <li>I was working inside the function <code>def key_pressed(self, letter):</code> a second level of indentation.
-                                <li>I was working inside the function <code>def forward(letter:str, cipher:str) -> str:</code> a third level of indentation.
+                            <p>I implemented the first stage, and in fact first three stages of encryption, with a method I called "forward" inside of <code>EnigmaRotor</code>
+                            <hr><code>def forward(self:EnigmaRotor, cipher:str) -> str:</code><hr>
                             </ol>
-                            <p><em>Opt. 3</em> If you are using an <code>EnigmaRotor</code> class, forward could be a method of that class.
                             <h5>What to write:</h5>
                             <p>We can think of a cipher like the following image:<br><br>
                             <img width="100%" src="imgs/p4_1.png">
@@ -188,27 +173,26 @@ def get_ith_letter(i:int)->str:
                             <p>To me, this felt like I was <em>applying</em> a cipher to a letter, which felt like a function. 
                             <p>To encrypt a letter:
                             <ul>
-                                <li>Take two arguments:
+                                <li>Take one arguments:
                                 <ul>
-                                    <li>A cipher, like <code>ROTOR_PERMUTATIONS[2]</code>, and 
                                     <li>A single letter, like "Q", and
+                                </ul>
+                                <li>Evaluation the letter using an attribution of the <code>EnigmaRotor</code> class.
+                                <ul>
+                                    <li>For example, an attirbute like cipher like <code>self.cipher = ROTOR_PERMUTATIONS[2]</code>
                                 </ul>
                                 <li>Return a new letter, like "I".
                             </ul>
-                            <p>So I wrote the following function:<hr>
-                            <code>def forward(cipher:str, letter:str) -> str:</code>
-                            <hr>
-                            <p>If you are using an <code>EnigmaRotor</code> class, you will likely use "self" instead of "cipher", and use dot notation to reference the cipher stored within "self".
                             <h5>Helper Functions</h5>
                             <p>On this milestone, I found it very helpful to be able to take a letter and determine it's index within the alphabet. There is a very easy way to do that in Python, using .index. Here is an example:<hr>
                             <pre><code>def get_letters_i(letter:str) -> int: # "Get letter's index "i" in the alphabet
     return ALPHABET.index(letter)</code></pre>
                             <hr>
-                            
+                            <p>You do not need to use this function! But using .index() will probably be very helpful.
                             <h4>3b: Update lamp</h4>
                             <p>In Milestone 1, you lit the lamp that corresponded to the pressed key.
                             <p>Update that code, which may refer to <code>self.lamp</code> in method<code>key_pressed</code> within the <code>EnigmaModel</code> class.
-                            <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the resulting letter of forward encryption on the inpurt letter. Use <code>ROTOR_PERMUTATIONS[2]</code>. <!--For example, you may wish to compute a new letter:<hr>
+                            <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the resulting letter of forward encryption on the clicked letter. Use <code>ROTOR_PERMUTATIONS[2]</code>. <!--For example, you may wish to compute a new letter:<hr>
                             <code>letter = forward(ROTOR_PERMUTATIONS[2], letter)</code><hr>-->
                             <h5>What to test:</h5>
                             <p>Refer back to the cipher image:<br><br>
@@ -242,7 +226,7 @@ def get_ith_letter(i:int)->str:
                             <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the letter of the key becomes when forward encrypted using all three rotors.
                             <p><em>Checking your code</em> After doing the three rotors, you are ready for milestone 4. It is not that easy to check this milestone but I recommend using a debugging technique, such as the one taught in the <a href="https://cd-public.github.io/courses/cs1f24/slides/w3d3_debug.html">debug lecture</a>:
                             <ul>
-                                <li>Create a variable named perhaps "<code>DEBUG = True</code>" at the beginning of <code>EnigmaModel.py</code>
+                                <li>Create a variable named perhaps "<code>DEBUG = True</code>" at the beginning of <code>EnigmaRotor.py</code>
                                 <li>Print within "<code>DEBUG and print()</code>" statements:
                                 <ul>
                                     <!--<li>A note when entering <code>key_pressed</code> with:
@@ -268,7 +252,7 @@ def get_ith_letter(i:int)->str:
                                 </ul>
                                 <li>I "horizontally padded" my print statements with extra spaces to align values vertically, as shown in the example below.
                             </ul>
-                            <p>While these print statements may clutter your code, I encourage you to not to delete them. I needed them for a latter milestone. You may stop displaying them at any time by setting <code>DEBUG = False</code> at the beginning of <code>EnigmaModel.py</code> or by changing them to comments.
+                            <p>While these print statements may clutter your code, I encourage you to not to delete them. I needed them for a latter milestone. You may stop displaying them at any time by setting <code>DEBUG = False</code> at the beginning of <code>EnigmaRotor.py</code> or by changing them to comments.
                             <p>To give you example of one thing to test, when pressing the key "A" I saw the following print out in the terminal:
                             <pre><code>Beginning loop with i = 2
  before forward: letter = A letter's index in abcs   = 0
@@ -319,17 +303,17 @@ Reflected  letter = G</code></pre><hr>
                             <p>To forward-encrypt through a rotor, we found an index in the alphabet and looked up that index in a cipher.
                             <p>To reverse-encrypt through a rotor, we will find an index in the <em><b>cipher</b></em> and look up that index in the alphabet.
                             <p>Note - you can test your reverse encryption on the reflector. The reflector is a special cipher that behaves the same way for forward and backward encryption.
-                            <hr><pre><code>>>> from EnigmaModel import *
->>> refl = REFLECTOR_PERMUTATION
->>> reverse(refl,"A")
+                            <hr><pre><code>>>> from EnigmaRotor import *
+>>> refl = EnigmaRotor(REFLECTOR_PERMUTATION)
+>>> refl.reverse("A")
 'I'
->>> forward(refl,"A")
+>>> refl.forward("A")
 'I'</code></pre><hr>
                             <p>Note that reverse-encryption will differ from forward-encryption on other rotors/ciphers.
-                            <hr><pre><code>>>> fast = ROTOR_PERMUTATIONS[2]
->>> forward(fast,"A") 
+                            <hr><pre><code>>>> fast = EnigmaRotor(ROTOR_PERMUTATIONS[2])
+>>> fast.forward("A") 
 'B'
->>> reverse(fast,"A") 
+>>> fast.reverse("A") 
 'T'</code></pre><hr>
                             <p>With a working reverse, the remaining stages of encryption simply require applying this function to the appropriate letters.
                             <h4>4c. All Stages</h4>

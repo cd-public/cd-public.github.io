@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Project 5: Adventure</title>
+		<style>
+        body {
+            font-size: 1.5em ;
+        }
+		.page {
+			width: 11.5in ;
+			margin: auto ;
+		}
+		.page_outer {
+			width: 11in;
+			box-shadow: -.1in -.1in .25in darkgray, .1in .1in .25in gray;
+			position: relative ;
+		}
+		.page_inner{
+			margin: 1in;  
+			margin-top: .5in;  
+		}
+        .details, .show, .hide:target {
+            display: none;
+        }
+        .hide:target + .show, .hide:target ~ .details {
+            display: block;
+        }
+		</style>
+		<style type="text/css" media="print">
+			.page {
+				width: 8.5in;
+				height: 11in;
+				margin: auto ;
+			}
+			.page_outer {
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner"><center>
+					<h1>Project 5: Adventure</h1>
+                    <h3>Due: Wednesday, 04 December, 11:59 PM</h3>
+                    <h3><em>Partners Allowed</em></h3>
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/NahRXP0c">https://classroom.github.com/a/NahRXP0c</a>
+                    <p><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_Adventure/">Prof. Jed Rembold's alternate instructions</a>
+                    </center>
+                    <div>
+                    <hr>
+                        <a id="hidea" href="#hidea" class="hide"><h3>A. Partners Allowed [Show]</h3></a>
+                        <a id="showa" href="#showa" class="show"><h3>A. Partners Allowed [Hide]</h3></a>
+                        <div class="details">
+                            <p>Because large projects like this one typically involve more than one programmer, you are encouraged to work on this project in teams of two, although you are free to work individually as well. Each person in a two-person team will receive the same grade.
+                            <p>To allow for the possibility of partners, everyone will need to make a team when accepting the assignment, even if you are just going to be working on things solo. Once one partner has made the team, the other can join it. If you accidentally join a team you did not mean to, let Professor Rembold know, and they can see about getting you removed so that you can join another. Only join an existing team if you intend to work with that person! It can help if you name your teams based on the expected team member’s names.
+                            <p>While most pairs will likely want to work on the code together, in person, there are good resources at your disposal that can help should you would want to work more remotely. If you work in a pair, you will both have access to a shared repository on GitHub. This means that, as long as you are good about uploading your files, each person can usually work on the latest version of the code without too much issue. 
+                            <p>There are some built in ways within VSCode that you can sync your local files with GitHub files as well. VSCode also has a remote sharing extension, which can essentially give you collaborative control over your code, similar to Google docs. The extension is called “Live Share” if you want to search for it within the VSCode extensions.
+                            <p><strong>In general, you should check in code frequently when working with partners.</strong>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hideb" href="#hideb" class="hide"><h3>B. Files [Show]</h3></a>
+                        <a id="showb" href="#showb" class="show"><h3>B. Files [Hide]</h3></a>
+                        <div class="details">
+                            <p>I think of this project as having three kinds of files - Adventure Python (.py) files, Teaching Machine Python (.py) files, and text (.txt) files.
+                            <hr>
+                            <h2>Files:</h2>
+                            <ul>
+                                <li>Adventure Python (.py) files - <em>Do your work in these files</em>
+                                <ul>
+                                    <li><code>Adventure.py</code> - <em>Run this file to test your program</em></li>
+                                    <li><code>AdvGame.py</code></li>
+                                    <li><code>AdvRoom.py</code></li>
+                                    <li><code>AdvObject.py</code></li>
+                                    <li><code>tokenscanner.py</code> - <em>An optional helpful file</em></li>
+                                </ul>
+                                <li>Teaching Machine Python (.py) files - <em>These are in the TeachingMachine folder</em>
+                                <ul>
+                                    <li><code>TeachingMachine.py</code></li>
+                                    <li><code>TMCourse.py</code></li>
+                                    <li><code>TMQuestion.py</code></li>
+                                </ul>
+                                <li>Text (.txt) files
+                                <ul>
+                                    <li>Various, discussed within milestones as needed.
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div>
+                        <a id="hide0" href="#hide0" class="hide"><h3>0. TM -> Adv [Show]</h3></a>
+                        <a id="show0" href="#show0" class="show"><h3>0. TM -> Adv [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Modify TMCourse and TMQuestion to make AdvGame and AdvRoom</blockquote>
+                            <p>Of the initial 4 Python files for Adventure, most of the work is incomplete. For this milestone, you will make changes to <code>AdvGame.py</code> and <code>AdvRoom.py</code>.
+                            <p>The code provide for the Teaching Machine is complete and can be used as a template. To get started on Adventure, I recommend doing the following:
+                            <ol>
+                                <li>Within <code>TMCourse.py</code> and <code>TMQuestion.py</code>:
+                                <ul>
+                                    <li>Convert all mentions of "TM" to "Adv"
+                                    <li>I replaced both Capitalized and lowercase terms for:
+                                    <ul>
+                                        <li>"course" to "game"
+                                        <li>"question" to "room"
+                                    </ul>
+                                    <li>Convert all mentions of "answer" to "passage".
+                                    <li>Convert all mentions of "text" to "long_description".
+                                    <li>I use "ctrl+h" or "cmd+h" to find and replace these mentions.
+                                </ul>
+                                <li>I moved the following methods and functions directly from the TM files to the Adv files
+                                <ul>
+                                    <li>From <code>TMCourse</code> to <code>AdvGame</code>:
+                                    <ul>
+                                        <li><code>run</code>
+                                    </ul>
+                                    <li>From <code>TMQuestion</code> to <code>AdvRoom</code>:
+                                    <ul>
+                                        <li><code>get_name</code>
+                                        <li><code>get_passages</code>
+                                        <li><code>read_room</code>
+                                    </ul>
+                                </ul>
+                                <li>For <code>AdvRoom</code>, I updated the code to support short descriptions:
+                                <ul>
+                                    <li>I updated <code>__init__</code> to set <code>self._short_description</code>
+                                    <li>I wrote the getter methods for <code>short_description</code>
+                                    <li>I modified the <code>read_room</code> function at the bottom of <code>AdvRoom</code> to provide the argument <code>text</code> twice - once as a short description and once as a long description - so that the <code>__init__</code> method would have the correct number of arguments.
+                                    <ul>
+                                        <li>We will deal with short and long descriptions in the next milestone.
+                                    </ul>
+                                </ul>
+                                <li>I added <code>read_room</code> to the import statement at the beginning of the file with <code>AdvGame</code> - initially the import statement only imports <code>AdvRoom</code>.
+                                <ul>
+                                    <li>The Teaching Machine imported first <code>read_course</code> and now <code>read_room</code>, and we will need to use <code>read_room</code>.
+                                </ul>
+                                <li>I took the code from the <code>TMCourse</code> file function <code>read_game</code> (formerly "read course") and placed it within in the <code>__init__</code> method of <code>AdvGame</code>.
+                                <ul>
+                                    <li>I had to increase the identation level by one.
+                                    <li>I had to remove the return statement.
+                                    <li>In lieu of the return statement, I:
+                                    <ul>
+                                        <li>Created a new attribute, <code>self._rooms</code>
+                                        <li>Set it equal to dictionary <code>rooms</code>
+                                        <li>Updated the <code>get_room</code> getter method.
+                                    </ul>
+                                </ul>
+                                <li>I modified the <code>__init__</code> method to work with a string that is a prefix to a file name, rather than with a Python file object:
+                                <ul>
+                                    <li>In Teaching Machine, a file is opened in <code>TeachingMachine.py</code> and <code>read_course</code> is called with this file as an argument - this is the <code>f</code> referred to in the code, such as in the following line:
+                                    <hr><code>room = read_room(f)</code><hr>
+                                    <li>In <code>Adventure.py</code>, no such file is opened and instead <code>AdvGame</code> is given a <code>DATA_FILE_PREFIX</code> which is initially set to <code>"Tiny"</code>
+                                    <hr><code>DATA_FILE_PREFIX = "Tiny"</code><hr>
+                                    <li>This prefix is sole argument to the <code>AdvGame.__init__</code> method, shown here:
+                                    <hr><code>game = AdvGame(DATA_FILE_PREFIX)</code><hr>
+                                    <li>So, I took the following code from <code>TeachingMachine.py</code>:
+                                    <hr><code>with open(filename + ".txt") as f:</code><hr>
+                                    <li>And modified it for AdvGame.
+                                    <ul>
+                                        <li>I changed <code>"filename"</code> to <code>"prefix"</code>
+                                        <li>I changed <code>".txt"</code> to <code>"Rooms.txt"</code>, the Adventure game specific suffix for rooms files
+                                        <li>I placed this <code>with</code> statement in the line immediately prior to <code>room = read_room(f)</code>, which I indented under this statement, and left other lines at their original indentation level.
+                                        <hr><pre><code>while not finished:
+    with open(prefix + "Rooms.txt") as f:
+        room = read_room(f)
+    if room is None:</code></pre><hr>
+                            <li>I ran <code>Adventure.py</code> and verified I was able to see text prompts.
+                            </ol>
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" as inputs, you are ready to move on to Milestone 1.
+                            <hr><pre><code>Outside building
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> west
+End of road
+You are at the end of a road at the top of a small hill.
+You can see a small building in the valley to the east.
+> east
+Outside building
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+></code></pre></hr>
+                        </div>
+                    </div>
+                    <hr>
+                        <div>
+                        <a id="hide1" href="#hide1" class="hide"><h3>1. <code>_short_desc</code> [Show]</h3></a>
+                        <a id="show1" href="#show1" class="show"><h3>1. <code>_short_desc</code> [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Track visits.</blockquote>
+                            <ol>
+                                <li>Update the <code>read_room</code> function in <code>AdvRoom.py</code> to handle descriptions.
+                                <ul>
+                                    <li>The short description is the zero-indexed element of the lists of strings called <code>text</code>.
+                                    <li>The long description is list slice of all strings after the zero-indexed string of the list of strings called <code>text</code>.
+                                    <li><code>short, long = text[0], text[1:]</code>
+                                </ul>
+                                <li>Update the <code>AdvRoom</code> class to have a visitation tracker.
+                                <ul>
+                                    <li>I created a <code>self.visited</code> attribute and initialized it to <code>False</code>
+                                    <li>You may instead use <code>self._visited</code> with corresponding getter and setter methods.
+                                </ul>
+                                <li>Update the <code>AdvGame.run</code> method to mark rooms as visited after visiting them.
+                                <ul>
+                                    <li>I set the room to be "visited" after printing its description.
+                                </ul>
+                                <li>Update the <code>AdvGame.run</code> method use short or long descriptions.
+                                <ul>
+                                    <li>Before printing a description, check if the room was visited.
+                                    <li>If so, print the short description.
+                                    <ul>
+                                        <li>Be advised, this may be a string instead of a list of strings depending, probably, on your code in <code>read_room</code>
+                                    </ul>
+                                    <li>If not, print the long description.
+                                    <ul>
+                                        <li>There is existing code to print the long description, which is a list of strings.
+                                        <li>You are welcome to find other ways to store the long description, most likely in <code>read_room</code>
+                                    </ul>
+                                    <li>I implement this all as a "print_text" method in <code>AdvRoom</code>, but you may do whatever you like!
+                                </ul>
+                            </ol>
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 2.
+                            <hr><pre><code>You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> west
+You are at the end of a road at the top of a small hill.
+You can see a small building in the valley to the east.
+> east
+Outside building
+></code></pre></hr>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide2" href="#hide2" class="hide"><h3>2. QUIT, HELP, and LOOK [Show]</h3></a>
+                        <a id="show2" href="#show2" class="show"><h3>2. QUIT, HELP, and LOOK [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Implementing the QUIT, HELP, and LOOK commands</blockquote>
+                            <p>So far, anything typed into Adventure corresponded to a passage which led to another room. For this milestone, we will check to see if the typed text is "QUIT", "HELP", or "LOOK" and print accordingly.
+                            <ul>
+                                <li>In response to "QUIT", run Python <code>quit()</code> which will cause Python to stop running.
+                                <li>In response to "HELP", run <code>print(HELP_TEXT)</code>
+                                <li>In response to "LOOK", print the long description of the current room.
+                            </ul>
+                            <p>The most obvious place I found to place this code was in <code>AdvGame.run</code>. I used an <code>if</code> statement to see if the <code>response</code> was a room or a command.
+                            <p>Because the description of a room is only printed when the room changes, I had to make a few changes to the have <code>AdvGame.run</code> worked in generally, which basically amounted to checking to see if I was in a new room or not before printing the room description.
+                            <p>I dealt with commands much the way I dealt with buttons in ImageShop - each named command had a corresponding function. I wrote these in <code>AdvGame</code>.
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 2.
+                            <hr><pre><code>You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> west
+You are at the end of a road at the top of a small hill.
+You can see a small building in the valley to the east.
+> east
+Outside building
+> look
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> help
+Welcome to Adventure!
+Somewhere nearby is Colossal Cave, where others have found fortunes in
+&lt;many such lines of text&gt;
+want to end your adventure, say QUIT.
+> quit</code></pre></hr></code></pre></hr>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide3" href="#hide3" class="hide"><h3>3. Objects [Show]</h3></a>
+                        <a id="show3" href="#show3" class="show"><h3>3. Objects [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Use a cipher to translate one letter to another.</blockquote>
+                            <h4>3a: <code>forward</code></h4>
+                            <h5>Where to write:</h5>
+                            <p>While ultimately encryption occurs on a key press, we can write code elsewhere, in functions or methods, and call those functions or methods within the key press method.
+                            <p>I implemented the first stage, and in fact first three stages of encryption, with a method I called "forward" inside of <code>EnigmaRotor</code>
+                            <hr><code>def forward(self:EnigmaRotor, cipher:str) -> str:</code><hr>
+                            </ol>
+                            <h5>What to write:</h5>
+                            <p>We can think of a cipher like the following image:<br><br>
+                            <img width="100%" src="imgs/p4_1.png">
+                            <p>This cipher is <code>ROTOR_PERMUTATIONS[2]</code> and also called the fast rotor. It is the first rotor used in enigma to encrypt a letter.
+                            <p>Forward encryption with this cipher would take the letter "A", the 0-indexed letter of the alphabet, and return the letter "B", the 0-indexed letter of the cipher. The circled example the cipher would take "Q", the 16-indexed letter of the alphabet, and return "I", the 16-indexed letter of the cipher.
+                            <p>To me, this felt like I was <em>applying</em> a cipher to a letter, which felt like a function. 
+                            <p>To encrypt a letter:
+                            <ul>
+                                <li>Take one arguments:
+                                <ul>
+                                    <li>A single letter, like "Q", and
+                                </ul>
+                                <li>Evaluation the letter using an attribution of the <code>EnigmaRotor</code> class.
+                                <ul>
+                                    <li>For example, an attirbute like cipher like <code>self.cipher = ROTOR_PERMUTATIONS[2]</code>
+                                </ul>
+                                <li>Return a new letter, like "I".
+                            </ul>
+                            <h5>Helper Functions</h5>
+                            <p>On this milestone, I found it very helpful to be able to take a letter and determine its index within the alphabet. There is a very easy way to do that in Python, using .index. Here is an example:<hr>
+                            <pre><code>def get_letters_i(letter:str) -> int: # "Get letter's index "i" in the alphabet
+    return ALPHABET.index(letter)</code></pre>
+                            <hr>
+                            <p>You do not need to use this function! But using .index() will probably be very helpful.
+                            <h4>3b: Update lamp</h4>
+                            <p>In Milestone 1, you lit the lamp that corresponded to the pressed key.
+                            <p>Update that code, which may refer to <code>self.lamp</code> in method<code>key_pressed</code> within the <code>EnigmaModel</code> class.
+                            <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the resulting letter of forward encryption on the clicked letter. Use <code>ROTOR_PERMUTATIONS[2]</code>. <!--For example, you may wish to compute a new letter:<hr>
+                            <code>letter = forward(ROTOR_PERMUTATIONS[2], letter)</code><hr>-->
+                            <h5>What to test:</h5>
+                            <p>Refer back to the cipher image:<br><br>
+                            <img width="100%" src="imgs/p4_1.png">
+                            <p>Or look at the code itself:
+                            <hr><code>"BDFHJLCPRTXVZNYEIWGAKMUSQO"   # Permutation for fast rotor  </code><hr>
+                            <p>You have implemented this milestone correct when you may click the "A" key and the "B" lamp lights up. Similarly, you may click the "Q" key and the "I" lamp lights up. Consult Eric Roberts' instructions for a complete demo.
+                            <h4>3c: Use all rotors</h4>
+                            <em>Not traditionally part of milestone 3, I found it helpful to test this code separately from milestone 4.</em>
+                            <p>There are three rotors corresponding to the three ciphers.
+                            <ul>
+                                <li>Loop over the three rotors.
+                                <ul>
+                                    <li>I was surprised to learn rotor 2, then rotor 1, then rotor 0 were used.
+                                    <li>I expressed this as a for loop over <code>(2,1,0)</code>.
+                                    <li>I think <code>(2,1,0)</code> is easier to read than <code>range(2, -1, -1)</code>.
+                                </ul>
+                                <li>For each rotor:
+                                <ul>
+                                    <li>Take the current letter
+                                    <ul>
+                                        <li>For rotor 2, this is letter associated with the key press.
+                                        <li>For rotor 1, this is the letter encrypted by rotor 2.
+                                        <li>For rotor 0, this is the letter encrypted by rotor 1.
+                                        <li>I just had a variable "letter" which I updated within the loop.
+                                    </ul>
+                                    <li>Forward encrypt the letter with the appropriate cipher.
+                                    <li>Pass the new letter to either the next encryption stage or to be saved as the "lamp" value.
+                                </ul>
+                            </ul>
+                            <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the letter of the key becomes when forward encrypted using all three rotors.
+                            <p><em>Checking your code</em> After doing the three rotors, you are ready for milestone 4. It is not that easy to check this milestone but I recommend using a debugging technique, such as the one taught in the <a href="https://cd-public.github.io/courses/cs1f24/slides/w3d3_debug.html">debug lecture</a>:
+                            <ul>
+                                <li>Create a variable named perhaps "<code>DEBUG = True</code>" at the beginning of <code>EnigmaRotor.py</code>
+                                <li>Print within "<code>DEBUG and print()</code>" statements:
+                                <ul>
+                                    <!--<li>A note when entering <code>key_pressed</code> with:
+                                    <ul>
+                                        <li>The method name.
+                                        <li>The letter provided to the method.
+                                        <li>The index of the letter in the alphabet.
+                                    </ul>-->
+                                    <li>A note before forward encryption with:
+                                    <ul>
+                                        <li>Some text saying you are in a loop about to encrypt.
+                                        <li>The current loop number.
+                                        <li>The current letter.
+                                        <li>The index of the current letter in the alphabet.
+                                        <li>The current rotor's cipher.
+                                    </ul>
+                                    <li>A note after forward encryption with:
+                                    <ul>
+                                        <li>Some text saying you are in a loop after encrypting.
+                                        <li>The current letter.
+                                        <li>Anything else you wish to know. I computed the letter's index in the cipher.
+                                    </ul>
+                                </ul>
+                                <li>I "horizontally padded" my print statements with extra spaces to align values vertically, as shown in the example below.
+                            </ul>
+                            <p>While these print statements may clutter your code, I encourage you to not to delete them. I needed them for a latter milestone. You may stop displaying them at any time by setting <code>DEBUG = False</code> at the beginning of <code>EnigmaRotor.py</code> or by changing them to comments.
+                            <p>To give you example of one thing to test, when pressing the key "A" I saw the following print out in the terminal:
+                            <pre><code>Beginning loop with i = 2
+ before forward: letter = A letter's index in abcs   = 0
+ after  forward: letter = B letter's index in cipher = 0
+Beginning loop with i = 1
+ before forward: letter = B letter's index in abcs   = 1
+ after  forward: letter = J letter's index in cipher = 1
+Beginning loop with i = 0
+ before forward: letter = J letter's index in abcs   = 9
+ after  forward: letter = Z letter's index in cipher = 9</code></pre>
+                            <p>I computed the cipher index using .index, same as with the alphabet.
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide4" href="#hide4" class="hide"><h3>4. All Stages [Show]</h3></a>
+                        <a id="show4" href="#show4" class="show"><h3>4. All Stages [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Implement reflection and reverse encryption</blockquote>
+                            <h4>4a. Reflect</h4>
+                            <p>In <code>EnigmaConstants.py</code> there is a cipher defined as follows:
+                            <hr><code>REFLECTOR_PERMUTATION = "IXUHFEZDAOMTKQJWNSRLCYPBVG"</code><hr>
+                            <p>After passing "forward" through all three rotors, the thrice-encrypted letter is "reflected" through this cipher.
+                            <ul>
+                                <li>Determine the index of the incoming letter within the alphabet OR the reflector cipher.
+                                <ul>
+                                    <li>The index of "A" would be 0 in the alphabet or 8 in the cipher.
+                                    <li>The index of "I" would be 8 in the alphabet or 0 in the cipher.
+                                    <li>The index of "Z" would be 6 or 25.
+                                </ul>
+                                <li>Determine the letter with the same index within the reflector cipher OR the alphabet.
+                                <ul>
+                                    <li>"A" would reflect to "I"
+                                    <li>"I" would reflect to "A"
+                                    <li>"Z" would reflect to "G"
+                                </ul>
+                            </ul>
+                            <p>I performed reflection with a single call to "forward" over the reflector cipher after my loop going forward through the rotors.
+                            <p>I added debugging print statements before and after my reflector.
+                            <hr>
+                            <pre><code>&ltsnipped...&gt;
+ after  forward: letter = Z letter's index in cipher = 9
+Reflecting letter = Z
+Reflected  letter = G</code></pre><hr>
+                            <p>I considered this sub-milestone complete when I could click on "A" and see "G" light up in the graphics window.
+                            <h4>4b. Reverse</h4>
+                            <p>To forward-encrypt through a rotor, we found an index in the alphabet and looked up that index in a cipher.
+                            <p>To reverse-encrypt through a rotor, we will find an index in the <em><b>cipher</b></em> and look up that index in the alphabet.
+                            <p>Note - you can test your reverse encryption on the reflector. The reflector is a special cipher that behaves the same way for forward and backward encryption.
+                            <hr><pre><code>>>> from EnigmaRotor import *
+>>> refl = EnigmaRotor(REFLECTOR_PERMUTATION)
+>>> refl.reverse("A")
+'I'
+>>> refl.forward("A")
+'I'</code></pre><hr>
+                            <p>Note that reverse-encryption will differ from forward-encryption on other rotors/ciphers.
+                            <hr><pre><code>>>> fast = EnigmaRotor(ROTOR_PERMUTATIONS[2])
+>>> fast.forward("A") 
+'B'
+>>> fast.reverse("A") 
+'T'</code></pre><hr>
+                            <p>With a working reverse, the remaining stages of encryption simply require applying this function to the appropriate letters.
+                            <h4>4c. All Stages</h4>
+                            <p>After reflection, the letter passes in a reverse direction through the rotors similarly to sub-milestone 3c.
+                            <p>There are three rotors corresponding to the three ciphers.
+                            <ul>
+                                <li>Thrice-forward-encrypt a letter by looping forward over rotors 2, 1, 0 as in 3c.
+                                <li>Reflect this letter as in 4a.
+                                <li>Reverse encrypt over the three rotors.
+                                <ul>
+                                    <li>In the reverse direction, progress from rotor 0 to 1 to 2.
+                                    <li>I expressed this as a for loop over <code>(0,1,2)</code>.
+                                </ul>
+                                <li>For each rotor:
+                                <ul>
+                                    <li>Take the current letter
+                                    <ul>
+                                        <li>For rotor 0, this is the letter that is reflected back.
+                                        <li>For rotor 1, this is the letter reverse encrypted by rotor 0.
+                                    </ul>
+                                    <li>Reverse encrypt the letter with the appropriate cipher.
+                                    <li>Pass the new letter to either the next encryption stage or to be saved as the "lamp" value.
+                                </ul>
+                            </ul>
+                            <p>You have implemented this milestone correct when you may click the "A" key and the "R" lamp lights up. Similarly, you may click the "Q" key and the "P" lamp lights up.
+                            <p>Here is an example of "Q" to "P" encryption, visualized:
+                            <img width="100%" src="imgs/p4_2.png">
+                            <p>Consult Eric Roberts' instructions for a complete demo.
+                            <p>I found it helpful to print the following. This is from pressing "Q":
+                            <hr><pre><code>=== INPUT KEY Q ===
+Forward loop with i = 2
+ before forward: letter = Q letter's index in abcs   = 16
+ after  forward: letter = I letter's index in cipher = 16
+Forward loop with i = 1
+ before forward: letter = I letter's index in abcs   = 8
+ after  forward: letter = X letter's index in cipher = 8
+Forward loop with i = 0
+ before forward: letter = X letter's index in abcs   = 23
+ after  forward: letter = R letter's index in cipher = 23
+Reflecting letter = R
+Reflected  letter = S
+Reverse loop with i = 0
+ before reverse: letter = S letter's index in cipher = 18
+ after  reverse: letter = S letter's index in abcs   = 18
+Reverse loop with i = 1
+ before reverse: letter = S letter's index in cipher = 4
+ after  reverse: letter = E letter's index in abcs   = 4
+Reverse loop with i = 2
+ before reverse: letter = E letter's index in cipher = 15
+ after  reverse: letter = P letter's index in abcs   = 15</code></pre>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide5" href="#hide5" class="hide"><h3>5. Rotate [Show]</h3></a>
+                        <a id="show5" href="#show5" class="show"><h3>5. Rotate [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Model the rotation of the rotors during encryption</blockquote>
+                            <h4>5a. <code>rotate</code></h4>
+                            <p>Write the function <code>rotate</code>:
+                            <hr><pre><code>def rotate(letter:str, offset:int) -> str:</code></pre><hr>
+                            <p>Given a letter and a numerical offset, return the letter that is "offset" positions further in the alphabet, looping around.
+                            <p>For an offset of <em>j</em>.
+                            <ul>
+                                <li>Calculate the index <em>i</em> of some letter in the alphabet.
+                                <li>Find the letter with index <em>j</em> + <em>i</em>.
+                                <ul>
+                                    <li>If <em>j</em> + <em>i</em> is greater than 25, "loop around" from "Z" to "A".
+                                    <li>This equivalent to (<em>j</em> + <em>i</em>) % 26.
+                                    <li>This is why I wrote <code>get_ith_letter</code> to have a modulo operation.
+                                </ul>
+                                <li>Return the letter at this index.
+                            </ul>
+                            <p>This is perhaps more easily seen with an example.
+                            <hr><pre><code>>>> rotate("A",0)
+'A'
+>>> rotate("A",1) 
+'B'
+>>> rotate("A",25) 
+'Z'
+>>> rotate("Z",1)  
+'A'
+>>> rotate("A",-1) 
+'Z'
+>>> rotate("A",3)  
+'D'</code></pre><hr>
+                            <p>I used <code>get_letters_i</code> and <code>get_ith_letter</code> to write <code>rotate</code>.
+                            <h4>5b. Use <code>rotate</code> in encryption.</h4>
+                            <p>At an offset of zero, we can use ciphers to encrypt a letter against the alphabet. However, when rotors have a non-zero offset, this corresponds to a change in which indices match to which letter. I understand this as an application of rotate.
+                            <p>For every forward and reverse rotation (but NOT for the reflection) do the following:
+                            <ul>
+                                <li>Find the offset that corresponds to the current rotor.
+                                <li>Rotate the current letter by that offset.
+                                <li>Encrypt, either forward or backward.
+                                <li>Rotate the new letter back by offset.
+                                <ul>
+                                    <li>For me, I used a negative offset to do this.
+                                </ul>
+                                <li>Optionally, add additional print statements to test this process.
+                            </ul>
+                            <h5>How to test</h5>
+                            <p>If rotors are set all have offset zero, the code should work the same way as in previous milestone. Test this first.
+                            <p>After ensuring forward and reverse encryption still work correctly, I click a single time on the rightmost rotor - the fast rotor - such that the display reads "AAB" for rotor values.
+                            <p>Pressing "A" in this "AAB" arrangement should return "Z", shown by the "Z" lamp lighting up, rather than "R" as in the "AAA" configuration.
+                            <p>I wrote detailed debugging print statements. Here is an example of the "A" to "Z" encryption in the "AAB" configuration. Note the non-zero offset values.
+                            <hr><pre><code>=== INPUT KEY A ===
+Forward loop with i = 2
+ rotating letter = A by offset = 1
+ before forward: letter = B letter's index in abcs   = 1
+ after  forward: letter = D letter's index in cipher = 1
+ rotating letter = D by offset = -1
+Forward loop with i = 1
+ rotating letter = C by offset = 0
+ before forward: letter = C letter's index in abcs   = 2
+ after  forward: letter = D letter's index in cipher = 2
+ rotating letter = D by offset = 0
+Forward loop with i = 0
+ rotating letter = D by offset = 0
+ before forward: letter = D letter's index in abcs   = 3
+ after  forward: letter = F letter's index in cipher = 3
+ rotating letter = F by offset = 0
+Reflecting letter = F
+Reflected  letter = E
+Reverse loop with i = 0
+ rotating letter = E by offset = 0
+ before reverse: letter = E letter's index in cipher = 0
+ after  reverse: letter = A letter's index in abcs   = 0
+ rotating letter = A by offset = 0
+Reverse loop with i = 1
+ rotating letter = A by offset = 0
+ before reverse: letter = A letter's index in cipher = 0
+ after  reverse: letter = A letter's index in abcs   = 0
+ rotating letter = A by offset = 0
+Reverse loop with i = 2
+ rotating letter = A by offset = 1
+ before reverse: letter = B letter's index in cipher = 0
+ after  reverse: letter = A letter's index in abcs   = 0
+ rotating letter = A by offset = -1</code></pre><hr>
+                        <p>This is generated by 13 print statements. It took only a few minutes to write all 13.
+                        <p>These outputs are quite easy to evaluate against the demo provided by Eric Roberts' as the final, which includes a visualization of the rotor. Take advantage of these statements and that visualization to ensure your code works as expected.
+                        <h4>5c. <code>advance</code></h4>
+                        <p>Write <code>advance</code> which updates rotors when a key is pressed, likely as a method of the <code>EnigmaModel</code> class that is called in the <code>key_press</code> method prior to beginning encryption.
+                        <p>Every time a key is pressed, rotors should advance.
+                        <ul>
+                            <li>When a key is pressed, the "fast" rotor advances once position. This corresponds to:
+                            <ul>
+                                <li>A single increase in one offset.
+                                <li>The rightmost letter displayed at the top of the graphics window going to the next letter.
+                                <li>This is a modular update as 25 "loops back" to 0, corresponding "A" coming after "Z".
+                            </ul>
+                            <li>When the "fast" rotor "loops back" from "Z" to "A", the medium rotor should advance one position.
+                            <li>When the "medium" rotor, loops, the "slow" rotor should advance on position.
+                        </ul>
+                        <p>Rotors should advance prior to performing encryption. So when running <code>EnigmaModel.py</code> for the first time, clicking "A" should return "Z" and not "R". Clicking "A" a second time should return "L".
+                        <p>When rotors advance on keypress, the Enigma project is complete.
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="height:1in;"> <!-- Vertical space adjuster for box shadow --></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -210,7 +210,6 @@ to the west.
                                 <li>Update the <code>AdvRoom</code> class to have a visitation tracker.
                                 <ul>
                                     <li>I created a <code>self.visited</code> attribute and initialized it to <code>False</code>
-                                    <li>You may instead use <code>self._visited</code> with corresponding getter and setter methods.
                                 </ul>
                                 <li>Update the <code>AdvGame.run</code> method to mark rooms as visited after visiting them.
                                 <ul>
@@ -231,7 +230,7 @@ to the west.
                                     <li>I implement this all as a "print_text" method in <code>AdvRoom</code>, but you may do whatever you like!
                                 </ul>
                             </ol>
-                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 2.
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 2:
                             <hr><pre><code>You are standing at the end of a road before a small brick
 building.  A small stream flows out of the building and
 down a gully to the south.  A road runs up a small hill
@@ -257,9 +256,9 @@ Outside building
                                 <li>In response to "LOOK", print the long description of the current room.
                             </ul>
                             <p>The most obvious place I found to place this code was in <code>AdvGame.run</code>. I used an <code>if</code> statement to see if the <code>response</code> was a room or a command.
-                            <p>Because the description of a room is only printed when the room changes, I had to make a few changes to the have <code>AdvGame.run</code> worked in generally, which basically amounted to checking to see if I was in a new room or not before printing the room description.
+                            <p>Because the description of a room is only printed when the room changes, I had to make a few changes to how <code>AdvGame.run</code> worked in general. Basically, check to see if the room has changed before before printing the room description.
                             <p>I dealt with commands much the way I dealt with buttons in ImageShop - each named command had a corresponding function. I wrote these in <code>AdvGame</code>.
-                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 2.
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 3:
                             <hr><pre><code>You are standing at the end of a road before a small brick
 building.  A small stream flows out of the building and
 down a gully to the south.  A road runs up a small hill
@@ -309,7 +308,7 @@ want to end your adventure, say QUIT.
                                 </ul>
                                 <li>Evaluation the letter using an attribution of the <code>EnigmaRotor</code> class.
                                 <ul>
-                                    <li>For example, an attirbute like cipher like <code>self.cipher = ROTOR_PERMUTATIONS[2]</code>
+                                    <li>For example, an attribute like <code>self.cipher = ROTOR_PERMUTATIONS[2]</code>
                                 </ul>
                                 <li>Return a new letter, like "I".
                             </ul>
@@ -321,7 +320,7 @@ want to end your adventure, say QUIT.
                             <p>You do not need to use this function! But using .index() will probably be very helpful.
                             <h4>3b: Update lamp</h4>
                             <p>In Milestone 1, you lit the lamp that corresponded to the pressed key.
-                            <p>Update that code, which may refer to <code>self.lamp</code> in method<code>key_pressed</code> within the <code>EnigmaModel</code> class.
+                            <p>Update that code, which may refer to <code>self.lamp</code> in method <code>key_pressed</code> within the <code>EnigmaModel</code> class.
                             <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the resulting letter of forward encryption on the clicked letter. Use <code>ROTOR_PERMUTATIONS[2]</code>. <!--For example, you may wish to compute a new letter:<hr>
                             <code>letter = forward(ROTOR_PERMUTATIONS[2], letter)</code><hr>-->
                             <h5>What to test:</h5>

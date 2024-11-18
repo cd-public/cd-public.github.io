@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Splits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Splits</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W13Wed: 20 Nov<br>
+</section>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Adventure Ongoing
+<ul><li>At least finish Milestone 0: TM -> ADV, to give your brain time to think</ul>
+<li>Advising ongoing
+<ul><li>If you encounter any problem, email me immediately
+<li>I'll be doing triage:
+<ul><li>If you don't get an email back quickly, either <ul>
+<li>the problem is not urgent and I'll solve it latter, or
+<li>I am fleeing a zamboni IRL and require thoughts & prayers stat.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Read files.
+<ul><li>Synonyms
+<li>Items
+<li>Rooms
+</section>
+
+<section>
+<h2>Adventure</h2>
+<ul>
+<li>Read files.
+<li>Put them in records.
+<li>Print out parts of records based on user input.
+<li>Many ways to read files:
+<ul><li>The book uses a token scanner class
+<li>Today I will teach you to use the ".splits()" method of strings.
+</section>
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>It's <a href="https://github.com/rembold-cs151-master/Project_Adventure/blob/main/SmallSynonyms.txt">here</a>.
+<ul>
+<li>Basically we want to turn this file into a dictionary.</ul>
+<li>It looks like this:
+<code>N=NORTH
+S=SOUTH
+E=EAST
+W=WEST
+U=UP
+D=DOWN
+Q=QUIT
+L=LOOK
+I=INVENTORY
+CATCH=TAKE
+RELEASE=DROP
+BOTTLE=WATER</code>
+</section>
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>Basically we want to turn this file into a dictionary.
+<code>N=NORTH
+S=SOUTH
+E=EAST
+W=WEST</code>
+<li>Keys will be the strings on the left hand side (LHS) of the single equals ("=").
+<li>Values will be the strings on the right hand side (RHS) of the single equals ("=").
+<li>Basically:
+<code class="python">>>> d = {'N':'NORTH', 'S':'SOUTH'}
+>>> d
+{'N': 'NORTH', 'S': 'SOUTH'}
+>>> d['N']
+'NORTH'</code>
+</section>
+
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>We can "read" the file into a string like so:
+<code>synonyms = open("SmallSynonyms.txt").read()</code>
+<li>If we print out synonyms, it will give you back the text of the file.
+<li>Values will be the strings on the right hand side (RHS) of the single equals ("=").
+<code class="python">>>> file_text = open("SmallSynonyms.txt").read()
+>>> print(file_text)
+N=NORTH
+S=SOUTH
+...</code>
+<li>I want to turn this into a dictionary.
+</section>
+
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>I note first that key-value pairs, the elements of a dictionary, are separated by lines.
+<li>I can split the string on the special newline character to get a list of lines.
+<code class="python">>>> file_text
+'N=NORTH\nS=SOUTH\nE=EAST\nW=WEST\n...'
+>>> kvps = file_text.split("\n") # key value pairs
+>>> kvps
+['N=NORTH', 'S=SOUTH', 'E=EAST', 'W=WEST'...
+>>></code>
+<li>I want to turn this into a dictionary.
+</section>
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>I note that the keys and values are separated by single equals "="
+<li>I loop over the list and split each string in the list on "=".
+<code class="python">>>> kvps
+['N=NORTH', 'S=SOUTH', 'E=EAST', 'W=WEST'...
+>>> knvs = [kvp.split("=") for kvp in kvps] # keys n values
+>>> knvs
+[['N', 'NORTH'], ['S', 'SOUTH'], ['E', 'EAST'], ['W', 'WEST'], ...</code>
+<li>I want to turn this into a dictionary.
+</section>
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>I note that the keys and values are separated by single equals "="
+<li>I loop over the list and split each string in the list on "=".
+<code class="python">>>> knvs = [kvp.split("=") for kvp in kvps] # keys n values
+>>> knvs
+[['N', 'NORTH'], ['S', 'SOUTH'], ['E', 'EAST'], ['W', 'WEST'], ...</code>
+<li>I want to turn this into a dictionary.
+</section>
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>I now have a list of lists of keys and values.
+<li>A list of key value pairs, perhaps.
+<li>I create a dictionary that loops over the list, like so:
+<code class="python">>>> knvs
+[['N', 'NORTH'], ['S', 'SOUTH'], ['E', 'EAST'], ['W', 'WEST'], ...
+>>> {key:value for key,value in knvs}</code>
+<li>This draws the following ValueError: "not enough values to unpack (expected 2, got 1)"
+</section>
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>We debug:
+<ul><li>We write out a for loop.
+<li>We print every value.
+<code class="python">syns = { }
+for knv in knvs:
+    print("knv is", knv)
+    key, value = knv
+    syns[key] = value</code>
+<li>We see this at the end:
+<code >knv is ['']
+Traceback (most recent call last):
+...</code>
+</section>
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>We debug:
+<ul><li>There was an empty line at the end of the file.
+<li>It had no text, so no synonym, so no key or value!
+<li>We use an if statement, like checking if length is equal to 2.
+<code class="python">syns = { }
+for knv in knvs:
+    if len(knv) == 2:
+        key, value = knv
+        syns[key] = value</code>
+<li>It works:
+<code >>>> syns
+{'N': 'NORTH', 
+...</code>
+</section>
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>We could use an "if" in the comprehension:
+<code class="python">>>> knvs
+[['N', 'NORTH'], ['S', 'SOUTH'], ['E', 'EAST'], ['W', 'WEST'], ...
+>>> {knv[0]:knv[1] for knv in knvs if len(knv) == 2}
+{'N': 'NORTH', 'S': 'SOUTH', ...</code>
+<li>Or just clip off the last, empty line.
+<code class="python">>>> knvs
+[['N', 'NORTH'], ['S', 'SOUTH'], ['E', 'EAST'], ['W', 'WEST'], ...
+>>> {key:value for key,value in knvs[:-1]}
+{'N': 'NORTH', 'S': 'SOUTH', ...</code>
+</section>
+
+
+
+<section>
+<h2>First Example: SmallSynonyms.txt</h2>
+<ul>
+<li>I ask:
+<ul><li>What corresponds to an element of my dictionary, and
+<li>What separates each element?
+</ul>
+<li>Here is a complete file to read synonyms into a dictionary:
+<code class="python">file = open("SmallSynonyms.txt").read()
+kvps = file.split("\n")
+knvs = [kvp.split("=") for kvp in kvps]
+syns = {key:value for key,value in knvs[:-1]}
+print(syns)</code>
+<li>For the advanced student, this can be done in a single step:
+<code class="python">syns = {key:value for key,value in [kvp.split("=") for kvp in open("SmallSynonyms.txt").read().split("\n")][:-1]}</code>
+<li>This code may help you on Milestone 5.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Read files.
+<ul><li>&check;Synonyms
+<li>Items
+<li>Rooms
+</section>
+
+    </div>
+  </div>
+
+ 
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

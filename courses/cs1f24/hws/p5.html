@@ -169,8 +169,8 @@
                                         <li>I changed <code>"filename"</code> to <code>"prefix"</code>
                                         <li>I changed <code>".txt"</code> to <code>"Rooms.txt"</code>, the Adventure game specific suffix for rooms files
                                         <li>I placed this <code>with</code> statement in the line immediately prior to <code>room = read_room(f)</code>, which I indented under this statement, and left other lines at their original indentation level.
-                                        <hr><pre><code>while not finished:
-    with open(prefix + "Rooms.txt") as f:
+                                        <hr><pre><code>with open(prefix + "Rooms.txt") as f:
+    while not finished:
         room = read_room(f)
     if room is None:</code></pre><hr>
                             <li>I ran <code>Adventure.py</code> and verified I was able to see text prompts.
@@ -460,46 +460,114 @@ You are empty-handed.
                         <a id="show6" href="#show6" class="show"><h3>6. Locked Passages [Hide]</h3></a>
                         <div class="details">
                             <blockquote>Reorganize passages to check items</blockquote>
-                            <p>The file with the <code>Synonyms.txt</code> ending contains a series of lines:
-                            <hr><pre><code>N=NORTH
-S=SOUTH
-...</code></pre><hr>
-                            <p>In each case there is:
+                            <p>We recall that dictionaries may only store one value per key.
+                            <p>The default code that read a rooms file into a dictionary would have read lines like this, in <code>SmallRooms.txt</code>:
+                            <hr><pre><code>-----
+NORTH: SlitInRock
+UP: SlitInRock
+DOWN: BeneathGrate/KEYS
+DOWN: MissingKeys</code></pre><hr>
+                            <p>Unless you changed this considerably, the first "DOWN" option would've been overwritten by the second. In this case, there would be no way to reach the "BeneathGrate" room.
+                            <p>However, now, with the benefit of items, we wish to change rooms conditionally based on whether an item is in inventory (or not).
+                            <h4>6a: Update <code>read_room</code></h4>
+                            <p>You will need to update the code in <code>read_room</code> that updates the dictionary of packages. By default, it did not check to see if a certain response was already present in the passage dictionary.
+                            <p>I recommend changing the values in the passage dictionary from strings to lists of strings. When adding things to a dictionary, I was working with three variables:
+                            <ol>
+                                <li><code>passages</code>: a dictionary where keys are directional commands and values are names of rooms
+                                <li><code>reponse</code>: a string that is a directional command (a key)
+                                <li><code>next_room</code>: a string that is the name of a room
+                            </ol>
+                            I recommend doing this as follows:
                             <ul>
-                                <li>A "synonym": one of more letters that is not an existing command or item
-                                <li>An equals sign "<code>=</code>"
-                                <li>An existing command or item
+                                <li>Check to see if a response is already in passages.
+                                <ul>
+                                    <li>If not, use <code>.split('/')</code> to convert the next_room to a list.
+                                    <ul>
+                                        <li>If there is no locked passage, the list will be of length one.
+                                        <li>If there is a locked passage, the list will contain first the appropriate room and then the appropriate key.
+                                    </ul>
+                                    <li>If so, add "next_room" to the existing list. I added it at the beginning, but that is up to you.
+                                </ul>
                             </ul>
-                            <h4>5a: Read a Synonyms file</h4>
-                            <p>Either with in <code>AdvGame.__init__</code>, or more likely within a <code>read_syns</code> function called from <code>AdvGame.__init__</code>, read each line from the appropriate file and populate a dictionary where keys are synonyms and values are commands.
-                            <p>You have sample code from <code>read_item</code> to read and process lines of text.
-                            <p>I highly recommend the use of ".split()" again, but this time with the argument <code>"="</code> in order to split on equals-sign instead of the default spaces.Here is an example:
-                            <hr><pre><code>>>> ex = "N=NORTH"
->>> ex.split("=")
-['N', 'NORTH']
->>></code></pre><hr>
-                            <p>Create a dictionary in <code>AdvGame</code> that contains all the synonyms as keys and the commands/items as values.
-                            <h4>5b: Update <code>run</code></h4>
-                            <p>Use synonyms in <code>AdvGame.run</code>
-                            <p>After reading in a response and possibly breaking it into two, instead of one, words, we use synonyms.
-                            <p>Check each input word, and if it is in the synonyms dictionary, update the response to include the command/item name instead.
-                            <p>This was hard for me to explain - here is an example:
-                            <hr><pre><code>>>> word = "N"
->>> if word in syns:
-...     word = syns[word]
-... 
->>> word
-'NORTH'</code></pre><hr>
-                            <p>Here is an extended example that uses both command ("release" and "i") and item ("bottle") synonyms:
-                            <hr><pre><code>You are standing at the end of a road before a small brick
-building.  A small stream flows out of the building and
-down a gully to the south.  A road runs up a small hill
-to the west.
-> release bottle
-Dropped.
-> i        
-You are empty-handed.
-></code></pre>
+                            
+                            <h4>6b: Update <code>AdvRoom.run</code></h4>
+                            <p>Probably <code>AdvGame.run</code> is reading a response from <code>input()</code> and then, checking if the response is a command or not, and if it is not a command checking if it is the name of a room. In my code, this name was used to check for passages, like so:
+                            <hr><pre><code>passages = room.get_passages()
+next_room = passages.get(response, None)</code></pre><hr>
+                            <p>However, we have now changed the values within the passages dictionary to be lists instead of strings. Specifically, they are now lists of either the names of rooms or the names of items. Previously, they were all names of rooms.
+                            <p>In brief, <code>next_room</code> (or whatever you named it) is now a list.
+                            <p>I updated <code>AdvRoom</code> to check the length of the <code>next_room</code> list.
+                            <ul>
+                                <li>If the length is one, the value at index zero is the name of the next room.
+                                <li>If the length is greater than one:
+                                <ul>
+                                    <li>Check to see if the last element of the list, which is the name of an item, is in the inventory. This is a string at index -1
+                                    <ul>
+                                        <li>If so, the name of the next room is the string immediately prior to the name of the item, in my case the string at index -2 (or index 1).
+                                        <li>Otherwise, the name of the next room is the string at the beginning of the list, the string at index 0.
+                                    </ul>
+                                </ul>
+                            </ul>
+                            <p>Here is an example of how this could work. In this case, I added a single print statement to print the next_room list. These should be removed before going to the next milestone.
+                            <hr><pre><code>> down
+['OutsideGrate']
+You are in a 20-foot depression floored with bare dirt.
+Set into the dirt is a strong steel grate mounted in
+concrete.  A dry streambed leads into the depression from
+the north.
+> down
+['MissingKeys', 'BeneathGrate', 'KEYS']
+You are in a small chamber beneath a 3x3 steel grate to
+the surface.  A low crawl over cobbles leads inward to
+the west.
+There is a brightly shining brass lamp here.
+> i
+You are carrying:
+   a bottle of water
+   a set of keys
+> up
+['OutsideGrate']
+Outside grate
+></code></pre><hr>
+                            <p>In this case, because I had the item <code>KEYS</code> in inventory, when going "down" I went to "BeneathGrate" rather than "MissingKeys".
+                            <p>I removed the print statement printing the list immediately after this test.
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide7" href="#hide7" class="hide"><h3>7. Forced Movement [Show]</h3></a>
+                        <a id="show7" href="#show7" class="show"><h3>7. Forced Movement [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Use FORCED to show players messages</blockquote>
+                            <p>We recall a room called "MissingKeys":
+                            <hr><pre><code>NORTH: SlitInRock
+UP: SlitInRock
+DOWN: BeneathGrate/KEYS
+DOWN: MissingKeys</code></pre><hr>
+                            <p>If the player lacks <code>"KEYS"</code> and tries to go down, they go to a missing keys room that that looks like this:
+                            <hr><code><pre>MissingKeys
+-
+The grate is locked and you don't have any keys.
+-----
+FORCED: OutsideGrate</code></pre><hr>
+                            <p>In Adventure, when a message must be displayed to the player, a "fake" room is used to show the text, then FORCED places the player where they should be.
+                            <p>For this milestone, we will check to see if there is a FORCED present after updating the room, and if so, print the <strong>long description</strong> and then progress to the next room.
+                            <p>Note: We will not do this <strong>if</strong> there is a FORCED present, but <strong>while</strong> there is a FORCED present, in case there a multiple forces in a row. Be advised, a passage may be both locked (Milestone 6) and forced (Milestone 7).
+                            <p>The code in the while loop is quite similar to the earlier code in <code>AdvRoom.run</code> which checks rooms for passages and passages for rooms.
+                            <p>Here is an example of how this could work. In this case, I added a single print statement when encountering FORCED. This should be removed before submitting your code.
+                            <hr><pre><code>concrete.  A dry streambed leads into the depression from
+the north.
+> down
+DEBUG: Being forced, room name is: MissingKeys
+The grate is locked and you don't have any keys.
+Outside grate
+> down
+DEBUG: Being forced, room name is: MissingKeys
+The grate is locked and you don't have any keys.
+Outside grate
+></code></pre><hr>
+                        <p>In this case, because I lacked the item <code>KEYS</code> in inventory, when going "down" I went to "MissingKeys" then "OutsideGrate" rather than "BeneathGrate".
+                        <p>I removed the print statement immediately after this test.
                         </div>
                     </div>
                     <hr>

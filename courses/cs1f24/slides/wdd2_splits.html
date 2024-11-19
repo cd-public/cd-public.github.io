@@ -54,7 +54,6 @@
 <li>Read files.
 <ul><li>Synonyms
 <li>Items
-<li>Rooms
 </section>
 
 <section>
@@ -283,10 +282,171 @@ print(syns)</code>
 <h2>Today</h2>
 <ul>
 <li>Read files.
-<ul><li>&check;Synonyms
+<ul><li>&check; Synonyms
 <li>Items
-<li>Rooms
 </section>
+
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>It's <a href="https://github.com/rembold-cs151-master/Project_Adventure/blob/main/SmallItems.txt">here</a>.
+<ul>
+<li>Basically we want to turn this file into a dictionary.</ul>
+<li>It looks like this:
+<code style="max-height:800px">KEYS
+a set of keys
+InsideBuilding
+
+LAMP
+a brightly shining brass lamp
+BeneathGrate
+
+ROD
+a black rod with a rusty star
+DebrisRoom
+
+WATER
+a bottle of water
+PLAYER</code>
+</section>
+
+
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>Basically we want to turn this file into a dictionary?
+<ul><li>Well - a dictionary of dictionaries.
+<li>We want to be able to place any item in any room.
+<li>We want items to have a known name (key) and description (value).
+</ul><li>Ultimately, the way items work is:
+<code class="Python">{ "InsideBuilding": { "KEYS" : "a set of keys" }}</code>
+<li>So we have outer keys (rooms), inner keys (items), and inner values (item descriptions).
+<li>This is just JSON by the way.
+</section>
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>We note:<ul>
+<li>We have key-key-value entries separated by double new-lines.
+<code class="python">>>> file_text = open("SmallItems.txt").read()
+>>> file_text
+'KEYS\na set of keys\nInsideBuilding\n\nLAMP</code>
+<li>Emphasis here:
+<code>\n\nLAMP</code>
+<li>So we can get a list of strings, where each string corresponds to an item, like so:
+<code class="python">>>> items = file_text.split("\n\n")
+>>> items
+['KEYS\na set of keys\nInsideBuilding', 'LAMP...</code>
+</section>
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>Within each item we can get outer keys, inner keys, and inner values by splitting on the newline character '\n'
+<code class="python">>>> items
+['KEYS\na set of keys\nInsideBuilding', 'LAMP'...
+>>>
+>>> in_val_outs = [item.split("\n") for item in items]
+>>> in_val_outs
+[['KEYS', 'a set of keys', 'InsideBuilding'], ['LAMP', 'a brightly shining brass lamp', 'BeneathGrate'],...</code>
+</section>
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>Notice that this construction:
+<code class="python">[item.split("\n") for item in items]</code>
+<li>Is very similar to what we did with synonyms:
+<code class="python">[kvp.split("=") for kvp in kvps]</code>
+<li>Your takeaways should be:
+<ul><li>Knowing a few methods helps a lot.
+<li>Knowing how to provide even one argument to a method solves many problems.
+<li>If you are systematic and take small steps, every step is easy.
+<li>Once you know the steps, you can make more advanced plans like "dictionary of dictionaries".
+</section>
+
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>I created a dictionary where the values were the first two elements and the key was the element of index 2.
+<code class="python">>>> in_val_outs
+[['KEYS', 'a set of keys', 'InsideBuilding'], ['LAMP', 'a brightly shining brass lamp', 'BeneathGrate'],...
+>>>
+>>> room_contents = {ivo[2]:ivo[:2] for ivo in in_val_outs}
+>>> room_contents
+{'InsideBuilding': ['KEYS', 'a set of keys'],
+</code>
+</section>
+
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>Except of course, I don't want the values to be lists, I want them to be dictionaries...
+<code class="python">>>> in_val_outs
+[['KEYS', 'a set of keys', 'InsideBuilding'], ['LAMP', 'a brightly shining brass lamp', 'BeneathGrate'],...
+>>>
+>>> room_contents = {ivo[2]:{ivo[0]:ivo[1]} for ivo in in_val_outs}
+>>> room_contents
+{'InsideBuilding': {'KEYS': 'a set of keys'}, 'BeneathGrate': {'LAMP':...
+</code>
+<li>With this dictionary, if you are using an AdvRoom class, you can simply look up a room (the out key) and store the contents (the inner dictionary, of item name and description) to be the contents of the room.
+<li>Or just store the items in AdvGame! Whatever works.
+</section>
+
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>We also have to be able to print, e.g., "There is an item of some import here."
+<li>We need a "print_room_items()" or something.
+<code class="python">def print_room_items(room_name):
+    contents = room_contents[room_name]
+    for key in contents:
+        print("There is", contents[key], "here.")</code>
+<li>This may help on Milestone 3.
+</section>
+
+
+<section>
+<h2>Second Example: SmallItems.txt</h2>
+<ul>
+<li>We can shorten the code:
+<code class="python">room_contents = {ivo[2]:{ivo[0]:ivo[1]} for ivo in [item.split("\n") for item in open("SmallItems.txt").read().split("\n\n")]}
+
+def print_room_items(room_name):
+    [print("There is", val, "here.") for key, val in room_contents[room_name].items()]</code>
+<li>This may help on Milestone 3.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Read files.
+<ul><li>Synonyms
+<li>Items
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Adventure Ongoing
+<ul><li>At least finish Milestone 0: TM -> ADV, to give your brain time to think</ul>
+<li>Advising ongoing
+<ul><li>If you encounter any problem, email me immediately
+<li>I'll be doing triage:
+<ul><li>If you don't get an email back quickly, either <ul>
+<li>the problem is not urgent and I'll solve it latter, or
+<li>I am fleeing a zamboni IRL and require thoughts & prayers stat.
+</section>
+
+
+
 
     </div>
   </div>

@@ -19,7 +19,7 @@ institute: Crypto
 
 # Homework
 
-- The first homework, "Enigma"
+- The first homework, "Enigma", is ready after this class.
   - Due when class starts Th of Week 0x1
   - The infamous CS1 hw, now in a good language!
   - Mostly just get the toolchain working.
@@ -51,7 +51,7 @@ BDFHJLCPRTXVZNYEIWGAKMUSQO # slow
 :::
 
 ::: {.column width="10%"}
-->
+&rarr;
 :::
 
 ::: {.column width="45%"}
@@ -357,12 +357,12 @@ flowchart LR
 
 # In practice:
 
-- **Windows**
-  - Installer -> Run desktop app, then
-  - A command in cmd.exe or Powershell
-- **Mac:**
-  - Installer or brew-> Run app, then
-  - A command you can type into terminal
+- **Windows** only
+  - Run `wsl --install -d ubuntu` command once
+- **Windows+Mac:**
+  - Use Podman Installer once
+  - Launch Podman Desktop each time you code
+  - Use `podman` commands
 - **Linux:**
   - Have fun with your package manager.
 
@@ -387,7 +387,7 @@ flowchart LR
   - Docker is written in the Google C-like, Go
   - It is a lightweight pretend computer.
   
-# Docker->Podman
+# Docker&rarr;Podman
 
 - Docker is closed-source (bad)
 - Docker is critical infastructre in most code bases
@@ -410,6 +410,7 @@ flowchart LR
   - Win tends to refer to Python3 as "python"
   - Mac tends to refer to Python2 as "python"
   - Linux, because its good, makes you specify:
+  
 ```bash
 user@DESKTOP-THMS2PJ:~$ python
 Command 'python' not found, did you mean:
@@ -422,7 +423,8 @@ Command 'python' not found, did you mean:
 - This can lead to bugs pretty quickly
   - Say I write and test a .py file on Mac
   - I email it to my prof for help
-  - It breaks on my prof's Linux device:
+  - SyntaxError on my prof's Linux device:
+  
 ```bash
 user@DESKTOP-THMS2PJ:~$ python2 -c "print 'hello world'"
 hello world
@@ -449,66 +451,23 @@ hello world
 >>> exit()
 ```
 
-# Podman
-
-- `podman` is a command, like `python`
-  - Like `python` we can provide arguments
-  - Unlike `python` we provide further commands, not just a .py file
-  
-```bash
-C:\Users\cd-desk>podman
-Manage pods, containers and images
-
-Usage:
-  podman [options] [command]
-
-Available Commands:
-  attach      Attach to a running container
-  build       Build an image using instructions from Containerfiles
-```
-
-# Run
-
-- First thing we'll do in Podman is `run`
-- So we do:
-```bash
-C:\Users\cd-desk>podman run
-Error: requires at least 1 arg(s), only received 0
-```
-
 # Images
 
-- The thing we run is called an image
-- We'll use a sample image named Python
-  - You'll never guess what it does (Python)
-  
-```bash
-C:\Users\cd-desk>podman run python
-Resolved "python" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
-Trying to pull docker.io/library/python:latest...
-Getting image source signatures
-Copying blob sha256:abab87fa45d0b95db90eb47059d7e87f5a69281fe5d76fcdb7889ec5c310f44c
-...
-Writing manifest to image destination
+- Something we `podman run -it` is an _image_
+  - It is a template that correspond to many possible pretend computers
+  - I think of them like object oriented class
+  - They define something that could be
 
-C:\Users\cd-desk>
-```
+# Containers
 
-# Just do -it
+- Each time we run said command, we have a different _container_
+  - They have different file systems
+  - Things we install don't persist to future `run` instances.
+  - I think of them like objects of a class
+  - Like '1' instead of 'integer'
+  - They actually existing, running code.
 
-- We downloaded and ran an image but...
-  - We didn't ask the image to do anything
-  - So it exits instantly
-- `run -it` for "interactive terminal"
 
-```bash
-C:\Users\cd-desk>podman run -it python
-Python 3.13.1 (main, Dec  4 2024, 20:40:27) [GCC 12.2.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>>
-```
-
-- This is a fun trick for people to lazy too update their local Python version (me)
 
 # Today
 
@@ -521,4 +480,355 @@ Type "help", "copyright", "credits" or "license" for more information.
   - `gcc`
   - `git`
 
+# IDEs
 
+- At some point in time, code started being written in IDEs.
+  - Integrated design environments.
+  - To me, the first one was Eclipse (for Java)
+- VS Code is the ascendent IDE, and is everywhere.
+  - Google Cloud has **browser based** VS Code clone
+- VS Code has some nice things - including good `git` and `docker` (less so `podman`) integration.
+  
+  
+# Integration
+
+- VS Code has some nice things 
+  - Works with `git`/`docker` (less so `podman`).
+  - You know what else can do that?
+  - The command line
+  - Which you don't have to install
+- IDEs are ~new, the was command line utilities
+  - Vi(m)
+  - Emacs
+  - Nano
+  
+# Why Vim?
+
+- While IDEs are ascendent...
+  - The are not installed on every system
+  - They can be hard to use in cloud
+  - They can start costing money at any time
+  - They seem slower and to produce worse code
+- Like Python, IDEs are easy!
+  - This is good for new coders
+  - It is a design decision thereafter
+  
+# Vim
+
+- Vim isn't too bad
+  - It can basically be used as a keyboard navigated text editor.
+  - It has really good keyboard shortcuts and modes that we learn over time.
+  - It seems to be the pound-for-pound productivity champion of all time.
+- It is hard to find people who have learned `vim` who don't prefer it.
+
+# Podvim
+
+- We can install and run `vim` inside a container (which happens to run Debian & &there4; `apt`)
+- Even directly from Python...
+```py
+>>> import os
+>>> os.system("apt update") # update the registry of packages
+<blah blah blah>
+>>> os.system("apt install vim -y") # -y saves us from having to say "yes" to any prompts
+<blah blah blah>
+>>> os.system("vim") # a vim window will open
+```
+- This is `vim` inside `python` inside `podman`
+  - Don't do this, it's a proof-of-concept
+
+# Vim
+- It looks like this:
+```bash
+~               VIM - Vi IMproved
+~                  version 9.1
+~            by Bram Moolenaar et al.
+~   Vim is open source and freely distributable
+~
+~          Become a registered Vim user!
+~  type  :help register<Enter>   for information
+~
+~  type  :q<Enter>              to exit
+~  type  :help<Enter>  or  <F1> for on-line help
+~  type  :help version9<Enter>  for version info
+```
+
+# Usage
+
+- I usually use vim as `vim filename.py`
+  - When `vim` opens I type `i` (for "insert")
+  - Then I write code.
+  - ESC &rarr; `:x` &rarr; ENTER to save+quit
+- Learn `vim` incrementally by using it for this class - for code, for notes, for whatever.
+
+
+# Today
+
+- &check; Introduce the course
+  - &check; The C Programming Language
+  - &check; Cryptography + Cryptocurrency
+- Introduce the technologies
+  - &check; `podman`
+  - &check; `vim`
+  - `gcc`
+  - `git`
+
+# GCC
+
+- Developed for the C language to make an open source operating system in 1987.
+- Mainly around today for the C language to make an open source operating system (Linux)
+- (The C language was invented to write an operating system).
+- `python` is written in GCC C
+```python
+C:\Users\cd-desk>podman run -it python
+Python 3.13.1 (main, Dec  4 2024, 20:40:27) [GCC 12.2.0] on linux
+```
+
+# Great freeware
+
+- Many legendary programs created using GCC:
+  - HTTPD & NGINX, which serve a majority of webtraffic
+  - Every major Linux and FreeBSD distribution
+  - Major browsers like Firefox and Chromium
+    - Firefox is on `clang` now but that's new
+  - GNU Bash and Coreutils, like `cat`, `ls`, `rm`
+  - Bitcoin Core
+  
+# Compilation
+
+- Like `python` or `podman` or `vim`, GCC is a command - `gcc`
+- `gcc` takes at least one argument: a filename, usually of a C file
+- GCC takes this C file and makes an executable 
+  - a program, sort of
+- Executables run as command with `./` prefix
+  - This differs from `python` which runs a script **without** creating a corresponding program.
+
+# .py vs .c
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(Python) --> B[fname.py file]
+  B --> C[python fname.py]
+  C --> D{hello world}
+  E(C) --> F[fname.c  file]
+  F --> G[gcc fname.c -o ename]
+  G --> H[./ename]
+  H --> I{hello world}
+```
+
+- _You only have to compile once to have the executable forever._
+- _Most programs are executables, not scripts._
+
+# Today
+
+- &check; Introduce the course
+  - &check; The C Programming Language
+  - &check; Cryptography + Cryptocurrency
+- Introduce the technologies
+  - &check; `podman`
+  - &check; `vim`
+  - &check; `gcc`
+  - `git`
+  
+# Git
+
+<ul>
+<li> Git was invented... to store the C language source code for an open source operating system (Linux)</li>
+<li> It is de facto the only way in the universe to store code other than "on my HDD/SSD"</li>
+<li> It is also a very good way to
+    <ul>
+    <ol>
+    <li> Keep track of podman images</li>
+    <li> Keep track of podman containers</li>
+    <li> Keep track of code used inside containers</li>
+    </ol>
+    </ul>
+</li>
+
+# As a command
+
+- Git corresponds, like the others, to a command: `git`
+  - It is common now to use other techniques, but the command remains extremely **stable**
+- Quoth GitHub, the first and greatest of the collaboration tools:
+
+<a href="https://docs.github.com/en/get-started/using-github/connecting-to-github"><blockquote>
+If you want a lot of control and flexibility, you can use the command line.
+</blockquote></a>
+
+
+# As a technology
+
+- So basically, you have things called repositories or "repos"
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(My ️‍🔥 code repo)
+```
+
+# As a technology
+
+- Then you realize you wrote an infinite loop so you update it
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(My ️‍🔥 code repo v0 ) --> B(My ️‍🔥 code repo v1)
+```
+
+# As a technology
+
+- Then you come to class and realize your code is on your gaming rig in your apartment.
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(<s>My ️‍🔥 code repo v0</s>) --> B(<s>My ️‍🔥 code repo v1</s>)
+```
+
+# As a technology
+
+- So you save your code on GitHub
+  - GH = GitHub, GR = Gaming Rig
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GH.‍🔥 v0)
+```
+
+# As a technology
+
+- But you realize you didn't sanitize your inputs so you update again.
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+```
+
+# As a technology
+
+- Then you have class again and grab the GitHub version onto your LT = Laptop
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+  D --> E(LT.‍🔥 v0)
+```
+
+# As a technology
+
+- You notice it has the bug so you fix it again on your laptop in almost the same way
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+  D --> E(LT.‍🔥 v0)
+  E --> F(LT.‍🔥 v1)
+```
+
+# As a technology
+
+- And save that back to GitHub then head back home to play Nethack on your 12000USD Gaming PC
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+  D --> E(LT.‍🔥 v0)
+  E --> F(LT.‍🔥 v1)
+  F --> G(GH.‍🔥 v1)
+```
+
+# As a technology
+
+- You realize you also added some ASCII art and try to send that to GitHub
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+  D --> E(LT.‍🔥 v0)
+  E --> F(LT.‍🔥 v1)
+  F --> G(GH.‍🔥 v1)
+  G --> H(GH.‍🔥 v2)
+  C --> H
+```
+
+# As a technology
+
+- Two arrows into one thing is a merge conflict and out-of-scope for now.
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+  D --> E(LT.‍🔥 v0)
+  E --> F(LT.‍🔥 v1)
+  F --> G(GH.‍🔥 v1)
+  G --> H{💥}
+  C --> H
+```
+
+# As a technology
+
+- Basically versions of code can live in more than one place.
+  - Ah, versions, our old friend...
+
+```{mermaid}
+%%| theme: Darkly
+flowchart LR
+  A(GR.️‍🔥 v0) --> B(GR.️‍🔥 v1)
+  B --> C(GR.️‍🔥 v2)
+  B --> D(GH.‍🔥 v0)
+  D --> E(LT.‍🔥 v0)
+  E --> F(LT.‍🔥 v1)
+  F --> G(GH.‍🔥 v1)
+  G --> H{💥}
+  C --> H
+```
+
+# In Brief
+
+- Generally create repositories + tokens in browser
+- Use command line and use 'git clone <name>' once.
+- Authenticate via access token from browser
+- Then use 'git add', 'git commit', 'git push' to save work
+- Use 'git pull' to grab saved work
+- Use a ".gitignore" file so only code (**NOT** executables) live on GitHub
+
+# Today
+
+- &check; Introduce the course
+  - &check; The C Programming Language
+  - &check; Cryptography + Cryptocurrency
+- &check; Introduce the technologies
+  - &check; `podman`
+  - &check; `vim`
+  - &check; `gcc`
+  - &check; `git`
+  
+# Action Items
+
+- Access the [course webpage](https://cd-public.github.io/courses/c89s25)
+- Join the Discord!
+  - You should have gotten an email...
+- Spin up a GitHub acct if you don't have one.
+- The first homework, "Enigma", is ready after this class.
+  - Due when class starts Th of Week 0x1

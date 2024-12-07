@@ -431,7 +431,7 @@ Prof.&nbsp;Calvin
 <section id="homework" class="title-slide slide level1 center">
 <h1>Homework</h1>
 <ul>
-<li>The first homework, “Enigma”
+<li>The first homework, “Enigma”, is ready after this class.
 <ul>
 <li>Due when class starts Th of Week 0x1</li>
 <li>The infamous CS1 hw, now in a good language!</li>
@@ -465,7 +465,7 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
  |
 BDFHJLCPRTXVZNYEIWGAKMUSQO # slow</code></pre>
 </div><div class="column" style="width:10%;">
-<p>-&gt;</p>
+<p>→</p>
 </div><div class="column" style="width:45%;">
 <pre><code>BDFHJLCPRTXVZNYEIWGAKMUSQO
  &gt;&gt;&gt;
@@ -924,15 +924,15 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ # out
 <section id="in-practice" class="title-slide slide level1 center">
 <h1>In practice:</h1>
 <ul>
-<li><strong>Windows</strong>
+<li><strong>Windows</strong> only
 <ul>
-<li>Installer -&gt; Run desktop app, then</li>
-<li>A command in cmd.exe or Powershell</li>
+<li>Run <code>wsl --install -d ubuntu</code> command once</li>
 </ul></li>
-<li><strong>Mac:</strong>
+<li><strong>Windows+Mac:</strong>
 <ul>
-<li>Installer or brew-&gt; Run app, then</li>
-<li>A command you can type into terminal</li>
+<li>Use Podman Installer once</li>
+<li>Launch Podman Desktop each time you code</li>
+<li>Use <code>podman</code> commands</li>
 </ul></li>
 <li><strong>Linux:</strong>
 <ul>
@@ -975,8 +975,8 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ # out
 </ul>
 </section>
 
-<section id="docker-podman" class="title-slide slide level1 center">
-<h1>Docker-&gt;Podman</h1>
+<section id="dockerpodman" class="title-slide slide level1 center">
+<h1>Docker→Podman</h1>
 <ul>
 <li>Docker is closed-source (bad)</li>
 <li>Docker is critical infastructre in most code bases</li>
@@ -1010,12 +1010,12 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ # out
 <li>Win tends to refer to Python3 as “python”</li>
 <li>Mac tends to refer to Python2 as “python”</li>
 <li>Linux, because its good, makes you specify:</li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~$</span> python</span>
 <span id="cb6-2"><a></a><span class="ex">Command</span> <span class="st">'python'</span> not found, did you mean:</span>
-<span id="cb6-3"><a></a><span class="bu">command</span> <span class="st">'python3'</span> from deb python3</span>
-<span id="cb6-4"><a></a><span class="bu">command</span> <span class="st">'python'</span> from deb python-is-python3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ul>
+<span id="cb6-3"><a></a>  <span class="bu">command</span> <span class="st">'python3'</span> from deb python3</span>
+<span id="cb6-4"><a></a>  <span class="bu">command</span> <span class="st">'python'</span> from deb python-is-python3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="bugs" class="title-slide slide level1 center">
@@ -1025,16 +1025,16 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ # out
 <ul>
 <li>Say I write and test a .py file on Mac</li>
 <li>I email it to my prof for help</li>
-<li>It breaks on my prof’s Linux device:</li>
+<li>SyntaxError on my prof’s Linux device:</li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~$</span> python2 <span class="at">-c</span> <span class="st">"print 'hello world'"</span></span>
 <span id="cb7-2"><a></a><span class="ex">hello</span> world</span>
 <span id="cb7-3"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~$</span> python3 <span class="at">-c</span> <span class="st">"print 'hello world'"</span></span>
-<span id="cb7-4"><a></a><span class="ex">File</span> <span class="st">"&lt;string&gt;"</span>, line 1</span>
-<span id="cb7-5"><a></a>  <span class="ex">print</span> <span class="st">'hello world'</span></span>
-<span id="cb7-6"><a></a>  <span class="ex">^^^^^^^^^^^^^^^^^^^</span></span>
-<span id="cb7-7"><a></a><span class="ex">SyntaxError:</span> Missing parentheses in call to <span class="st">'print'</span>. Did you mean print<span class="er">(</span><span class="ex">...</span><span class="kw">)</span><span class="ex">?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ul>
+<span id="cb7-4"><a></a>  <span class="ex">File</span> <span class="st">"&lt;string&gt;"</span>, line 1</span>
+<span id="cb7-5"><a></a>    <span class="ex">print</span> <span class="st">'hello world'</span></span>
+<span id="cb7-6"><a></a>    <span class="ex">^^^^^^^^^^^^^^^^^^^</span></span>
+<span id="cb7-7"><a></a><span class="ex">SyntaxError:</span> Missing parentheses in call to <span class="st">'print'</span>. Did you mean print<span class="er">(</span><span class="ex">...</span><span class="kw">)</span><span class="ex">?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="versioning" class="title-slide slide level1 center">
@@ -1056,72 +1056,29 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ # out
 <span id="cb8-6"><a></a><span class="op">&gt;&gt;&gt;</span> exit<span class="kw">()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
-<section id="podman-1" class="title-slide slide level1 center">
-<h1>Podman</h1>
-<ul>
-<li><code>podman</code> is a command, like <code>python</code>
-<ul>
-<li>Like <code>python</code> we can provide arguments</li>
-<li>Unlike <code>python</code> we provide further commands, not just a .py file</li>
-</ul></li>
-</ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a></a><span class="ex">C:\Users\cd-desk</span><span class="op">&gt;</span>podman</span>
-<span id="cb9-2"><a></a><span class="ex">Manage</span> pods, containers and images</span>
-<span id="cb9-3"><a></a></span>
-<span id="cb9-4"><a></a><span class="ex">Usage:</span></span>
-<span id="cb9-5"><a></a>  <span class="ex">podman</span> <span class="pp">[</span><span class="ss">options</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">command</span><span class="pp">]</span></span>
-<span id="cb9-6"><a></a></span>
-<span id="cb9-7"><a></a><span class="ex">Available</span> Commands:</span>
-<span id="cb9-8"><a></a>  <span class="ex">attach</span>      Attach to a running container</span>
-<span id="cb9-9"><a></a>  <span class="ex">build</span>       Build an image using instructions from Containerfiles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="run" class="title-slide slide level1 center">
-<h1>Run</h1>
-<ul>
-<li>First thing we’ll do in Podman is <code>run</code></li>
-<li>So we do:</li>
-</ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">C:\Users\cd-desk</span><span class="op">&gt;</span>podman run</span>
-<span id="cb10-2"><a></a><span class="ex">Error:</span> requires at least 1 arg<span class="er">(</span><span class="ex">s</span><span class="kw">)</span><span class="ex">,</span> only received 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
 <section id="images" class="title-slide slide level1 center">
 <h1>Images</h1>
 <ul>
-<li>The thing we run is called an image</li>
-<li>We’ll use a sample image named Python
+<li>Something we <code>podman run -it</code> is an <em>image</em>
 <ul>
-<li>You’ll never guess what it does (Python)</li>
+<li>It is a template that correspond to many possible pretend computers</li>
+<li>I think of them like object oriented class</li>
+<li>They define something that could be</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="ex">C:\Users\cd-desk</span><span class="op">&gt;</span>podman run python</span>
-<span id="cb11-2"><a></a><span class="ex">Resolved</span> <span class="st">"python"</span> as an alias <span class="er">(</span><span class="ex">/etc/containers/registries.conf.d/000-shortnames.conf</span><span class="kw">)</span></span>
-<span id="cb11-3"><a></a><span class="ex">Trying</span> to pull docker.io/library/python:latest...</span>
-<span id="cb11-4"><a></a><span class="ex">Getting</span> image source signatures</span>
-<span id="cb11-5"><a></a><span class="ex">Copying</span> blob sha256:abab87fa45d0b95db90eb47059d7e87f5a69281fe5d76fcdb7889ec5c310f44c</span>
-<span id="cb11-6"><a></a><span class="ex">...</span></span>
-<span id="cb11-7"><a></a><span class="ex">Writing</span> manifest to image destination</span>
-<span id="cb11-8"><a></a></span>
-<span id="cb11-9"><a></a><span class="ex">C:\Users\cd-desk</span><span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
-<section id="just-do--it" class="title-slide slide level1 center">
-<h1>Just do -it</h1>
+<section id="containers" class="title-slide slide level1 center">
+<h1>Containers</h1>
 <ul>
-<li>We downloaded and ran an image but…
+<li>Each time we run said command, we have a different <em>container</em>
 <ul>
-<li>We didn’t ask the image to do anything</li>
-<li>So it exits instantly</li>
+<li>They have different file systems</li>
+<li>Things we install don’t persist to future <code>run</code> instances.</li>
+<li>I think of them like objects of a class</li>
+<li>Like ‘1’ instead of ‘integer’</li>
+<li>They actually existing, running code.</li>
 </ul></li>
-<li><code>run -it</code> for “interactive terminal”</li>
-</ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="ex">C:\Users\cd-desk</span><span class="op">&gt;</span>podman run <span class="at">-it</span> python</span>
-<span id="cb12-2"><a></a><span class="ex">Python</span> 3.13.1 <span class="er">(</span><span class="ex">main,</span> Dec  4 2024, 20:40:27<span class="kw">)</span> <span class="ex">[GCC</span> 12.2.0] on linux</span>
-<span id="cb12-3"><a></a><span class="ex">Type</span> <span class="st">"help"</span>, <span class="st">"copyright"</span>, <span class="st">"credits"</span> or <span class="st">"license"</span> for more information.</span>
-<span id="cb12-4"><a></a><span class="op">&gt;&gt;&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>This is a fun trick for people to lazy too update their local Python version (me)</li>
 </ul>
 </section>
 
@@ -1139,6 +1096,582 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ # out
 <li><code>vim</code></li>
 <li><code>gcc</code></li>
 <li><code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="ides" class="title-slide slide level1 center">
+<h1>IDEs</h1>
+<ul>
+<li>At some point in time, code started being written in IDEs.
+<ul>
+<li>Integrated design environments.</li>
+<li>To me, the first one was Eclipse (for Java)</li>
+</ul></li>
+<li>VS Code is the ascendent IDE, and is everywhere.
+<ul>
+<li>Google Cloud has <strong>browser based</strong> VS Code clone</li>
+</ul></li>
+<li>VS Code has some nice things - including good <code>git</code> and <code>docker</code> (less so <code>podman</code>) integration.</li>
+</ul>
+</section>
+
+<section id="integration" class="title-slide slide level1 center">
+<h1>Integration</h1>
+<ul>
+<li>VS Code has some nice things
+<ul>
+<li>Works with <code>git</code>/<code>docker</code> (less so <code>podman</code>).</li>
+<li>You know what else can do that?</li>
+<li>The command line</li>
+<li>Which you don’t have to install</li>
+</ul></li>
+<li>IDEs are ~new, the was command line utilities
+<ul>
+<li>Vi(m)</li>
+<li>Emacs</li>
+<li>Nano</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="why-vim" class="title-slide slide level1 center">
+<h1>Why Vim?</h1>
+<ul>
+<li>While IDEs are ascendent…
+<ul>
+<li>The are not installed on every system</li>
+<li>They can be hard to use in cloud</li>
+<li>They can start costing money at any time</li>
+<li>They seem slower and to produce worse code</li>
+</ul></li>
+<li>Like Python, IDEs are easy!
+<ul>
+<li>This is good for new coders</li>
+<li>It is a design decision thereafter</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="vim" class="title-slide slide level1 center">
+<h1>Vim</h1>
+<ul>
+<li>Vim isn’t too bad
+<ul>
+<li>It can basically be used as a keyboard navigated text editor.</li>
+<li>It has really good keyboard shortcuts and modes that we learn over time.</li>
+<li>It seems to be the pound-for-pound productivity champion of all time.</li>
+</ul></li>
+<li>It is hard to find people who have learned <code>vim</code> who don’t prefer it.</li>
+</ul>
+</section>
+
+<section id="podvim" class="title-slide slide level1 center">
+<h1>Podvim</h1>
+<ul>
+<li>We can install and run <code>vim</code> inside a container (which happens to run Debian &amp; ∴ <code>apt</code>)</li>
+<li>Even directly from Python…</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> os</span>
+<span id="cb9-2"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt update"</span>) <span class="co"># update the registry of packages</span></span>
+<span id="cb9-3"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
+<span id="cb9-4"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt install vim -y"</span>) <span class="co"># -y saves us from having to say "yes" to any prompts</span></span>
+<span id="cb9-5"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
+<span id="cb9-6"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"vim"</span>) <span class="co"># a vim window will open</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This is <code>vim</code> inside <code>python</code> inside <code>podman</code>
+<ul>
+<li>Don’t do this, it’s a proof-of-concept</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="vim-1" class="title-slide slide level1 center">
+<h1>Vim</h1>
+<ul>
+<li>It looks like this:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">~</span>               VIM <span class="at">-</span> Vi IMproved</span>
+<span id="cb10-2"><a></a><span class="ex">~</span>                  version 9.1</span>
+<span id="cb10-3"><a></a><span class="ex">~</span>            by Bram Moolenaar et al.</span>
+<span id="cb10-4"><a></a><span class="ex">~</span>   Vim is open source and freely distributable</span>
+<span id="cb10-5"><a></a><span class="ex">~</span></span>
+<span id="cb10-6"><a></a><span class="ex">~</span>          Become a registered Vim user!</span>
+<span id="cb10-7"><a></a><span class="ex">~</span>  type  :help register<span class="op">&lt;</span>Enter<span class="op">&gt;</span>   for information</span>
+<span id="cb10-8"><a></a><span class="ex">~</span></span>
+<span id="cb10-9"><a></a><span class="ex">~</span>  type  :q<span class="op">&lt;</span>Enter<span class="op">&gt;</span>              to exit</span>
+<span id="cb10-10"><a></a><span class="ex">~</span>  type  :help<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  or  <span class="op">&lt;</span>F1<span class="op">&gt;</span> for on-line help</span>
+<span id="cb10-11"><a></a><span class="ex">~</span>  type  :help version9<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  for version info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="usage" class="title-slide slide level1 center">
+<h1>Usage</h1>
+<ul>
+<li>I usually use vim as <code>vim filename.py</code>
+<ul>
+<li>When <code>vim</code> opens I type <code>i</code> (for “insert”)</li>
+<li>Then I write code.</li>
+<li>ESC → <code>:x</code> → ENTER to save+quit</li>
+</ul></li>
+<li>Learn <code>vim</code> incrementally by using it for this class - for code, for notes, for whatever.</li>
+</ul>
+</section>
+
+<section id="today-3" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Introduce the course
+<ul>
+<li>✓ The C Programming Language</li>
+<li>✓ Cryptography + Cryptocurrency</li>
+</ul></li>
+<li>Introduce the technologies
+<ul>
+<li>✓ <code>podman</code></li>
+<li>✓ <code>vim</code></li>
+<li><code>gcc</code></li>
+<li><code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="gcc" class="title-slide slide level1 center">
+<h1>GCC</h1>
+<ul>
+<li>Developed for the C language to make an open source operating system in 1987.</li>
+<li>Mainly around today for the C language to make an open source operating system (Linux)</li>
+<li>(The C language was invented to write an operating system).</li>
+<li><code>python</code> is written in GCC C</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>C:\Users\cd<span class="op">-</span>desk<span class="op">&gt;</span>podman run <span class="op">-</span>it python</span>
+<span id="cb11-2"><a></a>Python <span class="fl">3.13.1</span> (main, Dec  <span class="dv">4</span> <span class="dv">2024</span>, <span class="dv">20</span>:<span class="dv">40</span>:<span class="dv">27</span>) [GCC <span class="fl">12.2.0</span>] on linux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="great-freeware" class="title-slide slide level1 center">
+<h1>Great freeware</h1>
+<ul>
+<li>Many legendary programs created using GCC:
+<ul>
+<li>HTTPD &amp; NGINX, which serve a majority of webtraffic</li>
+<li>Every major Linux and FreeBSD distribution</li>
+<li>Major browsers like Firefox and Chromium
+<ul>
+<li>Firefox is on <code>clang</code> now but that’s new</li>
+</ul></li>
+<li>GNU Bash and Coreutils, like <code>cat</code>, <code>ls</code>, <code>rm</code></li>
+<li>Bitcoin Core</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="compilation" class="title-slide slide level1 center">
+<h1>Compilation</h1>
+<ul>
+<li>Like <code>python</code> or <code>podman</code> or <code>vim</code>, GCC is a command - <code>gcc</code></li>
+<li><code>gcc</code> takes at least one argument: a filename, usually of a C file</li>
+<li>GCC takes this C file and makes an executable
+<ul>
+<li>a program, sort of</li>
+</ul></li>
+<li>Executables run as command with <code>./</code> prefix
+<ul>
+<li>This differs from <code>python</code> which runs a script <strong>without</strong> creating a corresponding program.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="py-vs-.c" class="title-slide slide level1 center">
+<h1>.py vs .c</h1>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(Python) --&gt; B[fname.py file]
+  B --&gt; C[python fname.py]
+  C --&gt; D{hello world}
+  E(C) --&gt; F[fname.c  file]
+  F --&gt; G[gcc fname.c -o ename]
+  G --&gt; H[./ename]
+  H --&gt; I{hello world}
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><em>You only have to compile once to have the executable forever.</em></li>
+<li><em>Most programs are executables, not scripts.</em></li>
+</ul>
+</section>
+
+<section id="today-4" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Introduce the course
+<ul>
+<li>✓ The C Programming Language</li>
+<li>✓ Cryptography + Cryptocurrency</li>
+</ul></li>
+<li>Introduce the technologies
+<ul>
+<li>✓ <code>podman</code></li>
+<li>✓ <code>vim</code></li>
+<li>✓ <code>gcc</code></li>
+<li><code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="git" class="title-slide slide level1 center">
+<h1>Git</h1>
+<ul>
+<li>
+Git was invented… to store the C language source code for an open source operating system (Linux)
+</li>
+<li>
+It is de facto the only way in the universe to store code other than “on my HDD/SSD”
+</li>
+<li>
+It is also a very good way to
+<ul>
+<ol>
+<li>
+Keep track of podman images
+</li>
+<li>
+Keep track of podman containers
+</li>
+<li>
+Keep track of code used inside containers
+</li>
+</ol>
+</ul>
+</li>
+</ul></section>
+
+<section id="as-a-command" class="title-slide slide level1 center">
+<h1>As a command</h1>
+<ul>
+<li>Git corresponds, like the others, to a command: <code>git</code>
+<ul>
+<li>It is common now to use other techniques, but the command remains extremely <strong>stable</strong></li>
+</ul></li>
+<li>Quoth GitHub, the first and greatest of the collaboration tools:</li>
+</ul>
+<a href="https://docs.github.com/en/get-started/using-github/connecting-to-github">
+<blockquote>
+If you want a lot of control and flexibility, you can use the command line.
+</blockquote>
+</a><p><a href="https://docs.github.com/en/get-started/using-github/connecting-to-github"></a></p>
+</section>
+
+<section id="as-a-technology" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>So basically, you have things called repositories or “repos”</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(My ️‍🔥 code repo)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-1" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>Then you realize you wrote an infinite loop so you update it</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(My ️‍🔥 code repo v0 ) --&gt; B(My ️‍🔥 code repo v1)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-2" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>Then you come to class and realize your code is on your gaming rig in your apartment.</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(&lt;s&gt;My ️‍🔥 code repo v0&lt;/s&gt;) --&gt; B(&lt;s&gt;My ️‍🔥 code repo v1&lt;/s&gt;)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-3" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>So you save your code on GitHub
+<ul>
+<li>GH = GitHub, GR = Gaming Rig</li>
+</ul></li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GH.‍🔥 v0)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-4" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>But you realize you didn’t sanitize your inputs so you update again.</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-5" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>Then you have class again and grab the GitHub version onto your LT = Laptop</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+  D --&gt; E(LT.‍🔥 v0)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-6" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>You notice it has the bug so you fix it again on your laptop in almost the same way</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+  D --&gt; E(LT.‍🔥 v0)
+  E --&gt; F(LT.‍🔥 v1)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-7" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>And save that back to GitHub then head back home to play Nethack on your 12000USD Gaming PC</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+  D --&gt; E(LT.‍🔥 v0)
+  E --&gt; F(LT.‍🔥 v1)
+  F --&gt; G(GH.‍🔥 v1)
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-8" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>You realize you also added some ASCII art and try to send that to GitHub</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+  D --&gt; E(LT.‍🔥 v0)
+  E --&gt; F(LT.‍🔥 v1)
+  F --&gt; G(GH.‍🔥 v1)
+  G --&gt; H(GH.‍🔥 v2)
+  C --&gt; H
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-9" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>Two arrows into one thing is a merge conflict and out-of-scope for now.</li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+  D --&gt; E(LT.‍🔥 v0)
+  E --&gt; F(LT.‍🔥 v1)
+  F --&gt; G(GH.‍🔥 v1)
+  G --&gt; H{💥}
+  C --&gt; H
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="as-a-technology-10" class="title-slide slide level1 center">
+<h1>As a technology</h1>
+<ul>
+<li>Basically versions of code can live in more than one place.
+<ul>
+<li>Ah, versions, our old friend…</li>
+</ul></li>
+</ul>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(GR.️‍🔥 v0) --&gt; B(GR.️‍🔥 v1)
+  B --&gt; C(GR.️‍🔥 v2)
+  B --&gt; D(GH.‍🔥 v0)
+  D --&gt; E(LT.‍🔥 v0)
+  E --&gt; F(LT.‍🔥 v1)
+  F --&gt; G(GH.‍🔥 v1)
+  G --&gt; H{💥}
+  C --&gt; H
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="in-brief" class="title-slide slide level1 center">
+<h1>In Brief</h1>
+<ul>
+<li>Generally create repositories + tokens in browser</li>
+<li>Use command line and use ‘git clone <name>’ once.</name></li>
+<li>Authenticate via access token from browser</li>
+<li>Then use ‘git add’, ‘git commit’, ‘git push’ to save work</li>
+<li>Use ‘git pull’ to grab saved work</li>
+<li>Use a “.gitignore” file so only code (<strong>NOT</strong> executables) live on GitHub</li>
+</ul>
+</section>
+
+<section id="today-5" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Introduce the course
+<ul>
+<li>✓ The C Programming Language</li>
+<li>✓ Cryptography + Cryptocurrency</li>
+</ul></li>
+<li>✓ Introduce the technologies
+<ul>
+<li>✓ <code>podman</code></li>
+<li>✓ <code>vim</code></li>
+<li>✓ <code>gcc</code></li>
+<li>✓ <code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="action-items" class="title-slide slide level1 center">
+<h1>Action Items</h1>
+<ul>
+<li>Access the <a href="https://cd-public.github.io/courses/c89s25">course webpage</a></li>
+<li>Join the Discord!
+<ul>
+<li>You should have gotten an email…</li>
+</ul></li>
+<li>Spin up a GitHub acct if you don’t have one.</li>
+<li>The first homework, “Enigma”, is ready after this class.
+<ul>
+<li>Due when class starts Th of Week 0x1</li>
 </ul></li>
 </ul>
 

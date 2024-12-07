@@ -1,0 +1,159 @@
+---
+title: Docker
+theme: dark
+author: Prof. Calvin
+subtitle: "Week 0x0"
+institute: Crypto
+format: 
+    revealjs: 
+        theme: dark
+        mainfont: monospace
+execute:
+  echo: false
+---
+
+# Pointers and Recursion in Systems Programming
+
+- **Definition:**
+  - Pointers: Variables that store memory addresses.
+  - Recursion: Functions calling themselves to solve sub-problems.
+- **Importance:**
+  - Core to efficient algorithms and memory management in low-level programming.
+
+# C and Pointers
+
+- **Why C?**
+  - Direct memory manipulation using pointers.
+  - Insights into hardware-level operations.
+- **Example:** Pointer basics and dereferencing.
+
+
+
+# C for Low-Level Design Choices
+
+- **Advantages of C:**
+  - Fine-grained control over memory and resources.
+  - Essential for systems programming and embedded systems.
+
+
+
+# C and Cryptography
+
+- **Why C for Cryptography?**
+  - High performance for computationally intense tasks.
+  - Precise control over data structures.
+
+
+
+# Overview of RSA
+
+- **RSA Basics:**
+  - Public-key cryptography algorithm.
+  - Based on the difficulty of factoring large integers.
+- **Use Cases:**
+  - Secure communication, digital signatures.
+
+
+
+# Overview of SHA
+
+- **SHA Basics:**
+  - Cryptographic hash function family.
+  - Converts input data into fixed-size hash values.
+- **Use Cases:**
+  - Data integrity verification, digital signatures.
+
+
+
+# Overview of AES
+
+- **AES Basics:**
+  - Symmetric encryption algorithm.
+  - Operates on fixed-size blocks of data.
+- **Use Cases:**
+  - Secure data transmission, storage encryption.
+
+
+
+# RSA + SHA and Blockchain
+
+- **Facilitating Blockchain:**
+  - RSA: Ensures secure transactions.
+  - SHA: Ensures data integrity.
+
+
+
+# Blockchain and Core Concepts
+
+- **Pointers and Recursion in Blockchain:**
+  - Blockchain structure resembles linked lists.
+  - Recursion for traversing chains.
+
+
+
+# Blockchain and Merkle Trees
+
+- **Merkle Trees:**
+  - Tree structure ensuring data integrity.
+  - Hashes stored as nodes; pointers link them.
+- **Relation to Pointers and Recursion:**
+  - Pointers link nodes, recursion for traversal and verification.
+
+
+
+# Break
+
+
+
+# What is Docker?
+
+- **Definition:**
+  - Platform to develop, ship, and run applications in isolated containers.
+- **Benefits:**
+  - Portability, consistency across environments.
+
+
+
+# Using Docker on Different Platforms
+
+- **Windows, Mac, Linux:**
+  - Install Docker Desktop.
+  - Configure and start containers.
+
+
+
+# Using Docker for GCC
+
+- **Steps:**
+  - Pull a GCC image: `docker pull gcc`.
+  - Start a container: `docker run -it gcc /bin/bash`.
+
+
+
+# Writing C Hello World in Docker
+
+- **Example:**
+  - Create a `hello.c` file:
+    ```c
+    #include <stdio.h>
+    int main() {
+        printf("Hello, World!\n");
+        return 0;
+    }
+    ```
+  - Compile and run:
+    ```bash
+    gcc hello.c -o hello
+    ./hello
+    ```
+
+
+
+# Committing to Git
+
+- **Steps:**
+  - Initialize a repository: `git init`.
+  - Add files: `git add .`.
+  - Commit changes: `git commit -m "Initial commit"`.
+
+

@@ -8,8 +8,8 @@ format:
         mainfont: monospace
         slide-number: true
         show-slide-number: all
-        mermaid:
-            theme: neutral
+        width: 1050
+        height: 700
             
 execute:
     echo: false

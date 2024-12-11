@@ -33,11 +33,11 @@ subtitle: "Due Th, Jan 23 before class"
 |- `git`    |            |
 
 - Enigma was a historically significant technology
-  - It was a Nazi encryption device, using cyphers
+  - It was a Nazi encryption device, using ciphers
   - It was broken by Turing, gay icon and one of the first and greatest computer scientists
-- At Willamette, Enigma is an infamous Intro to Programming assignment
+- At Willamette, Enigma is an (in)famous CS 151 Intro to Programming assignment
   - Basically it is the first assignment that requires nested for loops
-- In this course, Enigma will demonstrated the obscurity/clarity divide
+- In this course, Enigma will demonstrate the obscurity/clarity divide
   - In Python, letters and numbers are different things
   - In C, there are no letters or really numbers, just bits and bytes
   - This makes Enigma in C **easier**, despite being a "harder" language.
@@ -52,13 +52,10 @@ subtitle: "Due Th, Jan 23 before class"
     - [Prof. Calvin](https://cd-public.github.io/courses/old/cs1f24/slides/wcd1_enigma.html)
   - [Assignment Repository](https://github.com/rembold-cs151-master/Project_Enigma)
 - I also provide
-  - "Solved": A Python solution
+  - "Solved": A Python implementation of the machine
   - "Visual": A text visualizer of the Engima machine's ciphers
   - "Rotors": A text visualizer of the full Enigma machine
-- The assignment begins with "char *".
-
-
-
+- The assignment begins with "char *", where students with "CS 151" will wish to begin.
 
 :::
 
@@ -748,5 +745,71 @@ _For the remainder of the write-up, I will assume without loss of generality tha
                           N
 
 ```
+
+:::
+
+
+# char *&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#string" role="button" aria-expanded="false" aria-controls = "string">Show</a>
+
+::: {#string .collapse .multi-collapse}
+
+### Goal: Learn C I/O and strings
+
+#### No strings
+
+- In C there are no strings.
+  - There are instead things called "char *"
+  - Say "character star"
+  - That is, an array, or buffer, of characters
+    - Not quite a list - closer to a NumPy array.
+- It matters what things are called, because in C we must say what kind of thing a variable is.
+- We will use format print and variable declarations to introduce "char *"
+  - We note that Python `print` appends a newline and C `printf` does not.
+    - I could also specify an non-newline terminator in Python for equivalence.
+
+:::: {.columns}
+
+::: {.column}
+
+```python
+x = 1
+print(f"{x:d}", end="")
+# we can reassign x and change its type
+x = "hello world"
+print(f"{x:s}", end="")
+```
+
+:::
+
+::: {.column}
+
+```C
+int n = 1;
+printf("%d", n) ;
+/* we have to make a new variable of novel type */
+char *m = "hello world"
+printf("%s", m) ;
+```
+
+:::
+
+::::
+
+#### String print
+
+- In C, it is permissable to `printf` a character array directly, but it is not permissable to directly print a numerical value without formatting.
+- I expect you to do this a good bit:
+
+```C
+/* Print an int */
+int n = 1;
+printf("%d", n) ;
+/* Print a char * */
+char *m = "hello world"
+printf(m) ;
+/* Print a single character of a string */
+printf("%c", m[0])
+```
+
 
 :::

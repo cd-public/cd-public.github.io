@@ -17,13 +17,21 @@ subtitle: "Due Th, Jan 23 before class"
 ### Goal: Learn C I/O and strings
 
 - My responsibility
-  - I will provide a development Containerfile
-    - It will include a reference solution in Python
-  - I will provide a testing Containerfile (an autograder)
+  - I will provide a reference solution in Python
+  - I will provide an autograder Containerfile
 - Your responsibility
-  - You will create a solution in C as a .c file
-  - You will save this file as a private GitHub repository
-  - You will ensure [cd-public](https://github.com/cd-public/) has view permissions.
+  - You will create a solution in C as an "enigma.c" file
+  - You will create a [Gist](https://gist.github.com/) with an "enigma.c"
+  - You will email me, from your credentialed school email, the url of your Gist, it will look something like:
+- What follows is reference material to prepare you to implement "enigma.c"
+  - Enigma, Solved, Visual, and Rotors form a description of the requirements
+  - Podman, and Char * cover the technical details that support the implementation.
+
+```email
+https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
+```
+
+### Topic Areas
 
 |Review:    | Newish:    |
 | --------- | ---------- |
@@ -32,15 +40,19 @@ subtitle: "Due Th, Jan 23 before class"
 |- `gcc`    | - ciphers  |
 |- `git`    |            |
 
+### Motivation
+
 - Enigma was a historically significant technology
   - It was a Nazi encryption device, using ciphers
   - It was broken by Turing, gay icon and one of the first and greatest computer scientists
 - At Willamette, Enigma is an (in)famous CS 151 Intro to Programming assignment
-  - Basically it is the first assignment that requires nested for loops
+  - Basically it is the first assignment that requires nested *for loop*s
 - In this course, Enigma will demonstrate the obscurity/clarity divide
   - In Python, letters and numbers are different things
   - In C, there are no letters or really numbers, just bits and bytes
   - This makes Enigma in C **easier**, despite being a "harder" language.
+
+### Reference Materials
 
 - You can review the Python assignment if you wish:
   - Write-ups:
@@ -55,7 +67,6 @@ subtitle: "Due Th, Jan 23 before class"
   - "Solved": A Python implementation of the machine
   - "Visual": A text visualizer of the Engima machine's ciphers
   - "Rotors": A text visualizer of the full Enigma machine
-- The assignment begins with "char *", where students with "CS 151" will wish to begin.
 
 :::
 
@@ -71,6 +82,8 @@ subtitle: "Due Th, Jan 23 before class"
 
 
 ```py
+#!/usr/bin/env python3
+
 # constants                       # constant
 rs = [                            # rotors
     "BDFHJLCPRTXVZNYEIWGAKMUSQO", # fast
@@ -103,8 +116,8 @@ rotors = lambda c : [c := rapply(c,r) for r in rs][-1]
 
 # default position a,b,c -> r,f,o, respectively
 assert([
-    rotors('A'), 
-    rotors('B'), 
+    rotors('A'),
+    rotors('B'),
     rotors('C')
 ] == ['R','F','O'])
 
@@ -116,8 +129,8 @@ nshift = lambda c, n : chr((ord(c) - A + n) % NC + A)
     # medi spins every time fast loops back NC->0
     # slow ""               medi ""
 shifts = lambda l, n : [
-    l % NC, l // NC % NC, l // (NC*NC) % NC, 
-    0, 
+    l % NC, l // NC % NC, l // (NC*NC) % NC,
+    0,
     l // (NC*NC) % NC, l // NC % NC, l % NC
 ][n]
 
@@ -135,11 +148,23 @@ enigma = lambda s : "".join([letter(s[i],i+1) for i in range(len(s))])
 
 # test
 assert([
-    enigma("AAA"), 
-    enigma("ABC"), 
+    enigma("AAA"),
+    enigma("ABC"),
     enigma("ZLC")
 ] == ["ZLC","ZRA","AAA"])
+
+if __name__ == "__main__":
+    import sys
+    print(enigma(sys.argv[1]))
 ```
+
+- Here is an example of how it is used to print "HELLOWORLD":
+
+```email
+python3 enigma.py MNBOASVTTB
+```
+
+
 
 :::
 
@@ -748,30 +773,110 @@ _For the remainder of the write-up, I will assume without loss of generality tha
 
 :::
 
+# Podman&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#podman" role="button" aria-expanded="false" aria-controls = "podman">Show</a>
+
+::: {#podman .collapse .multi-collapse}
+
+
+#### Podman
+
+- I am providing the following Containerfile, which will serve as a minimal autograder
+    - It sets up an Alpine container.
+    - It downloads a Python script to test.
+    - It copies in "enigma.c" from your system.
+
+```{.email filename="Containerfile"}
+FROM alpine
+
+RUN apk add gcc libc-dev python3 curl
+
+RUN curl https://gist.githubusercontent.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40/raw/2d5db57c8e3704df239b21288f30a394a53ca4f8/tester.py -o tester.py
+
+COPY enigma.c .
+```
+
+#### Usage
+
+- I built my container via:
+
+```email
+podman build -t tester .
+```
+
+- I tested my code via:
+
+```email
+podman run tester python3 tester.py
+```
+
+- If the above script returns "Perfect!" you are done.
+    - Create a [Gist](https://gist.github.com/) with an "enigma.c".
+    - Email me the url of your Gist, it will look something like, from your official school email:
+
+```email
+https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
+```
+
+- I will review the most recent version prior to the due date.
+
+
+#### **NOTE**:
+
+- You will probably want to create one container then work in that container until you finish.
+- `podman run` will create a new container each time, which is not what you probably want.
+- The following recycles the previous container, mostly.
+  - Read more: [Stack Overflow](https://stackoverflow.com/a/37886136)
+  
+```email
+podman start -a -i `podman ps -q -l`
+```
+
+
+:::
+
 
 # char *&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#string" role="button" aria-expanded="false" aria-controls = "string">Show</a>
 
 ::: {#string .collapse .multi-collapse}
 
-### Goal: Learn C I/O and strings
+#### Hello, world!
 
-#### No strings
+- I start "enigma.c" with "hello.c" from [Alpine](../dem/alpine.html)
+    - This file will successfully create an executable, not correctly encrypt or decrypt.
+    - Try it out with the autograder container.
+
+```{.C filename="enigma.c"}
+#include <stdio.h>
+
+int main() {
+    printf("hello, world\n");
+    return 0 ;
+}
+```
+
+#### No strings attached
 
 - In C there are no strings.
-  - There are instead things called "char *"
+  - There are instead things called `char *`
   - Say "character star"
+  - We attach the * to the variable name
+    - We'll revisit this latter - it will make sense.
   - That is, an array, or buffer, of characters
     - Not quite a list - closer to a NumPy array.
-- It matters what things are called, because in C we must say what kind of thing a variable is.
+- It matters what things are called.
+  - In C we must say what kind of thing a variable is when we "declare" the variable.
+  - Latter we use the variable, without specifying the kind of thing
+  - But we cannot change its kind.
+  - C variable declaration is like Python function declaration, with `def`
 - We will use format print and variable declarations to introduce "char *"
   - We note that Python `print` appends a newline and C `printf` does not.
-    - I could also specify an non-newline terminator in Python for equivalence.
+    - I specify an non-newline terminator in Python for equivalence.
 
 :::: {.columns}
 
 ::: {.column}
 
-```python
+```{.python filename="test.py"}
 x = 1
 print(f"{x:d}", end="")
 # we can reassign x and change its type
@@ -783,11 +888,11 @@ print(f"{x:s}", end="")
 
 ::: {.column}
 
-```C
+```{.C filename="test.c"}
 int n = 1;
 printf("%d", n) ;
 /* we have to make a new variable of novel type */
-char *m = "hello world"
+char *m = "hello world";
 printf("%s", m) ;
 ```
 
@@ -795,21 +900,310 @@ printf("%s", m) ;
 
 ::::
 
-#### String print
+- Both have the same output:
+  - The numerical value "1" and the string value "hello world" on the same line.
 
-- In C, it is permissable to `printf` a character array directly, but it is not permissable to directly print a numerical value without formatting.
-- I expect you to do this a good bit:
-
-```C
-/* Print an int */
-int n = 1;
-printf("%d", n) ;
-/* Print a char * */
-char *m = "hello world"
-printf(m) ;
-/* Print a single character of a string */
-printf("%c", m[0])
+```email
+1hello world
 ```
 
 
+- You can update "hello.c" to use a format print.
+  - This will form the basis of output in this assignment.
+
+```{.C filename="enigma.c"}
+#include <stdio.h>
+
+int main() {
+    char *str = "hello, world";
+    printf("%s\n", str);
+    return 0 ;
+}
+```
+
+#### Constants
+
+- The C language has a formal support for constants
+    - These are values that a fixed when the executable is created.
+    - They may not be reassigned by any line of code.
+- The `#define` "pre-processor directive" is used to create constants.
+    - `#define` is like `#include` which is somewhat like `import`
+    - It defines new values, which are not variables, for use in the .c file
+    - The pre-processor reads .c files before the executable is created.
+- We can also use `#define` for strings, such as the rotor strings.
+    - By convention, constants, are named in all caps, like `ROTORS`
+    - I used a single string of all rotors concatenated.
+    - You may do whatever works for you.
+    
+```{.C filename="enigma.c"}
+#include <stdio.h>
+
+#define STR "hello, world"
+
+int main() {
+    printf("%s\n", STR);
+    return 0 ;
+}
+```
+
+- An astute learner will note that constants need not be computed within an executable.
+- It is not uncommon to compute constants in a different file, or even in a different language.
+  - My `ROTORS` constant was computed in Python.
+  - I used Python file operations to save this computation to "enigma.c"
+  - Via `vim` I used the "yank" and "paste" features to move it to the top of "enigma.c".
+
+#### Just a little bit
+
+- In C, characters aren't printing characters.
+  - They are "just bits" - a collection of ones and zeroes, or a number.
+  - We attach the * to the variable name
+    - We'll revisit this latter - it will make sense.
+  - This differs from Python, which uses strings of length one.
+    - This is sketchy, sometimes.
+    - Strings are a non-numeric.
+- If we want to use a numerical value as a printing character, we use a format print.
+- **C characters use single quotes, and C strings use double quotes.**
+
+
+:::: {.columns}
+
+::: {.column}
+
+```{.python filename="test.py"}
+x = ord('A')
+print(f"{x:d}, {x:x}, {x:c}")
+```
+
 :::
+
+::: {.column}
+
+```{.C filename="test.c"}
+/* We do not use anything like ord() */
+printf("%d, %x, %c\n", 'A','A','A');
+```
+
+:::
+
+::::
+
+- Both have the same output:
+  - The decimal (base 10), hexadecimal (base 16), and unicode/ascii *representations* of the same *value*.
+
+```email
+65, 41, A
+```
+
+- An astute learner will note that this insight is sufficient to implement a rotor.
+
+:::
+
+# C loop <a class="btn btn-primary" data-bs-toggle="collapse" href="#loop" role="button" aria-expanded="false" aria-controls = "loop">Show</a>
+
+::: {#loop .collapse .multi-collapse}
+
+### Building Character
+
+- The core complication of the Enigma machine was that it was an *iterative* cipher.
+- Let's practice iteration by iterating over a char *
+- We note:
+  - In C there is no string, list, tuple, generator, dictionary, or set type.
+  - In Python, *for loop*s require one of these types.
+  - Henceforth we refer to the C *for loop* as a "*for loop*" and Python *for loop* as a "*for each loop*".
+- A *for loop* is composed of three components:
+  - Initiate
+  - Terminate
+  - Iterate
+- Syntactically, they are structured follows:
+
+```C
+for ( 𝘪𝘯𝘪𝘵𝘪𝘢𝘵𝘦; 𝘵𝘦𝘳𝘮𝘪𝘯𝘢𝘵𝘦; 𝘪𝘵𝘦𝘳𝘢𝘵𝘦) { 
+    𝘤𝘰𝘥𝘦 𝘣𝘭𝘰𝘤𝘬
+}
+```
+
+- Print 0 through 9
+
+```C
+int i ;
+for ( i = 0; i < 10; i++) { 
+    printf("%d\n", i);
+}
+```
+
+- We now explore each component.
+- An astute learner will note that this insight is sufficient to implement the entire enigma machine.
+  - Remaining headings provide guidance on common pitfalls.
+  - If you can do enigma now, skip to "C args"
+
+#### Iterate
+
+- The last of the three *for loop* components, the iterator, is closest to the Python *for each loop*.
+- The iterator statement is run each time the loop completes, after the internal code block is run.
+- Any statement may be placed in this position.
+- The most common is `i++`, a special shorthand for incrementation.
+  - It is logically equivalent to Python `i += 1`.
+- Find the length of the first word in a string with an iterator only:
+    - Increase a string index by one within the iterator.
+    - Include an if statement in the *for loop* code block.
+    - Use a return statement in the if statement code block.
+
+```C
+char *str = "hello world";
+int i = 0;
+for ( ; ; i++) {
+        if (str[i] == ' ') {
+                printf("%d\n", i);
+                return 0;
+        }
+}
+```
+
+#### Terminate
+
+- Unlike Python strings, C character arrays have no length.
+- Rather, they end with a special character.
+  - This character is called the *null terminator*
+  - It is non-printing (not visible).
+  - It is denoted explicitly via ```'\0'```
+    - Single quotes to denote a character.
+    - A backslash "escape" character to denote a special character.
+    - A zero to denote it is "null", "zero", or "nothing"
+  - It is numerically equal to zero.
+- Unlike Python booleans, C has no boolean type.
+  - Rather it has truthiness, akin to Python if statements with numerical conditions.
+  - The numerical value zero is false.
+  - All other numerical values are true.
+- The termination statement causes the loop to end when it is equal to zero.
+- Find the length of the first word in a string with a terminator only:
+    - Check if a character is the null terminator in the termination statement.
+    - Include an incrementation in the *for loop* code block.
+
+```C
+char *str = "hello world";
+int i = 0;
+for ( ; str[i] ; ) {
+        i++;
+}
+printf("%d\n", i);
+return 0;
+```
+
+- This is also a good example of how sometimes the C *for loop* may have no code block.
+  - Here is a logically equivalent way to measure the length of a char * serving as a string.
+
+```C
+char *str = "hello world";
+int i = 0;
+for ( ; str[i] ; i++ ) { }
+printf("%d\n", i);
+return 0;
+```
+
+- This is also a good chance to test what order the terminator and iterator are checked.
+  - The terminator is checked before the iterator.
+  - The iterator does not if the terminator is true.
+- This matters a lot in this case, where the length calculated would be off by one.
+  - 12 instead of 11
+  - The value of the iteration variable `i` is increased the same time the terminator is checked.
+  - So the null terminator is at index 11 but this C code would print the numerical value 12.
+
+```C
+char *str = "hello world";
+int i = 0;
+for ( ; str[i++] ; ) { }
+printf("%d\n", i);
+return 0;
+```
+
+#### Initiate
+
+- The initiator allows setting a variable to a certain value before beginning a loop.
+- I mostly use it when I have more than one loop, and want to use `i` for both.
+- Here is the above example, with an iniatiator.
+```C
+char *str = "hello world";
+int i ;
+for ( i = 0; str[i++] ; ) { }
+printf("%d\n", i);
+return 0;
+```
+- The following is permissable in all modern forms of C, but was not an initial feature of the language.
+  - As a rule, I try not to declare variables in the initializer so my code works on older devices.
+  - It also makes writing a C compiler easier, if you ever plan to do that.
+  
+```C
+char *str = "hello world";
+for ( int i = 0; str[i++] ; ) { }
+printf("%d\n", i);
+return 0;
+```
+
+:::
+
+# Arrays <a class="btn btn-primary" data-bs-toggle="collapse" href="#arrays" role="button" aria-expanded="false" aria-controls = "arrays">Show</a>
+
+::: {#arrays .collapse .multi-collapse}
+
+# <span style="color:red">TODO</code>
+
+### Building Character
+
+- Modulo
+- Intdiv
+
+```C
+blah blah blah
+```
+
+
+#### Iterate
+
+- Blah
+
+:::
+
+# C math <a class="btn btn-primary" data-bs-toggle="collapse" href="#math" role="button" aria-expanded="false" aria-controls = "math">Show</a>
+
+::: {#math .collapse .multi-collapse}
+
+# <span style="color:red">TODO</code>
+
+### Building Character
+
+- Modulo
+- Intdiv
+
+```C
+blah blah blah
+```
+
+
+#### Iterate
+
+- Blah
+
+:::
+
+# C args <a class="btn btn-primary" data-bs-toggle="collapse" href="#args" role="button" aria-expanded="false" aria-controls = "args">Show</a>
+
+::: {#args .collapse .multi-collapse}
+
+# <span style="color:red">TODO</code>
+
+### Building Character
+
+- Modulo
+- Intdiv
+
+```C
+blah blah blah
+```
+
+
+#### Iterate
+
+- Blah
+
+:::
+

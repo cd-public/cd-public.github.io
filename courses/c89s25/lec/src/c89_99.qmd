@@ -24,7 +24,7 @@ execute:
 
 - The first homework, "Enigma", is due when class starts Th of Week 0x1
 - The next homework, "Ch/Maj", is ready at any time
-  - Fiddling with bits, building on the lab, now in a good language!
+  - Fiddling with bits, building on the lab, etc.
   - Applies our learnings from today.
   
 # Today
@@ -68,7 +68,7 @@ execute:
 # Images
 
 - Something we `podman run -it` is an _image_
-  - It is a template that correspond to many possible pretend computers
+  - It is a template that corresponds to many possible pretend computers
   - I think of them like object oriented class
   - They define something that could be
 
@@ -91,12 +91,156 @@ execute:
   - The executable deorbited a space station. /s
   - You closed the container and went to touch grass.
 
+# Attach
+
+- After touching grass, you
+  - Came back to your PC
+  - Had no graceful way to continue working on the code you wrote.
+- We solve this with attachment and detachment.
+
+# Servers
+
+- One of the most common ways to use containers is web dev.
+- They are easier to think of as:
+  - A program, which
+  - Hosts a webpage, which
+  - Happens to need to run somewhere
+    - That somewhere is a command line
+    - Inside a pretend computer (container).
+    
+# Sample
+
+- Docker maintains a sample container.
+  - Podman is busy being free and open source.
+- Try this:
+```email
+podman run -d -p 8080:80 docker/welcome-to-docker
+```
+- You can probably find it at this link:
+  - [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
+
+# Breakdown
+
+| Command    | Explanation |
+| -------- | ------- |
+| `podman`  | do something with containers   |
+| `run` | run a new container     |
+| `-d`    | detach - we'll cover this next    |
+| `-p`  | This is port forward... |
+| `8080:80` | 80 is where websites usually live
+|           | 8080 is where we went (:8080)
+| `docker/...` | Name of an image |
+
+# Ports
+
+- Ports aren't the point, but
+- We should demystify.
+- Change `8080:80` to `8083:80`
+```email
+podman run -d -p 8083:80 docker/welcome-to-docker
+```
+- Change the link as well.
+  - [http://127.0.0.1:8083/](http://127.0.0.1:8083/)
+  
+# Two pages
+
+- Wait a minute...
+  - There's a webpage at 8080
+  - There's a webpage at 8083
+  - They're both from the same image.
+  - They were started in the same command line (maybe)
+- That is two containers running concurrently.
+  - Enter `-d`
+  
+# Detach
+
+- When we run an image with the `-d` flag, it:
+  - Created and run as any other container, but
+  - Runs "in the background"
+    - Control does not change to container
+    - It runs only its start command
+    - It's just like a remote web server.
+
+# Detach Dev
+
+- A perhaps nicer way to write code is
+  - Create and detach a container
+  - Leave it running or whatever
+  - Use other `podman` commands to:
+    - Pop into the container and e.g. `vim`
+    - Transfer files in our out
+    - Pause and restart to save resources.
+
+
+# ps
+
+- When fiddling about with containers...
+  - It's good to know who they are (names)
+  - And what they do (command)
+- We can use `podman ps`
+```email
+podman ps
+```
+- We see two servers (nginx) running 
+  
+```email
+CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                         NAMES
+7d6af09131b5  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8080->80/tcp, 80/tcp  confident_darwin
+2e1b9f844dcd  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8083->80/tcp, 80/tcp  adoring_shamir
+```
+
+# ps -a
+
+- You have probably also made many containers
+- `podman ps -a` to see old containers.
+```email
+podman ps -a
+```
+- I had many such containers!
+  - 4 GB worth, to be exact
+- Clean them all up with prune
+```email
+podman system prune
+```
+- System = containers, images, everything
+
+# exec -it
+
+- If there's a detached container running
+- We can execute commands in that container.
+- You only have to specify enough of the name or id to be unique.
+  - I had a server at 8080 beginning with id 7...
+```email
+podman exec -it 7d echo hello
+```
+- This returns hello, directly, without switching into the container.
+
+# /bin/sh
+
+- So far, I haven't found a container without `/bin/sh`
+- This is the Linux command line, more or less
+  - bash > sh, but sometimes only sh available
+- We can get an interactive command prompt via
+```email
+podman exec -it 7d /bin/sh
+```
+- This is roughly the same as `run -it`
+  - But on an existing container, not a base image
+  
+# vim
+
+- I've adopted a strong preference for just using `vim`
+  - When I exit `vim`, I implicitly exit the container.
+  - Feels better than typing `exit`, to me
+- So if we create an image with vim, we can
+```email
+podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim
+```
+- And go from there.
+
 # Today
 
-- &check; Introduce the course
-  - &check; The C Programming Language
-  - &check; Cryptography + Cryptocurrency
-- Introduce the technologies
+- Reintroduce the technologies
   - &check; `podman`
   - `vim`
   - `gcc`

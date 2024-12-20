@@ -429,7 +429,7 @@ Prof.&nbsp;Calvin
 <li>The first homework, “Enigma”, is due when class starts Th of Week 0x1</li>
 <li>The next homework, “Ch/Maj”, is ready at any time
 <ul>
-<li>Fiddling with bits, building on the lab, now in a good language!</li>
+<li>Fiddling with bits, building on the lab, etc.</li>
 <li>Applies our learnings from today.</li>
 </ul></li>
 </ul>
@@ -507,7 +507,7 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Something we <code>podman run -it</code> is an <em>image</em>
 <ul>
-<li>It is a template that correspond to many possible pretend computers</li>
+<li>It is a template that corresponds to many possible pretend computers</li>
 <li>I think of them like object oriented class</li>
 <li>They define something that could be</li>
 </ul></li>
@@ -543,15 +543,253 @@ Prof.&nbsp;Calvin
 </ul>
 </section>
 
+<section id="attach" class="title-slide slide level1 center">
+<h1>Attach</h1>
+<ul>
+<li>After touching grass, you
+<ul>
+<li>Came back to your PC</li>
+<li>Had no graceful way to continue working on the code you wrote.</li>
+</ul></li>
+<li>We solve this with attachment and detachment.</li>
+</ul>
+</section>
+
+<section id="servers" class="title-slide slide level1 center">
+<h1>Servers</h1>
+<ul>
+<li>One of the most common ways to use containers is web dev.</li>
+<li>They are easier to think of as:
+<ul>
+<li>A program, which</li>
+<li>Hosts a webpage, which</li>
+<li>Happens to need to run somewhere
+<ul>
+<li>That somewhere is a command line</li>
+<li>Inside a pretend computer (container).</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="sample" class="title-slide slide level1 center">
+<h1>Sample</h1>
+<ul>
+<li>Docker maintains a sample container.
+<ul>
+<li>Podman is busy being free and open source.</li>
+</ul></li>
+<li>Try this:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb1-1"><a></a>podman run -d -p 8080:80 docker/welcome-to-docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>You can probably find it at this link:
+<ul>
+<li><a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="breakdown" class="title-slide slide level1 center">
+<h1>Breakdown</h1>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>podman</code></td>
+<td>do something with containers</td>
+</tr>
+<tr class="even">
+<td><code>run</code></td>
+<td>run a new container</td>
+</tr>
+<tr class="odd">
+<td><code>-d</code></td>
+<td>detach - we’ll cover this next</td>
+</tr>
+<tr class="even">
+<td><code>-p</code></td>
+<td>This is port forward…</td>
+</tr>
+<tr class="odd">
+<td><code>8080:80</code></td>
+<td>80 is where websites usually live</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>8080 is where we went (:8080)</td>
+</tr>
+<tr class="odd">
+<td><code>docker/...</code></td>
+<td>Name of an image</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="ports" class="title-slide slide level1 center">
+<h1>Ports</h1>
+<ul>
+<li>Ports aren’t the point, but</li>
+<li>We should demystify.</li>
+<li>Change <code>8080:80</code> to <code>8083:80</code></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a></a>podman run -d -p 8083:80 docker/welcome-to-docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Change the link as well.
+<ul>
+<li><a href="http://127.0.0.1:8083/">http://127.0.0.1:8083/</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="two-pages" class="title-slide slide level1 center">
+<h1>Two pages</h1>
+<ul>
+<li>Wait a minute…
+<ul>
+<li>There’s a webpage at 8080</li>
+<li>There’s a webpage at 8083</li>
+<li>They’re both from the same image.</li>
+<li>They were started in the same command line (maybe)</li>
+</ul></li>
+<li>That is two containers running concurrently.
+<ul>
+<li>Enter <code>-d</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="detach" class="title-slide slide level1 center">
+<h1>Detach</h1>
+<ul>
+<li>When we run an image with the <code>-d</code> flag, it:
+<ul>
+<li>Created and run as any other container, but</li>
+<li>Runs “in the background”
+<ul>
+<li>Control does not change to container</li>
+<li>It runs only its start command</li>
+<li>It’s just like a remote web server.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="detach-dev" class="title-slide slide level1 center">
+<h1>Detach Dev</h1>
+<ul>
+<li>A perhaps nicer way to write code is
+<ul>
+<li>Create and detach a container</li>
+<li>Leave it running or whatever</li>
+<li>Use other <code>podman</code> commands to:
+<ul>
+<li>Pop into the container and e.g.&nbsp;<code>vim</code></li>
+<li>Transfer files in our out</li>
+<li>Pause and restart to save resources.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="ps" class="title-slide slide level1 center">
+<h1>ps</h1>
+<ul>
+<li>When fiddling about with containers…
+<ul>
+<li>It’s good to know who they are (names)</li>
+<li>And what they do (command)</li>
+</ul></li>
+<li>We can use <code>podman ps</code></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a></a>podman ps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>We see two servers (nginx) running</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a></a>CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                         NAMES</span>
+<span id="cb4-2"><a></a>7d6af09131b5  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8080-&gt;80/tcp, 80/tcp  confident_darwin</span>
+<span id="cb4-3"><a></a>2e1b9f844dcd  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8083-&gt;80/tcp, 80/tcp  adoring_shamir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="ps--a" class="title-slide slide level1 center">
+<h1>ps -a</h1>
+<ul>
+<li>You have probably also made many containers</li>
+<li><code>podman ps -a</code> to see old containers.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb5-1"><a></a>podman ps -a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>I had many such containers!
+<ul>
+<li>4 GB worth, to be exact</li>
+</ul></li>
+<li>Clean them all up with prune</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a></a>podman system prune</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>System = containers, images, everything</li>
+</ul>
+</section>
+
+<section id="exec--it" class="title-slide slide level1 center">
+<h1>exec -it</h1>
+<ul>
+<li>If there’s a detached container running</li>
+<li>We can execute commands in that container.</li>
+<li>You only have to specify enough of the name or id to be unique.
+<ul>
+<li>I had a server at 8080 beginning with id 7…</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a></a>podman exec -it 7d echo hello</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>This returns hello, directly, without switching into the container.</li>
+</ul>
+</section>
+
+<section id="binsh" class="title-slide slide level1 center">
+<h1>/bin/sh</h1>
+<ul>
+<li>So far, I haven’t found a container without <code>/bin/sh</code></li>
+<li>This is the Linux command line, more or less
+<ul>
+<li>bash &gt; sh, but sometimes only sh available</li>
+</ul></li>
+<li>We can get an interactive command prompt via</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a></a>podman exec -it 7d /bin/sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This is roughly the same as <code>run -it</code>
+<ul>
+<li>But on an existing container, not a base image</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="vim" class="title-slide slide level1 center">
+<h1>vim</h1>
+<ul>
+<li>I’ve adopted a strong preference for just using <code>vim</code>
+<ul>
+<li>When I exit <code>vim</code>, I implicitly exit the container.</li>
+<li>Feels better than typing <code>exit</code>, to me</li>
+</ul></li>
+<li>So if we create an image with vim, we can</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>And go from there.</li>
+</ul>
+</section>
+
 <section id="today-1" class="title-slide slide level1 center">
 <h1>Today</h1>
 <ul>
-<li>✓ Introduce the course
-<ul>
-<li>✓ The C Programming Language</li>
-<li>✓ Cryptography + Cryptocurrency</li>
-</ul></li>
-<li>Introduce the technologies
+<li>Reintroduce the technologies
 <ul>
 <li>✓ <code>podman</code></li>
 <li><code>vim</code></li>
@@ -614,7 +852,7 @@ Prof.&nbsp;Calvin
 </ul>
 </section>
 
-<section id="vim" class="title-slide slide level1 center">
+<section id="vim-1" class="title-slide slide level1 center">
 <h1>Vim</h1>
 <ul>
 <li>Vim isn’t too bad
@@ -633,12 +871,12 @@ Prof.&nbsp;Calvin
 <li>We can install and run <code>vim</code> inside a container (which happens to run Debian &amp; ∴ <code>apt</code>)</li>
 <li>Even directly from Python…</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> os</span>
-<span id="cb1-2"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt update"</span>) <span class="co"># update the registry of packages</span></span>
-<span id="cb1-3"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
-<span id="cb1-4"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt install vim -y"</span>) <span class="co"># -y saves us from having to say "yes" to any prompts</span></span>
-<span id="cb1-5"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
-<span id="cb1-6"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"vim"</span>) <span class="co"># a vim window will open</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> os</span>
+<span id="cb10-2"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt update"</span>) <span class="co"># update the registry of packages</span></span>
+<span id="cb10-3"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
+<span id="cb10-4"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt install vim -y"</span>) <span class="co"># -y saves us from having to say "yes" to any prompts</span></span>
+<span id="cb10-5"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
+<span id="cb10-6"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"vim"</span>) <span class="co"># a vim window will open</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>This is <code>vim</code> inside <code>python</code> inside <code>podman</code>
 <ul>
@@ -647,22 +885,22 @@ Prof.&nbsp;Calvin
 </ul>
 </section>
 
-<section id="vim-1" class="title-slide slide level1 center">
+<section id="vim-2" class="title-slide slide level1 center">
 <h1>Vim</h1>
 <ul>
 <li>It looks like this:</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="ex">~</span>               VIM <span class="at">-</span> Vi IMproved</span>
-<span id="cb2-2"><a></a><span class="ex">~</span>                  version 9.1</span>
-<span id="cb2-3"><a></a><span class="ex">~</span>            by Bram Moolenaar et al.</span>
-<span id="cb2-4"><a></a><span class="ex">~</span>   Vim is open source and freely distributable</span>
-<span id="cb2-5"><a></a><span class="ex">~</span></span>
-<span id="cb2-6"><a></a><span class="ex">~</span>          Become a registered Vim user!</span>
-<span id="cb2-7"><a></a><span class="ex">~</span>  type  :help register<span class="op">&lt;</span>Enter<span class="op">&gt;</span>   for information</span>
-<span id="cb2-8"><a></a><span class="ex">~</span></span>
-<span id="cb2-9"><a></a><span class="ex">~</span>  type  :q<span class="op">&lt;</span>Enter<span class="op">&gt;</span>              to exit</span>
-<span id="cb2-10"><a></a><span class="ex">~</span>  type  :help<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  or  <span class="op">&lt;</span>F1<span class="op">&gt;</span> for on-line help</span>
-<span id="cb2-11"><a></a><span class="ex">~</span>  type  :help version9<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  for version info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="ex">~</span>               VIM <span class="at">-</span> Vi IMproved</span>
+<span id="cb11-2"><a></a><span class="ex">~</span>                  version 9.1</span>
+<span id="cb11-3"><a></a><span class="ex">~</span>            by Bram Moolenaar et al.</span>
+<span id="cb11-4"><a></a><span class="ex">~</span>   Vim is open source and freely distributable</span>
+<span id="cb11-5"><a></a><span class="ex">~</span></span>
+<span id="cb11-6"><a></a><span class="ex">~</span>          Become a registered Vim user!</span>
+<span id="cb11-7"><a></a><span class="ex">~</span>  type  :help register<span class="op">&lt;</span>Enter<span class="op">&gt;</span>   for information</span>
+<span id="cb11-8"><a></a><span class="ex">~</span></span>
+<span id="cb11-9"><a></a><span class="ex">~</span>  type  :q<span class="op">&lt;</span>Enter<span class="op">&gt;</span>              to exit</span>
+<span id="cb11-10"><a></a><span class="ex">~</span>  type  :help<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  or  <span class="op">&lt;</span>F1<span class="op">&gt;</span> for on-line help</span>
+<span id="cb11-11"><a></a><span class="ex">~</span>  type  :help version9<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  for version info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="usage" class="title-slide slide level1 center">
@@ -704,8 +942,8 @@ Prof.&nbsp;Calvin
 <li>(The C language was invented to write an operating system).</li>
 <li><code>python</code> is written in GCC C</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>C:\Users\cd<span class="op">-</span>desk<span class="op">&gt;</span>podman run <span class="op">-</span>it python</span>
-<span id="cb3-2"><a></a>Python <span class="fl">3.13.1</span> (main, Dec  <span class="dv">4</span> <span class="dv">2024</span>, <span class="dv">20</span>:<span class="dv">40</span>:<span class="dv">27</span>) [GCC <span class="fl">12.2.0</span>] on linux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>C:\Users\cd<span class="op">-</span>desk<span class="op">&gt;</span>podman run <span class="op">-</span>it python</span>
+<span id="cb12-2"><a></a>Python <span class="fl">3.13.1</span> (main, Dec  <span class="dv">4</span> <span class="dv">2024</span>, <span class="dv">20</span>:<span class="dv">40</span>:<span class="dv">27</span>) [GCC <span class="fl">12.2.0</span>] on linux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="great-freeware" class="title-slide slide level1 center">

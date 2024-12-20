@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.6.30">
 
   <meta name="author" content="Prof.&nbsp;Calvin">
-  <title>Docker</title>
+  <title>C89/99</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -384,14 +384,17 @@
       margin-right: 0; 
     }
   </style>
+  <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-dark">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Docker</h1>
-  <p class="subtitle">Week 0x0</p>
+  <h1 class="title">C89/99</h1>
+  <p class="subtitle">Week 0x1</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -405,144 +408,48 @@ Prof.&nbsp;Calvin
 </div>
 
 </section>
-<section id="pointers-and-recursion-in-systems-programming" class="title-slide slide level1 center">
-<h1>Pointers and Recursion in Systems Programming</h1>
+<section id="announcements" class="title-slide slide level1 center">
+<h1>Announcements</h1>
 <ul>
-<li><strong>Definition:</strong>
+<li><strong>Welcome</strong> to variously CS 276/CS 540</li>
+<li><strong>Action Items</strong>:
 <ul>
-<li>Pointers: Variables that store memory addresses.</li>
-<li>Recursion: Functions calling themselves to solve sub-problems.</li>
+<li>Get out our feelings on the Enigma assignment
+<ul>
+<li>We are learning by doing.</li>
 </ul></li>
-<li><strong>Importance:</strong>
-<ul>
-<li>Core to efficient algorithms and memory management in low-level programming.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="c-and-pointers" class="title-slide slide level1 center">
-<h1>C and Pointers</h1>
-<ul>
-<li><strong>Why C?</strong>
-<ul>
-<li>Direct memory manipulation using pointers.</li>
-<li>Insights into hardware-level operations.</li>
-</ul></li>
-<li><strong>Example:</strong> Pointer basics and dereferencing.</li>
-</ul>
-</section>
-
-<section id="c-for-low-level-design-choices" class="title-slide slide level1 center">
-<h1>C for Low-Level Design Choices</h1>
-<ul>
-<li><strong>Advantages of C:</strong>
-<ul>
-<li>Fine-grained control over memory and resources.</li>
-<li>Essential for systems programming and embedded systems.</li>
+<li>Next homework coming out now - Ch/Maj</li>
 </ul></li>
 </ul>
 </section>
 
-<section id="c-and-cryptography" class="title-slide slide level1 center">
-<h1>C and Cryptography</h1>
+<section id="homework" class="title-slide slide level1 center">
+<h1>Homework</h1>
 <ul>
-<li><strong>Why C for Cryptography?</strong>
+<li>The first homework, “Enigma”, is due when class starts Th of Week 0x1</li>
+<li>The next homework, “Ch/Maj”, is ready at any time
 <ul>
-<li>High performance for computationally intense tasks.</li>
-<li>Precise control over data structures.</li>
+<li>Fiddling with bits, building on the lab, now in a good language!</li>
+<li>Applies our learnings from today.</li>
 </ul></li>
 </ul>
 </section>
 
-<section id="overview-of-rsa" class="title-slide slide level1 center">
-<h1>Overview of RSA</h1>
+<section id="today" class="title-slide slide level1 center">
+<h1>Today</h1>
 <ul>
-<li><strong>RSA Basics:</strong>
+<li>Reintroduce the technologies
 <ul>
-<li>Public-key cryptography algorithm.</li>
-<li>Based on the difficulty of factoring large integers.</li>
-</ul></li>
-<li><strong>Use Cases:</strong>
-<ul>
-<li>Secure communication, digital signatures.</li>
+<li><code>podman</code></li>
+<li><code>vim</code></li>
+<li><code>gcc</code></li>
+<li><code>git</code></li>
 </ul></li>
 </ul>
 </section>
 
-<section id="overview-of-sha" class="title-slide slide level1 center">
-<h1>Overview of SHA</h1>
-<ul>
-<li><strong>SHA Basics:</strong>
-<ul>
-<li>Cryptographic hash function family.</li>
-<li>Converts input data into fixed-size hash values.</li>
-</ul></li>
-<li><strong>Use Cases:</strong>
-<ul>
-<li>Data integrity verification, digital signatures.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="overview-of-aes" class="title-slide slide level1 center">
-<h1>Overview of AES</h1>
-<ul>
-<li><strong>AES Basics:</strong>
-<ul>
-<li>Symmetric encryption algorithm.</li>
-<li>Operates on fixed-size blocks of data.</li>
-</ul></li>
-<li><strong>Use Cases:</strong>
-<ul>
-<li>Secure data transmission, storage encryption.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="rsa-sha-and-blockchain" class="title-slide slide level1 center">
-<h1>RSA + SHA and Blockchain</h1>
-<ul>
-<li><strong>Facilitating Blockchain:</strong>
-<ul>
-<li>RSA: Ensures secure transactions.</li>
-<li>SHA: Ensures data integrity.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="blockchain-and-core-concepts" class="title-slide slide level1 center">
-<h1>Blockchain and Core Concepts</h1>
-<ul>
-<li><strong>Pointers and Recursion in Blockchain:</strong>
-<ul>
-<li>Blockchain structure resembles linked lists.</li>
-<li>Recursion for traversing chains.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="blockchain-and-merkle-trees" class="title-slide slide level1 center">
-<h1>Blockchain and Merkle Trees</h1>
-<ul>
-<li><strong>Merkle Trees:</strong>
-<ul>
-<li>Tree structure ensuring data integrity.</li>
-<li>Hashes stored as nodes; pointers link them.</li>
-</ul></li>
-<li><strong>Relation to Pointers and Recursion:</strong>
-<ul>
-<li>Pointers link nodes, recursion for traversal and verification.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="break" class="title-slide slide level1 center">
-<h1>Break</h1>
-
-</section>
-
-<section id="what-is-docker" class="title-slide slide level1 center">
-<h1>What is Docker?</h1>
+<section id="what-is-podman" class="title-slide slide level1 center">
+<h1>What is Podman?</h1>
 <ul>
 <li><strong>Definition:</strong>
 <ul>
@@ -552,59 +459,374 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Portability, consistency across environments.</li>
 </ul></li>
-</ul>
-</section>
-
-<section id="using-docker-on-different-platforms" class="title-slide slide level1 center">
-<h1>Using Docker on Different Platforms</h1>
+<li><strong>Editorializing:</strong>
 <ul>
-<li><strong>Windows, Mac, Linux:</strong>
-<ul>
-<li>Install Docker Desktop.</li>
-<li>Configure and start containers.</li>
+<li>Probably all code should be written in a container now that they exist.</li>
 </ul></li>
 </ul>
 </section>
 
-<section id="using-docker-for-gcc" class="title-slide slide level1 center">
-<h1>Using Docker for GCC</h1>
+<section id="in-practice" class="title-slide slide level1 center">
+<h1>In practice:</h1>
 <ul>
-<li><strong>Steps:</strong>
+<li><strong>Windows</strong> only
 <ul>
-<li>Pull a GCC image: <code>docker pull gcc</code>.</li>
-<li>Start a container: <code>docker run -it gcc /bin/bash</code>.</li>
+<li>Run <code>wsl --install -d ubuntu</code> command once</li>
+</ul></li>
+<li><strong>Windows+Mac:</strong>
+<ul>
+<li>Use Podman Installer once</li>
+<li>Launch Podman Desktop each time you code</li>
+<li>Use <code>podman</code> commands</li>
+</ul></li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Have fun with your package manager.</li>
 </ul></li>
 </ul>
 </section>
 
-<section id="writing-c-hello-world-in-docker" class="title-slide slide level1 center">
-<h1>Writing C Hello World in Docker</h1>
+<section id="podman" class="title-slide slide level1 center">
+<h1>Podman</h1>
 <ul>
-<li><strong>Example:</strong>
+<li>Podman solves the problem of writing code on one computer and running it another.</li>
+<li>Simply specify a Podman image
 <ul>
-<li><p>Create a <code>hello.c</code> file:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb1-2"><a></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-3"><a></a>    printf<span class="op">(</span><span class="st">"Hello, World!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb1-4"><a></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Compile and run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="fu">gcc</span> hello.c <span class="at">-o</span> hello</span>
-<span id="cb2-2"><a></a><span class="ex">./hello</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>a description of a imaginary computer</li>
+</ul></li>
+<li>Podman will pretend to be that computer</li>
+<li>We can run code “inside” Podman
+<ul>
+<li>Code in the container can’t tell it’s running inside Podman</li>
 </ul></li>
 </ul>
 </section>
 
-<section id="committing-to-git" class="title-slide slide level1 center">
-<h1>Committing to Git</h1>
+<section id="images" class="title-slide slide level1 center">
+<h1>Images</h1>
 <ul>
-<li><strong>Steps:</strong>
+<li>Something we <code>podman run -it</code> is an <em>image</em>
 <ul>
-<li>Initialize a repository: <code>git init</code>.</li>
-<li>Add files: <code>git add .</code>.</li>
-<li>Commit changes: <code>git commit -m "Initial commit"</code>.</li>
+<li>It is a template that correspond to many possible pretend computers</li>
+<li>I think of them like object oriented class</li>
+<li>They define something that could be</li>
 </ul></li>
 </ul>
+</section>
+
+<section id="containers" class="title-slide slide level1 center">
+<h1>Containers</h1>
+<ul>
+<li>Each time we run said command, we have a different <em>container</em>
+<ul>
+<li>They have different file systems</li>
+<li>Things we install don’t persist to future <code>run</code> instances.</li>
+<li>I think of them like objects of a class</li>
+<li>Like ‘1’ instead of ‘integer’</li>
+<li>They are actually existing, running code.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="reuse" class="title-slide slide level1 center">
+<h1>Reuse</h1>
+<ul>
+<li>On Enigma, probably:
+<ul>
+<li>You opened a container.</li>
+<li>You wrote some code in vim.</li>
+<li>You compiled the code.</li>
+<li>You ran the executable.</li>
+<li>The executable deorbited a space station. /s</li>
+<li>You closed the container and went to touch grass.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="today-1" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Introduce the course
+<ul>
+<li>✓ The C Programming Language</li>
+<li>✓ Cryptography + Cryptocurrency</li>
+</ul></li>
+<li>Introduce the technologies
+<ul>
+<li>✓ <code>podman</code></li>
+<li><code>vim</code></li>
+<li><code>gcc</code></li>
+<li><code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="ides" class="title-slide slide level1 center">
+<h1>IDEs</h1>
+<ul>
+<li>At some point in time, code started being written in IDEs.
+<ul>
+<li>Integrated design environments.</li>
+<li>To me, the first one was Eclipse (for Java)</li>
+</ul></li>
+<li>VS Code is the ascendent IDE, and is everywhere.
+<ul>
+<li>Google Cloud has <strong>browser based</strong> VS Code clone</li>
+</ul></li>
+<li>VS Code has some nice things - including good <code>git</code> and <code>docker</code> (less so <code>podman</code>) integration.</li>
+</ul>
+</section>
+
+<section id="integration" class="title-slide slide level1 center">
+<h1>Integration</h1>
+<ul>
+<li>VS Code has some nice things
+<ul>
+<li>Works with <code>git</code>/<code>docker</code> (less so <code>podman</code>).</li>
+<li>You know what else can do that?</li>
+<li>The command line</li>
+<li>Which you don’t have to install</li>
+</ul></li>
+<li>IDEs are ~new, the was command line utilities
+<ul>
+<li>Vi(m)</li>
+<li>Emacs</li>
+<li>Nano</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="why-vim" class="title-slide slide level1 center">
+<h1>Why Vim?</h1>
+<ul>
+<li>While IDEs are ascendent…
+<ul>
+<li>The are not installed on every system</li>
+<li>They can be hard to use in cloud</li>
+<li>They can start costing money at any time</li>
+<li>They seem slower and to produce worse code</li>
+</ul></li>
+<li>Like Python, IDEs are easy!
+<ul>
+<li>This is good for new coders</li>
+<li>It is a design decision thereafter</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="vim" class="title-slide slide level1 center">
+<h1>Vim</h1>
+<ul>
+<li>Vim isn’t too bad
+<ul>
+<li>It can basically be used as a keyboard navigated text editor.</li>
+<li>It has really good keyboard shortcuts and modes that we learn over time.</li>
+<li>It seems to be the pound-for-pound productivity champion of all time.</li>
+</ul></li>
+<li>It is hard to find people who have learned <code>vim</code> who don’t prefer it.</li>
+</ul>
+</section>
+
+<section id="podvim" class="title-slide slide level1 center">
+<h1>Podvim</h1>
+<ul>
+<li>We can install and run <code>vim</code> inside a container (which happens to run Debian &amp; ∴ <code>apt</code>)</li>
+<li>Even directly from Python…</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> os</span>
+<span id="cb1-2"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt update"</span>) <span class="co"># update the registry of packages</span></span>
+<span id="cb1-3"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
+<span id="cb1-4"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"apt install vim -y"</span>) <span class="co"># -y saves us from having to say "yes" to any prompts</span></span>
+<span id="cb1-5"><a></a><span class="op">&lt;</span>blah blah blah<span class="op">&gt;</span></span>
+<span id="cb1-6"><a></a><span class="op">&gt;&gt;&gt;</span> os.system(<span class="st">"vim"</span>) <span class="co"># a vim window will open</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This is <code>vim</code> inside <code>python</code> inside <code>podman</code>
+<ul>
+<li>Don’t do this, it’s a proof-of-concept</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="vim-1" class="title-slide slide level1 center">
+<h1>Vim</h1>
+<ul>
+<li>It looks like this:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="ex">~</span>               VIM <span class="at">-</span> Vi IMproved</span>
+<span id="cb2-2"><a></a><span class="ex">~</span>                  version 9.1</span>
+<span id="cb2-3"><a></a><span class="ex">~</span>            by Bram Moolenaar et al.</span>
+<span id="cb2-4"><a></a><span class="ex">~</span>   Vim is open source and freely distributable</span>
+<span id="cb2-5"><a></a><span class="ex">~</span></span>
+<span id="cb2-6"><a></a><span class="ex">~</span>          Become a registered Vim user!</span>
+<span id="cb2-7"><a></a><span class="ex">~</span>  type  :help register<span class="op">&lt;</span>Enter<span class="op">&gt;</span>   for information</span>
+<span id="cb2-8"><a></a><span class="ex">~</span></span>
+<span id="cb2-9"><a></a><span class="ex">~</span>  type  :q<span class="op">&lt;</span>Enter<span class="op">&gt;</span>              to exit</span>
+<span id="cb2-10"><a></a><span class="ex">~</span>  type  :help<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  or  <span class="op">&lt;</span>F1<span class="op">&gt;</span> for on-line help</span>
+<span id="cb2-11"><a></a><span class="ex">~</span>  type  :help version9<span class="op">&lt;</span>Enter<span class="op">&gt;</span>  for version info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="usage" class="title-slide slide level1 center">
+<h1>Usage</h1>
+<ul>
+<li>I usually use vim as <code>vim filename.py</code>
+<ul>
+<li>When <code>vim</code> opens I type <code>i</code> (for “insert”)</li>
+<li>Then I write code.</li>
+<li>ESC → <code>:x</code> → ENTER to save+quit</li>
+</ul></li>
+<li>Learn <code>vim</code> incrementally by using it for this class - for code, for notes, for whatever.</li>
+</ul>
+</section>
+
+<section id="today-2" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Introduce the course
+<ul>
+<li>✓ The C Programming Language</li>
+<li>✓ Cryptography + Cryptocurrency</li>
+</ul></li>
+<li>Introduce the technologies
+<ul>
+<li>✓ <code>podman</code></li>
+<li>✓ <code>vim</code></li>
+<li><code>gcc</code></li>
+<li><code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="gcc" class="title-slide slide level1 center">
+<h1>GCC</h1>
+<ul>
+<li>Developed for the C language to make an open source operating system in 1987.</li>
+<li>Mainly around today for the C language to make an open source operating system (Linux)</li>
+<li>(The C language was invented to write an operating system).</li>
+<li><code>python</code> is written in GCC C</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>C:\Users\cd<span class="op">-</span>desk<span class="op">&gt;</span>podman run <span class="op">-</span>it python</span>
+<span id="cb3-2"><a></a>Python <span class="fl">3.13.1</span> (main, Dec  <span class="dv">4</span> <span class="dv">2024</span>, <span class="dv">20</span>:<span class="dv">40</span>:<span class="dv">27</span>) [GCC <span class="fl">12.2.0</span>] on linux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="great-freeware" class="title-slide slide level1 center">
+<h1>Great freeware</h1>
+<ul>
+<li>Many legendary programs created using GCC:
+<ul>
+<li>HTTPD &amp; NGINX, which serve a majority of webtraffic</li>
+<li>Every major Linux and FreeBSD distribution</li>
+<li>Major browsers like Firefox and Chromium
+<ul>
+<li>Firefox is on <code>clang</code> now but that’s new</li>
+</ul></li>
+<li>GNU Bash and Coreutils, like <code>cat</code>, <code>ls</code>, <code>rm</code></li>
+<li>Bitcoin Core</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="compilation" class="title-slide slide level1 center">
+<h1>Compilation</h1>
+<ul>
+<li>Like <code>python</code> or <code>podman</code> or <code>vim</code>, GCC is a command - <code>gcc</code></li>
+<li><code>gcc</code> takes at least one argument: a filename, usually of a C file</li>
+<li>GCC takes this C file and makes an executable
+<ul>
+<li>a program, sort of</li>
+</ul></li>
+<li>Executables run as command with <code>./</code> prefix
+<ul>
+<li>This differs from <code>python</code> which runs a script <strong>without</strong> creating a corresponding program.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="py-vs-.c" class="title-slide slide level1 center">
+<h1>.py vs .c</h1>
+<div class="cell" data-reveal="true" data-theme="Darkly" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A(Python) --&gt; B[fname.py file]
+  B --&gt; C[python fname.py]
+  C --&gt; D{hello world}
+  E(C) --&gt; F[fname.c  file]
+  F --&gt; G[gcc fname.c -o ename]
+  G --&gt; H[./ename]
+  H --&gt; I{hello world}
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><em>You only have to compile once to have the executable forever.</em></li>
+<li><em>Most programs are executables, not scripts.</em></li>
+</ul>
+</section>
+
+<section id="today-3" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Introduce the course
+<ul>
+<li>✓ The C Programming Language</li>
+<li>✓ Cryptography + Cryptocurrency</li>
+</ul></li>
+<li>Introduce the technologies
+<ul>
+<li>✓ <code>podman</code></li>
+<li>✓ <code>vim</code></li>
+<li>✓ <code>gcc</code></li>
+<li><code>git</code></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="git" class="title-slide slide level1 center">
+<h1>Git</h1>
+<ul>
+<li>
+Git was invented… to store the C language source code for an open source operating system (Linux)
+</li>
+<li>
+It is de facto the only way in the universe to store code other than “on my HDD/SSD”
+</li>
+<li>
+It is also a very good way to
+<ul>
+<ol>
+<li>
+Keep track of podman images
+</li>
+<li>
+Keep track of podman containers
+</li>
+<li>
+Keep track of code used inside containers
+</li>
+</ol>
+</ul>
+</li>
+</ul></section>
+
+<section id="as-a-command" class="title-slide slide level1 center">
+<h1>As a command</h1>
+<ul>
+<li>Git corresponds, like the others, to a command: <code>git</code>
+<ul>
+<li>It is common now to use other techniques, but the command remains extremely <strong>stable</strong></li>
+</ul></li>
+<li>Quoth GitHub, the first and greatest of the collaboration tools:</li>
+</ul>
+<a href="https://docs.github.com/en/get-started/using-github/connecting-to-github">
+<blockquote>
+If you want a lot of control and flexibility, you can use the command line.
+</blockquote>
+</a><p><a href="https://docs.github.com/en/get-started/using-github/connecting-to-github"></a></p>
 
 
 </section>

@@ -820,7 +820,15 @@ https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
 - I will review the most recent version prior to the due date.
 
 
-#### **NOTE**:
+#### Vim trick:
+
+- You will probably want to work in a container with `vim` and also test your code in the same container.
+  - It is possible to create a second command line tab that is also within the container.
+    - Consult `podman` documentation - many ways to do this.
+  - I recommend using `vim` built-in `:term` command, which splits the screen into a vim editor and a vim terminal.
+  - You can move between windows using ctrl+w - if it doesn't work, Google it.
+
+#### Podman trick:
 
 - You will probably want to create one container then work in that container until you finish.
 - `podman run` will create a new container each time, which is not what you probably want.
@@ -1145,21 +1153,51 @@ return 0;
 
 ::: {#arrays .collapse .multi-collapse}
 
-# <span style="color:red">TODO</code>
 
-### Building Character
+### Collections
 
-- Modulo
-- Intdiv
+- C lacks any collection type (list, set, tuple, string)
+- * notation is used instead
+  - * denotes the location of a some value
+  - The type of this value gives its size
+  - Successive values are at successive locations
+  - These are memory address.
+- [] notation may also be used
+  - We simply include the length within brackets.
+- We don't worry about any of that for now.
+- You will likely want to use a collection on Enigma:
+  - Rotor rotations
+  - Rotors themselves
+  - I don't know, for fun.
+- C array notation is very similar to Python set notation, but maintains order
+  - You are responsible for keeping track of the length.
 
 ```C
-blah blah blah
+char carray[5] = {'a', 'e', 'i', 'o', 'u'};
+int iarray[5] = {2, 4, 8, 16, 32};
+int i;
+for (i = 0; i < 5; i++) {
+    printf("%c %d\n", carray[i], iarray[i]);
+}
 ```
 
+#### Character arrays
 
-#### Iterate
+- Unlike Python, where a list of characters and a string of characters differ.
+- In C, an array of characters and a "string" of characters are identical.
 
-- Blah
+```C
+char carray[5] = {'a', 'e', 'i', 'o', 'u'};
+char string[5] = "abcde";
+int i;
+for (i = 0; i < 5; i++) {
+        printf("%c %c\n", carray[i], string[i]);
+}
+```
+
+- C strings are implicitly null terminated, so there is a minor difference, but that is immaterial here.
+  - How would you check if a string is null terminated?
+
 
 :::
 
@@ -1167,21 +1205,115 @@ blah blah blah
 
 ::: {#math .collapse .multi-collapse}
 
-# <span style="color:red">TODO</code>
+### Integer Division
 
-### Building Character
-
-- Modulo
-- Intdiv
+- In C, there are numerous integer data types, including int and char
+- All use integer division by default.
+- Test as follows:
 
 ```C
-blah blah blah
+int i;
+for (i = 0; i < 5; i++) {
+        printf("%d / %d -> %d\n", i, 2, i / 2);
+}
 ```
 
+- The results are clear:
 
-#### Iterate
+```email
+0 / 2 -> 0
+1 / 2 -> 0
+2 / 2 -> 1
+3 / 2 -> 1
+4 / 2 -> 2
+```
 
-- Blah
+### Modulo
+
+- Both C and Python have a % operator
+  - In Python it is the "more mathematical correct" modulo operation
+  - In C it is the less common remainder operation.
+- The differences were non-obvious and led to a pernicious bug in my enigma.c
+
+#### Python %
+
+- First, test Python
+
+```{.py filename="modulo.py"}
+[print(f"{i:2d} % 3 -> {i%3:d}") for i in range(-5,5)]
+```
+
+- We see the predictable result.
+
+```email
+-5 % 3 -> 1
+-4 % 3 -> 2
+-3 % 3 -> 0
+-2 % 3 -> 1
+-1 % 3 -> 2
+ 0 % 3 -> 0
+ 1 % 3 -> 1
+ 2 % 3 -> 2
+ 3 % 3 -> 0
+ 4 % 3 -> 1
+```
+
+#### C %
+
+- Now, test C
+
+```{.C filename="remainder.c"}
+#include <stdio.h>
+
+int main() {
+        int i;
+        for (i = -5; i != 5; i++) {
+                printf("%2d %% %d -> %2d\n", i, 3, i % 3);
+        }
+        return 0;
+}
+```
+
+- We see the predictable result.
+
+```email
+-5 % 3 -> -2
+-4 % 3 -> -1
+-3 % 3 ->  0
+-2 % 3 -> -2
+-1 % 3 -> -1
+ 0 % 3 ->  0
+ 1 % 3 ->  1
+ 2 % 3 ->  2
+ 3 % 3 ->  0
+ 4 % 3 ->  1
+```
+
+- Unlike Python, C % may generate negative results.
+- There are a number of ways to deal with that.
+
+#### Pythonic % in C
+
+- With thanks to [Stack Overflow](https://stackoverflow.com/a/1907585)
+
+```C
+printf("%2d Py%% %d -> %d\n", i, 3, ((i % 3) + 3) % 3);
+```
+
+- This gives necessarily positive values.
+
+```email
+-5 Py% 3 -> 1
+-4 Py% 3 -> 2
+-3 Py% 3 -> 0
+-2 Py% 3 -> 1
+-1 Py% 3 -> 2
+ 0 Py% 3 -> 0
+ 1 Py% 3 -> 1
+ 2 Py% 3 -> 2
+ 3 Py% 3 -> 0
+ 4 Py% 3 -> 1
+```
 
 :::
 
@@ -1189,21 +1321,92 @@ blah blah blah
 
 ::: {#args .collapse .multi-collapse}
 
-# <span style="color:red">TODO</code>
+### Arguments
 
-### Building Character
+- The reference Python contains the following snippet:
 
-- Modulo
-- Intdiv
+```py
+if __name__ == "__main__":
+    import sys
+    print(enigma(sys.argv[1]))
+```
 
-```C
-blah blah blah
+- This is roughly equivalent to printing the return result of the enigma function within a function called main.
+- This is close to C, but we don't haven't introduced a way to use command line arguments.
+- Let's look at a minimal Python example.
+
+#### PyEcho
+
+```{.py filename="pyecho.py"}
+import sys
+print(sys.argv[1])
+```
+
+- We use as follows:
+
+```bash
+python3 pyecho.py "hello world"
+```
+
+- We can construct the same within C.
+
+#### CEcho
+
+- The Python `sys` module contains many features present by default in a systems programming language.
+- One such is `argv`, a vector (in the mathematical sense) of arguments.
+  - These are command line arguments.
+  - In Python a list of strings
+  - In C an array of char *
+  - The zeroth argument is the name of the Python script or C executable
+- There is additionally something called `argc`, an integer count of arguments.
+  - In C this is needed to know the length of the vector
+  - In Python it is redundant, but potentially useful
+- We have thus far written main with no arguments, so we also introduce how to write functions with arguments.
+  - C function arguments are identical to Python function arguments
+  - As with other variables, C function argument variables must be declared with a type
+  - Using functions will make writing C much easier.
+
+```{.C filename="cecho.c"}
+#include <stdio.h>
+
+int main(int argc, char **argv) {
+        printf("%s\n", argv[1]);
+        return 0;
+}
+```
+
+- You may wish to compile then try the following:
+
+```email
+gcc cecho.c -o cecho
+```
+
+- No arguments, which gives a segmentation fault, a type of error when you try to read something that doesn't exist
+
+```email
+./cecho
+```
+
+- One argument, which is printed.
+
+```email
+./cecho hello
+```
+
+- Two argument, of which one is printed.
+
+```email
+./cecho hello world
 ```
 
 
-#### Iterate
+- Two words as a single argument using quotes.
 
-- Blah
+```email
+./cecho "hello world"
+```
+
+- You may note that Python has all the same features.
 
 :::
 

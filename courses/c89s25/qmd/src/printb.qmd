@@ -424,7 +424,8 @@ int printb(int n) {
 
 ### Major Exercise: it/ool  
 *These results will see use on the new homework, Macros*
-- Determine the logical, or other, operation to which each operator corresponds, and.
+
+- Determine the logical, or other, operation to which each operator corresponds, and
 - Determine whether it is acting on bits-as-booleans or bits-as-boolean-arrays
 
 :::

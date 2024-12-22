@@ -309,7 +309,7 @@ gcc printb.c -pedantic
     - printf statements, and 
     - for loops.
       - Or perhaps while loops
-- Do so. For now, target the `int` type.
+- Do so. For now, target the `char` type, or another type of your choice.
 
 #### Extensions
 
@@ -319,7 +319,7 @@ gcc printb.c -pedantic
   - Bitwise operators like `&`
   - The `atoi` function for testing
   - Standarizing a left pad via any number of methods
-  - Macros, to be int-nonspecific
+  - Macros, to be char-nonspecific
 
 
 #### Reference implementation
@@ -329,8 +329,9 @@ gcc printb.c -pedantic
 ```{.C filename="printb_not_quite.c"}
 #include <stdio.h>
 
-int printb(int n) {
+int printb(char n) {
         printf("%b", n);
+        return 0;
 }
 ```
 <!-- #define printb(x) for (int ind = 8 * sizeof(x); ind ; ind--) { printf("%d", (x >> ind) & 1); } -->

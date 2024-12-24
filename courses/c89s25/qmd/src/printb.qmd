@@ -174,7 +174,7 @@ python3 -c 'print(f"{(1==1):b}")'
 - To decide how to `printf` and `==`, we consult the C89 specification:
   - Look at [4.9.6](http://port70.net/%7Ensz/c/c89/c89-draft.html#4.9.6)
 
-<blockquote style="max-height:10em;overflow: scroll;">
+<blockquote style="max-height:10em;overflow-y: scroll;">
  d Matches an optionally signed decimal integer, whose format is the same as expected for the subject sequence of the strtol function with the value 10 for the base argument. The corresponding argument shall be a pointer to integer.
 
 i Matches an optionally signed integer, whose format is the same as expected for the subject sequence of the strtol function with the value 0 for the base argument. The corresponding argument shall be a pointer to integer.

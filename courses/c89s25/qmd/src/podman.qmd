@@ -6,6 +6,7 @@ subtitle: "Week 0x0"
 institute: Crypto
 format: 
     revealjs: 
+        code-fold: true
         theme: dark
         mainfont: monospace
         slide-number: true

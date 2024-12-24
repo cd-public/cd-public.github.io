@@ -23,13 +23,13 @@ subtitle: "HW 0x0: Due Th, Jan 23"
   - You will create a solution in C as an "enigma.c" file
   - You will create a [Gist](https://gist.github.com/) with an "enigma.c"
   - You will email me, from your credentialed school email, the url of your Gist, it will look something like:
+  ```email
+  https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
+  ```
 - What follows is reference material to prepare you to implement "enigma.c"
   - Enigma, Solved, Visual, and Rotors form a description of the requirements
   - Podman, and Char * cover the technical details that support the implementation.
 
-```email
-https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
-```
 
 ### Topic Areas
 
@@ -76,6 +76,7 @@ https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
 ::: {#solved .collapse .multi-collapse}
 
 - Here is a reference solution, with a few tests, in Python. 
+  - [Gist](https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40)
 - I regard this code as considerably easier to read, test, and understand than most plaintext descriptions.
 - I will also do a visual representation.
 - The ciphers are sometimes called "rotors" because historically they were implemented as a rotating... cipher.

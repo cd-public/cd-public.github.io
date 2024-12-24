@@ -1,4 +1,4 @@
-import sys, os, time
+import sys, os, time, webbrowser
 
 fname = input("file name (without ending)?\n>>> ")
 

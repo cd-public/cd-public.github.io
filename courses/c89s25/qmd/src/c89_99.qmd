@@ -1,4 +1,4 @@
----
+  ---
 title: C89/99
 theme: dark
 author: Prof. Calvin
@@ -11,7 +11,12 @@ format:
         slide-number: true
         show-slide-number: all
         width: 1050
-        height: 700
+        height: 700    
+        drop:
+            engine: pyodide
+            
+revealjs-plugins:
+  - drop
             
 execute:
     echo: false

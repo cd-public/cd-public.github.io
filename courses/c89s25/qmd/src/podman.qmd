@@ -13,7 +13,12 @@ format:
         show-slide-number: all
         width: 1050
         height: 700
+        drop:
+            engine: pyodide
             
+revealjs-plugins:
+  - drop
+  
 execute:
     echo: false
 ---

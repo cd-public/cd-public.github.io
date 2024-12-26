@@ -428,7 +428,7 @@ rotate(00101101,8) -> 00101101
   - It is a virtual certainty you will encounter pernicious bugs.
   - Use `unsigned int` or just `unsigned` to avoid negative shenanigans.
   - Print everything all the time.
-  - Liberally consult `printf` and C language documentation
+  - Liberally consult `printf` and C language documentation.
   - Ask questions early and often.
   
 #### Reference implementation

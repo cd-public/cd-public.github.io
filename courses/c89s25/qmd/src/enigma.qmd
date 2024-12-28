@@ -24,8 +24,8 @@ format:
 ### Goal: Learn C I/O and strings
 
 - My responsibility
-  - I will provide a reference solution in Python
-  - I will provide an autograder Containerfile
+  - I will provide a reference solution in Python (solved)
+  - I will provide an autograder Containerfile (tester)
 - Your responsibility
   - You will create a solution in C as an "enigma.c" file
   - You will create a [Gist](https://gist.github.com/) with an "enigma.c"
@@ -35,7 +35,8 @@ format:
   ```
 - What follows is reference material to prepare you to implement "enigma.c"
   - Enigma, Solved, Visual, and Rotors form a description of the requirements
-  - Podman, and Char * cover the technical details that support the implementation.
+  - Tester documents the autograder
+  - Other headings cover the technical details that support the implementation.
 
 
 ### Topic Areas
@@ -781,73 +782,6 @@ _For the remainder of the write-up, I will assume without loss of generality tha
 
 :::
 
-# Podman&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#podman" role="button" aria-expanded="false" aria-controls = "podman">Show</a>
-
-::: {#podman .collapse .multi-collapse}
-
-
-#### Podman
-
-- I am providing the following Containerfile, which will serve as a minimal autograder
-    - It sets up an Alpine container.
-    - It downloads a Python script to test.
-    - It copies in "enigma.c" from your system.
-
-```{.email filename="Containerfile"}
-FROM alpine
-
-RUN apk add gcc libc-dev python3 curl
-
-RUN curl https://gist.githubusercontent.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40/raw/2d5db57c8e3704df239b21288f30a394a53ca4f8/tester.py -o tester.py
-
-COPY enigma.c .
-```
-
-#### Usage
-
-- I built my container via:
-
-```email
-podman build -t tester .
-```
-
-- I tested my code via:
-
-```email
-podman run tester python3 tester.py
-```
-
-- If the above script returns "Perfect!" you are done.
-    - Create a [Gist](https://gist.github.com/) with an "enigma.c".
-    - Email me the url of your Gist, it will look something like, from your official school email:
-
-```email
-https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
-```
-
-- I will review the most recent version prior to the due date.
-
-
-#### Vim trick:
-
-- You will probably want to work in a container with `vim` and also test your code in the same container.
-  - It is possible to create a second command line tab that is also within the container.
-    - Consult `podman` documentation - many ways to do this.
-  - I recommend using `vim` built-in `:term` command, which splits the screen into a vim editor and a vim terminal.
-  - You can move between windows using ctrl+w - if it doesn't work, Google it.
-
-#### Podman trick:
-
-- You will probably want to create one container then work in that container until you finish.
-- `podman run` will create a new container each time, which is not what you probably want.
-- The following recycles the previous container, mostly.
-  - Read more: [Stack Overflow](https://stackoverflow.com/a/37886136)
-  
-```email
-podman start -a -i `podman ps -q -l`
-```
-
-
 :::
 
 
@@ -1418,3 +1352,68 @@ gcc cecho.c -o cecho
 
 :::
 
+# Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls = "tester">Show</a>
+
+::: {#tester .collapse .multi-collapse}
+
+
+#### Podman
+
+- I am providing the following Containerfile, which will serve as a minimal autograder
+    - It sets up an Alpine container.
+    - It downloads a Python script to test.
+    - It copies in "enigma.c" from your system.
+
+```{.email filename="Containerfile"}
+FROM alpine
+
+RUN apk add gcc libc-dev python3 curl
+
+RUN curl https://raw.githubusercontent.com/cd-c89/crypto/main/enigma/tester.py -o tester.py
+
+COPY enigma.c .
+```
+
+#### Usage
+
+- I built my container via:
+
+```email
+podman build -t tester .
+```
+
+- I tested my code via:
+
+```email
+podman run tester python3 tester.py
+```
+
+- If the above script returns "Perfect!" you are done.
+    - Create a [Gist](https://gist.github.com/) with an "enigma.c".
+    - Email me the url of your Gist, it will look something like, from your official school email:
+
+```email
+https://gist.github.com/cd-public/a840e95e71ac7309a53ab0bb1282ba40
+```
+
+- I will review the most recent version prior to the due date.
+
+
+#### Vim trick:
+
+- You will probably want to work in a container with `vim` and also test your code in the same container.
+  - It is possible to create a second command line tab that is also within the container.
+    - Consult `podman` documentation - many ways to do this.
+  - I recommend using `vim` built-in `:term` command, which splits the screen into a vim editor and a vim terminal.
+  - You can move between windows using ctrl+w - if it doesn't work, Google it.
+
+#### Podman trick:
+
+- You will probably want to create one container then work in that container until you finish.
+- `podman run` will create a new container each time, which is not what you probably want.
+- The following recycles the previous container, mostly.
+  - Read more: [Stack Overflow](https://stackoverflow.com/a/37886136)
+  
+```email
+podman start -a -i `podman ps -q -l`
+```

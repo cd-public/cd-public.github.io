@@ -1,27 +1,22 @@
-  ---
+---
 title: C89/99
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0x1"
+subtitle: "Week 0x0"
 institute: Crypto
 format: 
     revealjs: 
+        code-fold: true
         theme: dark
         mainfont: monospace
         slide-number: true
         show-slide-number: all
         width: 1050
-        height: 700    
-        drop:
-            engine: pyodide
-            
-revealjs-plugins:
-  - drop
-            
+        height: 700
+
 execute:
     echo: false
 ---
-
 # Announcements
 
 - **Welcome** to variously CS 276/CS 540

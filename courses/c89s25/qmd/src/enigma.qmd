@@ -8,6 +8,13 @@
 ---
 title: Enigma
 subtitle: "HW 0x0: Due Th, Jan 23"
+
+format: 
+  html:
+    theme: vapor
+    mainfont: monospace
+    highlight-style: github
+    title-block-banner: true
 ---
 
 # Enigma&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#enigma" role="button" aria-expanded="false" aria-controls = "enigma">Show</a>

@@ -8,6 +8,13 @@
 ---
 title: Printb
 subtitle: "Lab 0x1"
+
+format: 
+  html:
+    theme: vapor
+    mainfont: monospace
+    highlight-style: github
+    title-block-banner: true
 ---
 
 # Review&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#review" role="button" aria-expanded="false" aria-controls="review">Show</a>

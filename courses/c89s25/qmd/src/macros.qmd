@@ -8,6 +8,13 @@
 ---
 title: Macros
 subtitle: "HW 0x1: Due Th, Jan 30"
+
+format: 
+  html:
+    theme: vapor
+    mainfont: monospace
+    highlight-style: github
+    title-block-banner: true
 ---
 
 # Review&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#review" role="button" aria-expanded="false" aria-controls="review">Show</a>

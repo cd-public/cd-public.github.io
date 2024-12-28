@@ -442,7 +442,7 @@ rotate(00101101,8) -> 00101101
 
 # Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls="tester">Show</a>
 
-::: {#rotate .collapse .multi-collapse}
+::: {#tester .collapse .multi-collapse}
 
 #### Podman
 
@@ -474,7 +474,7 @@ podman build -t tester .
 - I tested my code via:
 
 ```email
-odman run tester /bin/bash tester.sh
+podman run tester /bin/bash tester.sh
 ```
 
 - If the above script returns `0` you are done.

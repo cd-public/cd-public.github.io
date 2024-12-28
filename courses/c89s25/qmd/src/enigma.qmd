@@ -782,9 +782,6 @@ _For the remainder of the write-up, I will assume without loss of generality tha
 
 :::
 
-:::
-
-
 # char *&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#string" role="button" aria-expanded="false" aria-controls = "string">Show</a>
 
 ::: {#string .collapse .multi-collapse}

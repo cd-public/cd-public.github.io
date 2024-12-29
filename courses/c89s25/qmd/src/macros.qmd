@@ -444,7 +444,7 @@ rotate(00101101,8) -> 00101101
 
 ::: {#tester .collapse .multi-collapse}
 
-#### Podman
+#### Tester
 
 - I am providing the following Containerfile, which will serve as a minimal autograder
     - It sets up an Ubuntu container.
@@ -481,22 +481,28 @@ podman run tester /bin/bash tester.sh
     - Upload your code to your GitHub on which I am a collaborator.
 - I will review the most recent version prior to the due date.
 
-#### Vim trick:
+#### Testing
 
-- You will probably want to work in a container with `vim` and also test your code in the same container.
-  - It is possible to create a second command line tab that is also within the container.
-    - Consult `podman` documentation - many ways to do this.
-  - I recommend using `vim` built-in `:term` command, which splits the screen into a vim editor and a vim terminal.
-  - You can move between windows using ctrl+w - if it doesn't work, Google it.
+- It may be non-obvious how the tester functions.
+    -   When the container is built, it copies in `macros.c`
+    -   Within the container, `tester.sh`:
+        -   Reads `macros.c` with `grep`
+            -   Finds lines containing the 3 define statements
+            -   Echos these statements to the command line
+        -   Echoes `tester.c` to the command line
+        -   Runs `gcc` over the command line input
+            -   `tester.c` intentionally causes a suppressed error (`-Wno`) 
+            -   The command line code needs its languages specified (`-xc`)
+        -   Runs the output executable
+        -   Echoes the return value via `$?
+    -   A return value of _n_ denotes:
+        0.  Perfect.
+        1.  `CHOICE` is incorrect
+        2.  `MEDIAN` is incorrect but `CHOICE` is correct
+        3.  `ROTATE` is incorrect but `CHOICE` and `MEDIAN` are correct
+  -   It may be the case that `tester.c` runs strangly on your system.
+        -   It assumes an underlying AMD64 device
+        -   [GCP](https://console.cloud.google.com/) cloud console runs on AMD64
+            -   `docker`, installed by default, is an alternative to `podman` on GCP.
 
-#### Podman trick:
-
-- You will probably want to create one container then work in that container until you finish.
-- `podman run` will create a new container each time, which is not what you probably want.
-- The following recycles the previous container, mostly.
-  - Read more: [Stack Overflow](https://stackoverflow.com/a/37886136)
-  
-```email
-podman start -a -i `podman ps -q -l`
-```
 :::

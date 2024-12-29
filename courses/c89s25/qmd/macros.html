@@ -641,9 +641,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tester-show" class="level1">
 <h1>Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls="tester">Show</a></h1>
-<div id="rotate" class="collapse multi-collapse">
-<section id="podman" class="level4">
-<h4 class="anchored" data-anchor-id="podman">Podman</h4>
+<div id="tester" class="collapse multi-collapse">
+<section id="tester" class="level4">
+<h4 class="anchored" data-anchor-id="tester">Tester</h4>
 <ul>
 <li>I am providing the following Containerfile, which will serve as a minimal autograder
 <ul>
@@ -676,7 +676,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>I tested my code via:</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>odman run tester /bin/bash tester.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>podman run tester /bin/bash tester.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>If the above script returns <code>0</code> you are done.
 <ul>
@@ -685,31 +685,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>I will review the most recent version prior to the due date.</li>
 </ul>
 </section>
-<section id="vim-trick" class="level4">
-<h4 class="anchored" data-anchor-id="vim-trick">Vim trick:</h4>
+<section id="testing" class="level4">
+<h4 class="anchored" data-anchor-id="testing">Testing</h4>
 <ul>
-<li>You will probably want to work in a container with <code>vim</code> and also test your code in the same container.
+<li>It may be non-obvious how the tester functions.
 <ul>
-<li>It is possible to create a second command line tab that is also within the container.
+<li>When the container is built, it copies in <code>macros.c</code></li>
+<li>Within the container, <code>tester.sh</code>:
 <ul>
-<li>Consult <code>podman</code> documentation - many ways to do this.</li>
+<li>Reads <code>macros.c</code> with <code>grep</code>
+<ul>
+<li>Finds lines containing the 3 define statements</li>
+<li>Echos these statements to the command line</li>
 </ul></li>
-<li>I recommend using <code>vim</code> built-in <code>:term</code> command, which splits the screen into a vim editor and a vim terminal.</li>
-<li>You can move between windows using ctrl+w - if it doesn’t work, Google it.</li>
+<li>Echoes <code>tester.c</code> to the command line</li>
+<li>Runs <code>gcc</code> over the command line input
+<ul>
+<li><code>tester.c</code> intentionally causes a suppressed error (<code>-Wno</code>)</li>
+<li>The command line code needs its languages specified (<code>-xc</code>)</li>
+</ul></li>
+<li>Runs the output executable</li>
+<li>Echoes the return value via `$?</li>
+</ul></li>
+<li>A return value of <em>n</em> denotes:
+<ol start="0" type="1">
+<li>Perfect.</li>
+<li><code>CHOICE</code> is incorrect</li>
+<li><code>MEDIAN</code> is incorrect but <code>CHOICE</code> is correct</li>
+<li><code>ROTATE</code> is incorrect but <code>CHOICE</code> and <code>MEDIAN</code> are correct</li>
+</ol></li>
+<li>It may be the case that <code>tester.c</code> runs strangly on your system.
+<ul>
+<li>It assumes an underlying AMD64 device</li>
+<li><a href="https://console.cloud.google.com/">GCP</a> cloud console runs on AMD64
+<ul>
+<li><code>docker</code>, installed by default, is an alternative to <code>podman</code> on GCP.</li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul>
-</section>
-<section id="podman-trick" class="level4">
-<h4 class="anchored" data-anchor-id="podman-trick">Podman trick:</h4>
-<ul>
-<li>You will probably want to create one container then work in that container until you finish.</li>
-<li><code>podman run</code> will create a new container each time, which is not what you probably want.</li>
-<li>The following recycles the previous container, mostly.
-<ul>
-<li>Read more: <a href="https://stackoverflow.com/a/37886136">Stack Overflow</a></li>
-</ul></li>
-</ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>podman start -a -i `podman ps -q -l`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </div>
 

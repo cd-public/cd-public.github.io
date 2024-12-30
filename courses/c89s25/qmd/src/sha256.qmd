@@ -254,11 +254,47 @@ $$
  $$
 
 
-## Compression Function Building Blocks
+# Words
 
-- **Bitwise operations**:
+-   We specify bitwise operations over **exactly** 32 bit words.
+-   The industry standard is to use `stdint`
+```{.C}
+#include <stdint.h>
+
+/* uint32_t is "unsigned integer of size 32 type" */
+uint32_t rotate(uint32_t a, uint32_t b) {
+    asm("rorl %%cl, %0" : "+r" (a) : "c" (b));
+    return a;
+}
+```
+
+# Operations
+
+- Bitwise logical operations
+    -   Unary,
+    -   Binary, and
+    -   Ternary, and
+- Shift/rotate operations
+- Operations work over 1, 2, or 3 words of size 32 (uint32_t)
+    -   Term these words $U$, $V$, $W$
+
+# Unary Bitwise
+
+- The first is 'bitwise complement', or 
+- 'bitwise logical not':
+$$
+\lnot U
+$$
+- There is no graceful Python implementation.
+```{.C}
+uint32_t complement(uint32_t u) {
+    return ~u ;
+}
+```
+
+# Binary Bitwise
+
 - $U \land V$, $U \lor V$, $U \oplus V$: AND, OR, XOR
-- $\lnot U$: bitwise complement
 - $SHR_n(U)$: shift right by $n$
 - $ROTR_n(U)$: rotate right by $n$
 

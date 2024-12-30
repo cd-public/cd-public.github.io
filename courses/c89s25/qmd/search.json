@@ -82,5 +82,12 @@
     "title": "Podman",
     "section": "Kennedy is my middle name",
     "text": "Kennedy is my middle name\n\nNot an endorsement; I voted for ******* **** ****** ********!"
+  },
+  {
+    "objectID": "sha256.html#compression-operations",
+    "href": "sha256.html#compression-operations",
+    "title": "SHA256",
+    "section": "Compression Operations",
+    "text": "Compression Operations\n\nWe divide into unary, binary, and trenary bitwise logical operations, and shift/rotate operations.\nBitwise logical operations work over 1, 2, or 3 words of size 32 (uint32_t)\n\nTerm these, \\(U\\), \\(V\\), \\(W\\)\n\nThe first is complement, negation, or not:\n\\(\\lnot U\\): bitwise complement\nThere is no graceful Python implementation.\n\nuint32_t complement(uint32_t u) {\n    return ~u ;\n}\n\n\\(U \\land V\\), \\(U \\lor V\\), \\(U \\oplus V\\): AND, OR, XOR\n\\(SHR_n(U)\\): shift right by \\(n\\)\n\\(ROTR_n(U)\\): rotate right by \\(n\\)\nSpecial functions: \\[\n\\text{Ch}(U, V, W) = (U \\land V) \\oplus (\\lnot U \\land W)\n\\] \\[\n\\text{Maj}(U, V, W) = (U \\land V) \\oplus (U \\land W) \\oplus (V \\land W)\n\\] \\[\n\\Sigma_0(U) = ROTR_2(U) \\oplus ROTR_{13}(U) \\oplus ROTR_{22}(U)\n\\] \\[\n\\Sigma_1(U) = ROTR_6(U) \\oplus ROTR_{11}(U) \\oplus ROTR_{25}(U)\n\\]"
   }
 ]

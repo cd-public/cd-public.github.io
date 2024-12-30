@@ -475,7 +475,7 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Example: Python <code>hash</code></li>
 </ul>
-<div id="8798f571" class="cell" data-execution_count="1">
+<div id="8798f571" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="ss">f"</span><span class="sc">{</span><span class="bu">hash</span>(a)<span class="sc">:+d}</span><span class="ss">"</span> <span class="cf">for</span> a <span class="kw">in</span> <span class="st">"ABCDE"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+1373127204756315779
@@ -512,7 +512,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>And therefore <span class="math inline">\(\forall W : gcd(257,W)\)</span></li>
 </ul></li>
 </ul>
-<div id="19af3640" class="cell" data-execution_count="2">
+<div id="19af3640" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> math</span>
 <span id="cb4-2"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb4-3"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
@@ -566,7 +566,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 
 <section id="test-it" class="title-slide slide level1 center">
 <h1>Test it:</h1>
-<div id="549599c3" class="cell" data-execution_count="3">
+<div id="549599c3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb8-2"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
 <span id="cb8-3"><a></a><span class="cf">assert</span>(<span class="bu">set</span>(h(x, a, W, M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)) <span class="op">==</span> <span class="bu">set</span>(<span class="bu">range</span>(M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -733,7 +733,7 @@ k + l + 65 = 0 \pmod{512}
 <li>We can solve numerical in Python, but…</li>
 <li>Perhaps easier to show with strings.</li>
 </ul>
-<div id="127f2605" class="cell" data-execution_count="4">
+<div id="127f2605" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>k, l <span class="op">=</span> <span class="dv">8</span>, <span class="dv">123</span></span>
 <span id="cb9-2"><a></a><span class="bu">print</span>(<span class="st">'String:'</span>, <span class="st">'0b1'</span> <span class="op">+</span> <span class="st">'0'</span> <span class="op">*</span> (k) <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>l<span class="sc">:064b}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -748,7 +748,6 @@ k + l + 65 = 0 \pmod{512}
 </ul>
 </section>
 
-<section>
 <section id="hash-computation" class="title-slide slide level1 center">
 <h1>Hash Computation</h1>
 <ul>
@@ -763,12 +762,58 @@ H(i) = f(M^{(i)}, H(i-1)), \quad 1 \leq i \leq N.
 \]</span></li>
 </ul>
 </section>
-<section id="compression-function-building-blocks" class="slide level2">
-<h2>Compression Function Building Blocks</h2>
+
+<section id="words" class="title-slide slide level1 center">
+<h1>Words</h1>
 <ul>
-<li><p><strong>Bitwise operations</strong>:</p></li>
+<li>We specify bitwise operations over <strong>exactly</strong> 32 bit words.</li>
+<li>The industry standard is to use <code>stdint</code></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb11-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb11-2"><a></a></span>
+<span id="cb11-3"><a></a><span class="co">/* uint32_t is "unsigned integer of size 32 type" */</span></span>
+<span id="cb11-4"><a></a><span class="dt">uint32_t</span> rotate<span class="op">(</span><span class="dt">uint32_t</span> a<span class="op">,</span> <span class="dt">uint32_t</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-5"><a></a>    asm<span class="op">(</span><span class="st">"rorl </span><span class="sc">%%</span><span class="st">cl, %0"</span> <span class="op">:</span> <span class="st">"+r"</span> <span class="op">(</span>a<span class="op">)</span> <span class="op">:</span> <span class="st">"c"</span> <span class="op">(</span>b<span class="op">));</span></span>
+<span id="cb11-6"><a></a>    <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb11-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="operations" class="title-slide slide level1 center">
+<h1>Operations</h1>
+<ul>
+<li>Bitwise logical operations
+<ul>
+<li>Unary,</li>
+<li>Binary, and</li>
+<li>Ternary, and</li>
+</ul></li>
+<li>Shift/rotate operations</li>
+<li>Operations work over 1, 2, or 3 words of size 32 (uint32_t)
+<ul>
+<li>Term these words <span class="math inline">\(U\)</span>, <span class="math inline">\(V\)</span>, <span class="math inline">\(W\)</span></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="unary-bitwise" class="title-slide slide level1 center">
+<h1>Unary Bitwise</h1>
+<ul>
+<li>The first is ‘bitwise complement’, or</li>
+<li>‘bitwise logical not’: <span class="math display">\[
+\lnot U
+\]</span></li>
+<li>There is no graceful Python implementation.</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a></a><span class="dt">uint32_t</span> complement<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a></a>    <span class="cf">return</span> <span class="op">~</span>u <span class="op">;</span></span>
+<span id="cb12-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section>
+<section id="binary-bitwise" class="title-slide slide level1 center">
+<h1>Binary Bitwise</h1>
+<ul>
 <li><p><span class="math inline">\(U \land V\)</span>, <span class="math inline">\(U \lor V\)</span>, <span class="math inline">\(U \oplus V\)</span>: AND, OR, XOR</p></li>
-<li><p><span class="math inline">\(\lnot U\)</span>: bitwise complement</p></li>
 <li><p><span class="math inline">\(SHR_n(U)\)</span>: shift right by <span class="math inline">\(n\)</span></p></li>
 <li><p><span class="math inline">\(ROTR_n(U)\)</span>: rotate right by <span class="math inline">\(n\)</span></p></li>
 <li><p><strong>Special functions</strong>: <span class="math display">\[

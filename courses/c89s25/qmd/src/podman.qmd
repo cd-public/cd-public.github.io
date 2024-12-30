@@ -1,6 +1,5 @@
 ---
 title: Podman
-theme: dark
 author: Prof. Calvin
 subtitle: "Week 0x0"
 institute: Crypto

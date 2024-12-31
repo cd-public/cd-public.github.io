@@ -405,8 +405,8 @@ Prof.&nbsp;Calvin
 </div>
 
 </section>
-<section id="announcements" class="title-slide slide level1 center">
-<h1>Announcements</h1>
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
 <ul>
 <li><strong>Welcome</strong> to variously CS 276/CS 540</li>
 <li><strong>Action Items</strong>:
@@ -416,9 +416,8 @@ Prof.&nbsp;Calvin
 </ul></li>
 </ul>
 </section>
-
-<section id="today" class="title-slide slide level1 center">
-<h1>Today</h1>
+<section id="today" class="slide level2">
+<h2>Today</h2>
 <ul>
 <li>SHA256
 <ul>
@@ -428,9 +427,8 @@ Prof.&nbsp;Calvin
 </ul></li>
 </ul>
 </section>
-
-<section id="slide-credit" class="title-slide slide level1 center">
-<h1>Slide Credit</h1>
+<section id="slide-credit" class="slide level2">
+<h2>Slide Credit</h2>
 <ul>
 <li><a href="https://www.ee.iitb.ac.in/~sarva/"><strong>Saravanan Vijayakumaran</strong></a></li>
 <li>sarva@ee.iitb.ac.in<br>
@@ -440,9 +438,13 @@ Prof.&nbsp;Calvin
 <li>Indian Institute of Technology Bombay</li>
 </ul>
 </section>
+<section>
+<section id="why" class="title-slide slide level1 center">
+<h1>Why?</h1>
 
-<section id="hash-functions" class="title-slide slide level1 center">
-<h1>Hash Functions</h1>
+</section>
+<section id="hash-functions" class="slide level2">
+<h2>Hash Functions</h2>
 <ul>
 <li>Methods for <strong>deterministically</strong> compress a long input string to a shorter output called a digest
 <ul>
@@ -452,9 +454,8 @@ Prof.&nbsp;Calvin
 <li>These are also called “compression” or “one-way” hash functions.</li>
 </ul>
 </section>
-
-<section id="hash-merits" class="title-slide slide level1 center">
-<h1>Hash Merits</h1>
+<section id="hash-merits" class="slide level2">
+<h2>Hash Merits</h2>
 <ul>
 <li>Primary requirement is that it should be infeasible to find collisions,
 <ul>
@@ -464,9 +465,8 @@ Prof.&nbsp;Calvin
 </ul></li>
 </ul>
 </section>
-
-<section id="non-cryptographic" class="title-slide slide level1 center">
-<h1>Non-Cryptographic</h1>
+<section id="non-cryptographic" class="slide level2">
+<h2>Non-Cryptographic</h2>
 <ul>
 <li>Used to build <strong><strong></strong>hash tables<strong></strong></strong>
 <ul>
@@ -475,20 +475,19 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Example: Python <code>hash</code></li>
 </ul>
-<div id="8798f571" class="cell" data-execution_count="2">
+<div id="5c836af6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="ss">f"</span><span class="sc">{</span><span class="bu">hash</span>(a)<span class="sc">:+d}</span><span class="ss">"</span> <span class="cf">for</span> a <span class="kw">in</span> <span class="st">"ABCDE"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>+1373127204756315779
-+8789652758067317931
--2276255771787240274
-+5026827255279295070
-+2062924699377293058</code></pre>
+<pre><code>-8640502697934158294
++1180839565384794027
+-8257339180433518899
+-6301241127016045203
+-3052235361003046197</code></pre>
 </div>
 </div>
 </section>
-
-<section id="example.tex" class="title-slide slide level1 center">
-<h1>Example.tex</h1>
+<section id="example.tex" class="slide level2">
+<h2>Example.tex</h2>
 <ul>
 <li>Let <span class="math inline">\(M\)</span> be the size of some hash table</li>
 <li>Take <span class="math inline">\(a, W \in \mathbb{N} : W &lt; M \land \gcd(a, W) = 1\)</span>
@@ -502,17 +501,16 @@ Prof.&nbsp;Calvin
 h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 \]</span></p>
 </section>
-
-<section id="example.py" class="title-slide slide level1 center">
-<h1>Example.py</h1>
+<section id="example.py" class="slide level2">
+<h2>Example.py</h2>
 <ul>
 <li>We can express in a programming language.</li>
 <li>We note that 257 == 0x101 is prime.
 <ul>
-<li>And therefore <span class="math inline">\(\forall W : gcd(257,W)\)</span></li>
+<li>And therefore <span class="math inline">\(\forall W : gcd(257,W) = 1\)</span></li>
 </ul></li>
 </ul>
-<div id="19af3640" class="cell" data-execution_count="3">
+<div id="9212c8b9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> math</span>
 <span id="cb4-2"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb4-3"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
@@ -523,9 +521,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </div>
 </div>
 </section>
-
-<section id="example.c" class="title-slide slide level1 center">
-<h1>Example.c</h1>
+<section id="example.c" class="slide level2">
+<h2>Example.c</h2>
 <ul>
 <li>We note a high performance special case.</li>
 <li>Let <span class="math inline">\(w\)</span> be the bit size used to store numbers
@@ -539,9 +536,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <span id="cb6-2"><a></a>    <span class="cf">return</span> <span class="op">(</span>a <span class="op">*</span> x<span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="bn">0x10</span> <span class="op">-</span> m<span class="op">);</span> </span>
 <span id="cb6-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-
-<section id="collisions" class="title-slide slide level1 center">
-<h1>Collisions</h1>
+<section id="collisions" class="slide level2">
+<h2>Collisions</h2>
 <ul>
 <li>A <strong>collision</strong> occurs if <span class="math display">\[
 \exists x, x' : x \neq x` \land h(x) = h(x')
@@ -552,21 +548,19 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <ul>
 <li><strong>Goal:</strong> minimize:non-crypto::avoid:crypto collisions.
 <ul>
-<li>Achieve this via a large co-domain for <span class="math inline">\(h\)</span></li>
+<li>Achieve this via a large codomain for <span class="math inline">\(h\)</span></li>
 </ul></li>
 </ul>
 </section>
-
-<section id="codomain" class="title-slide slide level1 center">
-<h1>Codomain:</h1>
+<section id="codomain" class="slide level2">
+<h2>Codomain:</h2>
 <blockquote>
 <p><a href="https://en.wikipedia.org/wiki/Codomain">“In mathematics, a codomain or set of destination of a function is a set into which all of the output of the function is constrained to fall. It is the set <span class="math inline">\(Y\)</span> in the notation <span class="math inline">\(f: X → Y\)</span>. The term range is sometimes ambiguously used to refer to either the codomain or the image of a function.”</a></p>
 </blockquote>
 </section>
-
-<section id="test-it" class="title-slide slide level1 center">
-<h1>Test it:</h1>
-<div id="549599c3" class="cell" data-execution_count="4">
+<section id="test-it" class="slide level2">
+<h2>Test it:</h2>
+<div id="4ece0f30" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb8-2"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
 <span id="cb8-3"><a></a><span class="cf">assert</span>(<span class="bu">set</span>(h(x, a, W, M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)) <span class="op">==</span> <span class="bu">set</span>(<span class="bu">range</span>(M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -576,14 +570,17 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>Small <span class="math inline">\(W = 2^{0x10} = 65536\)</span> means our computer can handle all possibilities.</li>
 </ul>
 </section>
+<section id="visualize" class="slide level2">
+<h2>Visualize:</h2>
 
-<section id="visualize" class="title-slide slide level1 center">
-<h1>Visualize:</h1>
+<img style="filter: invert(100%);" src="https://www.ee.iitb.ac.in/~sarva/courses/EE720/2023/slides/images/codomain-256.svg" class="r-stretch"></section></section>
+<section>
+<section id="what" class="title-slide slide level1 center">
+<h1>What?</h1>
 
-<img style="filter: invert(100%);" src="https://www.ee.iitb.ac.in/~sarva/courses/EE720/2023/slides/images/codomain-256.svg" class="r-stretch"></section>
-
-<section id="cryptgraphic" class="title-slide slide level1 center">
-<h1>Cryptgraphic</h1>
+</section>
+<section id="cryptgraphic" class="slide level2">
+<h2>Cryptgraphic</h2>
 <ul>
 <li>Begin with SHA-2 (Secure Hash Algorithm 2).
 <ul>
@@ -593,9 +590,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>Published by the U.S. National Institute of Standards and Technology (NIST) in 2001.</li>
 </ul>
 </section>
-
-<section id="context" class="title-slide slide level1 center">
-<h1>Context</h1>
+<section id="context" class="slide level2">
+<h2>Context</h2>
 <ul>
 <li>SHA-1, released in 1995, found to have significant vulnerabilities.</li>
 <li>Growing concerns about the security of SHA-1 led to the development of SHA-2.
@@ -606,9 +602,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </ul></li>
 </ul>
 </section>
-
-<section id="family" class="title-slide slide level1 center">
-<h1>Family</h1>
+<section id="family" class="slide level2">
+<h2>Family</h2>
 <ul>
 <li>Six hash functions release August 2001:
 <ul>
@@ -621,9 +616,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </ul></li>
 </ul>
 </section>
-
-<section id="adoption-and-usage" class="title-slide slide level1 center">
-<h1>Adoption and Usage</h1>
+<section id="adoption-and-usage" class="slide level2">
+<h2>Adoption and Usage</h2>
 <ul>
 <li>SHA-2 has been widely adopted in
 <ul>
@@ -638,9 +632,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </ul></li>
 </ul>
 </section>
-
-<section id="sha-2-pledge" class="title-slide slide level1 center">
-<h1>SHA-2 Pledge</h1>
+<section id="sha-2-pledge" class="slide level2">
+<h2>SHA-2 Pledge</h2>
 <ul>
 <li>I need a verbal confirmation:
 <ul>
@@ -658,9 +651,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </ul></li>
 </ul>
 </section>
-
-<section id="sha-256-overview" class="title-slide slide level1 center">
-<h1>SHA-256 Overview</h1>
+<section id="sha-256-overview" class="slide level2">
+<h2>SHA-256 Overview</h2>
 <ul>
 <li><strong>SHA-2</strong> with a <strong>256-bit output length</strong></li>
 <li>Accepts bit strings of length up to <span class="math inline">\(2^{64} - 1\)</span>
@@ -669,10 +661,14 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>~17 million terabytes</li>
 </ul></li>
 </ul>
-</section>
+</section></section>
+<section>
+<section id="how" class="title-slide slide level1 center">
+<h1>How?</h1>
 
-<section id="two-stages" class="title-slide slide level1 center">
-<h1>Two Stages</h1>
+</section>
+<section id="two-stages" class="slide level2">
+<h2>Two Stages</h2>
 <ul>
 <li>Output calculation has two stages:
 <ol type="1">
@@ -681,9 +677,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </ol></li>
 </ul>
 </section>
-
-<section id="preprocessing" class="title-slide slide level1 center">
-<h1>Preprocessing</h1>
+<section id="preprocessing" class="slide level2">
+<h2>Preprocessing</h2>
 <ul>
 <li>A 256-bit state variable <span class="math inline">\(H^{(0)}\)</span> is initialized:</li>
 </ul>
@@ -699,9 +694,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>We’ll calculate these in the lab.</li>
 </ul>
 </section>
-
-<section id="input-padding" class="title-slide slide level1 center">
-<h1>Input Padding</h1>
+<section id="input-padding" class="slide level2">
+<h2>Input Padding</h2>
 <ul>
 <li><p>The input <span class="math inline">\(M\)</span> is padded to a length that is a multiple of 512.</p></li>
 <li><p>Let <span class="math inline">\(M\)</span> be <span class="math inline">\(l\)</span>-bits long.</p></li>
@@ -710,11 +704,10 @@ k + l + 65 = 0 \pmod{512}
 \]</span></p></li>
 </ul>
 </section>
-
-<section id="padding-content" class="title-slide slide level1 center">
-<h1>Padding Content</h1>
+<section id="padding-content" class="slide level2">
+<h2>Padding Content</h2>
 <ul>
-<li>Append <span class="math inline">\(k + l + 65\)</span> bits:
+<li>Append <span class="math inline">\(k + 65\)</span> bits to <span class="math inline">\(M\)</span>:
 <ul>
 <li>A single one (<code>1</code>), followed by</li>
 <li><span class="math inline">\(k\)</span> zeros (<code>0</code>), followed by</li>
@@ -726,18 +719,20 @@ k + l + 65 = 0 \pmod{512}
 </ul></li>
 </ul>
 </section>
-
-<section id="example.py-1" class="title-slide slide level1 center">
-<h1>Example.py</h1>
+<section id="example.py-1" class="slide level2">
+<h2>Example.py</h2>
 <ul>
-<li>We can solve numerical in Python, but…</li>
+<li>We can solve numerically in Python, but…</li>
 <li>Perhaps easier to show with strings.</li>
 </ul>
-<div id="127f2605" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>k, l <span class="op">=</span> <span class="dv">8</span>, <span class="dv">123</span></span>
-<span id="cb9-2"><a></a><span class="bu">print</span>(<span class="st">'String:'</span>, <span class="st">'0b1'</span> <span class="op">+</span> <span class="st">'0'</span> <span class="op">*</span> (k) <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>l<span class="sc">:064b}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>String: 0b1000000000000000000000000000000000000000000000000000000000000000001111011</code></pre>
+<div id="ca4f0047" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>M <span class="op">=</span> <span class="st">"Hello there I am a message.  "</span> <span class="op">*</span> <span class="dv">15</span></span>
+<span id="cb9-2"><a></a>x <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-3"><a></a>l <span class="op">=</span> <span class="bu">len</span>(M.encode(<span class="st">'utf-8'</span>)) <span class="op">*</span> x.bit_length()</span>
+<span id="cb9-4"><a></a>k <span class="op">=</span> <span class="dv">512</span> <span class="op">-</span> (l <span class="op">+</span> <span class="dv">65</span>) <span class="op">%</span> <span class="dv">512</span></span>
+<span id="cb9-5"><a></a><span class="co">"l="</span>, l, <span class="st">"k="</span>, k, <span class="st">"pad="</span>, <span class="st">"0x1"</span> <span class="op">+</span> <span class="st">"0"</span> <span class="op">*</span> (k<span class="op">//</span><span class="dv">4</span>) <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>l<span class="sc">:016x}</span><span class="ss">"</span> <span class="co">## 64 // 4 == 16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>('l=', 435, 'k=', 12, 'pad=', '0x100000000000000001b3')</code></pre>
 </div>
 </div>
 <ul>
@@ -747,24 +742,38 @@ k + l + 65 = 0 \pmod{512}
 </ul></li>
 </ul>
 </section>
-
-<section id="hash-computation" class="title-slide slide level1 center">
-<h1>Hash Computation</h1>
+<section id="hash-computation" class="slide level2">
+<h2>Hash Computation</h2>
 <ul>
-<li>Padded input is split into <span class="math inline">\(N\)</span> 512-bit blocks: <span class="math display">\[
+<li>Padded input is split into <span class="math inline">\(N\)</span> 512-bit blocks:
+<ul>
+<li>We note this is 1-indexed, by convention. <span class="math display">\[
 M^{(1)}, M^{(2)}, \ldots, M^{(N)}
 \]</span></li>
+</ul></li>
+<li>When testing, expect to have only <span class="math inline">\(M^{(1)}\)</span>
+<ul>
+<li>512 is a lot of bytes to e.g.&nbsp;type in.</li>
+<li>Test more once it works.</li>
+</ul></li>
+</ul>
+</section>
+<section id="hash-type" class="slide level2">
+<h2>Hash Type</h2>
+<ul>
 <li>The hash function has the following type: <span class="math display">\[
 f: M:\{0,1\}^{512} \times H:\{0,1\}^{256} \rightarrow H':\{0,1\}^{256}
 \]</span></li>
-<li>Given <span class="math inline">\(H(i-1)\)</span>, calculate <span class="math inline">\(H(i)\)</span> using: <span class="math display">\[
-H(i) = f(M^{(i)}, H(i-1)), \quad 1 \leq i \leq N.
-\]</span></li>
+<li>Given <span class="math inline">\(H^{(i-1)}\)</span>, calculate <span class="math inline">\(H^{(i)}\)</span> using: <span class="math display">\[
+H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
+\]</span>
+<ul>
+<li>1-indexed</li>
+</ul></li>
 </ul>
 </section>
-
-<section id="words" class="title-slide slide level1 center">
-<h1>Words</h1>
+<section id="words" class="slide level2">
+<h2>Words</h2>
 <ul>
 <li>We specify bitwise operations over <strong>exactly</strong> 32 bit words.</li>
 <li>The industry standard is to use <code>stdint</code></li>
@@ -777,9 +786,8 @@ H(i) = f(M^{(i)}, H(i-1)), \quad 1 \leq i \leq N.
 <span id="cb11-6"><a></a>    <span class="cf">return</span> a<span class="op">;</span></span>
 <span id="cb11-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-
-<section id="operations" class="title-slide slide level1 center">
-<h1>Operations</h1>
+<section id="operations" class="slide level2">
+<h2>Operations</h2>
 <ul>
 <li>Bitwise logical operations
 <ul>
@@ -787,87 +795,281 @@ H(i) = f(M^{(i)}, H(i-1)), \quad 1 \leq i \leq N.
 <li>Binary, and</li>
 <li>Ternary, and</li>
 </ul></li>
-<li>Shift/rotate operations</li>
-<li>Operations work over 1, 2, or 3 words of size 32 (uint32_t)
+<li>Shift/rotate operations
 <ul>
-<li>Term these words <span class="math inline">\(U\)</span>, <span class="math inline">\(V\)</span>, <span class="math inline">\(W\)</span></li>
+<li>Simple, and</li>
+<li>Composite</li>
 </ul></li>
 </ul>
 </section>
-
-<section id="unary-bitwise" class="title-slide slide level1 center">
-<h1>Unary Bitwise</h1>
+<section id="words-1" class="slide level2">
+<h2>Words</h2>
 <ul>
-<li>The first is ‘bitwise complement’, or</li>
-<li>‘bitwise logical not’: <span class="math display">\[
+<li>Bitwise logical operations accept 1, 2, or 3 words of size 32 (<code>uint32_t</code>) and produce one word.
+<ul>
+<li>Term these words <span class="math inline">\(U\)</span>, <span class="math inline">\(V\)</span>, <span class="math inline">\(W\)</span></li>
+</ul></li>
+<li>Shift/rotate operations additionally accept one natural number <span class="math inline">\(n\)</span> &lt; 32.
+<ul>
+<li>Term this <span class="math inline">\(n\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="unary-bitwise" class="slide level2">
+<h2>Unary Bitwise</h2>
+<ul>
+<li>There is only one:</li>
+<li>‘bitwise complement’/‘bitwise logical not’: <span class="math display">\[
 \lnot U
 \]</span></li>
-<li>There is no graceful Python implementation.</li>
+<li>Expressible with <code>uint32_t</code> in C:</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a></a><span class="dt">uint32_t</span> complement<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb12-2"><a></a>    <span class="cf">return</span> <span class="op">~</span>u <span class="op">;</span></span>
-<span id="cb12-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a></a><span class="co">/* 32 bit bitwise complement, exact */</span></span>
+<span id="cb12-2"><a></a><span class="dt">uint32_t</span> complement<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-3"><a></a>    <span class="cf">return</span> <span class="op">~</span>u<span class="op">;</span></span>
+<span id="cb12-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-
-<section>
-<section id="binary-bitwise" class="title-slide slide level1 center">
-<h1>Binary Bitwise</h1>
+<section id="binary-bitwise" class="slide level2">
+<h2>Binary Bitwise</h2>
 <ul>
-<li><p><span class="math inline">\(U \land V\)</span>, <span class="math inline">\(U \lor V\)</span>, <span class="math inline">\(U \oplus V\)</span>: AND, OR, XOR</p></li>
-<li><p><span class="math inline">\(SHR_n(U)\)</span>: shift right by <span class="math inline">\(n\)</span></p></li>
-<li><p><span class="math inline">\(ROTR_n(U)\)</span>: rotate right by <span class="math inline">\(n\)</span></p></li>
-<li><p><strong>Special functions</strong>: <span class="math display">\[
-\text{Ch}(U, V, W) = (U \land V) \oplus (\lnot U \land W)
-\]</span> <span class="math display">\[
-\text{Maj}(U, V, W) = (U \land V) \oplus (U \land W) \oplus (V \land W)
-\]</span> <span class="math display">\[
-\Sigma_0(U) = ROTR_2(U) \oplus ROTR_{13}(U) \oplus ROTR_{22}(U)
-\]</span> <span class="math display">\[
-\Sigma_1(U) = ROTR_6(U) \oplus ROTR_{11}(U) \oplus ROTR_{25}(U)
-\]</span></p></li>
+<li><span class="math inline">\(U \land V\)</span>, <span class="math inline">\(U \lor V\)</span>, <span class="math inline">\(U \oplus V\)</span>: AND, OR, XOR</li>
+<li>As from printb/macros.</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a></a><span class="co">/* 32 bit bitwise complement, exact */</span></span>
+<span id="cb13-2"><a></a><span class="dt">uint32_t</span> and<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a></a>    <span class="cf">return</span> u <span class="op">&amp;</span> v<span class="op">;</span></span>
+<span id="cb13-4"><a></a><span class="op">}</span></span>
+<span id="cb13-5"><a></a></span>
+<span id="cb13-6"><a></a><span class="dt">uint32_t</span> ior<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* inclusive or */</span></span>
+<span id="cb13-7"><a></a>    <span class="cf">return</span> u <span class="op">|</span> v<span class="op">;</span></span>
+<span id="cb13-8"><a></a><span class="op">}</span></span>
+<span id="cb13-9"><a></a></span>
+<span id="cb13-10"><a></a><span class="dt">uint32_t</span> xor<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* exclusive or */</span></span>
+<span id="cb13-11"><a></a>    <span class="cf">return</span> u <span class="op">^</span> v<span class="op">;</span></span>
+<span id="cb13-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="addition" class="slide level2">
+<h2>Addition</h2>
+<ul>
+<li>C ddition is a binary bitwise operation:</li>
+<li>Equivalent to integer sum module <span class="math inline">\(2^{32}\)</span></li>
+</ul>
+<div id="89655fea" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">from</span> ctypes <span class="im">import</span> c_uint <span class="co">## this won't work in pypy</span></span>
+<span id="cb14-2"><a></a><span class="kw">def</span> addition(u:c_uint, v:c_uint) <span class="op">-&gt;</span> c_uint:</span>
+<span id="cb14-3"><a></a>    <span class="cf">return</span> c_uint(u <span class="op">+</span> v)</span>
+<span id="cb14-4"><a></a></span>
+<span id="cb14-5"><a></a>addition(<span class="dv">4000000000</span>, <span class="dv">4000000000</span>) , addition(<span class="dv">4</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(c_ulong(3705032704), c_ulong(8))</code></pre>
+</div>
+</div>
+<ul>
+<li>For me, Python coerces <code>c_uint</code> to <code>c_ulong</code>.
+<ul>
+<li>Good reason to use C</li>
+</ul></li>
 </ul>
 </section>
-<section id="compression-function-calculation" class="slide level2">
-<h2>Compression Function Calculation</h2>
-<ol type="1">
-<li><p><strong>Internal State Initialization</strong>: <span class="math display">\[
+<section id="c-math" class="slide level2">
+<h2>C Math</h2>
+<ul>
+<li>C addition on <code>uint32_t</code> is already modulo <span class="math inline">\(2^{32}\)</span>
+<ul>
+<li>What else would it be?</li>
+<li>Finite number of bits means finite values.</li>
+</ul></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>bitops.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb16" data-filename="bitops.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb16-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb16-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-5"><a></a>    <span class="dt">uint32_t</span> u <span class="op">=</span> <span class="dv">4000000000</span><span class="op">;</span></span>
+<span id="cb16-6"><a></a>    printf<span class="op">(</span><span class="st">"</span><span class="sc">%u</span><span class="st"> + </span><span class="sc">%u</span><span class="st"> = </span><span class="sc">%u\n</span><span class="st">"</span><span class="op">,</span> u<span class="op">,</span> u<span class="op">,</span> u<span class="op">+</span>u<span class="op">);</span></span>
+<span id="cb16-7"><a></a>    u <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb16-8"><a></a>    printf<span class="op">(</span><span class="st">"</span><span class="sc">%u</span><span class="st"> + </span><span class="sc">%u</span><span class="st"> = </span><span class="sc">%u\n</span><span class="st">"</span><span class="op">,</span> u<span class="op">,</span> u<span class="op">,</span> u<span class="op">+</span>u<span class="op">);</span></span>
+<span id="cb16-9"><a></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="c-math-1" class="slide level2">
+<h2>C Math</h2>
+<ul>
+<li>We get the same values as the Python <code>c_uint</code></li>
+<li>Python is written in C:</li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>/bin/sh</strong></pre>
+</div>
+<div class="sourceCode" id="cb17" data-filename="/bin/sh"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb17-1"><a></a>$ gcc bitops.c --std=c89 -Wall -Wextra -Werror -Wpedantic -O2 -o bitops</span>
+<span id="cb17-2"><a></a>$ ./bitops</span>
+<span id="cb17-3"><a></a>4000000000 + 4000000000 = 3705032704</span>
+<span id="cb17-4"><a></a>4 + 4 = 8</span>
+<span id="cb17-5"><a></a>$ </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ternary-bitwise" class="slide level2">
+<h2>Ternary Bitwise</h2>
+<ul>
+<li><code>CHOICE</code> and <code>MEDIAN</code>, expressed logically: <span class="math display">\[
+\text{CHOICE}(U, V, W) = (U \land V) \oplus (\lnot U \land W)
+\]</span> <span class="math display">\[
+\text{MEDIAN}(U, V, W) = (U \land V) \oplus (U \land W) \oplus (V \land W)
+\]</span></li>
+</ul>
+</section>
+<section id="shiftsrotates" class="slide level2">
+<h2>Shifts/Rotates</h2>
+<ul>
+<li>Compared to bitwise, they:
+<ul>
+<li>Still work on a 32 bit word, but</li>
+<li>Also work on a value <span class="math inline">\(n : 0 \leq n \leq 31\)</span></li>
+<li>Or,</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="cf">assert</span>(n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">32</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="simple-shiftrotate" class="slide level2">
+<h2>Simple Shift/Rotate</h2>
+<ul>
+<li>Bitwise shift right <code>&gt;&gt;</code> / x86 <code>shrl</code> <span class="math display">\[
+\textsf{SHR}^n(U) = \underbrace{000 \cdots 000}_{n \textrm{ zeros}} u_0 u_1 \cdots u_{30-n} u_{31-n}
+\]</span></li>
+<li>The <code>ROTATE</code> macro / x86 <code>rorl</code> <span class="math display">\[
+\textsf{ROTR}^n(U) =  \underbrace{u_{32-n} u_{33-n} \cdots u_{30} u_{31}}_{n \textrm{ bits}} u_0 u_1 \cdots u_{30-n} u_{31-n}
+\]</span></li>
+</ul>
+</section>
+<section id="composites" class="slide level2">
+<h2>Composites</h2>
+<ul>
+<li>While not required…</li>
+<li>…easier to understand SHA256 with composites: <span class="math display">\[
+\begin{align*}
+\Sigma_0(U)&amp;= \textsf{ROTR}^{02}(U) \oplus \textsf{ROTR}^{13}(U) \oplus \textsf{ROTR}^{22}(U) \\
+\Sigma_1(U)&amp;= \textsf{ROTR}^{06}(U) \oplus \textsf{ROTR}^{11}(U) \oplus \textsf{ROTR}^{25}(U) \\
+\sigma_0(U)&amp;= \textsf{ROTR}^{07}(U) \oplus \textsf{ROTR}^{18}(U) \oplus \textsf{SHR}^{3}(U) \\
+\sigma_1(U)&amp;= \textsf{ROTR}^{17}(U) \oplus \textsf{ROTR}^{19}(U) \oplus \textsf{SHR}^{10}(U)
+\end{align*}
+\]</span></li>
+<li>Macros and helper functions both work well here.</li>
+</ul>
+</section>
+<section id="hash-computation-1" class="slide level2">
+<h2>Hash Computation</h2>
+<ul>
+<li>4 steps for each 512 bit chunk.</li>
+<li>First chunk, also use pre-computed <span class="math inline">\(H\)</span> values.
+<ul>
+<li>Called, say “initial hash values”</li>
+<li>Successive chunks use previous chunk’s hash</li>
+</ul></li>
+<li>All chunks share pre-computed <span class="math inline">\(K\)</span> values.
+<ul>
+<li>Called, say “round contants”</li>
+<li>Also compute these in the lab.</li>
+</ul></li>
+</ul>
+</section>
+<section id="parts" class="slide level2">
+<h2>Parts</h2>
+<ol start="0" type="1">
+<li>Preprocess</li>
+<li>Set Message Schedule Array
+<ul>
+<li>64 word array</li>
+</ul></li>
+<li>Set Working Variables
+<ul>
+<li>8 word sized variables</li>
+</ul></li>
+<li>Main Loop
+<ul>
+<li>Word level operations.</li>
+</ul></li>
+<li>Update hash value</li>
+</ol>
+</section>
+<section id="set-message-schedule-array" class="slide level2">
+<h2>1. Set Message Schedule Array</h2>
+<ul>
+<li><span class="math inline">\(M^{(i)}_j\)</span> is the <span class="math inline">\(j\)</span>-th 0-indexed 32 bit word of the <span class="math inline">\(i\)</span>-th 1-indexed 512 bit chunk of message <span class="math inline">\(M\)</span>
+<ul>
+<li>A word is 4 letters</li>
+<li>A chunk is short tweet (64 chars)</li>
+<li><span class="math inline">\(M\)</span> can be, e.g., Linux, the <em>Iliad</em></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
 W_j =
 \begin{cases}
 M^{(i)}_j &amp; 0 \leq j \leq 15 \\
 \sigma_1(W_{j-2}) + W_{j-7} + \sigma_0(W_{j-15}) + W_{j-16} &amp; 16 \leq j \leq 63
 \end{cases}
-\]</span></p></li>
-<li><p>Initialize eight 32-bit words: <span class="math display">\[
-(A, B, C, D, E, F, G, H) = (H(i-1)_0, \ldots, H(i-1)_7).
-\]</span></p></li>
-<li><p>Iterate <span class="math inline">\(j = 0\)</span> to <span class="math inline">\(63\)</span>: <span class="math display">\[
-T_1 = H + \Sigma_1(E) + \text{Ch}(E, F, G) + K_j + W_j
-\]</span> <span class="math display">\[
-T_2 = \Sigma_0(A) + \text{Maj}(A, B, C)
-\]</span> <span class="math display">\[
-(A, B, C, D, E, F, G, H) = (T_1 + T_2, A, B, C, D + T_1, E, F, G)
-\]</span></p></li>
-<li><p>Update <span class="math inline">\(H(i)\)</span>: <span class="math display">\[
-H(i)_j = A + H(i-1)_j, \quad j = 0, \ldots, 7
-\]</span></p></li>
-</ol>
+\]</span></p>
 </section>
-<section id="the-merkle-damgård-transform" class="slide level2">
-<h2>The Merkle-Damgård Transform</h2>
+<section id="set-working-variables" class="slide level2">
+<h2>2. Set Working Variables</h2>
 <ul>
-<li><strong>Construction</strong>: Example of MD transform.</li>
-<li><strong>Purpose</strong>: Extend domain to construct collision-resistant hash functions.</li>
+<li>Initialize eight 32-bit words based on the prior hash. <span class="math display">\[
+(A, B, C, D, E, F, G, H) = (H^{(i-1)}_0, \ldots, H^{(i-1)}_7).
+\]</span></li>
 </ul>
 </section>
-<section id="references" class="slide level2">
-<h2>References</h2>
+<section id="main-loop" class="slide level2">
+<h2>3. Main Loop</h2>
 <ul>
-<li>Chapter 3 of <em>An Introduction to Bitcoin</em>, S. Vijayakumaran<br>
-<a href="https://www.ee.iitb.ac.in/~sarva/bitcoin.html">www.ee.iitb.ac.in/~sarva/bitcoin.html</a></li>
+<li>Iterate <span class="math inline">\(j = 0\)</span> to <span class="math inline">\(63\)</span>:</li>
 </ul>
-
-
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">64</span>):</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Precompute two temporary values (or not) <span class="math display">\[
+\begin{align}
+\begin{split}
+&amp; T_1  = H + \Sigma_1(E) + \textsf{Ch}(E,F,G) + K_j + W_j \\
+&amp; T_2  = \Sigma_0(A) + \textsf{Maj}(A,B,C) \\
+\end{split}
+\end{align}
+\]</span></li>
+<li>Update the working variables <span class="math display">\[
+(A,B,C,D,E,F,G,H)  = (T_1+T_2, A, B, C, D+T_1, E, F, G)
+\]</span></li>
+</ul>
+</section>
+<section id="update-hash-value" class="slide level2">
+<h2>4. Update hash value</h2>
+<ul>
+<li>Concludes the work on <span class="math inline">\(M^{(i)}\)</span> by finding <span class="math inline">\(H^{(i)}\)</span></li>
+</ul>
+<p><span class="math display">\[
+H^{(i)}_j = A + H^{(i-1)}_j, \quad j = 0, \ldots, 7
+\]</span></p>
 </section></section>
+<section id="resources" class="title-slide slide level1 center">
+<h1>Resources</h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/SHA-2#Pseudocode">Wikipedia Pseudocode</a>
+<ul>
+<li>I used this to implement.</li>
+</ul></li>
+<li><a href="https://www.ee.iitb.ac.in/~sarva/courses/EE720/2023/slides/hash-functions.html#/sha-256">Saravanan Vijayakumaran’s Slides</a>
+<ul>
+<li>I used this to typeset the slides.</li>
+</ul></li>
+<li><a href="https://sha256algorithm.com/"><span class="citation" data-cites="manceraio">@manceraio</span>’s .js demo</a>
+<ul>
+<li>Inspired my text-only Enigma.</li>
+</ul></li>
+</ul>
+
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

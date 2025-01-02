@@ -209,7 +209,7 @@ assert(set(h(x, a, W, M) for x in range(M)) == set(range(M)))
 \end{split}
    \end{align*}
 
-- We'll calculate these in the lab.
+- "Fractional parts of square roots of first primes"
 
 ## Input Padding
 
@@ -337,7 +337,7 @@ uint32_t xor(uint32_t u, uint32_t v) { /* exclusive or */
 
 ## Addition
 
-- C ddition is a binary bitwise operation:
+- C addition is a binary bitwise operation:
 - Equivalent to integer sum module $2^{32}$
 ```{python}
 from ctypes import c_uint ## this won't work in pypy
@@ -419,7 +419,7 @@ $$
 \begin{align*}
 \Sigma_0(U)&= \textsf{ROTR}^{02}(U) \oplus \textsf{ROTR}^{13}(U) \oplus \textsf{ROTR}^{22}(U) \\
 \Sigma_1(U)&= \textsf{ROTR}^{06}(U) \oplus \textsf{ROTR}^{11}(U) \oplus \textsf{ROTR}^{25}(U) \\
-\sigma_0(U)&= \textsf{ROTR}^{07}(U) \oplus \textsf{ROTR}^{18}(U) \oplus \textsf{SHR}^{3}(U) \\
+\sigma_0(U)&= \textsf{ROTR}^{07}(U) \oplus \textsf{ROTR}^{18}(U) \oplus \textsf{SHR}^{03}(U) \\
 \sigma_1(U)&= \textsf{ROTR}^{17}(U) \oplus \textsf{ROTR}^{19}(U) \oplus \textsf{SHR}^{10}(U)
 \end{align*}
 $$
@@ -433,7 +433,7 @@ $$
     - Successive chunks use previous chunk's hash
 - All chunks share pre-computed $K$ values.
     - Called, say "round contants"
-    - Also compute these in the lab.
+    - "Fractional parts of cube roots of first primes"
 
 ## Parts
 
@@ -443,7 +443,7 @@ $$
 2. Set Working Variables
     -   8 word sized variables
 3. Main Loop
-    -   Word level operations.
+    -   Word level operations
 4. Update hash value
 
 ## 1. Set Message Schedule Array

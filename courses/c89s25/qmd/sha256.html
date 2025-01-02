@@ -475,14 +475,14 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Example: Python <code>hash</code></li>
 </ul>
-<div id="5c836af6" class="cell" data-execution_count="2">
+<div id="d2ec79eb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="ss">f"</span><span class="sc">{</span><span class="bu">hash</span>(a)<span class="sc">:+d}</span><span class="ss">"</span> <span class="cf">for</span> a <span class="kw">in</span> <span class="st">"ABCDE"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-8640502697934158294
-+1180839565384794027
--8257339180433518899
--6301241127016045203
--3052235361003046197</code></pre>
+<pre><code>-1816143160440941865
++4049084208316813398
+-4700605915453633798
+-4649981414139082377
++2275070532526587453</code></pre>
 </div>
 </div>
 </section>
@@ -510,7 +510,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>And therefore <span class="math inline">\(\forall W : gcd(257,W) = 1\)</span></li>
 </ul></li>
 </ul>
-<div id="9212c8b9" class="cell" data-execution_count="3">
+<div id="f06bcfbb" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> math</span>
 <span id="cb4-2"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb4-3"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
@@ -560,7 +560,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </section>
 <section id="test-it" class="slide level2">
 <h2>Test it:</h2>
-<div id="4ece0f30" class="cell" data-execution_count="4">
+<div id="a9e9b902" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb8-2"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
 <span id="cb8-3"><a></a><span class="cf">assert</span>(<span class="bu">set</span>(h(x, a, W, M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)) <span class="op">==</span> <span class="bu">set</span>(<span class="bu">range</span>(M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -691,7 +691,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 \end{split}
    \end{align*}\]</span></p>
 <ul>
-<li>We’ll calculate these in the lab.</li>
+<li>“Fractional parts of square roots of first primes”</li>
 </ul>
 </section>
 <section id="input-padding" class="slide level2">
@@ -725,7 +725,7 @@ k + l + 65 = 0 \pmod{512}
 <li>We can solve numerically in Python, but…</li>
 <li>Perhaps easier to show with strings.</li>
 </ul>
-<div id="ca4f0047" class="cell" data-execution_count="5">
+<div id="7eed7d24" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>M <span class="op">=</span> <span class="st">"Hello there I am a message.  "</span> <span class="op">*</span> <span class="dv">15</span></span>
 <span id="cb9-2"><a></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb9-3"><a></a>l <span class="op">=</span> <span class="bu">len</span>(M.encode(<span class="st">'utf-8'</span>)) <span class="op">*</span> x.bit_length()</span>
@@ -851,10 +851,10 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 <section id="addition" class="slide level2">
 <h2>Addition</h2>
 <ul>
-<li>C ddition is a binary bitwise operation:</li>
+<li>C addition is a binary bitwise operation:</li>
 <li>Equivalent to integer sum module <span class="math inline">\(2^{32}\)</span></li>
 </ul>
-<div id="89655fea" class="cell" data-execution_count="6">
+<div id="b7d9603a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">from</span> ctypes <span class="im">import</span> c_uint <span class="co">## this won't work in pypy</span></span>
 <span id="cb14-2"><a></a><span class="kw">def</span> addition(u:c_uint, v:c_uint) <span class="op">-&gt;</span> c_uint:</span>
 <span id="cb14-3"><a></a>    <span class="cf">return</span> c_uint(u <span class="op">+</span> v)</span>
@@ -954,7 +954,7 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 \begin{align*}
 \Sigma_0(U)&amp;= \textsf{ROTR}^{02}(U) \oplus \textsf{ROTR}^{13}(U) \oplus \textsf{ROTR}^{22}(U) \\
 \Sigma_1(U)&amp;= \textsf{ROTR}^{06}(U) \oplus \textsf{ROTR}^{11}(U) \oplus \textsf{ROTR}^{25}(U) \\
-\sigma_0(U)&amp;= \textsf{ROTR}^{07}(U) \oplus \textsf{ROTR}^{18}(U) \oplus \textsf{SHR}^{3}(U) \\
+\sigma_0(U)&amp;= \textsf{ROTR}^{07}(U) \oplus \textsf{ROTR}^{18}(U) \oplus \textsf{SHR}^{03}(U) \\
 \sigma_1(U)&amp;= \textsf{ROTR}^{17}(U) \oplus \textsf{ROTR}^{19}(U) \oplus \textsf{SHR}^{10}(U)
 \end{align*}
 \]</span></li>
@@ -973,7 +973,7 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 <li>All chunks share pre-computed <span class="math inline">\(K\)</span> values.
 <ul>
 <li>Called, say “round contants”</li>
-<li>Also compute these in the lab.</li>
+<li>“Fractional parts of cube roots of first primes”</li>
 </ul></li>
 </ul>
 </section>
@@ -991,7 +991,7 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 </ul></li>
 <li>Main Loop
 <ul>
-<li>Word level operations.</li>
+<li>Word level operations</li>
 </ul></li>
 <li>Update hash value</li>
 </ol>

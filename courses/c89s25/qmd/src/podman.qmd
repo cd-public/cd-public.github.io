@@ -12,6 +12,7 @@ format:
         show-slide-number: all
         width: 1050
         height: 700
+        footer: "[Home](../index.html)"
   
 execute:
     echo: false

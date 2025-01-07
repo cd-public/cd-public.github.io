@@ -1,3 +1,6 @@
 [submodule "courses/rmls25"]
 	path = courses/rmls25
 	url = https://github.com/cd-public/DSLM-505.git
+[submodule "courses/DSLM-505"]
+	path = courses/DSLM-505
+	url = https://github.com/cd-public/DSLM-505.git

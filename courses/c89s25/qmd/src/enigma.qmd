@@ -294,8 +294,8 @@ python3 enigma.py MNBOASVTTB
 
 - After the reflect cipher, values are _decrypted_
   - A letter's place in the _cipher_, not alphabet, is found
-  - This location is used to determined the letter in the _alphabet_
-  - Essentially, a change from mapping the alphabet to a cipher, to vice versa.
+  - This location is used to determine the letter in the _alphabet_
+  - Essentially, a change from mapping the alphabet to a cipher, and vice versa.
 - 'H' comes out of the reflector
   - 'H' is is index 7 letter of the alphabet
   - So in the next cipher, we'll look up the index 7 letter of the _cipher_
@@ -314,7 +314,7 @@ python3 enigma.py MNBOASVTTB
 [   |                        ]
 [ ABCDEFGHIJKLMNOPQRSTUVWXYZ ] # alphabet
  ‾‾‾|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-    M
+    C
 ```
 
 #### Inversion
@@ -338,7 +338,7 @@ python3 enigma.py MNBOASVTTB
 [   |                        ]
 [ ABCDEFGHIJKLMNOPQRSTUVWXYZ ] # alphabet
  ‾‾‾|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-    M
+    C
 ```
 :::
 
@@ -540,7 +540,7 @@ _For the remainder of the write-up, I will assume without loss of generality the
 
 - We call these things rotors because they rotate:
   - The mapping from e.g. index _i_ of the input to index _j_ of the output is unalterated
-    - For example, 'E' is index 5 and maps to 'J'` at index 10, both of the alphabet
+    - For example, 'E' is index 5 and maps to 'J' at index 10, both of the alphabet
   - However, we can change the rotors as follows:
     - The input index is shifted forward by some shift value _n_
     - This input index is mapped to an output index
@@ -634,13 +634,11 @@ _For the remainder of the write-up, I will assume without loss of generality tha
     - So **before the first encryption**, 
       - (_n_ = 0 : A->A) becomes (_n_ = 1 : A->B) before the fast rotor.
     - To understand this, the rotation must be applied at two points:
-      - Before and after going through the fast rotor, and
-      - Before and after reversing through the fast^-1 rotor.
-  - If the fast rotor "loops back" from a rotation from (_n_ = 25 : A->Z) to a non-rotation of (_n_ = 26 = 0 : A->A).
+  - If the fast rotor "loops back" from a rotation from (_n_ = 25 : A->Z) to a non-rotation of (_n_ = 26 = 0 : A->A), then
     - The medium rotor advances once, from e.g.  (_n_ = 0 : A->A) to (_n_ = 1 : A->B)
   - When medium loops back, slow advances once.
   - There are no rotations related to the reflector.
-- We image we have typed 29 letters:
+- Imagine we have typed 29 letters:
   - the fast rotor has progressed 29 times and progresses once more before encryption.
     - So shift by _n_ = 30, or _n_ = 30-26 = 4.
   - the medium rotor progresed 1 time, 
@@ -756,7 +754,7 @@ _For the remainder of the write-up, I will assume without loss of generality tha
 =                   S                           =
 ====================|============================
                     |
-                    S>>>>>S
+                    S>>>>>S          # adjust
                           |
 ==========================|======================
 =                         |                     =
@@ -807,15 +805,15 @@ int main() {
   - There are instead things called `char *`
   - Say "character star"
   - We attach the * to the variable name
-    - We'll revisit this latter - it will make sense.
+    - We'll revisit this later - it will make sense.
   - That is, an array, or buffer, of characters
     - Not quite a list - closer to a NumPy array.
 - It matters what things are called.
   - In C we must say what kind of thing a variable is when we "declare" the variable.
-  - Latter we use the variable, without specifying the kind of thing
+  - Later we use the variable, without specifying the kind of thing
   - But we cannot change its kind.
-  - C variable declaration is like Python function declaration, with `def`
-- We will use format print and variable declarations to introduce "char *"
+  - C variable declaration is like how Python function declaration, with `def`
+- We will use format print and variable declarations to introduce `char *`
   - We note that Python `print` appends a newline and C `printf` does not.
     - I specify an non-newline terminator in Python for equivalence.
 
@@ -870,15 +868,15 @@ int main() {
 
 #### Constants
 
-- The C language has a formal support for constants
-    - These are values that a fixed when the executable is created.
+- The C language has a form of support for constants
+    - These are values that are fixed when the executable is created.
     - They may not be reassigned by any line of code.
 - The `#define` "pre-processor directive" is used to create constants.
     - `#define` is like `#include` which is somewhat like `import`
     - It defines new values, which are not variables, for use in the .c file
     - The pre-processor reads .c files before the executable is created.
 - We can also use `#define` for strings, such as the rotor strings.
-    - By convention, constants, are named in all caps, like `ROTORS`
+    - By convention, constants are named in all caps, like `ROTORS`
     - I used a single string of all rotors concatenated.
     - You may do whatever works for you.
     
@@ -956,7 +954,7 @@ printf("%d, %x, %c\n", 'A','A','A');
 - We note:
   - In C there is no string, list, tuple, generator, dictionary, or set type.
   - In Python, *for loop*s require one of these types.
-  - Henceforth we refer to the C *for loop* as a "*for loop*" and Python *for loop* as a "*for each loop*".
+  - Henceforth we refer to the C *for loop* as a "*for loop*" and the Python *for loop* as a "*for each loop*".
 - A *for loop* is composed of three components:
   - Initiate
   - Terminate
@@ -990,7 +988,7 @@ for ( i = 0; i < 10; i++) {
 - Any statement may be placed in this position.
 - The most common is `i++`, a special shorthand for incrementation.
   - It is logically equivalent to Python `i += 1`.
-- Find the length of the first word in a string with an iterator only:
+- **Example:** Find the length of the first word in a string with an iterator only:
     - Increase a string index by one within the iterator.
     - Include an if statement in the *for loop* code block.
     - Use a return statement in the if statement code block.
@@ -1018,11 +1016,11 @@ for ( ; ; i++) {
     - A zero to denote it is "null", "zero", or "nothing"
   - It is numerically equal to zero.
 - Unlike Python booleans, C has no boolean type.
-  - Rather it has truthiness, akin to Python if statements with numerical conditions.
+  - Rather, it has truthiness, akin to Python *if* statements with numerical conditions.
   - The numerical value zero is false.
   - All other numerical values are true.
 - The termination statement causes the loop to end when it is equal to zero.
-- Find the length of the first word in a string with a terminator only:
+- **Example:** Find the length of the first word in a string with a terminator only:
     - Check if a character is the null terminator in the termination statement.
     - Include an incrementation in the *for loop* code block.
 
@@ -1096,11 +1094,11 @@ return 0;
 ### Collections
 
 - C lacks any collection type (list, set, tuple, string)
-- * notation is used instead
-  - * denotes the location of a some value
-  - The type of this value gives its size
+- \* notation is used instead
+  - \* denotes the location of some value
+  - The type of this value gives it its size
   - Successive values are at successive locations
-  - These are memory address.
+  - These are memory addresses.
 - [] notation may also be used
   - We simply include the length within brackets.
 - We don't worry about any of that for now.
@@ -1122,8 +1120,7 @@ for (i = 0; i < 5; i++) {
 
 #### Character arrays
 
-- Unlike Python, where a list of characters and a string of characters differ.
-- In C, an array of characters and a "string" of characters are identical.
+- Unlike Python, where a list of characters and a string of characters differ, in C, an array of characters and a "string" of characters are identical.
 
 ```C
 char carray[5] = {'a', 'e', 'i', 'o', 'u'};
@@ -1146,7 +1143,7 @@ for (i = 0; i < 5; i++) {
 
 ### Integer Division
 
-- In C, there are numerous integer data types, including int and char
+- In C, there are numerous integer data types, including *int* and *char*
 - All use integer division by default.
 - Test as follows:
 
@@ -1170,7 +1167,7 @@ for (i = 0; i < 5; i++) {
 ### Modulo
 
 - Both C and Python have a % operator
-  - In Python it is the "more mathematical correct" modulo operation
+  - In Python it is the "more mathematically correct" modulo operation
   - In C it is the less common remainder operation.
 - The differences were non-obvious and led to a pernicious bug in my enigma.c
 
@@ -1271,7 +1268,7 @@ if __name__ == "__main__":
 ```
 
 - This is roughly equivalent to printing the return result of the enigma function within a function called main.
-- This is close to C, but we don't haven't introduced a way to use command line arguments.
+- This is close to C, but we haven't introduced a way to use command line arguments.
 - Let's look at a minimal Python example.
 
 #### PyEcho
@@ -1332,7 +1329,7 @@ gcc cecho.c -o cecho
 ./cecho hello
 ```
 
-- Two argument, of which one is printed.
+- Two arguments, of which one is printed.
 
 ```email
 ./cecho hello world

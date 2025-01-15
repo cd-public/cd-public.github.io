@@ -638,7 +638,7 @@ _For the remainder of the write-up, I will assume without loss of generality tha
       - Before and after reversing through the fast^-1 rotor.
   - If the fast rotor "loops back" from a rotation from (_n_ = 25 : A->Z) to a non-rotation of (_n_ = 26 = 0 : A->A).
     - The medium rotor advances once, from e.g.  (_n_ = 0 : A->A) to (_n_ = 1 : A->B)
-  - When medium loops back, fast advances once.
+  - When medium loops back, slow advances once.
   - There are no rotations related to the reflector.
 - We image we have typed 29 letters:
   - the fast rotor has progressed 29 times and progresses once more before encryption.

@@ -394,7 +394,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">C89/99</h1>
-  <p class="subtitle">Week 0x0</p>
+  <p class="subtitle">Week 0x1</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -472,16 +472,45 @@ Prof.&nbsp;Calvin
 <li><strong>Windows</strong> only
 <ul>
 <li>Run <code>wsl --install -d ubuntu</code> command once</li>
+<li>Run <code>wsl</code> to… enter wsl.</li>
+<li>Run <code>sudo apt update</code> once</li>
+<li>Run <code>sudo apt upgrade</code> once</li>
+<li>Run <code>sudo apt install podman</code></li>
+<li>Use <code>podman</code> commands within WSL</li>
 </ul></li>
-<li><strong>Windows+Mac:</strong>
+</ul>
+</section>
+
+<section id="in-practice-1" class="title-slide slide level1 center">
+<h1>In practice:</h1>
 <ul>
-<li>Use Podman Installer once</li>
-<li>Launch Podman Desktop each time you code</li>
-<li>Use <code>podman</code> commands</li>
+<li><strong>Mac</strong> only
+<ul>
+<li>Use podman desktop installer</li>
+<li>Before using containers, run
+<ul>
+<li><code>podman machine start</code></li>
+<li>If it didn’t work, may need to <code>podman machine init</code></li>
 </ul></li>
-<li><strong>Linux:</strong>
+<li>This may create a large file on your device
 <ul>
-<li>Have fun with your package manager.</li>
+<li><code>podman-machine-default-arm64.raw</code></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="in-practice-2" class="title-slide slide level1 center">
+<h1>In practice:</h1>
+<ul>
+<li>Podman works well without hacks on Linux
+<ul>
+<li>In fairness, the goal is have access to Linux anyways.</li>
+<li>“Linux” search term shows ~100 jobs in Portland area</li>
+<li>vs.&nbsp;300:Python, 200:SQL, 100:Tableau, 200:R but the first is HVAC?
+<ul>
+<li>“HVAC/R Service Technician”</li>
+</ul></li>
 </ul></li>
 </ul>
 </section>
@@ -500,6 +529,16 @@ Prof.&nbsp;Calvin
 <li>Code in the container can’t tell it’s running inside Podman</li>
 </ul></li>
 </ul>
+</section>
+
+<section id="inside" class="title-slide slide level1 center">
+<h1>Inside:</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb1-1"><a></a>user@DESKTOP-THMS2PJ:~/tmp$ echo "hello world" &gt; file.txt</span>
+<span id="cb1-2"><a></a>user@DESKTOP-THMS2PJ:~/tmp$ cat file.txt</span>
+<span id="cb1-3"><a></a>hello world</span>
+<span id="cb1-4"><a></a>user@DESKTOP-THMS2PJ:~/tmp$ podman start -l ; podman exec -it -l cat file.txt</span>
+<span id="cb1-5"><a></a>e12a46ee0bbe161541597b6b807b79a86e81fcae59c1bcb614e83af1493d2153</span>
+<span id="cb1-6"><a></a><span class="fu">cat: </span>file.txt: No such file or directory</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="images" class="title-slide slide level1 center">
@@ -581,7 +620,7 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Try this:</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb1-1"><a></a>podman run -d -p 8080:80 docker/welcome-to-docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a></a>podman run -d -p 8080:80 docker/welcome-to-docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>You can probably find it at this link:
 <ul>
@@ -639,7 +678,7 @@ Prof.&nbsp;Calvin
 <li>We should demystify.</li>
 <li>Change <code>8080:80</code> to <code>8083:80</code></li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a></a>podman run -d -p 8083:80 docker/welcome-to-docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a></a>podman run -d -p 8083:80 docker/welcome-to-docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Change the link as well.
 <ul>
@@ -670,7 +709,7 @@ Prof.&nbsp;Calvin
 <ul>
 <li>When we run an image with the <code>-d</code> flag, it:
 <ul>
-<li>Created and run as any other container, but</li>
+<li>Created and ran as any other container, but</li>
 <li>Runs “in the background”
 <ul>
 <li>Control does not change to container</li>
@@ -691,7 +730,7 @@ Prof.&nbsp;Calvin
 <li>Use other <code>podman</code> commands to:
 <ul>
 <li>Pop into the container and e.g.&nbsp;<code>vim</code></li>
-<li>Transfer files in our out</li>
+<li>Transfer files in or out</li>
 <li>Pause and restart to save resources.</li>
 </ul></li>
 </ul></li>
@@ -708,22 +747,22 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>We can use <code>podman ps</code></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a></a>podman ps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a></a>podman ps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>We see two servers (nginx) running</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a></a>CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                         NAMES</span>
-<span id="cb4-2"><a></a>7d6af09131b5  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8080-&gt;80/tcp, 80/tcp  confident_darwin</span>
-<span id="cb4-3"><a></a>2e1b9f844dcd  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8083-&gt;80/tcp, 80/tcp  adoring_shamir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb5-1"><a></a>CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                         NAMES</span>
+<span id="cb5-2"><a></a>7d6af09131b5  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8080-&gt;80/tcp, 80/tcp  confident_darwin</span>
+<span id="cb5-3"><a></a>2e1b9f844dcd  docker.io/docker/welcome-to-docker:latest  nginx -g daemon o...  2 minutes ago  Up 2 minutes  0.0.0.0:8083-&gt;80/tcp, 80/tcp  adoring_shamir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="ps--a" class="title-slide slide level1 center">
 <h1>ps -a</h1>
 <ul>
-<li>You have probably also made many containers</li>
+<li>You may also have many containers</li>
 <li><code>podman ps -a</code> to see old containers.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb5-1"><a></a>podman ps -a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a></a>podman ps -a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>I had many such containers!
 <ul>
@@ -731,7 +770,7 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Clean them all up with prune</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a></a>podman system prune</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a></a>podman system prune</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>System = containers, images, everything</li>
 </ul>
@@ -744,9 +783,9 @@ Prof.&nbsp;Calvin
 <li>We can execute commands in that container.</li>
 <li>You only have to specify enough of the name or id to be unique.
 <ul>
-<li>I had a server at 8080 beginning with id 7…</li>
+<li>A server at 8080 beginning with id 7…</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a></a>podman exec -it 7d echo hello</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a></a>podman exec -it 7d echo hello</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li>This returns hello, directly, without switching into the container.</li>
 </ul>
 </section>
@@ -755,13 +794,13 @@ Prof.&nbsp;Calvin
 <h1>/bin/sh</h1>
 <ul>
 <li>So far, I haven’t found a container without <code>/bin/sh</code></li>
-<li>This is the Linux command line, more or less
+<li>The Linux command line, more or less
 <ul>
 <li><code>bash</code> &gt; <code>sh</code>, but sometimes only <code>sh</code> available</li>
 </ul></li>
-<li>We can get an interactive command prompt via</li>
+<li>Get an interactive command prompt via</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a></a>podman exec -it 7d /bin/sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a></a>podman exec -it 7d /bin/sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>This is roughly the same as <code>run -it</code>
 <ul>
@@ -782,7 +821,7 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Restarts the last container with <code>vim</code>:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a></a>podman start -l ; podman exec -it -l vim </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb10-1"><a></a>podman start -l ; podman exec -it -l vim </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="vim" class="title-slide slide level1 center">
@@ -795,7 +834,7 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>So if we create an image with vim, we can</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb10-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb11-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>And go from there.</li>
 </ul>
@@ -824,7 +863,6 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>That time was shortly before the 2008 financial crises
 <ul>
-<li>I’m not saying it’s related.</li>
 <li>Don’t put in the course evals I blame Eclipse for the Great Recession</li>
 </ul></li>
 </ul>
@@ -847,9 +885,9 @@ Prof.&nbsp;Calvin
 <div class="code-with-filename-file">
 <pre><strong>Containerfile</strong></pre>
 </div>
-<div class="sourceCode" id="cb11" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb11-1"><a></a>FROM ubuntu</span>
-<span id="cb11-2"><a></a></span>
-<span id="cb11-3"><a></a>RUN apt update &amp;&amp; apt install gcc vim -y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb12-1"><a></a>FROM ubuntu</span>
+<span id="cb12-2"><a></a></span>
+<span id="cb12-3"><a></a>RUN apt update &amp;&amp; apt install gcc vim -y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 
@@ -862,7 +900,7 @@ Prof.&nbsp;Calvin
 <div class="code-with-filename-file">
 <pre><strong>Containerfile</strong></pre>
 </div>
-<div class="sourceCode" id="cb12" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb12-1"><a></a>FROM ubuntu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb13-1"><a></a>FROM ubuntu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>It’s a bit annoying Alpine requires separately grabbing libc to print</li>
@@ -879,9 +917,9 @@ Prof.&nbsp;Calvin
 <div class="code-with-filename-file">
 <pre><strong>Containerfile</strong></pre>
 </div>
-<div class="sourceCode" id="cb13" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb13-1"><a></a>FROM ubuntu</span>
-<span id="cb13-2"><a></a></span>
-<span id="cb13-3"><a></a>RUN apt update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb14-1"><a></a>FROM ubuntu</span>
+<span id="cb14-2"><a></a></span>
+<span id="cb14-3"><a></a>RUN apt update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>This tells Ubuntu to look for the latest &amp; greatest</li>
@@ -898,9 +936,9 @@ Prof.&nbsp;Calvin
 <div class="code-with-filename-file">
 <pre><strong>Containerfile</strong></pre>
 </div>
-<div class="sourceCode" id="cb14" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb14-1"><a></a>FROM ubuntu</span>
-<span id="cb14-2"><a></a></span>
-<span id="cb14-3"><a></a>RUN apt update &amp;&amp; apt install gcc vim -y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb15-1"><a></a>FROM ubuntu</span>
+<span id="cb15-2"><a></a></span>
+<span id="cb15-3"><a></a>RUN apt update &amp;&amp; apt install gcc vim -y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>This avoids a container updating, going to sleep, and packages falling out of date.
@@ -920,12 +958,12 @@ Prof.&nbsp;Calvin
 <div class="code-with-filename-file">
 <pre><strong>Containerfile</strong></pre>
 </div>
-<div class="sourceCode" id="cb15" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb15-1"><a></a>FROM ubuntu</span>
-<span id="cb15-2"><a></a></span>
-<span id="cb15-3"><a></a>RUN apt update &amp;&amp; apt install gcc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16" data-filename="Containerfile"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb16-1"><a></a>FROM ubuntu</span>
+<span id="cb16-2"><a></a></span>
+<span id="cb16-3"><a></a>RUN apt update &amp;&amp; apt install gcc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Without <code>-y</code>, <code>apt</code> will get stuck waiting for us to type
+<li>Without <code>-y</code>, <code>apt</code> will wait for us to type
 <ul>
 <li>We often use podman in scripts or commands where it gets stuck, so use <code>-y</code></li>
 </ul></li>
@@ -937,11 +975,11 @@ Prof.&nbsp;Calvin
 <ul>
 <li>I usually enter a container via</li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb16-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb17-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Or often with a filename</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb17-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim samp.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb18-1"><a></a>podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim samp.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>From there I do a few things…</li>
 </ul>
@@ -951,28 +989,6 @@ Prof.&nbsp;Calvin
 <h1>First window</h1>
 <ul>
 <li>It looks like this:</li>
-</ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb18-1"><a></a>~                                                      </span>
-<span id="cb18-2"><a></a>~                                                      </span>
-<span id="cb18-3"><a></a>~                                                      </span>
-<span id="cb18-4"><a></a>~                                                      </span>
-<span id="cb18-5"><a></a>~                                                      </span>
-<span id="cb18-6"><a></a>~                                                      </span>
-<span id="cb18-7"><a></a>~                                                      </span>
-<span id="cb18-8"><a></a>~                                                      </span>
-<span id="cb18-9"><a></a>~                                                      </span>
-<span id="cb18-10"><a></a>~                                                      </span>
-<span id="cb18-11"><a></a>~                                                      </span>
-<span id="cb18-12"><a></a>~                                                      </span>
-<span id="cb18-13"><a></a>~                                                      </span>
-<span id="cb18-14"><a></a>~                                                      </span>
-<span id="cb18-15"><a></a>"samp.c" [New]                       0,0-1         All</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="insert-mode" class="title-slide slide level1 center">
-<h1>Insert mode</h1>
-<ul>
-<li>Press <code>i</code> to enter “insert mode”</li>
 </ul>
 <div class="sourceCode" id="cb19"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb19-1"><a></a>~                                                      </span>
 <span id="cb19-2"><a></a>~                                                      </span>
@@ -988,7 +1004,29 @@ Prof.&nbsp;Calvin
 <span id="cb19-12"><a></a>~                                                      </span>
 <span id="cb19-13"><a></a>~                                                      </span>
 <span id="cb19-14"><a></a>~                                                      </span>
-<span id="cb19-15"><a></a>-- INSERT --                         0,1           All</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-15"><a></a>"samp.c" [New]                       0,0-1         All</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="insert-mode" class="title-slide slide level1 center">
+<h1>Insert mode</h1>
+<ul>
+<li>Press <code>i</code> to enter “insert mode”</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb20-1"><a></a>~                                                      </span>
+<span id="cb20-2"><a></a>~                                                      </span>
+<span id="cb20-3"><a></a>~                                                      </span>
+<span id="cb20-4"><a></a>~                                                      </span>
+<span id="cb20-5"><a></a>~                                                      </span>
+<span id="cb20-6"><a></a>~                                                      </span>
+<span id="cb20-7"><a></a>~                                                      </span>
+<span id="cb20-8"><a></a>~                                                      </span>
+<span id="cb20-9"><a></a>~                                                      </span>
+<span id="cb20-10"><a></a>~                                                      </span>
+<span id="cb20-11"><a></a>~                                                      </span>
+<span id="cb20-12"><a></a>~                                                      </span>
+<span id="cb20-13"><a></a>~                                                      </span>
+<span id="cb20-14"><a></a>~                                                      </span>
+<span id="cb20-15"><a></a>-- INSERT --                         0,1           All</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="write-some-code" class="title-slide slide level1 center">
@@ -996,21 +1034,21 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Type every letter perfectly on the first try.</li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb20-1"><a></a>#include &lt;stdio.h&gt;</span>
-<span id="cb20-2"><a></a></span>
-<span id="cb20-3"><a></a>int main(int argc, char **argv) {</span>
-<span id="cb20-4"><a></a>        if (argc) {</span>
-<span id="cb20-5"><a></a>                printf("%s\n", argv[1]);</span>
-<span id="cb20-6"><a></a>        }</span>
-<span id="cb20-7"><a></a>        return 0;</span>
-<span id="cb20-8"><a></a>}                                                      </span>
-<span id="cb20-9"><a></a>~                                                      </span>
-<span id="cb20-10"><a></a>~                                                      </span>
-<span id="cb20-11"><a></a>~                                                      </span>
-<span id="cb20-12"><a></a>~                                                      </span>
-<span id="cb20-13"><a></a>~                                                      </span>
-<span id="cb20-14"><a></a>~                                                      </span>
-<span id="cb20-15"><a></a>-- INSERT --                         8,2           All</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb21-1"><a></a>#include &lt;stdio.h&gt;</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a>int main(int argc, char **argv) {</span>
+<span id="cb21-4"><a></a>        if (argc) {</span>
+<span id="cb21-5"><a></a>                printf("%s\n", argv[1]);</span>
+<span id="cb21-6"><a></a>        }</span>
+<span id="cb21-7"><a></a>        return 0;</span>
+<span id="cb21-8"><a></a>}                                                      </span>
+<span id="cb21-9"><a></a>~                                                      </span>
+<span id="cb21-10"><a></a>~                                                      </span>
+<span id="cb21-11"><a></a>~                                                      </span>
+<span id="cb21-12"><a></a>~                                                      </span>
+<span id="cb21-13"><a></a>~                                                      </span>
+<span id="cb21-14"><a></a>~                                                      </span>
+<span id="cb21-15"><a></a>-- INSERT --                         8,2           All</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="term" class="title-slide slide level1 center">
@@ -1031,21 +1069,21 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Looks like this (mostly INSERT is gone)</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb21-1"><a></a>#include &lt;stdio.h&gt;</span>
-<span id="cb21-2"><a></a></span>
-<span id="cb21-3"><a></a>int main(int argc, char **argv) {</span>
-<span id="cb21-4"><a></a>        if (argc) {</span>
-<span id="cb21-5"><a></a>                printf("%s\n", argv[1]);</span>
-<span id="cb21-6"><a></a>        }</span>
-<span id="cb21-7"><a></a>        return 0;</span>
-<span id="cb21-8"><a></a>}                                                      </span>
-<span id="cb21-9"><a></a>~                                                      </span>
-<span id="cb21-10"><a></a>~                                                      </span>
-<span id="cb21-11"><a></a>~                                                      </span>
-<span id="cb21-12"><a></a>~                                                      </span>
-<span id="cb21-13"><a></a>~                                                      </span>
-<span id="cb21-14"><a></a>~                                                      </span>
-<span id="cb21-15"><a></a>                                     8,1           All </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb22-1"><a></a>#include &lt;stdio.h&gt;</span>
+<span id="cb22-2"><a></a></span>
+<span id="cb22-3"><a></a>int main(int argc, char **argv) {</span>
+<span id="cb22-4"><a></a>        if (argc) {</span>
+<span id="cb22-5"><a></a>                printf("%s\n", argv[1]);</span>
+<span id="cb22-6"><a></a>        }</span>
+<span id="cb22-7"><a></a>        return 0;</span>
+<span id="cb22-8"><a></a>}                                                      </span>
+<span id="cb22-9"><a></a>~                                                      </span>
+<span id="cb22-10"><a></a>~                                                      </span>
+<span id="cb22-11"><a></a>~                                                      </span>
+<span id="cb22-12"><a></a>~                                                      </span>
+<span id="cb22-13"><a></a>~                                                      </span>
+<span id="cb22-14"><a></a>~                                                      </span>
+<span id="cb22-15"><a></a>                                     8,1           All </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="type-term" class="title-slide slide level1 center">
@@ -1053,21 +1091,21 @@ Prof.&nbsp;Calvin
 <ul>
 <li>The colon <code>:</code> is meaningful in <code>vim</code></li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb22-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb22-2"><a></a></span>
-<span id="cb22-3"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-4"><a></a>        <span class="cf">if</span> <span class="op">(</span>argc<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-5"><a></a>                printf<span class="op">(</span><span class="st">"</span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
-<span id="cb22-6"><a></a>        <span class="op">}</span></span>
-<span id="cb22-7"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb22-8"><a></a><span class="op">}</span>                                                      </span>
-<span id="cb22-9"><a></a><span class="op">~</span>                                                      </span>
-<span id="cb22-10"><a></a><span class="op">~</span>                                                      </span>
-<span id="cb22-11"><a></a><span class="op">~</span>                                                      </span>
-<span id="cb22-12"><a></a><span class="op">~</span>                                                      </span>
-<span id="cb22-13"><a></a><span class="op">~</span>                                                      </span>
-<span id="cb22-14"><a></a><span class="op">~</span>                                                      </span>
-<span id="cb22-15"><a></a><span class="op">:</span>term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-4"><a></a>        <span class="cf">if</span> <span class="op">(</span>argc<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-5"><a></a>                printf<span class="op">(</span><span class="st">"</span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb23-6"><a></a>        <span class="op">}</span></span>
+<span id="cb23-7"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb23-8"><a></a><span class="op">}</span>                                                      </span>
+<span id="cb23-9"><a></a><span class="op">~</span>                                                      </span>
+<span id="cb23-10"><a></a><span class="op">~</span>                                                      </span>
+<span id="cb23-11"><a></a><span class="op">~</span>                                                      </span>
+<span id="cb23-12"><a></a><span class="op">~</span>                                                      </span>
+<span id="cb23-13"><a></a><span class="op">~</span>                                                      </span>
+<span id="cb23-14"><a></a><span class="op">~</span>                                                      </span>
+<span id="cb23-15"><a></a><span class="op">:</span>term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="press-enter" class="title-slide slide level1 center">
@@ -1075,21 +1113,21 @@ Prof.&nbsp;Calvin
 <ul>
 <li>All kinds of colors could happen here too:</li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a></a><span class="er">#</span></span>
-<span id="cb23-2"><a></a></span>
-<span id="cb23-3"><a></a></span>
-<span id="cb23-4"><a></a></span>
-<span id="cb23-5"><a></a></span>
-<span id="cb23-6"><a></a></span>
-<span id="cb23-7"><a></a><span class="op">!</span>sh <span class="op">[</span>running<span class="op">]</span>                        <span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">-</span><span class="dv">1</span>          All</span>
-<span id="cb23-8"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-9"><a></a>        <span class="cf">if</span> <span class="op">(</span>argc<span class="op">)</span> <span class="op">{</span>                                                    </span>
-<span id="cb23-10"><a></a>                printf<span class="op">(</span><span class="st">"</span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span>                       </span>
-<span id="cb23-11"><a></a>        <span class="op">}</span>                                                      </span>
-<span id="cb23-12"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>                                      </span>
-<span id="cb23-13"><a></a><span class="op">}</span>                                                      </span>
-<span id="cb23-14"><a></a>samp<span class="op">.</span>c <span class="op">[+]</span>                           <span class="dv">8</span><span class="op">,</span><span class="dv">1</span>            Bot</span>
-<span id="cb23-15"><a></a><span class="op">:</span>term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb24-1"><a></a><span class="er">#</span></span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a></span>
+<span id="cb24-4"><a></a></span>
+<span id="cb24-5"><a></a></span>
+<span id="cb24-6"><a></a></span>
+<span id="cb24-7"><a></a><span class="op">!</span>sh <span class="op">[</span>running<span class="op">]</span>                        <span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">-</span><span class="dv">1</span>          All</span>
+<span id="cb24-8"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-9"><a></a>        <span class="cf">if</span> <span class="op">(</span>argc<span class="op">)</span> <span class="op">{</span>                                                    </span>
+<span id="cb24-10"><a></a>                printf<span class="op">(</span><span class="st">"</span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span>                       </span>
+<span id="cb24-11"><a></a>        <span class="op">}</span>                                                      </span>
+<span id="cb24-12"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>                                      </span>
+<span id="cb24-13"><a></a><span class="op">}</span>                                                      </span>
+<span id="cb24-14"><a></a>samp<span class="op">.</span>c <span class="op">[+]</span>                           <span class="dv">8</span><span class="op">,</span><span class="dv">1</span>            Bot</span>
+<span id="cb24-15"><a></a><span class="op">:</span>term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="use-terminal" class="title-slide slide level1 center">
@@ -1097,25 +1135,25 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Let’s compile with <code>gcc</code></li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb24-1"><a></a># gcc samp.c</span>
-<span id="cb24-2"><a></a><span class="fu">cc1: </span>fatal error: samp.c: No such file or directory</span>
-<span id="cb24-3"><a></a>compilation terminated.</span>
-<span id="cb24-4"><a></a>#                                   </span>
-<span id="cb24-5"><a></a>                                    </span>
-<span id="cb24-6"><a></a>                                    </span>
-<span id="cb24-7"><a></a>!sh [running]                        0,0-1          All</span>
-<span id="cb24-8"><a></a>int main(int argc, char **argv) {</span>
-<span id="cb24-9"><a></a>        if (argc) {                                    </span>
-<span id="cb24-10"><a></a>                printf("%s\n", argv[1]);                       </span>
-<span id="cb24-11"><a></a>        }                                                      </span>
-<span id="cb24-12"><a></a>        return 0;                                      </span>
-<span id="cb24-13"><a></a>}                                                      </span>
-<span id="cb24-14"><a></a>samp.c [+]                           8,1            Bot</span>
-<span id="cb24-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb25-1"><a></a># gcc samp.c</span>
+<span id="cb25-2"><a></a><span class="fu">cc1: </span>fatal error: samp.c: No such file or directory</span>
+<span id="cb25-3"><a></a>compilation terminated.</span>
+<span id="cb25-4"><a></a>#                                   </span>
+<span id="cb25-5"><a></a>                                    </span>
+<span id="cb25-6"><a></a>                                    </span>
+<span id="cb25-7"><a></a>!sh [running]                        0,0-1          All</span>
+<span id="cb25-8"><a></a>int main(int argc, char **argv) {</span>
+<span id="cb25-9"><a></a>        if (argc) {                                    </span>
+<span id="cb25-10"><a></a>                printf("%s\n", argv[1]);                       </span>
+<span id="cb25-11"><a></a>        }                                                      </span>
+<span id="cb25-12"><a></a>        return 0;                                      </span>
+<span id="cb25-13"><a></a>}                                                      </span>
+<span id="cb25-14"><a></a>samp.c [+]                           8,1            Bot</span>
+<span id="cb25-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
-<section id="write-to-container" class="title-slide slide level1 center">
-<h1>Write to container</h1>
+<section id="write-file" class="title-slide slide level1 center">
+<h1>Write file</h1>
 <ul>
 <li>We didn’t save samp.c, we will:
 <ul>
@@ -1136,21 +1174,21 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Should look like this</li>
 </ul>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb25-1"><a></a># gcc samp.c</span>
-<span id="cb25-2"><a></a><span class="fu">cc1: </span>fatal error: samp.c: No such file or directory</span>
-<span id="cb25-3"><a></a>compilation terminated.</span>
-<span id="cb25-4"><a></a># gcc samp.c                        </span>
-<span id="cb25-5"><a></a>#                                   </span>
-<span id="cb25-6"><a></a>                                    </span>
-<span id="cb25-7"><a></a>!sh [running]                        0,0-1          All</span>
-<span id="cb25-8"><a></a>int main(int argc, char **argv) {</span>
-<span id="cb25-9"><a></a>        if (argc) {                                    </span>
-<span id="cb25-10"><a></a>                printf("%s\n", argv[1]);                       </span>
-<span id="cb25-11"><a></a>        }                                                      </span>
-<span id="cb25-12"><a></a>        return 0;                                      </span>
-<span id="cb25-13"><a></a>}                                                      </span>
-<span id="cb25-14"><a></a>samp.c [+]                           8,1            Bot</span>
-<span id="cb25-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb26-1"><a></a># gcc samp.c</span>
+<span id="cb26-2"><a></a><span class="fu">cc1: </span>fatal error: samp.c: No such file or directory</span>
+<span id="cb26-3"><a></a>compilation terminated.</span>
+<span id="cb26-4"><a></a># gcc samp.c                        </span>
+<span id="cb26-5"><a></a>#                                   </span>
+<span id="cb26-6"><a></a>                                    </span>
+<span id="cb26-7"><a></a>!sh [running]                        0,0-1          All</span>
+<span id="cb26-8"><a></a>int main(int argc, char **argv) {</span>
+<span id="cb26-9"><a></a>        if (argc) {                                    </span>
+<span id="cb26-10"><a></a>                printf("%s\n", argv[1]);                       </span>
+<span id="cb26-11"><a></a>        }                                                      </span>
+<span id="cb26-12"><a></a>        return 0;                                      </span>
+<span id="cb26-13"><a></a>}                                                      </span>
+<span id="cb26-14"><a></a>samp.c [+]                           8,1            Bot</span>
+<span id="cb26-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="breathe" class="title-slide slide level1 center">
@@ -1174,34 +1212,12 @@ Prof.&nbsp;Calvin
 <ul>
 <li>Use <code>ls</code> to list files, look for a.out</li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb26-1"><a></a># gcc samp.c                        </span>
-<span id="cb26-2"><a></a># ls</span>
-<span id="cb26-3"><a></a>a.out  dev   lib    mnt   root    sbin  tmp</span>
-<span id="cb26-4"><a></a>bin    etc   lib64  opt   run     srv   usr</span>
-<span id="cb26-5"><a></a>boot   home  media  proc  samp.c  sys   var</span>
-<span id="cb26-6"><a></a>#   </span>
-<span id="cb26-7"><a></a>!sh [running]                        0,0-1          All</span>
-<span id="cb26-8"><a></a>int main(int argc, char **argv) {</span>
-<span id="cb26-9"><a></a>        if (argc) {                                    </span>
-<span id="cb26-10"><a></a>                printf("%s\n", argv[1]);                       </span>
-<span id="cb26-11"><a></a>        }                                                      </span>
-<span id="cb26-12"><a></a>        return 0;                                      </span>
-<span id="cb26-13"><a></a>}                                                      </span>
-<span id="cb26-14"><a></a>samp.c [+]                           8,1            Bot</span>
-<span id="cb26-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="run-executable" class="title-slide slide level1 center">
-<h1>Run Executable</h1>
-<ul>
-<li>Use <code>./</code> prefix to use <code>a.out</code> as an executable</li>
-</ul>
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb27-1"><a></a>a.out  dev   lib    mnt   root    sbin  tmp</span>
-<span id="cb27-2"><a></a>bin    etc   lib64  opt   run     srv   usr</span>
-<span id="cb27-3"><a></a>boot   home  media  proc  samp.c  sys   var</span>
-<span id="cb27-4"><a></a># ./a.out                                              </span>
-<span id="cb27-5"><a></a>Segmentation fault (core dumped)</span>
-<span id="cb27-6"><a></a>#       </span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb27-1"><a></a># gcc samp.c                        </span>
+<span id="cb27-2"><a></a># ls</span>
+<span id="cb27-3"><a></a>a.out  dev   lib    mnt   root    sbin  tmp</span>
+<span id="cb27-4"><a></a>bin    etc   lib64  opt   run     srv   usr</span>
+<span id="cb27-5"><a></a>boot   home  media  proc  samp.c  sys   var</span>
+<span id="cb27-6"><a></a>#   </span>
 <span id="cb27-7"><a></a>!sh [running]                        0,0-1          All</span>
 <span id="cb27-8"><a></a>int main(int argc, char **argv) {</span>
 <span id="cb27-9"><a></a>        if (argc) {                                    </span>
@@ -1213,26 +1229,48 @@ Prof.&nbsp;Calvin
 <span id="cb27-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
-<section id="segfault" class="title-slide slide level1 center">
-<h1>Segfault</h1>
+<section id="run-executable" class="title-slide slide level1 center">
+<h1>Run Executable</h1>
 <ul>
-<li>In “samp.c” to fix off-by-one error, test</li>
+<li>Use <code>./</code> prefix to use <code>a.out</code> as an executable</li>
 </ul>
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb28-1"><a></a>Segmentation fault (core dumped)</span>
-<span id="cb28-2"><a></a># gcc samp.c</span>
-<span id="cb28-3"><a></a># ./a.out</span>
-<span id="cb28-4"><a></a># ./a.out hello</span>
-<span id="cb28-5"><a></a>hello</span>
-<span id="cb28-6"><a></a>#     </span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb28-1"><a></a>a.out  dev   lib    mnt   root    sbin  tmp</span>
+<span id="cb28-2"><a></a>bin    etc   lib64  opt   run     srv   usr</span>
+<span id="cb28-3"><a></a>boot   home  media  proc  samp.c  sys   var</span>
+<span id="cb28-4"><a></a># ./a.out                                              </span>
+<span id="cb28-5"><a></a>Segmentation fault (core dumped)</span>
+<span id="cb28-6"><a></a>#       </span>
 <span id="cb28-7"><a></a>!sh [running]                        0,0-1          All</span>
 <span id="cb28-8"><a></a>int main(int argc, char **argv) {</span>
-<span id="cb28-9"><a></a>        if (argc &gt; 1) {                                    </span>
+<span id="cb28-9"><a></a>        if (argc) {                                    </span>
 <span id="cb28-10"><a></a>                printf("%s\n", argv[1]);                       </span>
 <span id="cb28-11"><a></a>        }                                                      </span>
 <span id="cb28-12"><a></a>        return 0;                                      </span>
 <span id="cb28-13"><a></a>}                                                      </span>
 <span id="cb28-14"><a></a>samp.c [+]                           8,1            Bot</span>
 <span id="cb28-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="segfault" class="title-slide slide level1 center">
+<h1>Segfault</h1>
+<ul>
+<li>In “samp.c” to fix off-by-one error, test</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb29-1"><a></a>Segmentation fault (core dumped)</span>
+<span id="cb29-2"><a></a># gcc samp.c</span>
+<span id="cb29-3"><a></a># ./a.out</span>
+<span id="cb29-4"><a></a># ./a.out hello</span>
+<span id="cb29-5"><a></a>hello</span>
+<span id="cb29-6"><a></a>#     </span>
+<span id="cb29-7"><a></a>!sh [running]                        0,0-1          All</span>
+<span id="cb29-8"><a></a>int main(int argc, char **argv) {</span>
+<span id="cb29-9"><a></a>        if (argc &gt; 1) {                                    </span>
+<span id="cb29-10"><a></a>                printf("%s\n", argv[1]);                       </span>
+<span id="cb29-11"><a></a>        }                                                      </span>
+<span id="cb29-12"><a></a>        return 0;                                      </span>
+<span id="cb29-13"><a></a>}                                                      </span>
+<span id="cb29-14"><a></a>samp.c [+]                           8,1            Bot</span>
+<span id="cb29-15"><a></a>:term                                                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="today-2" class="title-slide slide level1 center">
@@ -1261,8 +1299,8 @@ Prof.&nbsp;Calvin
 <li>(The C language was invented to write an operating system).</li>
 <li><code>python</code> is written in GCC C</li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>C:\Users\cd<span class="op">-</span>desk<span class="op">&gt;</span>podman run <span class="op">-</span>it python</span>
-<span id="cb29-2"><a></a>Python <span class="fl">3.13.1</span> (main, Dec  <span class="dv">4</span> <span class="dv">2024</span>, <span class="dv">20</span>:<span class="dv">40</span>:<span class="dv">27</span>) [GCC <span class="fl">12.2.0</span>] on linux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a>C:\Users\cd<span class="op">-</span>desk<span class="op">&gt;</span>podman run <span class="op">-</span>it python</span>
+<span id="cb30-2"><a></a>Python <span class="fl">3.13.1</span> (main, Dec  <span class="dv">4</span> <span class="dv">2024</span>, <span class="dv">20</span>:<span class="dv">40</span>:<span class="dv">27</span>) [GCC <span class="fl">12.2.0</span>] on linux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="great-freeware" class="title-slide slide level1 center">
@@ -1352,16 +1390,32 @@ Prof.&nbsp;Calvin
 </ul>
 </section>
 
+<section id="benefits-of-c89" class="title-slide slide level1 center">
+<h1>Benefits of C89</h1>
+<ul>
+<li>In C89, we must declare all variables at the beginning of functions.</li>
+<li>Every “confused” Enigma I saw had massive variable name proliferation</li>
+<li>Python lets you do this.
+<ul>
+<li>I argue this is Python preventing you from <em>learning to program</em></li>
+</ul></li>
+<li>The C89 language standard will protect you from writing bad code.</li>
+</ul>
+</section>
+
 <section id="podracing" class="title-slide slide level1 center">
 <h1>Podracing</h1>
 <ul>
-<li>Quickly pop back into our container.</li>
+<li>Quickly pop back into our container.
+<ul>
+<li>Bookmark this page, save the text in a script, etc.</li>
+</ul></li>
 </ul>
-<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb30-1"><a></a>podman start -l ; podman exec -it -l vim samp.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb31-1"><a></a>podman start -l ; podman exec -it -l vim samp.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Pop open <code>:term</code> and run</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb31-1"><a></a>gcc samp.c -std=c89</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb32-1"><a></a>gcc samp.c -std=c89</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>My code runs fine. Let’s break it.</li>
 </ul>
@@ -1377,14 +1431,14 @@ Prof.&nbsp;Calvin
 <div class="code-with-filename-file">
 <pre><strong>samp.c</strong></pre>
 </div>
-<div class="sourceCode" id="cb32" data-filename="samp.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb32-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb32-2"><a></a></span>
-<span id="cb32-3"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb32-4"><a></a>        <span class="co">/* This is a C89 style comment */</span></span>
-<span id="cb32-5"><a></a>        <span class="co">// This is a C++ style comment</span></span>
-<span id="cb32-6"><a></a>        printf<span class="op">(</span><span class="st">"hi</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb32-7"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb32-8"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33" data-filename="samp.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb33-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb33-2"><a></a></span>
+<span id="cb33-3"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-4"><a></a>        <span class="co">/* This is a C89 style comment */</span></span>
+<span id="cb33-5"><a></a>        <span class="co">// This is a C++ style comment</span></span>
+<span id="cb33-6"><a></a>        printf<span class="op">(</span><span class="st">"hi</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb33-7"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb33-8"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 
@@ -1395,13 +1449,13 @@ Prof.&nbsp;Calvin
 <li>I opened a new terminal and tested</li>
 </ul>
 <pre><code>gcc samp.c --std=c89</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~/crypto/c89_99$</span> podman exec <span class="at">-it</span> <span class="at">-l</span> gcc samp.c <span class="at">--std</span><span class="op">=</span>c89</span>
-<span id="cb34-2"><a></a><span class="ex">samp.c:</span> In function <span class="st">'main'</span>:</span>
-<span id="cb34-3"><a></a><span class="ex">samp.c:5:9:</span> error: C++ style comments are not allowed in ISO C90</span>
-<span id="cb34-4"><a></a>    <span class="ex">5</span> <span class="kw">|</span>         <span class="ex">//</span> This is a C++ style comment</span>
-<span id="cb34-5"><a></a>      <span class="kw">|</span>         <span class="ex">^</span></span>
-<span id="cb34-6"><a></a><span class="ex">samp.c:5:9:</span> note: <span class="er">(</span><span class="ex">this</span> will be reported only once per input file<span class="kw">)</span></span>
-<span id="cb34-7"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~/crypto/c89_99$</span> podman exec <span class="at">-it</span> <span class="at">-l</span> gcc samp.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~/crypto/c89_99$</span> podman exec <span class="at">-it</span> <span class="at">-l</span> gcc samp.c <span class="at">--std</span><span class="op">=</span>c89</span>
+<span id="cb35-2"><a></a><span class="ex">samp.c:</span> In function <span class="st">'main'</span>:</span>
+<span id="cb35-3"><a></a><span class="ex">samp.c:5:9:</span> error: C++ style comments are not allowed in ISO C90</span>
+<span id="cb35-4"><a></a>    <span class="ex">5</span> <span class="kw">|</span>         <span class="ex">//</span> This is a C++ style comment</span>
+<span id="cb35-5"><a></a>      <span class="kw">|</span>         <span class="ex">^</span></span>
+<span id="cb35-6"><a></a><span class="ex">samp.c:5:9:</span> note: <span class="er">(</span><span class="ex">this</span> will be reported only once per input file<span class="kw">)</span></span>
+<span id="cb35-7"><a></a><span class="ex">user@DESKTOP-THMS2PJ:~/crypto/c89_99$</span> podman exec <span class="at">-it</span> <span class="at">-l</span> gcc samp.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="wall-etc" class="title-slide slide level1 center">
@@ -1410,11 +1464,11 @@ Prof.&nbsp;Calvin
 <li>The other flags help “keep you honest”
 <ul>
 <li>If we wanted shortcuts, we’d use Python</li>
-<li>We want to be percise</li>
+<li>We want to be percise [sic]</li>
 </ul></li>
 <li>Try it:</li>
 </ul>
-<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a></a><span class="fu">gcc</span> samp.c <span class="at">--std</span><span class="op">=</span>c89 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-Werror</span> <span class="at">-Wpedantic</span> <span class="at">-O2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a></a><span class="fu">gcc</span> samp.c <span class="at">--std</span><span class="op">=</span>c89 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-Werror</span> <span class="at">-Wpedantic</span> <span class="at">-O2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <section id="whoops" class="title-slide slide level1 center">
@@ -1422,18 +1476,18 @@ Prof.&nbsp;Calvin
 <ul>
 <li>You don’t want to find these problems latter.</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb36-1"><a></a>samp.c: In function 'main':</span>
-<span id="cb36-2"><a></a>samp.c:5:9: error: C++ style comments are not allowed in ISO C90</span>
-<span id="cb36-3"><a></a>    5 |         // This is a C++ style comment</span>
-<span id="cb36-4"><a></a>      |         ^</span>
-<span id="cb36-5"><a></a>samp.c:5:9: note: (this will be reported only once per input file)</span>
-<span id="cb36-6"><a></a>samp.c:3:14: error: unused parameter 'argc' [-Werror=unused-parameter]</span>
-<span id="cb36-7"><a></a>    3 | int main(int argc, char **argv) {</span>
-<span id="cb36-8"><a></a>      |          ~~~~^~~~</span>
-<span id="cb36-9"><a></a>samp.c:3:27: error: unused parameter 'argv' [-Werror=unused-parameter]</span>
-<span id="cb36-10"><a></a>    3 | int main(int argc, char **argv) {</span>
-<span id="cb36-11"><a></a>      |                    ~~~~~~~^~~~</span>
-<span id="cb36-12"><a></a><span class="fu">cc1: </span>all warnings being treated as errors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb37-1"><a></a>samp.c: In function 'main':</span>
+<span id="cb37-2"><a></a>samp.c:5:9: error: C++ style comments are not allowed in ISO C90</span>
+<span id="cb37-3"><a></a>    5 |         // This is a C++ style comment</span>
+<span id="cb37-4"><a></a>      |         ^</span>
+<span id="cb37-5"><a></a>samp.c:5:9: note: (this will be reported only once per input file)</span>
+<span id="cb37-6"><a></a>samp.c:3:14: error: unused parameter 'argc' [-Werror=unused-parameter]</span>
+<span id="cb37-7"><a></a>    3 | int main(int argc, char **argv) {</span>
+<span id="cb37-8"><a></a>      |          ~~~~^~~~</span>
+<span id="cb37-9"><a></a>samp.c:3:27: error: unused parameter 'argv' [-Werror=unused-parameter]</span>
+<span id="cb37-10"><a></a>    3 | int main(int argc, char **argv) {</span>
+<span id="cb37-11"><a></a>      |                    ~~~~~~~^~~~</span>
+<span id="cb37-12"><a></a><span class="fu">cc1: </span>all warnings being treated as errors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Python needs <code>-Wall</code> for intro programming classes!</li>
 </ul>
@@ -1578,27 +1632,27 @@ If you want a lot of control and flexibility, you can use the command line.
 
 <section id="stinger" class="title-slide slide level1 center">
 <h1>Stinger</h1>
-<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a></a><span class="ex">root@262ad65a08ba:/#</span> vim build.sh</span>
-<span id="cb37-2"><a></a><span class="ex">root@262ad65a08ba:/#</span> ./build.sh</span>
-<span id="cb37-3"><a></a><span class="ex">bash:</span> ./build.sh: Permission denied</span>
-<span id="cb37-4"><a></a><span class="ex">root@262ad65a08ba:/#</span> chmod 777 build.sh</span>
-<span id="cb37-5"><a></a><span class="ex">root@262ad65a08ba:/#</span> ./build.sh</span>
-<span id="cb37-6"><a></a><span class="ex">samp.c:</span> In function <span class="st">'main'</span>:</span>
-<span id="cb37-7"><a></a><span class="ex">samp.c:5:9:</span> error: C++ style comments are not allowed in ISO C90</span>
-<span id="cb37-8"><a></a>    <span class="ex">5</span> <span class="kw">|</span>         <span class="ex">//</span> This is a C++ style comment</span>
-<span id="cb37-9"><a></a>      <span class="kw">|</span>         <span class="ex">^</span></span>
-<span id="cb37-10"><a></a><span class="ex">samp.c:5:9:</span> note: <span class="er">(</span><span class="ex">this</span> will be reported only once per input file<span class="kw">)</span></span>
-<span id="cb37-11"><a></a><span class="ex">samp.c:3:14:</span> error: unused parameter <span class="st">'argc'</span> <span class="pp">[-</span><span class="ss">Werror=unused</span><span class="pp">-</span><span class="ss">parameter</span><span class="pp">]</span></span>
-<span id="cb37-12"><a></a>    <span class="ex">3</span> <span class="kw">|</span> <span class="ex">int</span> main<span class="er">(</span><span class="ex">int</span> argc, char <span class="pp">**</span>argv<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb37-13"><a></a>      <span class="kw">|</span>          <span class="ex">~~~~^~~~</span></span>
-<span id="cb37-14"><a></a><span class="ex">samp.c:3:27:</span> error: unused parameter <span class="st">'argv'</span> <span class="pp">[-</span><span class="ss">Werror=unused</span><span class="pp">-</span><span class="ss">parameter</span><span class="pp">]</span></span>
-<span id="cb37-15"><a></a>    <span class="ex">3</span> <span class="kw">|</span> <span class="ex">int</span> main<span class="er">(</span><span class="ex">int</span> argc, char <span class="pp">**</span>argv<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb37-16"><a></a>      <span class="kw">|</span>                    <span class="ex">~~~~~~~^~~~</span></span>
-<span id="cb37-17"><a></a><span class="ex">cc1:</span> all warnings being treated as errors</span>
-<span id="cb37-18"><a></a><span class="ex">root@262ad65a08ba:/#</span> cat build.sh</span>
-<span id="cb37-19"><a></a><span class="co">#!/bin/sh</span></span>
-<span id="cb37-20"><a></a><span class="fu">gcc</span> samp.c <span class="at">--std</span><span class="op">=</span>c89 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-Werror</span> <span class="at">-Wpedantic</span> <span class="at">-O2</span> <span class="at">-o</span> samp</span>
-<span id="cb37-21"><a></a><span class="ex">root@262ad65a08ba:/#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a></a><span class="ex">root@262ad65a08ba:/#</span> vim build.sh</span>
+<span id="cb38-2"><a></a><span class="ex">root@262ad65a08ba:/#</span> ./build.sh</span>
+<span id="cb38-3"><a></a><span class="ex">bash:</span> ./build.sh: Permission denied</span>
+<span id="cb38-4"><a></a><span class="ex">root@262ad65a08ba:/#</span> chmod 777 build.sh</span>
+<span id="cb38-5"><a></a><span class="ex">root@262ad65a08ba:/#</span> ./build.sh</span>
+<span id="cb38-6"><a></a><span class="ex">samp.c:</span> In function <span class="st">'main'</span>:</span>
+<span id="cb38-7"><a></a><span class="ex">samp.c:5:9:</span> error: C++ style comments are not allowed in ISO C90</span>
+<span id="cb38-8"><a></a>    <span class="ex">5</span> <span class="kw">|</span>         <span class="ex">//</span> This is a C++ style comment</span>
+<span id="cb38-9"><a></a>      <span class="kw">|</span>         <span class="ex">^</span></span>
+<span id="cb38-10"><a></a><span class="ex">samp.c:5:9:</span> note: <span class="er">(</span><span class="ex">this</span> will be reported only once per input file<span class="kw">)</span></span>
+<span id="cb38-11"><a></a><span class="ex">samp.c:3:14:</span> error: unused parameter <span class="st">'argc'</span> <span class="pp">[-</span><span class="ss">Werror=unused</span><span class="pp">-</span><span class="ss">parameter</span><span class="pp">]</span></span>
+<span id="cb38-12"><a></a>    <span class="ex">3</span> <span class="kw">|</span> <span class="ex">int</span> main<span class="er">(</span><span class="ex">int</span> argc, char <span class="pp">**</span>argv<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb38-13"><a></a>      <span class="kw">|</span>          <span class="ex">~~~~^~~~</span></span>
+<span id="cb38-14"><a></a><span class="ex">samp.c:3:27:</span> error: unused parameter <span class="st">'argv'</span> <span class="pp">[-</span><span class="ss">Werror=unused</span><span class="pp">-</span><span class="ss">parameter</span><span class="pp">]</span></span>
+<span id="cb38-15"><a></a>    <span class="ex">3</span> <span class="kw">|</span> <span class="ex">int</span> main<span class="er">(</span><span class="ex">int</span> argc, char <span class="pp">**</span>argv<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb38-16"><a></a>      <span class="kw">|</span>                    <span class="ex">~~~~~~~^~~~</span></span>
+<span id="cb38-17"><a></a><span class="ex">cc1:</span> all warnings being treated as errors</span>
+<span id="cb38-18"><a></a><span class="ex">root@262ad65a08ba:/#</span> cat build.sh</span>
+<span id="cb38-19"><a></a><span class="co">#!/bin/sh</span></span>
+<span id="cb38-20"><a></a><span class="fu">gcc</span> samp.c <span class="at">--std</span><span class="op">=</span>c89 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-Werror</span> <span class="at">-Wpedantic</span> <span class="at">-O2</span> <span class="at">-o</span> samp</span>
+<span id="cb38-21"><a></a><span class="ex">root@262ad65a08ba:/#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

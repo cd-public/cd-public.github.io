@@ -1,8 +1,8 @@
 ---
-title: C89/99
+title: Finite
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0x1"
+subtitle: "Week 0x0"
 institute: Crypto
 format: 
     revealjs: 
@@ -21,34 +21,29 @@ execute:
 # Announcements
 
 - **Welcome** to variously CS 276/CS 540
+  - This was called "BigNum"
+  - Renamed after doing some theory work
 - **Action Items**:
-  - Get out our feelings on the Enigma assignment
-    - We are learning by doing.
-  - Next homework coming out now - Macros
-
-# Homework
-
-- The first homework, "Enigma", is due when class starts Th of Week 0x1
-- The next homework, "Macros", is ready at any time
-  - Fiddling with bits, building on the lab, etc.
-  - Applies our learnings from today.
+  - How was macros?
+    - More puzzle/skill oriented that code oriented.
+  - Next homework out now - `4096_t`, due next Thurs
   
 # Today
 
 - Reintroduce the technologies
-  - `podman`
-  - `vim`
-  - `gcc`
-  - `git`
+  - `stdint`
+- Some number theory
+  - Finite fields
+  - Arbitrary/high precision integers
+  - Arithmetic operations
+  - Function types
   
-# What is Podman?
+# What are the integers?
 
-- **Definition:**
-  - Platform to develop, ship, and run applications in isolated containers.
-- **Benefits:**
-  - Portability, consistency across environments.
-- **Editorializing:**
-  - Probably all code should be written in a container now that they exist.
+- We denote integers as the mathematical symbol $\mathbb{Z}$
+  - Something to do with the German/Deutsch
+- Not particular useful in cryptography, actually
+  - We tend to want then naturals, denotes $\mathbb{N}$
 
 # In practice:
 
@@ -691,7 +686,13 @@ flowchart LR
   - Most latter features I'd just switch to Python anyways
 - It tends to be easier to write compilers for C89 as well...
 
+# Benefits of C89
 
+- In C89, we must declare all variables at the beginning of functions.
+- Every "confused" Enigma I saw had massive variable name proliferation
+- Python lets you do this.
+  - I argue this is Python preventing you from *learning to program*
+- The C89 language standard will protect you from writing bad code.
 
 # Podracing
 
@@ -771,146 +772,6 @@ cc1: all warnings being treated as errors
 ```
 - Python needs `-Wall` for intro programming classes!
 
-# Benefits of C89
-
-- In C89, we must declare all variables at the beginning of functions.
-- Every "confused" Enigma I saw had massive variable name proliferation
-- Python lets you do this.
-  - I argue this is Python preventing you from *learning to program*
-- The C89 language standard will protect you from writing bad code.
-
-# Expectation
-
-```{.C filename="cipher.c"}
-#include <stdio.h>
-
-char cipher(char c, int i) {
-    return (c - 'A' + i) % 26 + 'A';
-}
-
-int main(int argc, char **argv) {
-    int i;
-    if (argc < 1) {
-        return 1;
-    }
-    for (i = 0 ; argv[1][i]; i++) {
-        argv[1][i] = cipher(argv[1][i], i);
-    }
-    printf("%s\n", argv[1]);
-    return 0;
-}
-```
-
-# Reality
-
-- These flags **prevent unused variables**
-- These flags **require variable declaration** early.
-  - We have to think, plan etc.
-
-
-# Example
-
-- Variable declared, not used.
-
-```{.C}
-int main(int argc, char **argv) {
-    int i;
-    /* if (argc < 1) {
-        return 1;
-    } */
-    for (i = 0 ; argv[1][i]; i++) {
-        argv[1][i] = cipher(argv[1][i], i);
-    }
-    printf("%s\n", argv[1]);
-    return 0;
-}
-```
-
-- We can segmentation fault from an out-of-bounds error on argv.
-
-# Example
-
-- Variable declaration in function
-```{.C}
-int main(int argc, char **argv) {
-    int i;
-    for (i = 0 ; argv[1][i]; i++) {
-        argv[1][i] = cipher(argv[1][i], i);
-        int i++; 
-    }
-    printf("%s\n", argv[1]);
-    return 0;
-}
-```
-
-- Prevents ill-formed variable changes.
-  - Like .js `const` convention
-
-# Example
-
-- `-Werror=char-subscripts`
-```{.C}
-int main(int argc, char **argv) {
-    char i;
-    for (i = 0 ; argv[1][i]; i++) {
-        argv[1][i] = cipher(argv[1][i], i);
-    }
-    printf("%s\n", argv[1]);
-    return 0;
-}
-```
-- Ensures we can read strings of 255+ chars.
-
-# Example
-
-- Not technically wrong.
-
-```{.C}
-int main(int argc, char **argv) {
-    char i;
-    if (argc < 1) {
-        return 1;
-    }
-    char *input_string = argv[1];
-    for (i = 0 ; argv[1][i]; i++) {
-        argv[1][i] = cipher(argv[1][i], i);
-    }
-    printf("%s\n", argv[1]);
-    return 0;
-}
-```
-
-- But why?
-
-# Example
-
-- Actually wrong - output_string has no size.
-
-```{.C}
-int main(int argc, char **argv) {
-    char i;
-    if (argc < 1) {
-        return 1;
-    }
-    char *output_string;
-    for (i = 0 ; argv[1][i]; i++) {
-        output_string[i] = cipher(argv[1][i], i);
-    }
-    printf("%s\n", argv[1]);
-    return 0;
-}
-```
-
-- C89 catches this, others don't.
-
-# Takeaway
-
-- As a *second* (or latter language)
-- Learn C by turning on compiler flags and writing code.
-  - As a first language, use this little trick called "learn Python instead"
-- With practice, the correspondences will become obvious.
-  - At that time, you will understand computing.
-
 # Practice to Perform
 
 - My take: learn C89 in class
@@ -920,6 +781,8 @@ int main(int argc, char **argv) {
   - Understand how computers work
 - Learn modern C via Stack Overflow
   - Understand how to code in practice
+
+
 
 # Today
 

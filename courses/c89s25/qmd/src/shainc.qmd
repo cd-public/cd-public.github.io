@@ -7,7 +7,7 @@
 
 ---
 title: SHAinC
-subtitle: "HW 0x1: Due Th, Feb 06"
+subtitle: "HW 0x3: Due Th, Feb 13"
 
 format: 
   html:
@@ -39,7 +39,7 @@ format:
 
 - [The Endian lab](endian.html)
     - The "Option" exercise formed my starter code.
-- [My SHA256 Slides](SHA256.html)
+- [My SHA256 Slides](sha256.html)
   - I used this, and its references. Try scroll mode (press 'r')
   - [Wikipedia Pseudocode](https://en.wikipedia.org/wiki/SHA-2#Pseudocode)
       - I used this to implement the first chunk.
@@ -51,7 +51,7 @@ format:
 
 :::
 
-# Primes&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#primes" role="button" aria-expanded="false" aria-controls="primes">Show</a>
+# Consts&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#primes" role="button" aria-expanded="false" aria-controls="primes">Show</a>
 
 ::: {#primes .collapse .multi-collapse}
 
@@ -104,7 +104,7 @@ uint32_t h[8] = {
 - I am providing the following Containerfile, which will serve as a minimal autograder
     - It sets up an Ubuntu container.
     - It downloads a .sh script to test.
-    - It copies in "shaninc.c" from your system.
+    - It copies in "shainc.c" from your system.
 
 ```{.email filename="Containerfile"}
 FROM ubuntu 

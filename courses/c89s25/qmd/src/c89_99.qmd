@@ -2,7 +2,7 @@
 title: C89/99
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0x0"
+subtitle: "Week 0x1"
 institute: Crypto
 format: 
     revealjs: 
@@ -54,13 +54,29 @@ execute:
 
 - **Windows** only
   - Run `wsl --install -d ubuntu` command once
-- **Windows+Mac:**
-  - Use Podman Installer once
-  - Launch Podman Desktop each time you code
-  - Use `podman` commands
-- **Linux:**
-  - Have fun with your package manager.
+  - Run `wsl` to... enter wsl.
+  - Run `sudo apt update` once
+  - Run `sudo apt upgrade` once
+  - Run `sudo apt install podman`
+  - Use `podman` commands within WSL
 
+# In practice:
+
+- **Mac** only
+  - Use podman desktop installer
+  - Before using containers, run
+    -  `podman machine start`
+    -  If it didn't work, may need to `podman machine init`
+  - This may create a large file on your device
+    - `podman-machine-default-arm64.raw`
+
+# In practice:
+
+- Podman works well without hacks on Linux
+  - In fairness, the goal is have access to Linux anyways.
+  - "Linux" search term shows ~100 jobs in Portland area
+  - vs. 300:Python, 200:SQL, 100:Tableau, 200:R but the first is HVAC?
+    - "HVAC/R Service Technician"
 
 # Podman
 
@@ -70,6 +86,17 @@ execute:
 - Podman will pretend to be that computer
 - We can run code "inside" Podman
   - Code in the container can't tell it's running inside Podman
+
+# Inside:
+
+```email
+user@DESKTOP-THMS2PJ:~/tmp$ echo "hello world" > file.txt
+user@DESKTOP-THMS2PJ:~/tmp$ cat file.txt
+hello world
+user@DESKTOP-THMS2PJ:~/tmp$ podman start -l ; podman exec -it -l cat file.txt
+e12a46ee0bbe161541597b6b807b79a86e81fcae59c1bcb614e83af1493d2153
+cat: file.txt: No such file or directory
+```
 
 # Images
 
@@ -161,7 +188,7 @@ podman run -d -p 8083:80 docker/welcome-to-docker
 # Detach
 
 - When we run an image with the `-d` flag, it:
-  - Created and run as any other container, but
+  - Created and ran as any other container, but
   - Runs "in the background"
     - Control does not change to container
     - It runs only its start command
@@ -174,7 +201,7 @@ podman run -d -p 8083:80 docker/welcome-to-docker
   - Leave it running or whatever
   - Use other `podman` commands to:
     - Pop into the container and e.g. `vim`
-    - Transfer files in our out
+    - Transfer files in or out
     - Pause and restart to save resources.
 
 
@@ -197,7 +224,7 @@ CONTAINER ID  IMAGE                                      COMMAND               C
 
 # ps -a
 
-- You have probably also made many containers
+- You may also have many containers
 - `podman ps -a` to see old containers.
 ```email
 podman ps -a
@@ -215,7 +242,7 @@ podman system prune
 - If there's a detached container running
 - We can execute commands in that container.
 - You only have to specify enough of the name or id to be unique.
-  - I had a server at 8080 beginning with id 7...
+  - A server at 8080 beginning with id 7...
 ```email
 podman exec -it 7d echo hello
 ```
@@ -225,9 +252,9 @@ podman exec -it 7d echo hello
 # /bin/sh
 
 - So far, I haven't found a container without `/bin/sh`
-- This is the Linux command line, more or less
+- The Linux command line, more or less
   - `bash` > `sh`, but sometimes only `sh` available
-- We can get an interactive command prompt via
+- Get an interactive command prompt via
 ```email
 podman exec -it 7d /bin/sh
 ```
@@ -272,7 +299,6 @@ podman exec -it 𝘪𝘮𝘢𝘨𝘦_𝘯𝘢𝘮𝘦 vim
   - Integrated design environments.
   - To me, the first one was Eclipse (for Java)
 - That time was shortly before the 2008 financial crises
-  - I'm not saying it's related.
   - Don't put in the course evals I blame Eclipse for the Great Recession
     
 
@@ -327,7 +353,7 @@ FROM ubuntu
 
 RUN apt update && apt install gcc
 ```
-- Without `-y`, `apt` will get stuck waiting for us to type
+- Without `-y`, `apt` will wait for us to type
   - We often use podman in scripts or commands where it gets stuck, so use `-y`
 
 
@@ -492,7 +518,7 @@ samp.c [+]                           8,1            Bot
 :term                                                  
 ```
 
-# Write to container
+# Write file
 - We didn't save samp.c, we will:
     - Use CTRL+`w` to change "window"
     - We will use any `vim` movement key, like `j`
@@ -665,9 +691,12 @@ flowchart LR
   - Most latter features I'd just switch to Python anyways
 - It tends to be easier to write compilers for C89 as well...
 
+
+
 # Podracing
 
 - Quickly pop back into our container.
+  - Bookmark this page, save the text in a script, etc.
 
 ```email
 podman start -l ; podman exec -it -l vim samp.c
@@ -718,7 +747,7 @@ user@DESKTOP-THMS2PJ:~/crypto/c89_99$ podman exec -it -l gcc samp.c
 
 - The other flags help "keep you honest"
   - If we wanted shortcuts, we'd use Python
-  - We want to be percise
+  - We want to be percise [sic]
 - Try it:
 ```bash
 gcc samp.c --std=c89 -Wall -Wextra -Werror -Wpedantic -O2
@@ -742,6 +771,146 @@ cc1: all warnings being treated as errors
 ```
 - Python needs `-Wall` for intro programming classes!
 
+# Benefits of C89
+
+- In C89, we must declare all variables at the beginning of functions.
+- Every "confused" Enigma I saw had massive variable name proliferation
+- Python lets you do this.
+  - I argue this is Python preventing you from *learning to program*
+- The C89 language standard will protect you from writing bad code.
+
+# Expectation
+
+```{.C filename="cipher.c"}
+#include <stdio.h>
+
+char cipher(char c, int i) {
+    return (c - 'A' + i) % 26 + 'A';
+}
+
+int main(int argc, char **argv) {
+    int i;
+    if (argc < 1) {
+        return 1;
+    }
+    for (i = 0 ; argv[1][i]; i++) {
+        argv[1][i] = cipher(argv[1][i], i);
+    }
+    printf("%s\n", argv[1]);
+    return 0;
+}
+```
+
+# Reality
+
+- These flags **prevent unused variables**
+- These flags **require variable declaration** early.
+  - We have to think, plan etc.
+
+
+# Example
+
+- Variable declared, not used.
+
+```{.C}
+int main(int argc, char **argv) {
+    int i;
+    /* if (argc < 1) {
+        return 1;
+    } */
+    for (i = 0 ; argv[1][i]; i++) {
+        argv[1][i] = cipher(argv[1][i], i);
+    }
+    printf("%s\n", argv[1]);
+    return 0;
+}
+```
+
+- We can segmentation fault from an out-of-bounds error on argv.
+
+# Example
+
+- Variable declaration in function
+```{.C}
+int main(int argc, char **argv) {
+    int i;
+    for (i = 0 ; argv[1][i]; i++) {
+        argv[1][i] = cipher(argv[1][i], i);
+        int i++; 
+    }
+    printf("%s\n", argv[1]);
+    return 0;
+}
+```
+
+- Prevents ill-formed variable changes.
+  - Like .js `const` convention
+
+# Example
+
+- `-Werror=char-subscripts`
+```{.C}
+int main(int argc, char **argv) {
+    char i;
+    for (i = 0 ; argv[1][i]; i++) {
+        argv[1][i] = cipher(argv[1][i], i);
+    }
+    printf("%s\n", argv[1]);
+    return 0;
+}
+```
+- Ensures we can read strings of 255+ chars.
+
+# Example
+
+- Not technically wrong.
+
+```{.C}
+int main(int argc, char **argv) {
+    char i;
+    if (argc < 1) {
+        return 1;
+    }
+    char *input_string = argv[1];
+    for (i = 0 ; argv[1][i]; i++) {
+        argv[1][i] = cipher(argv[1][i], i);
+    }
+    printf("%s\n", argv[1]);
+    return 0;
+}
+```
+
+- But why?
+
+# Example
+
+- Actually wrong - output_string has no size.
+
+```{.C}
+int main(int argc, char **argv) {
+    char i;
+    if (argc < 1) {
+        return 1;
+    }
+    char *output_string;
+    for (i = 0 ; argv[1][i]; i++) {
+        output_string[i] = cipher(argv[1][i], i);
+    }
+    printf("%s\n", argv[1]);
+    return 0;
+}
+```
+
+- C89 catches this, others don't.
+
+# Takeaway
+
+- As a *second* (or latter language)
+- Learn C by turning on compiler flags and writing code.
+  - As a first language, use this little trick called "learn Python instead"
+- With practice, the correspondences will become obvious.
+  - At that time, you will understand computing.
+
 # Practice to Perform
 
 - My take: learn C89 in class
@@ -751,8 +920,6 @@ cc1: all warnings being treated as errors
   - Understand how computers work
 - Learn modern C via Stack Overflow
   - Understand how to code in practice
-
-
 
 # Today
 

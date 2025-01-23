@@ -1094,9 +1094,10 @@ return 0;
 ### Collections
 
 - C lacks any collection type (list, set, tuple, string)
-- \* notation is used instead
-  - \* denotes the location of some value
-  - The type of this value gives it its size
+
+- `*` notation is used instead
+  - `*` denotes the location of a some value
+  - The type of this value gives its size
   - Successive values are at successive locations
   - These are memory addresses.
 - [] notation may also be used

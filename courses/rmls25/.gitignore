@@ -1,0 +1,8 @@
+*.bak
+lec/src/*.rds
+lec/search.json
+lec/src/.quarto/
+lec/index.html
+lec/src/*.rds
+lec/src/*_cache/*
+lec/src/*_freeze/*

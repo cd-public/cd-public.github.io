@@ -1,0 +1,307 @@
+---
+title: "Intro to TidyModels"
+author: "Jameson Watts, Ph.D."
+date: "03/25/2020"
+output: 
+  pdf_document:
+    df_print: kable
+    fig_width: 11
+    fig_height: 8
+---
+<style>
+strong{
+  color: #018080;
+}
+table.rmdtable th {
+    background: #791716;
+}
+
+</style>
+
+# Setup
+```{r setup, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidymodels)
+library(tidyverse)
+library(themis)
+
+bank <- readRDS(gzcon(url("https://cd-public.github.io/courses/rmls25/dat/BankChurners.rds"))) %>% 
+  mutate(Churn = as_factor(Churn)) %>%
+  mutate(Churn = fct_relevel(Churn, "yes","no")) %>%
+  mutate(log_Total_Trans_Amt = log(Total_Trans_Amt)) %>% 
+  mutate(Graduate_Degree = if_else(Education_Level %in% c("Graduate","Post-Graduate"),1,0)) # create a dummy variable for graduate education
+
+glimpse(bank)
+```
+
+# Our First Model
+
+## Build and fit a basic regression model
+
+```{r}
+## create a model object and assign a linear regression engine to it
+lm_mod <- 
+  linear_reg() %>% 
+  set_engine("lm")
+
+lm_fit <- 
+  lm_mod %>% 
+  fit(log_Total_Trans_Amt ~ Gender * Graduate_Degree, data = bank)
+lm_fit
+```
+## Tidy it up
+
+```{r}
+tidy(lm_fit)
+```
+
+## Plot the coefficients to visualize statistical difference from zero
+
+```{r}
+library(dotwhisker)
+tidy(lm_fit) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+```
+So we see that while Men generally spend less money, those with a graduate degree actually spend more than other men.
+
+# Preprocessing with Recipes
+
+## First let's split the data
+```{r}
+bank <- bank %>% 
+  select(-log_Total_Trans_Amt) # get rid of the logged trans amount (will transform original later)
+
+set.seed(504)
+# this is the tidymodels version of data splitting
+data_split <- initial_split(bank, prop = 3/4)
+
+bank_train <- training(data_split)
+bank_test  <- testing(data_split)
+```
+
+## Create a simple recipe for a logistic regression
+
+```{r}
+bank_rec <- 
+  recipe(Churn ~ ., data = bank_train) %>% 
+  update_role(Education_Level, new_role = "keeper") # keep column in the data, but remove it as a predictor
+
+summary(bank_rec) %>% head()
+```
+## Let's add some real feature engineering to the recipe
+
+```{r}
+bank_rec <- 
+  recipe(Churn ~ ., data = bank_train) %>% 
+  update_role(Education_Level, new_role = "keeper") %>% 
+  step_BoxCox(all_numeric()) %>% 
+  step_dummy(all_nominal(), -all_outcomes(), -Education_Level) %>%  # dummy variables for all factor/character columns except for the outcome (i.e. Churn)
+  step_zv(all_predictors()) # remove all zero variance predictors (i.e. low frequency dummies)
+  
+```
+
+## Create a logistic regression model
+
+```{r}
+lr_mod <- 
+  logistic_reg() %>% 
+  set_engine("glm")
+```
+
+Now we need to:
+  1. Preprocess the training data with our recipe
+  2. Run the model
+  3. Apply the recipe to the test set
+
+## Using a workflow...
+
+```{r}
+bank_wflow <- 
+  workflow() %>% 
+  add_model(lr_mod) %>% 
+  add_recipe(bank_rec)
+bank_wflow
+```
+## Use the workflow to train our model
+
+```{r}
+bank_fit <- ## fit the model
+  bank_wflow %>% 
+  fit(data = bank_train)
+
+bank_fit %>% ## display results
+  pull_workflow_fit() %>% 
+  tidy() 
+```
+## Use our fitted model to predict on test data
+
+```{r}
+predict(bank_fit, bank_test) %>% head()
+
+bank_pred <- 
+  predict(bank_fit, bank_test, type = "prob") %>% 
+  bind_cols(bank_test %>% select(Churn))
+
+bank_pred %>% head()
+
+```
+
+## ...and evaluate with ROC
+
+```{r}
+bank_pred %>% 
+  roc_curve(truth = Churn, .pred_yes) %>% 
+  autoplot()
+
+bank_pred %>%
+  roc_auc(truth = Churn, .pred_yes)
+```
+
+## ...or a confusion matrix
+
+```{r}
+cm <- predict(bank_fit, bank_test) %>%
+  bind_cols(bank_test %>% select(Churn))  %>% 
+  conf_mat(truth = Churn, .pred_class)
+
+cm
+cm %>% autoplot()
+cm %>% autoplot(type="heatmap")
+cm %>% summary()
+```
+
+## Finally, let's update our recipe to deal with class imbalance
+
+```{r}
+bank_rec <- 
+  recipe(Churn ~ ., data = bank_train) %>% 
+  update_role(Education_Level, new_role = "keeper") %>% 
+  step_BoxCox(all_numeric()) %>% 
+  step_dummy(all_nominal(), -all_outcomes(), -Education_Level) %>%  # dummy variables for all factor/character columns except for the outcome (i.e. Churn)
+  step_zv(all_predictors()) %>%  # remove all zero variance predictors (i.e. low frequency dummies)
+  step_upsample(Churn) # making our p
+  
+bank_wflow <- 
+  workflow() %>% 
+  add_model(lr_mod) %>% 
+  add_recipe(bank_rec)
+
+bank_fit <- ## fit the model
+  bank_wflow %>% 
+  fit(data = bank_train)
+
+cm <- predict(bank_fit, bank_test) %>%
+  bind_cols(bank_test %>% select(Churn))  %>% 
+  conf_mat(truth = Churn, .pred_class)
+
+cm %>% autoplot()
+cm %>% summary()
+```
+
+Note that we are catching more of the true positives! Why might this be important?
+
+# Resampling and tuning
+
+## Create our subsamples and tuning grid
+
+```{r}
+set.seed(504)
+folds <- vfold_cv(bank_train, v = 2)
+
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+
+# note that grid_regular tries to take some of the guesswork out of choosing tuning parameters.
+# read about it here: https://dials.tidymodels.org/reference/grid_regular.html
+
+tree_grid %>% head()
+
+```
+
+## Create the model specification, workflow, and run it
+
+```{r}
+tune_spec <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()
+  ) %>% 
+  set_engine("rpart") %>% 
+  set_mode("classification")
+
+
+tree_wf <- workflow() %>%
+  add_model(tune_spec) %>%
+  add_recipe(bank_rec) # same recipe as before
+
+tree_res <- 
+  tree_wf %>% 
+  tune_grid(
+    resamples = folds,
+    grid = tree_grid
+    )
+
+tree_res %>% 
+  collect_metrics() %>% 
+  head(20)
+```
+## Visualize performance differences
+
+```{r}
+tree_res %>%
+  collect_metrics() %>%
+  mutate(tree_depth = factor(tree_depth)) %>%
+  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
+  geom_line(size = 1.5, alpha = 0.6) +
+  geom_point(size = 2) +
+  facet_wrap(~ .metric, scales = "free", nrow = 2) +
+  scale_x_log10(labels = scales::label_number()) +
+  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+```
+
+## Show the best models based on AUC
+
+```{r}
+tree_res %>%
+  show_best()
+```
+
+## Finalize, fit and pull our optimized model
+
+```{r}
+best_tree <- tree_res %>%
+  select_best()
+
+final_wf <- 
+  tree_wf %>% 
+  finalize_workflow(best_tree)
+
+bank_fit <- 
+  final_wf %>%
+  fit(data = bank_train)
+  
+library(vip)
+
+bank_fit %>%
+  pull_workflow_fit() %>% 
+  vip()
+```
+
+## Let's see how it does out of sample
+
+```{r}
+
+cm <- predict(bank_fit, bank_test) %>%
+  bind_cols(bank_test %>% select(Churn))  %>% 
+  conf_mat(truth = Churn, .pred_class)
+
+cm %>% autoplot()
+cm %>% summary()
+
+```
+We have higher accuracy, kappa, sensitiviy and specificity than with our logistic regression. And it's balanced across positive and negative predictions.
+
+

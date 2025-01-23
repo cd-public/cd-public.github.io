@@ -98,62 +98,6 @@
     "text": "Take-aways\n\nDon’t return arrays.\nProvide arrays as arguments and update the provided arrays.\nThere are other ways to do this that we will learn in time.\n\nBut they are unhelpful on SHA-256, and would enable low quality solutions."
   },
   {
-    "objectID": "bigadd.html",
-    "href": "bigadd.html",
-    "title": "BigAdd",
-    "section": "",
-    "text": "Review:\nNewish:\n\n\n\n\n- stdint\n- headers\n\n\n- modulo\n\n\n\n- rings\n\n\n\n\n\nThere are no required exercises of this lab.\nIt is supplementary material to the 4096_t homework.\n\n4096_t requires add, sub, mul, div\nThis lab provides sub\nThis lab introduces add"
-  },
-  {
-    "objectID": "bigadd.html#the-.h-file",
-    "href": "bigadd.html#the-.h-file",
-    "title": "BigAdd",
-    "section": "The .h file",
-    "text": "The .h file\n\nThere are two main types of C files.\n\nThe .c files we have been working with.\n\nThese tend to contain executable code.\nThey contain a main function.\nLarger projects may have multiple .c files for which only one has a main\n\nThe .h files we have incorporated via #include\n\nWe can (and should) write these ourselves.\nThis week we will write a library for a future task.\nWith the Macros assignment, we copy pasted code.\nThe code this week is far too large."
-  },
-  {
-    "objectID": "bigadd.html#t.h",
-    "href": "bigadd.html#t.h",
-    "title": "BigAdd",
-    "section": "4096_t.h",
-    "text": "4096_t.h\n\nCreate two new files.\n\n4096_t.c, and\n4096_t.h\n\nWe will work within both.\n\nYou may, perhaps, which to keep both open in separate vim windows, or\nImplement completely in 4096_t.c then split latter.\n\nWe will want to be able to #include this work into rsainc.c next week.\n\n\nDouble Inclusion\n\nBy convention, there is a double inclusion guard\n\nDon’t want to include one function with the same name twice.\nSo we define a variable in the preprocess, like a constant.\nWe check to see if it’s defined.\nWe write all header code within the #ifndef\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n/* We will put stuff here soon */\n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nOther headers\n\nBy convention, includes are made within a .h file\n\nI will use, say, string for memcpy and stdint for uint64_t\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nConstants\n\nI intended this library specifically for use with 4096 bit values.\nSpecify that in the header.\n\nBy convention, constants are defined in the .h file.\nConstants in the header are visible when the header is included.\nWe can keep secret (like private fields in Python) values just within the .c file, if needed.\nThat is pretty out-of-scope.\n\nAt this time, I also add the #include to the .c file.\n\nNote I use double quotes \" rather than the &lt;&gt;\nThis is convention for user-defined headers.\n\nWe could argue using uint64_t is an implementation detail not needed for broad distribution.\n\nHowever, this detail will be exposed by our function declarations latter.\nUsers of 4096_t will need to be able to use S to determine how large to make arrays.\nWe’ll come back to this!\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#define BYTES 4096 / 8 \n#define S BYTES / sizeof(uint64_t)\n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\n#include \"4096_t.h\"\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nFunctions\n\nAll functions used within another file are declared (but not defined) within the .h file.\n\nThey are defined within the .c file.\nSeparate declaration/definition is also necessary in C for mutually recursive functions.\nIn C, unlike Python, a function may not refer to a function latter in the file.\nHowever, it may refer to a declaration, much akin to a variable, that is latter defined.\nDeclarations are like definitions but instead of a code block are semicolon terminated.\n\nWe will use bigsub which I am providing for this assignment.\n\nI make no claims my bigsub is good or anything, but it seemed pretty okay to me.\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#define BYTES 4096 / 8 \n#define S BYTES / sizeof(uint64_t)\n\n/* Given a\n * minuend    uint64_t min[S]\n * subtrahend uint64_t sub[S]\n * difference uint64_t dif[S]\n * 1. Populate dif with the difference between min and sub\n * 2. Return the \"carry bit\" capturing whether an overflow occured.\n  */\nuint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif); \n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\n#include \"4096_t.h\"\n\nuint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif) {\n      size_t i;\n      uint64_t carry = 0, tmp;\n      for (i = 0; i &lt; S; i++) {\n          tmp = min[i] - sub[i] - carry;\n          carry = min[i] &lt; sub[i];\n          dif[i] = tmp;\n    }\n    return carry;\n}\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nTesting\n\nIt is nontrival to test this code.\n\nHow would we input a 4096_t?\n\nWrite some supporting testing and printing operations.\nI provide a (very) minimal example.\n\n\n\n4096_t.c\n\nint main() {\n    uint64_t min[S], sub[S], dif[S];\n    size_t i;\n    memset(min, 0, BYTES);\n    memset(sub, 0, BYTES);\n    for (i = 0; i &lt; S; i++) {\n        min[i] = i * 3;\n        sub[i] = i * 2;\n    }\n    bigsub(min, sub, dif);\n    for (i = 0; i &lt; S; i++) {\n        printf(\"dif[%02lx] = %02lx\\n\", i, dif[i]);\n    }\n    return 0;\n}\n\n\nWe note this testing can only work if S, BYTES, and memcpy are successfully included!"
-  },
-  {
-    "objectID": "bigadd.html#section",
-    "href": "bigadd.html#section",
-    "title": "BigAdd",
-    "section": "2 ⇒ 3",
-    "text": "2 ⇒ 3\n\nPython 2 had maximum integer sizes, not unlike C\nPython 3 lacks such limitations.\n\nRead more\n\nWhile insuitable for cryptographic applications for limitations including performance, it is suitable for testing.\nIt is a simple enough matter to translate the following into Python:\n\n\n\n4096_t.c\n\nint main() {\n    uint64_t min[S], sub[S], dif[S];\n    size_t i;\n    memset(min, 0, BYTES);\n    memset(sub, 0, BYTES);\n    for (i = 0; i &lt; S; i++) {\n        min[i] = i * 3;\n        sub[i] = i * 2;\n    }\n    bigsub(min, sub, dif);\n    for (i = 0; i &lt; S; i++) {\n        printf(\"dif[%02lx] = %02lx\\n\", i, dif[i]);\n    }\n    return 0;\n}\n\n\nSimply:\n\nCreate two accumulating variables.\nAdd in values multiplied by powers of two.\nPerform the built-in Python subtract\nPrint the output as a hex value, perhaps split onto multiple lines.\n\n\nS = 64\n\nmin, sub = 0, 0\n# Factor this, obviously.\n[min := min + 3 * n * (2 ** (n * 64)) for n in range(S)]\n[sub := sub + 2 * n * (2 ** (n * 64)) for n in range(S)]\nprint(hex(min-sub))"
-  },
-  {
-    "objectID": "bigadd.html#recommendation",
-    "href": "bigadd.html#recommendation",
-    "title": "BigAdd",
-    "section": "Recommendation",
-    "text": "Recommendation\n\nIt is recommended but not required to develop an interface between Python and your 4096_t.\n\nI recommend passing numerical values as hexadecimal strings.\nGenerate values in Python, perform operations, and test results vs. 4096_t\nTake timing data\n\nI found it difficult to debug without constructing an interface.\nHere is an example of a function I used in testing:\n\n/* print the big value as a string */\nvoid seebig(uint64_t *a) {\n    size_t i;\n    for (i = S-1; i &lt; S ; i--) {\n        printf(\"%016lx \", a[i]); \n        if ((i % 8 == 0 && i)) {\n            printf(\"\\n\");\n        }       \n    }\n    printf(\"\\n\\n\");\n    return;\n}"
-  },
-  {
-    "objectID": "bigadd.html#big-addtion",
-    "href": "bigadd.html#big-addtion",
-    "title": "BigAdd",
-    "section": "Big Addtion",
-    "text": "Big Addtion\n\nUsing what you know so far, write bigadd.\n\nDeclare bigadd in the header file.\nDefine bigadd in the .c file.\nTest bigadd to ensure, mostly, you are handling carries correctly.\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#define BYTES 4096 / 8 \n#define S BYTES / sizeof(uint64_t)\n\n/* Given a\n * minuend    uint64_t min[S]\n * subtrahend uint64_t sub[S]\n * difference uint64_t dif[S]\n * 1. Populate dif with the difference between min and sub\n * 2. Return the \"carry bit\" capturing whether an overflow occured.\n  */\nuint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif); \n\n/* Given a\n * addend_0     uint64_t in0[S]\n * addend_1     uint64_t in1[S]\n * sum          uint64_t sum[S]\n * 1. Populate sum with the sum over in0 and in1\n * 2. Return the \"carry bit\" capturing whether an overflow occured.\n  */\nuint64_t bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum); \n\n#endif /* _4096_T_H */\n\n\nIf you want different names for the inputs, use “augend” and “addend”.\nAddition is generally regarded associative (order doesn’t matter), but\nThere are times in computing that operand order matters.\n\nIn x86 assembly, add accepts two operands, storing the result in the first (augend) operand’s location.\n\nIt would be suitable to write all bigops in this format, if that is your perference!\n\nJust different."
-  },
-  {
-    "objectID": "bigadd.html#testing-1",
-    "href": "bigadd.html#testing-1",
-    "title": "BigAdd",
-    "section": "Testing",
-    "text": "Testing\n\nYou should minimally be able to do the following, over arbitrary data.\n\nCheck the carries just in case, of course.\nOr use an e.g. biggte to determine which value is greater than or equal before subtracting.\n\n\n\n\n4096_t.c\n\nint main() {\n    uint64_t a[S], b[S], c[S], d[S];\n    size_t i;\n    memset(a, 0, BYTES);\n    memset(b, 0, BYTES);\n    for (i = 0; i &lt; S; i++) {\n        min[i] = i * 3;\n        sub[i] = i * 2;\n    }\n    bigsub(a, b, c);\n    bigadd(b, c, d);\n    /* You may have written `bigeqs` or */\n    for (i = 0; i &lt; S; i++) {\n        if (a[i] != d[i]) {\n            return 1;\n        }\n    }\n    return 0;\n}"
-  },
-  {
-    "objectID": "4096_t.html",
-    "href": "4096_t.html",
-    "title": "4096_t",
-    "section": "",
-    "text": "Review Show\n\n\nGoal: Implement 4096 bit integers\n\nMy responsibility\n\nI will provide 1 week of instruction on rings, number theory, and programming languages.\nI will provide an autograder Containerfile\n\nYour responsibility\n\nYou will implement a 4096 bit unsigned integer in C89 as:\n\n“4096_t.c” implementation file, and\n“4096_t.h” header file.\n\nYou will store your “4096_t” files in the “4096_t” folder on your “crypto” GitHub repository.\n\n\n\n\nTopic Areas\n\n\n\nReview:\nNewish:\n\n\n\n\n- Rings\n- \\(\\varnothing\\)\n\n\n\n\n\nResources\n\nThe BigAdd lab\n\nThe “Header” entry formed my starter code.\n\nMy Finite Slides\n\nI used this, and its references. Try scroll mode (press ‘r’)\nI think my slides are suitable for multiplication.\nDivision is something of a challenge problem. I would begin with the following: - Wikipedia Divistion Algorithms - I used this and Stack Overflow to implement division. - I used a variety of bitshifts.\n\n\n\n\n\n\nBigMul Show\n\n\nI find the following bulletin summary the most helpful to making a bigmul implementation:\n\nI Made a pointer to a uint32_t\n`uint32_t *alias;\nSet it equal to the location of some array of uint64_t\n`uint32_t *alias = &array;\nCopied elements of the “alias” into 64 bit values.\nuint64_t tmp = alias[5];\nMultiplied, tracking significance.\n\nVersus in class, I will note I made uint32_t aliases for all operands.\nAdditional, I made a uint64_t twice as large as the input arrays, to hold intermediate results.\n\nuint64_t bigmul(uint64_t *in0, uint64_t *in1, uint64_t *out) {\n    size_t i, j;\n    uint64_t wrk[S*2 + 1];\n    uint32_t *al0 = (uint32_t *)in0, *al1 = (uint32_t *)in1 , *alw = (uint32_t *)wrk, *alo = (uint32_t *)out;\n\n\n\nBigDiv Show\n\nWhile I hope all students complete BigDiv, it is a de facto challenge problem - I found no “easy” solution, and understand it is a comparatively complex system.\n\nI implemented division as a recursive long division with considerable error handling.\nI began by aligning the most significant non-zero bit, which was non-trivial but simple enough.\nYou should write the following functions:\n\nuint64_t bigdiv(uint64_t *num, uint64_t *den, uint64_t *quo, uint64_t *rem) {\n    /* Your code here */\n    return 0;\n}\n\nuint64_t bigquo(uint64_t *num, uint64_t *den, uint64_t *quo) {\n    uint64_t rem[S];\n    bigdiv(num,den,quo,rem);\n    return 0;\n}\n\nuint64_t bigrem(uint64_t *num, uint64_t *den, uint64_t *rem) {\n    uint64_t quo[S];\n    bigdiv(num,den,quo,rem);\n    return 0;\n}\n\nI additionally wrote the following helper functions.\nThese are not all required, or even recommended, simply what I used.\nThey are not debugged - some errors are likely handled within my bigdiv\n\nI expect many off-by-one errors from the comments, which I added just for this document.\n\n\n/* Detemine the log of a 4096bit in base 2^64 */\nuint64_t biglog(uint64_t *in) {\n    uint64_t log = S;\n    while (log && !in[--log]) { }\n    return log;\n}\n\n/* Detemine the log of a 64bit in base 2 */\nuint64_t lillog(uint64_t in) {\n    uint64_t log = 0;\n    while ((in &gt;&gt; log++) && log &lt; 64) {}\n    return log;\n}\n\n/* Find the address of the most significant bit of a 4096bit integer */\nuint64_t getmsb(uint64_t *n) {\n    uint64_t b, l;\n    b = biglog(n);\n    l = lillog(n[b]);\n    return b * 64 + l;\n}\n\n/* Return 64 bits from a 4096 bit integer, begging at bit `ind` */\nuint64_t get_64(uint64_t *n, uint64_t ind) {\n    uint64_t b = ind / 64, l = ind % 64;\n    return (n[b] &lt;&lt; (64 - l)) + (b ? (n[b - 1] &gt;&gt; l) : 0);\n}\n\nTester Show\n\nUnder Construction."
-  },
-  {
     "objectID": "alpine.html",
     "href": "alpine.html",
     "title": "Alpine",
@@ -278,6 +222,370 @@
     "title": "Alpine",
     "section": "Goal",
     "text": "Goal\n\nWe will:\n\nSet up the “crypto” image for C development\n\nWrite C code\nCompile C code\nRun C code\nCopy the C code back the host system"
+  },
+  {
+    "objectID": "4096_t.html",
+    "href": "4096_t.html",
+    "title": "4096_t",
+    "section": "",
+    "text": "Review Show\n\n\nGoal: Implement 4096 bit integers\n\nMy responsibility\n\nI will provide 1 week of instruction on rings, number theory, and programming languages.\nI will provide an autograder Containerfile\n\nYour responsibility\n\nYou will implement a 4096 bit unsigned integer in C89 as:\n\n“4096_t.c” implementation file, and\n“4096_t.h” header file.\n\nYou will store your “4096_t” files in the “4096_t” folder on your “crypto” GitHub repository.\n\n\n\n\nTopic Areas\n\n\n\nReview:\nNewish:\n\n\n\n\n- Rings\n- \\(\\varnothing\\)\n\n\n\n\n\nResources\n\nThe BigAdd lab\n\nThe “Header” entry formed my starter code.\n\nMy Finite Slides\n\nI used this, and its references. Try scroll mode (press ‘r’)\nI think my slides are suitable for multiplication.\nDivision is something of a challenge problem. I would begin with the following: - Wikipedia Divistion Algorithms - I used this and Stack Overflow to implement division. - I used a variety of bitshifts.\n\n\n\n\n\n\nBigMul Show\n\n\nI find the following bulletin summary the most helpful to making a bigmul implementation:\n\nI Made a pointer to a uint32_t\n`uint32_t *alias;\nSet it equal to the location of some array of uint64_t\n`uint32_t *alias = &array;\nCopied elements of the “alias” into 64 bit values.\nuint64_t tmp = alias[5];\nMultiplied, tracking significance.\n\nVersus in class, I will note I made uint32_t aliases for all operands.\nAdditional, I made a uint64_t twice as large as the input arrays, to hold intermediate results.\n\nuint64_t bigmul(uint64_t *in0, uint64_t *in1, uint64_t *out) {\n    size_t i, j;\n    uint64_t wrk[S*2 + 1];\n    uint32_t *al0 = (uint32_t *)in0, *al1 = (uint32_t *)in1 , *alw = (uint32_t *)wrk, *alo = (uint32_t *)out;\n\n\n\nBigDiv Show\n\nWhile I hope all students complete BigDiv, it is a de facto challenge problem - I found no “easy” solution, and understand it is a comparatively complex system.\n\nI implemented division as a recursive long division with considerable error handling.\nI began by aligning the most significant non-zero bit, which was non-trivial but simple enough.\nYou should write the following functions:\n\nuint64_t bigdiv(uint64_t *num, uint64_t *den, uint64_t *quo, uint64_t *rem) {\n    /* Your code here */\n    return 0;\n}\n\nuint64_t bigquo(uint64_t *num, uint64_t *den, uint64_t *quo) {\n    uint64_t rem[S];\n    bigdiv(num,den,quo,rem);\n    return 0;\n}\n\nuint64_t bigrem(uint64_t *num, uint64_t *den, uint64_t *rem) {\n    uint64_t quo[S];\n    bigdiv(num,den,quo,rem);\n    return 0;\n}\n\nI additionally wrote the following helper functions.\nThese are not all required, or even recommended, simply what I used.\nThey are not debugged - some errors are likely handled within my bigdiv\n\nI expect many off-by-one errors from the comments, which I added just for this document.\n\n\n/* Detemine the log of a 4096bit in base 2^64 */\nuint64_t biglog(uint64_t *in) {\n    uint64_t log = S;\n    while (log && !in[--log]) { }\n    return log;\n}\n\n/* Detemine the log of a 64bit in base 2 */\nuint64_t lillog(uint64_t in) {\n    uint64_t log = 0;\n    while ((in &gt;&gt; log++) && log &lt; 64) {}\n    return log;\n}\n\n/* Find the address of the most significant bit of a 4096bit integer */\nuint64_t getmsb(uint64_t *n) {\n    uint64_t b, l;\n    b = biglog(n);\n    l = lillog(n[b]);\n    return b * 64 + l;\n}\n\n/* Return 64 bits from a 4096 bit integer, begging at bit `ind` */\nuint64_t get_64(uint64_t *n, uint64_t ind) {\n    uint64_t b = ind / 64, l = ind % 64;\n    return (n[b] &lt;&lt; (64 - l)) + (b ? (n[b - 1] &gt;&gt; l) : 0);\n}\n\n\n\nTester Show\n\nUnder Construction"
+  },
+  {
+    "objectID": "bigadd.html",
+    "href": "bigadd.html",
+    "title": "BigAdd",
+    "section": "",
+    "text": "Review:\nNewish:\n\n\n\n\n- stdint\n- headers\n\n\n- modulo\n\n\n\n- rings\n\n\n\n\n\nThere are no required exercises of this lab.\nIt is supplementary material to the 4096_t homework.\n\n4096_t requires add, sub, mul, div\nThis lab provides sub\nThis lab introduces add"
+  },
+  {
+    "objectID": "bigadd.html#the-.h-file",
+    "href": "bigadd.html#the-.h-file",
+    "title": "BigAdd",
+    "section": "The .h file",
+    "text": "The .h file\n\nThere are two main types of C files.\n\nThe .c files we have been working with.\n\nThese tend to contain executable code.\nThey contain a main function.\nLarger projects may have multiple .c files for which only one has a main\n\nThe .h files we have incorporated via #include\n\nWe can (and should) write these ourselves.\nThis week we will write a library for a future task.\nWith the Macros assignment, we copy pasted code.\nThe code this week is far too large."
+  },
+  {
+    "objectID": "bigadd.html#t.h",
+    "href": "bigadd.html#t.h",
+    "title": "BigAdd",
+    "section": "4096_t.h",
+    "text": "4096_t.h\n\nCreate two new files.\n\n4096_t.c, and\n4096_t.h\n\nWe will work within both.\n\nYou may, perhaps, which to keep both open in separate vim windows, or\nImplement completely in 4096_t.c then split latter.\n\nWe will want to be able to #include this work into rsainc.c next week.\n\n\nDouble Inclusion\n\nBy convention, there is a double inclusion guard\n\nDon’t want to include one function with the same name twice.\nSo we define a variable in the preprocess, like a constant.\nWe check to see if it’s defined.\nWe write all header code within the #ifndef\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n/* We will put stuff here soon */\n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nOther headers\n\nBy convention, includes are made within a .h file\n\nI will use, say, string for memcpy and stdint for uint64_t\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nConstants\n\nI intended this library specifically for use with 4096 bit values.\nSpecify that in the header.\n\nBy convention, constants are defined in the .h file.\nConstants in the header are visible when the header is included.\nWe can keep secret (like private fields in Python) values just within the .c file, if needed.\nThat is pretty out-of-scope.\n\nAt this time, I also add the #include to the .c file.\n\nNote I use double quotes \" rather than the &lt;&gt;\nThis is convention for user-defined headers.\n\nWe could argue using uint64_t is an implementation detail not needed for broad distribution.\n\nHowever, this detail will be exposed by our function declarations latter.\nUsers of 4096_t will need to be able to use S to determine how large to make arrays.\nWe’ll come back to this!\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#define BYTES 4096 / 8 \n#define S BYTES / sizeof(uint64_t)\n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\n#include \"4096_t.h\"\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nFunctions\n\nAll functions used within another file are declared (but not defined) within the .h file.\n\nThey are defined within the .c file.\nSeparate declaration/definition is also necessary in C for mutually recursive functions.\nIn C, unlike Python, a function may not refer to a function latter in the file.\nHowever, it may refer to a declaration, much akin to a variable, that is latter defined.\nDeclarations are like definitions but instead of a code block are semicolon terminated.\n\nWe will use bigsub which I am providing for this assignment.\n\nI make no claims my bigsub is good or anything, but it seemed pretty okay to me.\n\n\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#define BYTES 4096 / 8 \n#define S BYTES / sizeof(uint64_t)\n\n/* Given a\n * minuend    uint64_t min[S]\n * subtrahend uint64_t sub[S]\n * difference uint64_t dif[S]\n * 1. Populate dif with the difference between min and sub\n * 2. Return the \"carry bit\" capturing whether an overflow occured.\n  */\nuint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif); \n\n#endif /* _4096_T_H */\n\n\n\n\n4096_t.c\n\n/* 4096_t.c */\n\n/*\ngcc 4096_t.c --std=c89 -Wall -Wextra -Werror -Wpedantic\n*/\n\n#include \"4096_t.h\"\n\nuint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif) {\n      size_t i;\n      uint64_t carry = 0, tmp;\n      for (i = 0; i &lt; S; i++) {\n          tmp = min[i] - sub[i] - carry;\n          carry = min[i] &lt; sub[i];\n          dif[i] = tmp;\n    }\n    return carry;\n}\n\nint main() {\n  /* Perhaps test some big operations */\n  return 0;\n}\n\n\n\n\n\nTesting\n\nIt is nontrival to test this code.\n\nHow would we input a 4096_t?\n\nWrite some supporting testing and printing operations.\nI provide a (very) minimal example.\n\n\n\n4096_t.c\n\nint main() {\n    uint64_t min[S], sub[S], dif[S];\n    size_t i;\n    memset(min, 0, BYTES);\n    memset(sub, 0, BYTES);\n    for (i = 0; i &lt; S; i++) {\n        min[i] = i * 3;\n        sub[i] = i * 2;\n    }\n    bigsub(min, sub, dif);\n    for (i = 0; i &lt; S; i++) {\n        printf(\"dif[%02lx] = %02lx\\n\", i, dif[i]);\n    }\n    return 0;\n}\n\n\nWe note this testing can only work if S, BYTES, and memcpy are successfully included!"
+  },
+  {
+    "objectID": "bigadd.html#section",
+    "href": "bigadd.html#section",
+    "title": "BigAdd",
+    "section": "2 ⇒ 3",
+    "text": "2 ⇒ 3\n\nPython 2 had maximum integer sizes, not unlike C\nPython 3 lacks such limitations.\n\nRead more\n\nWhile insuitable for cryptographic applications for limitations including performance, it is suitable for testing.\nIt is a simple enough matter to translate the following into Python:\n\n\n\n4096_t.c\n\nint main() {\n    uint64_t min[S], sub[S], dif[S];\n    size_t i;\n    memset(min, 0, BYTES);\n    memset(sub, 0, BYTES);\n    for (i = 0; i &lt; S; i++) {\n        min[i] = i * 3;\n        sub[i] = i * 2;\n    }\n    bigsub(min, sub, dif);\n    for (i = 0; i &lt; S; i++) {\n        printf(\"dif[%02lx] = %02lx\\n\", i, dif[i]);\n    }\n    return 0;\n}\n\n\nSimply:\n\nCreate two accumulating variables.\nAdd in values multiplied by powers of two.\nPerform the built-in Python subtract\nPrint the output as a hex value, perhaps split onto multiple lines.\n\n\nS = 64\n\nmin, sub = 0, 0\n# Factor this, obviously.\n[min := min + 3 * n * (2 ** (n * 64)) for n in range(S)]\n[sub := sub + 2 * n * (2 ** (n * 64)) for n in range(S)]\nprint(hex(min-sub))"
+  },
+  {
+    "objectID": "bigadd.html#recommendation",
+    "href": "bigadd.html#recommendation",
+    "title": "BigAdd",
+    "section": "Recommendation",
+    "text": "Recommendation\n\nIt is recommended but not required to develop an interface between Python and your 4096_t.\n\nI recommend passing numerical values as hexadecimal strings.\nGenerate values in Python, perform operations, and test results vs. 4096_t\nTake timing data\n\nI found it difficult to debug without constructing an interface.\nHere is an example of a function I used in testing:\n\n/* print the big value as a string */\nvoid seebig(uint64_t *a) {\n    size_t i;\n    for (i = S-1; i &lt; S ; i--) {\n        printf(\"%016lx \", a[i]); \n        if ((i % 8 == 0 && i)) {\n            printf(\"\\n\");\n        }       \n    }\n    printf(\"\\n\\n\");\n    return;\n}"
+  },
+  {
+    "objectID": "bigadd.html#big-addtion",
+    "href": "bigadd.html#big-addtion",
+    "title": "BigAdd",
+    "section": "Big Addtion",
+    "text": "Big Addtion\n\nUsing what you know so far, write bigadd.\n\nDeclare bigadd in the header file.\nDefine bigadd in the .c file.\nTest bigadd to ensure, mostly, you are handling carries correctly.\n\n\n\n\n4096_t.h\n\n/* 4096_t.h */\n\n#ifndef _4096_T_H\n#define _4096_T_H\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n#include &lt;stdlib.h&gt;\n#include &lt;string.h&gt;\n\n#define BYTES 4096 / 8 \n#define S BYTES / sizeof(uint64_t)\n\n/* Given a\n * minuend    uint64_t min[S]\n * subtrahend uint64_t sub[S]\n * difference uint64_t dif[S]\n * 1. Populate dif with the difference between min and sub\n * 2. Return the \"carry bit\" capturing whether an overflow occured.\n  */\nuint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif); \n\n/* Given a\n * addend_0     uint64_t in0[S]\n * addend_1     uint64_t in1[S]\n * sum          uint64_t sum[S]\n * 1. Populate sum with the sum over in0 and in1\n * 2. Return the \"carry bit\" capturing whether an overflow occured.\n  */\nuint64_t bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum); \n\n#endif /* _4096_T_H */\n\n\nIf you want different names for the inputs, use “augend” and “addend”.\nAddition is generally regarded associative (order doesn’t matter), but\nThere are times in computing that operand order matters.\n\nIn x86 assembly, add accepts two operands, storing the result in the first (augend) operand’s location.\n\nIt would be suitable to write all bigops in this format, if that is your perference!\n\nJust different."
+  },
+  {
+    "objectID": "bigadd.html#testing-1",
+    "href": "bigadd.html#testing-1",
+    "title": "BigAdd",
+    "section": "Testing",
+    "text": "Testing\n\nYou should minimally be able to do the following, over arbitrary data.\n\nCheck the carries just in case, of course.\nOr use an e.g. biggte to determine which value is greater than or equal before subtracting.\n\n\n\n\n4096_t.c\n\nint main() {\n    uint64_t a[S], b[S], c[S], d[S];\n    size_t i;\n    memset(a, 0, BYTES);\n    memset(b, 0, BYTES);\n    for (i = 0; i &lt; S; i++) {\n        min[i] = i * 3;\n        sub[i] = i * 2;\n    }\n    bigsub(a, b, c);\n    bigadd(b, c, d);\n    /* You may have written `bigeqs` or */\n    for (i = 0; i &lt; S; i++) {\n        if (a[i] != d[i]) {\n            return 1;\n        }\n    }\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#announcements",
+    "href": "encode.html#announcements",
+    "title": "Encode",
+    "section": "Announcements",
+    "text": "Announcements\n\nWelcome to CS 276\nDesynced Lecture\n\nNo Class Thursday, 30 Jan"
+  },
+  {
+    "objectID": "encode.html#today",
+    "href": "encode.html#today",
+    "title": "Encode",
+    "section": "Today",
+    "text": "Today\n\nEncoding\n\nEndianness\nCasts\nTwo’s Complement"
+  },
+  {
+    "objectID": "encode.html#slide-credit",
+    "href": "encode.html#slide-credit",
+    "title": "SHA256",
+    "section": "Slide Credit",
+    "text": "Slide Credit\n\nSaravanan Vijayakumaran\nsarva@ee.iitb.ac.in\n\nDepartment of Electrical Engineering\n\nIndian Institute of Technology Bombay"
+  },
+  {
+    "objectID": "encode.html#hash-functions",
+    "href": "encode.html#hash-functions",
+    "title": "SHA256",
+    "section": "Hash Functions",
+    "text": "Hash Functions\n\nMethods for deterministically compress a long input string to a shorter output called a digest\n\nAlso called “signature”\nCan hash anything stored in computer\n\nThese are also called “compression” or “one-way” hash functions."
+  },
+  {
+    "objectID": "encode.html#hash-merits",
+    "href": "encode.html#hash-merits",
+    "title": "SHA256",
+    "section": "Hash Merits",
+    "text": "Hash Merits\n\nPrimary requirement is that it should be infeasible to find collisions,\n\ni.e. no two inputs have same digest.\nIf I download Ubuntu and check the signature, I should know it’s Ubuntu.\nIf Ubuntu and a malware package have the same signature, useless."
+  },
+  {
+    "objectID": "encode.html#non-cryptographic",
+    "href": "encode.html#non-cryptographic",
+    "title": "SHA256",
+    "section": "Non-Cryptographic",
+    "text": "Non-Cryptographic\n\nUsed to build hash tables\n\nKey-value stores with \\(\\mathcal{O}(1)\\) lookup time.\nMy hashtable/hashmap slides\n\nExample: Python hash\n\n\nprint(\"\\n\".join([f\"{hash(a):+d}\" for a in \"ABCDE\"]))\n\n-1816143160440941865\n+4049084208316813398\n-4700605915453633798\n-4649981414139082377\n+2275070532526587453"
+  },
+  {
+    "objectID": "encode.html#example.tex",
+    "href": "encode.html#example.tex",
+    "title": "SHA256",
+    "section": "Example.tex",
+    "text": "Example.tex\n\nLet \\(M\\) be the size of some hash table\nTake \\(a, W \\in \\mathbb{N} : W &lt; M \\land \\gcd(a, W) = 1\\)\n\nThat is, two positive coprime integers.\n\nAny integer value \\(x\\) can be mapped into \\(\\mathbb{N}_M = \\{0,1,\\ldots, M-1\\}\\)\n\nh_a(x) = \\left\\lfloor \\frac{a x \\bmod W}{W} M \\right\\rfloor\n\\[\nh_a(x) = \\left\\lfloor \\frac{a x \\bmod W}{W} M \\right\\rfloor\n\\]"
+  },
+  {
+    "objectID": "encode.html#example.py",
+    "href": "encode.html#example.py",
+    "title": "SHA256",
+    "section": "Example.py",
+    "text": "Example.py\n\nWe can express in a programming language.\nWe note that 257 == 0x101 is prime.\n\nAnd therefore \\(\\forall W : gcd(257,W) = 1\\)\n\n\n\nimport math\nh = lambda x, a, W, M : math.floor(((a * x) % W) / W * M)\na, W, M = 0x101, 1 &lt;&lt; 0x10, 1 &lt;&lt; 0x08\nassert(all((not math.gcd(a, W) == 1) or h(x, a, W, M) in range(M) for x in range(M)))\nprint('h'+str((0xDA7A,a,W,M)), '=', h(0xDA7A,a,W,M))\n\nh(55930, 257, 65536, 256) = 84"
+  },
+  {
+    "objectID": "encode.html#example.c",
+    "href": "encode.html#example.c",
+    "title": "SHA256",
+    "section": "Example.c",
+    "text": "Example.c\n\nWe note a high performance special case.\nLet \\(w\\) be the bit size used to store numbers\n\nLikely 32 == 0x20 for C unsigned\n\\(W\\) stands for word size\n\nTake \\(W = 2^w\\) and \\(M = 2^m\\)\n\nunsigned int h(unsigned int x, unsigned int a, unsigned int m) {\n    return (a * x) &gt;&gt; (sizeof(unsigned int) * 0x10 - m); \n}"
+  },
+  {
+    "objectID": "encode.html#collisions",
+    "href": "encode.html#collisions",
+    "title": "SHA256",
+    "section": "Collisions",
+    "text": "Collisions\n\nA collision occurs if \\[\n\\exists x, x' : x \\neq x` \\land h(x) = h(x')\n\\]\nThat is, this assertion fails:\n\nassert(((x_0 != x_1) and (h(x_0, a, W, M) == h(x_1, a, W, M)))\n\nGoal: minimize:non-crypto::avoid:crypto collisions.\n\nAchieve this via a large codomain for \\(h\\)"
+  },
+  {
+    "objectID": "encode.html#codomain",
+    "href": "encode.html#codomain",
+    "title": "SHA256",
+    "section": "Codomain:",
+    "text": "Codomain:\n\n“In mathematics, a codomain or set of destination of a function is a set into which all of the output of the function is constrained to fall. It is the set \\(Y\\) in the notation \\(f: X → Y\\). The term range is sometimes ambiguously used to refer to either the codomain or the image of a function.”"
+  },
+  {
+    "objectID": "encode.html#test-it",
+    "href": "encode.html#test-it",
+    "title": "SHA256",
+    "section": "Test it:",
+    "text": "Test it:\n\nh = lambda x, a, W, M : math.floor(((a * x) % W) / W * M)\na, W, M = 0x101, 1 &lt;&lt; 0x10, 1 &lt;&lt; 0x08\nassert(set(h(x, a, W, M) for x in range(M)) == set(range(M)))\n\n\nAs a rule we shouldn’t try to write proofs/definitions in Python, but…\nSmall \\(W = 2^{0x10} = 65536\\) means our computer can handle all possibilities."
+  },
+  {
+    "objectID": "encode.html#visualize",
+    "href": "encode.html#visualize",
+    "title": "SHA256",
+    "section": "Visualize:",
+    "text": "Visualize:"
+  },
+  {
+    "objectID": "encode.html#cryptgraphic",
+    "href": "encode.html#cryptgraphic",
+    "title": "SHA256",
+    "section": "Cryptgraphic",
+    "text": "Cryptgraphic\n\nBegin with SHA-2 (Secure Hash Algorithm 2).\n\nA family of cryptographic hash functions.\nBy the U.S. National Security Agency (NSA)\n\nPublished by the U.S. National Institute of Standards and Technology (NIST) in 2001."
+  },
+  {
+    "objectID": "encode.html#context",
+    "href": "encode.html#context",
+    "title": "SHA256",
+    "section": "Context",
+    "text": "Context\n\nSHA-1, released in 1995, found to have significant vulnerabilities.\nGrowing concerns about the security of SHA-1 led to the development of SHA-2.\n\nSHA-3 released in 2015, not in wide use.\nFor if weakness in SHA-2 discovered.\nSHA-2 regarded as secure in 2025."
+  },
+  {
+    "objectID": "encode.html#family",
+    "href": "encode.html#family",
+    "title": "SHA256",
+    "section": "Family",
+    "text": "Family\n\nSix hash functions release August 2001:\n\nSHA-224\nSHA-256\nSHA-384\nSHA-512\nSHA-512/224\nSHA-512/256"
+  },
+  {
+    "objectID": "encode.html#adoption-and-usage",
+    "href": "encode.html#adoption-and-usage",
+    "title": "SHA256",
+    "section": "Adoption and Usage",
+    "text": "Adoption and Usage\n\nSHA-2 has been widely adopted in\n\nDigital signatures\nCertificate validation\nFile integrity verification.\nBlockchain:\n\n1 of ~2 core technologies of Bitcoin\nSHA-256 specifically"
+  },
+  {
+    "objectID": "encode.html#sha-2-pledge",
+    "href": "encode.html#sha-2-pledge",
+    "title": "SHA256",
+    "section": "SHA-2 Pledge",
+    "text": "SHA-2 Pledge\n\nI need a verbal confirmation:\n\nEven though we will implement cryptography…\nWe assume their insecurity as we learn to:\n\nTest our code\nWrite proofs\nUse compilers\n\nWe don’t know what side channel attacks are.\n\nI say: out-of-scope."
+  },
+  {
+    "objectID": "encode.html#sha-256-overview",
+    "href": "encode.html#sha-256-overview",
+    "title": "SHA256",
+    "section": "SHA-256 Overview",
+    "text": "SHA-256 Overview\n\nSHA-2 with a 256-bit output length\nAccepts bit strings of length up to \\(2^{64} - 1\\)\n\n~20 quintillion bits\n~17 million terabytes"
+  },
+  {
+    "objectID": "encode.html#two-stages",
+    "href": "encode.html#two-stages",
+    "title": "SHA256",
+    "section": "Two Stages",
+    "text": "Two Stages\n\nOutput calculation has two stages:\n\nPreprocessing\nHash Computation"
+  },
+  {
+    "objectID": "encode.html#preprocessing",
+    "href": "encode.html#preprocessing",
+    "title": "SHA256",
+    "section": "Preprocessing",
+    "text": "Preprocessing\n\nA 256-bit state variable \\(H^{(0)}\\) is initialized:\n\n\\[\\begin{align*}\n\\begin{split}\n   H_0^{(0)} = \\texttt{0x6A09E667}, \\quad H_1^{(0)} = \\texttt{0xBB67AE85},\\\\\n   H_2^{(0)} = \\texttt{0x3C6EF372}, \\quad H_3^{(0)} = \\texttt{0xA54FF53A},\\\\\n   H_4^{(0)} = \\texttt{0x510E527F}, \\quad H_5^{(0)} = \\texttt{0x9B05688C},\\\\\n   H_6^{(0)} = \\texttt{0x1F83D9AB}, \\quad H_7^{(0)} = \\texttt{0x5BE0CD19}.\n\\end{split}\n   \\end{align*}\\]\n\n“Fractional parts of square roots of first primes”"
+  },
+  {
+    "objectID": "encode.html#input-padding",
+    "href": "encode.html#input-padding",
+    "title": "SHA256",
+    "section": "Input Padding",
+    "text": "Input Padding\n\nThe input \\(M\\) is padded to a length that is a multiple of 512.\nLet \\(M\\) be \\(l\\)-bits long.\nFind the smallest non-negative \\(k\\) such that: \\[\nk + l + 65 = 0 \\pmod{512}\n\\]"
+  },
+  {
+    "objectID": "encode.html#padding-content",
+    "href": "encode.html#padding-content",
+    "title": "SHA256",
+    "section": "Padding Content",
+    "text": "Padding Content\n\nAppend \\(k + 65\\) bits to \\(M\\):\n\nA single one (1), followed by\n\\(k\\) zeros (0), followed by\nThe 64-bit representation of \\(l\\). \\[\n\\begin{align*}\n1\\underbrace{000 \\cdots 000}_{n \\textrm{ zeros}}\\underbrace{l}_{\\textrm{ 64 bits}} \\\\\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "encode.html#example.py-1",
+    "href": "encode.html#example.py-1",
+    "title": "SHA256",
+    "section": "Example.py",
+    "text": "Example.py\n\nWe can solve numerically in Python, but…\nPerhaps easier to show with strings.\n\n\nM = \"Hello there I am a message.  \" * 15\nx = 1\nl = len(M.encode('utf-8')) * x.bit_length()\nk = 512 - (l + 65) % 512\n\"l=\", l, \"k=\", k, \"pad=\", \"0x1\" + \"0\" * (k//4) + f\"{l:016x}\" ## 64 // 4 == 16\n\n('l=', 435, 'k=', 12, 'pad=', '0x100000000000000001b3')\n\n\n\nThe arithmetic form is left an exercise for the interested student.\n\nMy solution was 10-20 characters of code."
+  },
+  {
+    "objectID": "encode.html#hash-computation",
+    "href": "encode.html#hash-computation",
+    "title": "SHA256",
+    "section": "Hash Computation",
+    "text": "Hash Computation\n\nPadded input is split into \\(N\\) 512-bit blocks:\n\nWe note this is 1-indexed, by convention. \\[\nM^{(1)}, M^{(2)}, \\ldots, M^{(N)}\n\\]\n\nWhen testing, expect to have only \\(M^{(1)}\\)\n\n512 is a lot of bytes to e.g. type in.\nTest more once it works."
+  },
+  {
+    "objectID": "encode.html#hash-type",
+    "href": "encode.html#hash-type",
+    "title": "SHA256",
+    "section": "Hash Type",
+    "text": "Hash Type\n\nThe hash function has the following type: \\[\nf: M:\\{0,1\\}^{512} \\times H:\\{0,1\\}^{256} \\rightarrow H':\\{0,1\\}^{256}\n\\]\nGiven \\(H^{(i-1)}\\), calculate \\(H^{(i)}\\) using: \\[\nH^{(i)} = f(M^{(i)}, H^{(i-1)}), \\quad 1 \\leq i \\leq N.\n\\]\n\n1-indexed"
+  },
+  {
+    "objectID": "encode.html#words",
+    "href": "encode.html#words",
+    "title": "SHA256",
+    "section": "Words",
+    "text": "Words\n\nWe specify bitwise operations over exactly 32 bit words.\nThe industry standard is to use stdint\n\n#include &lt;stdint.h&gt;\n\n/* uint32_t is \"unsigned integer of size 32 type\" */\nuint32_t rotate(uint32_t a, uint32_t b) {\n    asm(\"rorl %%cl, %0\" : \"+r\" (a) : \"c\" (b));\n    return a;\n}"
+  },
+  {
+    "objectID": "encode.html#operations",
+    "href": "encode.html#operations",
+    "title": "SHA256",
+    "section": "Operations",
+    "text": "Operations\n\nBitwise logical operations\n\nUnary,\nBinary, and\nTernary, and\n\nShift/rotate operations\n\nSimple, and\nComposite"
+  },
+  {
+    "objectID": "encode.html#words-1",
+    "href": "encode.html#words-1",
+    "title": "SHA256",
+    "section": "Words",
+    "text": "Words\n\nBitwise logical operations accept 1, 2, or 3 words of size 32 (uint32_t) and produce one word.\n\nTerm these words \\(U\\), \\(V\\), \\(W\\)\n\nShift/rotate operations additionally accept one natural number \\(n\\) &lt; 32.\n\nTerm this \\(n\\)"
+  },
+  {
+    "objectID": "encode.html#unary-bitwise",
+    "href": "encode.html#unary-bitwise",
+    "title": "SHA256",
+    "section": "Unary Bitwise",
+    "text": "Unary Bitwise\n\nThere is only one:\n‘bitwise complement’/‘bitwise logical not’: \\[\n\\lnot U\n\\]\nExpressible with uint32_t in C:\n\n/* 32 bit bitwise complement, exact */\nuint32_t complement(uint32_t u) {\n    return ~u;\n}"
+  },
+  {
+    "objectID": "encode.html#binary-bitwise",
+    "href": "encode.html#binary-bitwise",
+    "title": "SHA256",
+    "section": "Binary Bitwise",
+    "text": "Binary Bitwise\n\n\\(U \\land V\\), \\(U \\lor V\\), \\(U \\oplus V\\): AND, OR, XOR\nAs from printb/macros.\n\n/* 32 bit bitwise complement, exact */\nuint32_t and(uint32_t u, uint32_t v) {\n    return u & v;\n}\n\nuint32_t ior(uint32_t u, uint32_t v) { /* inclusive or */\n    return u | v;\n}\n\nuint32_t xor(uint32_t u, uint32_t v) { /* exclusive or */\n    return u ^ v;\n}"
+  },
+  {
+    "objectID": "encode.html#addition",
+    "href": "encode.html#addition",
+    "title": "SHA256",
+    "section": "Addition",
+    "text": "Addition\n\nC addition is a binary bitwise operation:\nEquivalent to integer sum module \\(2^{32}\\)\n\n\nfrom ctypes import c_uint ## this won't work in pypy\ndef addition(u:c_uint, v:c_uint) -&gt; c_uint:\n    return c_uint(u + v)\n\naddition(4000000000, 4000000000) , addition(4, 4)\n\n(c_ulong(3705032704), c_ulong(8))\n\n\n\nFor me, Python coerces c_uint to c_ulong.\n\nGood reason to use C"
+  },
+  {
+    "objectID": "encode.html#c-math",
+    "href": "encode.html#c-math",
+    "title": "SHA256",
+    "section": "C Math",
+    "text": "C Math\n\nC addition on uint32_t is already modulo \\(2^{32}\\)\n\nWhat else would it be?\nFinite number of bits means finite values.\n\n\n\n\nbitops.c\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n\nint main() {\n    uint32_t u = 4000000000;\n    printf(\"%u + %u = %u\\n\", u, u, u+u);\n    u = 4;\n    printf(\"%u + %u = %u\\n\", u, u, u+u);\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#c-math-1",
+    "href": "encode.html#c-math-1",
+    "title": "SHA256",
+    "section": "C Math",
+    "text": "C Math\n\nWe get the same values as the Python c_uint\nPython is written in C:\n\n\n\n/bin/sh\n\n$ gcc bitops.c --std=c89 -Wall -Wextra -Werror -Wpedantic -O2 -o bitops\n$ ./bitops\n4000000000 + 4000000000 = 3705032704\n4 + 4 = 8\n$"
+  },
+  {
+    "objectID": "encode.html#ternary-bitwise",
+    "href": "encode.html#ternary-bitwise",
+    "title": "SHA256",
+    "section": "Ternary Bitwise",
+    "text": "Ternary Bitwise\n\nCHOICE and MEDIAN, expressed logically: \\[\n\\text{CHOICE}(U, V, W) = (U \\land V) \\oplus (\\lnot U \\land W)\n\\] \\[\n\\text{MEDIAN}(U, V, W) = (U \\land V) \\oplus (U \\land W) \\oplus (V \\land W)\n\\]"
+  },
+  {
+    "objectID": "encode.html#shiftsrotates",
+    "href": "encode.html#shiftsrotates",
+    "title": "SHA256",
+    "section": "Shifts/Rotates",
+    "text": "Shifts/Rotates\n\nCompared to bitwise, they:\n\nStill work on a 32 bit word, but\nAlso work on a value \\(n : 0 \\leq n \\leq 31\\)\nOr,\n\nassert(n in range(32))"
+  },
+  {
+    "objectID": "encode.html#simple-shiftrotate",
+    "href": "encode.html#simple-shiftrotate",
+    "title": "SHA256",
+    "section": "Simple Shift/Rotate",
+    "text": "Simple Shift/Rotate\n\nBitwise shift right &gt;&gt; / x86 shrl \\[\n\\textsf{SHR}^n(U) = \\underbrace{000 \\cdots 000}_{n \\textrm{ zeros}} u_0 u_1 \\cdots u_{30-n} u_{31-n}\n\\]\nThe ROTATE macro / x86 rorl \\[\n\\textsf{ROTR}^n(U) =  \\underbrace{u_{32-n} u_{33-n} \\cdots u_{30} u_{31}}_{n \\textrm{ bits}} u_0 u_1 \\cdots u_{30-n} u_{31-n}\n\\]"
+  },
+  {
+    "objectID": "encode.html#composites",
+    "href": "encode.html#composites",
+    "title": "SHA256",
+    "section": "Composites",
+    "text": "Composites\n\nWhile not required…\n…easier to understand SHA256 with composites: \\[\n\\begin{align*}\n\\Sigma_0(U)&= \\textsf{ROTR}^{02}(U) \\oplus \\textsf{ROTR}^{13}(U) \\oplus \\textsf{ROTR}^{22}(U) \\\\\n\\Sigma_1(U)&= \\textsf{ROTR}^{06}(U) \\oplus \\textsf{ROTR}^{11}(U) \\oplus \\textsf{ROTR}^{25}(U) \\\\\n\\sigma_0(U)&= \\textsf{ROTR}^{07}(U) \\oplus \\textsf{ROTR}^{18}(U) \\oplus \\textsf{SHR}^{03}(U) \\\\\n\\sigma_1(U)&= \\textsf{ROTR}^{17}(U) \\oplus \\textsf{ROTR}^{19}(U) \\oplus \\textsf{SHR}^{10}(U)\n\\end{align*}\n\\]\nMacros and helper functions both work well here."
+  },
+  {
+    "objectID": "encode.html#hash-computation-1",
+    "href": "encode.html#hash-computation-1",
+    "title": "SHA256",
+    "section": "Hash Computation",
+    "text": "Hash Computation\n\n4 steps for each 512 bit chunk.\nFirst chunk, also use pre-computed \\(H\\) values.\n\nCalled, say “initial hash values”\nSuccessive chunks use previous chunk’s hash\n\nAll chunks share pre-computed \\(K\\) values.\n\nCalled, say “round contants”\n“Fractional parts of cube roots of first primes”"
+  },
+  {
+    "objectID": "encode.html#parts",
+    "href": "encode.html#parts",
+    "title": "SHA256",
+    "section": "Parts",
+    "text": "Parts\n\nPreprocess\nSet Message Schedule Array\n\n64 word array\n\nSet Working Variables\n\n8 word sized variables\n\nMain Loop\n\nWord level operations\n\nUpdate hash value"
+  },
+  {
+    "objectID": "encode.html#set-message-schedule-array",
+    "href": "encode.html#set-message-schedule-array",
+    "title": "SHA256",
+    "section": "1. Set Message Schedule Array",
+    "text": "1. Set Message Schedule Array\n\n\\(M^{(i)}_j\\) is the \\(j\\)-th 0-indexed 32 bit word of the \\(i\\)-th 1-indexed 512 bit chunk of message \\(M\\)\n\nA word is 4 letters\nA chunk is short tweet (64 chars)\n\\(M\\) can be, e.g., Linux, the Iliad\n\n\n\\[\nW_j =\n\\begin{cases}\nM^{(i)}_j & 0 \\leq j \\leq 15 \\\\\n\\sigma_1(W_{j-2}) + W_{j-7} + \\sigma_0(W_{j-15}) + W_{j-16} & 16 \\leq j \\leq 63\n\\end{cases}\n\\]"
+  },
+  {
+    "objectID": "encode.html#set-working-variables",
+    "href": "encode.html#set-working-variables",
+    "title": "SHA256",
+    "section": "2. Set Working Variables",
+    "text": "2. Set Working Variables\n\nInitialize eight 32-bit words based on the prior hash. \\[\n(A, B, C, D, E, F, G, H) = (H^{(i-1)}_0, \\ldots, H^{(i-1)}_7).\n\\]"
+  },
+  {
+    "objectID": "encode.html#main-loop",
+    "href": "encode.html#main-loop",
+    "title": "SHA256",
+    "section": "3. Main Loop",
+    "text": "3. Main Loop\n\nIterate \\(j = 0\\) to \\(63\\):\n\nfor j in range(64):\n\nPrecompute two temporary values (or not) \\[\n\\begin{align}\n\\begin{split}\n& T_1  = H + \\Sigma_1(E) + \\textsf{Ch}(E,F,G) + K_j + W_j \\\\\n& T_2  = \\Sigma_0(A) + \\textsf{Maj}(A,B,C) \\\\\n\\end{split}\n\\end{align}\n\\]\nUpdate the working variables \\[\n(A,B,C,D,E,F,G,H)  = (T_1+T_2, A, B, C, D+T_1, E, F, G)\n\\]"
+  },
+  {
+    "objectID": "encode.html#update-hash-value",
+    "href": "encode.html#update-hash-value",
+    "title": "SHA256",
+    "section": "4. Update hash value",
+    "text": "4. Update hash value\n\nConcludes the work on \\(M^{(i)}\\) by finding \\(H^{(i)}\\)\n\n\\[\nH^{(i)}_j = A + H^{(i-1)}_j, \\quad j = 0, \\ldots, 7\n\\]"
   },
   {
     "objectID": "enigma.html",
@@ -607,5 +915,320 @@
     "title": "SHA256",
     "section": "4. Update hash value",
     "text": "4. Update hash value\n\nConcludes the work on \\(M^{(i)}\\) by finding \\(H^{(i)}\\)\n\n\\[\nH^{(i)}_j = A + H^{(i-1)}_j, \\quad j = 0, \\ldots, 7\n\\]"
+  },
+  {
+    "objectID": "encode.html#good-at",
+    "href": "encode.html#good-at",
+    "title": "Encode",
+    "section": "“Good at”",
+    "text": "“Good at”\n\nComputers “are good at” storing numerical data.\n\nAt a high level numerical computing\n\nNumPy\nR\nJulia\nStata\nSAS"
+  },
+  {
+    "objectID": "encode.html#why",
+    "href": "encode.html#why",
+    "title": "Encode",
+    "section": "Why?",
+    "text": "Why?\n\n\n\nImagine thinking in digits.\nTo store a ~3 digit number, need \\(3 \\times 10 = 30\\) “things” that can hold a number.\n\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n10^0\n\n10^1\n\n10^2\n\n\n\nstruct0\n\n0\n\n1\n\n2\n\n3\n\n4\n\n5\n\n6\n\n7\n\n8\n\n9\n\n\n\nstruct:0-&gt;struct0\n\n\n\n\n\nstruct1\n\n0\n\n1\n\n2\n\n3\n\n4\n\n5\n\n6\n\n7\n\n8\n\n9\n\n\n\nstruct:1-&gt;struct1\n\n\n\n\n\nstruct2\n\n0\n\n1\n\n2\n\n3\n\n4\n\n5\n\n6\n\n7\n\n8\n\n9\n\n\n\nstruct:2-&gt;struct2"
+  },
+  {
+    "objectID": "encode.html#etc",
+    "href": "encode.html#etc",
+    "title": "Encode",
+    "section": "etc",
+    "text": "etc\n\ndigraph G {\n  rankdir=LR;\n\n  subgraph cluster_0 {\n    style=filled;\n    color=lightgrey;\n    node [shape=box, style=filled, color=white];\n    a00 -&gt; a01 -&gt; a02;\n  }\n  subgraph cluster_1 {\n    style=filled;\n    color=lightgrey;\n    node [shape=box, style=filled, color=white];\n    a10 -&gt; a11 -&gt; a12;\n  }\n  subgraph cluster_2 {\n    style=filled;\n    color=lightgrey;\n    node [shape=box, style=filled, color=white];\n    a20 -&gt; a21 -&gt; a22;\n  }\n\n  a00 [label=\"0\"];\n  a01 [label=\"1\"];\n  a02 [label=\"2\"];\n\n  a10 [label=\"3\"];\n  a11 [label=\"4\"];\n  a12 [label=\"5\"];\n\n  a20 [label=\"6\"];\n  a21 [label=\"7\"];\n  a22 [label=\"8\"];\n}\n\n\n\n\n\n\nG\n\n\ncluster_0\n\n\n\ncluster_1\n\n\n\ncluster_2\n\n\n\n\na00\n\n0\n\n\n\na01\n\n1\n\n\n\na00-&gt;a01\n\n\n\n\n\na02\n\n2\n\n\n\na01-&gt;a02\n\n\n\n\n\na10\n\n3\n\n\n\na11\n\n4\n\n\n\na10-&gt;a11\n\n\n\n\n\na12\n\n5\n\n\n\na11-&gt;a12\n\n\n\n\n\na20\n\n6\n\n\n\na21\n\n7\n\n\n\na20-&gt;a21\n\n\n\n\n\na22\n\n8\n\n\n\na21-&gt;a22"
+  },
+  {
+    "objectID": "encode.html#graphically",
+    "href": "encode.html#graphically",
+    "title": "Encode",
+    "section": "Graphically",
+    "text": "Graphically\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n0\n\n1\n\n2\n\n3\n\n4\n\n5\n\n6\n\n7\n\n8\n\n9\n\n0\n\n1\n\n2\n\n3\n\n4\n\n5\n\n6\n\n7\n\n8\n\n9\n\n0\n\n1\n\n2\n\n3\n\n4\n\n5\n\n6\n\n7\n\n8\n\n9"
+  },
+  {
+    "objectID": "encode.html#binary",
+    "href": "encode.html#binary",
+    "title": "Encode",
+    "section": "Binary",
+    "text": "Binary\n\nWe are familiar with binary encoding.\nWe note: \\(\\log_2(999) \\lt 10\\)\nDecimal encoding squanders \\(\\dfrac{2}{3}\\) of it’s storage space.\nSo we store in binary.\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n2^0\n\n2^1\n\n2^2\n\n2^3\n\n2^4\n\n2^5\n\n2^6\n\n2^7\n\n2^8\n\n2^9\n\n0\n\n0\n\n0\n\n0\n\n0\n\n0\n\n0\n\n0\n\n0\n\n0\n\n1\n\n1\n\n1\n\n1\n\n1\n\n1\n\n1\n\n1\n\n1\n\n1"
+  },
+  {
+    "objectID": "encode.html#binary-1",
+    "href": "encode.html#binary-1",
+    "title": "Encode",
+    "section": "Binary",
+    "text": "Binary\n\nThe benefit here is that is sufficient to note the presence or absence of a digit (1)\nVersus the specific digit \\(\\in [1,9]\\) and presence of absense (0)\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n2^0\n\n2^1\n\n2^2\n\n2^3\n\n2^4\n\n2^5\n\n2^6\n\n2^7\n\n2^8\n\n2^9\n\n \n\n1\n\n \n\n \n\n1\n\n1\n\n \n\n \n\n1"
+  },
+  {
+    "objectID": "encode.html#wait-a-minute.",
+    "href": "encode.html#wait-a-minute.",
+    "title": "Encode",
+    "section": "Wait a minute.",
+    "text": "Wait a minute.\n\n\n\nWhy is the ones digit (\\(n^0\\)) leftmost ?\n\nThe “least significant bit” or “lsb”\n\nIn e.g. English place the “lsb” last.\n\nCS 276 ⇒\n\n\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n10^0\n\n10^1\n\n10^2\n\n\n\nstruct0\n\n \n\n \n\n \n\n \n\n \n\n \n\n6\n\n \n\n \n\n \n\n\n\nstruct:0-&gt;struct0\n\n\n\n\n\nstruct1\n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n7\n\n \n\n \n\n\n\nstruct:1-&gt;struct1\n\n\n\n\n\nstruct2\n\n \n\n \n\n2\n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n\n\nstruct:2-&gt;struct2"
+  },
+  {
+    "objectID": "encode.html#languages",
+    "href": "encode.html#languages",
+    "title": "Encode",
+    "section": "Languages",
+    "text": "Languages\n\nIn e.g. spoken word, makes sense to lead with the biggest value.\n\n200 of something is closer to 299 of something than 0 of something is to 9 of something.\n\nIn e.g. programming, we often lead with lowest numerical index.\n\nWe look at the arr[0] or something before the arr[1] of something."
+  },
+  {
+    "objectID": "encode.html#in-practice",
+    "href": "encode.html#in-practice",
+    "title": "Encode",
+    "section": "In Practice",
+    "text": "In Practice\n\nWe end up with\n\n\"276\"[0] == '2' and 276 % (10 ** 1) == 6\n\nConfusing!"
+  },
+  {
+    "objectID": "encode.html#annoyance",
+    "href": "encode.html#annoyance",
+    "title": "Encode",
+    "section": "Annoyance",
+    "text": "Annoyance\n\nThis gets very annoy when trying to move numbers around that don’t quite fit in some number of bits.\n\nSay I have 123,456 followers on Instagram📷\nBoycott Meta etc etc.\nAnd/or follow me @calvinallegedly\n\nAlso imagine it is 1969 and you only have 8 bit integers."
+  },
+  {
+    "objectID": "encode.html#scanf",
+    "href": "encode.html#scanf",
+    "title": "Encode",
+    "section": "Scanf",
+    "text": "Scanf\n\nWe can use scanf - the inverse of printf\n\nWe give scanf a format string, like:\n\n%d,%d\nTwo comma-separated decimal values.\nAstute observers will realize where .csv’s come from\n\nFrom whence .csv’s hail\n\n\n\n\nscanf(\"%d,%d\");"
+  },
+  {
+    "objectID": "encode.html#scanf-1",
+    "href": "encode.html#scanf-1",
+    "title": "Encode",
+    "section": "Scanf",
+    "text": "Scanf\n\nTest it\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    scanf(\"%d,%d\");\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#warning",
+    "href": "encode.html#warning",
+    "title": "Encode",
+    "section": "Warning",
+    "text": "Warning\n\nWe draw a warning for missing arguments for each format code\n\nscanf.c: In function ‘main’:\nscanf.c:4:13: warning: format ‘%d’ expects a matching ‘int *’ argument [-Wformat=]\n    4 |     scanf(\"%d,%d\");\n      |            ~^\n      |             |\n      |             int *\nscanf.c:4:16: warning: format ‘%d’ expects a matching ‘int *’ argument [-Wformat=]\n    4 |     scanf(\"%d,%d\");\n      |               ~^\n      |                |\n      |                int *"
+  },
+  {
+    "objectID": "encode.html#test",
+    "href": "encode.html#test",
+    "title": "Encode",
+    "section": "Test",
+    "text": "Test\n\nTest it\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    scanf(\"%d,%d\");\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#arguments",
+    "href": "encode.html#arguments",
+    "title": "Encode",
+    "section": "Arguments",
+    "text": "Arguments\n\nWe need integers.\n\n    int a,b;\n\nWell actually, were asked to provided an int * for each integer format code.\n\n\nformat ‘%d’ expects a matching ’int *’\n\n    int a[1], b[1]; /* Think of these as arrays of one element. */\n\nRegard int *n is just an int n[m] for which we don’t say what m is."
+  },
+  {
+    "objectID": "encode.html#use-either",
+    "href": "encode.html#use-either",
+    "title": "Encode",
+    "section": "Use Either",
+    "text": "Use Either\n\nBoth work.\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int a[1], b[1];\n    scanf(\"%d,%d\", a, b);\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#section",
+    "href": "encode.html#section",
+    "title": "Encode",
+    "section": "[]",
+    "text": "[]\n\n\n\nSome of you used arrays of unspecified length on enigma, that is banned by c89.\nYou should know how long the arrays in your code are.\nThis is a security class and that stuff matters.\nSee more\nReade more"
+  },
+  {
+    "objectID": "encode.html#use-small-arrays",
+    "href": "encode.html#use-small-arrays",
+    "title": "Encode",
+    "section": "Use small arrays",
+    "text": "Use small arrays\n\nJust like the Python x = [0] example.\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int a[1], b[1];\n    scanf(\"%d,%d\", a, b);\n    return 0;\n}\n\n\nUse as follows:\n\n$ gcc scanf.c && ./a.out\n123,456\n$\n\nClean exit!"
+  },
+  {
+    "objectID": "encode.html#use-small-arrays-1",
+    "href": "encode.html#use-small-arrays-1",
+    "title": "Encode",
+    "section": "Use small arrays",
+    "text": "Use small arrays\n\nPrint the value commaless.\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int a[1], b[1];\n    scanf(\"%d,%d\", a, b);\n    return 0;\n}\n\n\nUse as follows:\n\n$ gcc scanf.c && ./a.out\n123,456\n$\n\nClean exit!"
+  },
+  {
+    "objectID": "encode.html#printing",
+    "href": "encode.html#printing",
+    "title": "Encode",
+    "section": "Printing",
+    "text": "Printing\n\nLet’s print our values back…\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int a[1], b[1];\n    scanf(\"%d,%d\", a, b);\n    printf(\"%d%d\\n\", a, b);\n    return 0;\n}\n\n\nOops!\n\nscanf.c: In function ‘main’:\nscanf.c:6:14: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘int *’ [-Wformat=]\n    6 |     printf(\"%d%d\\n\", a, b);\n      |             ~^       ~\n      |              |       |\n      |              int     int *\n      |             %ls\n..."
+  },
+  {
+    "objectID": "encode.html#printing-1",
+    "href": "encode.html#printing-1",
+    "title": "Encode",
+    "section": "Printing",
+    "text": "Printing\n\nPrint needs values, not references.\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int a[1], b[1];\n    scanf(\"%d,%d\", a, b);\n    printf(\"%d%d\\n\", a[0], b[0]);\n    return 0;\n}\n\n\nNothing too fancy.\n\n$ gcc scanf.c && ./a.out\n123,456\n123456\n$"
+  },
+  {
+    "objectID": "encode.html#double-it",
+    "href": "encode.html#double-it",
+    "title": "Encode",
+    "section": "Double it",
+    "text": "Double it\n\nLet’s say we want to double our input value.\n\n\n\n\n\nscanf.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int a[1], b[1];\n    scanf(\"%d,%d\", a, b);\n    a[0] *= 2;\n    b[0] *= 2;\n    printf(\"%d%d\\n\", a[0], b[0]);\n    return 0;\n}\n\n\n$ gcc scanf.c && ./a.out\n123,456\n246912\n$ ./a.out\n123,567\n2461134\n$\n\nUh oh."
+  },
+  {
+    "objectID": "encode.html#carries",
+    "href": "encode.html#carries",
+    "title": "Encode",
+    "section": "Carries",
+    "text": "Carries\n\nOne reason to put the one’s place first is for carries.\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n2^\n\n \n\n+\n\n=\n\n0\n\n1\n\n0\n\n1\n\n1\n\n0\n\n1\n\n1\n\n2\n\n0\n\n0\n\n0\n\n3\n\n1\n\n1\n\n?\n\n\n\n\n\n\n\n\n\nAs we add across a value, we want to carry over a bit to a higher power.\nSame with multiply!"
+  },
+  {
+    "objectID": "encode.html#carries-1",
+    "href": "encode.html#carries-1",
+    "title": "Encode",
+    "section": "Carries",
+    "text": "Carries\n\nOne reason to put the one’s place first is for carries.\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n2^\n\n \n\n+\n\nc\n\n=\n\n0\n\n1\n\n0\n\n0\n\n1\n\n1\n\n0\n\n1\n\n0\n\n1\n\n2\n\n0\n\n0\n\n0\n\n0\n\n3\n\n1\n\n1\n\n0\n\n0"
+  },
+  {
+    "objectID": "encode.html#carries-2",
+    "href": "encode.html#carries-2",
+    "title": "Encode",
+    "section": "Carries",
+    "text": "Carries\n\nAddition is easier least-to-most\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nstruct\n\n2^\n\n \n\n+\n\nc\n\n=\n\n0\n\n1\n\n0\n\n0\n\n1\n\n1\n\n0\n\n1\n\n0\n\n1\n\n2\n\n0\n\n0\n\n0\n\n0\n\n3\n\n1\n\n1\n\n0\n\n0\n\n4\n\n0\n\n0\n\n1\n\n1\n\n\n\n\n\n\n\n\n\nThis denotes a binary add of 0b01001 to 0b01010 which equals 0b10011\n\n&gt;&gt;&gt; bin(0b01001 + 0b01010)\n'0b10011'\n&gt;&gt;&gt; bin(0b01001 + 0b01010)[2::-1]\n'1b0'\n&gt;&gt;&gt; bin(0b01001 + 0b01010)[:2:-1]\n'1100'\n&gt;&gt;&gt; bin(0b01001 + 0b01010)[:1:-1]\n'11001'"
+  },
+  {
+    "objectID": "encode.html#does-it-matter",
+    "href": "encode.html#does-it-matter",
+    "title": "Encode",
+    "section": "Does it matter?",
+    "text": "Does it matter?\n\nKinda.\nThis is called, Endianness, the subject a latter lab.\nIt mostly matters when we rearrange numbers around.\n\nSHA256 works with chunks of various sizes - 8, 32, 256, 512.\nIn which order do we place values from 4 8-bit fields into 1 32-bit field."
+  },
+  {
+    "objectID": "encode.html#section-1",
+    "href": "encode.html#section-1",
+    "title": "Encode",
+    "section": "32 -> 64",
+    "text": "32 -&gt; 64\n\nIt is common to find 32 bit code that is running on 64 bit devices.\n\nSay e.g. “World of Warcraft: Classic”\n\nReleased in 2004 for 32 bit devices.\nRepopularized in 2019 then 2024\nLiteral trillion dollar company (MS)\n\n\nNeed a very good way to go between 32 and 64 bits."
+  },
+  {
+    "objectID": "encode.html#casts-1",
+    "href": "encode.html#casts-1",
+    "title": "Encode",
+    "section": "Casts",
+    "text": "Casts\n\nThat way is casts\nIn C, we prefix a value by a type (in parens) when assigning it to a variable.\n\n1 is a value.\nlong is a type (usually the 64 bit type)\n(long)1 is the value of 1 as a 64 bit type\n\nlong x = 0;\nint y = 10;\nx = (long)y;"
+  },
+  {
+    "objectID": "encode.html#arrays",
+    "href": "encode.html#arrays",
+    "title": "Encode",
+    "section": "Arrays",
+    "text": "Arrays\n\nWe regarded, following “macros”, C integers as akin to arrays of booleans.\nC integers can also be regarded as arrays of bytes.\nFor example, an int is commonly 4 bytes, or char values.\nWe can achieve this with a cast."
+  },
+  {
+    "objectID": "encode.html#example",
+    "href": "encode.html#example",
+    "title": "Encode",
+    "section": "Example",
+    "text": "Example\n\n\n\nCreate a variable x\nIt can refer to an int\n\nx : list[int] # not x = [None]\n\nCan’t use yet.\n\nx[0] = 1 # this would error\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int *x;\n    char buf[4];\n    buf[0] = 0xA;\n    buf[1] = 0xB;\n    buf[2] = 0xC;\n    buf[3] = 0xD;\n    x = (int *)buf;\n    printf(\"%x\\n\", x[0]);\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#example-1",
+    "href": "encode.html#example-1",
+    "title": "Encode",
+    "section": "Example",
+    "text": "Example\n\n\n\nCreate variable buf\nArray of 4 char.\nVersus a char *:\n\nThe value buf holds some reference.\n\nbuf =  = [None] * 4\n\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int *x;\n    char buf[4];\n    buf[0] = 0xA;\n    buf[1] = 0xB;\n    buf[2] = 0xC;\n    buf[3] = 0xD;\n    x = (int *)buf;\n    printf(\"%x\\n\", x[0]);\n    return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#example-2",
+    "href": "encode.html#example-2",
+    "title": "Encode",
+    "section": "Example",
+    "text": "Example\n\n\n\nEasy-to-recognize values.\n\nCan assign \\(n\\) at once but\nBut only for declares.\n(The array could be the wrong size)\n\n\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int *x;\n    char buf[4];\n    buf[0] = 0xA;\n    buf[1] = 0xB;\n    buf[2] = 0xC;\n    buf[3] = 0xD;\n    x = (int *)buf;\n    printf(\"%x\\n\", x[0]);\n    return 0;\n}\n\nchar buf[4] = { 0xA, OxB, 0xC, 0xD }; /* okay */\n/* say, char notbuf[2]; buf = notbuf; */\nbuf = {1,2,3,4}; /* banned - it isn't safe */"
+  },
+  {
+    "objectID": "encode.html#i-lied",
+    "href": "encode.html#i-lied",
+    "title": "Encode",
+    "section": "I lied",
+    "text": "I lied\n\n\n\nTell gcc that no, really, buf is actually an array of integers.\nIt will believe you.\nIf you omit the cast, you will get a warning or error\n\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int *x;\n    char buf[4];\n    buf[0] = 0xA;\n    buf[1] = 0xB;\n    buf[2] = 0xC;\n    buf[3] = 0xD;\n    x = (int *)buf;\n    printf(\"%x\\n\", x[0]);\n    return 0;\n}\nd0c0b0a"
+  },
+  {
+    "objectID": "encode.html#i-lied-1",
+    "href": "encode.html#i-lied-1",
+    "title": "Encode",
+    "section": "I lied",
+    "text": "I lied\n\n\n\nLet’s see the output.\n\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int *x;\n    char buf[4];\n    buf[0] = 0xA;\n    buf[1] = 0xB;\n    buf[2] = 0xC;\n    buf[3] = 0xD;\n    x = (int *)buf;\n    printf(\"%x\\n\", x[0]);\n    return 0;\n}\n\nI got no warnings/errors.\n\nd0c0b0a"
+  },
+  {
+    "objectID": "encode.html#ordering",
+    "href": "encode.html#ordering",
+    "title": "Encode",
+    "section": "Ordering",
+    "text": "Ordering\n\n\n\nLet’s see the output.\nWhat order is that?\n\nSame order within bytes\n\n0x0 before 0xa\n\nReverse order within a number\n\n0x0b before 0x0a\n\n\n\n\n#include &lt;stdio.h&gt;\n\nint main() {\n    int *x;\n    char buf[4];\n    buf[0] = 0xA;\n    buf[1] = 0xB;\n    buf[2] = 0xC;\n    buf[3] = 0xD;\n    x = (int *)buf;\n    printf(\"%x\\n\", x[0]);\n    return 0;\n}\n\nI got no warnings/errors.\n\nd0c0b0a"
+  },
+  {
+    "objectID": "encode.html#takeaway",
+    "href": "encode.html#takeaway",
+    "title": "Encode",
+    "section": "Takeaway:",
+    "text": "Takeaway:\n\nThe way integers are printed and the way they are stored in the computer aren’t necessarily related.\nThis matters a lot on SHA-256."
+  },
+  {
+    "objectID": "encode.html#negative-values",
+    "href": "encode.html#negative-values",
+    "title": "Encode",
+    "section": "Negative values",
+    "text": "Negative values\n\nFrom time to time we like to use a negative value.\nI know, I was disappointed too.\nWe build them using subtraction."
+  },
+  {
+    "objectID": "encode.html#int-vs-uint",
+    "href": "encode.html#int-vs-uint",
+    "title": "Encode",
+    "section": "int vs uint",
+    "text": "int vs uint\n\nIt is a simply enough matter to establish the ranges for potentially negative (signed, or default) values and necessarily positive (unsigned) values.\nWe work with char and unsigned char"
+  },
+  {
+    "objectID": "encode.html#output",
+    "href": "encode.html#output",
+    "title": "Encode",
+    "section": "Output",
+    "text": "Output\n\n\na\n0, 0\n...\na\n120, 120\na\n-126, 130\na\n-116, 140\n...\na\n-16, 240\na\n-6, 250\na\n4, 4\n\n\nUnsigned values have roughly double the maximum of signed values.\nUnsigned values have similar maximum and minimum values by absolute values.\n\nRead more e via man abs"
+  },
+  {
+    "objectID": "encode.html#more-tests",
+    "href": "encode.html#more-tests",
+    "title": "Encode",
+    "section": "More tests",
+    "text": "More tests\n\nCreate somewhere to store an integer.\nScan input into said integer.\nCast integer to a char and print\nCast integer to an unsigned char and print.\n\n\n\ntester.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n        int x[0];\n        while (scanf(\"%d\", x)) {\n                printf(\"%hhd, %u\\n\", (char)x[0], (unsigned char)x[0]);\n        }\n        return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#output-1",
+    "href": "encode.html#output-1",
+    "title": "Encode",
+    "section": "Output",
+    "text": "Output\n\n\n10\n10, 10\n126\n126, 126\n127\n127, 127\n128\n-128, 128\n255\n-1, 255\n256\n0, 0\n\n\nSigned values in \\(n\\) bit integers loop at \\(2^{n-1}\\)\n\nOr do they? Test it on ints!\n\nUnsigned values are maximal when signed values are -1\nmax + 1 and -1 + 1 both equal zero.\nBy the way, this makes a lot of things really nice."
+  },
+  {
+    "objectID": "encode.html#look-at-ints",
+    "href": "encode.html#look-at-ints",
+    "title": "Encode",
+    "section": "Look at ints",
+    "text": "Look at ints\n\n\ntester.c\n\n#include &lt;stdio.h&gt;\n\nint main() {\n        int x[0];\n        while (scanf(\"%d\", x)) {\n                printf(\"%d, %u, %032b\\n\", \n                *x, (unsigned)*x, x[0]);\n        }\n        return 0;\n}"
+  },
+  {
+    "objectID": "encode.html#some-things-to-try",
+    "href": "encode.html#some-things-to-try",
+    "title": "Encode",
+    "section": "Some things to try",
+    "text": "Some things to try\n65536\n65536, 65536, 00000000000000010000000000000000\n-1\n-1, 4294967295, 11111111111111111111111111111111\n4294967295\n-1, 4294967295, 11111111111111111111111111111111\n4294967296\n0, 0, 00000000000000000000000000000000\n255\n255, 255, 00000000000000000000000011111111\n256\n256, 256, 00000000000000000000000100000000\n-255\n-255, 4294967041, 11111111111111111111111100000001"
+  },
+  {
+    "objectID": "encode.html#takeaways",
+    "href": "encode.html#takeaways",
+    "title": "Encode",
+    "section": "Takeaways",
+    "text": "Takeaways\n\nThe algorithm is simply.\n\nFor unsigned values, simple binary\nFor signed values, negatives are 1-prefixed not 0-prefixed.\n\nThe only difference is in printing.\nArithmetic operations proceed smoothly without consideration of signage.\nCall this “two’s complement” - negatives by binary (0-&gt;1) complement."
+  },
+  {
+    "objectID": "encode.html#stinger",
+    "href": "encode.html#stinger",
+    "title": "Encode",
+    "section": "Stinger",
+    "text": "Stinger\n#include &lt;stdio.h&gt;\n\nint main() {\n        int x[0], y[0];\n        while (1) {\n                scanf(\"%d %d\", x, y);\n                printf(\"%d, %u, %032b\\n\",\n                                x[0]/y[0],\n                                (unsigned)x[0]/y[0],\n                                x[0]/y[0]);\n        }\n        return 0;\n}"
   }
 ]

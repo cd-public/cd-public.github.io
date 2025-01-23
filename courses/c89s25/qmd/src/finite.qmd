@@ -2,7 +2,7 @@
 title: Finite
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0x0"
+subtitle: "Week 0x4"
 institute: Crypto
 format: 
     revealjs: 

@@ -7,7 +7,7 @@
 
 ---
 title: SHAinC
-subtitle: "HW 0x2: Due Th, Feb 06"
+subtitle: "HW 0x3: Due Th, Feb 13"
 
 format: 
   html:

@@ -254,7 +254,9 @@ int main() {
   - However, it may refer to a declaration, much akin to a variable, that is latter defined.
   - Declarations are like definitions but instead of a code block are semicolon terminated.
 - We will use `bigsub` which I am providing for this assignment.
-  - I make no claims my `bigsub` is good or anything, but it seemed pretty okay to me.
+  - I make no claims my `bigsub` is good or anything.
+    - It does not handle negative results.
+    - I don't know why it'd need to do that...
 
 ::::{.columns}
 
@@ -314,7 +316,6 @@ int main() {
   /* Perhaps test some big operations */
   return 0;
 }
-
 ```
 
 :::
@@ -348,6 +349,30 @@ int main() {
 
 - We note this testing can only work if `S`, `BYTES`, and `memcpy` are successfully included!
 
+### 4096_t.h 
+
+- The 4096_t homework autograder will require code compliant with the following header file:
+
+```{.C = filename="4096_t.c"}
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define S (size_t)(4096 / 64)
+#define BYTES S * sizeof(uint64_t)
+
+uint64_t bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum); 
+uint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif); 
+uint64_t bigmul(uint64_t *in0, uint64_t *in1, uint64_t *out); 
+uint64_t bigquo(uint64_t *num, uint64_t *den, uint64_t *quo);
+uint64_t bigrem(uint64_t *num, uint64_t *den, uint64_t *rem);
+```
+
+- You may use a different header file while you are working on your code, but:
+  - For the homework, will need to implement these functions.
+  - For SHA-256, will need to implement these functions.
+
 :::
 
 
@@ -360,7 +385,7 @@ int main() {
 - Python 2 had maximum integer sizes, not unlike C
 - Python 3 lacks such limitations.
   - [Read more](https://www.datacamp.com/tutorial/everything-you-need-to-know-about-pythons-maximum-integer-value)
-- While insuitable for cryptographic applications for limitations including performance, it is suitable for testing.
+- While unsuitable for cryptographic applications for limitations including performance, it is suitable for testing.
 - It is a simple enough matter to translate the following into Python:
 
 ```{.C filename="4096_t.c"}
@@ -402,8 +427,7 @@ print(hex(min-sub))
 - It is recommended but not required to develop an interface between Python and your `4096_t`.
   - I recommend passing numerical values as hexadecimal strings.
   - Generate values in Python, perform operations, and test results vs. 4096_t
-  - Take timing data
-- I found it difficult to debug without constructing an interface.
+- I found it difficult to debug `bigadd` and `bigsub` without constructing an interface.
 - Here is an example of a function I used in testing:
 
 ```{.C}
@@ -411,15 +435,27 @@ print(hex(min-sub))
 void seebig(uint64_t *a) {
     size_t i;
     for (i = S-1; i < S ; i--) {
-        printf("%016lx ", a[i]); 
+        fprintf(stderr, "%016lx ", a[i]); 
         if ((i % 8 == 0 && i)) {
-            printf("\n");
+            fprintf(stderr, "\n");
         }       
     }
-    printf("\n\n");
+    fprintf(stderr, "\n\n");
     return;
 }
 ```
+
+## Autograder
+
+- The interface implemented by the autograder may be informative here.
+  - It uses a Python script.
+  - It uses a dedicated .c file with a `main` function.
+  - It uses `gcc 4096_t.c tester.c` to compile the 4096_t code for use in the tester executable.
+  - It uses Python `subprocess` to examine the results.
+- I was unable to achieve a bugfree multiply absent this interface, but was able to progress rapidly once I developed it.
+  - [tester.py](https://github.com/cd-c89/crypto/blob/main/4096_t/tester.py)
+  - [tester.c](https://github.com/cd-c89/crypto/blob/main/4096_t/tester.c)
+
 
 :::
 
@@ -427,7 +463,7 @@ void seebig(uint64_t *a) {
 
 ::: {#bigadd .collapse .multi-collapse}
 
-## Big Addtion
+## Big Addition
 
 - Using what you know so far, write `bigadd`.
   - *Declare* `bigadd` in the header file.

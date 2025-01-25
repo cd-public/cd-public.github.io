@@ -314,7 +314,68 @@ window.Quarto = {
 <section id="tester-show" class="level1">
 <h1>Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls="tester">Show</a></h1>
 <div id="tester" class="collapse multi-collapse">
-<p><em>Under Construction</em></p>
+<ul>
+<li>I am providing the following Containerfile, which will serve as a minimal autograder
+<ul>
+<li>I pivoted back to Alpine because Ubuntu was slow.</li>
+</ul></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Containerfile</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="Containerfile"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>FROM alpine </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>RUN apk add build-base gcc curl python3</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/4096_t/4096_t.h -o 4096_t.h</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/4096_t/tester.c -o tester.c</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/4096_t/tester.py -o tester.py</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>COPY 4096_t.c .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>All three of the these files were previous introduced in the <a href="./bigadd.html]">BigAdd</a> lab.</li>
+</ul>
+<section id="usage" class="level4">
+<h4 class="anchored" data-anchor-id="usage">Usage</h4>
+<ul>
+<li>I built my container via:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>podman build -t tester .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>I tested my code via:</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>podman run tester python3 tester.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>If the above script returns the following you are done:
+<ul>
+<li>Upload your code to your GitHub on which I am a collaborator.</li>
+</ul></li>
+<li>I will review the most recent version prior to the due date.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ADD passes.</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>MUL passes.</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>QUO passes.</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>REM passes.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="testing" class="level4">
+<h4 class="anchored" data-anchor-id="testing">Testing</h4>
+<ul>
+<li>When the container is built, it copies in <code>4096_t.c</code></li>
+<li>Within the container, <code>tester.py</code>:
+<ul>
+<li>Compiles <code>tester.c</code> as C89 with appropriate <code>gcc</code> flags.
+<ul>
+<li><code>tester.c</code> is dependent on both your <code>4096_t.c</code> and my <code>4096_t.h</code></li>
+</ul></li>
+<li>Creates two values of size less than 2048 bits.</li>
+<li>Performs all relevant operations over these values, check the results.</li>
+</ul></li>
+</ul>
+</section>
 </div>
 
 

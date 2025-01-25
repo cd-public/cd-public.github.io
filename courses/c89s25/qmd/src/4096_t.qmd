@@ -145,6 +145,56 @@ uint64_t get_64(uint64_t *n, uint64_t ind) {
 
 ::: {#tester .collapse .multi-collapse}
 
-*Under Construction*
+- I am providing the following Containerfile, which will serve as a minimal autograder
+    - I pivoted back to Alpine because Ubuntu was slow.
+
+```{.email filename="Containerfile"}
+FROM alpine 
+
+RUN apk add build-base gcc curl python3
+
+RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/4096_t/4096_t.h -o 4096_t.h
+
+RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/4096_t/tester.c -o tester.c
+
+RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/4096_t/tester.py -o tester.py
+
+COPY 4096_t.c .
+```
+
+- All three of the these files were previous introduced in the [BigAdd](./bigadd.html]) lab.
+
+#### Usage
+
+- I built my container via:
+
+```email
+podman build -t tester .
+```
+
+- I tested my code via:
+
+```email
+podman run tester python3 tester.py
+```
+
+- If the above script returns the following you are done:
+    - Upload your code to your GitHub on which I am a collaborator.
+- I will review the most recent version prior to the due date.
+```email
+ADD passes.
+MUL passes.
+QUO passes.
+REM passes.
+```
+
+#### Testing
+
+-   When the container is built, it copies in `4096_t.c`
+-   Within the container, `tester.py`:
+    -   Compiles `tester.c` as C89 with appropriate `gcc` flags.
+        -   `tester.c` is dependent on both your `4096_t.c` and my `4096_t.h`
+    -   Creates two values of size less than 2048 bits.
+    -   Performs all relevant operations over these values, check the results.
 
 :::

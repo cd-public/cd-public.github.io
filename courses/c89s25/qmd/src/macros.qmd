@@ -7,7 +7,7 @@
 
 ---
 title: Macros
-subtitle: "HW 0x1: Due Th, Jan 30"
+subtitle: "HW 0x1: Due Th, Feb 06"
 
 format: 
   html:

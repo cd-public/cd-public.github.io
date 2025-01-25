@@ -420,7 +420,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>We will use <code>bigsub</code> which I am providing for this assignment.
 <ul>
-<li>I make no claims my <code>bigsub</code> is good or anything, but it seemed pretty okay to me.</li>
+<li>I make no claims my <code>bigsub</code> is good or anything.
+<ul>
+<li>It does not handle negative results.</li>
+<li>I don’t know why it’d need to do that…</li>
+</ul></li>
 </ul></li>
 </ul>
 <div class="columns">
@@ -519,43 +523,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>We note this testing can only work if <code>S</code>, <code>BYTES</code>, and <code>memcpy</code> are successfully included!</li>
 </ul>
 </section>
-</section>
-</div>
-</section>
-<section id="python-show" class="level1">
-<h1>Python&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#python" role="button" aria-expanded="false" aria-controls="python">Show</a></h1>
-<div id="python" class="collapse multi-collapse">
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section">2 ⇒ 3</h2>
+<section id="t.h-1" class="level3">
+<h3 class="anchored" data-anchor-id="t.h-1">4096_t.h</h3>
 <ul>
-<li>Python 2 had maximum integer sizes, not unlike C</li>
-<li>Python 3 lacks such limitations.
-<ul>
-<li><a href="https://www.datacamp.com/tutorial/everything-you-need-to-know-about-pythons-maximum-integer-value">Read more</a></li>
-</ul></li>
-<li>While insuitable for cryptographic applications for limitations including performance, it is suitable for testing.</li>
-<li>It is a simple enough matter to translate the following into Python:</li>
+<li>The 4096_t homework autograder will require code compliant with the following header file:</li>
 </ul>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>4096_t.c</strong></pre>
-</div>
-<div class="sourceCode" id="cb13" data-filename="4096_t.c"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint64_t</span> min<span class="op">[</span>S<span class="op">],</span> sub<span class="op">[</span>S<span class="op">],</span> dif<span class="op">[</span>S<span class="op">];</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> i<span class="op">;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>min<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> BYTES<span class="op">);</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>sub<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> BYTES<span class="op">);</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> S<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        min<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> i <span class="op">*</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        sub<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> i <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    bigsub<span class="op">(</span>min<span class="op">,</span> sub<span class="op">,</span> dif<span class="op">);</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> S<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"dif[</span><span class="sc">%02lx</span><span class="st">] = </span><span class="sc">%02lx\n</span><span class="st">"</span><span class="op">,</span> i<span class="op">,</span> dif<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>```{.C = filename=“4096_t.c”} #include &lt;stdio.h&gt; #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt;</p>
+<p>#define S (size_t)(4096 / 64) #define BYTES S * sizeof(uint64_t)</p>
+<p>uint64_t bigadd(uint64_t <em>in0, uint64_t </em>in1, uint64_t <em>sum); uint64_t bigsub(uint64_t </em>min, uint64_t <em>sub, uint64_t </em>dif); uint64_t bigmul(uint64_t <em>in0, uint64_t </em>in1, uint64_t <em>out); uint64_t bigquo(uint64_t </em>num, uint64_t <em>den, uint64_t </em>quo); uint64_t bigrem(uint64_t <em>num, uint64_t </em>den, uint64_t *rem);</p>
+<pre><code>
+- You may use a different header file while you are working on your code, but:
+  - For the homework, will need to implement these functions.
+  - For SHA-256, will need to implement these functions.
+
+:::
+
+
+# Python&amp;nbsp;&lt;a class="btn btn-primary" data-bs-toggle="collapse" href="#python" role="button" aria-expanded="false" aria-controls = "python"&gt;Show&lt;/a&gt;
+
+::: {#python .collapse .multi-collapse}
+
+## 2 &amp;rArr; 3
+
+- Python 2 had maximum integer sizes, not unlike C
+- Python 3 lacks such limitations.
+  - [Read more](https://www.datacamp.com/tutorial/everything-you-need-to-know-about-pythons-maximum-integer-value)
+- While unsuitable for cryptographic applications for limitations including performance, it is suitable for testing.
+- It is a simple enough matter to translate the following into Python:
+
+```{.C filename="4096_t.c"}
+int main() {
+    uint64_t min[S], sub[S], dif[S];
+    size_t i;
+    memset(min, 0, BYTES);
+    memset(sub, 0, BYTES);
+    for (i = 0; i &lt; S; i++) {
+        min[i] = i * 3;
+        sub[i] = i * 2;
+    }
+    bigsub(min, sub, dif);
+    for (i = 0; i &lt; S; i++) {
+        printf("dif[%02lx] = %02lx\n", i, dif[i]);
+    }
+    return 0;
+}</code></pre>
 <ul>
 <li>Simply:
 <ul>
@@ -573,6 +584,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>[sub <span class="op">:=</span> sub <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> n <span class="op">*</span> (<span class="dv">2</span> <span class="op">**</span> (n <span class="op">*</span> <span class="dv">64</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(S)]</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">hex</span>(<span class="bu">min</span><span class="op">-</span>sub))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+</section>
 <section id="recommendation" class="level2">
 <h2 class="anchored" data-anchor-id="recommendation">Recommendation</h2>
 <ul>
@@ -580,31 +592,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>I recommend passing numerical values as hexadecimal strings.</li>
 <li>Generate values in Python, perform operations, and test results vs.&nbsp;4096_t</li>
-<li>Take timing data</li>
 </ul></li>
-<li>I found it difficult to debug without constructing an interface.</li>
+<li>I found it difficult to debug <code>bigadd</code> and <code>bigsub</code> without constructing an interface.</li>
 <li>Here is an example of a function I used in testing:</li>
 </ul>
 <div class="sourceCode" id="cb15"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* print the big value as a string */</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> seebig<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>a<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> i<span class="op">;</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> S<span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> S <span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"</span><span class="sc">%016lx</span><span class="st"> "</span><span class="op">,</span> a<span class="op">[</span>i<span class="op">]);</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"</span><span class="sc">%016lx</span><span class="st"> "</span><span class="op">,</span> a<span class="op">[</span>i<span class="op">]);</span> </span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">((</span>i <span class="op">%</span> <span class="dv">8</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> i<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>       </span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span><span class="op">);</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="autograder" class="level2">
+<h2 class="anchored" data-anchor-id="autograder">Autograder</h2>
+<ul>
+<li>The interface implemented by the autograder may be informative here.
+<ul>
+<li>It uses a Python script.</li>
+<li>It uses a dedicated .c file with a <code>main</code> function.</li>
+<li>It uses <code>gcc 4096_t.c tester.c</code> to compile the 4096_t code for use in the tester executable.</li>
+<li>It uses Python <code>subprocess</code> to examine the results.</li>
+</ul></li>
+<li>I was unable to achieve a bugfree multiply absent this interface, but was able to progress rapidly once I developed it.
+<ul>
+<li><a href="https://github.com/cd-c89/crypto/blob/main/4096_t/tester.py">tester.py</a></li>
+<li><a href="https://github.com/cd-c89/crypto/blob/main/4096_t/tester.c">tester.c</a></li>
+</ul></li>
+</ul>
 </section>
 </div>
 </section>
 <section id="bigadd-show" class="level1">
 <h1>BigAdd&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#bigadd" role="button" aria-expanded="false" aria-controls="bigadd">Show</a></h1>
 <div id="bigadd" class="collapse multi-collapse">
-<section id="big-addtion" class="level2">
-<h2 class="anchored" data-anchor-id="big-addtion">Big Addtion</h2>
+<section id="big-addition" class="level2">
+<h2 class="anchored" data-anchor-id="big-addition">Big Addition</h2>
 <ul>
 <li>Using what you know so far, write <code>bigadd</code>.
 <ul>

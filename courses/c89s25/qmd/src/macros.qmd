@@ -28,6 +28,9 @@ format:
 - Your responsibility
   - You will create a solution in C as an "macros.c" file
   - You will create a private GitHub repository named "crypto"
+    - I recommend creating a new repository of your own, not forking my repository.
+    - This makes it easier to manage a private repository.
+    - Up to you.
   - You will create a folder in this repository named "macros"
   - You will store your "macros.c" file in the "macros" folder.
   - You will add me as a collaborator through the GitHub web application
@@ -94,7 +97,7 @@ You can send an invitation to collaborate in your repository directly to someone
 
 GitHub limits the number of people who can be invited to a repository within a 24-hour period. If you exceed this limit, either wait 24 hours or create an organization to collaborate with more people. For more information, see [Creating a new organization from scratch](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
-1. Ask for the username of the person you're inviting as a collaborator. If they don't have a username yet, they can sign up for GitHub. For more information, see [Creating an account on GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github).{1. On GitHub, navigate to the main page of the repository.
+1. Ask for the username of the person you're inviting as a collaborator. If they don't have a username yet, they can sign up for GitHub. For more information, see [Creating an account on GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github).
 1. Under your repository name, click **Settings**. If you cannot see the "Settings" tab, select the dropdown menu, then click Settings.
 <img width="100%" src="https://docs.github.com/assets/cb-28260/mw-1440/images/help/repository/repo-actions-settings.webp">
 1. In the "Access" section of the sidebar, click  **Collaborators**.

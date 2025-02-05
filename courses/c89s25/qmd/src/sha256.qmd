@@ -72,7 +72,7 @@ print("\n".join([f"{hash(a):+d}" for a in "ABCDE"]))
 -   Let $M$ be the size of some hash table
 -   Take $a, W \in \mathbb{N} : W < M \land \gcd(a, W) = 1$
     -   That is, two positive coprime integers.
--   Any integer value $x$ can be mapped into $\mathbb{N}_M = \{0,1,\ldots, M-1\}$
+-   Any integer value $x$ can be mapped into $\mathbb{N}/(M) = \{0,1,\ldots, M-1\}$
     
 ```LaTeX
 h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
@@ -84,7 +84,7 @@ $$
 ## Example.py
 -   We can express in a programming language.
 -   We note that 257 == 0x101 is prime.
-    -   And therefore $\forall W : gcd(257,W) = 1$
+    -   And therefore $\forall W : \gcd(257,W) = 1$
 ```{python}
 import math
 h = lambda x, a, W, M : math.floor(((a * x) % W) / W * M)
@@ -110,7 +110,7 @@ unsigned int h(unsigned int x, unsigned int a, unsigned int m) {
 
 -   A **collision** occurs if
 $$
-\exists x, x' : x \neq x` \land h(x) = h(x')
+\exists x, x' : x \neq x' \land h(x) = h(x')
 $$
 -   That is, this assertion *fails*:
 ```{.py}
@@ -139,7 +139,7 @@ assert(set(h(x, a, W, M) for x in range(M)) == set(range(M)))
 
 # What?
 
-## Cryptgraphic
+## Cryptographic
 
 -   Begin with SHA-2 (Secure Hash Algorithm 2).
     -   A family of cryptographic hash functions.
@@ -219,7 +219,7 @@ assert(set(h(x, a, W, M) for x in range(M)) == set(range(M)))
 - Let $M$ be $l$-bits long.
 - Find the smallest non-negative $k$ such that:
 $$
-k + l + 65 = 0 \pmod{512}
+k + l + 65 \equiv 0 \pmod{512}
 $$
 
 ## Padding Content
@@ -230,7 +230,7 @@ $$
     -   The 64-bit representation of $l$.
 $$
 \begin{align*}
-1\underbrace{000 \cdots 000}_{n \textrm{ zeros}}\underbrace{l}_{\textrm{ 64 bits}} \\
+1\underbrace{000 \cdots 000}_{k \textrm{ zeros}}\underbrace{l}_{\textrm{ 64 bits}} \\
 \end{align*}
 $$
 

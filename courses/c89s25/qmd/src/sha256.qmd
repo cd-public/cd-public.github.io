@@ -240,8 +240,7 @@ $$
 -   Perhaps easier to show with strings.
 ```{python}
 M = "Hello there I am a message.  " * 15
-x = 1
-l = len(M.encode('utf-8')) * x.bit_length()
+l = len(M.encode('utf-8')) * 8
 k = 512 - (l + 65) % 512
 "l=", l, "k=", k, "pad=", "0x1" + "0" * (k//4) + f"{l:016x}" ## 64 // 4 == 16
 ```
@@ -322,8 +321,7 @@ uint32_t complement(uint32_t u) {
 - $U \land V$, $U \lor V$, $U \oplus V$: AND, OR, XOR
 - As from printb/macros.
 ```{.C}
-/* 32 bit bitwise complement, exact */
-uint32_t and(uint32_t u, uint32_t v) {
+uint32_t and(uint32_t u, uint32_t v) { /* bitwise and */
     return u & v;
 }
 
@@ -389,7 +387,8 @@ $$
 $$
 \text{MEDIAN}(U, V, W) = (U \land V) \oplus (U \land W) \oplus (V \land W)
 $$
-
+- There exist numerous formulations of median.
+    - This one lifted from [GitHub user B-Con](https://github.com/B-Con/crypto-algorithms)
 
 ## Shifts/Rotates
 
@@ -480,8 +479,8 @@ for j in range(64):
 $$
 \begin{align}
 \begin{split}
-& T_1  = H + \Sigma_1(E) + \textsf{Ch}(E,F,G) + K_j + W_j \\
-& T_2  = \Sigma_0(A) + \textsf{Maj}(A,B,C) \\
+& T_1  = H + \Sigma_1(E) + \textsf{CHOICE}(E,F,G) + K_j + W_j \\
+& T_2  = \Sigma_0(A) + \textsf{MEDIAN}(A,B,C) \\
 \end{split}
 \end{align}
 $$
@@ -492,7 +491,7 @@ $$
 
 ## 4. Update hash value
 
-- Concludes the work on $M^{(i)}$ by finding $H^{(i)}$
+- Conclude the work on $M^{(i)}$ by finding $H^{(i)}$
 
 $$
 H^{(i)}_j = A + H^{(i-1)}_j, \quad j = 0, \ldots, 7

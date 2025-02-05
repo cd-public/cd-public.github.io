@@ -475,14 +475,14 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Example: Python <code>hash</code></li>
 </ul>
-<div id="d2ec79eb" class="cell" data-execution_count="2">
+<div id="4fefa471" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="ss">f"</span><span class="sc">{</span><span class="bu">hash</span>(a)<span class="sc">:+d}</span><span class="ss">"</span> <span class="cf">for</span> a <span class="kw">in</span> <span class="st">"ABCDE"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-1816143160440941865
-+4049084208316813398
--4700605915453633798
--4649981414139082377
-+2275070532526587453</code></pre>
+<pre><code>-6677963751444526088
++7235890346023670550
+-787705514839743249
++5878548599937759378
+-5632767600155626281</code></pre>
 </div>
 </div>
 </section>
@@ -494,7 +494,7 @@ Prof.&nbsp;Calvin
 <ul>
 <li>That is, two positive coprime integers.</li>
 </ul></li>
-<li>Any integer value <span class="math inline">\(x\)</span> can be mapped into <span class="math inline">\(\mathbb{N}_M = \{0,1,\ldots, M-1\}\)</span></li>
+<li>Any integer value <span class="math inline">\(x\)</span> can be mapped into <span class="math inline">\(\mathbb{N}/(M) = \{0,1,\ldots, M-1\}\)</span></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource latex number-lines code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a></a>h_a(x) = <span class="fu">\left\lfloor</span> <span class="fu">\frac</span>{a x <span class="fu">\bmod</span> W}{W} M <span class="fu">\right\rfloor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><span class="math display">\[
@@ -507,10 +507,10 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>We can express in a programming language.</li>
 <li>We note that 257 == 0x101 is prime.
 <ul>
-<li>And therefore <span class="math inline">\(\forall W : gcd(257,W) = 1\)</span></li>
+<li>And therefore <span class="math inline">\(\forall W : \gcd(257,W) = 1\)</span></li>
 </ul></li>
 </ul>
-<div id="f06bcfbb" class="cell" data-execution_count="3">
+<div id="ee87c472" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> math</span>
 <span id="cb4-2"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb4-3"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
@@ -540,7 +540,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <h2>Collisions</h2>
 <ul>
 <li>A <strong>collision</strong> occurs if <span class="math display">\[
-\exists x, x' : x \neq x` \land h(x) = h(x')
+\exists x, x' : x \neq x' \land h(x) = h(x')
 \]</span></li>
 <li>That is, this assertion <em>fails</em>:</li>
 </ul>
@@ -560,7 +560,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </section>
 <section id="test-it" class="slide level2">
 <h2>Test it:</h2>
-<div id="a9e9b902" class="cell" data-execution_count="4">
+<div id="15016c00" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
 <span id="cb8-2"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
 <span id="cb8-3"><a></a><span class="cf">assert</span>(<span class="bu">set</span>(h(x, a, W, M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)) <span class="op">==</span> <span class="bu">set</span>(<span class="bu">range</span>(M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -579,8 +579,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <h1>What?</h1>
 
 </section>
-<section id="cryptgraphic" class="slide level2">
-<h2>Cryptgraphic</h2>
+<section id="cryptographic" class="slide level2">
+<h2>Cryptographic</h2>
 <ul>
 <li>Begin with SHA-2 (Secure Hash Algorithm 2).
 <ul>
@@ -700,7 +700,7 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li><p>The input <span class="math inline">\(M\)</span> is padded to a length that is a multiple of 512.</p></li>
 <li><p>Let <span class="math inline">\(M\)</span> be <span class="math inline">\(l\)</span>-bits long.</p></li>
 <li><p>Find the smallest non-negative <span class="math inline">\(k\)</span> such that: <span class="math display">\[
-k + l + 65 = 0 \pmod{512}
+k + l + 65 \equiv 0 \pmod{512}
 \]</span></p></li>
 </ul>
 </section>
@@ -713,7 +713,7 @@ k + l + 65 = 0 \pmod{512}
 <li><span class="math inline">\(k\)</span> zeros (<code>0</code>), followed by</li>
 <li>The 64-bit representation of <span class="math inline">\(l\)</span>. <span class="math display">\[
 \begin{align*}
-1\underbrace{000 \cdots 000}_{n \textrm{ zeros}}\underbrace{l}_{\textrm{ 64 bits}} \\
+1\underbrace{000 \cdots 000}_{k \textrm{ zeros}}\underbrace{l}_{\textrm{ 64 bits}} \\
 \end{align*}
 \]</span></li>
 </ul></li>
@@ -725,14 +725,13 @@ k + l + 65 = 0 \pmod{512}
 <li>We can solve numerically in Python, but…</li>
 <li>Perhaps easier to show with strings.</li>
 </ul>
-<div id="7eed7d24" class="cell" data-execution_count="5">
+<div id="06af9a1b" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>M <span class="op">=</span> <span class="st">"Hello there I am a message.  "</span> <span class="op">*</span> <span class="dv">15</span></span>
-<span id="cb9-2"><a></a>x <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb9-3"><a></a>l <span class="op">=</span> <span class="bu">len</span>(M.encode(<span class="st">'utf-8'</span>)) <span class="op">*</span> x.bit_length()</span>
-<span id="cb9-4"><a></a>k <span class="op">=</span> <span class="dv">512</span> <span class="op">-</span> (l <span class="op">+</span> <span class="dv">65</span>) <span class="op">%</span> <span class="dv">512</span></span>
-<span id="cb9-5"><a></a><span class="co">"l="</span>, l, <span class="st">"k="</span>, k, <span class="st">"pad="</span>, <span class="st">"0x1"</span> <span class="op">+</span> <span class="st">"0"</span> <span class="op">*</span> (k<span class="op">//</span><span class="dv">4</span>) <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>l<span class="sc">:016x}</span><span class="ss">"</span> <span class="co">## 64 // 4 == 16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a></a>l <span class="op">=</span> <span class="bu">len</span>(M.encode(<span class="st">'utf-8'</span>)) <span class="op">*</span> <span class="dv">8</span></span>
+<span id="cb9-3"><a></a>k <span class="op">=</span> <span class="dv">512</span> <span class="op">-</span> (l <span class="op">+</span> <span class="dv">65</span>) <span class="op">%</span> <span class="dv">512</span></span>
+<span id="cb9-4"><a></a><span class="co">"l="</span>, l, <span class="st">"k="</span>, k, <span class="st">"pad="</span>, <span class="st">"0x1"</span> <span class="op">+</span> <span class="st">"0"</span> <span class="op">*</span> (k<span class="op">//</span><span class="dv">4</span>) <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>l<span class="sc">:016x}</span><span class="ss">"</span> <span class="co">## 64 // 4 == 16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>('l=', 435, 'k=', 12, 'pad=', '0x100000000000000001b3')</code></pre>
+<pre><code>('l=', 3480, 'k=', 39, 'pad=', '0x10000000000000000000000d98')</code></pre>
 </div>
 </div>
 <ul>
@@ -835,18 +834,17 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 <li><span class="math inline">\(U \land V\)</span>, <span class="math inline">\(U \lor V\)</span>, <span class="math inline">\(U \oplus V\)</span>: AND, OR, XOR</li>
 <li>As from printb/macros.</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a></a><span class="co">/* 32 bit bitwise complement, exact */</span></span>
-<span id="cb13-2"><a></a><span class="dt">uint32_t</span> and<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb13-3"><a></a>    <span class="cf">return</span> u <span class="op">&amp;</span> v<span class="op">;</span></span>
-<span id="cb13-4"><a></a><span class="op">}</span></span>
-<span id="cb13-5"><a></a></span>
-<span id="cb13-6"><a></a><span class="dt">uint32_t</span> ior<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* inclusive or */</span></span>
-<span id="cb13-7"><a></a>    <span class="cf">return</span> u <span class="op">|</span> v<span class="op">;</span></span>
-<span id="cb13-8"><a></a><span class="op">}</span></span>
-<span id="cb13-9"><a></a></span>
-<span id="cb13-10"><a></a><span class="dt">uint32_t</span> xor<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* exclusive or */</span></span>
-<span id="cb13-11"><a></a>    <span class="cf">return</span> u <span class="op">^</span> v<span class="op">;</span></span>
-<span id="cb13-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a></a><span class="dt">uint32_t</span> and<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* bitwise and */</span></span>
+<span id="cb13-2"><a></a>    <span class="cf">return</span> u <span class="op">&amp;</span> v<span class="op">;</span></span>
+<span id="cb13-3"><a></a><span class="op">}</span></span>
+<span id="cb13-4"><a></a></span>
+<span id="cb13-5"><a></a><span class="dt">uint32_t</span> ior<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* inclusive or */</span></span>
+<span id="cb13-6"><a></a>    <span class="cf">return</span> u <span class="op">|</span> v<span class="op">;</span></span>
+<span id="cb13-7"><a></a><span class="op">}</span></span>
+<span id="cb13-8"><a></a></span>
+<span id="cb13-9"><a></a><span class="dt">uint32_t</span> xor<span class="op">(</span><span class="dt">uint32_t</span> u<span class="op">,</span> <span class="dt">uint32_t</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">/* exclusive or */</span></span>
+<span id="cb13-10"><a></a>    <span class="cf">return</span> u <span class="op">^</span> v<span class="op">;</span></span>
+<span id="cb13-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="addition" class="slide level2">
 <h2>Addition</h2>
@@ -854,7 +852,7 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 <li>C addition is a binary bitwise operation:</li>
 <li>Equivalent to integer sum module <span class="math inline">\(2^{32}\)</span></li>
 </ul>
-<div id="b7d9603a" class="cell" data-execution_count="6">
+<div id="51ecf350" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">from</span> ctypes <span class="im">import</span> c_uint <span class="co">## this won't work in pypy</span></span>
 <span id="cb14-2"><a></a><span class="kw">def</span> addition(u:c_uint, v:c_uint) <span class="op">-&gt;</span> c_uint:</span>
 <span id="cb14-3"><a></a>    <span class="cf">return</span> c_uint(u <span class="op">+</span> v)</span>
@@ -921,6 +919,10 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 \]</span> <span class="math display">\[
 \text{MEDIAN}(U, V, W) = (U \land V) \oplus (U \land W) \oplus (V \land W)
 \]</span></li>
+<li>There exist numerous formulations of median.
+<ul>
+<li>This one lifted from <a href="https://github.com/B-Con/crypto-algorithms">GitHub user B-Con</a></li>
+</ul></li>
 </ul>
 </section>
 <section id="shiftsrotates" class="slide level2">
@@ -1032,8 +1034,8 @@ M^{(i)}_j &amp; 0 \leq j \leq 15 \\
 <li>Precompute two temporary values (or not) <span class="math display">\[
 \begin{align}
 \begin{split}
-&amp; T_1  = H + \Sigma_1(E) + \textsf{Ch}(E,F,G) + K_j + W_j \\
-&amp; T_2  = \Sigma_0(A) + \textsf{Maj}(A,B,C) \\
+&amp; T_1  = H + \Sigma_1(E) + \textsf{CHOICE}(E,F,G) + K_j + W_j \\
+&amp; T_2  = \Sigma_0(A) + \textsf{MEDIAN}(A,B,C) \\
 \end{split}
 \end{align}
 \]</span></li>
@@ -1045,7 +1047,7 @@ M^{(i)}_j &amp; 0 \leq j \leq 15 \\
 <section id="update-hash-value" class="slide level2">
 <h2>4. Update hash value</h2>
 <ul>
-<li>Concludes the work on <span class="math inline">\(M^{(i)}\)</span> by finding <span class="math inline">\(H^{(i)}\)</span></li>
+<li>Conclude the work on <span class="math inline">\(M^{(i)}\)</span> by finding <span class="math inline">\(H^{(i)}\)</span></li>
 </ul>
 <p><span class="math display">\[
 H^{(i)}_j = A + H^{(i-1)}_j, \quad j = 0, \ldots, 7

@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Macros</h1>
-            <p class="subtitle lead">HW 0x1: Due Th, Jan 30</p>
+            <p class="subtitle lead">HW 0x1: Due Th, Feb 06</p>
                       </div>
   </div>
     
@@ -149,13 +149,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>My responsibility
 <ul>
-<li>I will provide a reference solution in Python</li>
-<li>I will provide an autograder Containerfile</li>
+<li>I will provide a reference solution in Python
+<ul>
+<li>The reference will differ in the following ways:
+<ul>
+<li>They will not use, as there isn’t great bit manipulation in Python without libraries.</li>
+<li>I will provide an example of a <em>left</em> rotate while the assignment requires a <em>right</em> rotate.</li>
+</ul></li>
+</ul></li>
+<li>I will provide an autograder Containerfile
+<ul>
+<li>Following the deficiencies of the Python variant, I will also provide a “viewer”.</li>
+<li>I will provide sample output for the viewer.</li>
+</ul></li>
 </ul></li>
 <li>Your responsibility
 <ul>
-<li>You will create a solution in C as an “macros.c” file</li>
-<li>You will create a private GitHub repository named “crypto”</li>
+<li>You will create a solution in C as an “macros.c” file.
+<ul>
+<li>It will contain 3 macros
+<ul>
+<li><code>CHOICE</code></li>
+<li><code>MEDIAN</code></li>
+<li><code>ROTATE</code> - a “right” rotate.</li>
+</ul></li>
+</ul></li>
+<li>You will create a private GitHub repository named “crypto”
+<ul>
+<li>I recommend creating a new repository of your own, not forking my repository.</li>
+<li>This makes it easier to manage a private repository.</li>
+<li>Up to you.</li>
+</ul></li>
 <li>You will create a folder in this repository named “macros”</li>
 <li>You will store your “macros.c” file in the “macros” folder.</li>
 <li>You will add me as a collaborator through the GitHub web application
@@ -246,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can send an invitation to collaborate in your repository directly to someone on GitHub, or to the person’s email address..</p>
 <p>GitHub limits the number of people who can be invited to a repository within a 24-hour period. If you exceed this limit, either wait 24 hours or create an organization to collaborate with more people. For more information, see <a href="https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch">Creating a new organization from scratch</a>.</p>
 <ol type="1">
-<li>Ask for the username of the person you’re inviting as a collaborator. If they don’t have a username yet, they can sign up for GitHub. For more information, see <a href="https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github">Creating an account on GitHub</a>.{1. On GitHub, navigate to the main page of the repository.</li>
+<li>Ask for the username of the person you’re inviting as a collaborator. If they don’t have a username yet, they can sign up for GitHub. For more information, see <a href="https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github">Creating an account on GitHub</a>.</li>
 <li>Under your repository name, click <strong>Settings</strong>. If you cannot see the “Settings” tab, select the dropdown menu, then click Settings. <img width="100%" src="https://docs.github.com/assets/cb-28260/mw-1440/images/help/repository/repo-actions-settings.webp"></li>
 <li>In the “Access” section of the sidebar, click <strong>Collaborators</strong>.</li>
 <li>Click <strong>Add people</strong>.</li>
@@ -724,6 +748,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul></li>
 </ul>
+</section>
+<section id="viewer" class="level4">
+<h4 class="anchored" data-anchor-id="viewer">Viewer</h4>
+<ul>
+<li>The tester doesn’t include <code>&lt;stdio.h&gt;</code> so it isn’t easy to examine.</li>
+<li>You can view sample outputs here.</li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>viewer.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb22" data-filename="viewer.c"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">/* your code here</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#define CHOICE(x,y,z) </span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#define MEDIAN(x,y,z) </span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#define ROTATE(a,b) */</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Various Variables*/</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> a<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="bn">0x11110000</span><span class="op">,</span> <span class="bn">0x11001100</span><span class="op">,</span> <span class="bn">0x10101010</span><span class="op">,</span> <span class="bn">0xABCD0123</span><span class="op">};</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* CHOICE */</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"*Rotates use a decimal shift value, but print in hexadecimal:</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"CHOICE(</span><span class="sc">\n%08lX</span><span class="st">,</span><span class="sc">\n%08lX</span><span class="st">,</span><span class="sc">\n%08lX</span><span class="st">) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">[</span><span class="dv">0</span><span class="op">],</span> a<span class="op">[</span><span class="dv">1</span><span class="op">],</span> a<span class="op">[</span><span class="dv">2</span><span class="op">],</span> CHOICE<span class="op">(</span>a<span class="op">[</span><span class="dv">0</span><span class="op">],</span> a<span class="op">[</span><span class="dv">1</span><span class="op">],</span> a<span class="op">[</span><span class="dv">2</span><span class="op">]));</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"MEDIAN(</span><span class="sc">\n%08lX</span><span class="st">,</span><span class="sc">\n%08lX</span><span class="st">,</span><span class="sc">\n%08lX</span><span class="st">) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">[</span><span class="dv">0</span><span class="op">],</span> a<span class="op">[</span><span class="dv">1</span><span class="op">],</span> a<span class="op">[</span><span class="dv">2</span><span class="op">],</span> MEDIAN<span class="op">(</span>a<span class="op">[</span><span class="dv">0</span><span class="op">],</span> a<span class="op">[</span><span class="dv">1</span><span class="op">],</span> a<span class="op">[</span><span class="dv">2</span><span class="op">]));</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"*Rotates use a decimal shift value, but print in hexadecimal:</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"ROTATE(</span><span class="sc">\n%08lX</span><span class="st">, 04) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">[</span><span class="dv">3</span><span class="op">],</span> ROTATE<span class="op">(</span>a<span class="op">[</span><span class="dv">3</span><span class="op">],</span> <span class="dv">4</span><span class="op">));</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"ROTATE(</span><span class="sc">\n%08lX</span><span class="st">, 08) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">[</span><span class="dv">3</span><span class="op">],</span> ROTATE<span class="op">(</span>a<span class="op">[</span><span class="dv">3</span><span class="op">],</span> <span class="dv">8</span><span class="op">));</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"ROTATE(</span><span class="sc">\n%08lX</span><span class="st">, 12) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> a<span class="op">[</span><span class="dv">3</span><span class="op">],</span> ROTATE<span class="op">(</span>a<span class="op">[</span><span class="dv">3</span><span class="op">],</span> <span class="dv">12</span><span class="op">));</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"ROTATE(</span><span class="sc">\n%08lX</span><span class="st">, 02) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> <span class="bn">0x1000</span><span class="op">,</span> ROTATE<span class="op">(</span><span class="bn">0x1000</span><span class="op">,</span> <span class="dv">2</span><span class="op">));</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"ROTATE(</span><span class="sc">\n%08lX</span><span class="st">, 30) = </span><span class="sc">\n</span><span class="st">--------</span><span class="sc">\n%08lX\n\n</span><span class="st">"</span><span class="op">,</span> <span class="bn">0x1000</span><span class="op">,</span> ROTATE<span class="op">(</span><span class="bn">0x1000</span><span class="op">,</span> <span class="dv">30</span><span class="op">));</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>*Rotates use a decimal shift value, but print in hexadecimal:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>CHOICE(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>11110000,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>11001100,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>10101010) = </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>11001010</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>MEDIAN(</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>11110000,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>11001100,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>10101010) = </span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>11101000</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>*Rotates use a decimal shift value, but print in hexadecimal:</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>ROTATE(</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>ABCD0123,04) = </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>3ABCD012</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>ROTATE(</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>ABCD0123,08) = </span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>23ABCD01</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>ROTATE(</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>ABCD0123,12) = </span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>123ABCD0</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>ROTATE(</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>00001000,02) = </span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>00000400</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>ROTATE(</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>00001000,30) = </span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>--------</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>00004000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </div>
 

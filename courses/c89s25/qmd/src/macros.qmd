@@ -7,7 +7,7 @@
 
 ---
 title: Macros
-subtitle: "HW 0x1: Due Th, Jan 30"
+subtitle: "HW 0x1: Due Th, Feb 06"
 
 format: 
   html:
@@ -24,10 +24,22 @@ format:
 ### Goal: Think about C variables as bits
 - My responsibility
   - I will provide a reference solution in Python
+    - The reference will differ in the following ways:
+      - They will not use, as there isn't great bit manipulation in Python without libraries.
+      - I will provide an example of a *left* rotate while the assignment requires a *right* rotate.
   - I will provide an autograder Containerfile
+    - Following the deficiencies of the Python variant, I will also provide a "viewer".
+    - I will provide sample output for the viewer.
 - Your responsibility
-  - You will create a solution in C as an "macros.c" file
+  - You will create a solution in C as an "macros.c" file.
+    - It will contain 3 macros
+      - `CHOICE`
+      - `MEDIAN`
+      - `ROTATE` - a "right" rotate.
   - You will create a private GitHub repository named "crypto"
+    - I recommend creating a new repository of your own, not forking my repository.
+    - This makes it easier to manage a private repository.
+    - Up to you.
   - You will create a folder in this repository named "macros"
   - You will store your "macros.c" file in the "macros" folder.
   - You will add me as a collaborator through the GitHub web application
@@ -94,7 +106,7 @@ You can send an invitation to collaborate in your repository directly to someone
 
 GitHub limits the number of people who can be invited to a repository within a 24-hour period. If you exceed this limit, either wait 24 hours or create an organization to collaborate with more people. For more information, see [Creating a new organization from scratch](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
-1. Ask for the username of the person you're inviting as a collaborator. If they don't have a username yet, they can sign up for GitHub. For more information, see [Creating an account on GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github).{1. On GitHub, navigate to the main page of the repository.
+1. Ask for the username of the person you're inviting as a collaborator. If they don't have a username yet, they can sign up for GitHub. For more information, see [Creating an account on GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github).
 1. Under your repository name, click **Settings**. If you cannot see the "Settings" tab, select the dropdown menu, then click Settings.
 <img width="100%" src="https://docs.github.com/assets/cb-28260/mw-1440/images/help/repository/repo-actions-settings.webp">
 1. In the "Access" section of the sidebar, click  **Collaborators**.
@@ -504,5 +516,81 @@ podman run tester /bin/bash tester.sh
         -   It assumes an underlying AMD64 device
         -   [GCP](https://console.cloud.google.com/) cloud console runs on AMD64
             -   `docker`, installed by default, is an alternative to `podman` on GCP.
+
+
+#### Viewer
+
+- The tester doesn't include `<stdio.h>` so it isn't easy to examine.
+- You can view sample outputs here.
+
+```{.c filename="viewer.c"}
+#include <stdio.h>
+
+/* your code here
+#define CHOICE(x,y,z) 
+#define MEDIAN(x,y,z) 
+#define ROTATE(a,b) */
+
+int main() {
+    /* Various Variables*/
+    unsigned a[4] = {0x11110000, 0x11001100, 0x10101010, 0xABCD0123};
+
+    /* CHOICE */
+    printf("*Rotates use a decimal shift value, but print in hexadecimal:\n");
+    printf("CHOICE(\n%08lX,\n%08lX,\n%08lX) = \n--------\n%08lX\n\n", a[0], a[1], a[2], CHOICE(a[0], a[1], a[2]));
+    printf("MEDIAN(\n%08lX,\n%08lX,\n%08lX) = \n--------\n%08lX\n\n", a[0], a[1], a[2], MEDIAN(a[0], a[1], a[2]));
+    printf("*Rotates use a decimal shift value, but print in hexadecimal:\n");
+    printf("ROTATE(\n%08lX, 04) = \n--------\n%08lX\n\n", a[3], ROTATE(a[3], 4));
+    printf("ROTATE(\n%08lX, 08) = \n--------\n%08lX\n\n", a[3], ROTATE(a[3], 8));
+    printf("ROTATE(\n%08lX, 12) = \n--------\n%08lX\n\n", a[3], ROTATE(a[3], 12));
+    printf("ROTATE(\n%08lX, 02) = \n--------\n%08lX\n\n", 0x1000, ROTATE(0x1000, 2));
+    printf("ROTATE(\n%08lX, 30) = \n--------\n%08lX\n\n", 0x1000, ROTATE(0x1000, 30));
+
+    return 0;
+}
+```
+
+```{.email}
+*Rotates use a decimal shift value, but print in hexadecimal:
+CHOICE(
+11110000,
+11001100,
+10101010) = 
+--------
+11001010
+
+MEDIAN(
+11110000,
+11001100,
+10101010) = 
+--------
+11101000
+
+*Rotates use a decimal shift value, but print in hexadecimal:
+ROTATE(
+ABCD0123,04) = 
+--------
+3ABCD012
+
+ROTATE(
+ABCD0123,08) = 
+--------
+23ABCD01
+
+ROTATE(
+ABCD0123,12) = 
+--------
+123ABCD0
+
+ROTATE(
+00001000,02) = 
+--------
+00000400
+
+ROTATE(
+00001000,30) = 
+--------
+00004000
+```
 
 :::

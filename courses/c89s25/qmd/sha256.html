@@ -475,14 +475,14 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li>Example: Python <code>hash</code></li>
 </ul>
-<div id="4fefa471" class="cell" data-execution_count="2">
+<div id="f9a45fde" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="ss">f"</span><span class="sc">{</span><span class="bu">hash</span>(a)<span class="sc">:+d}</span><span class="ss">"</span> <span class="cf">for</span> a <span class="kw">in</span> <span class="st">"ABCDE"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-6677963751444526088
-+7235890346023670550
--787705514839743249
-+5878548599937759378
--5632767600155626281</code></pre>
+<pre><code>+3842010305505663670
+-6507655812669903417
+-4670642953953655094
++1219834251590897017
+-6037137464061388678</code></pre>
 </div>
 </div>
 </section>
@@ -490,7 +490,7 @@ Prof.&nbsp;Calvin
 <h2>Example.tex</h2>
 <ul>
 <li>Let <span class="math inline">\(M\)</span> be the size of some hash table</li>
-<li>Take <span class="math inline">\(a, W \in \mathbb{N} : W &lt; M \land \gcd(a, W) = 1\)</span>
+<li>Take <span class="math inline">\(a \in \mathbb{N} : a &lt; M \land \gcd(a, W) = 1\)</span>
 <ul>
 <li>That is, two positive coprime integers.</li>
 </ul></li>
@@ -498,7 +498,7 @@ Prof.&nbsp;Calvin
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource latex number-lines code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a></a>h_a(x) = <span class="fu">\left\lfloor</span> <span class="fu">\frac</span>{a x <span class="fu">\bmod</span> W}{W} M <span class="fu">\right\rfloor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><span class="math display">\[
-h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
+h_a(x) = \left\lfloor \frac{a x \bmod M}{W} M \right\rfloor
 \]</span></p>
 </section>
 <section id="example.py" class="slide level2">
@@ -510,14 +510,14 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 <li>And therefore <span class="math inline">\(\forall W : \gcd(257,W) = 1\)</span></li>
 </ul></li>
 </ul>
-<div id="ee87c472" class="cell" data-execution_count="3">
+<div id="003486e0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> math</span>
-<span id="cb4-2"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
-<span id="cb4-3"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
-<span id="cb4-4"><a></a><span class="cf">assert</span>(<span class="bu">all</span>((<span class="kw">not</span> math.gcd(a, W) <span class="op">==</span> <span class="dv">1</span>) <span class="kw">or</span> h(x, a, W, M) <span class="kw">in</span> <span class="bu">range</span>(M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)))</span>
-<span id="cb4-5"><a></a><span class="bu">print</span>(<span class="st">'h'</span><span class="op">+</span><span class="bu">str</span>((<span class="bn">0xDA7A</span>,a,W,M)), <span class="st">'='</span>, h(<span class="bn">0xDA7A</span>,a,W,M))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, M : (math.floor(((a <span class="op">*</span> x) <span class="op">%</span> M) <span class="op">/</span> M <span class="op">*</span> M))</span>
+<span id="cb4-3"><a></a>a, M <span class="op">=</span> <span class="bn">0x05</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
+<span id="cb4-4"><a></a><span class="cf">assert</span>(<span class="bu">all</span>((<span class="kw">not</span> math.gcd(a, M) <span class="op">==</span> <span class="dv">1</span>) <span class="kw">or</span> h(x, a, M) <span class="kw">in</span> <span class="bu">range</span>(M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)))</span>
+<span id="cb4-5"><a></a><span class="bu">print</span>(<span class="st">'h'</span><span class="op">+</span><span class="bu">str</span>((<span class="bn">0xDA7A</span>,a,M)), <span class="st">'='</span>, h(<span class="bn">0xDA7A</span>,a,M))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>h(55930, 257, 65536, 256) = 84</code></pre>
+<pre><code>h(55930, 5, 256) = 98</code></pre>
 </div>
 </div>
 </section>
@@ -544,7 +544,8 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 \]</span></li>
 <li>That is, this assertion <em>fails</em>:</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="cf">assert</span>(((x_0 <span class="op">!=</span> x_1) <span class="kw">and</span> (h(x_0, a, W, M) <span class="op">==</span> h(x_1, a, W, M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>x_0, x_1 <span class="op">=</span> <span class="dv">1</span>,<span class="dv">2</span></span>
+<span id="cb7-2"><a></a><span class="cf">assert</span>(((x_0 <span class="op">!=</span> x_1) <span class="kw">and</span> (h(x_0, a, M) <span class="op">==</span> h(x_1, a, M))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><strong>Goal:</strong> minimize:non-crypto::avoid:crypto collisions.
 <ul>
@@ -560,14 +561,14 @@ h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
 </section>
 <section id="test-it" class="slide level2">
 <h2>Test it:</h2>
-<div id="15016c00" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, W, M : math.floor(((a <span class="op">*</span> x) <span class="op">%</span> W) <span class="op">/</span> W <span class="op">*</span> M)</span>
-<span id="cb8-2"><a></a>a, W, M <span class="op">=</span> <span class="bn">0x101</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x10</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
-<span id="cb8-3"><a></a><span class="cf">assert</span>(<span class="bu">set</span>(h(x, a, W, M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)) <span class="op">==</span> <span class="bu">set</span>(<span class="bu">range</span>(M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="08962aac" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>h <span class="op">=</span> <span class="kw">lambda</span> x, a, M : (math.floor(((a <span class="op">*</span> x) <span class="op">%</span> M) <span class="op">/</span> M <span class="op">*</span> M))</span>
+<span id="cb8-2"><a></a>a, M <span class="op">=</span> <span class="bn">0x05</span>, <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="bn">0x08</span></span>
+<span id="cb8-3"><a></a><span class="cf">assert</span>(<span class="bu">set</span>(h(x, a, M) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(M)) <span class="op">==</span> <span class="bu">set</span>(<span class="bu">range</span>(M)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>As a rule we shouldn’t try to write proofs/definitions in Python, but…</li>
-<li>Small <span class="math inline">\(W = 2^{0x10} = 65536\)</span> means our computer can handle all possibilities.</li>
+<li>Small <span class="math inline">\(M = 2^{0x08} = 256\)</span> means our computer can handle all possibilities.</li>
 </ul>
 </section>
 <section id="visualize" class="slide level2">
@@ -725,12 +726,12 @@ k + l + 65 \equiv 0 \pmod{512}
 <li>We can solve numerically in Python, but…</li>
 <li>Perhaps easier to show with strings.</li>
 </ul>
-<div id="06af9a1b" class="cell" data-execution_count="5">
+<div id="6866b387" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>M <span class="op">=</span> <span class="st">"Hello there I am a message.  "</span> <span class="op">*</span> <span class="dv">15</span></span>
 <span id="cb9-2"><a></a>l <span class="op">=</span> <span class="bu">len</span>(M.encode(<span class="st">'utf-8'</span>)) <span class="op">*</span> <span class="dv">8</span></span>
 <span id="cb9-3"><a></a>k <span class="op">=</span> <span class="dv">512</span> <span class="op">-</span> (l <span class="op">+</span> <span class="dv">65</span>) <span class="op">%</span> <span class="dv">512</span></span>
 <span id="cb9-4"><a></a><span class="co">"l="</span>, l, <span class="st">"k="</span>, k, <span class="st">"pad="</span>, <span class="st">"0x1"</span> <span class="op">+</span> <span class="st">"0"</span> <span class="op">*</span> (k<span class="op">//</span><span class="dv">4</span>) <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>l<span class="sc">:016x}</span><span class="ss">"</span> <span class="co">## 64 // 4 == 16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>('l=', 3480, 'k=', 39, 'pad=', '0x10000000000000000000000d98')</code></pre>
 </div>
 </div>
@@ -852,13 +853,13 @@ H^{(i)} = f(M^{(i)}, H^{(i-1)}), \quad 1 \leq i \leq N.
 <li>C addition is a binary bitwise operation:</li>
 <li>Equivalent to integer sum module <span class="math inline">\(2^{32}\)</span></li>
 </ul>
-<div id="51ecf350" class="cell" data-execution_count="6">
+<div id="18ddec15" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">from</span> ctypes <span class="im">import</span> c_uint <span class="co">## this won't work in pypy</span></span>
 <span id="cb14-2"><a></a><span class="kw">def</span> addition(u:c_uint, v:c_uint) <span class="op">-&gt;</span> c_uint:</span>
 <span id="cb14-3"><a></a>    <span class="cf">return</span> c_uint(u <span class="op">+</span> v)</span>
 <span id="cb14-4"><a></a></span>
 <span id="cb14-5"><a></a>addition(<span class="dv">4000000000</span>, <span class="dv">4000000000</span>) , addition(<span class="dv">4</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>(c_ulong(3705032704), c_ulong(8))</code></pre>
 </div>
 </div>

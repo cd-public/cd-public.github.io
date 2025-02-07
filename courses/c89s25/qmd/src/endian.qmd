@@ -56,11 +56,11 @@ RUN apt update && apt install gcc vim -y
 ```
 - I built via the following:
 ```email
-podman build -t printb .
+podman build -t c89_99 .
 ```
 - I conducted the full lab within a single container's `vim` instance.
 ```email
-podman run -it printb vim printb.c
+podman run -it printb vim endian.c
 ```
 - I conducted all work within this `vim` window and its `:term`
 
@@ -113,8 +113,21 @@ int main() {
 }
 ```
 
+::: {.callout-note}
+An astute student may note that one obvious way to make such change is to:
+
+1. Open Python
+2. Read in `macros.c` via `open` into a string variable.
+3. Close the file descriptor to `macros.c`
+4. Perform a replace from `unsigned to `uint32_t`.
+5. Write the file to `macros.c`
+
+While in this case we are performing a single string substitutions, and Python is hardly the best choice for so simple a transform, it is always appropriate to use scripts, rather than manual methods, write and edit code.
+:::
+
 - You also need to use exactly one 64 bit numerical value, *l*
   - The message length in bits.
+  - We recall the SHA-2 standard caps messages at length `2 ** 62 - 1`
   - Usually (almost always) a multiple of 8.
   - Rarely needs all 64 bits, but is required to have them for the standard.
 - Other values - hash values, messages chunks, etc, are 32 bit.
@@ -123,8 +136,8 @@ int main() {
 #include <stdint.h> / * !!! NEW */
 
 int main() {
-    uint32_t h_i[08];  /* 256 bit hash */
-    uint32_t m_i[16];  /* 512 bit message chunk */
+    uint32_t h_i[0x08];  /* 256 bit hash */
+    uint32_t m_i[0x10];  /* 512 bit message chunk */
     uint64_t l;        /* 64 bit message length */
     /* Etc, etc. */
     return 0;
@@ -177,6 +190,15 @@ FILE *fopen(const char *pathname, const char *mode);
 ```
   - We capture the return value in a variable for use with other functions.
 
+::: {.callout-note}
+An astute student may note that while the Python script can be run directly, testing a line of C code requires additional supporting lines-of-code (LoC) in a complete `.c` file with:
+
+1. An `#include` preprocessor directive to incorporate the `stdio` library
+2. A `main` function, likely with a `return 0;`
+
+While in this case we are not using this line of code to do anything, versus single lines of Python, single lines of C code are not necessarily independently interpretable or testable.
+:::
+
 #### Null Checking
 
 - In C, and perhaps in Python, it is common to check if a `fopen` call is successful.
@@ -224,8 +246,11 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 ```
   - A memory location 'ptr' into which to read bytes.
     - Call it the "dst" or "destination", perhaps.
-  - A 'size_t` 'size', how many things to read.
+  - A 'size_t` 'size', how big each thing to read is.
     - `size_t` is usually a `uint64_t`, but doesn't have to be.
+    - Would be of size `1` for `char`
+    - Would be of size `8` for `uint64_t`
+    - Would be of size `sizeof(int)` for the default `int` type.
   - A `size_t` 'nmemb' for "$n% members"
     - The number of things of 'size' to read.
   - A `FILE *` 'stream' from which to read.
@@ -237,7 +262,7 @@ int main() {}
     uint8_t bytes[64];
     /* Unsafe - needs nullchecks */
     FILE *fp = fopen("my_file.txt", "r"); /* read mode */
-    fread(bytes, 1, 64, fp); /* read up to 512 bits */
+    fread(bytes, 1, 64, fp); /* read up to 64 * 8 -> 512 bits */
     return 0;
 }
 ```
@@ -249,6 +274,7 @@ int main() {}
   - Not necessarily the number of bytes (if 'size' is non-one)
 - Returns zero on error, but also...
 - Not all files are as large as the read buffer.
+  - In the above example, `bytes` is the buffer into which we read - the read buffer.
 - On SHA-256, you will have to read files of arbitrary size.
   - They will not all be multiples of 512.
   - You will have to follow the padding algorithm.
@@ -290,6 +316,7 @@ if (fp == NULL) {
 - I am contractually obligated to tell you to close files.
 - The interesting bit here is the special `EOF` character.
 - [Read more](https://en.wikipedia.org/wiki/End-of-file).
+  - I refer to `EOF` a lot in my theory courses, as a "special character" that comes up a lot in automata and computability theory.
 - Sample code:
 ```{.C}
 if (fclose(fp) == EOF) {
@@ -425,6 +452,18 @@ int main(int argc, char *argv[]) {
 }
 ```
 
+::: {.callout-note}
+An astute student may note that the "do... while" formulation is unusual.
+
+1. In this, we will always print *something*.
+2. The empty file (a file of size zero) and no file (the absence of a file of a given name) are distinct.
+3. Therefore, we always read from the file at least once after null-checking.
+4. However, we only read *again* if at least 512 bytes were read...
+5. Otherwise we read all the content of the file.
+
+The "do... while" formulation is uncommon, but makes this specific use case much easier. Where else might you use a "do... while"? Why?
+:::
+
 :::
 
 # astyle&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#astyle" role="button" aria-expanded="false" aria-controls = "astyle">Show</a>
@@ -452,7 +491,7 @@ apt install astyle # this assumes ubuntu, not alpine
 
 ::: {#endian .collapse .multi-collapse}
 
-*Endianness is an challenge topic. Be systematic, patient, and indefatigable.*
+*Endianness is a challenge topic. Be systematic, patient, and indefatigable.*
 
 ## Endianness
 
@@ -476,10 +515,22 @@ apt install astyle # this assumes ubuntu, not alpine
 
   2. Big-Endian
     - **Definition**: The most significant byte (MSB) is stored at the lowest memory address.
-    - **Example**: The number `CDAB3412` is stored in memory as:
+    - **Example**: The number `0x1234ABCD` is stored in memory as:
 ```email
 CDAB3412
 ```
+
+::: {.callout-note}
+An astute student may note that `CDAB3412` does not appear to be the reversal of `1234ABCD`
+
+1. Endianness reverses specifically *bytes*, 8 bits of information.
+2. Hexadecimal notation expresses specifically *nibs* or *half-bytes*, 4 bits of information.
+3. `D` is a nib and `CD` is a byte.
+4. '1234' in reverse byte order is `3412` and is **!!!NOT!!!** `4321`
+5. `4321` would constitute a *nib* or *half-byte* reversal.
+
+I recommend thinking of every *pair* of hexadecimal characters as digit in base 0x100 or base 256 expression of some numerical value.
+:::
 
 - Why Endianness Matters
   - **Data Interoperability**: Different systems may use different endianness, causing issues when sharing binary data.
@@ -515,11 +566,15 @@ int main() {
 - They are responsible for the C89 eligible header `arpa/inet.h`
   - It contains e.g. `htonl`
     - "Host to network long"
-    - In 1989, `uint32_t` was commonly called a long.
+    - In 1989, `uint32_t` was commonly called a (unsigned) long.
+    - Endianness and signedness are non-interactive.
+      - Recall the [Encode](../encode.html) lecture on signedness.
   - In 2024, often use `htobe32`
     - "Host to big endian 32bit"
     - From C99 `endian.h` 
     - As with `%b`, you may use to debug but not to solve your homework.
+      - That said, it is better to turn in a solution using `endian.h` than no solution.
+      - This is an exception to the typical "no partial credit" policy.
 
 ```{.C filename="endian.c"}
 /* endian.c - &exists; C99+ <endian.h> be advised */
@@ -567,6 +622,8 @@ int main() {
   - Bitwise operations act on bits in adjacent memory locations.
   - The star `*` operator and array notation `[n]` are similar.
 - We will rearrange bits using a novel operator - `&`, which negates `*`.
+  - We note that unary prefix  `&` is a memory operator, distinct from
+  - Binary infix `&` which is a bitwise operator.
 
 ### Initial State
 
@@ -580,7 +637,7 @@ uint32_t my_htonl(uint32_t n) {
 
 ### Variables
 
-- In C89 compliance, we first declare variables.
+- In C89 style, we first declare variables.
 - First is an alias for `n`.
   - We will treat the 32 bit int as an array of 8 bit ints.
   - An 8 bit int is of type `uint8_t`
@@ -605,7 +662,7 @@ x, y = y, x
 t : int
 t = x
 x = y
-y = x
+y = t
 del t
 ```
 - In C:
@@ -620,6 +677,8 @@ uint32_t my_htonl(uint32_t n) {
     - We will compare it to a `sizeof`
     - We will use it as an array index to denote memory locations.
     - So the C implementation will guarantee `size_t` is appropriate for array indices.
+    - You can determine what a `size_t` is using the usual methods for examining C code.
+
 ```c
 uint32_t my_htonl(uint32_t n) {
     uint8_t swap, *alias;
@@ -693,7 +752,7 @@ uint32_t my_htonl(uint32_t n) {
     return n;
 }
 ```
-- You will not this contains repeated code, and is therefore *de facto* wrong, though it runs correctly.
+- You will note this contains repeated code, and is therefore *de facto* wrong, though it runs correctly.
 
 :::
 
@@ -746,7 +805,7 @@ RETURN VALUE
 ## memcpy
 
 - The C89 "string.h" library contains a helpful function `memcpy`.
-  - I have never once in my life remember destination is first, not source.
+  - I have never once in my life remembered destination is first, not source.
   - I spent an hour trying to figure out a bug caused by that.
 
 ```email

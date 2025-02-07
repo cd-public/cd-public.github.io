@@ -237,11 +237,11 @@ window.Quarto = {
 <ul>
 <li>I built via the following:</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>podman build -t printb .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>podman build -t c89_99 .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>I conducted the full lab within a single container’s <code>vim</code> instance.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>podman run -it printb vim printb.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>podman run -it printb vim endian.c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>I conducted all work within this <code>vim</code> window and its <code>:term</code></li>
 </ul>
@@ -300,10 +300,32 @@ window.Quarto = {
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An astute student may note that one obvious way to make such change is to:</p>
+<ol type="1">
+<li>Open Python</li>
+<li>Read in <code>macros.c</code> via <code>open</code> into a string variable.</li>
+<li>Close the file descriptor to <code>macros.c</code></li>
+<li>Perform a replace from <code>unsigned to</code>uint32_t`.</li>
+<li>Write the file to <code>macros.c</code></li>
+</ol>
+<p>While in this case we are performing a single string substitutions, and Python is hardly the best choice for so simple a transform, it is always appropriate to use scripts, rather than manual methods, write and edit code.</p>
+</div>
+</div>
 <ul>
 <li>You also need to use exactly one 64 bit numerical value, <em>l</em>
 <ul>
 <li>The message length in bits.</li>
+<li>We recall the SHA-2 standard caps messages at length <code>2 ** 62 - 1</code></li>
 <li>Usually (almost always) a multiple of 8.</li>
 <li>Rarely needs all 64 bits, but is required to have them for the standard.</li>
 </ul></li>
@@ -316,8 +338,8 @@ window.Quarto = {
 <div class="sourceCode" id="cb6" data-filename="macros.c"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span><span class="pp"> / * !!! NEW */</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> h_i<span class="op">[</span><span class="dv">0</span><span class="er">8</span><span class="op">];</span>  <span class="co">/* 256 bit hash */</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> m_i<span class="op">[</span><span class="dv">16</span><span class="op">];</span>  <span class="co">/* 512 bit message chunk */</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> h_i<span class="op">[</span><span class="bn">0x08</span><span class="op">];</span>  <span class="co">/* 256 bit hash */</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> m_i<span class="op">[</span><span class="bn">0x10</span><span class="op">];</span>  <span class="co">/* 512 bit message chunk */</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint64_t</span> l<span class="op">;</span>        <span class="co">/* 64 bit message length */</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Etc, etc. */</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
@@ -375,6 +397,24 @@ window.Quarto = {
 <li>We capture the return value in a variable for use with other functions.</li>
 </ul></li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An astute student may note that while the Python script can be run directly, testing a line of C code requires additional supporting lines-of-code (LoC) in a complete <code>.c</code> file with:</p>
+<ol type="1">
+<li>An <code>#include</code> preprocessor directive to incorporate the <code>stdio</code> library</li>
+<li>A <code>main</code> function, likely with a <code>return 0;</code></li>
+</ol>
+<p>While in this case we are not using this line of code to do anything, versus single lines of Python, single lines of C code are not necessarily independently interpretable or testable.</p>
+</div>
+</div>
 <section id="null-checking" class="level4">
 <h4 class="anchored" data-anchor-id="null-checking">Null Checking</h4>
 <ul>
@@ -439,7 +479,7 @@ window.Quarto = {
 <ul>
 <li>Call it the “dst” or “destination”, perhaps.</li>
 </ul></li>
-<li>A ’size_t<code>'size', how many things to read.     -</code>size_t<code>is usually a</code>uint64_t`, but doesn’t have to be.</li>
+<li>A ’size_t<code>'size', how big each thing to read is.     -</code>size_t<code>is usually a</code>uint64_t<code>, but doesn't have to be.     - Would be of size</code>1<code>for</code>char<code>- Would be of size</code>8<code>for</code>uint64_t<code>- Would be of size</code>sizeof(int)<code>for the default</code>int` type.</li>
 <li>A <code>size_t</code> ‘nmemb’ for “$n% members”
 <ul>
 <li>The number of things of ‘size’ to read.</li>
@@ -452,7 +492,7 @@ window.Quarto = {
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> bytes<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Unsafe - needs nullchecks */</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">FILE</span> <span class="op">*</span>fp <span class="op">=</span> fopen<span class="op">(</span><span class="st">"my_file.txt"</span><span class="op">,</span> <span class="st">"r"</span><span class="op">);</span> <span class="co">/* read mode */</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    fread<span class="op">(</span>bytes<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">64</span><span class="op">,</span> fp<span class="op">);</span> <span class="co">/* read up to 512 bits */</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    fread<span class="op">(</span>bytes<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">64</span><span class="op">,</span> fp<span class="op">);</span> <span class="co">/* read up to 64 * 8 -&gt; 512 bits */</span></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="null-checking-1" class="level4">
@@ -464,7 +504,10 @@ window.Quarto = {
 <li>Not necessarily the number of bytes (if ‘size’ is non-one)</li>
 </ul></li>
 <li>Returns zero on error, but also…</li>
-<li>Not all files are as large as the read buffer.</li>
+<li>Not all files are as large as the read buffer.
+<ul>
+<li>In the above example, <code>bytes</code> is the buffer into which we read - the read buffer.</li>
+</ul></li>
 <li>On SHA-256, you will have to read files of arbitrary size.
 <ul>
 <li>They will not all be multiples of 512.</li>
@@ -511,7 +554,10 @@ window.Quarto = {
 <ul>
 <li>I am contractually obligated to tell you to close files.</li>
 <li>The interesting bit here is the special <code>EOF</code> character.</li>
-<li><a href="https://en.wikipedia.org/wiki/End-of-file">Read more</a>.</li>
+<li><a href="https://en.wikipedia.org/wiki/End-of-file">Read more</a>.
+<ul>
+<li>I refer to <code>EOF</code> a lot in my theory courses, as a “special character” that comes up a lot in automata and computability theory.</li>
+</ul></li>
 <li>Sample code:</li>
 </ul>
 <div class="sourceCode" id="cb17"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>fclose<span class="op">(</span>fp<span class="op">)</span> <span class="op">==</span> EOF<span class="op">)</span> <span class="op">{</span></span>
@@ -654,6 +700,27 @@ window.Quarto = {
 <span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An astute student may note that the “do… while” formulation is unusual.</p>
+<ol type="1">
+<li>In this, we will always print <em>something</em>.</li>
+<li>The empty file (a file of size zero) and no file (the absence of a file of a given name) are distinct.</li>
+<li>Therefore, we always read from the file at least once after null-checking.</li>
+<li>However, we only read <em>again</em> if at least 512 bytes were read…</li>
+<li>Otherwise we read all the content of the file.</li>
+</ol>
+<p>The “do… while” formulation is uncommon, but makes this specific use case much easier. Where else might you use a “do… while”? Why?</p>
+</div>
+</div>
 </section>
 </div>
 </section>
@@ -682,7 +749,7 @@ window.Quarto = {
 <section id="endian-show" class="level1">
 <h1>Endian&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#endian" role="button" aria-expanded="false" aria-controls="endian">Show</a></h1>
 <div id="endian" class="collapse multi-collapse">
-<p><em>Endianness is an challenge topic. Be systematic, patient, and indefatigable.</em></p>
+<p><em>Endianness is a challenge topic. Be systematic, patient, and indefatigable.</em></p>
 <section id="endianness" class="level2">
 <h2 class="anchored" data-anchor-id="endianness">Endianness</h2>
 <ul>
@@ -713,9 +780,32 @@ window.Quarto = {
 </ol>
 <ul>
 <li><strong>Definition</strong>: The most significant byte (MSB) is stored at the lowest memory address.</li>
-<li><strong>Example</strong>: The number <code>CDAB3412</code> is stored in memory as:</li>
+<li><strong>Example</strong>: The number <code>0x1234ABCD</code> is stored in memory as:</li>
 </ul>
 <div class="sourceCode" id="cb26"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>CDAB3412</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An astute student may note that <code>CDAB3412</code> does not appear to be the reversal of <code>1234ABCD</code></p>
+<ol type="1">
+<li>Endianness reverses specifically <em>bytes</em>, 8 bits of information.</li>
+<li>Hexadecimal notation expresses specifically <em>nibs</em> or <em>half-bytes</em>, 4 bits of information.</li>
+<li><code>D</code> is a nib and <code>CD</code> is a byte.</li>
+<li>‘1234’ in reverse byte order is <code>3412</code> and is <strong>!!!NOT!!!</strong> <code>4321</code></li>
+<li><code>4321</code> would constitute a <em>nib</em> or <em>half-byte</em> reversal.</li>
+</ol>
+<p>I recommend thinking of every <em>pair</em> of hexadecimal characters as digit in base 0x100 or base 256 expression of some numerical value.</p>
+</div>
+</div>
+<ul>
 <li>Why Endianness Matters
 <ul>
 <li><strong>Data Interoperability</strong>: Different systems may use different endianness, causing issues when sharing binary data.</li>
@@ -762,13 +852,21 @@ window.Quarto = {
 <li>It contains e.g.&nbsp;<code>htonl</code>
 <ul>
 <li>“Host to network long”</li>
-<li>In 1989, <code>uint32_t</code> was commonly called a long.</li>
+<li>In 1989, <code>uint32_t</code> was commonly called a (unsigned) long.</li>
+<li>Endianness and signedness are non-interactive.
+<ul>
+<li>Recall the <a href="../encode.html">Encode</a> lecture on signedness.</li>
+</ul></li>
 </ul></li>
 <li>In 2024, often use <code>htobe32</code>
 <ul>
 <li>“Host to big endian 32bit”</li>
 <li>From C99 <code>endian.h</code></li>
-<li>As with <code>%b</code>, you may use to debug but not to solve your homework.</li>
+<li>As with <code>%b</code>, you may use to debug but not to solve your homework.
+<ul>
+<li>That said, it is better to turn in a solution using <code>endian.h</code> than no solution.</li>
+<li>This is an exception to the typical “no partial credit” policy.</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -828,7 +926,11 @@ window.Quarto = {
 <li>Bitwise operations act on bits in adjacent memory locations.</li>
 <li>The star <code>*</code> operator and array notation <code>[n]</code> are similar.</li>
 </ul></li>
-<li>We will rearrange bits using a novel operator - <code>&amp;</code>, which negates <code>*</code>.</li>
+<li>We will rearrange bits using a novel operator - <code>&amp;</code>, which negates <code>*</code>.
+<ul>
+<li>We note that unary prefix <code>&amp;</code> is a memory operator, distinct from</li>
+<li>Binary infix <code>&amp;</code> which is a bitwise operator.</li>
+</ul></li>
 </ul>
 </section>
 <section id="initial-state" class="level3">
@@ -843,7 +945,7 @@ window.Quarto = {
 <section id="variables" class="level3">
 <h3 class="anchored" data-anchor-id="variables">Variables</h3>
 <ul>
-<li>In C89 compliance, we first declare variables.</li>
+<li>In C89 style, we first declare variables.</li>
 <li>First is an alias for <code>n</code>.
 <ul>
 <li>We will treat the 32 bit int as an array of 8 bit ints.</li>
@@ -868,7 +970,7 @@ window.Quarto = {
 <div class="sourceCode" id="cb32"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>t : <span class="bu">int</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> x</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> y</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> t</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>In C:</li>
@@ -885,14 +987,15 @@ window.Quarto = {
 <li>We will compare it to a <code>sizeof</code></li>
 <li>We will use it as an array index to denote memory locations.</li>
 <li>So the C implementation will guarantee <code>size_t</code> is appropriate for array indices.</li>
-</ul>
-<div class="sourceCode" id="cb34"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> my_htonl<span class="op">(</span><span class="dt">uint32_t</span> n<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="dt">uint8_t</span> swap<span class="op">,</span> <span class="op">*</span>alias<span class="op">;</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="dt">size_t</span> index<span class="op">;</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> n<span class="op">;</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>You can determine what a <code>size_t</code> is using the usual methods for examining C code.</li>
+</ul></li>
 </ul></li>
 </ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> my_htonl<span class="op">(</span><span class="dt">uint32_t</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> swap<span class="op">,</span> <span class="op">*</span>alias<span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> index<span class="op">;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="ampersand" class="level3">
 <h3 class="anchored" data-anchor-id="ampersand">Ampersand</h3>
@@ -969,7 +1072,7 @@ window.Quarto = {
 <span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">;</span></span>
 <span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>You will not this contains repeated code, and is therefore <em>de facto</em> wrong, though it runs correctly.</li>
+<li>You will note this contains repeated code, and is therefore <em>de facto</em> wrong, though it runs correctly.</li>
 </ul>
 </section>
 </section>
@@ -1027,7 +1130,7 @@ window.Quarto = {
 <ul>
 <li>The C89 “string.h” library contains a helpful function <code>memcpy</code>.
 <ul>
-<li>I have never once in my life remember destination is first, not source.</li>
+<li>I have never once in my life remembered destination is first, not source.</li>
 <li>I spent an hour trying to figure out a bug caused by that.</li>
 </ul></li>
 </ul>

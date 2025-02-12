@@ -244,14 +244,14 @@ int main() {}
 ```{.C}
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 ```
-  - A memory location 'ptr' into which to read bytes.
+  - A memory location `ptr` into which to read bytes.
     - Call it the "dst" or "destination", perhaps.
-  - A 'size_t` 'size', how big each thing to read is.
+  - A `size_t` "size", how big each thing to read is.
     - `size_t` is usually a `uint64_t`, but doesn't have to be.
     - Would be of size `1` for `char`
     - Would be of size `8` for `uint64_t`
     - Would be of size `sizeof(int)` for the default `int` type.
-  - A `size_t` 'nmemb' for "$n% members"
+  - A `size_t` 'nmemb' for "$n$ members"
     - The number of things of 'size' to read.
   - A `FILE *` 'stream' from which to read.
 - fread will read 'size' * 'nmemb' bytes from 'stream' into 'ptr'.

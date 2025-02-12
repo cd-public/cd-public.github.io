@@ -475,12 +475,18 @@ Note
 </ul>
 <div class="sourceCode" id="cb12"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">size_t</span> fread<span class="op">(</span><span class="dt">void</span> <span class="op">*</span>ptr<span class="op">,</span> <span class="dt">size_t</span> size<span class="op">,</span> <span class="dt">size_t</span> nmemb<span class="op">,</span> <span class="dt">FILE</span> <span class="op">*</span>stream<span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>A memory location ‘ptr’ into which to read bytes.
+<li>A memory location <code>ptr</code> into which to read bytes.
 <ul>
 <li>Call it the “dst” or “destination”, perhaps.</li>
 </ul></li>
-<li>A ’size_t<code>'size', how big each thing to read is.     -</code>size_t<code>is usually a</code>uint64_t<code>, but doesn't have to be.     - Would be of size</code>1<code>for</code>char<code>- Would be of size</code>8<code>for</code>uint64_t<code>- Would be of size</code>sizeof(int)<code>for the default</code>int` type.</li>
-<li>A <code>size_t</code> ‘nmemb’ for “$n% members”
+<li>A <code>size_t</code> “size”, how big each thing to read is.
+<ul>
+<li><code>size_t</code> is usually a <code>uint64_t</code>, but doesn’t have to be.</li>
+<li>Would be of size <code>1</code> for <code>char</code></li>
+<li>Would be of size <code>8</code> for <code>uint64_t</code></li>
+<li>Would be of size <code>sizeof(int)</code> for the default <code>int</code> type.</li>
+</ul></li>
+<li>A <code>size_t</code> ‘nmemb’ for “<span class="math inline">\(n\)</span> members”
 <ul>
 <li>The number of things of ‘size’ to read.</li>
 </ul></li>

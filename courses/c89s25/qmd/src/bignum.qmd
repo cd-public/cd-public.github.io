@@ -1,0 +1,284 @@
+---
+title: BigNum
+theme: dark
+author: Prof. Calvin
+subtitle: "Lab 0x4"
+institute: Crypto
+format: 
+    revealjs: 
+        code-fold: true
+        theme: dark
+        mainfont: monospace
+        slide-number: true
+        show-slide-number: all
+        width: 1050
+        height: 700
+        footer: "[Home](../index.html)"
+
+execute:
+    echo: false
+---
+# Announcements
+
+- **Welcome** to variously CS 276/CS 540
+  - This is the original "BigNum"
+  - Now after the theoretical "Finite"
+  - Lecture with exercise (instead of "pure" lab).
+- **Action Items**:
+  - SHA-256 extended to two weeks.
+
+# Apocryphal Quote
+
+- I cannot find it, but I believe a philosopher one jested:
+
+> I am a weapons-grade finitist. I don't believe in numbers larger than two.
+
+- Arrays of such numbers are sufficient for computation of arbitrary precision.
+- We can not capture the infinite, but we may model it.
+  
+# Today
+
+- Review
+  - Finite sets, rings
+- New
+  - Arbitrary/high precision integers
+  
+# Rings
+
+- As far as I know (not a mathematician) the `uint`s and `int`s in C are *rings*
+  - They have addition and multiplication
+- They aren't fields - zero is divisible
+  - Spoiler alert, but $2^{\frac{n}{2}} \times 2^{\frac{n}{2}} \equiv 0 \pmod{2^n}$
+
+# Rings vs Integers
+
+- Rings have some "goofy" features
+  - $a, b \in$ `uint`$n$`_t` $\nRightarrow a + b > a$
+  - Same with multiplication.
+- Let's look at an example.
+
+# Checkers
+
+```{.C filename="num.c"}
+#include <stdlib.h>
+#include <stdint.h>
+
+int main(int argc, char **argv) {
+    uint8_t x, y;
+    x = atoi(argv[1]);
+    y = atoi(argv[2]);
+    return x + y;
+}
+```
+
+- `atoi` - alphabetical to int
+- From `<stdlib.h>` per `man atoi`, but might work without that.
+
+# Do some additions
+
+```email
+$  ./a.out 100 100 ; echo $?
+200
+$ ./a.out 200 100 ; echo $?
+44
+```
+- 44? From whence?
+
+# uint8_t is *finite*
+
+```email
+>>> 200 + 100
+300
+>>> 2 ** 8
+256
+>>> 300 - 256
+44
+>>> 300 % 256
+44
+```
+- Operations on `uint8_t` values are equivalent to operations on the natural numbers modulo $2^8$
+$$
+\mathbb{N}_{2^8}
+$$
+
+# 4096 bits
+
+- Modern security recommendations are for 4096 bit cryptographic keys.
+  - 2048 is generally considered "okay" or "acceptable"
+
+```email
+NAME
+     ssh-keygen — OpenSSH authentication key utility
+
+SYNOPSIS
+     ssh-keygen [-q] [-a rounds] [-b bits] 
+```
+# Big Values
+
+- Soon, we will implement RSA
+  - We'll talk about what it is then.
+- This week, we need a way to deal with integers that big.
+- We will use *modular arithmetic*.
+  - Finite `uint64_t` models infinite $\mathbb{N}$
+
+# Simple Example
+
+- Recall this example from a data application.
+- We had a data set for which we determined a mean height in inches.
+- We converted it to inches and feet.
+```python
+>>> 69.3 // 12, 69.3 % 12
+(5.0, 9.299999999999997)
+```
+
+# Addition is easy
+
+- WNBA MVP and Olympic Gold Medalist A'ja Wilson is [6 ft 4 in](https://en.wikipedia.org/wiki/A%27ja_Wilson)
+- How much taller is that than 5 ft 9.3 in
+  - Can convert to non-integer inches, but...
+  - We already had the .299... problem
+
+# Difference
+
+- We perform "long subtraction"
+- It's fun!
+
+| |ft|in.|.in|
+|-|--|---|---|
+|A'ja|6|4|0|
+|Mean|5|9|3|
+
+# Difference
+
+- $0 - 3 \equiv 7 \pmod(10)$
+- Tenths of inches
+
+| |ft|in.|.in|
+|-|--|---|---|
+|A'ja|6|4|0|
+|Mean|5|9|3|
+|Diff| | |7|
+
+# Difference
+
+- But wait - 3 is more than zero?
+- Track via a "carry"
+
+| |ft|in.|.in|
+|-|--|---|---|
+|A'ja|6|4|0|
+|Mean|5|9|3|
+|Carry|0|1|0|
+|Diff| | |7|
+
+# Difference
+
+- $4 - 9 - 1 \equiv 6 \pmod{12}$
+- 12 in = 1 ft
+
+| |ft|in.|.in|
+|-|--|---|---|
+|A'ja|6|4|0|
+|Mean|5|9|3|
+|Carry|0|1|0|
+|Diff| |6|7|
+
+
+# Difference
+
+- Another carry.
+- 12 in = 1 ft
+
+| |ft|in.|.in|
+|-|--|---|---|
+|A'ja|6|4|0|
+|Mean|5|9|3|
+|Carry|1|0|0|
+|Diff| |6|7|
+
+
+# Difference
+
+- $6 - 5 - 1 = 0$
+- Nonmodular - feet has no max.
+
+| |ft|in.|.in|
+|-|--|---|---|
+|A'ja|6|4|0|
+|Mean|5|9|3|
+|Carry|1|0|0|
+|Diff|0|6|7|
+
+# Conclusion
+
+- Iconic living legend A'ja Wilson is tall af.
+- We can do addition and substraction on larger values than `UINT_MAX` or 'ULONG_MAX' by:
+  - Breaking numbers in smaller ranges
+    - A tenths digit
+    - A ones digit
+    - A twelves digit
+
+# Exercise
+
+- Make a height adder, try `man scanf`
+```{.C filename="hadder.c"}
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+
+int main() {
+        int buf[6];
+        printf("Insert 2 heights as XftY.Zin, each on their own line\n");
+        scanf("%dft%d.%din", &buf[0], &buf[1], &buf[2]);
+        scanf("%dft%d.%din", &buf[3], &buf[4], &buf[5]);
+
+        printf("%dft%d.%din\n", buf[0], buf[1], buf[2]);
+
+        return 0;
+}
+```
+
+<!--
+#
+```{.C filename="ididit.c"}
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+int main() {
+        int buf[6], carry;
+        printf("Sum heights\n");
+        printf("Insert 2 heights as XftY.Zin, each on their own line\n");
+        scanf("%dft%d.%din", &buf[0], &buf[1], &buf[2]);
+        scanf("%dft%d.%din", &buf[3], &buf[4], &buf[5]);
+        carry = (buf[2] + buf[5]) > 9;
+        buf[2] = (buf[2] + buf[5]) % 10;
+        carry = (buf[1] + buf[4] + carry) > 11;
+        buf[1] = (buf[1] + buf[4] + carry) % 12;
+        buf[0] = (buf[0] + buf[3] + carry);
+        printf("%dft%d.%din\n", buf[0], buf[1], buf[2]);
+        return 0;
+}
+```
+-->
+
+# Usefulness
+
+- We can now do arithmetic correctly
+  - @Python
+- What else can we do?
+  - Arbitrary (not infinite) precision.
+
+# FAQ
+
+- Can we use this to add numbers bigger than $2^n$ using adds over at most $n$ bits at a time?
+  - Sure! Change the modulos and you're set.
+    - Get it? Because the numbers form a set?
+- Can we do this for more than 3 fields?
+  - Sure! Just put the middle (both consumes and produces a carry bit) in a loop!
+
+# Today
+
+- &check; Review
+  - Finite sets, rings
+- &check; New
+  - Arbitrary/high precision integers

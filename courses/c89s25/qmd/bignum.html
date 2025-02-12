@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.6.30">
 
   <meta name="author" content="Prof.&nbsp;Calvin">
-  <title>Finite</title>
+  <title>BigNum</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -390,8 +390,8 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Finite</h1>
-  <p class="subtitle">Week 0x4</p>
+  <h1 class="title">BigNum</h1>
+  <p class="subtitle">Lab 0x4</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -410,8 +410,9 @@ Prof.&nbsp;Calvin
 <ul>
 <li><strong>Welcome</strong> to variously CS 276/CS 540
 <ul>
-<li>This was called “BigNum”</li>
-<li>Renamed after doing some theory work</li>
+<li>This is the original “BigNum”</li>
+<li>Now after the theoretical “Finite”</li>
+<li>Lecture with exercise (instead of “pure” lab).</li>
 </ul></li>
 <li><strong>Action Items</strong>:
 <ul>
@@ -437,294 +438,13 @@ Prof.&nbsp;Calvin
 <section id="today" class="title-slide slide level1 center">
 <h1>Today</h1>
 <ul>
-<li>Reintroduce the technologies
-<ul>
-<li><code>stdint</code></li>
-</ul></li>
-<li>Some number theory
+<li>Review
 <ul>
 <li>Finite sets, rings</li>
 </ul></li>
-</ul>
-</section>
-
-<section id="what-are-integers" class="title-slide slide level1 center">
-<h1>What are integers?</h1>
+<li>New
 <ul>
-<li>Denote integers as the mathematical symbol <span class="math inline">\(\mathbb{Z}\)</span>
-<ul>
-<li>Something to do with the German/Deutsch</li>
-</ul></li>
-<li>Not particular useful in cryptography, actually
-<ul>
-<li>We tend to want the naturals, denoted <span class="math inline">\(\mathbb{N}\)</span></li>
-<li>Counting numbers, <span class="math inline">\(0\)</span> and up.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="in-python" class="title-slide slide level1 center">
-<h1>In Python</h1>
-<ul>
-<li>We can write them in Python with <code>itertools</code></li>
-</ul>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>fields.py</strong></pre>
-</div>
-<div class="sourceCode" id="cb1" data-filename="fields.py"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">from</span> itertools <span class="im">import</span> count</span>
-<span id="cb1-2"><a></a>N <span class="op">=</span> count()</span>
-<span id="cb1-3"><a></a>make_z <span class="op">=</span> <span class="kw">lambda</span> n : n <span class="op">//</span> <span class="dv">2</span> <span class="cf">if</span> n <span class="op">%</span> <span class="dv">2</span> <span class="cf">else</span> <span class="op">-</span>n <span class="op">//</span> <span class="dv">2</span></span>
-<span id="cb1-4"><a></a>Z <span class="op">=</span> (make_z(n) <span class="cf">for</span> n <span class="kw">in</span> count(<span class="dv">1</span>))</span>
-<span id="cb1-5"><a></a><span class="co"># We can see elements of these infinite collections with</span></span>
-<span id="cb1-6"><a></a>[<span class="bu">next</span>(N) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)], [<span class="bu">next</span>(Z) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li>What do you see?</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="aside" class="title-slide slide level1 center">
-<h1>Aside</h1>
-<ul>
-<li>It is moderately controversial to assert: <span class="math display">\[
-0 \in \mathbb{N}
-\]</span>
-<ul>
-<li>Enderton, Herbert B. (1977). Elements of set theory. New York: Academic Press. p.&nbsp;66. ISBN 0122384407.</li>
-</ul></li>
-<li>Fortunately this is a CS class.</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="cf">assert</span>(<span class="dv">0</span> <span class="kw">in</span> count())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="mathbbn-is-akin-to-uint" class="title-slide slide level1 center">
-<h1><span class="math inline">\(\mathbb{N}\)</span> is akin to <code>uint</code></h1>
-<ul>
-<li>The natural numbers <span class="math inline">\(\mathbb{N}\)</span> probably look a lot like the unsigned integers.</li>
-<li>There’s only one real problem.</li>
-<li>We don’t have the unsigned integers in C
-<ul>
-<li>We don’t have them in Python either, but for a different reason.</li>
-</ul></li>
-</ul>
-</section>
-
-<section id="the-problem" class="title-slide slide level1 center">
-<h1>The Problem</h1>
-<ul>
-<li>Python has been lying to us for years that its integer have no upper limit.
-<ul>
-<li>We say <span class="math inline">\(\nexists n : n \notin\)</span> <code>count()</code></li>
-<li>Let’s just try a reasonably sized number, say googolplex <span class="math inline">\(= 10^{10^{100}}\)</span></li>
-</ul></li>
-</ul>
-</section>
-
-<section id="test-with--c" class="title-slide slide level1 center">
-<h1>Test with <code>-c</code></h1>
-<ul>
-<li>We use the <code>-c</code> flag to Python to run a script directly at command line.</li>
-</ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>python3 <span class="op">-</span>c <span class="st">"print('hello world')"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Perform multi-line calculuations using <code>;</code>
-<ul>
-<li>Oh - like C. 🤔</li>
-</ul></li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>python3 <span class="op">-</span>c <span class="st">"from itertools import count; print(0 in count())"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="time-it" class="title-slide slide level1 center">
-<h1>Time it</h1>
-<ul>
-<li>Running on Linux
-<ul>
-<li><code>podman start -l ; podman exec -it -l</code></li>
-</ul></li>
-<li>We can use <code>time</code> to… time things.</li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a></a>$ time python3 -c "from itertools import count; print(0 in count())"</span>
-<span id="cb6-2"><a></a>True</span>
-<span id="cb6-3"><a></a>0.01user 0.00system 0:00.01elapsed 109%CPU (0avgtext+0avgdata 8748maxresident)k</span>
-<span id="cb6-4"><a></a>0inputs+0outputs (0major+942minor)pagefaults 0swaps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="pivot-to-bash" class="title-slide slide level1 center">
-<h1>Pivot to bash</h1>
-<ul>
-<li>Looks nicer in <code>/bin/bash</code></li>
-</ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a></a>$ /bin/bash</span>
-<span id="cb7-2"><a></a>user@DESKTOP-THMS2PJ:~/tmp$ time python3 -c "from itertools import count; print(0 in count())"</span>
-<span id="cb7-3"><a></a>True</span>
-<span id="cb7-4"><a></a></span>
-<span id="cb7-5"><a></a>real    0m0.013s</span>
-<span id="cb7-6"><a></a>user    0m0.014s</span>
-<span id="cb7-7"><a></a>sys     0m0.000s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>We could argue it takes .013 seconds to check</li>
-<li>Or .013 seconds to find itertools on a SDD</li>
-</ul>
-</section>
-
-<section id="bigger-numbers" class="title-slide slide level1 center">
-<h1>Bigger Numbers</h1>
-<ul>
-<li>Check e.g.&nbsp;1000</li>
-</ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a></a>$ /bin/bash</span>
-<span id="cb8-2"><a></a>user@DESKTOP-THMS2PJ:~/tmp$ time python3 -c "from itertools import count; print(1000 in count())"</span>
-<span id="cb8-3"><a></a>True</span>
-<span id="cb8-4"><a></a></span>
-<span id="cb8-5"><a></a>real    0m0.012s</span>
-<span id="cb8-6"><a></a>user    0m0.012s</span>
-<span id="cb8-7"><a></a>sys     0m0.000s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Trivial.</li>
-</ul>
-</section>
-
-<section id="test-it" class="title-slide slide level1 center">
-<h1>Test it</h1>
-<ul>
-<li>Try a few powers yourself. What do you find?</li>
-</ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a></a>time python3 -c "from itertools import count; n=1; print(10**n in count())"</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
-<div class="columns">
-<div class="column" style="width:%50;">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>10^<span class="math inline">\(n\)</span></th>
-<th><code>real</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>00.012</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>00.012</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>00.012</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>00.013</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>00.013</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>00.027</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>00.164</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>01.498</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>16.810</td>
-</tr>
-</tbody>
-</table>
-</div><div class="column" style="width:%50;">
-<ul>
-<li>Expect: <span class="math display">\[
-t(10^{10}) \in [140,170]
-\]</span></li>
-<li>Expect for <span class="math inline">\(n \gt 9\)</span> <span class="math display">\[
-t(10^n) \in [14,17] \times 10^{n-9}
-\]</span></li>
-<li>Expect <span class="math inline">\(10^{10^{100}}\)</span> in
-<ul>
-<li>(Googol - 9) seconds</li>
-<li>316 novemvigintilion years</li>
-</ul></li>
-</ul>
-</div></div>
-</section>
-
-<section id="c-for-clear" class="title-slide slide level1 center">
-<h1>C for Clear</h1>
-<ul>
-<li>C is a little more forthright about how big its numbers get.</li>
-</ul>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>max.c</strong></pre>
-</div>
-<div class="sourceCode" id="cb10" data-filename="max.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb10-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
-<span id="cb10-3"><a></a></span>
-<span id="cb10-4"><a></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb10-5"><a></a>    <span class="dt">uint32_t</span> n <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-6"><a></a>    <span class="cf">while</span> <span class="op">((</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">&gt;</span> n<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-7"><a></a>        n<span class="op">++;</span></span>
-<span id="cb10-8"><a></a>    <span class="op">}</span></span>
-<span id="cb10-9"><a></a>    printf<span class="op">(</span><span class="st">"n = </span><span class="sc">%u\n</span><span class="st">"</span><span class="op">,</span> n<span class="op">);</span></span>
-<span id="cb10-10"><a></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-
-<section id="c-fast" class="title-slide slide level1 center">
-<h1>C fast</h1>
-<ul>
-<li>For me, this took 5.19s on <code>uint32_t</code>
-<ul>
-<li>Same value in Python was 1m9.32s</li>
-</ul></li>
-<li>How long for <code>uint64_t</code>?
-<ul>
-<li>In Python?</li>
-</ul></li>
-<li>How would speed up the code?
-<ul>
-<li>What assumptions did you make?</li>
-</ul></li>
-<li>How many base 10 digits does the largest number we can store in 32 bytes have?</li>
-</ul>
-</section>
-
-<section id="limits.h" class="title-slide slide level1 center">
-<h1>limits.h</h1>
-<ul>
-<li>C discloses the maximum values it can tolerate in <code>&lt;limits.h&gt;</code></li>
-</ul>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>num.c</strong></pre>
-</div>
-<div class="sourceCode" id="cb11" data-filename="num.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb11-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb11-2"><a></a><span class="pp">#include </span><span class="im">&lt;limits.h&gt;</span></span>
-<span id="cb11-3"><a></a></span>
-<span id="cb11-4"><a></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb11-5"><a></a>    printf<span class="op">(</span><span class="st">"n = </span><span class="sc">%u\n</span><span class="st">"</span><span class="op">,</span> UINT_MAX<span class="op">);</span></span>
-<span id="cb11-6"><a></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb11-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li>The correct answer was binary search.
-<ul>
-<li>The incorrect answer (so far) was subtraction.</li>
+<li>Arbitrary/high precision integers</li>
 </ul></li>
 </ul>
 </section>
@@ -761,15 +481,15 @@ t(10^n) \in [14,17] \times 10^{n-9}
 <div class="code-with-filename-file">
 <pre><strong>num.c</strong></pre>
 </div>
-<div class="sourceCode" id="cb12" data-filename="num.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
-<span id="cb12-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
-<span id="cb12-3"><a></a></span>
-<span id="cb12-4"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb12-5"><a></a>    <span class="dt">uint8_t</span> x<span class="op">,</span> y<span class="op">;</span></span>
-<span id="cb12-6"><a></a>    x <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
-<span id="cb12-7"><a></a>    y <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
-<span id="cb12-8"><a></a>    <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span></span>
-<span id="cb12-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-filename="num.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb1-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a></a>    <span class="dt">uint8_t</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb1-6"><a></a>    x <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb1-7"><a></a>    y <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb1-8"><a></a>    <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span></span>
+<span id="cb1-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>atoi</code> - alphabetical to int</li>
@@ -779,10 +499,10 @@ t(10^n) \in [14,17] \times 10^{n-9}
 
 <section id="do-some-additions" class="title-slide slide level1 center">
 <h1>Do some additions</h1>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb13-1"><a></a>$  ./a.out 100 100 ; echo $?</span>
-<span id="cb13-2"><a></a>200</span>
-<span id="cb13-3"><a></a>$ ./a.out 200 100 ; echo $?</span>
-<span id="cb13-4"><a></a>44</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a></a>$  ./a.out 100 100 ; echo $?</span>
+<span id="cb2-2"><a></a>200</span>
+<span id="cb2-3"><a></a>$ ./a.out 200 100 ; echo $?</span>
+<span id="cb2-4"><a></a>44</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>44? From whence?</li>
 </ul>
@@ -790,48 +510,18 @@ t(10^n) \in [14,17] \times 10^{n-9}
 
 <section id="uint8_t-is-finite" class="title-slide slide level1 center">
 <h1>uint8_t is <em>finite</em></h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb14-1"><a></a>&gt;&gt;&gt; 200 + 100</span>
-<span id="cb14-2"><a></a>300</span>
-<span id="cb14-3"><a></a>&gt;&gt;&gt; 2 ** 8</span>
-<span id="cb14-4"><a></a>256</span>
-<span id="cb14-5"><a></a>&gt;&gt;&gt; 300 - 256</span>
-<span id="cb14-6"><a></a>44</span>
-<span id="cb14-7"><a></a>&gt;&gt;&gt; 300 % 256</span>
-<span id="cb14-8"><a></a>44</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a></a>&gt;&gt;&gt; 200 + 100</span>
+<span id="cb3-2"><a></a>300</span>
+<span id="cb3-3"><a></a>&gt;&gt;&gt; 2 ** 8</span>
+<span id="cb3-4"><a></a>256</span>
+<span id="cb3-5"><a></a>&gt;&gt;&gt; 300 - 256</span>
+<span id="cb3-6"><a></a>44</span>
+<span id="cb3-7"><a></a>&gt;&gt;&gt; 300 % 256</span>
+<span id="cb3-8"><a></a>44</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Operations on <code>uint8_t</code> values are equivalent to operations on the natural numbers modulo <span class="math inline">\(2^8\)</span> <span class="math display">\[
 \mathbb{N}_{2^8}
 \]</span></li>
-</ul>
-</section>
-
-<section id="in-practice" class="title-slide slide level1 center">
-<h1>In practice</h1>
-<ul>
-<li><span class="math inline">\(\exists\)</span> <code>INT_MAX</code>, <code>UINT_MAX</code>, <code>CHAR_MAX</code>, etc.
-<ul>
-<li>They use C names, not <code>stdint</code> names</li>
-</ul></li>
-<li>Sums and products less than these values are unaffected</li>
-<li>Sums and products greater than these values are taken modulo said max.</li>
-<li><span class="math inline">\(\forall a, b \in\)</span> <code>uint</code><span class="math inline">\(n\)</span><code>_t</code> <span class="math inline">\(: a + b \equiv a + b \pmod {2^n}\)</span></li>
-</ul>
-</section>
-
-<section id="problem-statement" class="title-slide slide level1 center">
-<h1>Problem Statement</h1>
-<ul>
-<li>Quoth GitHub</li>
-</ul>
-<blockquote>
-<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"><code>ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</code></a></p>
-</blockquote>
-<ul>
-<li>Wait a minute.</li>
-<li>What does that 4096 stand for?
-<ul>
-<li>For what does that 4096 stand?</li>
-</ul></li>
 </ul>
 </section>
 
@@ -843,23 +533,402 @@ t(10^n) \in [14,17] \times 10^{n-9}
 <li>2048 is generally considered “okay” or “acceptable”</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb15-1"><a></a>NAME</span>
-<span id="cb15-2"><a></a>     ssh-keygen — OpenSSH authentication key utility</span>
-<span id="cb15-3"><a></a></span>
-<span id="cb15-4"><a></a>SYNOPSIS</span>
-<span id="cb15-5"><a></a>     ssh-keygen [-q] [-a rounds] [-b bits] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a></a>NAME</span>
+<span id="cb4-2"><a></a>     ssh-keygen — OpenSSH authentication key utility</span>
+<span id="cb4-3"><a></a></span>
+<span id="cb4-4"><a></a>SYNOPSIS</span>
+<span id="cb4-5"><a></a>     ssh-keygen [-q] [-a rounds] [-b bits] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="big-values" class="title-slide slide level1 center">
+<h1>Big Values</h1>
+<ul>
+<li>Soon, we will implement RSA
+<ul>
+<li>We’ll talk about what it is then.</li>
+</ul></li>
+<li>This week, we need a way to deal with integers that big.</li>
+<li>We will use <em>modular arithmetic</em>.
+<ul>
+<li>Finite <code>uint64_t</code> models infinite <span class="math inline">\(\mathbb{N}\)</span></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="simple-example" class="title-slide slide level1 center">
+<h1>Simple Example</h1>
+<ul>
+<li>Recall this example from a data application.</li>
+<li>We had a data set for which we determined a mean height in inches.</li>
+<li>We converted it to inches and feet.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="op">&gt;&gt;&gt;</span> <span class="fl">69.3</span> <span class="op">//</span> <span class="dv">12</span>, <span class="fl">69.3</span> <span class="op">%</span> <span class="dv">12</span></span>
+<span id="cb5-2"><a></a>(<span class="fl">5.0</span>, <span class="fl">9.299999999999997</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="addition-is-easy" class="title-slide slide level1 center">
+<h1>Addition is easy</h1>
+<ul>
+<li>WNBA MVP and Olympic Gold Medalist A’ja Wilson is <a href="https://en.wikipedia.org/wiki/A%27ja_Wilson">6 ft 4 in</a></li>
+<li>How much taller is that than 5 ft 9.3 in
+<ul>
+<li>Can convert to non-integer inches, but…</li>
+<li>We already had the .299… problem</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="difference" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li>We perform “long subtraction”</li>
+<li>It’s fun!</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-1" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li><span class="math inline">\(0 - 3 \equiv 7 \pmod(10)\)</span></li>
+<li>Tenths of inches</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Diff</td>
+<td></td>
+<td></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-2" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li>But wait - 3 is more than zero?</li>
+<li>Track via a “carry”</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td></td>
+<td></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-3" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li><span class="math inline">\(4 - 9 - 1 \equiv 6 \pmod{12}\)</span></li>
+<li>12 in = 1 ft</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td></td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-4" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li>Another carry.</li>
+<li>12 in = 1 ft</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td></td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-5" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li><span class="math inline">\(6 - 5 - 1 = 0\)</span></li>
+<li>Nonmodular - feet has no max.</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td>0</td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="conclusion" class="title-slide slide level1 center">
+<h1>Conclusion</h1>
+<ul>
+<li>Iconic living legend A’ja Wilson is tall af.</li>
+<li>We can do addition and substraction on larger values than <code>UINT_MAX</code> or ‘ULONG_MAX’ by:
+<ul>
+<li>Breaking numbers in smaller ranges
+<ul>
+<li>A tenths digit</li>
+<li>A ones digit</li>
+<li>A twelves digit</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="exercise" class="title-slide slide level1 center">
+<h1>Exercise</h1>
+<ul>
+<li>Make a height adder, try <code>man scanf</code></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hadder.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="hadder.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb6-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb6-3"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb6-4"><a></a></span>
+<span id="cb6-5"><a></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-6"><a></a>        <span class="dt">int</span> buf<span class="op">[</span><span class="dv">6</span><span class="op">];</span></span>
+<span id="cb6-7"><a></a>        printf<span class="op">(</span><span class="st">"Insert 2 heights as XftY.Zin, each on their own line</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb6-8"><a></a>        scanf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">ft</span><span class="sc">%d</span><span class="st">.</span><span class="sc">%d</span><span class="st">in"</span><span class="op">,</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">0</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">1</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb6-9"><a></a>        scanf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">ft</span><span class="sc">%d</span><span class="st">.</span><span class="sc">%d</span><span class="st">in"</span><span class="op">,</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">3</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">4</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">5</span><span class="op">]);</span></span>
+<span id="cb6-10"><a></a></span>
+<span id="cb6-11"><a></a>        printf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">ft</span><span class="sc">%d</span><span class="st">.</span><span class="sc">%d</span><span class="st">in</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> buf<span class="op">[</span><span class="dv">0</span><span class="op">],</span> buf<span class="op">[</span><span class="dv">1</span><span class="op">],</span> buf<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb6-12"><a></a></span>
+<span id="cb6-13"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-14"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!--
+#
+```{.C filename="ididit.c"}
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+int main() {
+        int buf[6], carry;
+        printf("Sum heights\n");
+        printf("Insert 2 heights as XftY.Zin, each on their own line\n");
+        scanf("%dft%d.%din", &buf[0], &buf[1], &buf[2]);
+        scanf("%dft%d.%din", &buf[3], &buf[4], &buf[5]);
+        carry = (buf[2] + buf[5]) > 9;
+        buf[2] = (buf[2] + buf[5]) % 10;
+        carry = (buf[1] + buf[4] + carry) > 11;
+        buf[1] = (buf[1] + buf[4] + carry) % 12;
+        buf[0] = (buf[0] + buf[3] + carry);
+        printf("%dft%d.%din\n", buf[0], buf[1], buf[2]);
+        return 0;
+}
+```
+-->
+</section>
+
+<section id="usefulness" class="title-slide slide level1 center">
+<h1>Usefulness</h1>
+<ul>
+<li>We can now do arithmetic correctly
+<ul>
+<li><span class="citation" data-cites="Python">@Python</span></li>
+</ul></li>
+<li>What else can we do?
+<ul>
+<li>Arbitrary (not infinite) precision.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="faq" class="title-slide slide level1 center">
+<h1>FAQ</h1>
+<ul>
+<li>Can we use this to add numbers bigger than <span class="math inline">\(2^n\)</span> using adds over at most <span class="math inline">\(n\)</span> bits at a time?
+<ul>
+<li>Sure! Change the modulos and you’re set.
+<ul>
+<li>Get it? Because the numbers form a set?</li>
+</ul></li>
+</ul></li>
+<li>Can we do this for more than 3 fields?
+<ul>
+<li>Sure! Just put the middle (both consumes and produces a carry bit) in a loop!</li>
+</ul></li>
+</ul>
 </section>
 
 <section id="today-1" class="title-slide slide level1 center">
 <h1>Today</h1>
 <ul>
-<li>Reintroduce the technologies
+<li>✓ Review
 <ul>
-<li>✓ <code>stdint</code></li>
+<li>Finite sets, rings</li>
 </ul></li>
-<li>Some number theory
+<li>✓ New
 <ul>
-<li>✓ Finite sets, rings</li>
+<li>Arbitrary/high precision integers</li>
 </ul></li>
 </ul>
 

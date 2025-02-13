@@ -445,6 +445,8 @@ Prof.&nbsp;Calvin
 <li>New
 <ul>
 <li>Arbitrary/high precision integers</li>
+<li>Arithmetic operations</li>
+<li>Function types</li>
 </ul></li>
 </ul>
 </section>
@@ -926,11 +928,531 @@ int main() {
 <ul>
 <li>Finite sets, rings</li>
 </ul></li>
-<li>✓ New
+<li>New
 <ul>
-<li>Arbitrary/high precision integers</li>
+<li>✓ Arbitrary/high precision integers</li>
+<li>Arithmetic operations</li>
+<li>Function types</li>
 </ul></li>
 </ul>
+</section>
+
+<section id="easy-mode" class="title-slide slide level1 center">
+<h1>Easy Mode</h1>
+<ul>
+<li>Addition and subtraction are easy.</li>
+<li>For some value of easy.
+<ul>
+<li>Cut a too-big number into chunks.</li>
+<li>Add or subtract within chunks of the same index/offset/significance.</li>
+<li>Only wrinkle is a carry bit.</li>
+</ul></li>
+<li>Identical to digit-based addition.
+<ul>
+<li><code>uint8_t</code>s as digits in base 256 arithmetic</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="hard-mode" class="title-slide slide level1 center">
+<h1>Hard Mode</h1>
+<ul>
+<li>Some cryptographical algorithms, however, use two extremely advanced arithmetic operations:
+<ul>
+<li>Multiplication, and</li>
+<li>Division, and</li>
+<li>Modulo</li>
+</ul></li>
+<li>Fortunately this only two operations (need a combined <code>divmod</code>)</li>
+</ul>
+</section>
+
+<section id="example" class="title-slide slide level1 center">
+<h1>Example</h1>
+<ul>
+<li>Imagine an engineering team lead for:
+<ul>
+<li>14 MS-level Computer Scientists
+<ul>
+<li>9-12 hrs/wk</li>
+<li>14 week contract</li>
+</ul></li>
+<li>34 BS-level Computer Scientists
+<ul>
+<li>6-9 hrs/wk</li>
+<li>15.5 week contract</li>
+</ul></li>
+</ul></li>
+<li>How many person hours is this?</li>
+</ul>
+</section>
+
+<section id="napkin-math" class="title-slide slide level1 center">
+<h1>Napkin Math</h1>
+<ul>
+<li>I’d say
+<ul>
+<li><span class="math inline">\(14 \times 12 \times 14\)</span></li>
+<li><span class="math inline">\(34 \times 9 \times 15.5\)</span></li>
+</ul></li>
+<li>I… can’t quite do that in one fell swoop.
+<ul>
+<li><span class="math inline">\(14 \times 12\)</span> is trivially <span class="math inline">\(12^2 + 24 = 168\)</span></li>
+<li><span class="math inline">\(9 \times 15.5\)</span> is trivially <span class="math inline">\(155 - 15.5 = 139.5\)</span></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="times-139.5" class="title-slide slide level1 center">
+<h1><span class="math inline">\(34 \times 139.5\)</span></h1>
+<ul>
+<li>That just isn’t easy</li>
+<li>(140 * 34 isn’t bad, but we need a motivating example).</li>
+<li>Express <em>digit-wise</em>:</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>3</th>
+<th>9</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="times-139.5-1" class="title-slide slide level1 center">
+<h1><span class="math inline">\(34 \times 139.5\)</span></h1>
+<ul>
+<li>Compute all products over single-digit factors</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>3</th>
+<th>9</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>3</td>
+<td>9</td>
+<td>27</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>4</td>
+<td>12</td>
+<td>36</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>These:
+<ul>
+<li>Aren’t single digit</li>
+<li>Aren’t of the same signficance</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="times-139.5-2" class="title-slide slide level1 center">
+<h1><span class="math inline">\(34 \times 139.5\)</span></h1>
+<ul>
+<li>Include sigificance</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>100</th>
+<th>30</th>
+<th>9</th>
+<th>.5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30</td>
+<td>3000</td>
+<td>900</td>
+<td>270</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>400</td>
+<td>120</td>
+<td>36</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="dear-watson" class="title-slide slide level1 center">
+<h1>Dear Watson</h1>
+<div class="columns">
+<div class="column" style="width:%50;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>100</th>
+<th>30</th>
+<th>9</th>
+<th>.5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30</td>
+<td>3000</td>
+<td>900</td>
+<td>270</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>400</td>
+<td>120</td>
+<td>36</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:%50;">
+<p><span class="math display">\[
+\begin{align*}
+5&amp; \times 4  \times 10^{-1}  &amp;= 2&amp;\\
++5&amp; \times 3  \times 10^{0}  &amp;= 15&amp;\\
++9&amp; \times 4  \times 10^{0}  &amp;= 36&amp;\\
++9&amp; \times 3  \times 10^{1}  &amp;= 270&amp;\\
++3&amp; \times 4  \times 10^{1}  &amp;= 120&amp;\\
++3&amp; \times 3  \times 10^{2}  &amp;= 900&amp;\\
++1&amp; \times 4  \times 10^{2}  &amp;= 400&amp;\\
++1&amp; \times 3  \times 10^{3}  &amp;= 3000&amp;\\
+\end{align*}
+\]</span></p>
+</div></div>
+</section>
+
+<section id="express-as" class="title-slide slide level1 center">
+<h1>Express as</h1>
+<p><span class="math display">\[
+\begin{align*}
+139.5&amp; = &amp;1 * 10^2 + &amp;3 * 10^1 + &amp;9 * 10^0&amp; + 5 * 10^{-1}\\
+34&amp; = &amp;&amp;3 * 10^1 + &amp;4 * 10^0&amp;\\
+\end{align*}
+\]</span></p>
+<ul>
+<li><p>Take <span class="math inline">\(x = 10\)</span> <span class="math display">\[
+\begin{align*}
+139.5&amp; = &amp;1 * x^2 + &amp;3 * x + &amp;9&amp; + 5 * x^{-1}\\
+34&amp; = &amp;&amp;3 * x + &amp;4&amp;\\
+\end{align*}
+\]</span></p></li>
+<li><p>That is polynomial; can work with those.</p></li>
+</ul>
+</section>
+
+<section id="polynomial" class="title-slide slide level1 center">
+<h1>Polynomial</h1>
+<p><span class="math display">\[
+(x^2 + 3x + 9 + 5x^{-1})(3x + 4)
+\]</span></p>
+<p><span class="math display">\[
+(x^2 + 3x + 9 + 5x^{-1})(3x) + (x^2 + 3x + 9 + 5x^{-1})(4)
+\]</span></p>
+<p><span class="math display">\[
+(3x^3 + 9x^2 + 27x + 15) + (4x^2 + 12x + 36 + 20x^{-1})
+\]</span></p>
+<p><span class="math display">\[
+3x^3 + 13x^2 + 39x + 51 + 20x^{-1}
+\]</span></p>
+</section>
+
+<section id="aside" class="title-slide slide level1 center">
+<h1>Aside</h1>
+<ul>
+<li>I think this is covered around ~8th grade</li>
+<li>I don’t want to assume the integrity to US public school system
+<ul>
+<li>Or anything school system</li>
+<li>Shout out school</li>
+</ul></li>
+<li>The point of this class isn’t middle/high school math
+<ul>
+<li>That’s the point of life itself /s</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="considerations" class="title-slide slide level1 center">
+<h1>Considerations</h1>
+<ul>
+<li>It is natural to express multiplication of e.g.&nbsp;4096 bit integers as a polynomial over, say, 64 bit integers.</li>
+<li>One teeny problem:
+<ul>
+<li>Overflow.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="overflow" class="title-slide slide level1 center">
+<h1>Overflow</h1>
+<ul>
+<li>The point of calculating this was to get things down to single digit:</li>
+</ul>
+<p><span class="math display">\[
+3x^3 + 13x^2 + 39x + 51 + 20x^{-1}
+\]</span></p>
+<ul>
+<li>13, 39, 51, and 20 are all not compliant (debatably 20 is okay)</li>
+<li>Essentially, 1-digit multiply may produce a 2-digit product.</li>
+</ul>
+</section>
+
+<section id="uh-oh" class="title-slide slide level1 center">
+<h1>Uh oh</h1>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>/bin/sh</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-filename="/bin/sh"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a></a>$ cat num<span class="op">.</span>c</span>
+<span id="cb7-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb7-3"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb7-4"><a></a></span>
+<span id="cb7-5"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-6"><a></a>    <span class="dt">uint8_t</span> x<span class="op">,</span> y<span class="op">,</span> z<span class="op">;</span></span>
+<span id="cb7-7"><a></a>    x <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb7-8"><a></a>    y <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb7-9"><a></a>    z <span class="op">=</span> x <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb7-10"><a></a>    <span class="cf">return</span> z<span class="op">;</span></span>
+<span id="cb7-11"><a></a><span class="op">}</span></span>
+<span id="cb7-12"><a></a>$ gcc num<span class="op">.</span>c <span class="op">;</span> <span class="op">./</span>a<span class="op">.</span>out <span class="dv">30</span> <span class="dv">30</span> <span class="op">;</span> echo $<span class="op">?</span></span>
+<span id="cb7-13"><a></a><span class="dv">132</span></span>
+<span id="cb7-14"><a></a>$ gcc num<span class="op">.</span>c <span class="op">;</span> <span class="op">./</span>a<span class="op">.</span>out <span class="dv">3</span> <span class="dv">3</span> <span class="op">;</span> echo $<span class="op">?</span></span>
+<span id="cb7-15"><a></a><span class="dv">9</span></span>
+<span id="cb7-16"><a></a>$ python3 <span class="op">-</span>c <span class="st">"print(30 * 30 % 2 ** 8)"</span></span>
+<span id="cb7-17"><a></a><span class="dv">132</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+<section id="size-of-ints" class="title-slide slide level1 center">
+<h1>Size of ints</h1>
+<ul>
+<li>Say we have two integers of 8 bits of precision.</li>
+<li>We multiple them together.</li>
+<li>What is the largest number we can get, and</li>
+<li>How many bits does it require?</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a></a>python3 -c "x = 2 ** 8 - 1 ; x = x * x ; print(x.bit_length())"</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>16</li>
+</ul>
+</section>
+
+<section id="carrys-for-mults" class="title-slide slide level1 center">
+<h1>Carrys for mults</h1>
+<ul>
+<li>When we are doing big multiplications:
+<ul>
+<li>We must multiply chunks of at most half the size of our biggest integer.</li>
+<li>We must keep track of significance - their position in an imagined larger integer</li>
+<li>We must perform adds over these terms, using big addition</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="one-technique" class="title-slide slide level1 center">
+<h1>One Technique</h1>
+<ul>
+<li>I Made a pointer to a <code>uint32_t</code>
+<ul>
+<li>`uint32_t *alias;</li>
+</ul></li>
+<li>Set it equal to the location of some array of <code>uint64_t</code>
+<ul>
+<li>`uint32_t *alias = &amp;array;</li>
+</ul></li>
+<li>Copied elements of the “alias” into 64 bit values.
+<ul>
+<li><code>uint64_t tmp = alias[5];</code></li>
+</ul></li>
+<li>Multiplied, tracking significance.</li>
+</ul>
+</section>
+
+<section id="division" class="title-slide slide level1 center">
+<h1>Division</h1>
+<ul>
+<li>Remember long division?</li>
+<li>Do that.
+<ul>
+<li>Align the highest digits.
+<ul>
+<li>I took the log base 2.</li>
+</ul></li>
+<li>Divide.</li>
+<li>Keep track of significance.
+<ul>
+<li>Difference between logs.</li>
+</ul></li>
+<li>Calculate remainder.</li>
+<li>Loop.</li>
+</ul></li>
+<li>The final remainder is the mod.</li>
+</ul>
+</section>
+
+<section id="today-2" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>Review
+<ul>
+<li>✓ <code>stdint</code></li>
+<li>✓ Finite sets, rings</li>
+<li>✓ Arbitrary/high precision integers</li>
+</ul></li>
+<li>New
+<ul>
+<li>✓ Arithmetic operations</li>
+<li>Function types</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="a-4096-bit-type" class="title-slide slide level1 center">
+<h1>A 4096 bit type</h1>
+<ul>
+<li>It’s not too bad to pass around 4096 bits.
+<ul>
+<li>An array of 64 <code>uint64_t</code>s or 128 <code>uint32_t</code>s</li>
+</ul></li>
+<li>Here’s an example function declaration:</li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>bigadd</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" data-filename="bigadd"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a></a><span class="dt">uint64_t</span> bigadd<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>in0<span class="op">,</span> <span class="dt">uint64_t</span> <span class="op">*</span>in1<span class="op">,</span> <span class="dt">uint64_t</span> <span class="op">*</span>sum<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+<section id="usage" class="title-slide slide level1 center">
+<h1>Usage</h1>
+<ul>
+<li>Before call this function, declare three arrays:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a></a><span class="dt">uint64_t</span> in0<span class="op">[</span><span class="dv">64</span><span class="op">],</span> in1<span class="op">[</span><span class="dv">64</span><span class="op">],</span> sum<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb10-2"><a></a>bigadd<span class="op">(</span>in0<span class="op">,</span>in1<span class="op">,</span>sum<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>You can recycle the arrays, as needed.
+<ul>
+<li>An astute student would be able to implement “in-place add”</li>
+<li>Sum overrights (either) operand</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb11-1"><a></a><span class="dt">uint64_t</span> in0<span class="op">[</span><span class="dv">64</span><span class="op">],</span> in1<span class="op">[</span><span class="dv">64</span><span class="op">],</span> sum<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb11-2"><a></a>bigadd<span class="op">(</span>in0<span class="op">,</span>in1<span class="op">,</span>in0<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+
+<section id="usage-1" class="title-slide slide level1 center">
+<h1>Usage</h1>
+<ul>
+<li>Remember this is banned:</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {C} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a></a>uint64_t *whatever(uint64_t *in0, uint64_t *in1) {</span>
+<span id="cb12-2"><a></a>    uint64_t sum[64];</span>
+<span id="cb12-3"><a></a>    /* much code */</span>
+<span id="cb12-4"><a></a>    return sum;</span>
+<span id="cb12-5"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>My <code>uint64_t</code> value returned the carry value (it was nice to keep track of)</li>
+</ul>
+</section>
+
+<section id="faq-1" class="title-slide slide level1 center">
+<h1>FAQ</h1>
+<ul>
+<li>Isn’t there a way to return the value from the function, rather than write a value to the memory location at a provided argument.
+<ul>
+<li>Yes.</li>
+<li>This form of coding we use here is <em>memory-safe</em></li>
+<li>It was endorsed by the White House from 26 Feb 24 to 19 Jan 25</li>
+<li><a href="https://web.archive.org/web/20250118013136/https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/">Read more</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="faq-2" class="title-slide slide level1 center">
+<h1>FAQ</h1>
+<ul>
+<li>How do we deal with integers that aren’t of known length.
+<ul>
+<li>Ask me after the midterm.</li>
+<li><a href="https://gmplib.org/">Read more</a></li>
+<li><a href="https://man7.org/linux/man-pages/man3/free.3.html">Read more</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="today-3" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Review
+<ul>
+<li>✓ <code>stdint</code></li>
+<li>✓ Finite sets, rings</li>
+</ul></li>
+<li>✓ New
+<ul>
+<li>✓ Arbitrary/high precision integers</li>
+<li>✓ Arithmetic operations</li>
+<li>✓ Function types</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="stinger" class="title-slide slide level1 center">
+<h1>Stinger</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a></a><span class="co">/* print the big value as a string */</span></span>
+<span id="cb13-2"><a></a><span class="dt">void</span> seebig<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>a<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a></a>    <span class="dt">size_t</span> i<span class="op">;</span></span>
+<span id="cb13-4"><a></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> S<span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> S <span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
+<span id="cb13-5"><a></a>        printf<span class="op">(</span><span class="st">"</span><span class="sc">%016lx</span><span class="st"> "</span><span class="op">,</span> a<span class="op">[</span>i<span class="op">]);</span> </span>
+<span id="cb13-6"><a></a>        <span class="cf">if</span> <span class="op">((</span>i <span class="op">%</span> <span class="dv">8</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> i<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb13-7"><a></a>            printf<span class="op">(</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb13-8"><a></a>        <span class="op">}</span>       </span>
+<span id="cb13-9"><a></a>    <span class="op">}</span></span>
+<span id="cb13-10"><a></a>    printf<span class="op">(</span><span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb13-11"><a></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb13-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

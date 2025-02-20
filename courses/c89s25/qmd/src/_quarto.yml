@@ -1,6 +1,3 @@
 project:
   type: website
   output-dir: ../
-            
-execute:
-  echo: false

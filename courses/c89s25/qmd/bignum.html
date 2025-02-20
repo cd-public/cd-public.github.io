@@ -391,7 +391,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">BigNum</h1>
-  <p class="subtitle">Lab 0x4</p>
+  <p class="subtitle">Week 0x5</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -416,7 +416,7 @@ Prof.&nbsp;Calvin
 </ul></li>
 <li><strong>Action Items</strong>:
 <ul>
-<li>SHA-256 extended to two weeks.</li>
+<li>SHA-256 due this week.</li>
 </ul></li>
 </ul>
 </section>
@@ -522,7 +522,7 @@ Prof.&nbsp;Calvin
 <span id="cb3-8"><a></a>44</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Operations on <code>uint8_t</code> values are equivalent to operations on the natural numbers modulo <span class="math inline">\(2^8\)</span> <span class="math display">\[
-\mathbb{N}_{2^8}
+\mathbb{N}/(2^8)
 \]</span></li>
 </ul>
 </section>
@@ -615,7 +615,7 @@ Prof.&nbsp;Calvin
 <section id="difference-1" class="title-slide slide level1 center">
 <h1>Difference</h1>
 <ul>
-<li><span class="math inline">\(0 - 3 \equiv 7 \pmod(10)\)</span></li>
+<li><span class="math inline">\(0 - 3 \equiv 7 \pmod{10}\)</span></li>
 <li>Tenths of inches</li>
 </ul>
 <table class="caption-top">
@@ -653,7 +653,7 @@ Prof.&nbsp;Calvin
 <section id="difference-2" class="title-slide slide level1 center">
 <h1>Difference</h1>
 <ul>
-<li>But wait - 3 is more than zero?</li>
+<li>But wait - <code>3</code> is more than <code>0</code></li>
 <li>Track via a “carry”</li>
 </ul>
 <table class="caption-top">
@@ -830,7 +830,7 @@ Prof.&nbsp;Calvin
 <h1>Conclusion</h1>
 <ul>
 <li>Iconic living legend A’ja Wilson is tall af.</li>
-<li>We can do addition and substraction on larger values than <code>UINT_MAX</code> or ‘ULONG_MAX’ by:
+<li>We can do addition and substraction on larger values than <code>UINT_MAX</code> or <code>ULONG_MAX</code> by:
 <ul>
 <li>Breaking numbers in smaller ranges
 <ul>
@@ -1294,11 +1294,11 @@ int main() {
 <ul>
 <li>I Made a pointer to a <code>uint32_t</code>
 <ul>
-<li>`uint32_t *alias;</li>
+<li><code>uint32_t *alias;</code>;</li>
 </ul></li>
 <li>Set it equal to the location of some array of <code>uint64_t</code>
 <ul>
-<li>`uint32_t *alias = &amp;array;</li>
+<li><code>uint32_t *alias = &amp;array;</code></li>
 </ul></li>
 <li>Copied elements of the “alias” into 64 bit values.
 <ul>
@@ -1311,8 +1311,7 @@ int main() {
 <section id="division" class="title-slide slide level1 center">
 <h1>Division</h1>
 <ul>
-<li>Remember long division?</li>
-<li>Do that.
+<li>Remember long division?
 <ul>
 <li>Align the highest digits.
 <ul>
@@ -1387,11 +1386,11 @@ int main() {
 <ul>
 <li>Remember this is banned:</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {C} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a></a>uint64_t *whatever(uint64_t *in0, uint64_t *in1) {</span>
-<span id="cb12-2"><a></a>    uint64_t sum[64];</span>
-<span id="cb12-3"><a></a>    /* much code */</span>
-<span id="cb12-4"><a></a>    return sum;</span>
-<span id="cb12-5"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a></a><span class="dt">uint64_t</span> <span class="op">*</span>whatever<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>in0<span class="op">,</span> <span class="dt">uint64_t</span> <span class="op">*</span>in1<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a></a>    <span class="dt">uint64_t</span> sum<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb12-3"><a></a>    <span class="co">/* much code */</span></span>
+<span id="cb12-4"><a></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb12-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>My <code>uint64_t</code> value returned the carry value (it was nice to keep track of)</li>
 </ul>

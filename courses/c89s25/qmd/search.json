@@ -382,7 +382,7 @@
     "href": "encode.html#section",
     "title": "Encode",
     "section": "[]",
-    "text": "[]\n\n\n\nSome of you used arrays of unspecified length on enigma, that is banned by c89.\nYou should know how long the arrays in your code are.\nThis is a security class and that stuff matters.\nSee more\nReade more"
+    "text": "[]\n\n\n\nSome of you used arrays of unspecified length on enigma, that is banned by c89.\nYou should know how long the arrays in your code are.\nThis is a security class and that stuff matters.\nSee more\nRead more"
   },
   {
     "objectID": "encode.html#use-small-arrays",
@@ -543,7 +543,7 @@
     "href": "encode.html#output-1",
     "title": "Encode",
     "section": "Output",
-    "text": "Output\n\n\n10\n10, 10\n126\n126, 126\n127\n127, 127\n128\n-128, 128\n255\n-1, 255\n256\n0, 0\n\n\nSigned values in \\(n\\) bit integers loop at \\(2^{n-1}\\)\n\nOr do they? Test it on ints!\n\nUnsigned values are maximal when signed values are -1\nmax + 1 and -1 + 1 both equal zero.\nBy the way, this makes a lot of things really nice."
+    "text": "Output\n\n\n10\n10, 10\n126\n126, 126\n127\n127, 127\n128\n-128, 128\n255\n-1, 255\n256\n0, 0\n\n\nSigned values in \\(n\\) bit integers loop at \\(2^{n-1}\\)\n\nOr do they? Test it on ints!\n\nUnsigned values are maximal when signed values are -1\nmax + 1 and -1 + 1 both equal zero."
   },
   {
     "objectID": "encode.html#look-at-ints",

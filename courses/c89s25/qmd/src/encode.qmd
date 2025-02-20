@@ -253,7 +253,7 @@ scanf.c:4:16: warning: format ‘%d’ expects a matching ‘int *’ argument [
 - You should know how long the arrays in your code are.
 - This is a security class and that stuff matters.
 - [See more](https://xkcd.com/1354/)
-- [Reade more](https://heartbleed.com/)
+- [Read more](https://heartbleed.com/)
 
 :::
 
@@ -824,7 +824,6 @@ int main() {
     - Or do they? Test it on ints!
 - Unsigned values are maximal when signed values are -1
 - max + 1 and -1 + 1 both equal zero.
-- By the way, this makes a lot of things really nice.
 
 :::
 

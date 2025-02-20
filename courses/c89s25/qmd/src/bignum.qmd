@@ -2,7 +2,7 @@
 title: BigNum
 theme: dark
 author: Prof. Calvin
-subtitle: "Lab 0x4"
+subtitle: "Week 0x5"
 institute: Crypto
 format: 
     revealjs: 
@@ -25,7 +25,7 @@ execute:
   - Now after the theoretical "Finite"
   - Lecture with exercise (instead of "pure" lab).
 - **Action Items**:
-  - SHA-256 extended to two weeks.
+  - SHA-256 due this week.
 
 # Apocryphal Quote
 
@@ -100,7 +100,7 @@ $ ./a.out 200 100 ; echo $?
 ```
 - Operations on `uint8_t` values are equivalent to operations on the natural numbers modulo $2^8$
 $$
-\mathbb{N}_{2^8}
+\mathbb{N}/(2^8)
 $$
 
 # 4096 bits
@@ -152,7 +152,7 @@ SYNOPSIS
 
 # Difference
 
-- $0 - 3 \equiv 7 \pmod(10)$
+- $0 - 3 \equiv 7 \pmod{10}$
 - Tenths of inches
 
 | |ft|in.|.in|
@@ -163,7 +163,7 @@ SYNOPSIS
 
 # Difference
 
-- But wait - 3 is more than zero?
+- But wait - `3` is more than `0`
 - Track via a "carry"
 
 | |ft|in.|.in|
@@ -214,7 +214,7 @@ SYNOPSIS
 # Conclusion
 
 - Iconic living legend A'ja Wilson is tall af.
-- We can do addition and substraction on larger values than `UINT_MAX` or 'ULONG_MAX' by:
+- We can do addition and substraction on larger values than `UINT_MAX` or `ULONG_MAX` by:
   - Breaking numbers in smaller ranges
     - A tenths digit
     - A ones digit
@@ -501,9 +501,9 @@ python3 -c "x = 2 ** 8 - 1 ; x = x * x ; print(x.bit_length())"
 # One Technique
 
 - I Made a pointer to a `uint32_t`
-  - `uint32_t *alias;
+  - `uint32_t *alias;`;
 - Set it equal to the location of some array of `uint64_t`
-  - `uint32_t *alias = &array;
+  - `uint32_t *alias = &array;`
 - Copied elements of the "alias" into 64 bit values.
   - `uint64_t tmp = alias[5];`
 - Multiplied, tracking significance.
@@ -511,7 +511,6 @@ python3 -c "x = 2 ** 8 - 1 ; x = x * x ; print(x.bit_length())"
 # Division
 
 - Remember long division?
-- Do that.
   - Align the highest digits.
     - I took the log base 2.
   - Divide.
@@ -560,7 +559,7 @@ bigadd(in0,in1,in0);
 
 - Remember this is banned:
 
-```{C}
+```{.C}
 uint64_t *whatever(uint64_t *in0, uint64_t *in1) {
     uint64_t sum[64];
     /* much code */

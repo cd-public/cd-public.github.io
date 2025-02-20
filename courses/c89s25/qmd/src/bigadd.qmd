@@ -352,7 +352,7 @@ int main() {
 
 - The 4096_t homework autograder will require code compliant with the following header file:
 
-```{.C = filename="4096_t.c"}
+```{.C filename="4096_t.h"}
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>

@@ -70,24 +70,24 @@ print("\n".join([f"{hash(a):+d}" for a in "ABCDE"]))
 ## Example.tex
 
 -   Let $M$ be the size of some hash table
--   Take $a \in \mathbb{N} : a < M \land \gcd(a, W) = 1$
+-   Take $a \in \mathbb{N} : a < M \land \gcd(a, M) = 1$
     -   That is, two positive coprime integers.
 -   Any integer value $x$ can be mapped into $\mathbb{N}/(M) = \{0,1,\ldots, M-1\}$
     
 ```LaTeX
-h_a(x) = \left\lfloor \frac{a x \bmod W}{W} M \right\rfloor
+h_a(x) = a x \pmod{M}
 ```
 $$
-h_a(x) = \left\lfloor \frac{a x \bmod M}{W} M \right\rfloor
+h_a(x) = a x \pmod{M}
 $$
 
 ## Example.py
 -   We can express in a programming language.
 -   We note that 257 == 0x101 is prime.
-    -   And therefore $\forall W : \gcd(257,W) = 1$
+    -   And therefore $\forall M : \gcd(257,M) = 1$
 ```{python}
 import math
-h = lambda x, a, M : (math.floor(((a * x) % M) / M * M))
+h = lambda x, a, M : (a * x) % M
 a, M = 0x05, 1 << 0x08
 assert(all((not math.gcd(a, M) == 1) or h(x, a, M) in range(M) for x in range(M)))
 print('h'+str((0xDA7A,a,M)), '=', h(0xDA7A,a,M))
@@ -127,7 +127,7 @@ assert(((x_0 != x_1) and (h(x_0, a, M) == h(x_1, a, M))))
 ## Test it:
 
 ```{python}
-h = lambda x, a, M : (math.floor(((a * x) % M) / M * M))
+h = lambda x, a, M : (a * x) % M
 a, M = 0x05, 1 << 0x08
 assert(set(h(x, a, M) for x in range(M)) == set(range(M)))
 ```

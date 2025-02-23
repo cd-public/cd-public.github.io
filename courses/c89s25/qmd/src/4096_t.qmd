@@ -7,7 +7,7 @@
 
 ---
 title: 4096_t
-subtitle: "HW 0x4: Due Th, Feb 20"
+subtitle: "HW 0x5: Due Th, Feb 27"
 
 format: 
   html:
@@ -42,12 +42,15 @@ format:
 - [The BigAdd lab](bigadd.html)
     - The "Header" entry formed my starter code.
 - [My Finite Slides](finite.html)
+    - Contextual background
+- [My BigNum Slides](bignum.html)
   - I used this, and its references. Try scroll mode (press 'r')
   - I think my slides are suitable for multiplication.
-  - Division is something of a challenge problem. I would begin with the following:
-        - [Wikipedia Divistion Algorithms](https://en.wikipedia.org/wiki/Division_algorithm)
-            - I used this and Stack Overflow to implement division.
-            - I used a variety of bitshifts.
+  - Division is something of a challenge problem. 
+    - I would begin with the following:
+    - [Wikipedia Division Algorithms](https://en.wikipedia.org/wiki/Division_algorithm)
+        - I used this and Stack Overflow to implement division.
+        - I used a variety of bitshifts.
 
 :::
 

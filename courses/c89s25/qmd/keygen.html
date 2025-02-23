@@ -628,34 +628,36 @@ Optimizations and Assertions
 <div class="code-with-filename-file">
 <pre><strong>keygen.py</strong></pre>
 </div>
-<div class="sourceCode" id="cb12" data-filename="keygen.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> keygen():</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> find_large_prime():</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        is_prime <span class="op">=</span> <span class="kw">lambda</span> n : <span class="bu">all</span>([n <span class="op">%</span> i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="bu">int</span>(n <span class="op">**</span><span class="fl">.5</span>))])</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        candidate <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> random.randint(<span class="dv">5460</span>,<span class="dv">10000</span>) <span class="op">+</span> <span class="dv">1</span> <span class="co"># approx. 1 &lt;&lt; 30 to 1 &lt;&lt; 31</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="kw">not</span> is_prime(candidate):</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            candidate <span class="op">+=</span> <span class="dv">6</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> candidate</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> egcd(a, b): </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Pseudocode</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> a <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> (b, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            g, y, x <span class="op">=</span> egcd(b <span class="op">%</span> a, a)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> (g, x <span class="op">-</span> (b <span class="op">//</span> a) <span class="op">*</span> y, y)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    lcm <span class="op">=</span> <span class="kw">lambda</span> a, b: a <span class="op">*</span> b <span class="op">//</span> egcd(a, b)[<span class="dv">0</span>]</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    p, q <span class="op">=</span> find_large_prime(), find_large_prime()</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> p <span class="op">*</span> q</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> <span class="dv">65537</span> <span class="co"># encryptor</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> egcd(e, lcm(p <span class="op">-</span> <span class="dv">1</span>,  q <span class="op">-</span> <span class="dv">1</span>))[<span class="dv">1</span>]</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    hd <span class="op">=</span> <span class="st">"-----BEGIN"</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    ft <span class="op">=</span> <span class="st">"-----END"</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    tl <span class="op">=</span> <span class="st">" UNSAFE PRIVATE KEY-----</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">open</span>(<span class="st">"unsafe.bad"</span>, <span class="st">"w"</span>).write(<span class="ss">f"</span><span class="sc">{</span>hd<span class="sc">}{</span>tl<span class="sc">}{</span>n<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>e<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>d<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>ft<span class="sc">}{</span>tl<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">open</span>(<span class="st">"unsafe.pub"</span>, <span class="st">"w"</span>).write(<span class="ss">f"</span><span class="sc">{</span>hd<span class="sc">}{</span>tl<span class="sc">}{</span>n<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>e<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>ft<span class="sc">}{</span>tl<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12" data-filename="keygen.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_large_prime():</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    is_prime <span class="op">=</span> <span class="kw">lambda</span> n : <span class="bu">all</span>([n <span class="op">%</span> i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="bu">int</span>(n <span class="op">**</span><span class="fl">.5</span>))])</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    candidate <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> random.randint(<span class="dv">5460</span>,<span class="dv">10000</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> is_prime(candidate):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        candidate <span class="op">+=</span> <span class="dv">6</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> candidate</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> egcd(a, b):</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> a <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (b, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        g, y, x <span class="op">=</span> egcd(b <span class="op">%</span> a, a)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (g, x <span class="op">-</span> (b <span class="op">//</span> a) <span class="op">*</span> y, y)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>lcm <span class="op">=</span> <span class="kw">lambda</span> a, b: a <span class="op">*</span> b <span class="op">//</span> egcd(a, b)[<span class="dv">0</span>]</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>p, q <span class="op">=</span> find_large_prime(), find_large_prime()</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> p <span class="op">*</span> q</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> <span class="dv">65537</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>lmdb <span class="op">=</span> lcm(p <span class="op">-</span> <span class="dv">1</span>,  q <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> egcd(e, lmdb)[<span class="dv">1</span>]</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> d <span class="op">&lt;</span> <span class="dv">0</span>: <span class="co"># fix sign problem</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    d <span class="op">+=</span> lcm(p <span class="op">-</span> <span class="dv">1</span>,  q <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>hd <span class="op">=</span> <span class="st">"-----BEGIN"</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>ft <span class="op">=</span> <span class="st">"-----END"</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>tl <span class="op">=</span> <span class="st">" UNSAFE PRIVATE KEY-----</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="bu">open</span>(<span class="st">"unsafe.bad"</span>, <span class="st">"w"</span>).write(<span class="ss">f"</span><span class="sc">{</span>hd<span class="sc">}{</span>tl<span class="sc">}{</span>n<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>e<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>d<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>ft<span class="sc">}{</span>tl<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>tl <span class="op">=</span> <span class="st">" UNSAFE PUBLIC KEY-----</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="bu">open</span>(<span class="st">"unsafe.pub"</span>, <span class="st">"w"</span>).write(<span class="ss">f"</span><span class="sc">{</span>hd<span class="sc">}{</span>tl<span class="sc">}{</span>n<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>e<span class="sc">:x}</span><span class="ch">\n</span><span class="sc">{</span>ft<span class="sc">}{</span>tl<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </div>

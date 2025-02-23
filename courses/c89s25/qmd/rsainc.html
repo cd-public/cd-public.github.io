@@ -192,6 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="keygen" class="collapse multi-collapse">
 <ul>
 <li><em>This section summarizes the lab. If you completed the lab, you may move onto “ModExp”</em></li>
+<li>Recall a sample Python implementation was provided, but was not very readable.</li>
 </ul>
 <section id="a-private-key-in-3-parts" class="level3">
 <h3 class="anchored" data-anchor-id="a-private-key-in-3-parts">A Private Key in 3 Parts</h3>
@@ -325,7 +326,138 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Write the encrypted or decrypted content to the output file.</li>
 </ul></li>
 </ul></li>
+<li>Here is a Python implementation.
+<ul>
+<li>It is exceptionally annoying because Python doesn’t like to treat files as holding data rather than text.</li>
+</ul></li>
 </ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>rsa_py.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="rsa_py.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">!=</span> <span class="st">"__main__"</span>:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    exit()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> modexp(m, e, n):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> e <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> e <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m <span class="op">%</span> n</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> e <span class="op">%</span> <span class="dv">2</span>:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (m <span class="op">*</span> modexp(m<span class="op">*</span>m <span class="op">%</span> n, e<span class="op">//</span><span class="dv">2</span>, n)) <span class="op">%</span> n</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>  modexp(m<span class="op">*</span>m <span class="op">%</span> n, e<span class="op">//</span><span class="dv">2</span>, n) <span class="op">%</span> n</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'e'</span> <span class="kw">in</span> sys.argv[<span class="dv">1</span>]:</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> <span class="bu">open</span>(<span class="st">"unsafe.pub"</span>).readlines()</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    n, e <span class="op">=</span> <span class="bu">int</span>(lines[<span class="dv">1</span>], <span class="dv">16</span>), <span class="bu">int</span>(lines[<span class="dv">2</span>], <span class="dv">16</span>) </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="st">'d'</span> <span class="kw">in</span> sys.argv[<span class="dv">1</span>]:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> <span class="bu">open</span>(<span class="st">"unsafe.bad"</span>).readlines()</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    n, e <span class="op">=</span> <span class="bu">int</span>(lines[<span class="dv">1</span>], <span class="dv">16</span>), <span class="bu">int</span>(lines[<span class="dv">3</span>], <span class="dv">16</span>) <span class="co"># have to call it e, not d</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    exit()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="bu">open</span>(sys.argv[<span class="dv">2</span>], <span class="st">"rb"</span>).read()</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="bu">int</span>.from_bytes(s, byteorder<span class="op">=</span>sys.byteorder, signed<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> modexp(m,e,n)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="bu">open</span>(sys.argv[<span class="dv">3</span>], <span class="st">"wb"</span>).write(c.to_bytes(<span class="dv">4</span>, byteorder<span class="op">=</span>sys.byteorder))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="hint" class="level4">
+<h4 class="anchored" data-anchor-id="hint">Hint</h4>
+<ul>
+<li>You will probably want to use something like this:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fscanf<span class="op">(</span>key<span class="op">,</span> <span class="st">"-----BEGIN UNSAFE PRIVATE KEY-----</span><span class="sc">\n%lx\n%lx\n</span><span class="st">-----END UNSAFE PRIVATE KEY-----</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">,</span> <span class="op">&amp;</span>e<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</div>
+</section>
+<section id="tester-show" class="level1">
+<h1>Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls="tester">Show</a></h1>
+<div id="tester" class="collapse multi-collapse">
+<ul>
+<li>I am providing the following Containerfile, which will serve as a minimal autograder.</li>
+<li><em>Use the tester with caution outside of containers as it deletes files you may want to preserve</em></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Containerfile</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="Containerfile"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>FROM ubuntu </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>RUN apt update &amp;&amp; apt install gcc curl python3 -y</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>COPY keygen.c .</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>COPY rsainc.c .</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>RUN curl https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/rsainc/tester.py -o tester.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="usage" class="level4">
+<h4 class="anchored" data-anchor-id="usage">Usage</h4>
+<ul>
+<li>I built my container via:</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>podman build -t tester .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>I tested my code via:</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>podman run tester python3 tester.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>If the above script returns the following you are done:
+<ul>
+<li>Upload your code to your GitHub on which I am a collaborator.</li>
+</ul></li>
+<li>I will review the most recent version prior to the due date.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>A+</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>A+</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sketch" class="level4">
+<h4 class="anchored" data-anchor-id="sketch">Sketch</h4>
+<ul>
+<li>We note the tester performs no error handling, for which you as the student are responsible.</li>
+<li>This assignment was essentially as follows:
+<ul>
+<li>Create a <code>keygen.c</code> that compiles into a <code>keygen</code> executable with is functionally identical to <code>python3 keygen.py</code>
+<ul>
+<li>Key generation should create an <code>unsafe.bad</code> private key and an <code>unsafe.pub</code> public key.</li>
+</ul></li>
+<li>Create a <code>rsainc.c</code> that compiles into a <code>rsainc</code> executable with is functionally identical to <code>python3 rsa_py.py</code>
+<ul>
+<li>Encryption and decryption will use a created <code>unsafe.bad</code> private key and an <code>unsafe.pub</code> public key.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="tester" class="level4">
+<h4 class="anchored" data-anchor-id="tester">Tester</h4>
+<ul>
+<li>The tester:
+<ul>
+<li>Ensures the local directory contains no prior message, key, or executable files.</li>
+<li>Uses <code>curl</code> to fetch the latest <code>keygen.py</code> and <code>rsa_py.py</code> from the instructional GitHub</li>
+<li>Compiles <code>keygen.c</code> and <code>rsainc.c</code> will all flags:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gcc keygen.c --std=c89 -Wall -Wextra -Werror -Wpedantic -O2 -o keygen</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>gcc rsainc.c --std=c89 -Wall -Wextra -Werror -Wpedantic -O2 -o rsainc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Creates a short message file containing at most two characters.</li>
+<li>Tests RSA for all permutations of C and Python for each stage:
+<ul>
+<li>Generates keys</li>
+<li>Encrypts the message, and</li>
+<li>Decrypts the message, then</li>
+<li>Prints the output.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
 </div>
 
 

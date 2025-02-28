@@ -391,7 +391,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Finite</h1>
-  <p class="subtitle">Week 0x4</p>
+  <p class="subtitle">Week 0x4 ∪ 0x5</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -410,12 +410,11 @@ Prof.&nbsp;Calvin
 <ul>
 <li><strong>Welcome</strong> to variously CS 276/CS 540
 <ul>
-<li>This was called “BigNum”</li>
-<li>Renamed after doing some theory work</li>
+<li>Composite multi-session lecture.</li>
 </ul></li>
 <li><strong>Action Items</strong>:
 <ul>
-<li>SHA-256 extended to two weeks.</li>
+<li>Broadly supports SHA, RSA, and mixed precision arithmetic, concurrent assignments with this lecture.</li>
 </ul></li>
 </ul>
 </section>
@@ -434,16 +433,19 @@ Prof.&nbsp;Calvin
 </ul>
 </section>
 
-<section id="today" class="title-slide slide level1 center">
-<h1>Today</h1>
+<section id="these-slides" class="title-slide slide level1 center">
+<h1>These Slides</h1>
 <ul>
 <li>Reintroduce the technologies
 <ul>
 <li><code>stdint</code></li>
 </ul></li>
-<li>Some number theory
+<li>New
 <ul>
 <li>Finite sets, rings</li>
+<li>Arbitrary/high precision integers</li>
+<li>Arithmetic operations</li>
+<li>Function types</li>
 </ul></li>
 </ul>
 </section>
@@ -800,7 +802,7 @@ t(10^n) \in [14,17] \times 10^{n-9}
 <span id="cb14-8"><a></a>44</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Operations on <code>uint8_t</code> values are equivalent to operations on the natural numbers modulo <span class="math inline">\(2^8\)</span> <span class="math display">\[
-\mathbb{N}_{2^8}
+\mathbb{N}/(2^8)
 \]</span></li>
 </ul>
 </section>
@@ -850,18 +852,912 @@ t(10^n) \in [14,17] \times 10^{n-9}
 <span id="cb15-5"><a></a>     ssh-keygen [-q] [-a rounds] [-b bits] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
-<section id="today-1" class="title-slide slide level1 center">
-<h1>Today</h1>
+<section id="these-slides-1" class="title-slide slide level1 center">
+<h1>These Slides</h1>
 <ul>
-<li>Reintroduce the technologies
+<li>✓ Reintroduce the technologies
 <ul>
 <li>✓ <code>stdint</code></li>
 </ul></li>
-<li>Some number theory
+<li>New
 <ul>
 <li>✓ Finite sets, rings</li>
+<li>Arbitrary/high precision integers</li>
+<li>Arithmetic operations</li>
+<li>Function types</li>
 </ul></li>
 </ul>
+</section>
+
+<section id="big-values" class="title-slide slide level1 center">
+<h1>Big Values</h1>
+<ul>
+<li>Soon, we will implement RSA
+<ul>
+<li>We’ll talk about what it is then.</li>
+</ul></li>
+<li>First, we need a way to deal with integers that big.</li>
+<li>We will use <em>modular arithmetic</em>.
+<ul>
+<li>Finite <code>uint64_t</code> models infinite <span class="math inline">\(\mathbb{N}\)</span></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="simple-example" class="title-slide slide level1 center">
+<h1>Simple Example</h1>
+<ul>
+<li>Recall this example from a data application.</li>
+<li>We had a data set for which we determined a mean height in inches.</li>
+<li>We converted it to inches and feet.</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="op">&gt;&gt;&gt;</span> <span class="fl">69.3</span> <span class="op">//</span> <span class="dv">12</span>, <span class="fl">69.3</span> <span class="op">%</span> <span class="dv">12</span></span>
+<span id="cb16-2"><a></a>(<span class="fl">5.0</span>, <span class="fl">9.299999999999997</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="addition-is-easy" class="title-slide slide level1 center">
+<h1>Addition is easy</h1>
+<ul>
+<li>WNBA MVP and Olympic Gold Medalist A’ja Wilson is <a href="https://en.wikipedia.org/wiki/A%27ja_Wilson">6 ft 4 in</a></li>
+<li>How much taller is that than 5 ft 9.3 in
+<ul>
+<li>Can convert to non-integer inches, but…</li>
+<li>We already had the .299… problem</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="difference" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li>We perform “long subtraction”</li>
+<li>It’s fun!</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-1" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li><span class="math inline">\(0 - 3 \equiv 7 \pmod{10}\)</span></li>
+<li>Tenths of inches</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Diff</td>
+<td></td>
+<td></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-2" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li>But wait - <code>3</code> is more than <code>0</code></li>
+<li>Track via a “carry”</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td></td>
+<td></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-3" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li><span class="math inline">\(4 - 9 - 1 \equiv 6 \pmod{12}\)</span></li>
+<li>12 in = 1 ft</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td></td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-4" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li>Another carry.</li>
+<li>12 in = 1 ft</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td></td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="difference-5" class="title-slide slide level1 center">
+<h1>Difference</h1>
+<ul>
+<li><span class="math inline">\(6 - 5 - 1 = 0\)</span></li>
+<li>Nonmodular - feet has no max.</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ft</th>
+<th>in.</th>
+<th>.in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A’ja</td>
+<td>6</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>5</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Carry</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Diff</td>
+<td>0</td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="conclusion" class="title-slide slide level1 center">
+<h1>Conclusion</h1>
+<ul>
+<li>Iconic living legend A’ja Wilson is tall af.</li>
+<li>We can do addition and substraction on larger values than <code>UINT_MAX</code> or <code>ULONG_MAX</code> by:
+<ul>
+<li>Breaking numbers in smaller ranges
+<ul>
+<li>A tenths digit</li>
+<li>A ones digit</li>
+<li>A twelves digit</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="exercise" class="title-slide slide level1 center">
+<h1>Exercise</h1>
+<ul>
+<li>Make a height adder, try <code>man scanf</code></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hadder.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb17" data-filename="hadder.c"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb17-1"><a></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb17-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb17-3"><a></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-6"><a></a>        <span class="dt">int</span> buf<span class="op">[</span><span class="dv">6</span><span class="op">];</span></span>
+<span id="cb17-7"><a></a>        printf<span class="op">(</span><span class="st">"Insert 2 heights as XftY.Zin, each on their own line</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb17-8"><a></a>        scanf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">ft</span><span class="sc">%d</span><span class="st">.</span><span class="sc">%d</span><span class="st">in"</span><span class="op">,</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">0</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">1</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb17-9"><a></a>        scanf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">ft</span><span class="sc">%d</span><span class="st">.</span><span class="sc">%d</span><span class="st">in"</span><span class="op">,</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">3</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">4</span><span class="op">],</span> <span class="op">&amp;</span>buf<span class="op">[</span><span class="dv">5</span><span class="op">]);</span></span>
+<span id="cb17-10"><a></a></span>
+<span id="cb17-11"><a></a>        printf<span class="op">(</span><span class="st">"</span><span class="sc">%d</span><span class="st">ft</span><span class="sc">%d</span><span class="st">.</span><span class="sc">%d</span><span class="st">in</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> buf<span class="op">[</span><span class="dv">0</span><span class="op">],</span> buf<span class="op">[</span><span class="dv">1</span><span class="op">],</span> buf<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb17-12"><a></a></span>
+<span id="cb17-13"><a></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-14"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+<section id="usefulness" class="title-slide slide level1 center">
+<h1>Usefulness</h1>
+<ul>
+<li>We can now do arithmetic correctly
+<ul>
+<li><span class="citation" data-cites="Python">@Python</span></li>
+</ul></li>
+<li>What else can we do?
+<ul>
+<li>Arbitrary (not infinite) precision.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="faq" class="title-slide slide level1 center">
+<h1>FAQ</h1>
+<ul>
+<li>Can we use this to add numbers bigger than <span class="math inline">\(2^n\)</span> using adds over at most <span class="math inline">\(n\)</span> bits at a time?
+<ul>
+<li>Sure! Change the modulos and you’re set.
+<ul>
+<li>Get it? Because the numbers form a set?</li>
+</ul></li>
+</ul></li>
+<li>Can we do this for more than 3 fields?
+<ul>
+<li>Sure! Just put the middle (both consumes and produces a carry bit) in a loop!</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="these-slides-2" class="title-slide slide level1 center">
+<h1>These Slides</h1>
+<ul>
+<li>✓ Reintroduce the technologies
+<ul>
+<li>✓ <code>stdint</code></li>
+</ul></li>
+<li>New
+<ul>
+<li>✓ Finite sets, rings</li>
+<li>✓ Arbitrary/high precision integers</li>
+<li>Arithmetic operations</li>
+<li>Function types</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="easy-mode" class="title-slide slide level1 center">
+<h1>Easy Mode</h1>
+<ul>
+<li>Addition and subtraction are easy.</li>
+<li>For some value of easy.
+<ul>
+<li>Cut a too-big number into chunks.</li>
+<li>Add or subtract within chunks of the same index/offset/significance.</li>
+<li>Only wrinkle is a carry bit.</li>
+</ul></li>
+<li>Identical to digit-based addition.
+<ul>
+<li><code>uint8_t</code>s as digits in base 256 arithmetic</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="hard-mode" class="title-slide slide level1 center">
+<h1>Hard Mode</h1>
+<ul>
+<li>Some cryptographical algorithms, however, use two extremely advanced arithmetic operations:
+<ul>
+<li>Multiplication, and</li>
+<li>Division, and</li>
+<li>Modulo</li>
+</ul></li>
+<li>Fortunately this only two operations (need a combined <code>divmod</code>)</li>
+</ul>
+</section>
+
+<section id="example" class="title-slide slide level1 center">
+<h1>Example</h1>
+<ul>
+<li>Imagine an engineering team lead for:
+<ul>
+<li>14 MS-level Computer Scientists
+<ul>
+<li>9-12 hrs/wk</li>
+<li>14 week contract</li>
+</ul></li>
+<li>34 BS-level Computer Scientists
+<ul>
+<li>6-9 hrs/wk</li>
+<li>15.5 week contract</li>
+</ul></li>
+</ul></li>
+<li>How many person hours is this?</li>
+</ul>
+</section>
+
+<section id="napkin-math" class="title-slide slide level1 center">
+<h1>Napkin Math</h1>
+<ul>
+<li>I’d say
+<ul>
+<li><span class="math inline">\(14 \times 12 \times 14\)</span></li>
+<li><span class="math inline">\(34 \times 9 \times 15.5\)</span></li>
+</ul></li>
+<li>I… can’t quite do that in one fell swoop.
+<ul>
+<li><span class="math inline">\(14 \times 12\)</span> is trivially <span class="math inline">\(12^2 + 24 = 168\)</span></li>
+<li><span class="math inline">\(9 \times 15.5\)</span> is trivially <span class="math inline">\(155 - 15.5 = 139.5\)</span></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="times-139.5" class="title-slide slide level1 center">
+<h1><span class="math inline">\(34 \times 139.5\)</span></h1>
+<ul>
+<li>That just isn’t easy</li>
+<li>(140 * 34 isn’t bad, but we need a motivating example).</li>
+<li>Express <em>digit-wise</em>:</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>3</th>
+<th>9</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="times-139.5-1" class="title-slide slide level1 center">
+<h1><span class="math inline">\(34 \times 139.5\)</span></h1>
+<ul>
+<li>Compute all products over single-digit factors</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>3</th>
+<th>9</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>3</td>
+<td>9</td>
+<td>27</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>4</td>
+<td>12</td>
+<td>36</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>These:
+<ul>
+<li>Aren’t single digit</li>
+<li>Aren’t of the same signficance</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="times-139.5-2" class="title-slide slide level1 center">
+<h1><span class="math inline">\(34 \times 139.5\)</span></h1>
+<ul>
+<li>Include sigificance</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>100</th>
+<th>30</th>
+<th>9</th>
+<th>.5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30</td>
+<td>3000</td>
+<td>900</td>
+<td>270</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>400</td>
+<td>120</td>
+<td>36</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="dear-watson" class="title-slide slide level1 center">
+<h1>Dear Watson</h1>
+<div class="columns">
+<div class="column" style="width:%50;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>100</th>
+<th>30</th>
+<th>9</th>
+<th>.5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30</td>
+<td>3000</td>
+<td>900</td>
+<td>270</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>400</td>
+<td>120</td>
+<td>36</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:%50;">
+<p><span class="math display">\[
+\begin{align*}
+5&amp; \times 4  \times 10^{-1}  &amp;= 2&amp;\\
++5&amp; \times 3  \times 10^{0}  &amp;= 15&amp;\\
++9&amp; \times 4  \times 10^{0}  &amp;= 36&amp;\\
++9&amp; \times 3  \times 10^{1}  &amp;= 270&amp;\\
++3&amp; \times 4  \times 10^{1}  &amp;= 120&amp;\\
++3&amp; \times 3  \times 10^{2}  &amp;= 900&amp;\\
++1&amp; \times 4  \times 10^{2}  &amp;= 400&amp;\\
++1&amp; \times 3  \times 10^{3}  &amp;= 3000&amp;\\
+\end{align*}
+\]</span></p>
+</div></div>
+</section>
+
+<section id="express-as" class="title-slide slide level1 center">
+<h1>Express as</h1>
+<p><span class="math display">\[
+\begin{align*}
+139.5&amp; = &amp;1 * 10^2 + &amp;3 * 10^1 + &amp;9 * 10^0&amp; + 5 * 10^{-1}\\
+34&amp; = &amp;&amp;3 * 10^1 + &amp;4 * 10^0&amp;\\
+\end{align*}
+\]</span></p>
+<ul>
+<li><p>Take <span class="math inline">\(x = 10\)</span> <span class="math display">\[
+\begin{align*}
+139.5&amp; = &amp;1 * x^2 + &amp;3 * x + &amp;9&amp; + 5 * x^{-1}\\
+34&amp; = &amp;&amp;3 * x + &amp;4&amp;\\
+\end{align*}
+\]</span></p></li>
+<li><p>That is polynomial; can work with those.</p></li>
+</ul>
+</section>
+
+<section id="polynomial" class="title-slide slide level1 center">
+<h1>Polynomial</h1>
+<p><span class="math display">\[
+(x^2 + 3x + 9 + 5x^{-1})(3x + 4)
+\]</span></p>
+<p><span class="math display">\[
+(x^2 + 3x + 9 + 5x^{-1})(3x) + (x^2 + 3x + 9 + 5x^{-1})(4)
+\]</span></p>
+<p><span class="math display">\[
+(3x^3 + 9x^2 + 27x + 15) + (4x^2 + 12x + 36 + 20x^{-1})
+\]</span></p>
+<p><span class="math display">\[
+3x^3 + 13x^2 + 39x + 51 + 20x^{-1}
+\]</span></p>
+</section>
+
+<section id="aside-1" class="title-slide slide level1 center">
+<h1>Aside</h1>
+<ul>
+<li>I think this is covered around ~8th grade</li>
+<li>I don’t want to assume the integrity to US public school system
+<ul>
+<li>Or anything school system</li>
+<li>Shout out school</li>
+</ul></li>
+<li>The point of this class isn’t middle/high school math
+<ul>
+<li>That’s the point of life itself /s</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="considerations" class="title-slide slide level1 center">
+<h1>Considerations</h1>
+<ul>
+<li>It is natural to express multiplication of e.g.&nbsp;4096 bit integers as a polynomial over, say, 64 bit integers.</li>
+<li>One teeny problem:
+<ul>
+<li>Overflow.</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="overflow" class="title-slide slide level1 center">
+<h1>Overflow</h1>
+<ul>
+<li>The point of calculating this was to get things down to single digit:</li>
+</ul>
+<p><span class="math display">\[
+3x^3 + 13x^2 + 39x + 51 + 20x^{-1}
+\]</span></p>
+<ul>
+<li>13, 39, 51, and 20 are all not compliant (debatably 20 is okay)</li>
+<li>Essentially, 1-digit multiply may produce a 2-digit product.</li>
+</ul>
+</section>
+
+<section id="uh-oh" class="title-slide slide level1 center">
+<h1>Uh oh</h1>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>/bin/sh</strong></pre>
+</div>
+<div class="sourceCode" id="cb18" data-filename="/bin/sh"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb18-1"><a></a>$ cat num<span class="op">.</span>c</span>
+<span id="cb18-2"><a></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb18-3"><a></a><span class="pp">#include </span><span class="im">&lt;stdint.h&gt;</span></span>
+<span id="cb18-4"><a></a></span>
+<span id="cb18-5"><a></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-6"><a></a>    <span class="dt">uint8_t</span> x<span class="op">,</span> y<span class="op">,</span> z<span class="op">;</span></span>
+<span id="cb18-7"><a></a>    x <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb18-8"><a></a>    y <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb18-9"><a></a>    z <span class="op">=</span> x <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb18-10"><a></a>    <span class="cf">return</span> z<span class="op">;</span></span>
+<span id="cb18-11"><a></a><span class="op">}</span></span>
+<span id="cb18-12"><a></a>$ gcc num<span class="op">.</span>c <span class="op">;</span> <span class="op">./</span>a<span class="op">.</span>out <span class="dv">30</span> <span class="dv">30</span> <span class="op">;</span> echo $<span class="op">?</span></span>
+<span id="cb18-13"><a></a><span class="dv">132</span></span>
+<span id="cb18-14"><a></a>$ gcc num<span class="op">.</span>c <span class="op">;</span> <span class="op">./</span>a<span class="op">.</span>out <span class="dv">3</span> <span class="dv">3</span> <span class="op">;</span> echo $<span class="op">?</span></span>
+<span id="cb18-15"><a></a><span class="dv">9</span></span>
+<span id="cb18-16"><a></a>$ python3 <span class="op">-</span>c <span class="st">"print(30 * 30 % 2 ** 8)"</span></span>
+<span id="cb18-17"><a></a><span class="dv">132</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+<section id="size-of-ints" class="title-slide slide level1 center">
+<h1>Size of ints</h1>
+<ul>
+<li>Say we have two integers of 8 bits of precision.</li>
+<li>We multiple them together.</li>
+<li>What is the largest number we can get, and</li>
+<li>How many bits does it require?</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource email number-lines code-with-copy"><code class="sourceCode email"><span id="cb19-1"><a></a>python3 -c "x = 2 ** 8 - 1 ; x = x * x ; print(x.bit_length())"</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>16</li>
+</ul>
+</section>
+
+<section id="carrys-for-mults" class="title-slide slide level1 center">
+<h1>Carrys for mults</h1>
+<ul>
+<li>When we are doing big multiplications:
+<ul>
+<li>We must multiply chunks of at most half the size of our biggest integer.</li>
+<li>We must keep track of significance - their position in an imagined larger integer</li>
+<li>We must perform adds over these terms, using big addition</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="one-technique" class="title-slide slide level1 center">
+<h1>One Technique</h1>
+<ul>
+<li>I Made a pointer to a <code>uint32_t</code>
+<ul>
+<li><code>uint32_t *alias;</code>;</li>
+</ul></li>
+<li>Set it equal to the location of some array of <code>uint64_t</code>
+<ul>
+<li><code>uint32_t *alias = &amp;array;</code></li>
+</ul></li>
+<li>Copied elements of the “alias” into 64 bit values.
+<ul>
+<li><code>uint64_t tmp = alias[5];</code></li>
+</ul></li>
+<li>Multiplied, tracking significance.</li>
+</ul>
+</section>
+
+<section id="division" class="title-slide slide level1 center">
+<h1>Division</h1>
+<ul>
+<li>Remember long division?
+<ul>
+<li>Align the highest digits.
+<ul>
+<li>I took the log base 2.</li>
+</ul></li>
+<li>Divide.</li>
+<li>Keep track of significance.
+<ul>
+<li>Difference between logs.</li>
+</ul></li>
+<li>Calculate remainder.</li>
+<li>Loop.</li>
+</ul></li>
+<li>The final remainder is the mod.</li>
+</ul>
+</section>
+
+<section id="these-slides-3" class="title-slide slide level1 center">
+<h1>These Slides</h1>
+<ul>
+<li>✓ Reintroduce the technologies
+<ul>
+<li>✓ <code>stdint</code></li>
+</ul></li>
+<li>New
+<ul>
+<li>✓ Finite sets, rings</li>
+<li>✓ Arbitrary/high precision integers</li>
+<li>✓ Arithmetic operations</li>
+<li>Function types</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="a-4096-bit-type" class="title-slide slide level1 center">
+<h1>A 4096 bit type</h1>
+<ul>
+<li>It’s not too bad to pass around 4096 bits.
+<ul>
+<li>An array of 64 <code>uint64_t</code>s or 128 <code>uint32_t</code>s</li>
+</ul></li>
+<li>Here’s an example function declaration:</li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>bigadd</strong></pre>
+</div>
+<div class="sourceCode" id="cb20" data-filename="bigadd"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb20-1"><a></a><span class="dt">uint64_t</span> bigadd<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>in0<span class="op">,</span> <span class="dt">uint64_t</span> <span class="op">*</span>in1<span class="op">,</span> <span class="dt">uint64_t</span> <span class="op">*</span>sum<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+<section id="usage" class="title-slide slide level1 center">
+<h1>Usage</h1>
+<ul>
+<li>Before call this function, declare three arrays:</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb21-1"><a></a><span class="dt">uint64_t</span> in0<span class="op">[</span><span class="dv">64</span><span class="op">],</span> in1<span class="op">[</span><span class="dv">64</span><span class="op">],</span> sum<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb21-2"><a></a>bigadd<span class="op">(</span>in0<span class="op">,</span>in1<span class="op">,</span>sum<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>You can recycle the arrays, as needed.
+<ul>
+<li>An astute student would be able to implement “in-place add”</li>
+<li>Sum overrights (either) operand</li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb22-1"><a></a><span class="dt">uint64_t</span> in0<span class="op">[</span><span class="dv">64</span><span class="op">],</span> in1<span class="op">[</span><span class="dv">64</span><span class="op">],</span> sum<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb22-2"><a></a>bigadd<span class="op">(</span>in0<span class="op">,</span>in1<span class="op">,</span>in0<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+
+<section id="usage-1" class="title-slide slide level1 center">
+<h1>Usage</h1>
+<ul>
+<li>Remember this is banned:</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a></a><span class="dt">uint64_t</span> <span class="op">*</span>whatever<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>in0<span class="op">,</span> <span class="dt">uint64_t</span> <span class="op">*</span>in1<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a></a>    <span class="dt">uint64_t</span> sum<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb23-3"><a></a>    <span class="co">/* much code */</span></span>
+<span id="cb23-4"><a></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb23-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>My <code>uint64_t</code> value returned the carry value (it was nice to keep track of)</li>
+</ul>
+</section>
+
+<section id="faq-1" class="title-slide slide level1 center">
+<h1>FAQ</h1>
+<ul>
+<li>Isn’t there a way to return the value from the function, rather than write a value to the memory location at a provided argument.
+<ul>
+<li>Yes.</li>
+<li>This form of coding we use here is <em>memory-safe</em></li>
+<li>It was endorsed by the White House from 26 Feb 24 to 19 Jan 25</li>
+<li><a href="https://web.archive.org/web/20250118013136/https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/">Read more</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="faq-2" class="title-slide slide level1 center">
+<h1>FAQ</h1>
+<ul>
+<li>How do we deal with integers that aren’t of known length.
+<ul>
+<li>Ask me after the midterm.</li>
+<li><a href="https://gmplib.org/">Read more</a></li>
+<li><a href="https://man7.org/linux/man-pages/man3/free.3.html">Read more</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="these-slides-4" class="title-slide slide level1 center">
+<h1>These Slides</h1>
+<ul>
+<li>✓ Reintroduce the technologies
+<ul>
+<li>✓ <code>stdint</code></li>
+</ul></li>
+<li>New
+<ul>
+<li>✓ Finite sets, rings</li>
+<li>✓ Arbitrary/high precision integers</li>
+<li>✓ Arithmetic operations</li>
+<li>✓ Function types</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="stinger" class="title-slide slide level1 center">
+<h1>Stinger</h1>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource C number-lines code-with-copy"><code class="sourceCode c"><span id="cb24-1"><a></a><span class="co">/* print the big value as a string */</span></span>
+<span id="cb24-2"><a></a><span class="dt">void</span> seebig<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>a<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-3"><a></a>    <span class="dt">size_t</span> i<span class="op">;</span></span>
+<span id="cb24-4"><a></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> S<span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> S <span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
+<span id="cb24-5"><a></a>        printf<span class="op">(</span><span class="st">"</span><span class="sc">%016lx</span><span class="st"> "</span><span class="op">,</span> a<span class="op">[</span>i<span class="op">]);</span> </span>
+<span id="cb24-6"><a></a>        <span class="cf">if</span> <span class="op">((</span>i <span class="op">%</span> <span class="dv">8</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> i<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb24-7"><a></a>            printf<span class="op">(</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb24-8"><a></a>        <span class="op">}</span>       </span>
+<span id="cb24-9"><a></a>    <span class="op">}</span></span>
+<span id="cb24-10"><a></a>    printf<span class="op">(</span><span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb24-11"><a></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb24-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

@@ -21,7 +21,7 @@ format:
 
 ::: {#review .collapse .multi-collapse}
 
-### Goal: Think about C variables as bits
+### Goal: Differentiate different integer encodings.
 
 |Review:    | Newish:    |
 | --------- | ---------- |

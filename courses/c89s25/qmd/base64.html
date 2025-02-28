@@ -201,11 +201,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="openssl" class="level2">
 <h2 class="anchored" data-anchor-id="openssl">OpenSSL</h2>
 <ul>
-<li><code>ssh-keygen</code> may or may not be implemented on top of a larger and more culturally significant “OpenSSL” library.</li>
-<li>OpenSSL has a cool backstory, <a href="https://en.wikipedia.org/wiki/OpenSSL">read more</a></li>
-<li>While used in practice in security relevant applications (at least to the best of my knowledge) it could perhaps better be understood as an educational or informational library.
+<li><code>ssh-keygen</code> may or may not be implemented on top of a larger and more culturally significant “OpenSSL” library.
 <ul>
-<li>and is therefore well-suited to out purposes.</li>
+<li>It <em>always</em> was and now it <em>sometimes</em> is.</li>
+</ul></li>
+<li>OpenSSL has a cool backstory, <a href="https://en.wikipedia.org/wiki/OpenSSL">Read more</a></li>
+<li>While used in practice in security relevant applications (at least to the best of my knowledge) it could perhaps better be understood as an educational or informational library…
+<ul>
+<li>…and is therefore well-suited to out purposes.</li>
 </ul></li>
 </ul>
 <section id="genrsa" class="level3">
@@ -215,7 +218,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><code>openssl</code> is the command-line utility</li>
 <li><code>genrsa</code> is the directive to generate a private rsa key.</li>
-<li><code>-out</code> specifies the destination
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>openssl genrsa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>This is a big difficult to work with so we also:
+<ul>
+<li>Use <code>-out</code> specifies the destination
 <ul>
 <li>I specify I am not making security considerations by naming the key “unsafe”</li>
 <li>I use one of several industry standard formats, <code>.pem</code>
@@ -224,15 +231,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>It is a purely text-based format.</li>
 </ul></li>
 <li>I make a 512 bit key, the smallest possible in OpenSSL, to make understanding it easier.</li>
-</ul></li>
-</ul></li>
-<li>I found <code>unsafe.pem</code> in the hidden <code>.ssh</code> folder in my home (<code>~</code>) directory.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$ pwd</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>/home/user/.ssh</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>$ ls *.pem</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>unsafe.pem</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>$</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>openssl genrsa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li>I found <code>unsafe.pem</code> in the hidden <code>.ssh</code> folder in my home (<code>~</code>) directory.
+<ul>
+<li>It will not show up when naively listing files and folders via <code>ls</code></li>
+<li>It will show up when listing “all” files and folders via <code>ls -a</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>openssl genrsa -out unsafe.pem 512</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Inspect the file with <code>cat unsafe.pem</code> or our most beloved text editor.</li>
 </ul>
@@ -240,17 +248,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-with-filename-file">
 <pre><strong>unsafe.pem</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" data-filename="unsafe.pem"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>-----BEGIN PRIVATE KEY-----</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEAsWQ0ya/HGdpuzqJU</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>UEzr3OFj8grPajdPlCg7NHmsdNHLEiDui6rEgEb94Y43mAjUDn9NBfVHY6eLI5Bx</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>gbopwwIDAQABAkAt9dyHdPeNBz82YnCd7ZAexnbyu0JKLtJ7fID6c5vvGA2qjjXL</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ZnuUqLw4rVckPod0f5GsCDxs7YVfJnikL39hAiEA10gzhGV1Wkbs2J8TL84rOkgB</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>VDlWeAcjRzlqHW54sTUCIQDS8V6aq+dF/i/bi06WY4+hFkq9OQWvgIzqKzj3WC8G</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>FwIgItv6G5IiMoARkfIQNUl5DnLiZDT0n3Lob3wIhsOAn5ECIEAUrR2lnTNpHZa/</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>QhdzlV1lTT0ghnajQaudh8e0FUzvAiAFk8f2Mjmkkt7noGGXGdIV7kKhYU6gA6yw</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>0bjjw1yM2w==</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>-----END PRIVATE KEY-----</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5" data-filename="unsafe.pem"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>-----BEGIN PRIVATE KEY-----</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEAsWQ0ya/HGdpuzqJU</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>UEzr3OFj8grPajdPlCg7NHmsdNHLEiDui6rEgEb94Y43mAjUDn9NBfVHY6eLI5Bx</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>gbopwwIDAQABAkAt9dyHdPeNBz82YnCd7ZAexnbyu0JKLtJ7fID6c5vvGA2qjjXL</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ZnuUqLw4rVckPod0f5GsCDxs7YVfJnikL39hAiEA10gzhGV1Wkbs2J8TL84rOkgB</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>VDlWeAcjRzlqHW54sTUCIQDS8V6aq+dF/i/bi06WY4+hFkq9OQWvgIzqKzj3WC8G</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>FwIgItv6G5IiMoARkfIQNUl5DnLiZDT0n3Lob3wIhsOAn5ECIEAUrR2lnTNpHZa/</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>QhdzlV1lTT0ghnajQaudh8e0FUzvAiAFk8f2Mjmkkt7noGGXGdIV7kKhYU6gA6yw</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>0bjjw1yM2w==</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>-----END PRIVATE KEY-----</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>Generate a new key and see how it differs, or doesn’t. Try other sizes.</li>
+</ul>
 </section>
 <section id="a-key-in-3-parts" class="level3">
 <h3 class="anchored" data-anchor-id="a-key-in-3-parts">A Key in 3 Parts</h3>
@@ -271,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-with-filename-file">
 <pre><strong>wc unsafe.pem</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" data-filename="wc unsafe.pem"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>10  14 522 unsafe.pem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6" data-filename="wc unsafe.pem"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>10  14 522 unsafe.pem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>So what is in there?</li>
@@ -283,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>OpenSSL provides a utility to see a formated readout of the contents of a <code>.pem</code> file.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>openssl rsa -in unsafe.pem -text</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>openssl rsa -in unsafe.pem -text</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Mine appeared as follows.
 <ul>
@@ -297,51 +308,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-with-filename-file">
 <pre><strong>openssl rsa -in unsafe.pem -text</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename="openssl rsa -in unsafe.pem -text"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Private-Key: </span>(512 bit, 2 primes)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>modulus:</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    00:98:26:e6:f8:71:3a:bc:e9:ff:2a:47:90:85:84:</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    ba:8e:22:3b:8e:e9:70:0e:64:af:6e:44:06:65:c2:</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    de:ff:34:ce:87:f1:a1:94:7b:f9:92:7d:9f:ea:aa:</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    b7:93:03:85:4a:57:a1:c8:56:ac:0d:ca:4c:da:59:</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    1f:ef:ba:a3:d7</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">publicExponent: </span>65537 (0x10001)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>privateExponent:</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    3a:20:5a:8a:bd:4f:30:4e:c0:c1:99:37:78:1a:bd:</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    de:80:eb:79:ec:6a:77:c5:35:54:0d:be:d7:ef:7b:</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    9b:c9:2c:f0:3f:95:4f:3f:cc:b2:61:bb:50:da:5f:</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    b2:49:07:ee:70:95:4a:fc:ce:6e:31:a1:35:d2:c1:</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    02:8e:9b:01</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>prime1:</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    00:c8:be:97:b0:ff:d0:20:b2:82:22:50:81:84:f5:</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    0d:36:be:2e:ef:89:db:f5:cf:da:73:95:05:56:5e:</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    f5:d2:57</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>prime2:</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    00:c2:08:3f:d7:17:84:8d:b5:c7:ac:91:ba:84:a4:</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    f8:0d:95:87:a8:47:79:e8:fa:4c:7d:fa:83:26:91:</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    55:ca:81</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>exponent1:</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    00:85:fc:20:06:f5:57:16:db:ce:5b:d4:db:fd:c0:</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    09:87:c6:3c:51:88:f4:15:07:1c:49:14:e7:b1:14:</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    44:82:95</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>exponent2:</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    07:79:01:dc:6a:cf:74:15:b8:26:f1:45:d9:ad:f0:</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    cf:b5:1e:90:60:90:55:64:ae:65:7b:ac:69:63:d7:</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    86:01</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>coefficient:</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    00:a7:e5:ed:d4:dd:16:e2:7e:90:de:ea:8e:7c:25:</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    74:bb:88:eb:ea:0a:9d:07:75:25:dd:7e:3f:7a:0f:</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    b4:6e:25</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>writing RSA key</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>-----BEGIN PRIVATE KEY-----</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAmCbm+HE6vOn/KkeQ</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>hYS6jiI7julwDmSvbkQGZcLe/zTOh/GhlHv5kn2f6qq3kwOFSlehyFasDcpM2lkf</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>77qj1wIDAQABAkA6IFqKvU8wTsDBmTd4Gr3egOt57Gp3xTVUDb7X73ubySzwP5VP</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>P8yyYbtQ2l+ySQfucJVK/M5uMaE10sECjpsBAiEAyL6XsP/QILKCIlCBhPUNNr4u</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>74nb9c/ac5UFVl710lcCIQDCCD/XF4SNtceskbqEpPgNlYeoR3no+kx9+oMmkVXK</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>gQIhAIX8IAb1VxbbzlvU2/3ACYfGPFGI9BUHHEkU57EURIKVAiAHeQHcas90Fbgm</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>8UXZrfDPtR6QYJBVZK5le6xpY9eGAQIhAKfl7dTdFuJ+kN7qjnwldLuI6+oKnQd1</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>Jd1+P3oPtG4l</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>-----END PRIVATE KEY-----</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8" data-filename="openssl rsa -in unsafe.pem -text"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Private-Key: </span>(512 bit, 2 primes)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>modulus:</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    00:98:26:e6:f8:71:3a:bc:e9:ff:2a:47:90:85:84:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ba:8e:22:3b:8e:e9:70:0e:64:af:6e:44:06:65:c2:</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    de:ff:34:ce:87:f1:a1:94:7b:f9:92:7d:9f:ea:aa:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    b7:93:03:85:4a:57:a1:c8:56:ac:0d:ca:4c:da:59:</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    1f:ef:ba:a3:d7</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">publicExponent: </span>65537 (0x10001)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>privateExponent:</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    3a:20:5a:8a:bd:4f:30:4e:c0:c1:99:37:78:1a:bd:</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    de:80:eb:79:ec:6a:77:c5:35:54:0d:be:d7:ef:7b:</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    9b:c9:2c:f0:3f:95:4f:3f:cc:b2:61:bb:50:da:5f:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    b2:49:07:ee:70:95:4a:fc:ce:6e:31:a1:35:d2:c1:</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    02:8e:9b:01</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>prime1:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    00:c8:be:97:b0:ff:d0:20:b2:82:22:50:81:84:f5:</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    0d:36:be:2e:ef:89:db:f5:cf:da:73:95:05:56:5e:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    f5:d2:57</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>prime2:</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    00:c2:08:3f:d7:17:84:8d:b5:c7:ac:91:ba:84:a4:</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    f8:0d:95:87:a8:47:79:e8:fa:4c:7d:fa:83:26:91:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    55:ca:81</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>exponent1:</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    00:85:fc:20:06:f5:57:16:db:ce:5b:d4:db:fd:c0:</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    09:87:c6:3c:51:88:f4:15:07:1c:49:14:e7:b1:14:</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    44:82:95</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>exponent2:</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    07:79:01:dc:6a:cf:74:15:b8:26:f1:45:d9:ad:f0:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    cf:b5:1e:90:60:90:55:64:ae:65:7b:ac:69:63:d7:</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    86:01</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>coefficient:</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    00:a7:e5:ed:d4:dd:16:e2:7e:90:de:ea:8e:7c:25:</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    74:bb:88:eb:ea:0a:9d:07:75:25:dd:7e:3f:7a:0f:</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    b4:6e:25</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>writing RSA key</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>-----BEGIN PRIVATE KEY-----</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAmCbm+HE6vOn/KkeQ</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>hYS6jiI7julwDmSvbkQGZcLe/zTOh/GhlHv5kn2f6qq3kwOFSlehyFasDcpM2lkf</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>77qj1wIDAQABAkA6IFqKvU8wTsDBmTd4Gr3egOt57Gp3xTVUDb7X73ubySzwP5VP</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>P8yyYbtQ2l+ySQfucJVK/M5uMaE10sECjpsBAiEAyL6XsP/QILKCIlCBhPUNNr4u</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>74nb9c/ac5UFVl710lcCIQDCCD/XF4SNtceskbqEpPgNlYeoR3no+kx9+oMmkVXK</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>gQIhAIX8IAb1VxbbzlvU2/3ACYfGPFGI9BUHHEkU57EURIKVAiAHeQHcas90Fbgm</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>8UXZrfDPtR6QYJBVZK5le6xpY9eGAQIhAKfl7dTdFuJ+kN7qjnwldLuI6+oKnQd1</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>Jd1+P3oPtG4l</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>-----END PRIVATE KEY-----</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>While I can’t find a reference in OpenSSL documentation, to the best of my knowledge, this format is described by <a href="https://www.rfc-editor.org/info/rfc3447">RFC 3447</a></li>
@@ -350,52 +361,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-with-filename-file">
 <pre><strong>rfc3447</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" data-filename="rfc3447"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>   An RSA private key should be represented with the ASN.1 type</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>   RSAPrivateKey:</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      RSAPrivateKey ::= SEQUENCE {</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>          version           Version,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>          modulus           INTEGER,  -- n</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>          publicExponent    INTEGER,  -- e</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>          privateExponent   INTEGER,  -- d</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>          prime1            INTEGER,  -- p</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>          prime2            INTEGER,  -- q</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>          exponent1         INTEGER,  -- d mod (p-1)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>          exponent2         INTEGER,  -- d mod (q-1)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>          coefficient       INTEGER,  -- (inverse of q) mod p</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>          otherPrimeInfos   OtherPrimeInfos OPTIONAL</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>   The fields of type RSAPrivateKey have the following meanings:</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    * version is the version number, for compatibility with future</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>      revisions of this document.  It shall be 0 for this version of the</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>      document, unless multi-prime is used, in which case it shall be 1.</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            Version ::= INTEGER { two-prime(0), multi(1) }</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>               (CONSTRAINED BY</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>               {-- version must be multi if otherPrimeInfos present --})</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    * modulus is the RSA modulus n.</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    * publicExponent is the RSA public exponent e.</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    * privateExponent is the RSA private exponent d.</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    * prime1 is the prime factor p of n.</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    * prime2 is the prime factor q of n.</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    * exponent1 is d mod (p - 1).</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    * exponent2 is d mod (q - 1).</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    * coefficient is the CRT coefficient q^(-1) mod p.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9" data-filename="rfc3447"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>   An RSA private key should be represented with the ASN.1 type</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>   RSAPrivateKey:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      RSAPrivateKey ::= SEQUENCE {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>          version           Version,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          modulus           INTEGER,  -- n</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>          publicExponent    INTEGER,  -- e</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>          privateExponent   INTEGER,  -- d</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>          prime1            INTEGER,  -- p</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>          prime2            INTEGER,  -- q</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>          exponent1         INTEGER,  -- d mod (p-1)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>          exponent2         INTEGER,  -- d mod (q-1)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>          coefficient       INTEGER,  -- (inverse of q) mod p</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>          otherPrimeInfos   OtherPrimeInfos OPTIONAL</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>   The fields of type RSAPrivateKey have the following meanings:</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    * version is the version number, for compatibility with future</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>      revisions of this document.  It shall be 0 for this version of the</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>      document, unless multi-prime is used, in which case it shall be 1.</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            Version ::= INTEGER { two-prime(0), multi(1) }</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>               (CONSTRAINED BY</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>               {-- version must be multi if otherPrimeInfos present --})</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    * modulus is the RSA modulus n.</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    * publicExponent is the RSA public exponent e.</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    * privateExponent is the RSA private exponent d.</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    * prime1 is the prime factor p of n.</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    * prime2 is the prime factor q of n.</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    * exponent1 is d mod (p - 1).</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    * exponent2 is d mod (q - 1).</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    * coefficient is the CRT coefficient q^(-1) mod p.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Based on the KeyGen lab, it should be uncomplicated to calculate these values for 64 bit keys.</li>
-<li>We will use <code>.bad</code> instead of <code>.pem</code> and insecurely store these values in plaintext.</li>
-<li>We will then make executables to generate <code>.bad</code> and encrypt content provided a <code>.bad</code></li>
+<li>It is probably complicated to store them in the encoding used within a <code>.pem</code> file.</li>
 </ul>
 </section>
 </section>
@@ -419,20 +429,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Understand it straightforwardly as follows:</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> num_to_b64(n)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">64</span>):</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      exit()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">26</span>):</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A-Z</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>[n]</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">26</span>,<span class="dv">52</span>):</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A-Z</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"abcdefghijklmnopqrstuvwxyz"</span>[n <span class="op">-</span> <span class="dv">26</span>]</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">52</span>,<span class="dv">62</span>):</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 0-9</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">str</span>(n<span class="op">-</span><span class="dv">52</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 62 -&gt; `+`, 63 -&gt; `/`</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="st">"+"</span> <span class="cf">if</span> n<span class="op">==</span><span class="dv">62</span> <span class="cf">else</span> <span class="st">"/"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> num_to_b64(n)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">64</span>):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      exit()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">26</span>):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A-Z</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>[n]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">26</span>,<span class="dv">52</span>):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A-Z</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"abcdefghijklmnopqrstuvwxyz"</span>[n <span class="op">-</span> <span class="dv">26</span>]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">52</span>,<span class="dv">62</span>):</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 0-9</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">str</span>(n<span class="op">-</span><span class="dv">52</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 62 -&gt; `+`, 63 -&gt; `/`</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="st">"+"</span> <span class="cf">if</span> n<span class="op">==</span><span class="dv">62</span> <span class="cf">else</span> <span class="st">"/"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>By convention, Base64 numerals at terminated with double equals <code>==</code>
 <ul>
@@ -457,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><code>base64</code> is also the name of a command line utility.</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>man base64</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>man base64</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>The most useful flag for our purposes here is the <code>-d</code> flag, for decode.</li>
 <li>We note that a <code>.pem</code> file is <em>not</em> base64 encoded - rather it is a text file that <em>contains</em> a base64 numeral.</li>
@@ -467,7 +477,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-with-filename-file">
 <pre><strong>base64 -d unsafe.pem</strong></pre>
 </div>
-<div class="sourceCode" id="cb10" data-filename="base64 -d unsafe.pem"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base64: </span>invalid input</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12" data-filename="base64 -d unsafe.pem"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base64: </span>invalid input</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>I used <code>head</code> and <code>tail</code> to remove the leading and tailing lines.
@@ -477,23 +487,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>It is worth taking a moment to ensure you do some line-based text manipulation at command line with some technique.</li>
 <li>I used a pipe <code>|</code> to use the output of one command, before the pipe, as the input to a latter command, after the pipe.</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cat unsafe.pem | head -9 | tail -8 | base64 -d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cat unsafe.pem | head -9 | tail -8 | base64 -d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><code>cat</code> shows file contents.</li>
 <li><code>head -9</code> takes the first 9 lines</li>
 <li><code>tail -8</code> takes the final 8 lines</li>
 <li><code>base64 -d</code> converts the base64 encoding to…</li>
+<li>Bits! Which the command line attempts to interpret as characters, many of them unprintable.</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>cat unsafe.pem | head -9 | tail -8 | base64 -d</strong></pre>
 </div>
-<div class="sourceCode" id="cb12" data-filename="cat unsafe.pem | head -9 | tail -8 | base64 -d"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>�=0�9A�d4ɯ��n΢TPL���c�</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>��5�f{���8�W$&gt;�t�&lt;l�_&amp;x�/a!�H3�euZF�؟/�+:HT9Vx#G9jnx�5!��^���E�/ۋN�c��J�9����+8�X/ "��"2���5Iyr�d4�r�o�À�� @���3i��Bs�]eM= �v�A���ǴL� ���29����a���B�aN���Ѹ��\��</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14" data-filename="cat unsafe.pem | head -9 | tail -8 | base64 -d"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>�=0�9A�d4ɯ��n΢TPL���c�</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>��5�f{���8�W$&gt;�t�&lt;l�_&amp;x�/a!�H3�euZF�؟/�+:HT9Vx#G9jnx�5!��^���E�/ۋN�c��J�9����+8�X/ "��"2���5Iyr�d4�r�o�À�� @���3i��Bs�]eM= �v�A���ǴL� ���29����a���B�aN���Ѹ��\��</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ul>
-<li>To bits, which the command line attempts to interpret as characters, many of them unprintable.</li>
-</ul>
 </section>
 <section id="the-hexdump-utility" class="level2">
 <h2 class="anchored" data-anchor-id="the-hexdump-utility">The “hexdump” utility</h2>
@@ -511,29 +519,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-with-filename-file">
 <pre><strong>cat unsafe.pem | head -9 | tail -8 | base64 -d | hexdump</strong></pre>
 </div>
-<div class="sourceCode" id="cb13" data-filename="cat unsafe.pem | head -9 | tail -8 | base64 -d | hexdump"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>0000000 8230 5301 0102 3000 060d 2a09 4886 f786</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>0000010 010d 0101 0005 8204 3d01 8230 3901 0102</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>0000020 0200 0041 64b1 c934 c7af da19 ce6e 54a2</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>0000030 4c50 dceb 63e1 0af2 6acf 4f37 2894 343b</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>0000040 ac79 d174 12cb ee20 aa8b 80c4 fd46 8ee1</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>0000050 9837 d408 7f0e 054d 47f5 a763 238b 7190</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>0000060 ba81 c329 0302 0001 0201 2d40 dcf5 7487</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>0000070 8df7 3f07 6236 9d70 90ed c61e f276 42bb</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>0000080 2e4a 7bd2 807c 73fa ef9b 0d18 8eaa cb35</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>0000090 7b66 a894 38bc 57ad 3e24 7487 917f 08ac</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>00000a0 6c3c 85ed 265f a478 7f2f 0261 0021 48d7</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>00000b0 8433 7565 465a d8ec 139f ce2f 3a2b 0148</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>00000c0 3954 7856 2307 3947 1d6a 786e 35b1 2102</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>00000d0 d200 5ef1 ab9a 45e7 2ffe 8bdb 964e 8f63</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>00000e0 16a1 bd4a 0539 80af ea8c 382b 58f7 062f</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>00000f0 0217 2220 fadb 921b 3222 1180 f291 3510</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>0000100 7949 720e 64e2 f434 729f 6fe8 087c c386</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>0000110 9f80 0291 4020 ad14 a51d 339d 1d69 bf96</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>0000120 1742 9573 655d 3d4d 8620 a376 ab41 879d</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>0000130 b4c7 4c15 02ef 0520 c793 32f6 a439 de92</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>0000140 a0e7 9761 d219 ee15 a142 4e61 03a0 b0ac</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>0000150 b8d1 c3e3 8c5c 00db</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>0000157</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15" data-filename="cat unsafe.pem | head -9 | tail -8 | base64 -d | hexdump"><pre class="sourceCode email code-with-copy"><code class="sourceCode email"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>0000000 8230 5301 0102 3000 060d 2a09 4886 f786</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>0000010 010d 0101 0005 8204 3d01 8230 3901 0102</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>0000020 0200 0041 64b1 c934 c7af da19 ce6e 54a2</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>0000030 4c50 dceb 63e1 0af2 6acf 4f37 2894 343b</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>0000040 ac79 d174 12cb ee20 aa8b 80c4 fd46 8ee1</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>0000050 9837 d408 7f0e 054d 47f5 a763 238b 7190</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>0000060 ba81 c329 0302 0001 0201 2d40 dcf5 7487</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>0000070 8df7 3f07 6236 9d70 90ed c61e f276 42bb</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>0000080 2e4a 7bd2 807c 73fa ef9b 0d18 8eaa cb35</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>0000090 7b66 a894 38bc 57ad 3e24 7487 917f 08ac</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>00000a0 6c3c 85ed 265f a478 7f2f 0261 0021 48d7</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>00000b0 8433 7565 465a d8ec 139f ce2f 3a2b 0148</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>00000c0 3954 7856 2307 3947 1d6a 786e 35b1 2102</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>00000d0 d200 5ef1 ab9a 45e7 2ffe 8bdb 964e 8f63</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>00000e0 16a1 bd4a 0539 80af ea8c 382b 58f7 062f</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>00000f0 0217 2220 fadb 921b 3222 1180 f291 3510</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>0000100 7949 720e 64e2 f434 729f 6fe8 087c c386</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>0000110 9f80 0291 4020 ad14 a51d 339d 1d69 bf96</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>0000120 1742 9573 655d 3d4d 8620 a376 ab41 879d</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>0000130 b4c7 4c15 02ef 0520 c793 32f6 a439 de92</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>0000140 a0e7 9761 d219 ee15 a142 4e61 03a0 b0ac</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>0000150 b8d1 c3e3 8c5c 00db</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>0000157</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 </ul></li>
 </ul>
@@ -542,14 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="raw" class="level1">
 <h1>Raw</h1>
-<pre><code>user@DESKTOP-THMS2PJ:~/.ssh$
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe.pem -pubout out -out unsafe-pub.pem
-pkey: Use -help for summary.
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe.pem -pubout -out unsafe-pub.pem
-user@DESKTOP-THMS2PJ:~/.ssh$ cat unsafe_pub.pem
-cat: unsafe_pub.pem: No such file or directory
-user@DESKTOP-THMS2PJ:~/.ssh$ ls
-known_hosts  known_hosts.old  one.txt  two.txt  unsaf2.pem  unsaf3.pem  unsafe-pub.pem  unsafe.pem
+<pre><code>user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe.pem -pubout -out unsafe-pub.pem
 user@DESKTOP-THMS2PJ:~/.ssh$ cat unsafe-pub.pem
 -----BEGIN PUBLIC KEY-----
 MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALFkNMmvxxnabs6iVFBM69zhY/IKz2o3
@@ -561,18 +562,6 @@ user@DESKTOP-THMS2PJ:~/.ssh$ openssl asn1parse -in unsafe-pub.pem -inform PEM
     4:d=2  hl=2 l=   9 prim: OBJECT            :rsaEncryption
    15:d=2  hl=2 l=   0 prim: NULL
    17:d=1  hl=2 l=  75 prim: BIT STRING
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -in unsafe-pub.pem -text
-Could not read private key from unsafe-pub.pem
-40D770C0657F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-40D770C0657F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe-pub.pem -text
-Could not read key from unsafe-pub.pem
-4087B4FDB77F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-4087B4FDB77F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-user@DESKTOP-THMS2PJ:~/.ssh$
-user@DESKTOP-THMS2PJ:~/.ssh$
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -noout -text inform PEM -in unsafe-pub.pem -pubin
-rsa: Use -help for summary.
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -noout -text -inform PEM -in unsafe-pub.pem -pubin
 Public-Key: (512 bit)
 Modulus:
@@ -580,16 +569,16 @@ Modulus:
     eb:dc:e1:63:f2:0a:cf:6a:37:4f:94:28:3b:34:79:
     ac:74:d1:cb:12:20:ee:8b:aa:c4:80:46:fd:e1:8e:
     37:98:08:d4:0e:7f:4d:05:f5:47:63:a7:8b:23:90:
-    71:81:ba:29:c3</code></pre>
-<pre><code>user@DESKTOP-THMS2PJ:~/.ssh$ openssl genrsa -out unsaf3.pem 512
+    71:81:ba:29:c3
+user@DESKTOP-THMS2PJ:~/.ssh$ openssl genrsa -out unsaf3.pem 512
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl asn1parse -in unsaf3.pem -inform PEM
     0:d=0  hl=4 l= 340 cons: SEQUENCE
     4:d=1  hl=2 l=   1 prim: INTEGER           :00
     7:d=1  hl=2 l=  13 cons: SEQUENCE
     9:d=2  hl=2 l=   9 prim: OBJECT            :rsaEncryption
    20:d=2  hl=2 l=   0 prim: NULL
-   22:d=1  hl=4 l= 318 prim: OCTET STRING      [HEX DUMP]:3082013A020100024100B6F60FD8F1B9A14ADA01FE609E3FC0550C7BEA1FFD61A0B5A792636EC1425361499C4E1C4E974D78D605EB07F5C3DB21C296749DA3679C4E849CFFFA9DF3969B0203010001024019BD5C55650C7C888F4B20826F4100C9F64BA8907F91308EDDD8566CCA7B8E47309816895A818FB0C357BDAE0F7E07AED008E3680AA15168BF6D04476CED4F61022100E57B90980553977097D9062E79720987D1828B33132DDCD94785ECE1E0F3C9B5022100CC1A52A25AF42108450C1A1C173FF5E5400D437663FC1B5C565D0D6B8EC6D10F022100AC776F36315A9F8829371BE435B5B4DFF45F6E0A56B1B33740FFB0061AB05DB902204DD46FD4677896AC0FA068C87379396C5D3B719150D94F19ABF939E7DCFF25B302205C97731A30B17E804E33549A07BB32FE63801B36F0107657BF07003EBABADF85</code></pre>
-<pre><code>user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -in unsaf2.pem -text
+   22:d=1  hl=4 l= 318 prim: OCTET STRING      [HEX DUMP]:3082013A020100024100B6F60FD8F1B9A14ADA01FE609E3FC0550C7BEA1FFD61A0B5A792636EC1425361499C4E1C4E974D78D605EB07F5C3DB21C296749DA3679C4E849CFFFA9DF3969B0203010001024019BD5C55650C7C888F4B20826F4100C9F64BA8907F91308EDDD8566CCA7B8E47309816895A818FB0C357BDAE0F7E07AED008E3680AA15168BF6D04476CED4F61022100E57B90980553977097D9062E79720987D1828B33132DDCD94785ECE1E0F3C9B5022100CC1A52A25AF42108450C1A1C173FF5E5400D437663FC1B5C565D0D6B8EC6D10F022100AC776F36315A9F8829371BE435B5B4DFF45F6E0A56B1B33740FFB0061AB05DB902204DD46FD4677896AC0FA068C87379396C5D3B719150D94F19ABF939E7DCFF25B302205C97731A30B17E804E33549A07BB32FE63801B36F0107657BF07003EBABADF85
+user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -in unsaf2.pem -text
 Private-Key: (512 bit, 2 primes)
 modulus:
     00:98:26:e6:f8:71:3a:bc:e9:ff:2a:47:90:85:84:

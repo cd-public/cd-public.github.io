@@ -148,7 +148,7 @@ $$
 
 # Strategy
 
-- We show Fermant's little theorem.
+- We show Fermat's little theorem.
 
 $$
 \begin{align}
@@ -266,7 +266,7 @@ $$
 
 # Strategy
 
-- We show Fermant's little theorem.
+- We show Fermat's little theorem.
 
 $$
 \begin{align}
@@ -390,7 +390,7 @@ e = 65537; // 2 ^ 16 + 1
 4. Can we combine bit-shifts to multiple?
 5. If we did that, what numbers would be easiest to multiply by?
 
-# 5 $d$
+# 5. $d$
 
 - This one is very secret!
 - Find $d : d \equiv e^{-1} \pmod{\lambda (n)}$

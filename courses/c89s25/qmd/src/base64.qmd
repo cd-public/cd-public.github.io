@@ -56,29 +56,35 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ## OpenSSL
 
 - `ssh-keygen` may or may not be implemented on top of a larger and more culturally significant "OpenSSL" library.
-- OpenSSL has a cool backstory, [read more](https://en.wikipedia.org/wiki/OpenSSL)
-- While used in practice in security relevant applications (at least to the best of my knowledge) it could perhaps better be understood as an educational or informational library.
-  - and is therefore well-suited to out purposes.
+  - It *always* was and now it *sometimes* is.
+- OpenSSL has a cool backstory, [Read more](https://en.wikipedia.org/wiki/OpenSSL)
+- While used in practice in security relevant applications (at least to the best of my knowledge) it could perhaps better be understood as an educational or informational library...
+  - ...and is therefore well-suited to out purposes.
 
 ### `genrsa`
 
 - The OpenSSL command to generate an private key is as follows:
   - `openssl` is the command-line utility
   - `genrsa` is the directive to generate a private rsa key.
-  - `-out` specifies the destination
+```{.email}
+openssl genrsa
+```
+- This is a big difficult to work with so we also:
+  - Use `-out` specifies the destination
     - I specify I am not making security considerations by naming the key "unsafe"
     - I use one of several industry standard formats, `.pem`
       - For "privacy enhanced email"
       - It is a purely text-based format.
     - I make a 512 bit key, the smallest possible in OpenSSL, to make understanding it easier.
+```{.email}
+openssl genrsa
+```
 - I found `unsafe.pem` in the hidden `.ssh` folder in my home (`~`) directory.
+  - It will not show up when naively listing files and folders via `ls`
+  - It will show up when listing "all" files and folders via `ls -a`
 
 ```{.email}
-$ pwd
-/home/user/.ssh
-$ ls *.pem
-unsafe.pem
-$
+openssl genrsa -out unsafe.pem 512
 ```
 
 - Inspect the file with `cat unsafe.pem` or our most beloved text editor.
@@ -95,6 +101,8 @@ QhdzlV1lTT0ghnajQaudh8e0FUzvAiAFk8f2Mjmkkt7noGGXGdIV7kKhYU6gA6yw
 0bjjw1yM2w==
 -----END PRIVATE KEY-----
 ```
+
+- Generate a new key and see how it differs, or doesn't. Try other sizes.
 
 ### A Key in 3 Parts
 
@@ -218,8 +226,7 @@ Jd1+P3oPtG4l
 ```
 
 - Based on the KeyGen lab, it should be uncomplicated to calculate these values for 64 bit keys.
-- We will use `.bad` instead of `.pem` and insecurely store these values in plaintext.
-- We will then make executables to generate `.bad` and encrypt content provided a `.bad`
+- It is probably complicated to store them in the encoding used within a `.pem` file.
 
 :::
 
@@ -290,11 +297,11 @@ cat unsafe.pem | head -9 | tail -8 | base64 -d
   - `head -9` takes the first 9 lines
   - `tail -8` takes the final 8 lines
   - `base64 -d` converts the base64 encoding to...
+  - Bits! Which the command line attempts to interpret as characters, many of them unprintable.
 ```{.email filename="cat unsafe.pem | head -9 | tail -8 | base64 -d"}
 �=0�9A�d4ɯ��n΢TPL���c�
 ��5�f{���8�W$>�t�<l�_&x�/a!�H3�euZF�؟/�+:HT9Vx#G9jnx�5!��^���E�/ۋN�c��J�9����+8�X/ "��"2���5Iyr�d4�r�o�À�� @���3i��Bs�]eM= �v�A���ǴL� ���29����a���B�aN���Ѹ��\��
 ```
-  - To bits, which the command line attempts to interpret as characters, many of them unprintable.
 
 ## The "hexdump" utility
 
@@ -335,14 +342,7 @@ cat unsafe.pem | head -9 | tail -8 | base64 -d
 # Raw
 
 ```
-user@DESKTOP-THMS2PJ:~/.ssh$
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe.pem -pubout out -out unsafe-pub.pem
-pkey: Use -help for summary.
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe.pem -pubout -out unsafe-pub.pem
-user@DESKTOP-THMS2PJ:~/.ssh$ cat unsafe_pub.pem
-cat: unsafe_pub.pem: No such file or directory
-user@DESKTOP-THMS2PJ:~/.ssh$ ls
-known_hosts  known_hosts.old  one.txt  two.txt  unsaf2.pem  unsaf3.pem  unsafe-pub.pem  unsafe.pem
 user@DESKTOP-THMS2PJ:~/.ssh$ cat unsafe-pub.pem
 -----BEGIN PUBLIC KEY-----
 MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALFkNMmvxxnabs6iVFBM69zhY/IKz2o3
@@ -354,18 +354,6 @@ user@DESKTOP-THMS2PJ:~/.ssh$ openssl asn1parse -in unsafe-pub.pem -inform PEM
     4:d=2  hl=2 l=   9 prim: OBJECT            :rsaEncryption
    15:d=2  hl=2 l=   0 prim: NULL
    17:d=1  hl=2 l=  75 prim: BIT STRING
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -in unsafe-pub.pem -text
-Could not read private key from unsafe-pub.pem
-40D770C0657F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-40D770C0657F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl pkey -in unsafe-pub.pem -text
-Could not read key from unsafe-pub.pem
-4087B4FDB77F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-4087B4FDB77F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:../crypto/store/store_result.c:151:
-user@DESKTOP-THMS2PJ:~/.ssh$
-user@DESKTOP-THMS2PJ:~/.ssh$
-user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -noout -text inform PEM -in unsafe-pub.pem -pubin
-rsa: Use -help for summary.
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -noout -text -inform PEM -in unsafe-pub.pem -pubin
 Public-Key: (512 bit)
 Modulus:
@@ -374,9 +362,6 @@ Modulus:
     ac:74:d1:cb:12:20:ee:8b:aa:c4:80:46:fd:e1:8e:
     37:98:08:d4:0e:7f:4d:05:f5:47:63:a7:8b:23:90:
     71:81:ba:29:c3
-```
-
-```
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl genrsa -out unsaf3.pem 512
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl asn1parse -in unsaf3.pem -inform PEM
     0:d=0  hl=4 l= 340 cons: SEQUENCE
@@ -385,8 +370,6 @@ user@DESKTOP-THMS2PJ:~/.ssh$ openssl asn1parse -in unsaf3.pem -inform PEM
     9:d=2  hl=2 l=   9 prim: OBJECT            :rsaEncryption
    20:d=2  hl=2 l=   0 prim: NULL
    22:d=1  hl=4 l= 318 prim: OCTET STRING      [HEX DUMP]:3082013A020100024100B6F60FD8F1B9A14ADA01FE609E3FC0550C7BEA1FFD61A0B5A792636EC1425361499C4E1C4E974D78D605EB07F5C3DB21C296749DA3679C4E849CFFFA9DF3969B0203010001024019BD5C55650C7C888F4B20826F4100C9F64BA8907F91308EDDD8566CCA7B8E47309816895A818FB0C357BDAE0F7E07AED008E3680AA15168BF6D04476CED4F61022100E57B90980553977097D9062E79720987D1828B33132DDCD94785ECE1E0F3C9B5022100CC1A52A25AF42108450C1A1C173FF5E5400D437663FC1B5C565D0D6B8EC6D10F022100AC776F36315A9F8829371BE435B5B4DFF45F6E0A56B1B33740FFB0061AB05DB902204DD46FD4677896AC0FA068C87379396C5D3B719150D94F19ABF939E7DCFF25B302205C97731A30B17E804E33549A07BB32FE63801B36F0107657BF07003EBABADF85
-```
-```
 user@DESKTOP-THMS2PJ:~/.ssh$ openssl rsa -in unsaf2.pem -text
 Private-Key: (512 bit, 2 primes)
 modulus:

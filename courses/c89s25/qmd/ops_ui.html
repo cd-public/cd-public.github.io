@@ -635,7 +635,10 @@ window.Quarto = {
 <li>It is a “drop in replacement”
 <ul>
 <li>Remove <code>4096_t.c</code> from your <code>gcc</code> command.</li>
-<li>Replace it with <code>biggmp.c</code></li>
+<li>Replace it with <code>biggmp.c</code>
+<ul>
+<li><a href="https://github.com/cd-c89/crypto/blob/main/ops_ui/biggmp.c">biggmp.c</a></li>
+</ul></li>
 <li>Add <code>-lgmp</code> flag to <code>gcc</code></li>
 </ul></li>
 <li>Compiling with <code>4096_t</code> and <code>biggmp</code> should be functionally identical.

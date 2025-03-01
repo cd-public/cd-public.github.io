@@ -395,6 +395,7 @@ TTFTTFFF
     - It is a "drop in replacement"
         - Remove `4096_t.c` from your `gcc` command.
         - Replace it with `biggmp.c`
+            - [biggmp.c](https://github.com/cd-c89/crypto/blob/main/ops_ui/biggmp.c)
         - Add `-lgmp` flag to `gcc`
     - Compiling with `4096_t` and `biggmp` should be functionally identical.
         - They will differ in how they handle overload, but there are notes in `biggmp` on how to fix that at a small performance cost.
@@ -413,6 +414,7 @@ TTFTTFFF
 - I was unable to achieve a bugfree multiply absent this interface, but was able to progress rapidly once I developed it.
   - [tester.py](https://github.com/cd-c89/crypto/blob/main/ops_ui/tester.py)
   - [tester.c](https://github.com/cd-c89/crypto/blob/main/ops_ui/tester.c)
+
 
 
 :::

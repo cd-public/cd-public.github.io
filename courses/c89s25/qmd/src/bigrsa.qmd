@@ -185,6 +185,11 @@ fbea5e6a3ed31e8f
     - Write the encrypted or decrypted content to the output file.
 - Your BigRSA should function over either "keygen.c" 32 bit keys or "bigkey.c" 4096 bit keys.
 
+## A Note
+
+- Be advised that the square of a 4096 bit value requires 8198 bits to specify.
+- It is reasonable to test of 512 (`openssl` minimum) or 1024 (`ssh-keygen` minumum size)
+
 :::
 
 # Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls = "tester">Show</a>

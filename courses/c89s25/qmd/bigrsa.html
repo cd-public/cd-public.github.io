@@ -215,7 +215,7 @@ window.Quarto = {
 </section>
 <section id="primes-show" class="level1">
 <h1>Primes&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#primes" role="button" aria-expanded="false" aria-controls="primes">Show</a></h1>
-<div id="header" class="collapse multi-collapse">
+<div id="primes" class="collapse multi-collapse">
 <p><em>Work on week of 10 Mar</em></p>
 <section id="implement-big-primality-testing" class="level2">
 <h2 class="anchored" data-anchor-id="implement-big-primality-testing">Implement Big Primality Testing</h2>
@@ -371,8 +371,8 @@ window.Quarto = {
 </div>
 </section>
 <section id="bigrsa-show" class="level1">
-<h1>BigRSA&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#keygen" role="button" aria-expanded="false" aria-controls="keygen">Show</a></h1>
-<div id="keygen" class="collapse multi-collapse">
+<h1>BigRSA&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#bigrsa" role="button" aria-expanded="false" aria-controls="bigrsa">Show</a></h1>
+<div id="bigrsa" class="collapse multi-collapse">
 <p><em>Work on week of 31 Mar</em></p>
 <section id="implement-end-to-end-4096-bit-rsa" class="level2">
 <h2 class="anchored" data-anchor-id="implement-end-to-end-4096-bit-rsa">Implement End-to-end 4096 bit RSA</h2>
@@ -397,6 +397,13 @@ window.Quarto = {
 </ul></li>
 </ul></li>
 <li>Your BigRSA should function over either “keygen.c” 32 bit keys or “bigkey.c” 4096 bit keys.</li>
+</ul>
+</section>
+<section id="a-note" class="level2">
+<h2 class="anchored" data-anchor-id="a-note">A Note</h2>
+<ul>
+<li>Be advised that the square of a 4096 bit value requires 8198 bits to specify.</li>
+<li>It is reasonable to test of 512 (<code>openssl</code> minimum) or 1024 (<code>ssh-keygen</code> minumum size)</li>
 </ul>
 </section>
 </div>

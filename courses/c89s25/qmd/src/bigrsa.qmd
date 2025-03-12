@@ -42,7 +42,7 @@ format:
 
 # Primes&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#primes" role="button" aria-expanded="false" aria-controls = "primes">Show</a>
 
-::: {#header .collapse .multi-collapse}
+::: {#primes .collapse .multi-collapse}
 
 *Work on week of 10 Mar*
 
@@ -164,9 +164,9 @@ fbea5e6a3ed31e8f
 
 :::
 
-# BigRSA&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#keygen" role="button" aria-expanded="false" aria-controls = "keygen">Show</a>
+# BigRSA&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#bigrsa" role="button" aria-expanded="false" aria-controls = "bigrsa">Show</a>
 
-::: {#keygen .collapse .multi-collapse}
+::: {#bigrsa .collapse .multi-collapse}
 
 *Work on week of 31 Mar*
 

@@ -141,6 +141,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     background-attachment: fixed;
   }
 </style>
+<script>
+  [].forEach.call(document.querySelectorAll(".btn[data-bs-toggle='collapse']"), ($btn) => $btn.onmouseup = () => setTimeout(() => $btn.innerText = $btn.attributes["aria-expanded"].value === "true" ? "Hide" : "Show", 0))
+</script>
 <section id="enigma-show" class="level1">
 <h1>Enigma&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#enigma" role="button" aria-expanded="false" aria-controls="enigma">Show</a></h1>
 <div id="enigma" class="collapse multi-collapse">

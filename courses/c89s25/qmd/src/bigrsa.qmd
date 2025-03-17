@@ -5,10 +5,6 @@
   }
 </style>
 
-<script>
-  [].forEach.call(document.querySelectorAll(".btn[data-bs-toggle='collapse']"), ($btn) => $btn.onmouseup = () => setTimeout(() => $btn.innerText = $btn.attributes["aria-expanded"].value === "true" ? "Hide" : "Show", 0))
-</script>
-
 ---
 title: BigRSA
 subtitle: "HW 0x6: Due Th, 03 Apr"
@@ -219,3 +215,5 @@ fbea5e6a3ed31e8f
 :::
 
 :::
+
+<script>[].forEach.call(document.querySelectorAll(".btn[data-bs-toggle='collapse']"), ($btn) => $btn.onmouseup = () => setTimeout(() => $btn.innerText = $btn.attributes["aria-expanded"].value === "true" ? "Hide" : "Show", 0))</script>

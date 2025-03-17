@@ -5,6 +5,10 @@
   }
 </style>
 
+<script>
+  [].forEach.call(document.querySelectorAll(".btn[data-bs-toggle='collapse']"), ($btn) => $btn.onmouseup = () => setTimeout(() => $btn.innerText = $btn.attributes["aria-expanded"].value === "true" ? "Hide" : "Show", 0))
+</script>
+
 ---
 title: Macros
 subtitle: "HW 0x1: Due Th, Feb 06"

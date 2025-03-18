@@ -55,12 +55,13 @@ format:
 - `/dev/random` and the more prefered but less established `/dev/urandom` are file-like random number generations that could plausibly be cryptographically secure on your system.
 - We will not be able to implement cryptographically secure RSA, but we should follow the random number generation convention.
 - Basically, we read from `/dev/random` as we would any other file, here is an example of reading and printing 4096 "random" bits.
+  - `S` is a constant defined in 4096_t
 
 ```{.C filename="BigRNG.c"}
 #include "4096_t.h"
 
 int main() {
-        uint64_t bignum[64];
+        uint64_t bignum[S];
         FILE *fp = fopen("/dev/random", "r");
         fread(bignum, sizeof(uint64_t), S, fp);
         fclose(fp);
@@ -78,6 +79,25 @@ int main() {
   - Your randomizer
 - Generate prime numbers of about 2048 bits in size.
   - Multiply them together to get an $n$ of about 4096 bits in size.
+
+### Note
+
+- Engineering high performance on this task is out-of-scope.
+- It is sufficient to have plausibly tested code that could generate a prime eventually.
+- Then validate the rest of "bigrsa" over known primes.
+
+```{.C filename="BigRNG.c"}
+#include "4096_t.h"
+
+int main() {
+        uint64_t bignum[S];
+        FILE *fp = fopen("/dev/random", "r");
+        fread(bignum, sizeof(uint64_t), S, fp);
+        fclose(fp);
+        seebig(bignum);
+        return 0;
+}
+```
 
 :::
 

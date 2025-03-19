@@ -257,7 +257,8 @@ podman run --mount type=bind,src=$PWD/..,target=/mnt -d -t crypto /bin/bash
 | /mnt | That is the mnt (mount) directory under root `/` |
 | -d | Start the container *detached* |
 
-- I couldn't get this to work attached but didn't try very hard.
+- I couldn't get this to work attached (on Windows) but didn't try very hard.
+    - On Linux everything is easy (always)
 
 
 # Breakdown

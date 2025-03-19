@@ -220,11 +220,10 @@ window.Quarto = {
 <section id="implement-big-primality-testing" class="level2">
 <h2 class="anchored" data-anchor-id="implement-big-primality-testing">Implement Big Primality Testing</h2>
 <ul>
-<li>Use, perhaps, <span class="math inline">\(6k+1\)</span> or some other algorithms.</li>
+<li>It turns out this is impossible. Nevertheless, we have a plan.</li>
 </ul>
-</section>
-<section id="implement-randomization-via-devrandom" class="level2">
-<h2 class="anchored" data-anchor-id="implement-randomization-via-devrandom">Implement randomization via <code>/dev/random</code></h2>
+<section id="implement-randomization-via-devrandom" class="level3">
+<h3 class="anchored" data-anchor-id="implement-randomization-via-devrandom">Implement randomization via <code>/dev/random</code></h3>
 <ul>
 <li><code>/dev/random</code> and the more prefered but less established <code>/dev/urandom</code> are file-like random number generations that could plausibly be cryptographically secure on your system.</li>
 <li>We will not be able to implement cryptographically secure RSA, but we should follow the random number generation convention.</li>
@@ -251,41 +250,39 @@ window.Quarto = {
 <ul>
 <li>You will need to use randomization to select your primes.</li>
 </ul>
+</section>
 <section id="implement-big-prime-generation" class="level3">
 <h3 class="anchored" data-anchor-id="implement-big-prime-generation">Implement Big Prime Generation</h3>
 <ul>
 <li>Use:
 <ul>
-<li>Your primality tester</li>
-<li>Your randomizer</li>
+<li>libgmp</li>
+<li><code>/dev/random</code></li>
 </ul></li>
-<li>Generate prime numbers of about 2048 bits in size.
+<li>Basically, get this to work.
 <ul>
-<li>Multiply them together to get an <span class="math inline">\(n\)</span> of about 4096 bits in size.</li>
+<li>It seemed fine for me.</li>
+<li><code>-lgmp</code></li>
 </ul></li>
-</ul>
-</section>
-<section id="note" class="level3">
-<h3 class="anchored" data-anchor-id="note">Note</h3>
-<ul>
-<li>Engineering high performance on this task is out-of-scope.</li>
-<li>It is sufficient to have plausibly tested code that could generate a prime eventually.</li>
-<li>Then validate the rest of “bigrsa” over known primes.</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>BigRNG.c</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="BigRNG.c"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"4096_t.h"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">uint64_t</span> bignum<span class="op">[</span>S<span class="op">];</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">FILE</span> <span class="op">*</span>fp <span class="op">=</span> fopen<span class="op">(</span><span class="st">"/dev/random"</span><span class="op">,</span> <span class="st">"r"</span><span class="op">);</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        fread<span class="op">(</span>bignum<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">uint64_t</span><span class="op">),</span> S<span class="op">,</span> fp<span class="op">);</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        fclose<span class="op">(</span>fp<span class="op">);</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        seebig<span class="op">(</span>bignum<span class="op">);</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-filename="BigRNG.c"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> prigmp<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">*</span>big<span class="op">,</span> <span class="dt">uint8_t</span> words<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* populate from buffer */</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    mpz_t m<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">FILE</span> <span class="op">*</span>fp <span class="op">=</span> fopen<span class="op">(</span><span class="st">"/dev/random"</span><span class="op">,</span> <span class="st">"r"</span><span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>big<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> BYTES<span class="op">);</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    fread<span class="op">(</span>big<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">uint64_t</span><span class="op">),</span> words<span class="op">,</span> fp<span class="op">);</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    fclose<span class="op">(</span>fp<span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    mpz_init<span class="op">(</span>m<span class="op">);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    mpz_import<span class="op">(</span>m<span class="op">,</span> S<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">uint64_t</span><span class="op">),</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> big<span class="op">);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    mpz_nextprime<span class="op">(</span>m<span class="op">,</span> m<span class="op">);</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    mpz_export<span class="op">(</span>big<span class="op">,</span> NULL<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">uint64_t</span><span class="op">),</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> m<span class="op">);</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    mpz_clear<span class="op">(</span>m<span class="op">);</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>

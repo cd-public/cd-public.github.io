@@ -48,9 +48,9 @@ format:
 
 ## Implement Big Primality Testing
 
-- Use, perhaps, $6k+1$ or some other algorithms.
+- It turns out this is impossible. Nevertheless, we have a plan.
 
-## Implement randomization via `/dev/random`
+### Implement randomization via `/dev/random`
 
 - `/dev/random` and the more prefered but less established `/dev/urandom` are file-like random number generations that could plausibly be cryptographically secure on your system.
 - We will not be able to implement cryptographically secure RSA, but we should follow the random number generation convention.
@@ -75,27 +75,26 @@ int main() {
 ### Implement Big Prime Generation
 
 - Use:
-  - Your primality tester
-  - Your randomizer
-- Generate prime numbers of about 2048 bits in size.
-  - Multiply them together to get an $n$ of about 4096 bits in size.
-
-### Note
-
-- Engineering high performance on this task is out-of-scope.
-- It is sufficient to have plausibly tested code that could generate a prime eventually.
-- Then validate the rest of "bigrsa" over known primes.
+  - libgmp
+  - `/dev/random`
+- Basically, get this to work.
+  - It seemed fine for me.
+  - `-lgmp`
 
 ```{.C filename="BigRNG.c"}
-#include "4096_t.h"
-
-int main() {
-        uint64_t bignum[S];
-        FILE *fp = fopen("/dev/random", "r");
-        fread(bignum, sizeof(uint64_t), S, fp);
-        fclose(fp);
-        seebig(bignum);
-        return 0;
+void prigmp(uint64_t *big, uint8_t words) {
+    /* populate from buffer */
+    mpz_t m;
+    FILE *fp = fopen("/dev/random", "r");
+    memset(big, 0, BYTES);
+    fread(big, sizeof(uint64_t), words, fp);
+    fclose(fp);
+    mpz_init(m);
+    mpz_import(m, S, -1, sizeof(uint64_t), 0, 0, big);
+    mpz_nextprime(m, m);
+    mpz_export(big, NULL, -1, sizeof(uint64_t), 0, 0, m);
+    mpz_clear(m);
+    return;
 }
 ```
 

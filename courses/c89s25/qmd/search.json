@@ -1033,7 +1033,7 @@
     "href": "bigrsa.html#implement-biggcd",
     "title": "BigRSA",
     "section": "Implement BigGCD",
-    "text": "Implement BigGCD\n\nModifying the extended Euclidean algorithm / extended gcd for use with the 4096_t ints.\nI had to do the following:\n\nChange all arithmetic operations from using infix operators like \\(+\\) or \\(/\\).\nModifying the Euclidean algorithm to use only positive values.\nTest extensively.\n\nYou can also implement 4096_t to accomodate negative values (which I did not due).\n\nI instead created different local values with my EEA function that tracked whether everything was positive or negative.\nThen wrote wrapper functions around the “big” operations that tracked the sign values."
+    "text": "Implement BigGCD\n\nModifying the extended Euclidean algorithm / extended gcd for use with the 4096_t ints.\nI had to do the following:\n\nChange all arithmetic operations from using infix operators like \\(+\\) or \\(/\\).\nModifying the Euclidean algorithm to use only positive values.\nTest extensively.\n\nYou can also implement 4096_t to accomodate negative values (which I did not do).\n\nI instead created different local values with my EEA function that tracked whether everything was positive or negative.\nThen wrote wrapper functions around the “big” operations that tracked the sign values."
   },
   {
     "objectID": "bigrsa.html#generate-keys",

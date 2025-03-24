@@ -114,7 +114,7 @@ void prigmp(uint64_t *big, uint8_t words) {
   - Change all arithmetic operations from using infix operators like $+$ or $/$.
   - Modifying the Euclidean algorithm to use only positive values.
   - Test extensively.
-- You can also implement 4096_t to accomodate negative values (which I did not due).
+- You can also implement 4096_t to accomodate negative values (which I did not do).
   - I instead created different local values with my EEA function that tracked whether everything was positive or negative.
   - Then wrote wrapper functions around the "big" operations that tracked the sign values.
 

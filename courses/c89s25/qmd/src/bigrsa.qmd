@@ -215,24 +215,52 @@ fbea5e6a3ed31e8f
 
 ::: {#tester .collapse .multi-collapse}
 
-*Under construction*
+*Spoiler alert*
 
-## Owning my failures.
+## A Reference Solution
 
-- With my apologies, this is the first homework for which I was unable to complete a reference solution of which I am proud prior to releasing the assignment.
-- As the testers are developed as I do the assignment, that means this assignment releases with no provided tester.
-- In the interim, the "RSAinC" tests all features of "BigRSA" except ensuring that much larger chunks of information (than single characters) may be amicably encrypted.
-- Adapting the RSAinC tester to work on the "15chars.txt" and "lipsum.txt" inputs to SHA256 will be sufficient, and I hope to have a grader soon.
+- After careful reflection, the weight and challenge of this assignment made a single, in-container script insufficient, in my view, for testing.
+- In lieu, I am providing a full reference implementation, with a few caveats:
+  - I have maintained 4096_t solutions as closed source.
+    - Instead, I have implemented an interface to libgmp mpz_t numbers in `biggmp.c`
+    - If you are stuck on 4096_t, you should use this as well.
+  - I am trusting you to either look at, or not look at, my code, based on what works best for your learning.
+    - It is provided as is, and likely has few bugs, but probably not that few.
+  - I am not requiring you to have any particular interfacing, though I am providing one as an example.
 
-::: {.callout-note appearance="simple"}
+## A Perfect System
 
-## Recognition of Student Achievement
+- A perfect project will:
+  - Use a 'bigkey' executable once to perform key generation:
+    - Write keys to two files, one public and one private.
+  - Use a 'bigrsa' executable twice to perform "round trip" encryption on a greater than 64 bit data file.
+    - Write more than 64 bits to a data file.
+      - It is easier to do a precise multiple of 64
+    - Encrypt this file and store the ciphertext as a new file.
+    - Decrypt the cipher text file.
+    - Take a `diff` of the input file and the decrypted file.
+      - If the return code of diff `$?` is 0, the project is a success.
 
-- If you believe you have a statisfying RSA implement prior to the official release of a tester, any errors I find within the tester will be considered my errors, not yours.
-- An astute student may be able to develop a high quality tester before me, and will be showered in various praises and accolades in accordance with this achievement.
+## An explanation
+
+- Why this implementation?
+  - I could not find a way I liked to specify:
+    - Storing keys
+    - Story cipher texts
+    - Setting key lengths
+  - I felt any specification was unfairly restrictive.
+
+## How to use the reference repository
+
+- Either clone the repository and include your own `bigrsa` and `bigkey` or,
+- Add the relevant files to your `crypto` repository.
+- Study the Makefile closely, and use this reference material or `#help-line` if you are confused.
+  - My favorite [Makefile tutorial](https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/)
+- You are not required to use GitHub actions (or containers, conspiciously absent) but may wish to do so.
+- You may change the compiler from `clang` back to `gcc`, but I wanted to show you clang and Makefile variables.
+
+## The Repository
+
+- The repository is publicly visible at [github.com/cd-c89/refrsa](https://github.com/cd-c89/refrsa)
 
 :::
-
-:::
-
-<script>[].forEach.call(document.querySelectorAll(".btn[data-bs-toggle='collapse']"), ($btn) => $btn.onmouseup = () => setTimeout(() => $btn.innerText = $btn.attributes["aria-expanded"].value === "true" ? "Hide" : "Show", 0))</script>

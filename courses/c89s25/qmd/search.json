@@ -1097,5 +1097,40 @@
     "title": "4bytes",
     "section": "Separately",
     "text": "Separately\n\nWe are not working solely with respect to \\(n\\).\nWe are also working within uint64_t\nWe cannot multiple together numbers larger than 1 &lt;&lt; 32 under uint64_t without incurring an overflow.\n\nThis overflow is predictable results in a loss of precise encryption.\n\n\n\n\n1bytes.c\n\n#include &lt;stdio.h&gt;\n#include &lt;stdint.h&gt;\n\n\nint main() {\n        uint8_t a, b;\n        a = 20;\n        b = a * a;\n        printf(\"{a=%d}^2 -&gt; b=%d under uint8_t.\\n\", a, b);\n        a = 12;\n        b = a * a;\n        printf(\"{a=%d}^2 -&gt; b=%d under uint8_t.\\n\", a, b);\n        return 0;\n}\n\n\nWe see that:\n\n\\[\n20^2 \\equiv 12^2 \\pmod{2^8}\n\\]\n\nClosing thoughts\n\nWe recall the subject name “Computer Science”\n\\(\\exists\\) naturalistic causes for all results in computing (within reason)\n\nThese are frequently multiply specifiable in:\n\nFormal mathematics, e.g. LaTeX\nLinguistics, a field with which I am not familiar with notational conventions\nPhilosophy, using formal logic, using a whiteboard.\nProgramming != Computer Science, using programming languages such as Python.\n\n\n\n\nassert(12 ** 2 % 1 &lt;&lt; 8 == 20 ** 2 % 1 &lt;&lt; 8)\n\n\nWe use finite transitors storing electrons, which correspond to bits.\nThis corresponds to finite expressions in some language.\nWe also decode to the shortest expression which is equivalent under the modular squaring operation.\n\n\n\nFinal Thoughts\n\nWe cannot uniquely square values larger than 32 bits.\nWe cannot store more than 4 ascii/utf-8 chars in 32 bits.\nWe have a message length cap of the lesser of:\n\nThe log base 2 of \\(n\\), the product of primes.\n\n\\(\\log_2{n}\\), the bit length of \\(n\\).\n\n\\(2^{32}\\)"
+  },
+  {
+    "objectID": "bigrsa.html#a-reference-solution",
+    "href": "bigrsa.html#a-reference-solution",
+    "title": "BigRSA",
+    "section": "A Reference Solution",
+    "text": "A Reference Solution\n\nAfter careful reflection, the weight and challenge of this assignment made a single, in-container script insufficient, in my view, for testing.\nIn lieu, I am providing a full reference implementation, with a few caveats:\n\nI have maintained 4096_t solutions as closed source.\n\nInstead, I have implemented an interface to libgmp mpz_t numbers in biggmp.c\nIf you are stuck on 4096_t, you should use this as well.\n\nI am trusting you to either look at, or not look at, my code, based on what works best for your learning.\n\nIt is provided as is, and likely has few bugs, but probably not that few.\n\nI am not requiring you to have any particular interfacing, though I am providing one as an example."
+  },
+  {
+    "objectID": "bigrsa.html#a-perfect-system",
+    "href": "bigrsa.html#a-perfect-system",
+    "title": "BigRSA",
+    "section": "A Perfect System",
+    "text": "A Perfect System\n\nA perfect project will:\n\nUse a ‘bigkey’ executable once to perform key generation:\n\nWrite keys to two files, one public and one private.\n\nUse a ‘bigrsa’ executable twice to perform “round trip” encryption on a greater than 64 bit data file.\n\nWrite more than 64 bits to a data file.\n\nIt is easier to do a precise multiple of 64\n\nEncrypt this file and store the ciphertext as a new file.\nDecrypt the cipher text file.\nTake a diff of the input file and the decrypted file.\n\nIf the return code of diff $? is 0, the project is a success."
+  },
+  {
+    "objectID": "bigrsa.html#an-explanation",
+    "href": "bigrsa.html#an-explanation",
+    "title": "BigRSA",
+    "section": "An explanation",
+    "text": "An explanation\n\nWhy this implementation?\n\nI could not find a way I liked to specify:\n\nStoring keys\nStory cipher texts\nSetting key lengths\n\nI felt any specification was unfairly restrictive."
+  },
+  {
+    "objectID": "bigrsa.html#how-to-use-the-reference-repository",
+    "href": "bigrsa.html#how-to-use-the-reference-repository",
+    "title": "BigRSA",
+    "section": "How to use the reference repository",
+    "text": "How to use the reference repository\n\nEither clone the repository and include your own bigrsa and bigkey or,\nAdd the relevant files to your crypto repository.\nStudy the Makefile closely, and use this reference material or #help-line if you are confused.\n\nMy favorite Makefile tutorial\n\nYou are not required to use GitHub actions (or containers, conspiciously absent) but may wish to do so.\nYou may change the compiler from clang back to gcc, but I wanted to show you clang and Makefile variables."
+  },
+  {
+    "objectID": "bigrsa.html#the-repository",
+    "href": "bigrsa.html#the-repository",
+    "title": "BigRSA",
+    "section": "The Repository",
+    "text": "The Repository\n\nThe repository is publicly visible at github.com/cd-c89/refrsa"
   }
 ]

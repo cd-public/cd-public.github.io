@@ -215,7 +215,75 @@ fbea5e6a3ed31e8f
 
 ::: {#tester .collapse .multi-collapse}
 
-*Spoiler alert*
+## "Tester"
+
+- Rather than provide an end-to-end containerized autograder, I am providing the following Makefile:
+
+```{.Makefile file="Makefile"}
+CC = gcc # or clang
+CFLAGS = -std=c89 -Wall -Wextra -Werror -Wpedantic -O2
+CLIBS = -lgmp # for biggmp and primes
+BIGNUM = biggmp.c # or use 4096_t.c
+
+all: bigrsa bigkey
+
+bigrsa: bigrsa.c $(BIGNUM) 4096_t.h
+	$(CC) bigrsa.c $(BIGNUM) $(CFLAGS) -o bigrsa $(CLIBS)
+	
+bigkey: bigkey.c $(BIGNUM) 4096_t.h
+	$(CC) bigkey.c $(BIGNUM) $(CFLAGS) -o bigkey $(CLIBS)
+
+clean:
+	rm -f bigrsa bigkey unsafe.* *.txt
+
+check: bigrsa bigkey
+	./bigkey
+	echo "Multiple of four chars." > m.txt
+	./bigrsa -e m.txt c.txt
+	./bigrsa -d c.txt n.txt
+	diff m.txt n.txt
+```
+
+- I am also providing:
+  - A reference solution that uses this Makefile.
+  - A GitHub action that uses this Makefile:
+
+```{.yml filename="C89.yml"}
+name: C89 CI
+
+on: push
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - run: make check
+```
+
+- Read more in "Solved"
+
+:::
+
+# Solved&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#solved" role="button" aria-expanded="false" aria-controls = "solved">Show</a>
+
+::: {#solved .collapse .multi-collapse}
+
+## Solution
+
+::: {.callout-danger}
+
+*Spoiler alert*: This section contains spoilers, including a working solution, to the BigRSA assignment.
+
+:::
+
+::: {.callout-tip}
+## Spoiler Alert!
+
+This section contains spoilers, including a working solution, to the BigRSA assignment.
+
+:::
 
 ## A Reference Solution
 
@@ -261,6 +329,12 @@ fbea5e6a3ed31e8f
 
 ## The Repository
 
+::: {.callout-warning collapse="true"}
+## Expand for Reference Solution
+
 - The repository is publicly visible at [github.com/cd-c89/refrsa](https://github.com/cd-c89/refrsa)
+
+:::
+
 
 :::

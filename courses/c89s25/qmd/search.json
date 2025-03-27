@@ -1131,6 +1131,41 @@
     "href": "bigrsa.html#the-repository",
     "title": "BigRSA",
     "section": "The Repository",
-    "text": "The Repository\n\nThe repository is publicly visible at github.com/cd-c89/refrsa"
+    "text": "The Repository\n\n\n\n\n\n\nExpand for Reference Solution\n\n\n\n\n\n\nThe repository is publicly visible at github.com/cd-c89/refrsa"
+  },
+  {
+    "objectID": "stream.html#graphically",
+    "href": "stream.html#graphically",
+    "title": "Stream",
+    "section": "Graphically",
+    "text": "Graphically\n\n\n\n\n\n\n\nfinite_automata\n\n\ncluster_X\n\nA\n\n\ncluster_Y\n\nB\n\n\n\n1\n\n1\n\n\n\nw\n\nw\n\n\n\n1-&gt;w\n\n\n\n\n\n2\n\n2\n\n\n\nx\n\nx\n\n\n\n2-&gt;x\n\n\n\n\n\n3\n\n3\n\n\n\ny\n\ny\n\n\n\n3-&gt;y\n\n\n\n\n\n4\n\n4\n\n\n\nz\n\nz\n\n\n\n4-&gt;z"
+  },
+  {
+    "objectID": "stream.html#section",
+    "href": "stream.html#section",
+    "title": "Stream",
+    "section": "",
+    "text": "Bijective\n\n\n\n\n\n\n\nfinite_automata\n\n\ncluster_X\n\nA\n\n\ncluster_Y\n\nB\n\n\n\n1\n\n1\n\n\n\nw\n\nw\n\n\n\n1-&gt;w\n\n\n\n\n\n2\n\n2\n\n\n\nx\n\nx\n\n\n\n2-&gt;x\n\n\n\n\n\n3\n\n3\n\n\n\ny\n\ny\n\n\n\n3-&gt;y\n\n\n\n\n\n4\n\n4\n\n\n\nz\n\nz\n\n\n\n4-&gt;z\n\n\n\n\n\n\n\n\n\n\n\n\nInjective\n\n\n\n\n\n\n\nfinite_automata\n\n\ncluster_X\n\nA\n\n\ncluster_Y\n\nB\n\n\n\n1\n\n1\n\n\n\nw\n\nw\n\n\n\n1-&gt;w\n\n\n\n\n\n2\n\n2\n\n\n\nx\n\nx\n\n\n\n2-&gt;x\n\n\n\n\n\n3\n\n3\n\n\n\nz\n\nz\n\n\n\n3-&gt;z\n\n\n\n\n\ny\n\ny\n\n\n\n\n\n\n\n\n\n\n\n\nSurjective\n\n\n\n\n\n\n\nfinite_automata\n\n\ncluster_X\n\nA\n\n\ncluster_Y\n\nB\n\n\n\n1\n\n1\n\n\n\nw\n\nw\n\n\n\n1-&gt;w\n\n\n\n\n\n2\n\n2\n\n\n\nx\n\nx\n\n\n\n2-&gt;x\n\n\n\n\n\n3\n\n3\n\n\n\ny\n\ny\n\n\n\n3-&gt;y\n\n\n\n\n\n4\n\n4\n\n\n\n4-&gt;y\n\n\n\n\n\n\n\n\n\n\n\n\nNeither\n\n\n\n\n\n\n\nfinite_automata\n\n\ncluster_X\n\nA\n\n\ncluster_Y\n\nB\n\n\n\n1\n\n1\n\n\n\nw\n\nw\n\n\n\n1-&gt;w\n\n\n\n\n\n2\n\n2\n\n\n\nx\n\nx\n\n\n\n2-&gt;x\n\n\n\n\n\n3\n\n3\n\n\n\nz\n\nz\n\n\n\n3-&gt;z\n\n\n\n\n\n4\n\n4\n\n\n\n4-&gt;z\n\n\n\n\n\ny\n\ny"
+  },
+  {
+    "objectID": "bigrsa.html#tester",
+    "href": "bigrsa.html#tester",
+    "title": "BigRSA",
+    "section": "“Tester”",
+    "text": "“Tester”\n\nRather than provide an end-to-end containerized autograder, I am providing the following Makefile:\n\nCC = gcc # or clang\nCFLAGS = -std=c89 -Wall -Wextra -Werror -Wpedantic -O2\nCLIBS = -lgmp # for biggmp and primes\nBIGNUM = biggmp.c # or use 4096_t.c\n\nall: bigrsa bigkey\n\nbigrsa: bigrsa.c $(BIGNUM) 4096_t.h\n    $(CC) bigrsa.c $(BIGNUM) $(CFLAGS) -o bigrsa $(CLIBS)\n    \nbigkey: bigkey.c $(BIGNUM) 4096_t.h\n    $(CC) bigkey.c $(BIGNUM) $(CFLAGS) -o bigkey $(CLIBS)\n\nclean:\n    rm -f bigrsa bigkey unsafe.* *.txt\n\ncheck: bigrsa bigkey\n    ./bigkey\n    echo \"Multiple of four chars.\" &gt; m.txt\n    ./bigrsa -e m.txt c.txt\n    ./bigrsa -d c.txt n.txt\n    diff m.txt n.txt\n\nI am also providing:\n\nA reference solution that uses this Makefile.\nA GitHub action that uses this Makefile:\n\n\n\n\nC89.yml\n\nname: C89 CI\n\non: push\n    \njobs:\n  build:\n    runs-on: ubuntu-latest\n\n    steps:\n    - uses: actions/checkout@v4\n    - run: make check\n\n\nRead more in “Solved”"
+  },
+  {
+    "objectID": "bigrsa.html#solution",
+    "href": "bigrsa.html#solution",
+    "title": "BigRSA",
+    "section": "Solution",
+    "text": "Solution\n\nSpoiler alert: This section contains spoilers, including a working solution, to the BigRSA assignment.\n\n\n\n\n\n\n\nSpoiler Alert!\n\n\n\nThis section contains spoilers, including a working solution, to the BigRSA assignment."
+  },
+  {
+    "objectID": "bigrsa.html#expand-to-learn-about-collapse",
+    "href": "bigrsa.html#expand-to-learn-about-collapse",
+    "title": "BigRSA",
+    "section": "Expand To Learn About Collapse",
+    "text": "Expand To Learn About Collapse\n\nThe repository is publicly visible at github.com/cd-c89/refrsa"
   }
 ]

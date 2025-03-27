@@ -433,8 +433,83 @@ window.Quarto = {
 </section>
 <section id="tester-show" class="level1">
 <h1>Tester&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#tester" role="button" aria-expanded="false" aria-controls="tester">Show</a></h1>
-<div id="tester" class="collapse multi-collapse">
-<p><em>Spoiler alert</em></p>
+<section id="tester" class="level2 collapse multi-collapse">
+<h2 class="anchored" data-anchor-id="tester">“Tester”</h2>
+<ul>
+<li>Rather than provide an end-to-end containerized autograder, I am providing the following Makefile:</li>
+</ul>
+<div class="sourceCode" id="cb5" data-file="Makefile"><pre class="sourceCode Makefile code-with-copy"><code class="sourceCode makefile"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">CC</span> <span class="ch">=</span><span class="st"> gcc </span><span class="co"># or clang</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">CFLAGS</span> <span class="ch">=</span><span class="st"> -std=c89 -Wall -Wextra -Werror -Wpedantic -O2</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">CLIBS</span> <span class="ch">=</span><span class="st"> -lgmp </span><span class="co"># for biggmp and primes</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dt">BIGNUM</span> <span class="ch">=</span><span class="st"> biggmp.c </span><span class="co"># or use 4096_t.c</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dv">all:</span><span class="dt"> bigrsa bigkey</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dv">bigrsa:</span><span class="dt"> bigrsa.c </span><span class="ch">$(</span><span class="dt">BIGNUM</span><span class="ch">)</span><span class="dt"> 4096_t.h</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="er">    </span><span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> bigrsa.c <span class="ch">$(</span><span class="dt">BIGNUM</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CFLAGS</span><span class="ch">)</span> -o bigrsa <span class="ch">$(</span><span class="dt">CLIBS</span><span class="ch">)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="dv">bigkey:</span><span class="dt"> bigkey.c </span><span class="ch">$(</span><span class="dt">BIGNUM</span><span class="ch">)</span><span class="dt"> 4096_t.h</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="er">    </span><span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> bigkey.c <span class="ch">$(</span><span class="dt">BIGNUM</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CFLAGS</span><span class="ch">)</span> -o bigkey <span class="ch">$(</span><span class="dt">CLIBS</span><span class="ch">)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="dv">clean:</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="er">    </span>rm -f bigrsa bigkey unsafe.* *.txt</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="dv">check:</span><span class="dt"> bigrsa bigkey</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="er">    </span>./bigkey</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    echo <span class="st">"Multiple of four chars."</span> &gt; m.txt</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    ./bigrsa -e m.txt c.txt</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    ./bigrsa -d c.txt n.txt</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    diff m.txt n.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>I am also providing:
+<ul>
+<li>A reference solution that uses this Makefile.</li>
+<li>A GitHub action that uses this Makefile:</li>
+</ul></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>C89.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="C89.yml"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> C89 CI</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span><span class="at"> push</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">build</span><span class="kw">:</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> make check</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Read more in “Solved”</li>
+</ul>
+</section>
+</section>
+<section id="solved-show" class="level1">
+<h1>Solved&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#solved" role="button" aria-expanded="false" aria-controls="solved">Show</a></h1>
+<div id="solved" class="collapse multi-collapse">
+<section id="solution" class="level2">
+<h2 class="anchored" data-anchor-id="solution">Solution</h2>
+<div class="callout-danger">
+<p><em>Spoiler alert</em>: This section contains spoilers, including a working solution, to the BigRSA assignment.</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Spoiler Alert!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This section contains spoilers, including a working solution, to the BigRSA assignment.</p>
+</div>
+</div>
+</section>
 <section id="a-reference-solution" class="level2">
 <h2 class="anchored" data-anchor-id="a-reference-solution">A Reference Solution</h2>
 <ul>
@@ -509,9 +584,24 @@ window.Quarto = {
 </section>
 <section id="the-repository" class="level2">
 <h2 class="anchored" data-anchor-id="the-repository">The Repository</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Expand for Reference Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>The repository is publicly visible at <a href="https://github.com/cd-c89/refrsa">github.com/cd-c89/refrsa</a></li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 </div>
 

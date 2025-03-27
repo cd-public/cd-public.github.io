@@ -1,0 +1,843 @@
+---
+title: Stream
+theme: dark
+author: Prof. Calvin
+subtitle: "Week 0x9 I"
+institute: Crypto
+format: 
+    revealjs: 
+        code-fold: true
+        theme: dark
+        mainfont: monospace
+        slide-number: true
+        show-slide-number: all
+        width: 1050
+        height: 700
+        footer: "[Home](../index.html)"
+
+execute:
+    echo: true
+    cache: true
+    freeze: true  # never re-render during project render
+    code-fold: false
+---
+
+# Announcements
+
+- **Welcome** to variously CS 276/CS 540
+  - A quick digression on patterns & antipatterns
+  - C relevant
+  - Starting data structures ASAP
+- **Action Items**:
+  - BigRSA due this week.
+  
+# Today
+
+- Antipatterns
+
+> An anti-pattern in software engineering, project management, and business processes is a common response to a recurring problem that is usually ineffective and risks being highly counterproductive.
+
+# Today
+
+- Duplication
+- Deficient encapsulation v. Broken modularization
+- Magic Numbers
+- Overthinking
+- Big Ball of Mud v. God Object
+- Data clump
+
+# Duplication
+
+- And *streaming*
+    - Today's lecture inspire by the idea of *streaming data*
+    - Huge paradigm change in exascale data application, built the modern cloud.
+- Let's look at two examples.
+
+# Duplicate
+
+- Say we are working on Base85 and have the following function:
+```{.c}
+void print_in_base85(uint32_t word)
+```
+- We know:
+    - Base85 prints exactly 5 characters of printable ascii/utf-8 for exactly every 4 bytes / 32 bits of data
+    - We know that every single 32-bit word is independent.
+
+# Base85
+
+- It is perhaps impossible but certainly "wrong" to perform base85 encoding without this function.
+- So no matter what, we will have this function in some loop over some data.
+```{.c}
+do {
+    print_in_base85(word)
+} while ( conditional )
+```
+
+# Design Decision
+
+- We have to decide how to populate `word`.
+    - We need 32 bits
+    - We need to read it from a file.
+
+::::{columns}
+
+:::{.column width=50%}
+
+```{.c}
+FILE *fp = fopen("file.txt", "r")
+uint32_t word, conditional;
+do {
+    print_in_base85(word)
+} while ( conditional )
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+FILE *fp = fopen("file.txt", "r")
+uint32_t word, conditional;
+do {
+    print_in_base85(word)
+} while ( conditional )
+```
+
+:::
+
+::::
+
+# Do we?
+
+- Copy (duplicate) all data then read, or...
+- Read 32 bits at a time
+
+::::{columns}
+
+:::{.column width=50%}
+```{.c}
+FILE *fp = fopen("file.txt", "r")
+uint32_t words[∞], conditional, i = 0;
+fread(words, ∞, 1, *fp);
+do {
+    print_in_base85(words[i++])
+} while ( conditional )
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+FILE *fp = fopen("file.txt", "r")
+uint32_t word, conditional;
+do {
+    fread(word, 4, 1, fp);
+    print_in_base85(word)
+} while ( conditional )
+```
+
+:::
+
+::::
+
+# Stream!
+
+
+
+::::{columns}
+
+:::{.column width=50%}
+
+- We never need local copies if we have independence!
+- SHA256 - 512 bytes
+- Base64 - 3 bytes
+- Base85 - 4 bytes
+- RSA - Fewer bytes than $n = pq$
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+FILE *fp = fopen("file.txt", "r")
+uint32_t word, conditional;
+do {
+    fread(word, 4, 1, fp);
+    print_in_base85(word)
+} while ( conditional )
+```
+
+:::
+
+::::
+
+# Example
+
+- From my research
+    - Wrote a Python script the handles some hardware design data.
+    - I use an existing tool in Java that handles the same data.
+    - I implemented by tool with *streaming*
+
+# Timing
+
+```{.email}
+$ time python3 rtlkon.py testbench.vcd >/dev/null
+
+real    0m0.323s
+user    0m0.285s
+sys     0m0.030s
+$ time java daikon.Daikon testbench.decls testbench.dtrace >/dev/null
+
+real    0m4.358s
+user    0m14.128s
+sys     0m0.413s
+$ wc testbench.decls testbench.dtrace
+    2219     4434    39059 testbench.decls
+ 2936134  2931732 17474090 testbench.dtrace
+ 2938353  2936166 17513149 total
+```
+
+# Stream
+
+- Python 3, the world's slowest language, writes 15.5 MB in .323 seconds
+- Java, the other slowest language, reads 15.5 MB in 14.128 seconds.
+    - Python at 48x speed
+- Both tools fully simulate the processor as an automata, use local storage, etc.
+
+# Visualize
+
+- I think of streaming as follows.
+- We image we want to make some "File B" from some "File A"
+
+
+```{dot}
+//| fig-width: 500px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=box
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="File A"];
+    file2 [label="File B"];
+
+    file1 -> file2;
+    }
+}
+```
+
+# Visualize
+
+- Imagine SHA hashing Pride and Prejudice
+    - You did this.
+
+
+```{dot}
+//| fig-width: 500px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=box
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="P&P"];
+    file2 [label="SHA"];
+
+    file1 -> file2;
+    }
+}
+```
+
+# Visualize
+
+- Imagine Base64 encoding an .svg.
+    - You can do this, quarto does this.
+
+```{dot}
+//| fig-width: 500px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=box
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="SVG"];
+    file2 [label="B64"];
+
+    file1 -> file2;
+    }
+}
+```
+
+# Streaming
+
+
+- A file contains of $n$ words of $b$ bits.
+
+```{dot}
+//| fig-width: 500px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="0x0 | 0x4 | 0x8 | 0xc"];
+    file2 [label="??? | ??? | ??? | ???"];
+
+    file1 -> file2;
+    }
+}
+```
+
+
+# Streaming
+
+
+- An executable maps files-to-files
+    - base64 is a bijection - remember those?
+
+```{dot}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="0x0 | 0x4 | 0x8 | 0xc"];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="??? | ??? | ??? | ???"];
+
+    file1 -> ELF
+    ELF -> file2;
+    }
+}
+```
+
+## 
+
+<table>
+
+  <tbody>
+    <tr>
+<td>
+**Bijective**
+
+```{dot filename="Finite Automata"}
+//| fig-width: 300px
+//| fig-height: 200px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle,
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+  subgraph cluster_X {
+  rankdir=TB;
+      color = "#ffffff";
+      fontcolor = "#ffffff"
+      style=rounded
+      label = "A";
+      "1";
+      "2";
+      "3";
+      "4";
+  }
+
+  subgraph cluster_Y {
+  rankdir=TB;
+      color = "#ffffff";
+      style=rounded
+      fontcolor = "#ffffff"
+      label = "B";
+      "w";
+      "x";
+      "y";
+      "z";
+  }
+
+  "1" -> "w";
+  "2" -> "x";
+  "3" -> "y";
+  "4" -> "z";
+}
+```
+
+</td>
+<td>
+**Injective**
+
+```{dot filename="Finite Automata"}
+//| fig-width: 300px
+//| fig-height: 200px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle,
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+  subgraph cluster_X {
+  rankdir=TB;
+      color = "#ffffff";
+      fontcolor = "#ffffff"
+      style=rounded
+      label = "A";
+      "1";
+      "2";
+      "3";
+  }
+
+  subgraph cluster_Y {
+  rankdir=TB;
+      color = "#ffffff";
+      style=rounded
+      fontcolor = "#ffffff"
+      label = "B";
+      "w";
+      "x";
+      "y";
+      "z";
+  }
+
+  "1" -> "w";
+  "2" -> "x";
+  "3" -> "z";
+}
+```
+</td>
+</tr>
+    <tr>
+<td>
+**Surjective**
+
+```{dot filename="Finite Automata"}
+//| fig-width: 300px
+//| fig-height: 200px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle,
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+  subgraph cluster_X {
+  rankdir=TB;
+      color = "#ffffff";
+      fontcolor = "#ffffff"
+      style=rounded
+      label = "A";
+      "1";
+      "2";
+      "3";
+      "4";
+  }
+
+  subgraph cluster_Y {
+  rankdir=TB;
+      color = "#ffffff";
+      style=rounded
+      fontcolor = "#ffffff"
+      label = "B";
+      "w";
+      "x";
+      "y";
+  }
+
+  "1" -> "w";
+  "2" -> "x";
+  "3" -> "y";
+  "4" -> "y";
+}
+```
+
+</td>
+<td>
+Neither
+
+```{dot filename="Finite Automata"}
+//| fig-width: 300px
+//| fig-height: 200px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle,
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+  subgraph cluster_X {
+  rankdir=TB;
+      color = "#ffffff";
+      fontcolor = "#ffffff"
+      style=rounded
+      label = "A";
+      "1";
+      "2";
+      "3";
+      "4";
+  }
+
+  subgraph cluster_Y {
+  rankdir=TB;
+      color = "#ffffff";
+      style=rounded
+      fontcolor = "#ffffff"
+      label = "B";
+      "w";
+      "x";
+      "y";
+      "z";
+  }
+
+  "1" -> "w";
+  "2" -> "x";
+  "3" -> "z";
+  "4" -> "z";
+}
+```
+
+</td>
+</tr>
+</tbody>
+</table>
+
+# Base64
+
+- Base64
+    - Bijects numbers in $\mathbb{Z}/n\mathbb{Z}:n = 2^{32}$
+    - To strings of length 5 over these symbols `[A-Za-z0-9+/]`
+- Base64 encoding of a file
+    - Bijects files, we can think of as in binary, to
+    - Strings of arbitrary length over `[A-Za-z0-9+/]`
+
+# Streaming
+
+```{dot}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="<a>0x0 | ??? | ??? | ???"];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="<b>??? | ??? | ??? | ???"];
+
+    file1:a -> ELF
+    ELF -> file2:b;
+    
+}
+```
+
+# Streaming
+
+```{dot}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="???| <a>0x4 | ??? | ???"];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="???| <b>0x5 | ??? | ???"];
+
+    file1:a -> ELF
+    ELF -> file2:b;
+    
+}
+```
+
+
+# Streaming
+
+```{dot}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="???| ??? | <a>0x8 | ???"];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="??? | ??? |<b>0xA | ???"];
+
+    file1:a -> ELF
+    ELF -> file2:b;
+    
+}
+```
+
+
+
+# Streaming
+
+```{dot}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="???| ??? | ???| <a>0xC "];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="??? | ??? | ???|<b>0xF "];
+
+    file1:a -> ELF
+    ELF -> file2:b;
+    
+}
+```
+
+# Pattern
+
+- This is the pattern
+
+```{dot}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="...| <a>0xX |..."];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="...|<b>0xY |... "];
+
+    file1:a -> ELF
+    ELF -> file2:b;
+    
+}
+```
+
+# Anti-Pattern
+
+- This is the anti-pattern of duplication
+
+```{dot}
+//| fig-width: 1000px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+    file1 [label="...| <a>0xX |..."];
+    fio [label="fread", shape=rarrow]
+    file15 [label="buf[∞]"];
+    ELF [label="base64", shape=rarrow]
+    file2 [label="...|<b>0xY |... "];
+
+    file1 -> fio
+    fio -> file15
+    file15 -> ELF
+    ELF -> file2:b;
+    
+}
+```
+
+# Big Deal
+
+- Unnecessary duplication is a big deal in database / lakehouse.
+
+![](https://miro.medium.com/v2/0*-qVE8s5PCVcv_E7c.png){fig-align="center"}
+
+# Big Deal
+
+- Unnecessary duplication is what prevented prime generation in my 4096_t.
+
+```{.C}
+uint64_t bigdiv(uint64_t *num, uint64_t *den, uint64_t *quo, uint64_t *rem) {
+    uint64_t i = getmsb(num), j = getmsb(den), n, d, tmq[S], tmr[S];
+```
+
+- That is `(4 + 2) * 64 * 64 = 24576` = 25 kilobytes for `5/2`
+
+# Today
+
+- %check; Duplication
+- Deficient encapsulation v. Broken modularization
+- Magic Numbers
+- Overthinking
+- Big Ball of Mud v. God Object
+- Data clump
+
+# On 4096_t
+
+- I needed the following on BigRSA
+```{.C}
+uint64_t bignul(uint64_t *a) {
+    size_t i;
+    for  (i = 0 ; i < S && !a[i]; i++) { }
+    return i != S;
+}
+```
+- I needed it on both `bigkey` and `bigrsa`
+- I didn't inclode it in 4096_t
+    - I duplicated the code but...
+
+# Header files
+
+- This header file implements the 4096_t... dare I say... API?
+
+```{.C}
+void seebig(uint64_t *a); 
+uint64_t bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum); 
+uint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif); 
+uint64_t bigmul(uint64_t *in0, uint64_t *in1, uint64_t *out); 
+uint64_t bigdiv(uint64_t *num, uint64_t *den, uint64_t *quo, uint64_t *rem); 
+uint64_t bigquo(uint64_t *num, uint64_t *den, uint64_t *quo);
+uint64_t bigrem(uint64_t *num, uint64_t *den, uint64_t *rem);
+```
+
+- I shouldn't mess with this! It's already released!

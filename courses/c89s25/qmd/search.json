@@ -1124,7 +1124,7 @@
     "href": "bigrsa.html#how-to-use-the-reference-repository",
     "title": "BigRSA",
     "section": "How to use the reference repository",
-    "text": "How to use the reference repository\n\nEither clone the repository and include your own bigrsa and bigkey or,\nAdd the relevant files to your crypto repository.\nStudy the Makefile closely, and use this reference material or #help-line if you are confused.\n\nMy favorite Makefile tutorial\n\nYou are not required to use GitHub actions (or containers, conspiciously absent) but may wish to do so.\nYou may change the compiler from clang back to gcc, but I wanted to show you clang and Makefile variables."
+    "text": "How to use the reference repository\n\nEither clone the repository and include your own bigrsa and bigkey or,\nAdd the relevant files to your crypto repository.\nStudy the Makefile closely, and use this reference material or #help-line if you are confused.\n\nMy favorite Makefile tutorial\n\nYou are not required to use GitHub actions (or containers, conspiciously absent) but may wish to do so.\nYou don’t need to think about clang vs gcc, but I wanted to show you clang and Makefile variables."
   },
   {
     "objectID": "bigrsa.html#the-repository",

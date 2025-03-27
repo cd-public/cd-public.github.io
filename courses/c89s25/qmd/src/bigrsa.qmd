@@ -325,7 +325,7 @@ This section contains spoilers, including a working solution, to the BigRSA assi
 - Study the Makefile closely, and use this reference material or `#help-line` if you are confused.
   - My favorite [Makefile tutorial](https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/)
 - You are not required to use GitHub actions (or containers, conspiciously absent) but may wish to do so.
-- You may change the compiler from `clang` back to `gcc`, but I wanted to show you clang and Makefile variables.
+- You don't need to think about `clang` vs `gcc`, but I wanted to show you clang and Makefile variables.
 
 ## The Repository
 

@@ -217,9 +217,12 @@ fbea5e6a3ed31e8f
 
 ## "Tester"
 
-- Rather than provide an end-to-end containerized autograder, I am providing the following Makefile:
+- Rather than provide an end-to-end containerized autograder, I am providing a Makefile.
+```{.email}
+wget https://github.com/cd-c89/refrsa/raw/refs/heads/main/Makefile # curl was struggling
+```
 
-```{.Makefile file="Makefile"}
+```{.Makefile filename="Makefile"}
 CC = gcc # or clang
 CFLAGS = -std=c89 -Wall -Wextra -Werror -Wpedantic -O2
 CLIBS = -lgmp # for biggmp and primes

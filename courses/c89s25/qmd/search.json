@@ -1167,5 +1167,1041 @@
     "title": "BigRSA",
     "section": "Expand To Learn About Collapse",
     "text": "Expand To Learn About Collapse\n\nThe repository is publicly visible at github.com/cd-c89/refrsa"
+  },
+  {
+    "objectID": "struct.html#review",
+    "href": "struct.html#review",
+    "title": "Stream",
+    "section": "Review",
+    "text": "Review\n\nIn Python, we don’t really have the classical concept of array\n\nHistorically lists and arrays were different things…\nPython lists are closer to being array-lists - an implementation of a list *abstract data type* using an array *data structure*\n\n&gt;&gt;&gt; arr = [1,2,3] &gt;&gt;&gt; type(arr) &lt;class 'list'&gt; &gt;&gt;&gt;"
+  },
+  {
+    "objectID": "struct.html#review-1",
+    "href": "struct.html#review-1",
+    "title": "Stream",
+    "section": "Review",
+    "text": "Review\n\nThe List type differs from the Array implementation in a few ways: int arr[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } ;\n\nArrays are of fixed length.\n\nWe cannot add or remove elements, only replace.\n\narr = { 1, 2, 3 } ; // compile error arr[15] = -1 ; // runtime error - \"stack smashing\"\nArrays must contain only elements of the same type.\n\nWe cannot place chars and ints in the same array.\n\nchar *str = \"hihi\" ; arr[3] = str ; // compile warning - integer from pointer w/o cast\nArrays do not know their own length or type.\n\nWhen using arrays, we must keep track of how many elements of what type there are.\n\narr[sizeof(arr) -1] = -1 ; // *can* be a segmentation fault\nArrays exist at fixed location in physical memory. int *old = arr, *new ; arr[0] = 10 ; new = arr ; old == new ; // this is \"true\""
+  },
+  {
+    "objectID": "struct.html#review-2",
+    "href": "struct.html#review-2",
+    "title": "struct",
+    "section": "Review",
+    "text": "Review\n\nImagine mallocing all of memory in a single call.\n\nmalloc(0xFF…) will either crash or return a void * of zero (since that is the only place to start a memory region that large).\n\nImagine mallocing all of memory into one byte size pieces.\n\nThis would return 0xFF… void *s, the largest of which would be 0xFF…\n\nvoid * and size_t range from the same minimum (0) to maximum (0xFF…) size, so they are the same bit size. #include &lt;stdlib.h&gt; // for size_t #include &lt;assert.h&gt; // for assert int main() { assert(sizeof(void *) == sizeof(size_t)) ; // assertion passes assert(sizeof(char) == 1) ; // assertion passes assert(1 == 0) ; // assertion fails return 0; }\nRead more on assert here (or don’t).\n\nNAME top malloc, free, - allocate and free dynamic memory LIBRARY top Standard C library (libc, -lc) SYNOPSIS top #include &lt;stdlib.h&gt; void *malloc(size_t size); void free(void *_Nullable ptr); DESCRIPTION top malloc() The malloc() function allocates size bytes and returns a pointer to the allocated memory. The memory is not initialized. If size is 0, then malloc() returns a unique pointer value that can later be successfully passed to free().&lt;/stdlib.h&gt;"
+  },
+  {
+    "objectID": "struct.html#review-3",
+    "href": "struct.html#review-3",
+    "title": "Struct",
+    "section": "Review",
+    "text": "Review\n\nImagine mallocing all of memory in a single call.\n\nmalloc(0xFF…) will either crash or return a void * of zero (since that is the only place to start a memory region that large).\n\nImagine mallocing all of memory into one byte size pieces.\n\nThis would return 0xFF… void *s, the largest of which would be 0xFF…\n\nvoid * and size_t range from the same minimum (0) to maximum (0xFF…) size, so they are the same bit size. #include &lt;stdlib.h&gt; // for size_t #include &lt;assert.h&gt; // for assert int main() { assert(sizeof(void *) == sizeof(size_t)) ; // assertion passes assert(sizeof(char) == 1) ; // assertion passes assert(1 == 0) ; // assertion fails return 0; }\nRead more on assert here (or don’t).\n\nNAME top malloc, free, - allocate and free dynamic memory LIBRARY top Standard C library (libc, -lc) SYNOPSIS top #include &lt;stdlib.h&gt; void *malloc(size_t size); void free(void *_Nullable ptr); DESCRIPTION top malloc() The malloc() function allocates size bytes and returns a pointer to the allocated memory. The memory is not initialized. If size is 0, then malloc() returns a unique pointer value that can later be successfully passed to free().&lt;/stdlib.h&gt;"
+  },
+  {
+    "objectID": "struct.html#takeaways",
+    "href": "struct.html#takeaways",
+    "title": "Struct",
+    "section": "Takeaways",
+    "text": "Takeaways\nPointers\nArrays\nAlways the same size, usually size 8 on a 64 bit system\nCan be declared to be any positive integer (not int) size, up to some upper limit\nShould be initialized before used (with single equals) and may be reassigned (with single equals)\nIs a fixed location in system memory and may not be reassigned (single equals triggers error).\nDeclaration allows a description of existing memory, but provides no new memory to work with.\nDeclaration provides some amount of memory for use.\nCan describe an array of any size by being assigned to a location containing such an array.\nHas precise, fixed, and unchanging size in memory.\nDoes not support declaration of variable length arrays on C89, and may not support VLAs on C11\nDoes not support declaration of variable length arrays on C89, and may not support VLAs on C11"
+  },
+  {
+    "objectID": "struct.html#malloc-1",
+    "href": "struct.html#malloc-1",
+    "title": "Struct",
+    "section": "malloc",
+    "text": "malloc\n\nMalloc returns a void * of the requested size, with which we may do what we will, such as store 6 characters. char *str = malloc(sizeof(char) * 6) ;\n\nBy declaring str as a “char *”, this stores the location returned by malloc as a void * in a pointer that is labelled as pointing to characters - the same pointer value, but different pointer meanings.\n\n“Here is some memory” vs “This memory contains characters”.\n\nMultiplying by “sizeof(char)” is redundant - sizeof(char) is one by definition - but this can be helpful when working with ints and other types.\nBONUS/CHALLENGE QUESTION: What is 1 * 6"
+  },
+  {
+    "objectID": "struct.html#malloc-2",
+    "href": "struct.html#malloc-2",
+    "title": "Struct",
+    "section": "malloc",
+    "text": "malloc\n\nMalloc returns a void * of the requested size, with which we may do what we will, such as store 6 characters. char *str = malloc(sizeof(char) * 6) ;\n\nBy declaring str as a “char *”, this stores the location returned by malloc as a void * in a pointer that is labelled as pointing to characters - the same pointer value, but different pointer meanings.\n\n“Here is some memory” vs “This memory contains characters”.\n\nMultiplying by “sizeof(char)” is redundant - sizeof(char) is one by definition - but this can be helpful when working with ints and other types.\nBONUS/CHALLENGE QUESTION: What is 1 * 6"
+  },
+  {
+    "objectID": "struct.html#malloc-3",
+    "href": "struct.html#malloc-3",
+    "title": "Struct",
+    "section": "malloc",
+    "text": "malloc\n\nMalloc returns a void * of the requested size, with which we may do what we will, such as store 6 characters. char *str = malloc(sizeof(char) * 6) ;\nWe can treat this memory region the same way we treat a character array. char arr[6] ; char *src = \"hello\" ; size_t i ; for ( i = 0 ; src[i] ; i++ ) { arr[i] = src[i] ; str[i] = src[i] ; } printf(\"%s %s %s\\n\", str, arr, src) ; // \"hello hello hello\"\n\n“Here is some memory that now contains characters” vs “This memory contains characters”."
+  },
+  {
+    "objectID": "struct.html#malloc-4",
+    "href": "struct.html#malloc-4",
+    "title": "struct",
+    "section": "malloc",
+    "text": "malloc\n\nBut where does the memory come from?\nSo far, “the stack” - a memory regime vaguely related to the data structure\nFor malloc, “the heap” - a memory regime even more vaguely related to the data structure\nStack and heap exist in different regions of system memory, so stack memory is near stack memory but distant from heap memory. char arr0[256], arr1[256], arr2[256] ; char *ptr0 = malloc(256), *ptr1 = malloc(256), *ptr2 = malloc(256) ; printf(\"%p\\n%p\\n%p\\n%p\\n%p\\n%p\\n\", arr0, arr1, arr2, ptr0, ptr1, ptr2) ;\nHow far are all these things apart from each other: 0x7ffdcfaae0c0 0x7ffdcfaae1c0 0x7ffdcfaae2c0 0x556f982022a0 0x556f982023b0 0x556f982024c0"
+  },
+  {
+    "objectID": "struct.html#malloc-5",
+    "href": "struct.html#malloc-5",
+    "title": "struct",
+    "section": "malloc",
+    "text": "malloc\n\nAlso check onlinegdb: 0x7ffc0dcdbb20 0x7ffc0dcdbc20 0x7ffc0dcdbd20 0x55b90099c2a0 0x55b90099c3b0 0x55b90099c4c0\nColab: 0x7ffca25f4df0 0x7ffca25f4ef0 0x7ffca25f4ff0 0x5906ff4e32a0 0x5906ff4e33b0 0x5906ff4e34c0\nTo study more intently, you have to step outside of the GNU family of compiler/debuggers."
+  },
+  {
+    "objectID": "struct.html#malloc-6",
+    "href": "struct.html#malloc-6",
+    "title": "struct",
+    "section": "malloc",
+    "text": "malloc\n\nBut where does the memory come from?\nSo far, “the stack” - a memory regime vaguely related to the data structure\nFor malloc, “the heap” - a memory regime even more vaguely related to the data structure\nStack and heap exist in different regions of system memory, so stack memory is near stack memory but distant from heap memory. char arr0[256], arr1[256], arr2[256] ; char *ptr0 = malloc(256), *ptr1 = malloc(256), *ptr2 = malloc(256) ; printf(\"%p\\n%p\\n%p\\n%p\\n%p\\n%p\\n\", arr0, arr1, arr2, ptr0, ptr1, ptr2) ;\nHow far are all these things apart from each other: 0x7ffdcfaae0c0 0x7ffdcfaae1c0 0x7ffdcfaae2c0 0x556f982022a0 0x556f982023b0 0x556f982024c0"
+  },
+  {
+    "objectID": "struct.html#stack-heap",
+    "href": "struct.html#stack-heap",
+    "title": "struct",
+    "section": "Stack & Heap",
+    "text": "Stack & Heap\n\nBasically, memory in a C program either exists in the stack, where we declare variables, or in the heap, another special magic place.\nStack memory, variously by requirement or convention, is allocated in explicit sizes fixed when code is compiled.\n\nC89 banned variable size stack declarations.\nC99 allowed it.\nIn response to pressure from the Linux developers, C11 degraded the requirement to an option.\nI am teaching you how to code without using a feature Linux developers say is bad. I’m not telling you the name of what you could use instead so you don’t Google it. It’s easy to find if you look.\n\nWe have only used stack memory so far so we have to fix memory size when we write the code."
+  },
+  {
+    "objectID": "struct.html#stack-heap-1",
+    "href": "struct.html#stack-heap-1",
+    "title": "struct",
+    "section": "Stack & Heap",
+    "text": "Stack & Heap\n\nBasically, memory in a C program either exists in the stack, where we declare variables, or in the heap, another special magic place.\nStack memory, variously by requirement or convention, is allocated in explicit sizes fixed when code is compiled.\n\nC89 banned variable size stack declarations.\nC99 allowed it.\nIn response to pressure from the Linux developers, C11 degraded the requirement to an option.\nI am teaching you how to code without using a feature Linux developers say is bad. I’m not telling you the name of what you could use instead so you don’t Google it. It’s easy to find if you look.\n\nWe have only used stack memory so far so we have to fix memory size when we write the code."
+  },
+  {
+    "objectID": "struct.html#stack-heap-2",
+    "href": "struct.html#stack-heap-2",
+    "title": "struct",
+    "section": "Stack & Heap",
+    "text": "Stack & Heap\n\nIn C, bits are in the stack, where we declare variables, or heap, another special magic place.\nA scratchpad space that GCC configures programs to request and the OS allows use of (up to some limit).\nThe “magic” is implementation details of the compiler and the operating system.\nThe only way we will learn to interface with the heap is malloc.\nThe only way we will learn to deal with memory for which size is determined during run-time (while a program runs) is malloc."
+  },
+  {
+    "objectID": "struct.html#stack-heap-3",
+    "href": "struct.html#stack-heap-3",
+    "title": "struct",
+    "section": "Stack & Heap",
+    "text": "Stack & Heap\nStack\nHeap\nFixed Size\nArbitrary Size\nHolds Function Variables\nReturned by a function (malloc)\nDefined before code is compiled\nGoverned by the laws of magic\nHigher/larger numerical addresses\n(closer to 0xFF…)\nLower/smaller numerical addresses\n(closer to 0x00…)\n!!!SPOILERS\n!!!SPOILERS"
+  },
+  {
+    "objectID": "struct.html#general-memory-layout",
+    "href": "struct.html#general-memory-layout",
+    "title": "struct",
+    "section": "General Memory Layout",
+    "text": "General Memory Layout\nEach running program has its own memory layout, separated from other programs.\nThe layout consists of a lot of segments, including:\n\nstack: stores local variables\nheap : memory for programmer to allocate\ndata : !!! SPOILERS (unitialize -&gt; uninitialized)\ntext : !!! SPOILERS\n\ndata and text are probably approximately what you imagine, but the precise way we interface with these memory regions is out of scope for todays lecture!\nData Science is the scientific study of… ahem, next slide."
+  },
+  {
+    "objectID": "struct.html#stack",
+    "href": "struct.html#stack",
+    "title": "struct",
+    "section": "# Stack",
+    "text": "# Stack\n\nStack space is allocated on variable declaration.\n\nThis is the reason for the historical (C89) requirement to only declare variables at the beginning of functions\nI attempt (read: fail) to model this as a coding style choice because it is better to learn more restrictive styles and then relax to more permissible styles.\n\nTraditionally the stack is regarded as “growing downwards” from higher/larger numerical memory locations to lower, but we did not see that in our tests: 0x7ffdcfaae0c0 0x7ffdcfaae1c0 0x7ffdcfaae2c0\nStack allocation is handled by the compiler, not the programmer."
+  },
+  {
+    "objectID": "struct.html#stack-example",
+    "href": "struct.html#stack-example",
+    "title": "struct",
+    "section": "Stack Example",
+    "text": "Stack Example\n\n\nAllocate bytes for variable a for main\nAllocate bytes for variable b for main\n\nstore -3\n\nAllocate bytes for variable c for main\n\nstore 12345\n\nAllocate bytes for variable a for hello\n\nstore 100\n\nDeallocate bytes associated with hello.\n\nreturn 100 by placing this value on the stack."
+  },
+  {
+    "objectID": "struct.html#stack-example-1",
+    "href": "struct.html#stack-example-1",
+    "title": "struct",
+    "section": "Stack Example",
+    "text": "Stack Example\n\n\nAllocate bytes for variable a for main\nAllocate bytes for variable b for main\n\nstore -3\n\nAllocate bytes for variable c for main\n\nstore 12345\n\nAllocate bytes for variable a for hello\n\nstore 100\n\nDeallocate bytes associated with hello.\n\nreturn 100 by placing this value on the stack.\n\nAllocate bytes for variable d for main\n\nstore the returned 100 in d"
+  },
+  {
+    "objectID": "struct.html#stack-example-2",
+    "href": "struct.html#stack-example-2",
+    "title": "struct",
+    "section": "Stack Example",
+    "text": "Stack Example\n\n\nAllocate bytes for variable a for main\nAllocate bytes for variable b for main\n\nstore -3\n\nAllocate bytes for variable c for main\n\nstore 12345\n\nAllocate bytes for variable a for hello\n\nstore 100\n\nDeallocate bytes associated with hello.\n\nreturn 100 by placing this value on the stack.\n\nAllocate bytes for variable d for main\n\nstore the returned 100 in d"
+  },
+  {
+    "objectID": "struct.html#stack-example-3",
+    "href": "struct.html#stack-example-3",
+    "title": "struct",
+    "section": "Stack Example",
+    "text": "Stack Example\n\n\nAllocate bytes for variable a for main\nAllocate bytes for variable b for main\n\nstore -3\n\nAllocate bytes for variable c for main\n\nstore 12345\n\nAllocate bytes for variable a for hello\n\nstore 100\n\nDeallocate bytes associated with hello.\n\nreturn 100 by placing this value on the stack."
+  },
+  {
+    "objectID": "struct.html#stack-example-4",
+    "href": "struct.html#stack-example-4",
+    "title": "struct",
+    "section": "Stack Example",
+    "text": "Stack Example\n\n\nAllocate bytes for variable a for main\nAllocate bytes for variable b for main\n\nstore -3\n\nAllocate bytes for variable c for main\n\nstore 12345\n\nAllocate bytes for variable a for hello\n\nstore 100\n\nDeallocate bytes associated with hello.\n\nreturn 100 by placing this value on the stack.\n\nAllocate bytes for variable d for main\n\nstore the returned 100 in d"
+  },
+  {
+    "objectID": "struct.html#stack-example-5",
+    "href": "struct.html#stack-example-5",
+    "title": "struct",
+    "section": "Stack Example",
+    "text": "Stack Example\n\n\nAllocate bytes for variable a for main\nAllocate bytes for variable b for main\n\nstore -3\n\nAllocate bytes for variable c for main\n\nstore 12345\n\nAllocate bytes for variable a for hello\n\nstore 100\n\nDeallocate bytes associated with hello.\n\nreturn 100 by placing this value on the stack.\n\nAllocate bytes for variable d for main\n\nstore the returned 100 in d"
+  },
+  {
+    "objectID": "struct.html#stack-discussion",
+    "href": "struct.html#stack-discussion",
+    "title": "struct",
+    "section": "# Stack Discussion?",
+    "text": "# Stack Discussion?"
+  },
+  {
+    "objectID": "struct.html#heap-example",
+    "href": "struct.html#heap-example",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate sizeof(int *) bytes for p for main.\nHeap-allocate sizeof(int) bytes\nStore the memory location of the heap allocated bytes in p.\n\nAs a reference, we denote this with an arrow rather than by showing a value.\nThe “value” stored is the same value seen by printf(“%p”,p);"
+  },
+  {
+    "objectID": "struct.html#heap-example-1",
+    "href": "struct.html#heap-example-1",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p."
+  },
+  {
+    "objectID": "struct.html#heap-example-2",
+    "href": "struct.html#heap-example-2",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p."
+  },
+  {
+    "objectID": "struct.html#heap-example-3",
+    "href": "struct.html#heap-example-3",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p."
+  },
+  {
+    "objectID": "struct.html#heap-example-4",
+    "href": "struct.html#heap-example-4",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references."
+  },
+  {
+    "objectID": "struct.html#heap-example-5",
+    "href": "struct.html#heap-example-5",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references."
+  },
+  {
+    "objectID": "struct.html#heap-example-6",
+    "href": "struct.html#heap-example-6",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references."
+  },
+  {
+    "objectID": "struct.html#review-question",
+    "href": "struct.html#review-question",
+    "title": "struct",
+    "section": "Review Question",
+    "text": "Review Question\nWhat is the return type of malloc()?\n\nsize_t\nunsigned long int\nvoid\nvoid *"
+  },
+  {
+    "objectID": "struct.html#review-question-1",
+    "href": "struct.html#review-question-1",
+    "title": "struct",
+    "section": "Review Question",
+    "text": "Review Question\nWhat is the type of given by a sizeof()?\n\nsize_t\nunsigned long int\nvoid\nvoid *"
+  },
+  {
+    "objectID": "struct.html#review-question-2",
+    "href": "struct.html#review-question-2",
+    "title": "struct",
+    "section": "Review Question",
+    "text": "Review Question\nWhat is the type of the malloc’s one argument?\n\nsize_t\nunsigned long int\nvoid\nvoid *"
+  },
+  {
+    "objectID": "struct.html#review-question-3",
+    "href": "struct.html#review-question-3",
+    "title": "struct",
+    "section": "Review Question",
+    "text": "Review Question\nWhile sizes vary by system, what bit size do we commonly find size_t to be?\n(using base 10 on this slide)\n\n01 byte = 08 bits\n02 bytes = 16 bits\n04 bytes = 32 bits\n08 bytes = 64 bits"
+  },
+  {
+    "objectID": "struct.html#review-question-4",
+    "href": "struct.html#review-question-4",
+    "title": "struct",
+    "section": "Review Question",
+    "text": "Review Question\nWhile sizes vary by system, what bit size do we commonly find void * to be?\n(using base 10 on this slide)\n\n01 byte = 08 bits\n02 bytes = 16 bits\n04 bytes = 32 bits\n08 bytes = 64 bits"
+  },
+  {
+    "objectID": "struct.html#review-question-5",
+    "href": "struct.html#review-question-5",
+    "title": "struct",
+    "section": "Review Question",
+    "text": "Review Question\nA void * of size 8 (bytes) can store approximately how many distinct values?\n(using base 10 on this slide)\n\n~10^09 ~= billions\n~10^12 ~= trillions\n~10^15 ~= quadrillions\n~10^18 ~= quintillions"
+  },
+  {
+    "objectID": "struct.html#review-4",
+    "href": "struct.html#review-4",
+    "title": "Struct",
+    "section": "Review",
+    "text": "Review\n\nImagine mallocing all of memory in a single call.\n\nmalloc(0xFF…) will either crash or return a void * of zero (since that is the only place to start a memory region that large).\n\nImagine mallocing all of memory into one byte size pieces.\n\nThis would return 0xFF… void *s, the largest of which would be 0xFF…\n\nvoid * and size_t range from the same minimum (0) to maximum (0xFF…) size, so they are the same bit size. #include &lt;stdlib.h&gt; // for size_t #include &lt;assert.h&gt; // for assert int main() { assert(sizeof(void *) == sizeof(size_t)) ; // assertion passes assert(sizeof(char) == 1) ; // assertion passes assert(1 == 0) ; // assertion fails return 0; }\nRead more on assert here (or don’t).\n\nNAME top malloc, free, - allocate and free dynamic memory LIBRARY top Standard C library (libc, -lc) SYNOPSIS top #include &lt;stdlib.h&gt; void *malloc(size_t size); void free(void *_Nullable ptr); DESCRIPTION top malloc() The malloc() function allocates size bytes and returns a pointer to the allocated memory. The memory is not initialized. If size is 0, then malloc() returns a unique pointer value that can later be successfully passed to free().&lt;/stdlib.h&gt;"
+  },
+  {
+    "objectID": "struct.html#malloc-7",
+    "href": "struct.html#malloc-7",
+    "title": "Struct",
+    "section": "malloc",
+    "text": "malloc\n\nBut where does the memory come from?\nSo far, “the stack” - a memory regime vaguely related to the data structure\nFor malloc, “the heap” - a memory regime even more vaguely related to the data structure\nStack and heap exist in different regions of system memory, so stack memory is near stack memory but distant from heap memory. char arr0[256], arr1[256], arr2[256] ; char *ptr0 = malloc(256), *ptr1 = malloc(256), *ptr2 = malloc(256) ; printf(\"%p\\n%p\\n%p\\n%p\\n%p\\n%p\\n\", arr0, arr1, arr2, ptr0, ptr1, ptr2) ;\nHow far are all these things apart from each other: 0x7ffdcfaae0c0 0x7ffdcfaae1c0 0x7ffdcfaae2c0 0x556f982022a0 0x556f982023b0 0x556f982024c0"
+  },
+  {
+    "objectID": "struct.html#heap-example-7",
+    "href": "struct.html#heap-example-7",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references."
+  },
+  {
+    "objectID": "struct.html#heap-example-8",
+    "href": "struct.html#heap-example-8",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate sizeof(int *) bytes for p for main.\nHeap-allocate sizeof(int) bytes\nStore the memory location of the heap allocated bytes in p.\n\nAs a reference, we denote this with an arrow rather than by showing a value.\nThe “value” stored is the same value seen by printf(“%p”,p);"
+  },
+  {
+    "objectID": "struct.html#heap-example-9",
+    "href": "struct.html#heap-example-9",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate sizeof(int *) bytes for p for main.\nHeap-allocate sizeof(int) bytes\nStore the memory location of the heap allocated bytes in p.\n\nAs a reference, we denote this with an arrow rather than by showing a value.\nThe “value” stored is the same value seen by printf(“%p”,p);"
+  },
+  {
+    "objectID": "struct.html#heap-example-10",
+    "href": "struct.html#heap-example-10",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p."
+  },
+  {
+    "objectID": "struct.html#heap-example-11",
+    "href": "struct.html#heap-example-11",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references."
+  },
+  {
+    "objectID": "struct.html#heap-example-12",
+    "href": "struct.html#heap-example-12",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q."
+  },
+  {
+    "objectID": "struct.html#heap-example-13",
+    "href": "struct.html#heap-example-13",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references."
+  },
+  {
+    "objectID": "struct.html#free",
+    "href": "struct.html#free",
+    "title": "struct",
+    "section": "Free",
+    "text": "Free\n\n“We’ll discuss this latter in the context of free() aka malloc part 2.” - me\nLatter is now! void free(void *_Nullable ptr);\nfree() The free() function frees the memory space pointed to by ptr, which must have been returned by a previous call to malloc() or related functions. Otherwise, or if ptr has already been freed, undefined behavior occurs. If ptr is NULL, no operation is performed."
+  },
+  {
+    "objectID": "struct.html#heap-allocation",
+    "href": "struct.html#heap-allocation",
+    "title": "struct",
+    "section": "Heap Allocation",
+    "text": "Heap Allocation\n\np holds a *_Nullable.\nq holds a *_Nullable.\nThree operations.\n\nHeap-deallocate the memory pointed to by p.\n\nThat is, someone else (the OS, another program, another malloc) can use the memory.\n\nMark the value in p as no longer defined.\n\nLooking at the value in this pointer might segfault.\n\nMark the value formerly pointed to by p as undefined.\n\nIn practice, it likely stores the same value as before, but checking might segfault."
+  },
+  {
+    "objectID": "struct.html#heap-allocation-1",
+    "href": "struct.html#heap-allocation-1",
+    "title": "struct",
+    "section": "Heap Allocation",
+    "text": "Heap Allocation\n\np holds a *_Nullable.\nq holds a *_Nullable.\nThree operations.\n\nHeap-deallocate the memory pointed to by p.\n\nThat is, someone else (the OS, another program, another malloc) can use the memory.\n\nMark the value in p as no longer defined.\n\nLooking at the value in this pointer might segfault.\n\nMark the value formerly pointed to by p as undefined.\n\nIn practice, it likely stores the same value as before, but checking might segfault."
+  },
+  {
+    "objectID": "struct.html#memory-leaks",
+    "href": "struct.html#memory-leaks",
+    "title": "struct",
+    "section": "Memory leaks",
+    "text": "Memory leaks\n\nA memory leak occurs when some memory is allocated for some program by malloc() and the address of this memory is lost to the allocating program.\nIn the worst case, this may occur in loops. int main() // Leak 0xFFFF bytes of memory { int i, *p, *q; for ( i = 0 ; i &lt; 0xFFFF ; i++ ) { p = malloc(sizeof(int)) ; q = malloc(sizeof(int) * 2) ; *p = i ; *q = i + 1 ; q[1] = i + 2; p = q ; } return 0 ; }\nI was unwilling to run this on my system but you can try it if you want. Modern OSes are pretty scrappy."
+  },
+  {
+    "objectID": "struct.html#memory-leaks-1",
+    "href": "struct.html#memory-leaks-1",
+    "title": "struct",
+    "section": "Memory leaks",
+    "text": "Memory leaks\n\nGenerally speaking, if you’re computer/phone slows down over time then is faster again after a reboot, there is a memory leak driving this slowdown.\nWindows XP famously contained a number of memory leaks, and Microsoft now provides tooling and documentation on isolating memory leaks in their operating system: kd&gt; !poolused 4 Sorting by Paged Pool Consumed Pool Used: NonPaged Paged Tag Allocs Used Allocs Used Abc 0 0 36405 33930272 Tron 0 0 552 7863232 IoN7 0 0 10939 998432 Gla5 1 128 2222 924352 Ggb 0 0 22 828384\nI would assume the Linux kernel has at least one memory leak but I would never admit that in polite company.\nIn practice, most memory leaks come from programs written by CS majors that slept through this class."
+  },
+  {
+    "objectID": "struct.html#memory-leaks-2",
+    "href": "struct.html#memory-leaks-2",
+    "title": "struct",
+    "section": "Memory leaks",
+    "text": "Memory leaks\n\nA memory leak occurs when some memory is allocated for some program by malloc() and the address of this memory is lost to the allocating program.\nFree allows us to safely work with memory within code blocks (including loops) by deallocating unused memory. int main() // Leak 0xFFFF bytes of memory { int i, *p, *q; for ( i = 0 ; i &lt; 0xFFFF ; i++ ) { p = malloc(sizeof(int)) ; q = malloc(sizeof(int) * 2) ; *p = i ; *q = i + 1 ; q[1] = i + 2; free(p) ; // Avert memory leak. p = q ; } return 0 ; }"
+  },
+  {
+    "objectID": "struct.html#heap-allocation-2",
+    "href": "struct.html#heap-allocation-2",
+    "title": "struct",
+    "section": "Heap Allocation",
+    "text": "Heap Allocation\n\np holds a *_Nullable.\nq holds a *_Nullable.\nThree operations.\n\nHeap-deallocate the memory pointed to by p.\n\nThat is, someone else (the OS, another program, another malloc) can use the memory.\n\nMark the value in p as no longer defined.\n\nLooking at the value in this pointer might segfault.\n\nMark the value formerly pointed to by p as undefined.\n\nIn practice, it likely stores the same value as before, but checking might segfault."
+  },
+  {
+    "objectID": "struct.html#heap-allocation-3",
+    "href": "struct.html#heap-allocation-3",
+    "title": "struct",
+    "section": "Heap Allocation",
+    "text": "Heap Allocation\n\np holds a *_Nullable.\nq holds a *_Nullable.\nThree operations.\n\nHeap-deallocate the memory pointed to by p.\n\nThat is, someone else (the OS, another program, another malloc) can use the memory.\n\nMark the value in p as no longer defined.\n\nLooking at the value in this pointer might segfault.\n\nMark the value formerly pointed to by p as undefined.\n\nIn practice, it likely stores the same value as before, but checking might segfault."
+  },
+  {
+    "objectID": "struct.html#free-leak-freak",
+    "href": "struct.html#free-leak-freak",
+    "title": "struct",
+    "section": "Free + Leak = Freak",
+    "text": "Free + Leak = Freak\n\nWe can generate a silly outcome at high probability by:\n\nStore value to heap\nMemory leak\nCheck value\n\nlong *p = malloc(sizeof(long)), *q , i ; *p = 1 ; // safe printf(\"%ld\\n\", *p) ; // safe free(p) ; for ( i = 0 ; i &lt; 1000000 ; i++) { q = malloc(0xFF) ; *q = i ; // leak } printf(\"%ld\\n\", *p) ; // unsafe\nI got 1 22923750333\nStream “Super Freaky Girl” by Nicki Minaj on Spotify (or don’t)"
+  },
+  {
+    "objectID": "struct.html#today-1",
+    "href": "struct.html#today-1",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\nstruct\nnew\nprint\nfree\nHeader files\nMacros\nDeclarations\ntypedef"
+  },
+  {
+    "objectID": "struct.html#a-word",
+    "href": "struct.html#a-word",
+    "title": "struct",
+    "section": "# A word",
+    "text": "# A word\n\nBefore we begin, I need to introduce some terminology to help us latter.\nIn e.g. 4096_t.h we have declared functions.\nIn this case we specify\n\nA name\nA function type (arguments and return)\nNo executable code.\n\nWe can declare variables, including pointers and even functions.\ndeclare"
+  },
+  {
+    "objectID": "struct.html#declare",
+    "href": "struct.html#declare",
+    "title": "struct",
+    "section": "declare",
+    "text": "declare"
+  },
+  {
+    "objectID": "struct.html#a-word-1",
+    "href": "struct.html#a-word-1",
+    "title": "struct",
+    "section": "A word",
+    "text": "A word\n\nBefore we begin, I need to introduce some terminology to help us latter.\nI mentioned in C we define pointers by setting them values, define functions with code blocks. void do_thing_helper(void) { return ; // this code block *defines* the function } void do_thing(void) { int i ; i = 1 ; // single equals assigns, or *defines* the value of i do_thing_helper(); }\nI am being extremely precise which word I use here:"
+  },
+  {
+    "objectID": "struct.html#define",
+    "href": "struct.html#define",
+    "title": "struct",
+    "section": "define",
+    "text": "define"
+  },
+  {
+    "objectID": "struct.html#declare-define",
+    "href": "struct.html#declare-define",
+    "title": "struct",
+    "section": "declare & define",
+    "text": "declare & define\nDeclare sets aside some bits void some_func() ; int i ; char *str ;\nDefine sets the value of those bits void some_func() { ; } i = 0 ; str = \"defined\" ;\nLet’s declare some structs."
+  },
+  {
+    "objectID": "struct.html#struct",
+    "href": "struct.html#struct",
+    "title": "struct",
+    "section": "Struct",
+    "text": "Struct\n\nIn Python, when we teach data structures, we tie ourselves in knots explaining why classes, which most methods and are neither data nor structures, are called data structures.\n\nThis is fine. It’s fine. I’m fine. I’m fine!\n\nclass OrderedPair: def __init__(self, x, y): self.x = x self.y = y def __str__(self): return f\"({self.x}, {self.y})\" def __repr__(self): return f\"OrderedPair({self.x}, {self.y})\"\nIn C, the “struct” keyword is used to make structures out of data: struct ordered_pair { int x ; int y ; } ;"
+  },
+  {
+    "objectID": "struct.html#structs",
+    "href": "struct.html#structs",
+    "title": "struct",
+    "section": "Structs",
+    "text": "Structs\n\nShockingly, these structs are nothing other than data. We can examine them: struct ordered_pair p ; p.x = 3 ; p.y = 4 ; printf(\"p.x = %d, p.y = %d\\n\", p.x, p.y) ; printf(\"sizeof(p) = %zu\\n\", sizeof(p)) ; printf(\"p.x, p.y = %08x%08x\\n\", (unsigned)p.x, (unsigned)p.y) ; printf(\"*(long *)&p= %016lx\\n\", *(long *)&p) ;\nA struct with two ints is just the size of two ints, though the order is up to the compiler/OS/CPU. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out p.x = 3, p.y = 4 sizeof(p) = 8 p.x, p.y = 0000000300000004 *(long *)&p= 0000000400000003 user@DESKTOP-THMS2PJ:~$\nThat said, these aren’t theoretical data structures, they’re C language structs.\nI’ll call them “structs”."
+  },
+  {
+    "objectID": "struct.html#struct-1",
+    "href": "struct.html#struct-1",
+    "title": "struct",
+    "section": "Struct",
+    "text": "Struct\n\nIn lesser (object oriented) languages, class implement data structures.\n\nClasses may lack both data and structure,\nThey are, perhaps, “computation structures”?\n\nclass MultiAdd:\ndef do(self, ns):\n    if ns:\n        n = ns[0]\n        [n := n + i for i in ns[1:]]\n    return n\n\nNo structure. No data.\n\nclass OrderedPair: def __init__(self, x, y): self.x = x self.y = y def __str__(self): return f\"({self.x}, {self.y})\" def __repr__(self): return f\"OrderedPair({self.x}, {self.y})\"\nIn C, the “struct” keyword is used to make structures out of data: struct ordered_pair { int x ; int y ; } ;"
+  },
+  {
+    "objectID": "struct.html#struct-2",
+    "href": "struct.html#struct-2",
+    "title": "struct",
+    "section": "struct",
+    "text": "struct\n\nstruct is the foundation of niceties in higher level languages you may like, such as lists that know their length. void sort(int *arr, size_t len) ; // This was int *arr, int len because we didn't know about size_t yet.\nMany a student is shocked and horrified by lists not knowing their length. struct len_arr { int *arr ; size_t len ; } ;\nProblem solved. void sort(struct len_arr arr) ; // This also factors out the size_t modification"
+  },
+  {
+    "objectID": "struct.html#struct-3",
+    "href": "struct.html#struct-3",
+    "title": "struct",
+    "section": "struct",
+    "text": "struct\n\nYou may remember that Python is bad. def both(x,y): return x, y\nNot to worry, C is good. struct both { int x ; int y ; } ; struct both bothify(int x, int y) { struct both ret ; ret.x = x ; ret.y = y ; return ret ; }\nYou could argue that is more code to which I would say, yes:\n\nThe point of code is to say what is going on\nPython does not tell you what is going on. Bad. Bad!\n\nWhat is the type of Python “both”?"
+  },
+  {
+    "objectID": "struct.html#struct-4",
+    "href": "struct.html#struct-4",
+    "title": "struct",
+    "section": "struct",
+    "text": "struct\n\nbothify is conspiciously similar to an argumentful Python __init__.\nIt is also similary to C++ new, which I’m just telling you so you know.\nGenerally speaking, I would call “bothify” “new_structname”. struct pair { int x ; int y ; } ; struct pair new_pair(int x, int y) { struct pair ret ; ret.x = x ; ret.y = y ; return ret ; }\nThis has the convenience of allowing single-line declaration of a pair. struct pair q ; // 1/3 q.x = 3 ; // 2/3 q.y = 4 ; // 3/3 struct pair p = new_pair(1,2) ; // 1/1"
+  },
+  {
+    "objectID": "struct.html#struct-5",
+    "href": "struct.html#struct-5",
+    "title": "struct",
+    "section": "struct",
+    "text": "struct\n\nWe can use existing functions, like print_mem, to look at structs, or…\nWrite something akin to Python __str__ (though really what inspired __str__)\nDifferent structs have different needs, I’d do something like… void print_pair(struct pair p) { (void)fprintf(stdout, \"pair(x=%d, y=%d)\", p.x, p.y) ; // no /n }\nThis has the convenience of allowing single-line declaration of a pair. struct pair q ; // 1/3 q.x = 3 ; // 2/3 q.y = 4 ; // 3/3 struct pair p = new_pair(1,2) ; // 1/1 printf(\"p = \") ; print_pair(p) ; printf(\", q = \") ; print_pair(q) ; putchar('\\n') ;\nThis is as close as we get to Pythonic print(“q =”, q, “, p =”, p) user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out p = pair(x=1, y=2), q = pair(x=3, y=4) user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "struct.html#today-2",
+    "href": "struct.html#today-2",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\nstruct\nnew\nprint\nfree\nHeader files\nMacros\nDeclarations\ntypedef"
+  },
+  {
+    "objectID": "struct.html#i-love-classes",
+    "href": "struct.html#i-love-classes",
+    "title": "struct",
+    "section": "I love classes",
+    "text": "I love classes\n\nIf you ever took and/or taught CS 151 or a Java class you may have getter/setter fatigue.\nCopilot wrote this, no force on Earth could compel me to type this out: class Pair: def __init__(self, x, y): self._x = x self._y = y def get_x(self): return self._x def get_y(self): return self._y def set_x(self, x): self._x = x def set_y(self, y): self._y = y\n if an AI can do it, don’t train a human to do it"
+  },
+  {
+    "objectID": "struct.html#i-love-classes-1",
+    "href": "struct.html#i-love-classes-1",
+    "title": "struct",
+    "section": "I love classes",
+    "text": "I love classes\n\nThat said, there’s a difference between this: class Pair: def __init__(self, x, y): self._x = x self._y = y\nand this: class Pair: def __init__(self, x, y): self.x = x self.y = y\nI use the second to avoid writing getters/setters.\nWe can make the same design decision in C."
+  },
+  {
+    "objectID": "struct.html#headers-struct",
+    "href": "struct.html#headers-struct",
+    "title": "struct",
+    "section": "Headers & Struct",
+    "text": "Headers & Struct\n\nRather than underscores, we place code in distinct files.\ntest.c\npair.h\npair.c\n// test.c #include \"pair.h\" int main() { struct pair p ; p = newp() ; p.x = 1 ; return 0 ; }\n// pair.h struct pair { int x ; int y ; } ; struct pair newp();\n// pair.c #include \"pair.h\" struct pair newp() { struct pair p ; p.x = 0 ; p.y = 0 ; return p ; }\nAs a rule, when I use a (non-trivial) struct, I create a .h and .c of the same name.\nWe can think of these files as doing the C version of what classes do, but with functions and structs rather than a class and its methods.\nLot going on here.\n\ngcc"
+  },
+  {
+    "objectID": "struct.html#typedef",
+    "href": "struct.html#typedef",
+    "title": "struct",
+    "section": "typedef",
+    "text": "typedef\n\nWe’re going to give a type a new name soon, but let’s introduce typedef separately. typedef unsigned char bool ; #define TRUE 1 #define FALS 0 int main() { bool b = TRUE ; if (b) { printf(\"Hi world!\\n\") ; } return 0 ; }\nI like bools (they’re fun) so I just make them if I’m going to use them a lot. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c ; ./a.out Hi world! user@DESKTOP-THMS2PJ:~/dev/projs/pair$"
+  },
+  {
+    "objectID": "struct.html#stdint.h",
+    "href": "struct.html#stdint.h",
+    "title": "struct",
+    "section": "stdint.h",
+    "text": "stdint.h\n\nThe most useful typedefs I think come from stdint.h, which I will use from now on. #include &lt;stdint.h&gt; int main() { printf(\"%zu\\n\", sizeof(uintptr_t)) ; // u = unsigned printf(\"%zu\\n\", sizeof(uint64_t)) ; printf(\"%zu\\n\", sizeof(uint32_t)) ; printf(\"%zu\\n\", sizeof(uint16_t)) ; printf(\"%zu\\n\", sizeof(uint8_t)) ; }\nNo more “how big is an int” - uint64_t is 64 bits / 8 bytes. Always. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c ; ./a.out 8 8 4 2 1 user@DESKTOP-THMS2PJ:~/dev/projs/pair$"
+  },
+  {
+    "objectID": "struct.html#typedef-1",
+    "href": "struct.html#typedef-1",
+    "title": "struct",
+    "section": "typedef",
+    "text": "typedef\n\nWe’re going to give a type a new name soon, but let’s introduce typedef separately. #include &lt;stdint.h&gt; typedef uint8_t bool ; #define TRUE 1 #define FALS 0\nI probably use stdint.h MORE than stdio.h these days.\nIt helps me be a lot more intentional about signed/unsigned values."
+  },
+  {
+    "objectID": "struct.html#headers-struct-1",
+    "href": "struct.html#headers-struct-1",
+    "title": "struct",
+    "section": "Headers & Struct",
+    "text": "Headers & Struct\n\nWe can obscure struct implementation by moving the struct to the .c and using a typedef.\nWe rename struct pair to struct pair_s so we can typedef from pair_s to pair.\n// test.c #include \"pair.h\" int main() { pair p ; p.x = 1 ; return 0 ; }\n// pair.h typedef struct pair_s pair ; pair newp() ;\n// pair.c #include \"pair.h\" struct pair_s { int x ; int y ; } ;\nThe inner workings of pair are extremely obscured, so much so that… user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c test.c: In function ‘main’: test.c:6:8: error: storage size of ‘p’ isn’t known 6 | pair p ; | ^ user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nNot to worry - we know how to deal with arbitrary sizes."
+  },
+  {
+    "objectID": "struct.html#headers-struct-2",
+    "href": "struct.html#headers-struct-2",
+    "title": "struct",
+    "section": "Headers & Struct",
+    "text": "Headers & Struct\n\nWe make pair a pointer, and manage memory in .c\n// pair.h #include &lt;stdint.h&gt; typedef struct pair_s *pair ; pair newp() ;\n// pair.c #include \"pair.h\" struct pair_s { int x, y ; }; pair newp() { size_t s ; s = sizeof(struct pair_s) ; pair p = malloc(s) ; return p ; }\nWe have to malloc in .c because the size is not known outside of .c user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nThis is what is known in the industry as a “pointer W”\n\nJust kidding ; I made that up."
+  },
+  {
+    "objectID": "struct.html#headers",
+    "href": "struct.html#headers",
+    "title": "struct",
+    "section": "Headers",
+    "text": "Headers\n\nWhen using a struct and header I:\nWrite a typedef from struct name_s to *name in .h\nDeclare any function in .h that is used within main()\nWrite no code in .h, by which I mean:\n\nThere are only struct definitions or function declarations\nThere is nowhere I could place a printf() that would print anything.\n\nInclude any libraries used in the .c in the .h // pair.h #include &lt;stdint.h&gt; typedef struct pair_s *pair ; pair newp() ;\nI need to clip .h from the slides for space, but it will follow these rules.\nIf I e.g. use a printf() in .c, then assume I include stdio.h from within pair.h"
+  },
+  {
+    "objectID": "struct.html#headers-struct-3",
+    "href": "struct.html#headers-struct-3",
+    "title": "struct",
+    "section": "Headers & Struct",
+    "text": "Headers & Struct\n\nUse/call from test.c, implement in pair.c.\n// test.c #include \"pair.h\" int main() { pair p ; p.x = 1 ; return 0 ; };\n// pair.c #include \"pair.h\" struct pair_s { int x, y ; } ; pair newp() { size_t s ; s = sizeof(struct pair_s) ; pair p = malloc(s) ; return p ; }\nRemember, test.c cannot see into pair_s and cannot tell there is an x there. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c test.c: In function ‘main’: test.c:7:4: error: ‘p’ is a pointer; did you mean to use ‘-&gt;’? 7 | p.x = 1 ; | ^ | -&gt; user@DESKTOP-THMS2PJ:~/dev/projs/pair$\n\n-&gt;"
+  },
+  {
+    "objectID": "struct.html#headers-struct-4",
+    "href": "struct.html#headers-struct-4",
+    "title": "struct",
+    "section": "Headers & Struct",
+    "text": "Headers & Struct\n\nMove the struct back into .c and we need get/set.\n// test.c #include \"pair.h\" int main() { pair p = newp() ; setx(p, 5) ; printf(\"%d\\n\", getx(p)) ; frep(p) ; return 0 ; }\n// pair.c #include \"pair.h\" struct pair_s { int32_t x, y ; } ; int getx(pair p) { return p-&gt;x ; } void setx(pair p, int x) { p-&gt;x = x ; }\nGet/set here is pretty pointless user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out 5 user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nMove the struct into the .c when you’re done testing.\n\nIf you have an internal implementation that can only confuse, like a linked list\nI don’t wanna know if it’s doubly or singly linked, don’t tell me, I won’t listen."
+  },
+  {
+    "objectID": "struct.html#abstraction",
+    "href": "struct.html#abstraction",
+    "title": "struct",
+    "section": "Abstraction",
+    "text": "Abstraction\n\nSometimes it is very helpful to not think about how things work internally. (These are links) uint8_t get_colr(pmap p, size_t x, size_t y, size_t c) { return p-&gt;pxls[3 * (y * p-&gt;x + x) + c] ; }\nI debugged that once and never thought about it again.\nThis is the alternate to unsigned char ***create_base().\nLook how clean this looks: get_colr(p, i, j, 2) ;\n“Get color 2 (green) in pixel [i][j] in pixel map ‘p’.”\nIt’s just nice to not have to remember where the parenthesis and the 3 go."
+  },
+  {
+    "objectID": "struct.html#today-3",
+    "href": "struct.html#today-3",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\n✓ Malloc part 2\n✓ free()\nMemory-adjacent tech\n✓ casting\npointer arithmetic\nunary &"
+  },
+  {
+    "objectID": "struct.html#macros",
+    "href": "struct.html#macros",
+    "title": "struct",
+    "section": "Macros",
+    "text": "Macros\n\nYou may write a bunch of header files someday. I don’t know.\n\nMaybe like, on a final project or something.\n\nIf you include a file more than once, it’s weird (this file doesn’t break, some do).\n\nA “ifndef” at the start of the file, to make inclusion conditional\nA “define” to set a flag that ifndef checks\nA “endif” at the end of the file\nThese are all preprocessor macros like #include and not part of the C language, but part of the C ecosystem. #ifndef PAIR_H #define PAIR_H typedef struct pair_s *pair ; pair newp() ; void frep(pair p) ; int getx(pair p) ; void setx(pair p, int x) ; #endif\nIf you don’t do this, you’ll regret it someday at like, medium probability."
+  },
+  {
+    "objectID": "struct.html#today-4",
+    "href": "struct.html#today-4",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\n✓ Malloc part 2\n✓ free()\nMemory-adjacent tech\n✓ casting\n✓ pointer arithmetic\nunary &"
+  },
+  {
+    "objectID": "struct.html#casting",
+    "href": "struct.html#casting",
+    "title": "struct",
+    "section": "Casting",
+    "text": "Casting\n\nTo cast, given a literal value or a variable, cast using a type name enclosed in parenthesis as a prefix operator.\n\nIn many cases, this helps with code clarity even when no compiler warning is drawn. char lil = (char)255 ; // 255 is larger than an unsigned char can hold printf(\"%d\\n\", lil) ; // prints \"-1\"\nWe can use casts to change pointers into values - this is usually a bad idea: char *str = \"hi\" ; long val = (long)str ; // str is the numerical value of memory location printf(\"%ld\\n\", val) ; // prints some large value in decimal\nWe can use casts to fill out more bits… val = (long)lil ; printf(\"%lx\\n\", val) ; // prints 16 f's (-1) val = (long)(unsigned char)lil ; printf(\"%lx\\n\", val) ; // prints 2 f's (255)\nOr cut bits off… val = 0xabc ; lil = (char)val ; printf(\"%hhx\\n\", val ) ; // prints \"bc\""
+  },
+  {
+    "objectID": "struct.html#casting-1",
+    "href": "struct.html#casting-1",
+    "title": "struct",
+    "section": "Casting",
+    "text": "Casting\nint main() { char buf[8] = \"hihi :)\" ; // we create a string long *tmp = (long *)buf ; // we say buf is the addr of a long long num = *tmp ; // we say num is the value of stored at buf void *ptr = (void *)num ; // we say the value in num is, itself, an addr size_t siz = (size_t)num ; // we say the value in num is a size printf(\"%s / %p / %zu / %ld\\n\", buf, ptr, siz, num ) ; for ( int i = 7 ; i &gt; -1 ; i-- ) { printf(\"%02hhX\", buf[i]) ; } printf(\" / %016lx / %016lx / %016lx\\n\", (long unsigned)ptr, (long unsigned)siz, (long unsigned)num ) ; return 0 ; }\nuser@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out hihi :) / 0x293a2069686968 / 11604384926951784 / 11604384926951784 00293A2069686968 / 00293a2069686968 / 00293a2069686968 / 00293a2069686968 user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "struct.html#implicit-casting",
+    "href": "struct.html#implicit-casting",
+    "title": "struct",
+    "section": "Implicit Casting",
+    "text": "Implicit Casting\n\nThe compiler can infer casts, but if they are sketchy will throw a warning: int main() { void *ptr = 'h' ; return 0; }\nIt is unlikely that this code was written as intended. GCC warns: hi.c: In function ‘main’: hi.c:13:17: warning: initialization of ‘void *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion] 13 | void *ptr = 'h' ; |\nI think GCC could be more aggressive with signed vs unsigned values, but that’s just me.\nThis segfaults after compiling without any warnings. Fun! void *ptr = (void *)'h' ; printf(\"%s\", (char *)ptr ) ; // segfault"
+  },
+  {
+    "objectID": "struct.html#casting-as-documentation",
+    "href": "struct.html#casting-as-documentation",
+    "title": "struct",
+    "section": "Casting as Documentation",
+    "text": "Casting as Documentation\n\nSometimes we can use casts to make it more clear what our code should be doing. char *str = (char *)malloc(sizeof(char) * 8) ; // malloc returns void *\nI like void casts, they remind me of Python “_ =” which I use in notebooks to discard output. (void)printf(\"%s\\n\", str) ; // printf returns an int - we don't care.\nSometimes, e.g. in textual analysis, we count characters… char *in = \"loremipsum\" ; // etc unsigned counts[26] ; // what are the default values here btw while (str[i++]) { counts[(size_t)(in[i] - 'a')]++ ; // use letter as index }\nPython is generally used for text analysis now, but C is still in use."
+  },
+  {
+    "objectID": "struct.html#casting-2",
+    "href": "struct.html#casting-2",
+    "title": "struct",
+    "section": "Casting",
+    "text": "Casting\nint main() { char buf[8] = \"hihi :)\" ; // we create a string long *tmp = (long *)buf ; // we say buf is the addr of a long long num = *tmp ; // we say num is the value of stored at buf void *ptr = (void *)num ; // we say the value in num is, itself, an addr size_t siz = (size_t)num ; // we say the value in num is a size printf(\"%s / %p / %zu / %ld\\n\", buf, ptr, siz, num ) ; for ( int i = 7 ; i &gt; -1 ; i-- ) { printf(\"%02hhX\", buf[i]) ; } printf(\" / %016lx / %016lx / %016lx\\n\", (long unsigned)ptr, (long unsigned)siz, (long unsigned)num ) ; return 0 ; }\nuser@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out hihi :) / 0x293a2069686968 / 11604384926951784 / 11604384926951784 00293A2069686968 / 00293a2069686968 / 00293a2069686968 / 00293a2069686968 user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "struct.html#takeaways-1",
+    "href": "struct.html#takeaways-1",
+    "title": "struct",
+    "section": "Takeaways",
+    "text": "Takeaways\n\nCast the return value of malloc. int main() { char *ptr = malloc(8) ; // error-prone, ambigious char *str = (char *)malloc(sizeof(char) * 8) ; // more intentional }\nMuch bigger deal when using types of size other than one, or of unknown size."
+  },
+  {
+    "objectID": "struct.html#today-5",
+    "href": "struct.html#today-5",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\nMalloc part 2\n✓ free()\nChecking malloc return value\n✓ Memory-adjacent tech\n✓ casting\n✓ pointer arithmetic\n✓ unary &"
+  },
+  {
+    "objectID": "struct.html#pointer-arithmetic",
+    "href": "struct.html#pointer-arithmetic",
+    "title": "struct",
+    "section": "Pointer Arithmetic",
+    "text": "Pointer Arithmetic\n\nWait a minute… sizeof(int) != 1.\nWhatever value q is must be some value other than 1 away from q[1]\nYet we do not address the next int in an array by saying q[1*sizeof(int)]\nRecall:\n\nLot going on here. We’ll discuss this latter as “pointer arithmetic”, a “C bad” discussion."
+  },
+  {
+    "objectID": "struct.html#recall-python-bad",
+    "href": "struct.html#recall-python-bad",
+    "title": "struct",
+    "section": "Recall: Python bad",
+    "text": "Recall: Python bad\n\nPeople are allowed to like things, so you are allowed to like this.\nI don’t. &gt;&gt;&gt; x, y, s, t = 1, 2, \"h\", \"i\" &gt;&gt;&gt; x + y 3 &gt;&gt;&gt; x + s Traceback (most recent call last): File \"&lt;stdin&gt;\", line 1, in &lt;module&gt; TypeError: unsupported operand type(s) for +: 'int' and 'str' &gt;&gt;&gt; s + t 'hi' &gt;&gt;&gt;\nThis is called operator overloading. It’s not allowed in C."
+  },
+  {
+    "objectID": "struct.html#recall-c-good",
+    "href": "struct.html#recall-c-good",
+    "title": "struct",
+    "section": "Recall: C Good",
+    "text": "Recall: C Good\n\nYou honestly mean to tell me “one” + “two” should be “onetwo” and not “three”?\nIf you try to add strings together, gcc tells you to to rethink your decisions. int main() { char *str0 = \"If thou dost appreciate/\" ; char *str1 = \"Then thine shalt place/\" ; printf(str0 + str1) ; return 0 ; }\nThanks, C. user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$ gcc test.c ; ./a.out test.c: In function ‘main’: test.c:16:17: error: invalid operands to binary + (have ‘char *’ and ‘char *’) 16 | printf(str0 + str1) ; | ^ user@DESKTOP-THMS2PJ:~/dev/as_zagreb/271sp24/notes$\nWhat does “binary” mean here? (Hint: MATH 251W)"
+  },
+  {
+    "objectID": "struct.html#c-bad",
+    "href": "struct.html#c-bad",
+    "title": "struct",
+    "section": "C… Bad?",
+    "text": "C… Bad?\n\nOkay but what about when we add 0x100 + 0x001. int main() { long unsigned *p = (long unsigned *) 0x100 ; long unsigned x = (long unsigned ) 0x001 ; // With casting, %p expects \"void *\", so we cast to (void *) printf(\"%p + %p = %p\\n\", (void *)p, (void *)x, (void *)(p + x)) ; return 0; }\nThis should be easy. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out 0x100 + 0x1 = 0x108 user@DESKTOP-THMS2PJ:~$\n0x100 + 0x1 = 0x108\nOkay that seems pretty bad, fair enough."
+  },
+  {
+    "objectID": "struct.html#c-bad-1",
+    "href": "struct.html#c-bad-1",
+    "title": "struct",
+    "section": "C… Bad?",
+    "text": "C… Bad?\n\nAt least it’s consistent. printf(\"%p + %p = %p \\n\", (void *)p, (void *)x, (void *)((char *)p + x)) ; printf(\"%p + %p = %p \\n\", (void *)p, (void *)x, (void *)((int *)p + x)) ; printf(\"%p + %p = %p \\n\", (void *)p, (void *)x, (void *)((long *)p + x)) ;\nAll 0x108 I’m sure. user@DESKTOP-THMS2PJ:~$ ./a.out 0x100 + 0x1 = 0x101 0x100 + 0x1 = 0x104 0x100 + 0x1 = 0x108 user@DESKTOP-THMS2PJ:~$\nWAIT A MINUTE"
+  },
+  {
+    "objectID": "struct.html#c-bad-2",
+    "href": "struct.html#c-bad-2",
+    "title": "struct",
+    "section": "C… Bad?",
+    "text": "C… Bad?\n\n“This is called operator overloading. It’s not allowed in C.”\nAddition and subtraction are overloaded in C.\n\nMy advice: Never use either.\n\nIn C, addition is specifically defined in the case where pointer has a numerical value added to it.\n\nint * + int\nint * + long\nchar * + int\nlong * + char\n\nSubtraction is defined on two numeric types or two pointer types.\nPointer + pointer is not allowed. hi.c: In function ‘main’: hi.c:11:76: error: invalid operands to binary + (have ‘char *’ and ‘char *’) 11 | printf(\"%p\\n\", (char *)p + (char *)x ) ;\nC cleverly calls this “pointer arithmetic” so we can pretend operator overloading isn’t allowed in C.\nC good! Python bad! We did it team! Firm handshakes all around."
+  },
+  {
+    "objectID": "struct.html#wait-what-about",
+    "href": "struct.html#wait-what-about",
+    "title": "struct",
+    "section": "Wait what about []",
+    "text": "Wait what about []\n\nI have terrible news about arrays.\nPointer arithmetic all the way down my friends. int arr[4] = { 0x10, 0x100, 0x1000, 0x10000 } ; printf(\" arr+1 : %p\\n\", arr+1) ; printf(\"*(arr+1): %p\\n\", *(arr+1)) ; printf(\"(*arr+1): %p\\n\", (*arr+1)) ; printf(\" arr[1]: %p\\n\", arr[1]) ;\n“Wow that is so easy to read and such a useable language.” - me, to myself arr+1 : 0x7fff5956cce4 *(arr+1): 0x100 (*arr+1): 0x11 arr[1]: 0x100\nOh perfect - arr[n] is logically equivalent to *(arr+n) ;"
+  },
+  {
+    "objectID": "struct.html#arrn-arrn",
+    "href": "struct.html#arrn-arrn",
+    "title": "struct",
+    "section": "arr[n] = *(arr+n)",
+    "text": "arr[n] = *(arr+n)\n\nTest it. int main() { int arr[4] = { 0x10, 0x100, 0x1000, 0x10000 }, i ; for ( i = 0 ; i &lt; 4 ; i++ ) { printf(\"*(arr+%d): %5x, arr[%d]: %5x\\n\", i, *(arr+i), i, arr[i]) ; } return 0; }\n“Come sail away, come sail away, come sail away with C” - me user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *(arr+0): 10, arr[0]: 10 *(arr+1): 100, arr[1]: 100 *(arr+2): 1000, arr[2]: 1000 *(arr+3): 10000, arr[3]: 10000 user@DESKTOP-THMS2PJ:~$\narr[n] is logically equivalent to *(arr+n)."
+  },
+  {
+    "objectID": "struct.html#arrn-arrn-1",
+    "href": "struct.html#arrn-arrn-1",
+    "title": "struct",
+    "section": "arr[n] = *(arr+n)",
+    "text": "arr[n] = *(arr+n)\n\nLiterally never do this ever for any reason. int main() { int arr[4] = { 0x10, 0x100, 0x1000, 0x10000 }, i ; for ( i = 0 ; i &lt; 4 ; i++ ) { printf(\"%d[arr]: %5x\\n\", i, i[arr]) ; } printf(\"1[(long *)arr: %5lx\\n\", 1[(long *)arr]); // NO! return 0; }\nI am going to become the joker. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out 0[arr]: 10 1[arr]: 100 2[arr]: 1000 3[arr]: 10000 1[(long *)arr]: 1000 user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "struct.html#today-6",
+    "href": "struct.html#today-6",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\n✓ Malloc part 2\n✓ free()\nMemory-adjacent tech\n✓ casting\npointer arithmetic\nunary &"
+  },
+  {
+    "objectID": "struct.html#unary",
+    "href": "struct.html#unary",
+    "title": "struct",
+    "section": "Unary &",
+    "text": "Unary &\n\n& is both a unary and binary operator in C, like - (minus) int main() { int x ; x = 1 - 2 ; x = - 2 ; int y ; x = 0x11 ; y = 0x10 ; x = x & y ; // BITWISE and, so 0x10 x = & y ; // is this allowed? return 0; }\nWhat does unary & do? hi.c: In function ‘main’: hi.c:15:11: warning: assignment to ‘int’ from ‘int *’ makes integer from pointer without a cast [-Wint-conversion] 15 | x = & y ; | ^"
+  },
+  {
+    "objectID": "struct.html#unary-1",
+    "href": "struct.html#unary-1",
+    "title": "struct",
+    "section": "Unary &",
+    "text": "Unary &\nhi.c: In function ‘main’: hi.c:15:11: warning: assignment to ‘int’ from ‘int *’ makes integer from pointer without a cast [-Wint-conversion] 15 | x = & y ; | ^* Pointers! Our* favorite**! * We know how to examine these. int main() { int x = 0xF0, y = 0x0F, *p ; // just unique vals p = &y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; return 0; } * This gives us: user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x7fff37619e98 user@DESKTOP-THMS2PJ:~$ * Ah ha, & is inverse *."
+  },
+  {
+    "objectID": "struct.html#unary-is-inverse",
+    "href": "struct.html#unary-is-inverse",
+    "title": "struct",
+    "section": "Unary & is inverse *",
+    "text": "Unary & is inverse *\nint main() { int x = 0xF0, y = 0x0F, *p ; // just unique vals p = &y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; return 0; }* p = &y -&gt; *p = y user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x7ffc85ee5f68 y = f, &y = 0x7ffc85ee5f68 user@DESKTOP-THMS2PJ:~$ * I bet it works in reverse."
+  },
+  {
+    "objectID": "struct.html#is-not-inverse-unary",
+    "href": "struct.html#is-not-inverse-unary",
+    "title": "struct",
+    "section": "* is not inverse Unary &",
+    "text": "* is not inverse Unary &\nint main() { int x = 0xF0, y = 0x0F, *p ; // just unique vals *p = y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; return 0; }* *p = y -/&gt; p = &y user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out Segmentation fault user@DESKTOP-THMS2PJ:~$ * p is an unitialized pointer, and dereferencing (with *) an uninitialized pointer causes a segfault at high probability."
+  },
+  {
+    "objectID": "struct.html#is-not-inverse-unary-1",
+    "href": "struct.html#is-not-inverse-unary-1",
+    "title": "struct",
+    "section": "* is not inverse Unary &",
+    "text": "* is not inverse Unary &\n\nOutmanuever segmentation faults with judicious use of malloc() and free(). int main() { int x = 0xF0, y = 0x0F, *p = (int *)malloc(sizeof(int)); // just unique vals *p = y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; free(p) ; return 0; }\nBut this just means the value of y is stored at p, not that p points to y. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x556ae59ec2a0 y = f, &y = 0x7ffc47f075c8 user@DESKTOP-THMS2PJ:~$\n*p = y creates a copy of the value stored in y."
+  },
+  {
+    "objectID": "struct.html#today-7",
+    "href": "struct.html#today-7",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\n✓ Malloc part 2\n✓ free()\nMemory-adjacent tech\n✓ casting\n✓ pointer arithmetic\nunary &"
+  },
+  {
+    "objectID": "struct.html#malloc-fails",
+    "href": "struct.html#malloc-fails",
+    "title": "struct",
+    "section": "Malloc fails",
+    "text": "Malloc fails\n\nThere is no guarantee that your malloc actually gets the memory it asks for.\n\nIn fact, its impossible to make a computer that guarantees this.\nRather, it is very likely to return correctly.\nBut you must check.\n\nint main() { int x = 0xF0, y = 0x0F, *p = (int *)malloc(sizeof(int)); // just unique vals if (p == 0) { fprintf(stderr, \"Malloc failed.\\n\") ; exit(-1) ; } *p = y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; free(p) ; return 0; }\nThis is what exit is for.\nfprintf is like printf but doesn’t just go to “stdout”.\n\nStderr is a lot like stdout but also different (we’ll get there).\nIt shows up in terminal."
+  },
+  {
+    "objectID": "struct.html#malloc-fails-1",
+    "href": "struct.html#malloc-fails-1",
+    "title": "struct",
+    "section": "Malloc fails",
+    "text": "Malloc fails\n\nWe can trigger an P=1 failure with by using -1 to get the maximum possible size_t value. int main() { void *p = malloc(-1); if (p == 0) { fprintf(stderr, \"Malloc failed.\\n\") ; exit(-1) ; } return 0; }\nWe draw a compile warning (you can fail mallocs without this, but fail at 100% rate with these): user@DESKTOP-THMS2PJ:~$ gcc hi.c hi.c: In function ‘main’: hi.c:6:19: warning: argument 1 value ‘18446744073709551615’ exceeds maximum object size 9223372036854775807 [-Walloc-size-larger-than=] 6 | void *p = malloc(-1); | ^~~~~~~~~~ In file included from hi.c:2: /usr/include/stdlib.h:540:14: note: in a call to allocation function ‘malloc’ declared here 540 | extern void *malloc (size_t __size) __THROW __attribute_malloc__ | ^~~~~~ user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "struct.html#malloc-fails-2",
+    "href": "struct.html#malloc-fails-2",
+    "title": "struct",
+    "section": "Malloc fails",
+    "text": "Malloc fails\n\nWe can trigger an P=1 failure with by using -1 to get the maximum possible size_t value. int main() { void *p = malloc(-1); if (p == 0) { fprintf(stderr, \"Malloc failed.\\n\") ; exit(-1) ; } return 0; }\nIf we run the code: user@DESKTOP-THMS2PJ:~$ ./a.out Malloc failed. user@DESKTOP-THMS2PJ:~$\nIf malloc fails and you attempt to use the pointer, you will segfault.\nIf that happens and you ask me for help I’ll send you this slide!\nC! It’s fun!"
+  },
+  {
+    "objectID": "struct.html#today-8",
+    "href": "struct.html#today-8",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\nMalloc part 2\n✓ free()\nChecking malloc return value\n✓ Memory-adjacent tech\n✓ casting\n✓ pointer arithmetic\n✓ unary &"
+  },
+  {
+    "objectID": "struct.html#stack-heap-4",
+    "href": "struct.html#stack-heap-4",
+    "title": "struct",
+    "section": "Stack & Heap",
+    "text": "Stack & Heap\n\nNext slides credit Jenny Chen and Ruohao Guo.\n\n\n\n\nJenny Chen\nRuohao Guo\n\n\n\n\nshe/her\nshe/her\n\n\nSoftware Engineer\nGraduate Research Assistant\n\n\nApple\nGeorgia Institute of Technology\n\n\nB.S. Computer Science, 2021, UIUC\nB.S. Computer Science, 2021, UIUC\n\n\n\n\nUIUC is ranked #5 nationally is CS, ~#1 in Systems.\nThe course materials from Jenny Chen and Ruohao Guo are available here."
+  },
+  {
+    "objectID": "struct.html#heap-example-14",
+    "href": "struct.html#heap-example-14",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references.\nStore 2 at the heap location immediately following q.\n\nLot going on here. We’ll discuss this latter as “pointer arithmetic”, a “C bad” discussion."
+  },
+  {
+    "objectID": "struct.html#heap-example-15",
+    "href": "struct.html#heap-example-15",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references.\nStore 2 at the heap location immediately following q.\nStore the numerical value referring to heap location q in p."
+  },
+  {
+    "objectID": "struct.html#heap-example-16",
+    "href": "struct.html#heap-example-16",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references.\nStore 2 at the heap location immediately following q.\n\nLot going on here. We’ll discuss this latter as “pointer arithmetic”, a “C bad” discussion."
+  },
+  {
+    "objectID": "struct.html#heap-example-17",
+    "href": "struct.html#heap-example-17",
+    "title": "struct",
+    "section": "Heap Example",
+    "text": "Heap Example\n\nThree operations.\n\nStack-allocate p for main.\nHeap-allocate sizeof(int) bytes\nStore the heap location in p.\n\nStore 0 at the heap location p references.\nThree operations.\n\nStack-allocate q for main.\nHeap-allocate 2 * sizeof(int) bytes\nStore the heap location in q.\n\nStore 1 at the heap location q references.\nStore 2 at the heap location immediately following q.\nStore the numerical value referring to heap location q in p."
+  },
+  {
+    "objectID": "struct.html#today-9",
+    "href": "struct.html#today-9",
+    "title": "struct",
+    "section": "Today",
+    "text": "Today\n✓ Malloc part 2\n✓ free()\n✓ Checking malloc return value\n✓ Memory-adjacent tech\n✓ casting\n✓ pointer arithmetic\n✓ unary &\n\n\n\n\n56\nResume presentation\nMalloc fails We can trigger an P=1 failure with by using -1 to get the maximum possible size_t value. int main() { void *p = malloc(- 1 ); if (p == 0 ) { fprintf(stderr, “Malloc failed.\\n” ) ; exit (- 1 ) ; } return 0 ; } If we run the code: user @DESKTOP - THMS2PJ: ~ $ ./a.out Malloc failed. user @DESKTOP - THMS2PJ: ~ $ If malloc fails and you attempt to use the pointer, you will segfault. If that happens and you ask me for help I’ll send you this slide! C! It’s fun!"
+  },
+  {
+    "objectID": "struct.html#gcc",
+    "href": "struct.html#gcc",
+    "title": "struct",
+    "section": "gcc",
+    "text": "gcc\n\nAs an aside, to compile this you have to give gcc new arguments. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c /usr/bin/ld: /tmp/ccYQF1sb.o: in function `main': test.c:(.text+0x12): undefined reference to `newp' collect2: error: ld returned 1 exit status user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nYou can omit the newp() call of course (initialize with p.x / p.y) but I’m trying to teach here.\nmain in test.c calls functions written in pair.c, so we must furnish pair.c to gcc. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c user@DESKTOP-THMS2PJ:~/dev/projs/pair$ ./a.out user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nWe aren’t printing anything, but it doesn’t segfault at least.\nThere’s a better way to do this, latter."
+  },
+  {
+    "objectID": "struct.html#section",
+    "href": "struct.html#section",
+    "title": "struct",
+    "section": "->",
+    "text": "-&gt;\n\nRemember: pointers are annoying and confusing. (Also remember: C good)\nBy the way this is how I write when I have more then 20 characters in width: // pair.c #include \"pair.h\" struct pair_struct { int32_t x ; int32_t y ; } ; pair newp() { pair p = (pair)malloc(sizeof(struct pair_struct)) ; return p ; }"
+  },
+  {
+    "objectID": "struct.html#section-1",
+    "href": "struct.html#section-1",
+    "title": "struct",
+    "section": "->",
+    "text": "-&gt;\n\nx and y are declared but undefined.\nBUT… p is a pointer to a struct pair_struct, not a struct_pair struct.\np does not “contain” two ints with names… it points to someone who does.\ngcc said: error: ‘p’ is a pointer; did you mean to use ‘-&gt;’?\nSure, let’s try it. struct pair_struct { int32_t x ; // stdint for specificity int32_t y ; } ; pair newp() { pair p = (pair)malloc(8) ; // still use sizeof, I need space p-&gt;x = 0 ; p-&gt;y = 0 ; return p ; }\nThis works! To test at home, you can move the struct back into .h"
+  },
+  {
+    "objectID": "struct.html#section-2",
+    "href": "struct.html#section-2",
+    "title": "struct",
+    "section": "->",
+    "text": "-&gt;\n\nTest it.\n// test.c #include \"pair.h\" int main() { pair p ; p-&gt;x = 1 ; printf( \"%d\\n\", p-&gt;x ) ; return 0 ; }\n// pair.h struct pair_s { int32_t x, y ; } ; typedef struct pair_s *pair ; pair newp() ;\n// pair.c #include \"pair.h\" pair newp() { return malloc(8); }\nNo errors, but a segmentation fault. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out Segmentation fault user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nWhy?\np is an uninitialized (declared but not defined) pointer"
+  },
+  {
+    "objectID": "struct.html#section-3",
+    "href": "struct.html#section-3",
+    "title": "struct",
+    "section": "->",
+    "text": "-&gt;\n\nUse newp()\n// test.c #include \"pair.h\" int main() { pair p = newp(); p-&gt;x = 1 ; printf( \"%d\\n\", p-&gt;x ) ; frep(p) ; return 0 ; }\n// pair.h struct pair_s { int32_t x, y ; } ; typedef struct pair_s *pair ; pair newp() ; void frep(pair p) ;\n// pair.c #include \"pair.h\" pair newp() { return malloc(8) ; } void frep(pair p) { free(p) ; }\nWith the pointer initialized to a valid memory location, we are able to use “-&gt;” amicably. user@DESKTOP-THMS2PJ:~/dev/projs/pair$ gcc test.c pair.c ; ./a.out 1 user@DESKTOP-THMS2PJ:~/dev/projs/pair$\nWhy?\np is malloced and freed - it has a valid memory location."
+  },
+  {
+    "objectID": "malloc.html#implicit-casting",
+    "href": "malloc.html#implicit-casting",
+    "title": "malloc",
+    "section": "Implicit Casting",
+    "text": "Implicit Casting\n\nThe compiler can infer casts, but if they are sketchy will throw a warning: int main() { void *ptr = 'h' ; return 0; }\nIt is unlikely that this code was written as intended. GCC warns: hi.c: In function ‘main’: hi.c:13:17: warning: initialization of ‘void *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion] 13 | void *ptr = 'h' ; |\nI think GCC could be more aggressive with signed vs unsigned values, but that’s just me.\nThis segfaults after compiling without any warnings. Fun! void *ptr = (void *)'h' ; printf(\"%s\", (char *)ptr ) ; // segfault"
+  },
+  {
+    "objectID": "malloc.html#casting-as-documentation",
+    "href": "malloc.html#casting-as-documentation",
+    "title": "malloc",
+    "section": "Casting as Documentation",
+    "text": "Casting as Documentation\n\nSometimes we can use casts to make it more clear what our code should be doing. char *str = (char *)malloc(sizeof(char) * 8) ; // malloc returns void *\nI like void casts, they remind me of Python “_ =” which I use in notebooks to discard output. (void)printf(\"%s\\n\", str) ; // printf returns an int - we don't care.\nSometimes, e.g. in textual analysis, we count characters… char *in = \"loremipsum\" ; // etc unsigned counts[26] ; // what are the default values here btw while (str[i++]) { counts[(size_t)(in[i] - 'a')]++ ; // use letter as index }\nPython is generally used for text analysis now, but C is still in use."
+  },
+  {
+    "objectID": "malloc.html#casting-1",
+    "href": "malloc.html#casting-1",
+    "title": "malloc",
+    "section": "Casting",
+    "text": "Casting\nint main() { char buf[8] = \"hihi :)\" ; // we create a string long *tmp = (long *)buf ; // we say buf is the addr of a long long num = *tmp ; // we say num is the value of stored at buf void *ptr = (void *)num ; // we say the value in num is, itself, an addr size_t siz = (size_t)num ; // we say the value in num is a size printf(\"%s / %p / %zu / %ld\\n\", buf, ptr, siz, num ) ; for ( int i = 7 ; i &gt; -1 ; i-- ) { printf(\"%02hhX\", buf[i]) ; } printf(\" / %016lx / %016lx / %016lx\\n\", (long unsigned)ptr, (long unsigned)siz, (long unsigned)num ) ; return 0 ; }\nuser@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out hihi :) / 0x293a2069686968 / 11604384926951784 / 11604384926951784 00293A2069686968 / 00293a2069686968 / 00293a2069686968 / 00293a2069686968 user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "malloc.html#takeaways-1",
+    "href": "malloc.html#takeaways-1",
+    "title": "malloc",
+    "section": "Takeaways",
+    "text": "Takeaways\n\nCast the return value of malloc. int main() { char *ptr = malloc(8) ; // error-prone, ambigious char *str = (char *)malloc(sizeof(char) * 8) ; // more intentional }\nMuch bigger deal when using types of size other than one, or of unknown size."
+  },
+  {
+    "objectID": "malloc.html#today-3",
+    "href": "malloc.html#today-3",
+    "title": "malloc",
+    "section": "Today",
+    "text": "Today\nMalloc part 2\n✓ free()\nChecking malloc return value\n✓ Memory-adjacent tech\n✓ casting\n✓ pointer arithmetic\n✓ unary &"
+  },
+  {
+    "objectID": "malloc.html#pointer-arithmetic",
+    "href": "malloc.html#pointer-arithmetic",
+    "title": "malloc",
+    "section": "Pointer Arithmetic",
+    "text": "Pointer Arithmetic\n\nWait a minute… sizeof(int) != 1.\nWhatever value q is must be some value other than 1 away from q[1]\nYet we do not address the next int in an array by saying q[1*sizeof(int)]\nRecall:\n\nLot going on here. We’ll discuss this latter as “pointer arithmetic”, a “C bad” discussion."
+  },
+  {
+    "objectID": "malloc.html#recall-python-bad",
+    "href": "malloc.html#recall-python-bad",
+    "title": "malloc",
+    "section": "Recall: Python bad",
+    "text": "Recall: Python bad\n\nPeople are allowed to like things, so you are allowed to like this.\nI don’t. &gt;&gt;&gt; x, y, s, t = 1, 2, \"h\", \"i\" &gt;&gt;&gt; x + y 3 &gt;&gt;&gt; x + s Traceback (most recent call last): File \"&lt;stdin&gt;\", line 1, in &lt;module&gt; TypeError: unsupported operand type(s) for +: 'int' and 'str' &gt;&gt;&gt; s + t 'hi' &gt;&gt;&gt;\nThis is called operator overloading. It’s not allowed in C."
+  },
+  {
+    "objectID": "malloc.html#recall-c-good",
+    "href": "malloc.html#recall-c-good",
+    "title": "malloc",
+    "section": "Recall: C Good",
+    "text": "Recall: C Good\n\nIf you add strings together, gcc stops you.\n\nvoid main() {\n        \"a\" + \"b\";\n}\n\nThanks, gcc.\n\nleaky.c: In function ‘main’:\nleaky.c:2:13: error: invalid operands to binary + (have ‘char *’ and ‘char *’)\n    2 |         \"a\" + \"b\";\n      |         ~~~ ^\n      |         |   |\n      |         |   char *\n      |         char *\n\nWhat does “binary” mean ? (Hint: MATH 251W)"
+  },
+  {
+    "objectID": "malloc.html#c-bad",
+    "href": "malloc.html#c-bad",
+    "title": "malloc",
+    "section": "C… Bad?",
+    "text": "C… Bad?\n\n“This is called operator overloading. It’s not allowed in C.”\nAddition and subtraction are overloaded in C.\n\nMy advice: Never use either.\n\nIn C, addition is specifically defined in the case where pointer has a numerical value added to it.\n\nint * + int\nint * + long\nchar * + int\nlong * + char\n\nSubtraction is defined on two numeric types or two pointer types.\nPointer + pointer is not allowed. hi.c: In function ‘main’: hi.c:11:76: error: invalid operands to binary + (have ‘char *’ and ‘char *’) 11 | printf(\"%p\\n\", (char *)p + (char *)x ) ;\nC cleverly calls this “pointer arithmetic” so we can pretend operator overloading isn’t allowed in C.\nC good! Python bad! We did it team! Firm handshakes all around."
+  },
+  {
+    "objectID": "malloc.html#c-bad-1",
+    "href": "malloc.html#c-bad-1",
+    "title": "malloc",
+    "section": "C… Bad?",
+    "text": "C… Bad?\n\n“This is called operator overloading. It’s not allowed in C.”\nAddition and subtraction are overloaded in C.\n\nMy advice: Never use either.\n\nIn C, addition is specifically defined in the case where pointer has a numerical value added to it.\n\nint * + int\nint * + long\nchar * + int\nlong * + char\n\nSubtraction is defined on two numeric types or two pointer types.\nPointer + pointer is not allowed. hi.c: In function ‘main’: hi.c:11:76: error: invalid operands to binary + (have ‘char *’ and ‘char *’) 11 | printf(\"%p\\n\", (char *)p + (char *)x ) ;\nC cleverly calls this “pointer arithmetic” so we can pretend operator overloading isn’t allowed in C.\nC good! Python bad! We did it team! Firm handshakes all around."
+  },
+  {
+    "objectID": "malloc.html#c-bad-2",
+    "href": "malloc.html#c-bad-2",
+    "title": "malloc",
+    "section": "C… Bad?",
+    "text": "C… Bad?\n\n“This is called operator overloading. It’s not allowed in C.”\nAddition and subtraction are overloaded in C.\n\nMy advice: Never use either.\n\nIn C, addition is specifically defined in the case where pointer has a numerical value added to it.\n\nint * + int\nint * + long\nchar * + int\nlong * + char\n\nSubtraction is defined on two numeric types or two pointer types.\nPointer + pointer is not allowed. hi.c: In function ‘main’: hi.c:11:76: error: invalid operands to binary + (have ‘char *’ and ‘char *’) 11 | printf(\"%p\\n\", (char *)p + (char *)x ) ;\nC cleverly calls this “pointer arithmetic” so we can pretend operator overloading isn’t allowed in C.\nC good! Python bad! We did it team! Firm handshakes all around."
+  },
+  {
+    "objectID": "malloc.html#wait-what-about",
+    "href": "malloc.html#wait-what-about",
+    "title": "malloc",
+    "section": "Wait what about []",
+    "text": "Wait what about []\n\nI have terrible news about arrays.\nPointer arithmetic all the way down my friends. int arr[4] = { 0x10, 0x100, 0x1000, 0x10000 } ; printf(\" arr+1 : %p\\n\", arr+1) ; printf(\"*(arr+1): %p\\n\", *(arr+1)) ; printf(\"(*arr+1): %p\\n\", (*arr+1)) ; printf(\" arr[1]: %p\\n\", arr[1]) ;\n“Wow that is so easy to read and such a useable language.” - me, to myself arr+1 : 0x7fff5956cce4 *(arr+1): 0x100 (*arr+1): 0x11 arr[1]: 0x100\nOh perfect - arr[n] is logically equivalent to *(arr+n) ;"
+  },
+  {
+    "objectID": "malloc.html#arrn-arrn",
+    "href": "malloc.html#arrn-arrn",
+    "title": "malloc",
+    "section": "arr[n] = *(arr+n)",
+    "text": "arr[n] = *(arr+n)\n\nTest it. int main() { int arr[4] = { 0x10, 0x100, 0x1000, 0x10000 }, i ; for ( i = 0 ; i &lt; 4 ; i++ ) { printf(\"*(arr+%d): %5x, arr[%d]: %5x\\n\", i, *(arr+i), i, arr[i]) ; } return 0; }\n“Come sail away, come sail away, come sail away with C” - me user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *(arr+0): 10, arr[0]: 10 *(arr+1): 100, arr[1]: 100 *(arr+2): 1000, arr[2]: 1000 *(arr+3): 10000, arr[3]: 10000 user@DESKTOP-THMS2PJ:~$\narr[n] is logically equivalent to *(arr+n)."
+  },
+  {
+    "objectID": "malloc.html#arrn-arrn-1",
+    "href": "malloc.html#arrn-arrn-1",
+    "title": "malloc",
+    "section": "arr[n] = *(arr+n)",
+    "text": "arr[n] = *(arr+n)\n\nLiterally never do this ever for any reason. int main() { int arr[4] = { 0x10, 0x100, 0x1000, 0x10000 }, i ; for ( i = 0 ; i &lt; 4 ; i++ ) { printf(\"%d[arr]: %5x\\n\", i, i[arr]) ; } printf(\"1[(long *)arr: %5lx\\n\", 1[(long *)arr]); // NO! return 0; }\nI am going to become the joker. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out 0[arr]: 10 1[arr]: 100 2[arr]: 1000 3[arr]: 10000 1[(long *)arr]: 1000 user@DESKTOP-THMS2PJ:~$"
+  },
+  {
+    "objectID": "malloc.html#today-4",
+    "href": "malloc.html#today-4",
+    "title": "malloc",
+    "section": "Today",
+    "text": "Today\nMalloc part 2\n✓ free()\nChecking malloc return value\n✓ Memory-adjacent tech\n✓ casting\n✓ pointer arithmetic\n✓ unary &"
+  },
+  {
+    "objectID": "malloc.html#unary",
+    "href": "malloc.html#unary",
+    "title": "malloc",
+    "section": "Unary &",
+    "text": "Unary &\n\n& is both a unary and binary operator in C, like - (minus) int main() { int x ; x = 1 - 2 ; x = - 2 ; int y ; x = 0x11 ; y = 0x10 ; x = x & y ; // BITWISE and, so 0x10 x = & y ; // is this allowed? return 0; }\nWhat does unary & do? hi.c: In function ‘main’: hi.c:15:11: warning: assignment to ‘int’ from ‘int *’ makes integer from pointer without a cast [-Wint-conversion] 15 | x = & y ; | ^"
+  },
+  {
+    "objectID": "malloc.html#unary-1",
+    "href": "malloc.html#unary-1",
+    "title": "malloc",
+    "section": "Unary &",
+    "text": "Unary &\nhi.c: In function ‘main’: hi.c:15:11: warning: assignment to ‘int’ from ‘int *’ makes integer from pointer without a cast [-Wint-conversion] 15 | x = & y ; | ^* Pointers! Our* favorite**! * We know how to examine these. int main() { int x = 0xF0, y = 0x0F, *p ; // just unique vals p = &y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; return 0; } * This gives us: user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x7fff37619e98 user@DESKTOP-THMS2PJ:~$ * Ah ha, & is inverse *."
+  },
+  {
+    "objectID": "malloc.html#unary-is-inverse",
+    "href": "malloc.html#unary-is-inverse",
+    "title": "malloc",
+    "section": "Unary & is inverse *",
+    "text": "Unary & is inverse *\nint main() { int x = 0xF0, y = 0x0F, *p ; // just unique vals p = &y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; return 0; }* p = &y -&gt; *p = y user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x7ffc85ee5f68 y = f, &y = 0x7ffc85ee5f68 user@DESKTOP-THMS2PJ:~$ * I bet it works in reverse."
+  },
+  {
+    "objectID": "malloc.html#is-not-inverse-unary",
+    "href": "malloc.html#is-not-inverse-unary",
+    "title": "malloc",
+    "section": "* is not inverse Unary &",
+    "text": "* is not inverse Unary &\n\nOutmanuever segmentation faults with judicious use of malloc() and free(). int main() { int x = 0xF0, y = 0x0F, *p = (int *)malloc(sizeof(int)); // just unique vals *p = y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; free(p) ; return 0; }\nBut this just means the value of y is stored at p, not that p points to y. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x556ae59ec2a0 y = f, &y = 0x7ffc47f075c8 user@DESKTOP-THMS2PJ:~$\n*p = y creates a copy of the value stored in y."
+  },
+  {
+    "objectID": "malloc.html#is-not-inverse-unary-1",
+    "href": "malloc.html#is-not-inverse-unary-1",
+    "title": "malloc",
+    "section": "* is not inverse Unary &",
+    "text": "* is not inverse Unary &\n\nOutmanuever segmentation faults with judicious use of malloc() and free(). int main() { int x = 0xF0, y = 0x0F, *p = (int *)malloc(sizeof(int)); // just unique vals *p = y ; printf(\"*p = %x, p = %p\\n\", *p, p) ; printf(\" y = %x, &y = %p\\n\", y, &y) ; free(p) ; return 0; }\nBut this just means the value of y is stored at p, not that p points to y. user@DESKTOP-THMS2PJ:~$ gcc hi.c ; ./a.out *p = f, p = 0x556ae59ec2a0 y = f, &y = 0x7ffc47f075c8 user@DESKTOP-THMS2PJ:~$\n*p = y creates a copy of the value stored in y."
+  },
+  {
+    "objectID": "malloc.html#today-5",
+    "href": "malloc.html#today-5",
+    "title": "malloc",
+    "section": "Today",
+    "text": "Today\nMalloc part 2\n✓ free()\nChecking malloc return value\n✓ Memory-adjacent tech\n✓ casting\n✓ pointer arithmetic\n✓ unary &"
+  },
+  {
+    "objectID": "malloc.html#malloc-fails",
+    "href": "malloc.html#malloc-fails",
+    "title": "malloc",
+    "section": "Malloc fails",
+    "text": "Malloc fails\n\nWe can trigger an P=1 failure with by using -1 to get the maximum possible size_t value. int main() { void *p = malloc(-1); if (p == 0) { fprintf(stderr, \"Malloc failed.\\n\") ; exit(-1) ; } return 0; }\nIf we run the code: user@DESKTOP-THMS2PJ:~$ ./a.out Malloc failed. user@DESKTOP-THMS2PJ:~$\nIf malloc fails and you attempt to use the pointer, you will segfault.\nIf that happens and you ask me for help I’ll send you this slide!\nC! It’s fun!"
+  },
+  {
+    "objectID": "malloc.html#malloc-fails-1",
+    "href": "malloc.html#malloc-fails-1",
+    "title": "malloc",
+    "section": "Malloc fails",
+    "text": "Malloc fails\n\nWe can trigger an P=1 failure with by using -1 to get the maximum possible size_t value. int main() { void *p = malloc(-1); if (p == 0) { fprintf(stderr, \"Malloc failed.\\n\") ; exit(-1) ; } return 0; }\nIf we run the code: user@DESKTOP-THMS2PJ:~$ ./a.out Malloc failed. user@DESKTOP-THMS2PJ:~$\nIf malloc fails and you attempt to use the pointer, you will segfault.\nIf that happens and you ask me for help I’ll send you this slide!\nC! It’s fun!"
+  },
+  {
+    "objectID": "malloc.html#malloc-fails-2",
+    "href": "malloc.html#malloc-fails-2",
+    "title": "malloc",
+    "section": "Malloc fails",
+    "text": "Malloc fails\n\nWe can trigger an P=1 failure with by using -1 to get the maximum possible size_t value. int main() { void *p = malloc(-1); if (p == 0) { fprintf(stderr, \"Malloc failed.\\n\") ; exit(-1) ; } return 0; }\nIf we run the code: user@DESKTOP-THMS2PJ:~$ ./a.out Malloc failed. user@DESKTOP-THMS2PJ:~$\nIf malloc fails and you attempt to use the pointer, you will segfault.\nIf that happens and you ask me for help I’ll send you this slide!\nC! It’s fun!"
+  },
+  {
+    "objectID": "bchain.html#transactions",
+    "href": "bchain.html#transactions",
+    "title": "bchain",
+    "section": "# Transactions",
+    "text": "# Transactions\n\nA chain of digital signatures\n\n\nRather than a physical coin, an electronic coin is a record.\n\nRecords can be stored in multiple locations, coins cannot\nRecords can produced by anyone, coins cannot\nRecords describe ownership, coins cannot\n\nI can lose, find, or forge a coin, not so for a record (of past events)"
+  },
+  {
+    "objectID": "bchain.html#doublecount-1",
+    "href": "bchain.html#doublecount-1",
+    "title": "bchain",
+    "section": "Doublecount",
+    "text": "Doublecount\n\nThe problem of course is the payee can’t verify that one of the owners did not double-spend the coin.\n\n\nBanks with only n coins are the exact problem\n\nThe bank is sole arbiter of providing credit with those coins.\nBanks with finite coins are vulnerable to bank runs.\nBanks have operating expenses that incur transaction costs.\nA bank must be trusted (very tough in early 2009, or… ever?)"
   }
 ]

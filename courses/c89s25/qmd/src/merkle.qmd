@@ -1,0 +1,327 @@
+---
+title: bchain
+theme: dark
+author: Prof. Calvin
+subtitle: "Week 0xA II"
+institute: Crypto
+format: 
+    revealjs: 
+        code-fold: true
+        theme: dark
+        mainfont: monospace
+        slide-number: true
+        show-slide-number: all
+        width: 1050
+        height: 700
+        footer: "[Home](../index.html)"
+
+execute:
+    echo: true
+    cache: true
+    freeze: true  # never re-render during project render
+    code-fold: false
+---
+
+# Announcements
+
+- **Welcome** to variously CS 276/CS 540
+  - Blockchain
+- **Action Items**:
+  - list_t after this
+
+# Today
+
+- Background
+- Blocks
+    - Just `struct`s
+
+The Bitcoin Network
+-------------------
+
+*   The network operates as follows (CD:)
+    1.  Broadcast (Transactions)
+    2.  Collect
+    3.  Work/Mine
+    4.  Broadcast (Block)
+    5.  Accept
+    6.  Express
+
+Incentive
+---------
+
+*   The system only works if there's a reason to invest in mining
+    
+    *   Mining require compute power, and increasing powerful hardware over time.
+    *   Mining requires electricity
+    *   Mining requires high throughput internet access
+    *   Mining is high risk, as being the nonce-discovering node is unlikely.
+    
+    > By convention, the first transaction in a block is a special transaction that starts a new coin owned by the creator of the block.
+    
+    `class Block: def __init__(self, some_trns, prev_blck, many_zero = 1): self.some_trns = tuple(some_trns.insert(0, Coin(my_public_key, None, None)))`
+*   The successful miner may invent a coin out of thin air (well, out of CPU)
+*   This is where coins come from!
+*   They are legitimized by the block being accepted, same as any other transaction
+
+Incentive
+---------
+
+*   The system only works if there's a reason to invest in mining
+    
+    > The incentive can also be funded with transaction fees
+    
+    *   If you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.
+    *   This is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.
+    *   Transaction fees allow inflationless mining.
+    *   The last bitcoin (21M'th) will be mined circa 2140 and the system will be fee-only at that time.
+        
+        > The incentive may help encourage nodes to stay honest.
+        
+    *   SN, paraphrased: Fees will likely be more lucrative than theft.
+    *   CD: Attackers will likely be political motivated to destabilize the currency.
+
+Pruning
+-------
+
+*   Bitcoin scaling is a real problem, but
+*   There's a lot of ways to handle that.
+*   Only the most recent transaction on a coin must be saved, for example.
+    
+    > Once the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded to save disk space.
+    
+*   This is done using a little thing called "Merkle Tree" which happens to be...
+*   A Directed Acyclic Graph
+
+[![Southwest Chief at Laguna, February 2020](Blockchain_files/Southwest_Chief_at_Laguna,_February_2020.jpg)](https://commons.wikimedia.org/wiki/File:Southwest_Chief_at_Laguna,_February_2020.jpg "Jerry Huddleston from Hampton, Minnesota, US, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons")
+
+_Graph Theory: Cool, Fun, Practical_
+
+Merkle Tree
+-----------
+
+*   Disclosure: Wikipedia claims Merkle Trees are a computer science topic:
+    
+    > In cryptography and computer science, a hash tree or Merkle tree is a tree in which...
+    
+*   I am a computer scientist.
+*   I'm sorry! I think they're really cool!
+*   Anyways a 'tree' is a DAG where:
+    *   There is a root node, with no incoming edges
+    *   Every other edge has exactly one incoming edge
+
+  
+[![Tree (computer science)](Blockchain_files/Tree_(computer_science).svg.png)](https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg "Paddy3118, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons")
+
+I should probably say "hash tree" (descriptive name) but I'm really used to hearing "Merkle tree".
+
+Merkle Tree
+-----------
+
+*   New term: Leaf (or leaf node)
+    *   A leaf is a vertex (or node) of a tree with no outgoing edges.
+*   In a hash tree, a leaf node contains some data and a hash of that data. `# Github Copilot wrote this given the name class HashTreeLeaf: def __init__(self, data): self.data = data self.hash = hash(data) def __hash__(self): return self.hash`
+
+Merkle Tree
+-----------
+
+*   Every other node _n_ contains:
+    *   A hash
+    *   Computed over the the hashs
+    *   Of the nodes, for which
+    *   _n_ has a corresponding outgoing edge.
+*   To my knowledge, all Merkle/hash trees are binary trees
+    
+    *   A binary tree is a tree in which no node has more than two outgoing edges.
+    
+    `# Github Copilot wrote this given the name class HashTreeNode: def __init__(self, left, rite): assert(left != None) # added by cd self.left = left self.rite = rite self.hash = hash(left)^hash(rite) def __hash__(self): return self.hash`
+*   This allows non-leaf nodes to have one or two outgoing edges.
+
+Binary Tree Ops
+---------------
+
+*   Binary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.
+*   They are not in scope here.
+*   If you need to implement a Merkle tree, find someone else's "binary search tree" code and add the hashing to it.
+*   Generative AIs (all, not just Github Copilot) can usually do BSTs in any given language.
+*   They cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.
+*   Realistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes).
+
+Merkle Tree
+-----------
+
+*   This is a very good visualization:  
+    [![Hash Tree](Blockchain_files/Hash_Tree.svg.png)](https://commons.wikimedia.org/wiki/File:Hash_Tree.svg "Azaghal, CC0, via Wikimedia Commons")
+*   All data/coins/transactions are in leaf nodes
+*   Extremely difficulty to falsify anything, due to all the computed hashes
+*   Old transactions can be discarded
+*   Old enough trees may be empty (!!!) if all constituent coins are spent.
+*   This is _likely_ since the most used coins are... the most used coins.
+
+Merkle Tree
+-----------
+
+*   This is a very good visualization of pruning:
+
+  
+![](Blockchain_files/Reclaiming%20Disk%20Space.png)
+
+This is a Satoshi Nakamoto graphic.
+
+Pruning Use
+-----------
+
+*   I am unable to characterize expected savings to pruning:
+    *   Users report around 100x (500GB to 5GB)
+    *   Most coins appear to be part of zero transactions
+    *   Some large clusters of coins, like SN's, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.
+    *   So coin velocity, median/average transactions, frequency are all very difficult to characterize.
+    *   Also likely volatile.
+*   In general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.
+*   In general: Hard for competing standards to catch on.
+
+Pruning Efficacy
+----------------
+
+*   We can see how much better one Merkle tree is if maximally pruned.
+    *   Have around 4k transactions per block
+    *   So for binary Merkle trees, that is log2(4k) ~= 12 levels
+    *   That is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.
+    *   Σ 2_n_ = 2_n+1_\-1, or `>>> sigma = lambda x : sum([2 ** n for n in range(x+1)]) >>> close = lambda x : 2 ** (x + 1) - 1 # for "closed form" >>> for x in range(50): ... assert(close(x) == sigma(x)) ... >>>`
+    *   Any unpruned tree would have 2^13-1 internal and 2^12 leaf nodes
+    *   A tree with one remaining transaction would have on leaf node and two internal nodes per 'level'
+    *   That is, 2\*12 internal and 1 leaf node. `>>> savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 ) >>> savin(10) 0.006838163464669489 >>> savin(12) 0.002034670790266135`
+
+On Memory Usage
+---------------
+
+*   Arithmetic!
+    
+    > A block header with no transactions would be about 80 bytes. If we suppose blocks are generated every 10 minutes, 80 bytes \* 6 \* 24 \* 365 = 4.2MB per year.
+    
+*   I don't think that estimate is accurate but I'm not sure why it wouldn't be. I think SN is only counting the block headers, not the trees?
+    
+    > With computer systems typically selling with 2GB of RAM as of 2008, and Moore's Law predicting current growth of 1.2GB per year, storage should not be a problem even if the block headers must be kept in memory
+    
+*   In 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)
+    
+    > It is possible to verify payments without running a full network node.
+    
+*   SN notes you can just submit a transaction and if it's accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories.
+
+Transactions
+------------
+
+*   We previously imagined a coin contains:
+    1.  The public key of the current owner
+    2.  The record of all previous owners
+    3.  The signature of the previous owner, generated over (1) and (2)
+*   These are all integers, more or less, that can be verified. `>>> Coin(*[randint(0,1024 * 1024) for _ in range(3)]) <Coin object at 0x7f765208eb90> # NOT verified`
+*   Well... there's actually no reason to have a single former owner or future owner.
+*   So transactions can have multiple inputs before being bundled in hash trees.
+*   We can think of them as dictionaries of send/recieve signatures and values.
+    *   After this semester, we will change ownership of evening classes! `>>> Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1} {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1} hash(...)) <Coin object at 0x7f765208eb90>`
+    *   This has a de facto negative transaction fee (it's a bad metaphor)
+        *   Mostly: This allows transactions to not all be off the same price.
+        *   This allows using a unique ID for transactions and still spend all at once.
+
+Multi Transaction
+-----------------
+
+*   We can visualize as follows:
+
+  
+![](Blockchain_files/1w.png)
+
+This is a Satoshi Nakamoto graphic.
+
+Privacy
+-------
+
+> The necessity to announce all transactions publicly precludes this method, but privacy can still be maintained by breaking the flow of information in another place: by keeping public keys anonymous.
+
+*   SN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.
+*   CD claims the considerable metadata leaks are a marked loss in privacy, but that's okay.
+*   Banks have full knowledge and routinely have e.g. data breaches, illegal ad targetting, etc.
+*   [Wells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization](https://www.justice.gov/opa/pr/wells-fargo-agrees-pay-3-billion-resolve-criminal-and-civil-investigations-sales-practices)
+*   This 'big banks perspective actually isn't too far off.
+    
+    > This is similar to the level of information released by stock exchanges
+    
+*   Lastly - if you have been part of _n_ transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.
+    
+    > As an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner.
+    
+
+Privacy
+-------
+
+*   We can visualize as follows:
+
+  
+![](Blockchain_files/1_bE7DuVZlL_LVNe8R1t_qJA.png)
+
+This is a Satoshi Nakamoto graphic.
+
+Bonus: Calculations
+-------------------
+
+*   SN closes with a brief essay on probability, including calculations in the C programming language
+*   Also known as: my favorite thing.
+*   Regard the following as bonus slides, but that are really cool!
+
+Calculations
+------------
+
+> We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.
+
+*   In the (quite) early days, gaining a control of a majority of miners was regarded as impossible.
+*   In 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.
+*   Read more on [Wikipedia](https://en.wikipedia.org/wiki/GHash.io)
+*   GHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.
+*   In any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed.
+
+Calculations
+------------
+
+> We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.
+
+*   We use a "Binomial Random Walk"
+    *   We progress along the integer number line, that is, {..., -1, 0, 1, 2...}
+    *   The value given is the length lead maintained by the "honest" (non-attacker) chain.
+    *   So if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.
+*   Attacker outpacing is equivalent to the "Gambler's Ruin" problem.
+    *   Gambler has infinite $ and targets breakeven in potentially infinite time
+*   SN uses mathematical notation, I'll use Python. `def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk): assert(prob_next_hnst + prob_next_attk == 1) z = attk_blck_bhnd p, q = prob_next_hnst, prob_next_attk if (p <= q): return 1 if (p > q): return (q / p) ** z`
+*   prob\_attk\_ctch(z, p, q) is the probabilty an attacker _z_ blocks behind an honest chain catches up given that the attack controls fraction share _q_ ∈ \[0,1\] of the total nodes.
+
+Calculations
+------------
+
+> We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.
+
+*   Much easier if we consider a single attacker calculating their catchup probability. `def prob_ctch(blck_bhnd, node_frac): z, p, q = blck_bhnd, 1 - node_frac, node_frac if (p <= q): return 1 if (p > q): return (q / p) ** z`
+*   These numbers are actually higher than I intuitively expected, using e.g. GHash.io's 40% (assuming GHash.io somehow became compromised) `>>>> {n:prob_ctch(n, .4) for n in range(1,10,2)} {1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946} >>> {n/10:prob_ctch(3, n/10) for n in range(1,5)} {0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}`
+
+Calculations
+------------
+
+> Given our assumption that _p > q_, the probability drops exponentially as the number of blocks the attacker has to catch up with increases.
+
+*   It occurs to me I can write this in .js with a canvas element.
+
+  
+function qz(z, q) { const p = 1 - q if (p <= q) { return 1 } else if (p > q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i < 800 ; i++ ) { c.fillRect(i, 800 - qz(i \* z / 800, q) \* 800, 2, 2) } }  Set _q_ ∈ (0,.5)  Set _z_ > 0  
+
+code
+----
+
+`<script> function qz(z, q) { const p = 1 - q if (p <= q) { return 1 } else if (p > q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i < 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } </script> <input value=".4" type="number" min="0" max="0.5" id="q"> <button onclick="draw()" type="button">Set <em>q</em> ∈ (0,.5)</button> <input value="5" type="number" min="1" id="z"> <button onclick="draw()" type="button">Set <em>z</em> > 0 </button><br> <canvas style="background-color:white" id="plot" width="800" height="800"></canvas>`
+
+FIN
+---
+
+*   Distributed consensus is non-trivial.
+*   It tends to rely on math in the most classical sense of the term.
+*   It allows a lot of new possibilities.
+*   It uses a lot of cloud technologies.
+*   It powers a lot of cloud technologies.

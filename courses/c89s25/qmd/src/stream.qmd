@@ -57,7 +57,7 @@ execute:
 
 - Say we are working on Base85 and have the following function:
 ```{.c}
-void print_in_base85(uint32_t word)
+void print_in_base85(uint32_t word);
 ```
 - We know:
     - Base85 prints exactly 5 characters of printable ascii/utf-8 for exactly every 4 bytes / 32 bits of data
@@ -69,7 +69,7 @@ void print_in_base85(uint32_t word)
 - So no matter what, we will have this function in some loop over some data.
 ```{.c}
 do {
-    print_in_base85(word)
+    print_in_base85(word);
 } while ( conditional )
 ```
 
@@ -84,10 +84,10 @@ do {
 :::{.column width=50%}
 
 ```{.c}
-FILE *fp = fopen("file.txt", "r")
+FILE *fp = fopen("file.txt", "r");
 uint32_t word, conditional;
 do {
-    print_in_base85(word)
+    print_in_base85(word);
 } while ( conditional )
 ```
 
@@ -96,11 +96,11 @@ do {
 :::{.column width=50%}
 
 ```{.c}
-FILE *fp = fopen("file.txt", "r")
+FILE *fp = fopen("file.txt", "r");
 uint32_t word, conditional;
 do {
-    print_in_base85(word)
-} while ( conditional )
+    print_in_base85(word);
+} while ( conditional );
 ```
 
 :::
@@ -120,8 +120,8 @@ FILE *fp = fopen("file.txt", "r")
 uint32_t words[∞], conditional, i = 0;
 fread(words, ∞, 1, *fp);
 do {
-    print_in_base85(words[i++])
-} while ( conditional )
+    print_in_base85(words[i++]);
+} while ( conditional );
 ```
 
 :::
@@ -129,12 +129,12 @@ do {
 :::{.column width=50%}
 
 ```{.c}
-FILE *fp = fopen("file.txt", "r")
+FILE *fp = fopen("file.txt", "r");
 uint32_t word, conditional;
 do {
     fread(word, 4, 1, fp);
-    print_in_base85(word)
-} while ( conditional )
+    print_in_base85(word);
+} while ( conditional );
 ```
 
 :::
@@ -160,12 +160,12 @@ do {
 :::{.column width=50%}
 
 ```{.c}
-FILE *fp = fopen("file.txt", "r")
+FILE *fp = fopen("file.txt", "r");
 uint32_t word, conditional;
 do {
     fread(word, 4, 1, fp);
-    print_in_base85(word)
-} while ( conditional )
+    print_in_base85(word);
+} while ( conditional );
 ```
 
 :::
@@ -805,7 +805,7 @@ uint64_t bigdiv(uint64_t *num, uint64_t *den, uint64_t *quo, uint64_t *rem) {
 
 # Today
 
-- %check; Duplication
+- &check; Duplication
 - Deficient encapsulation v. Broken modularization
 - Magic Numbers
 - Overthinking
@@ -840,4 +840,581 @@ uint64_t bigquo(uint64_t *num, uint64_t *den, uint64_t *quo);
 uint64_t bigrem(uint64_t *num, uint64_t *den, uint64_t *rem);
 ```
 
-- I shouldn't mess with this! It's already released!
+- I shouldn't mess with this! It's already "released"!
+
+# Options
+
+- Implement `bignul` at the point-of-us, in both `bigrsa` and `bigkey`
+    - Broken modularization (big function outside of 4096_t)
+    - Duplication (in both files)
+- Add `bignul` back into `4096_t.h`
+    - Broken modularization
+        - E.g., the tests on 4096_t don't test bignul
+
+# Takeaways
+
+- When we design libraries, software, APIs, test scripts...
+- Make sure we are preserving modularization and enscapsulation
+    - Shouldn't have bigops scattered to the four winds
+
+# Another example
+
+- This function:
+```{.c}
+void print_in_base85(uint32_t word);
+```
+- Breaks here:
+```{.c}
+FILE *fp = fopen("file.txt", "r");
+uint32_t word, conditional;
+do {
+    fread(word, 4, 1, fp);
+    print_in_base85(word);
+} while ( conditional );
+```
+- What is `conditional`?
+
+# Return type
+
+- This function:
+```{.c}
+/* returns # of words read */
+size_t print_in_base85(uint32_t word)
+```
+- Uses its return value:
+```{.c}
+FILE *fp = fopen("file.txt", "r");
+uint32_t word;
+size_t cond;
+do {
+    fread(word, 4, 1, fp);
+    cond = print_in_base85(word);
+} while ( 4 == cond );
+```
+- To *encapsulate* checking end of a file
+
+# Bad
+
+- These are both bad
+
+::::{columns}
+
+:::{.column width=50%}
+```{.c}
+void print_in_base85(uint32_t word)
+```
+```{.c}
+size_t fp = fopen("file.txt", "r");
+uint32_t word;
+do {
+    fread(word, 4, 1, fp);
+    print_in_base85(word)
+} while ( ??? )
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+size_t print_in_base85(uint32_t word)
+```
+```{.c}
+size_t s, fp = fopen("file.txt", "r");
+uint32_t word;
+do {
+    fread(word, 4, 1, fp);
+    s = print_in_base85(word)
+} while ( 4 == s )
+```
+
+:::
+
+::::
+
+# Another example
+
+- `biggmp.c`, a libgmp implementation of 4096_t I am now providing for usage on `bigrsa`, could contain much repeated code.
+
+# Add and Sub
+
+- GMP works by:
+    - Declaring an `mpz_t` variable.
+    - Initializing with `mpz_init`
+    - Loading in data with `mpz_import`
+    - Performing some operation
+    - Extracting to a buffer or 4096_t with `mpz_export`
+    - Calling `mpz_clear` or slowing using up all your memory.
+
+# See it
+
+- Here's add with light edits:
+
+::::{columns}
+
+:::{.column width=50%}
+```{.email}
+
+Declaring an `mpz_t` variable.
+Initializing with `mpz_init`
+Loading in data with `mpz_import`
+    (Twice)
+Performing some operation
+Extracting to a buffer or 4096_t with `mpz_export`
+Calling `mpz_clear` or slowing using up all your memory.
+
+
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+void bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum) {
+    mpz_t m0, m1;
+    mpz_inits(m0, m1, NULL);
+    mpz_import(m0, S, -1, sizeof(uint64_t), 0, 0, a);
+    mpz_import(m1, S, -1, sizeof(uint64_t), 0, 0, b);
+    mpz_add(m0,m0,m1);
+    mpz_export(c, NULL, -1, sizeof(uint64_t), 0, 0, m0);
+    mpz_clears(m0, m1, NULL);
+}
+```
+
+:::
+
+::::
+
+# Both
+
+- Only one line differs!
+    - 8 repeated lines!
+    - Would have to fix any bug in $n$ places!
+
+::::{columns}
+
+:::{.column width=50%}
+```{.C}
+void bigsub(uint64_t *in0, uint64_t *in1, uint64_t *dif) {
+    mpz_t m0, m1;
+    mpz_inits(m0, m1, NULL);
+    mpz_import(m0, S, -1, sizeof(uint64_t), 0, 0, a);
+    mpz_import(m1, S, -1, sizeof(uint64_t), 0, 0, b);
+    mpz_sub(m0,m0,m1);
+    mpz_export(c, NULL, -1, sizeof(uint64_t), 0, 0, m0);
+    mpz_clears(m0, m1, NULL);
+}
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+void bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum) {
+    mpz_t m0, m1;
+    mpz_inits(m0, m1, NULL);
+    mpz_import(m0, S, -1, sizeof(uint64_t), 0, 0, a);
+    mpz_import(m1, S, -1, sizeof(uint64_t), 0, 0, b);
+    mpz_add(m0,m0,m1);
+    mpz_export(c, NULL, -1, sizeof(uint64_t), 0, 0, m0);
+    mpz_clears(m0, m1, NULL);
+}
+```
+
+:::
+
+::::
+
+
+# Bug
+
+- This doesn't work because `sum` is used unitialized
+    - Requires 2 edits, easy to miss one
+
+::::{columns}
+
+:::{.column width=50%}
+```{.C}
+void bigsub(uint64_t *in0, uint64_t *in1, uint64_t *dif) {
+    mpz_t m0, m1;
+    memset(dif, 0, BYTES);
+    mpz_inits(m0, m1, NULL);
+    mpz_import(m0, S, -1, sizeof(uint64_t), 0, 0, a);
+    mpz_import(m1, S, -1, sizeof(uint64_t), 0, 0, b);
+    mpz_sub(m0,m0,m1);
+    mpz_export(c, NULL, -1, sizeof(uint64_t), 0, 0, m0);
+    mpz_clears(m0, m1, NULL);
+}
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.c}
+void bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum) {
+    mpz_t m0, m1;
+    memset(sum, 0, BYTES);
+    mpz_inits(m0, m1, NULL);
+    mpz_import(m0, S, -1, sizeof(uint64_t), 0, 0, a);
+    mpz_import(m1, S, -1, sizeof(uint64_t), 0, 0, b);
+    mpz_add(m0,m0,m1);
+    mpz_export(c, NULL, -1, sizeof(uint64_t), 0, 0, m0);
+    mpz_clears(m0, m1, NULL);
+}
+```
+
+:::
+
+::::
+
+# Better
+
+- Write some function that does all the setup and teardown
+- Pass that function the operation as an argument
+
+```{.c}
+void apply(uint64_t *in0, uint64_t *in1, uint64_t *out, function) {
+    mpz_t m0, m1;
+    memset(sum, 0, BYTES);
+    mpz_inits(m0, m1, NULL);
+    mpz_import(m0, S, -1, sizeof(uint64_t), 0, 0, a);
+    mpz_import(m1, S, -1, sizeof(uint64_t), 0, 0, b);
+    function(m0,m0,m1);
+    mpz_export(c, NULL, -1, sizeof(uint64_t), 0, 0, m0);
+    mpz_clears(m0, m1, NULL);
+}
+```
+
+# Code reuse!
+
+```{.c}
+uint64_t bigadd(uint64_t *in0, uint64_t *in1, uint64_t *sum) {
+    apply(in0, in1, sum, mpz_add);
+    return 0;
+}
+
+uint64_t bigsub(uint64_t *min, uint64_t *sub, uint64_t *dif) {
+    apply(min, sub, dif, mpz_sub);
+    return 0;
+}
+
+uint64_t bigmul(uint64_t *in0, uint64_t *in1, uint64_t *out) {
+    apply(in0, in1, out, mpz_mul);
+    return 0;
+}
+```
+
+# In practice
+
+- We declare a function which accepts a function as an argument by giving the functions type, and a local variable name.
+- We call a function which "" by using the function name.
+- `mpz_add` returns void and accepts 3 `mpz_t` arguments.
+    - Two are `const` which is out-of-scope for now
+```{.C}
+void (f)(mpz_t, const mpz_t, const mpz_t)
+```
+
+# Declare it:
+
+```{.c}
+void apply(void (f)(mpz_t, const mpz_t, const mpz_t), uint64_t *in0, uint64_t *in1, uint64_t *out) {
+    mpz_t m0, m1;
+    /* much text */
+    return;
+}
+```
+
+# Call it:
+
+- This code is correct, just use name.
+
+```{.c}
+uint64_t bigmul(uint64_t *in0, uint64_t *in1, uint64_t *out) {
+    apply(in0, in1, out, mpz_mul);
+    return 0;
+}
+```
+
+# Higher Order
+
+- Oh by the way, this **encapsulates** libgmp.
+- This encapsulation method is the function programming concept of higher order functions.
+- They are great.
+- Not fully supported in C 😭
+    - We can't *return* functions, just pass as args
+- Oh by the way, this **encapsulates** libgmp.
+
+# Today
+
+- &check; Duplication
+- &check; Deficient encapsulation v. Broken modularization
+- Magic Numbers
+- Overthinking
+- Big Ball of Mud v. God Object
+- Data clump
+
+# 
+
+![](https://upload.wikimedia.org/wikipedia/en/6/62/I_Am_Number_Four_Poster.jpg){fig-align="center"}
+
+# Who or what is "4"?
+
+```{.c}
+size_t s, fp = fopen("file.txt", "r")
+uint32_t word;
+do {
+    fread(word, 4, 1, fp);
+    s = print_in_base85(word)
+} while ( 4 == s )
+```
+
+# Sizeof
+
+```{.c}
+size_t s, fp = fopen("file.txt", "r")
+uint32_t word;
+do {
+    fread(word, sizeof(uint32_t), 1, fp);
+    s = print_in_base85(word)
+} while ( sizeof(uint32_t) == s )
+```
+
+# Define
+
+- Add a define:
+
+```{.c}
+#define WORD_SIZE sizeof(uint32_t)
+```
+
+- By convention, as we know, all caps.
+
+```{.c}
+size_t s, fp = fopen("file.txt", "r")
+uint32_t word;
+do {
+    fread(word, WORD_SIZE, 1, fp);
+    s = print_in_base85(word)
+} while ( WORD_SIZE == s )
+```
+
+# 4096_t
+
+- I used defines to allow 4096_t to be changed to 8192 with a change to a single line of code
+- *But this only works if you use the defines everywhere*
+
+```{.C filename="4096_t.h"}
+#define S (size_t)(4096 / 64)
+#define BYTES S * sizeof(uint64_t)
+```
+
+- Imagine a `???_t` and then just using different header files with different `S` values.
+
+# Today
+
+- &check; Duplication
+- &check; Deficient encapsulation v. Broken modularization
+- &check; Magic Numbers
+- Overthinking
+- Big Ball of Mud v. God Object
+- Data clump
+
+# Overthinking
+
+- It's just bits.
+
+```{.c filename="uint32.c"}
+#include <stdio.h>
+
+#include <stdio.h>
+
+void show(char *buf) {
+
+        int *alias = (int *)buf;
+        printf("%%s -> %s\n", buf);
+        printf("%%d -> %d\n", (int)*alias);
+        printf("%%u -> %u\n", (unsigned)*alias);
+        printf("%%x -> %x\n", (unsigned)*alias);
+        printf("As array: [%d, %d, %d, %d]\n", buf[0], buf[1], buf[2], buf[3]);
+        printf("As array: [%x, %x, %x, %x]\n", buf[0], buf[1], buf[2], buf[3]);
+}
+
+void main() {
+        char buf[4] = "hi!";
+        int *alias = (int *)buf;
+        printf("\n\"hi!\" n ways:\n");
+        show(buf)
+        printf("\nadd 10 to *alias\n");
+        *alias += 10;
+        show(buf);
+}
+```
+
+# Not Numbers
+
+```{.C}
+printf("%%s -> %s\n", buf);
+printf("%%d -> %d\n", (int)*alias);
+printf("%%u -> %u\n", (unsigned)*alias);
+printf("%%x -> %x\n", (unsigned)*alias);
+printf("As array: [%d, %d, %d, %d]\n", buf[0], buf[1], buf[2], buf[3]);
+printf("As array: [%x, %x, %x, %x]\n", buf[0], buf[1], buf[2], buf[3]);
+```
+
+```{.email}
+%s -> hi!
+%d -> 2189672
+%u -> 2189672
+%x -> 216968
+As array: [104, 105, 33, 0]
+As array: [68, 69, 21, 0]
+```
+
+
+# Not Letters
+
+```{.C}
+show(buf)
+*alias += 10;
+show(buf);
+```
+
+::::{columns}
+
+:::{.column width=50%}
+```{.email}
+"hi!" n ways:
+%s -> hi!
+%d -> 2189672
+%u -> 2189672
+%x -> 216968
+As array: [104, 105, 33, 0]
+As array: [68, 69, 21, 0]
+```
+
+:::
+
+:::{.column width=50%}
+
+```{.email}
+add 10 to *alias
+%s -> ri!
+%d -> 2189682
+%u -> 2189682
+%x -> 216972
+As array: [114, 105, 33, 0]
+As array: [72, 69, 21, 0]
+```
+
+:::
+
+::::
+
+# Just bits
+
+- We, the coder, give them meaning.
+- What does magic number `6650210` mean?
+
+```{.C}
+*alias = 6650210; /* New */
+show(buf);
+```
+
+```{.email}
+%s -> bye
+%d -> 6650210
+%u -> 6650210
+%x -> 657962
+As array: [98, 121, 101, 0]
+As array: [62, 79, 65, 0]
+```
+
+
+# Today
+
+- &check; Duplication
+- &check; Deficient encapsulation v. Broken modularization
+- &check; Magic Numbers
+- &check; Overthinking
+- Big Ball of Mud v. God Object
+- Data clump
+
+# Languages
+
+- Not all patterns and antipatterns exist in all languages.
+
+> [Peter Norvig demonstrates that 16 out of the 23 patterns in the Design Patterns book (which is primarily focused on C++) are simplified or eliminated (via direct language support) in Lisp](https://www.norvig.com/design-patterns/)
+
+# C good
+
+- God Objects cannot be made in C, an imperative language.
+- But, we should make sure we use header files. (No "God .c")
+- Famously, the C preprocess (remember `Macros`) starts to look an awful lot like a LISP implementation in more sophisticated projects.
+
+# C LISP
+
+- I can't read this, but we all know what `CAT` means
+
+```{.C}
+#define _E(...) __VA_ARGS__
+#define _N(...)
+#define _e(x) x
+#define _n(x)
+#define _CAT(x,y) x##y
+#define CAT(x,y) _CAT(x,y)
+#define _e_sem(x) x(
+#define _bsem )
+```
+
+# Today
+
+- &check; Duplication
+- &check; Deficient encapsulation v. Broken modularization
+- &check; Magic Numbers
+- &check; Overthinking
+- &check; Big Ball of Mud v. God Object
+- Data clump
+
+# Mandatory
+
+- C contains a language-mandatory data clump anti-pattern
+- This is a data clump - two values that only make sense together.
+```{.C}
+int main(int argc, char **argv)
+```
+
+# Null termination
+
+- In practice, you can null terminate vectors just like strings
+    - libgmp does this
+- Null terminated strings are just a special case of null-terminated vectors.
+```{.C filename="biggmp.c"}    
+mpz_t m0, m1;
+mpz_inits(m0, m1, NULL);
+/* various activities */
+mpz_clears(m0, m1, NULL);
+```
+- Avoids duplication, like 2x `mpz_init` calls
+
+# Today
+
+- &check; Duplication
+- &check; Deficient encapsulation v. Broken modularization
+- &check; Magic Numbers
+- &check; Overthinking
+- &check; Big Ball of Mud v. God Object
+- &check; Data clump
+
+# Previews
+
+- `struct`
+    - C language data structures
+- `malloc`
+    - Dynamically sized C types
+
+# Or...
+
+- Riff on P strings?

@@ -2203,5 +2203,313 @@
     "title": "bchain",
     "section": "Doublecount",
     "text": "Doublecount\n\nThe problem of course is the payee can’t verify that one of the owners did not double-spend the coin.\n\n\nBanks with only n coins are the exact problem\n\nThe bank is sole arbiter of providing credit with those coins.\nBanks with finite coins are vulnerable to bank runs.\nBanks have operating expenses that incur transaction costs.\nA bank must be trusted (very tough in early 2009, or… ever?)"
+  },
+  {
+    "objectID": "merkle.html",
+    "href": "merkle.html",
+    "title": "bchain",
+    "section": "",
+    "text": "Welcome to variously CS 276/CS 540\n\nBlockchain\n\nAction Items:\n\nlist_t after this"
+  },
+  {
+    "objectID": "merkle.html#the-bitcoin-network",
+    "href": "merkle.html#the-bitcoin-network",
+    "title": "bchain",
+    "section": "The Bitcoin Network",
+    "text": "The Bitcoin Network\n\nThe network operates as follows (CD:)\n\nBroadcast (Transactions)\nCollect\nWork/Mine\nBroadcast (Block)\nAccept\nExpress"
+  },
+  {
+    "objectID": "merkle.html#incentive",
+    "href": "merkle.html#incentive",
+    "title": "bchain",
+    "section": "Incentive",
+    "text": "Incentive\n\nThe system only works if there’s a reason to invest in mining\n\nMining require compute power, and increasing powerful hardware over time.\nMining requires electricity\nMining requires high throughput internet access\nMining is high risk, as being the nonce-discovering node is unlikely.\n\n\nBy convention, the first transaction in a block is a special transaction that starts a new coin owned by the creator of the block.\n\nclass Block: def __init__(self, some_trns, prev_blck, many_zero = 1): self.some_trns = tuple(some_trns.insert(0, Coin(my_public_key, None, None)))\nThe successful miner may invent a coin out of thin air (well, out of CPU)\nThis is where coins come from!\nThey are legitimized by the block being accepted, same as any other transaction"
+  },
+  {
+    "objectID": "merkle.html#incentive-1",
+    "href": "merkle.html#incentive-1",
+    "title": "bchain",
+    "section": "Incentive",
+    "text": "Incentive\n\nThe system only works if there’s a reason to invest in mining\n\nThe incentive can also be funded with transaction fees\n\n\nIf you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.\nThis is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.\nTransaction fees allow inflationless mining.\nThe last bitcoin (21M’th) will be mined circa 2140 and the system will be fee-only at that time.\n\nThe incentive may help encourage nodes to stay honest.\n\nSN, paraphrased: Fees will likely be more lucrative than theft.\nCD: Attackers will likely be political motivated to destabilize the currency."
+  },
+  {
+    "objectID": "merkle.html#pruning",
+    "href": "merkle.html#pruning",
+    "title": "bchain",
+    "section": "Pruning",
+    "text": "Pruning\n\nBitcoin scaling is a real problem, but\nThere’s a lot of ways to handle that.\nOnly the most recent transaction on a coin must be saved, for example.\n\nOnce the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded to save disk space.\n\nThis is done using a little thing called “Merkle Tree” which happens to be…\nA Directed Acyclic Graph\n\n\n\n\nSouthwest Chief at Laguna, February 2020\n\n\nGraph Theory: Cool, Fun, Practical"
+  },
+  {
+    "objectID": "merkle.html#merkle-tree",
+    "href": "merkle.html#merkle-tree",
+    "title": "bchain",
+    "section": "Merkle Tree",
+    "text": "Merkle Tree\n\nDisclosure: Wikipedia claims Merkle Trees are a computer science topic:\n\nIn cryptography and computer science, a hash tree or Merkle tree is a tree in which…\n\nI am a computer scientist.\nI’m sorry! I think they’re really cool!\nAnyways a ‘tree’ is a DAG where:\n\nThere is a root node, with no incoming edges\nEvery other edge has exactly one incoming edge\n\n\n\n\n\nTree (computer science)\n\n\nI should probably say “hash tree” (descriptive name) but I’m really used to hearing “Merkle tree”."
+  },
+  {
+    "objectID": "merkle.html#merkle-tree-1",
+    "href": "merkle.html#merkle-tree-1",
+    "title": "bchain",
+    "section": "Merkle Tree",
+    "text": "Merkle Tree\n\nNew term: Leaf (or leaf node)\n\nA leaf is a vertex (or node) of a tree with no outgoing edges.\n\nIn a hash tree, a leaf node contains some data and a hash of that data. # Github Copilot wrote this given the name class HashTreeLeaf: def __init__(self, data): self.data = data self.hash = hash(data) def __hash__(self): return self.hash"
+  },
+  {
+    "objectID": "merkle.html#merkle-tree-2",
+    "href": "merkle.html#merkle-tree-2",
+    "title": "bchain",
+    "section": "Merkle Tree",
+    "text": "Merkle Tree\n\nEvery other node n contains:\n\nA hash\nComputed over the the hashs\nOf the nodes, for which\nn has a corresponding outgoing edge.\n\nTo my knowledge, all Merkle/hash trees are binary trees\n\nA binary tree is a tree in which no node has more than two outgoing edges.\n\n# Github Copilot wrote this given the name class HashTreeNode: def __init__(self, left, rite): assert(left != None) # added by cd self.left = left self.rite = rite self.hash = hash(left)^hash(rite) def __hash__(self): return self.hash\nThis allows non-leaf nodes to have one or two outgoing edges."
+  },
+  {
+    "objectID": "merkle.html#binary-tree-ops",
+    "href": "merkle.html#binary-tree-ops",
+    "title": "bchain",
+    "section": "Binary Tree Ops",
+    "text": "Binary Tree Ops\n\nBinary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.\nThey are not in scope here.\nIf you need to implement a Merkle tree, find someone else’s “binary search tree” code and add the hashing to it.\nGenerative AIs (all, not just Github Copilot) can usually do BSTs in any given language.\nThey cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.\nRealistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes)."
+  },
+  {
+    "objectID": "merkle.html#merkle-tree-3",
+    "href": "merkle.html#merkle-tree-3",
+    "title": "bchain",
+    "section": "Merkle Tree",
+    "text": "Merkle Tree\n\nThis is a very good visualization:\n\nAll data/coins/transactions are in leaf nodes\nExtremely difficulty to falsify anything, due to all the computed hashes\nOld transactions can be discarded\nOld enough trees may be empty (!!!) if all constituent coins are spent.\nThis is likely since the most used coins are… the most used coins."
+  },
+  {
+    "objectID": "merkle.html#merkle-tree-4",
+    "href": "merkle.html#merkle-tree-4",
+    "title": "bchain",
+    "section": "Merkle Tree",
+    "text": "Merkle Tree\n\nThis is a very good visualization of pruning:\n\n\nThis is a Satoshi Nakamoto graphic."
+  },
+  {
+    "objectID": "merkle.html#pruning-use",
+    "href": "merkle.html#pruning-use",
+    "title": "bchain",
+    "section": "Pruning Use",
+    "text": "Pruning Use\n\nI am unable to characterize expected savings to pruning:\n\nUsers report around 100x (500GB to 5GB)\nMost coins appear to be part of zero transactions\nSome large clusters of coins, like SN’s, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.\nSo coin velocity, median/average transactions, frequency are all very difficult to characterize.\nAlso likely volatile.\n\nIn general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.\nIn general: Hard for competing standards to catch on."
+  },
+  {
+    "objectID": "merkle.html#pruning-efficacy",
+    "href": "merkle.html#pruning-efficacy",
+    "title": "bchain",
+    "section": "Pruning Efficacy",
+    "text": "Pruning Efficacy\n\nWe can see how much better one Merkle tree is if maximally pruned.\n\nHave around 4k transactions per block\nSo for binary Merkle trees, that is log2(4k) ~= 12 levels\nThat is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.\nΣ 2_n_ = 2_n+1_-1, or &gt;&gt;&gt; sigma = lambda x : sum([2 ** n for n in range(x+1)]) &gt;&gt;&gt; close = lambda x : 2 ** (x + 1) - 1 # for \"closed form\" &gt;&gt;&gt; for x in range(50): ... assert(close(x) == sigma(x)) ... &gt;&gt;&gt;\nAny unpruned tree would have 2^13-1 internal and 2^12 leaf nodes\nA tree with one remaining transaction would have on leaf node and two internal nodes per ‘level’\nThat is, 2*12 internal and 1 leaf node. &gt;&gt;&gt; savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 ) &gt;&gt;&gt; savin(10) 0.006838163464669489 &gt;&gt;&gt; savin(12) 0.002034670790266135"
+  },
+  {
+    "objectID": "merkle.html#on-memory-usage",
+    "href": "merkle.html#on-memory-usage",
+    "title": "bchain",
+    "section": "On Memory Usage",
+    "text": "On Memory Usage\n\nArithmetic!\n\nA block header with no transactions would be about 80 bytes. If we suppose blocks are generated every 10 minutes, 80 bytes * 6 * 24 * 365 = 4.2MB per year.\n\nI don’t think that estimate is accurate but I’m not sure why it wouldn’t be. I think SN is only counting the block headers, not the trees?\n\nWith computer systems typically selling with 2GB of RAM as of 2008, and Moore’s Law predicting current growth of 1.2GB per year, storage should not be a problem even if the block headers must be kept in memory\n\nIn 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)\n\nIt is possible to verify payments without running a full network node.\n\nSN notes you can just submit a transaction and if it’s accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories."
+  },
+  {
+    "objectID": "merkle.html#transactions",
+    "href": "merkle.html#transactions",
+    "title": "bchain",
+    "section": "Transactions",
+    "text": "Transactions\n\nWe previously imagined a coin contains:\n\nThe public key of the current owner\nThe record of all previous owners\nThe signature of the previous owner, generated over (1) and (2)\n\nThese are all integers, more or less, that can be verified. &gt;&gt;&gt; Coin(*[randint(0,1024 * 1024) for _ in range(3)]) &lt;Coin object at 0x7f765208eb90&gt; # NOT verified\nWell… there’s actually no reason to have a single former owner or future owner.\nSo transactions can have multiple inputs before being bundled in hash trees.\nWe can think of them as dictionaries of send/recieve signatures and values.\n\nAfter this semester, we will change ownership of evening classes! &gt;&gt;&gt; Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1} {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1} hash(...)) &lt;Coin object at 0x7f765208eb90&gt;\nThis has a de facto negative transaction fee (it’s a bad metaphor)\n\nMostly: This allows transactions to not all be off the same price.\nThis allows using a unique ID for transactions and still spend all at once."
+  },
+  {
+    "objectID": "merkle.html#multi-transaction",
+    "href": "merkle.html#multi-transaction",
+    "title": "bchain",
+    "section": "Multi Transaction",
+    "text": "Multi Transaction\n\nWe can visualize as follows:\n\n\nThis is a Satoshi Nakamoto graphic."
+  },
+  {
+    "objectID": "merkle.html#privacy",
+    "href": "merkle.html#privacy",
+    "title": "bchain",
+    "section": "Privacy",
+    "text": "Privacy\n\nThe necessity to announce all transactions publicly precludes this method, but privacy can still be maintained by breaking the flow of information in another place: by keeping public keys anonymous.\n\n\nSN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.\nCD claims the considerable metadata leaks are a marked loss in privacy, but that’s okay.\nBanks have full knowledge and routinely have e.g. data breaches, illegal ad targetting, etc.\nWells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization\nThis ’big banks perspective actually isn’t too far off.\n\nThis is similar to the level of information released by stock exchanges\n\nLastly - if you have been part of n transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.\n\nAs an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner."
+  },
+  {
+    "objectID": "merkle.html#privacy-1",
+    "href": "merkle.html#privacy-1",
+    "title": "bchain",
+    "section": "Privacy",
+    "text": "Privacy\n\nWe can visualize as follows:\n\n\nThis is a Satoshi Nakamoto graphic."
+  },
+  {
+    "objectID": "merkle.html#bonus-calculations",
+    "href": "merkle.html#bonus-calculations",
+    "title": "bchain",
+    "section": "Bonus: Calculations",
+    "text": "Bonus: Calculations\n\nSN closes with a brief essay on probability, including calculations in the C programming language\nAlso known as: my favorite thing.\nRegard the following as bonus slides, but that are really cool!"
+  },
+  {
+    "objectID": "merkle.html#calculations",
+    "href": "merkle.html#calculations",
+    "title": "bchain",
+    "section": "Calculations",
+    "text": "Calculations\n\nWe consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.\n\n\nIn the (quite) early days, gaining a control of a majority of miners was regarded as impossible.\nIn 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.\nRead more on Wikipedia\nGHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.\nIn any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed."
+  },
+  {
+    "objectID": "merkle.html#calculations-1",
+    "href": "merkle.html#calculations-1",
+    "title": "bchain",
+    "section": "Calculations",
+    "text": "Calculations\n\nWe consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.\n\n\nWe use a “Binomial Random Walk”\n\nWe progress along the integer number line, that is, {…, -1, 0, 1, 2…}\nThe value given is the length lead maintained by the “honest” (non-attacker) chain.\nSo if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.\n\nAttacker outpacing is equivalent to the “Gambler’s Ruin” problem.\n\nGambler has infinite $ and targets breakeven in potentially infinite time\n\nSN uses mathematical notation, I’ll use Python. def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk): assert(prob_next_hnst + prob_next_attk == 1) z = attk_blck_bhnd p, q = prob_next_hnst, prob_next_attk if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z\nprob_attk_ctch(z, p, q) is the probabilty an attacker z blocks behind an honest chain catches up given that the attack controls fraction share q ∈ [0,1] of the total nodes."
+  },
+  {
+    "objectID": "merkle.html#calculations-2",
+    "href": "merkle.html#calculations-2",
+    "title": "bchain",
+    "section": "Calculations",
+    "text": "Calculations\n\nWe consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.\n\n\nMuch easier if we consider a single attacker calculating their catchup probability. def prob_ctch(blck_bhnd, node_frac): z, p, q = blck_bhnd, 1 - node_frac, node_frac if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z\nThese numbers are actually higher than I intuitively expected, using e.g. GHash.io’s 40% (assuming GHash.io somehow became compromised) &gt;&gt;&gt;&gt; {n:prob_ctch(n, .4) for n in range(1,10,2)} {1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946} &gt;&gt;&gt; {n/10:prob_ctch(3, n/10) for n in range(1,5)} {0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}"
+  },
+  {
+    "objectID": "merkle.html#calculations-3",
+    "href": "merkle.html#calculations-3",
+    "title": "bchain",
+    "section": "Calculations",
+    "text": "Calculations\n\nGiven our assumption that p &gt; q, the probability drops exponentially as the number of blocks the attacker has to catch up with increases.\n\n\nIt occurs to me I can write this in .js with a canvas element.\n\nfunction qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById(‘q’).value const z = document.getElementById(‘z’).value const c = document.getElementById(‘plot’).getContext(“2d”) c.strokeStyle = “white” c.clearRect(0,0,800,800) c.strokeStyle = “black” for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } Set q ∈ (0,.5) Set z &gt; 0"
+  },
+  {
+    "objectID": "merkle.html#code",
+    "href": "merkle.html#code",
+    "title": "bchain",
+    "section": "code",
+    "text": "code\n&lt;script&gt; function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext(\"2d\") c.strokeStyle = \"white\" c.clearRect(0,0,800,800) c.strokeStyle = \"black\" for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } &lt;/script&gt; &lt;input value=\".4\" type=\"number\" min=\"0\" max=\"0.5\" id=\"q\"&gt; &lt;button onclick=\"draw()\" type=\"button\"&gt;Set &lt;em&gt;q&lt;/em&gt; ∈ (0,.5)&lt;/button&gt; &lt;input value=\"5\" type=\"number\" min=\"1\" id=\"z\"&gt; &lt;button onclick=\"draw()\" type=\"button\"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0 &lt;/button&gt;&lt;br&gt; &lt;canvas style=\"background-color:white\" id=\"plot\" width=\"800\" height=\"800\"&gt;&lt;/canvas&gt;\nFIN\n\n\nDistributed consensus is non-trivial.\nIt tends to rely on math in the most classical sense of the term.\nIt allows a lot of new possibilities.\nIt uses a lot of cloud technologies.\nIt powers a lot of cloud technologies."
+  },
+  {
+    "objectID": "list_t.html",
+    "href": "list_t.html",
+    "title": "list_t",
+    "section": "",
+    "text": "This is the first of two “data structures” assignments, implementing the “chain” of blockchain.\nThe data stored by the structure is simply a void * which could be:\n\nA pointer to a block, or\nFor the test, a numerical value cast to void *\n\nIt is split over 3 files:\n\ntester.c which is an example of how some client could use list_t\nlist_t.h which the public API you will implement, as with 4096_t\n\nChange only the typedef line.\n\nlist_t.c which you may implement in any way you like.\nAdditionally, a Makefile is provided."
+  },
+  {
+    "objectID": "list_t.html#implement-big-primality-testing",
+    "href": "list_t.html#implement-big-primality-testing",
+    "title": "BigRSA",
+    "section": "Implement Big Primality Testing",
+    "text": "Implement Big Primality Testing\n\nIt turns out this is impossible. Nevertheless, we have a plan.\n\n\nImplement randomization via /dev/random\n\n/dev/random and the more prefered but less established /dev/urandom are file-like random number generations that could plausibly be cryptographically secure on your system.\nWe will not be able to implement cryptographically secure RSA, but we should follow the random number generation convention.\nBasically, we read from /dev/random as we would any other file, here is an example of reading and printing 4096 “random” bits.\n\nS is a constant defined in 4096_t\n\n\n\n\nBigRNG.c\n\n#include \"4096_t.h\"\n\nint main() {\n        uint64_t bignum[S];\n        FILE *fp = fopen(\"/dev/random\", \"r\");\n        fread(bignum, sizeof(uint64_t), S, fp);\n        fclose(fp);\n        seebig(bignum);\n        return 0;\n}\n\n\nYou will need to use randomization to select your primes.\n\n\n\nImplement Big Prime Generation\n\nUse:\n\nlibgmp\n/dev/random\n\nBasically, get this to work.\n\nIt seemed fine for me.\n-lgmp\n\n\n\n\nBigRNG.c\n\nvoid prigmp(uint64_t *big, uint8_t words) {\n    /* populate from buffer */\n    mpz_t m;\n    FILE *fp = fopen(\"/dev/random\", \"r\");\n    memset(big, 0, BYTES);\n    fread(big, sizeof(uint64_t), words, fp);\n    fclose(fp);\n    mpz_init(m);\n    mpz_import(m, S, -1, sizeof(uint64_t), 0, 0, big);\n    mpz_nextprime(m, m);\n    mpz_export(big, NULL, -1, sizeof(uint64_t), 0, 0, m);\n    mpz_clear(m);\n    return;\n}"
+  },
+  {
+    "objectID": "list_t.html#implement-biggcd",
+    "href": "list_t.html#implement-biggcd",
+    "title": "BigRSA",
+    "section": "Implement BigGCD",
+    "text": "Implement BigGCD\n\nModifying the extended Euclidean algorithm / extended gcd for use with the 4096_t ints.\nI had to do the following:\n\nChange all arithmetic operations from using infix operators like \\(+\\) or \\(/\\).\nModifying the Euclidean algorithm to use only positive values.\nTest extensively.\n\nYou can also implement 4096_t to accomodate negative values (which I did not do).\n\nI instead created different local values with my EEA function that tracked whether everything was positive or negative.\nThen wrote wrapper functions around the “big” operations that tracked the sign values."
+  },
+  {
+    "objectID": "list_t.html#generate-keys",
+    "href": "list_t.html#generate-keys",
+    "title": "BigRSA",
+    "section": "Generate Keys",
+    "text": "Generate Keys\n\nWrite a 4096 bit .bad and .pub file.\nImplement in a .c file called “bigkey.c”\n\nIt should behave identically to “keygen.c”, but generate 4096 bit keys.\nThe 4096 bit refers to how large the \\(n\\) value should be\nE.g. the \\(e\\) value may still be (decimal) 65537\n\nThe KeyGen description from “RSAinC” in provided below, as reference:\n\n\nA Private Key in 3 Parts\n\nWe recall that the private key minimally contains:\n\nn, a modular base\ne, an encryptor, and\nd, a descryptor.\n\nBased on the KeyGen lab, it should be uncomplicated to calculate these values for 64 bit keys.\nWe will use .bad instead of .pem and insecurely store these values in plaintext.\nWe will then make executables to generate .bad and encrypt content provided a .bad\n\nWe name a .bad so helpfully we don’t use it by accident.\n\nWe will naively print 3 lines of hexademical values, n, e, then d.\nWe will write them to a 5-line file as follows:\n\nThe first line is the precise header text.\nThe second line is the n value in hexadecimal.\nThe third line is the e value, which is 10001.\nThe fourth line is the d value, which should be kept secret.\nThe fifth and final line is the precise footer text.\n\n\n\n\nunsafe.bad\n\n-----BEGIN UNSAFE PRIVATE KEY-----\n95a61f99198bd8e9\n10001\nfbea5e6a3ed31e8f\n-----END UNSAFE PRIVATE KEY-----\n\n\n\nA Public Key in 2 Parts\n\nWe recall that the public key contains, and should only contain:\n\nn, a modular base, and\ne, an encryptor\n\nBased on the KeyGen lab, we already have the ability to write these values to file.\nWe will use .pub instead of .pem or .bad\n\nNot a huge deal how these are stored, actually.\nThe key itself though, is still unsafe to use.\n\nWe will naively print 2 lines of hexademical values, n, then e.\nWe will right them to a file prefixed and suffixed as follows:\n\n\n\nunsafe.pub\n\n-----BEGIN UNSAFE PUBLIC KEY-----\n95a61f99198bd8e9\n10001\n-----END UNSAFE PUBLIC KEY-----"
+  },
+  {
+    "objectID": "list_t.html#implement-end-to-end-4096-bit-rsa",
+    "href": "list_t.html#implement-end-to-end-4096-bit-rsa",
+    "title": "BigRSA",
+    "section": "Implement End-to-end 4096 bit RSA",
+    "text": "Implement End-to-end 4096 bit RSA\n\nDo so in a novel file, bigrsa.c, which should:\n\nAccept 3 command line arguments:\n\nA flag -d or -e for decrypt or encrypt\nThe file name of an input file.\nThe file name of an output file.\n\nIt should:\n\nRead the content of the input file.\nEncrypt or decrypt, as specified, the file contents.\n\nIt should read n and d from “unsafe.bad” to decrypt.\nIt should read n and e from “unsafe.pub” to encrypt.\n\nWrite the encrypted or decrypted content to the output file.\n\n\nYour BigRSA should function over either “keygen.c” 32 bit keys or “bigkey.c” 4096 bit keys."
+  },
+  {
+    "objectID": "list_t.html#a-note",
+    "href": "list_t.html#a-note",
+    "title": "BigRSA",
+    "section": "A Note",
+    "text": "A Note\n\nBe advised that the square of a 4096 bit value requires 8198 bits to specify.\nIt is reasonable to test of 512 (openssl minimum) or 1024 (ssh-keygen minumum size)"
+  },
+  {
+    "objectID": "list_t.html#tester",
+    "href": "list_t.html#tester",
+    "title": "BigRSA",
+    "section": "“Tester”",
+    "text": "“Tester”\n\nRather than provide an end-to-end containerized autograder, I am providing a Makefile.\n\nwget https://github.com/cd-c89/refrsa/raw/refs/heads/main/Makefile # curl was struggling\n\n\nMakefile\n\nCC = gcc # or clang\nCFLAGS = -std=c89 -Wall -Wextra -Werror -Wpedantic -O2\nCLIBS = -lgmp # for biggmp and primes\nBIGNUM = biggmp.c # or use 4096_t.c\n\nall: bigrsa bigkey\n\nbigrsa: bigrsa.c $(BIGNUM) 4096_t.h\n    $(CC) bigrsa.c $(BIGNUM) $(CFLAGS) -o bigrsa $(CLIBS)\n    \nbigkey: bigkey.c $(BIGNUM) 4096_t.h\n    $(CC) bigkey.c $(BIGNUM) $(CFLAGS) -o bigkey $(CLIBS)\n\nclean:\n    rm -f bigrsa bigkey unsafe.* *.txt\n\ncheck: bigrsa bigkey\n    ./bigkey\n    echo \"Multiple of four chars.\" &gt; m.txt\n    ./bigrsa -e m.txt c.txt\n    ./bigrsa -d c.txt n.txt\n    diff m.txt n.txt\n\n\nI am also providing:\n\nA reference solution that uses this Makefile.\nA GitHub action that uses this Makefile:\n\n\n\n\nC89.yml\n\nname: C89 CI\n\non: push\n    \njobs:\n  build:\n    runs-on: ubuntu-latest\n\n    steps:\n    - uses: actions/checkout@v4\n    - run: make check\n\n\nRead more in “Solved”"
+  },
+  {
+    "objectID": "list_t.html#solution",
+    "href": "list_t.html#solution",
+    "title": "BigRSA",
+    "section": "Solution",
+    "text": "Solution\n\nSpoiler alert: This section contains spoilers, including a working solution, to the BigRSA assignment.\n\n\n\n\n\n\n\nSpoiler Alert!\n\n\n\nThis section contains spoilers, including a working solution, to the BigRSA assignment."
+  },
+  {
+    "objectID": "list_t.html#a-reference-solution",
+    "href": "list_t.html#a-reference-solution",
+    "title": "BigRSA",
+    "section": "A Reference Solution",
+    "text": "A Reference Solution\n\nAfter careful reflection, the weight and challenge of this assignment made a single, in-container script insufficient, in my view, for testing.\nIn lieu, I am providing a full reference implementation, with a few caveats:\n\nI have maintained 4096_t solutions as closed source.\n\nInstead, I have implemented an interface to libgmp mpz_t numbers in biggmp.c\nIf you are stuck on 4096_t, you should use this as well.\n\nI am trusting you to either look at, or not look at, my code, based on what works best for your learning.\n\nIt is provided as is, and likely has few bugs, but probably not that few.\n\nI am not requiring you to have any particular interfacing, though I am providing one as an example."
+  },
+  {
+    "objectID": "list_t.html#a-perfect-system",
+    "href": "list_t.html#a-perfect-system",
+    "title": "BigRSA",
+    "section": "A Perfect System",
+    "text": "A Perfect System\n\nA perfect project will:\n\nUse a ‘bigkey’ executable once to perform key generation:\n\nWrite keys to two files, one public and one private.\n\nUse a ‘bigrsa’ executable twice to perform “round trip” encryption on a greater than 64 bit data file.\n\nWrite more than 64 bits to a data file.\n\nIt is easier to do a precise multiple of 64\n\nEncrypt this file and store the ciphertext as a new file.\nDecrypt the cipher text file.\nTake a diff of the input file and the decrypted file.\n\nIf the return code of diff $? is 0, the project is a success."
+  },
+  {
+    "objectID": "list_t.html#an-explanation",
+    "href": "list_t.html#an-explanation",
+    "title": "BigRSA",
+    "section": "An explanation",
+    "text": "An explanation\n\nWhy this implementation?\n\nI could not find a way I liked to specify:\n\nStoring keys\nStory cipher texts\nSetting key lengths\n\nI felt any specification was unfairly restrictive."
+  },
+  {
+    "objectID": "list_t.html#how-to-use-the-reference-repository",
+    "href": "list_t.html#how-to-use-the-reference-repository",
+    "title": "BigRSA",
+    "section": "How to use the reference repository",
+    "text": "How to use the reference repository\n\nEither clone the repository and include your own bigrsa and bigkey or,\nAdd the relevant files to your crypto repository.\nStudy the Makefile closely, and use this reference material or #help-line if you are confused.\n\nMy favorite Makefile tutorial\n\nYou are not required to use GitHub actions (or containers, conspiciously absent) but may wish to do so.\nYou don’t need to think about clang vs gcc, but I wanted to show you clang and Makefile variables."
+  },
+  {
+    "objectID": "list_t.html#the-repository",
+    "href": "list_t.html#the-repository",
+    "title": "BigRSA",
+    "section": "The Repository",
+    "text": "The Repository\n\n\n\n\n\n\nExpand for Reference Solution\n\n\n\n\n\n\nThe repository is publicly visible at github.com/cd-c89/refrsa"
+  },
+  {
+    "objectID": "list_t.html#option-0x0-linked-list-lisp-list",
+    "href": "list_t.html#option-0x0-linked-list-lisp-list",
+    "title": "list_t",
+    "section": "Option 0x0: Linked List (“LISP list”)",
+    "text": "Option 0x0: Linked List (“LISP list”)\n\nOne obvious way to implement list_t is as a linked list.\n\nA list is a void ** of length 2.\nThe first element is the data element.\nThe second element is a pointer to another list or NULL in the case of no other elements.\nEvery add/remove requires a corresponding malloc/free.\n\n\n\n\nlist_t.h\n\ntypedef void **list_t;"
+  },
+  {
+    "objectID": "list_t.html#option-0x1-a-null-terminated-vector-c-vector",
+    "href": "list_t.html#option-0x1-a-null-terminated-vector-c-vector",
+    "title": "list_t",
+    "section": "Option 0x1: A null-terminated vector (“C vector”)",
+    "text": "Option 0x1: A null-terminated vector (“C vector”)\n\nOne obvious way to implement `list_t is as a null-terminated array, buffer, or vector.\n\nA list is a void ** of unspecified length, one greater than the number of elements.\nEvery void * is some data element, except,\nSome final terminating element is NULL\nEither:\n\nThe entire structure is malloced/freed for any change or,\nSomehow mallocs and frees occur only occasionally.\n\nMost obviously by manually calculating size and only resizing when increasing past some power of two in size.\n\n\n\n\n\n\nlist_t.h\n\ntypedef void **list_t;"
+  },
+  {
+    "objectID": "list_t.html#option-0x2-a-length-prefixed-vector-pascal-vvector",
+    "href": "list_t.html#option-0x2-a-length-prefixed-vector-pascal-vvector",
+    "title": "list_t",
+    "section": "Option 0x2: A length-prefixed vector (Pascal vvector)",
+    "text": "Option 0x2: A length-prefixed vector (Pascal vvector)\n\nOne obvious way to implement `list_t is as a length-prefixed array, buffer, or vector.\n\nA list is a void ** of specified length, one greater than the number of elements.\nThe first element is a size_t cast to a void * representing the length.\n\nRecall, void * and size_t must be the same size, as they both describe the size of the computer’s memory.\nYou may manage “off-by-one” in any way you like here.\n\nEvery successive element is a data element.\nEither:\n\nThe entire structure is malloced/freed for any change or,\nSomehow mallocs and frees occur only occasionally.\n\nMost obviously by manually calculating size and only resizing when increasing past some power of two in size.\n\n\n\n\n\n\nlist_t.h\n\ntypedef void **list_t;"
+  },
+  {
+    "objectID": "list_t.html#other-options",
+    "href": "list_t.html#other-options",
+    "title": "list_t",
+    "section": "Other options",
+    "text": "Other options\n\nAn astute student may realize that:\n\nIt is trivial to both length-prefix and null-terminate\nIt is trivial for an element of a linked list to be a vector of some length, say 16.\n\nAn astute student may wish to implement a doubly-linked list or a binary tree that exposes a list interface.\nAdvanced students should implement an XOR list, which is left as an exercise to the interested student.\n\nAdvanced students should consider how valgrind would regard an XOR list."
+  },
+  {
+    "objectID": "list_t.html#novel-header",
+    "href": "list_t.html#novel-header",
+    "title": "list_t",
+    "section": "Novel Header",
+    "text": "Novel Header\n\nAlongside the tester, the expected behavior of the list_t type is defined by the comments and function type specified in list_t.h."
+  },
+  {
+    "objectID": "list_t.html#novel-tester",
+    "href": "list_t.html#novel-tester",
+    "title": "list_t",
+    "section": "Novel Tester",
+    "text": "Novel Tester\n\nVersus other testers this term, I wanted to provide a more concrete file that actually used the list_t, performed operations, and issued outputs as print statements.\nI hope that tester is self-documenting, but would love to hear your questions!"
+  },
+  {
+    "objectID": "list_t.html#option-0x2-a-length-prefixed-vector-pascal-vector",
+    "href": "list_t.html#option-0x2-a-length-prefixed-vector-pascal-vector",
+    "title": "list_t",
+    "section": "Option 0x2: A length-prefixed vector (“Pascal vector”)",
+    "text": "Option 0x2: A length-prefixed vector (“Pascal vector”)\n\nOne obvious way to implement `list_t is as a length-prefixed array, buffer, or vector.\n\nA list is a void ** of specified length, one greater than the number of elements.\nThe first element is a size_t cast to a void * representing the length.\n\nRecall, void * and size_t must be the same size, as they both describe the size of the computer’s memory.\nYou may manage “off-by-one” in any way you like here.\n\nEvery successive element is a data element.\nEither:\n\nThe entire structure is malloced/freed for any change or,\nSomehow mallocs and frees occur only occasionally.\n\nMost obviously by manually calculating size and only resizing when increasing past some power of two in size.\n\n\n\n\n\n\nlist_t.h\n\ntypedef void **list_t;"
   }
 ]

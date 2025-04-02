@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Prof.&nbsp;Calvin">
+
+<title>bchain</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-3a01e2046221230fdceeea94b1ec5d67.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-10e2b8cb601c90176168b527a2d8c7ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="merkle.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">bchain</h1>
+<p class="subtitle lead">Week 0xA II</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Prof.&nbsp;Calvin </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Crypto
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="announcements" class="level1">
+<h1>Announcements</h1>
+<ul>
+<li><strong>Welcome</strong> to variously CS 276/CS 540
+<ul>
+<li>Blockchain</li>
+</ul></li>
+<li><strong>Action Items</strong>:
+<ul>
+<li>list_t after this</li>
+</ul></li>
+</ul>
+</section>
+<section id="today" class="level1">
+<h1>Today</h1>
+<ul>
+<li>Background</li>
+<li>Blocks
+<ul>
+<li>Just <code>struct</code>s</li>
+</ul></li>
+</ul>
+<section id="the-bitcoin-network" class="level2">
+<h2 class="anchored" data-anchor-id="the-bitcoin-network">The Bitcoin Network</h2>
+<ul>
+<li>The network operates as follows (CD:)
+<ol type="1">
+<li>Broadcast (Transactions)</li>
+<li>Collect</li>
+<li>Work/Mine</li>
+<li>Broadcast (Block)</li>
+<li>Accept</li>
+<li>Express</li>
+</ol></li>
+</ul>
+</section>
+<section id="incentive" class="level2">
+<h2 class="anchored" data-anchor-id="incentive">Incentive</h2>
+<ul>
+<li><p>The system only works if there’s a reason to invest in mining</p>
+<ul>
+<li>Mining require compute power, and increasing powerful hardware over time.</li>
+<li>Mining requires electricity</li>
+<li>Mining requires high throughput internet access</li>
+<li>Mining is high risk, as being the nonce-discovering node is unlikely.</li>
+</ul>
+<blockquote class="blockquote">
+<p>By convention, the first transaction in a block is a special transaction that starts a new coin owned by the creator of the block.</p>
+</blockquote>
+<p><code>class Block: def __init__(self, some_trns, prev_blck, many_zero = 1): self.some_trns = tuple(some_trns.insert(0, Coin(my_public_key, None, None)))</code></p></li>
+<li><p>The successful miner may invent a coin out of thin air (well, out of CPU)</p></li>
+<li><p>This is where coins come from!</p></li>
+<li><p>They are legitimized by the block being accepted, same as any other transaction</p></li>
+</ul>
+</section>
+<section id="incentive-1" class="level2">
+<h2 class="anchored" data-anchor-id="incentive-1">Incentive</h2>
+<ul>
+<li><p>The system only works if there’s a reason to invest in mining</p>
+<blockquote class="blockquote">
+<p>The incentive can also be funded with transaction fees</p>
+</blockquote>
+<ul>
+<li><p>If you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.</p></li>
+<li><p>This is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.</p></li>
+<li><p>Transaction fees allow inflationless mining.</p></li>
+<li><p>The last bitcoin (21M’th) will be mined circa 2140 and the system will be fee-only at that time.</p>
+<blockquote class="blockquote">
+<p>The incentive may help encourage nodes to stay honest.</p>
+</blockquote></li>
+<li><p>SN, paraphrased: Fees will likely be more lucrative than theft.</p></li>
+<li><p>CD: Attackers will likely be political motivated to destabilize the currency.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="pruning" class="level2">
+<h2 class="anchored" data-anchor-id="pruning">Pruning</h2>
+<ul>
+<li><p>Bitcoin scaling is a real problem, but</p></li>
+<li><p>There’s a lot of ways to handle that.</p></li>
+<li><p>Only the most recent transaction on a coin must be saved, for example.</p>
+<blockquote class="blockquote">
+<p>Once the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded to save disk space.</p>
+</blockquote></li>
+<li><p>This is done using a little thing called “Merkle Tree” which happens to be…</p></li>
+<li><p>A Directed Acyclic Graph</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://commons.wikimedia.org/wiki/File:Southwest_Chief_at_Laguna,_February_2020.jpg" title="Jerry Huddleston from Hampton, Minnesota, US, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons"><img src="Blockchain_files/Southwest_Chief_at_Laguna,_February_2020.jpg" class="img-fluid figure-img" alt="Southwest Chief at Laguna, February 2020"></a></p>
+<figcaption>Southwest Chief at Laguna, February 2020</figcaption>
+</figure>
+</div>
+<p><em>Graph Theory: Cool, Fun, Practical</em></p>
+</section>
+<section id="merkle-tree" class="level2">
+<h2 class="anchored" data-anchor-id="merkle-tree">Merkle Tree</h2>
+<ul>
+<li><p>Disclosure: Wikipedia claims Merkle Trees are a computer science topic:</p>
+<blockquote class="blockquote">
+<p>In cryptography and computer science, a hash tree or Merkle tree is a tree in which…</p>
+</blockquote></li>
+<li><p>I am a computer scientist.</p></li>
+<li><p>I’m sorry! I think they’re really cool!</p></li>
+<li><p>Anyways a ‘tree’ is a DAG where:</p>
+<ul>
+<li>There is a root node, with no incoming edges</li>
+<li>Every other edge has exactly one incoming edge</li>
+</ul></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg" title="Paddy3118, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons"><img src="Blockchain_files/Tree_(computer_science).svg.png" class="img-fluid figure-img" alt="Tree (computer science)"></a></p>
+<figcaption>Tree (computer science)</figcaption>
+</figure>
+</div>
+<p>I should probably say “hash tree” (descriptive name) but I’m really used to hearing “Merkle tree”.</p>
+</section>
+<section id="merkle-tree-1" class="level2">
+<h2 class="anchored" data-anchor-id="merkle-tree-1">Merkle Tree</h2>
+<ul>
+<li>New term: Leaf (or leaf node)
+<ul>
+<li>A leaf is a vertex (or node) of a tree with no outgoing edges.</li>
+</ul></li>
+<li>In a hash tree, a leaf node contains some data and a hash of that data. <code># Github Copilot wrote this given the name class HashTreeLeaf: def __init__(self, data): self.data = data self.hash = hash(data) def __hash__(self): return self.hash</code></li>
+</ul>
+</section>
+<section id="merkle-tree-2" class="level2">
+<h2 class="anchored" data-anchor-id="merkle-tree-2">Merkle Tree</h2>
+<ul>
+<li><p>Every other node <em>n</em> contains:</p>
+<ul>
+<li>A hash</li>
+<li>Computed over the the hashs</li>
+<li>Of the nodes, for which</li>
+<li><em>n</em> has a corresponding outgoing edge.</li>
+</ul></li>
+<li><p>To my knowledge, all Merkle/hash trees are binary trees</p>
+<ul>
+<li>A binary tree is a tree in which no node has more than two outgoing edges.</li>
+</ul>
+<p><code># Github Copilot wrote this given the name class HashTreeNode: def __init__(self, left, rite): assert(left != None) # added by cd self.left = left self.rite = rite self.hash = hash(left)^hash(rite) def __hash__(self): return self.hash</code></p></li>
+<li><p>This allows non-leaf nodes to have one or two outgoing edges.</p></li>
+</ul>
+</section>
+<section id="binary-tree-ops" class="level2">
+<h2 class="anchored" data-anchor-id="binary-tree-ops">Binary Tree Ops</h2>
+<ul>
+<li>Binary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.</li>
+<li>They are not in scope here.</li>
+<li>If you need to implement a Merkle tree, find someone else’s “binary search tree” code and add the hashing to it.</li>
+<li>Generative AIs (all, not just Github Copilot) can usually do BSTs in any given language.</li>
+<li>They cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.</li>
+<li>Realistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes).</li>
+</ul>
+</section>
+<section id="merkle-tree-3" class="level2">
+<h2 class="anchored" data-anchor-id="merkle-tree-3">Merkle Tree</h2>
+<ul>
+<li>This is a very good visualization:<br>
+<a href="https://commons.wikimedia.org/wiki/File:Hash_Tree.svg" title="Azaghal, CC0, via Wikimedia Commons"><img src="Blockchain_files/Hash_Tree.svg.png" class="img-fluid" alt="Hash Tree"></a></li>
+<li>All data/coins/transactions are in leaf nodes</li>
+<li>Extremely difficulty to falsify anything, due to all the computed hashes</li>
+<li>Old transactions can be discarded</li>
+<li>Old enough trees may be empty (!!!) if all constituent coins are spent.</li>
+<li>This is <em>likely</em> since the most used coins are… the most used coins.</li>
+</ul>
+</section>
+<section id="merkle-tree-4" class="level2">
+<h2 class="anchored" data-anchor-id="merkle-tree-4">Merkle Tree</h2>
+<ul>
+<li>This is a very good visualization of pruning:</li>
+</ul>
+<p><img src="Blockchain_files/Reclaiming Disk Space.png" class="img-fluid"></p>
+<p>This is a Satoshi Nakamoto graphic.</p>
+</section>
+<section id="pruning-use" class="level2">
+<h2 class="anchored" data-anchor-id="pruning-use">Pruning Use</h2>
+<ul>
+<li>I am unable to characterize expected savings to pruning:
+<ul>
+<li>Users report around 100x (500GB to 5GB)</li>
+<li>Most coins appear to be part of zero transactions</li>
+<li>Some large clusters of coins, like SN’s, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.</li>
+<li>So coin velocity, median/average transactions, frequency are all very difficult to characterize.</li>
+<li>Also likely volatile.</li>
+</ul></li>
+<li>In general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.</li>
+<li>In general: Hard for competing standards to catch on.</li>
+</ul>
+</section>
+<section id="pruning-efficacy" class="level2">
+<h2 class="anchored" data-anchor-id="pruning-efficacy">Pruning Efficacy</h2>
+<ul>
+<li>We can see how much better one Merkle tree is if maximally pruned.
+<ul>
+<li>Have around 4k transactions per block</li>
+<li>So for binary Merkle trees, that is log2(4k) ~= 12 levels</li>
+<li>That is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.</li>
+<li>Σ 2_n_ = 2_n+1_-1, or <code>&gt;&gt;&gt; sigma = lambda x : sum([2 ** n for n in range(x+1)]) &gt;&gt;&gt; close = lambda x : 2 ** (x + 1) - 1 # for "closed form" &gt;&gt;&gt; for x in range(50): ... assert(close(x) == sigma(x)) ... &gt;&gt;&gt;</code></li>
+<li>Any unpruned tree would have 2^13-1 internal and 2^12 leaf nodes</li>
+<li>A tree with one remaining transaction would have on leaf node and two internal nodes per ‘level’</li>
+<li>That is, 2*12 internal and 1 leaf node. <code>&gt;&gt;&gt; savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 ) &gt;&gt;&gt; savin(10) 0.006838163464669489 &gt;&gt;&gt; savin(12) 0.002034670790266135</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="on-memory-usage" class="level2">
+<h2 class="anchored" data-anchor-id="on-memory-usage">On Memory Usage</h2>
+<ul>
+<li><p>Arithmetic!</p>
+<blockquote class="blockquote">
+<p>A block header with no transactions would be about 80 bytes. If we suppose blocks are generated every 10 minutes, 80 bytes * 6 * 24 * 365 = 4.2MB per year.</p>
+</blockquote></li>
+<li><p>I don’t think that estimate is accurate but I’m not sure why it wouldn’t be. I think SN is only counting the block headers, not the trees?</p>
+<blockquote class="blockquote">
+<p>With computer systems typically selling with 2GB of RAM as of 2008, and Moore’s Law predicting current growth of 1.2GB per year, storage should not be a problem even if the block headers must be kept in memory</p>
+</blockquote></li>
+<li><p>In 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)</p>
+<blockquote class="blockquote">
+<p>It is possible to verify payments without running a full network node.</p>
+</blockquote></li>
+<li><p>SN notes you can just submit a transaction and if it’s accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories.</p></li>
+</ul>
+</section>
+<section id="transactions" class="level2">
+<h2 class="anchored" data-anchor-id="transactions">Transactions</h2>
+<ul>
+<li>We previously imagined a coin contains:
+<ol type="1">
+<li>The public key of the current owner</li>
+<li>The record of all previous owners</li>
+<li>The signature of the previous owner, generated over (1) and (2)</li>
+</ol></li>
+<li>These are all integers, more or less, that can be verified. <code>&gt;&gt;&gt; Coin(*[randint(0,1024 * 1024) for _ in range(3)]) &lt;Coin object at 0x7f765208eb90&gt; # NOT verified</code></li>
+<li>Well… there’s actually no reason to have a single former owner or future owner.</li>
+<li>So transactions can have multiple inputs before being bundled in hash trees.</li>
+<li>We can think of them as dictionaries of send/recieve signatures and values.
+<ul>
+<li>After this semester, we will change ownership of evening classes! <code>&gt;&gt;&gt; Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1} {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1} hash(...)) &lt;Coin object at 0x7f765208eb90&gt;</code></li>
+<li>This has a de facto negative transaction fee (it’s a bad metaphor)
+<ul>
+<li>Mostly: This allows transactions to not all be off the same price.</li>
+<li>This allows using a unique ID for transactions and still spend all at once.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="multi-transaction" class="level2">
+<h2 class="anchored" data-anchor-id="multi-transaction">Multi Transaction</h2>
+<ul>
+<li>We can visualize as follows:</li>
+</ul>
+<p><img src="Blockchain_files/1w.png" class="img-fluid"></p>
+<p>This is a Satoshi Nakamoto graphic.</p>
+</section>
+<section id="privacy" class="level2">
+<h2 class="anchored" data-anchor-id="privacy">Privacy</h2>
+<blockquote class="blockquote">
+<p>The necessity to announce all transactions publicly precludes this method, but privacy can still be maintained by breaking the flow of information in another place: by keeping public keys anonymous.</p>
+</blockquote>
+<ul>
+<li><p>SN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.</p></li>
+<li><p>CD claims the considerable metadata leaks are a marked loss in privacy, but that’s okay.</p></li>
+<li><p>Banks have full knowledge and routinely have e.g.&nbsp;data breaches, illegal ad targetting, etc.</p></li>
+<li><p><a href="https://www.justice.gov/opa/pr/wells-fargo-agrees-pay-3-billion-resolve-criminal-and-civil-investigations-sales-practices">Wells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization</a></p></li>
+<li><p>This ’big banks perspective actually isn’t too far off.</p>
+<blockquote class="blockquote">
+<p>This is similar to the level of information released by stock exchanges</p>
+</blockquote></li>
+<li><p>Lastly - if you have been part of <em>n</em> transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.</p>
+<blockquote class="blockquote">
+<p>As an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner.</p>
+</blockquote></li>
+</ul>
+</section>
+<section id="privacy-1" class="level2">
+<h2 class="anchored" data-anchor-id="privacy-1">Privacy</h2>
+<ul>
+<li>We can visualize as follows:</li>
+</ul>
+<p><img src="Blockchain_files/1_bE7DuVZlL_LVNe8R1t_qJA.png" class="img-fluid"></p>
+<p>This is a Satoshi Nakamoto graphic.</p>
+</section>
+<section id="bonus-calculations" class="level2">
+<h2 class="anchored" data-anchor-id="bonus-calculations">Bonus: Calculations</h2>
+<ul>
+<li>SN closes with a brief essay on probability, including calculations in the C programming language</li>
+<li>Also known as: my favorite thing.</li>
+<li>Regard the following as bonus slides, but that are really cool!</li>
+</ul>
+</section>
+<section id="calculations" class="level2">
+<h2 class="anchored" data-anchor-id="calculations">Calculations</h2>
+<blockquote class="blockquote">
+<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.</p>
+</blockquote>
+<ul>
+<li>In the (quite) early days, gaining a control of a majority of miners was regarded as impossible.</li>
+<li>In 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.</li>
+<li>Read more on <a href="https://en.wikipedia.org/wiki/GHash.io">Wikipedia</a></li>
+<li>GHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.</li>
+<li>In any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed.</li>
+</ul>
+</section>
+<section id="calculations-1" class="level2">
+<h2 class="anchored" data-anchor-id="calculations-1">Calculations</h2>
+<blockquote class="blockquote">
+<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.</p>
+</blockquote>
+<ul>
+<li>We use a “Binomial Random Walk”
+<ul>
+<li>We progress along the integer number line, that is, {…, -1, 0, 1, 2…}</li>
+<li>The value given is the length lead maintained by the “honest” (non-attacker) chain.</li>
+<li>So if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.</li>
+</ul></li>
+<li>Attacker outpacing is equivalent to the “Gambler’s Ruin” problem.
+<ul>
+<li>Gambler has infinite $ and targets breakeven in potentially infinite time</li>
+</ul></li>
+<li>SN uses mathematical notation, I’ll use Python. <code>def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk): assert(prob_next_hnst + prob_next_attk == 1) z = attk_blck_bhnd p, q = prob_next_hnst, prob_next_attk if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z</code></li>
+<li>prob_attk_ctch(z, p, q) is the probabilty an attacker <em>z</em> blocks behind an honest chain catches up given that the attack controls fraction share <em>q</em> ∈ [0,1] of the total nodes.</li>
+</ul>
+</section>
+<section id="calculations-2" class="level2">
+<h2 class="anchored" data-anchor-id="calculations-2">Calculations</h2>
+<blockquote class="blockquote">
+<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.</p>
+</blockquote>
+<ul>
+<li>Much easier if we consider a single attacker calculating their catchup probability. <code>def prob_ctch(blck_bhnd, node_frac): z, p, q = blck_bhnd, 1 - node_frac, node_frac if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z</code></li>
+<li>These numbers are actually higher than I intuitively expected, using e.g.&nbsp;GHash.io’s 40% (assuming GHash.io somehow became compromised) <code>&gt;&gt;&gt;&gt; {n:prob_ctch(n, .4) for n in range(1,10,2)} {1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946} &gt;&gt;&gt; {n/10:prob_ctch(3, n/10) for n in range(1,5)} {0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}</code></li>
+</ul>
+</section>
+<section id="calculations-3" class="level2">
+<h2 class="anchored" data-anchor-id="calculations-3">Calculations</h2>
+<blockquote class="blockquote">
+<p>Given our assumption that <em>p &gt; q</em>, the probability drops exponentially as the number of blocks the attacker has to catch up with increases.</p>
+</blockquote>
+<ul>
+<li>It occurs to me I can write this in .js with a canvas element.</li>
+</ul>
+<p>function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById(‘q’).value const z = document.getElementById(‘z’).value const c = document.getElementById(‘plot’).getContext(“2d”) c.strokeStyle = “white” c.clearRect(0,0,800,800) c.strokeStyle = “black” for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } Set <em>q</em> ∈ (0,.5) Set <em>z</em> &gt; 0</p>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">code</h2>
+<p><code>&lt;script&gt; function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } &lt;/script&gt; &lt;input value=".4" type="number" min="0" max="0.5" id="q"&gt; &lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;q&lt;/em&gt; ∈ (0,.5)&lt;/button&gt; &lt;input value="5" type="number" min="1" id="z"&gt; &lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0 &lt;/button&gt;&lt;br&gt; &lt;canvas style="background-color:white" id="plot" width="800" height="800"&gt;&lt;/canvas&gt;</code></p>
+<p>FIN</p>
+<hr>
+<ul>
+<li>Distributed consensus is non-trivial.</li>
+<li>It tends to rely on math in the most classical sense of the term.</li>
+<li>It allows a lot of new possibilities.</li>
+<li>It uses a lot of cloud technologies.</li>
+<li>It powers a lot of cloud technologies.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

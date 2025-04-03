@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.30">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>btcinc</title>
+<title>BTCinC</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -34,10 +34,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9884a2177d2957eae00b06e372949a78.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d4be639c637f3db3c684c66cefad7e0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6143deb5822414b99d6193ead6da13dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -73,21 +73,48 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">BTCinC</h1>
+            <p class="subtitle lead">Final Product</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
+
+<style>
+  * {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+</style>
 <section id="btcinc" class="level1">
 <h1>BTCinC</h1>
 <p><em>With the completion of the Merkle, you essentially have a working blockchain already. The final project is to make the blockchain look good.</em></p>
 <ul>
-<li>MS CS students must select and submit one of the following options, with a final publication date of 1 May at 10 PM PT.</li>
+<li>MS CS students must select and publish one of the following options by 1 May at 10 PM PT.
+<ul>
+<li>If you are anxious about meeting the deadline, the first option with extensive library support is the most manageable option.</li>
+</ul></li>
 <li>BS CS students interested in research, engineering, or computer science should choose an appropriate option and publish by 9 May at 3 PM.</li>
 <li>Undergraduate students in other populations should simply aim to complete all the homeworks, but may wish to pursue an option as an enrichment opportunity in conversation with the course instructor.</li>
 </ul>
@@ -107,7 +134,10 @@ ul.task-list li input[type="checkbox"] {
 <li>Use a very low proof-of-work to not trigger provisioning guards intended to prevent bitcoin mining within Actions. <a href="https://therecord.media/github-investigating-crypto-mining-campaign-abusing-its-server-infrastructure?ref=rehackedhub.com">Read more.</a></li>
 </ul></li>
 <li>Save the output as an artifact.</li>
-<li>Perform necessary work to ensure artifacts can be checked into version control.</li>
+<li>Perform necessary work to ensure artifacts can be checked into version control.
+<ul>
+<li>Stack Overflow recommends <a href="https://github.com/stefanzweifel/git-auto-commit-action">git-auto-commit-action</a></li>
+</ul></li>
 <li>Use these artifacts as the basis for future blocks.</li>
 </ul>
 </section>
@@ -148,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Format the description in IEEE format.</li>
 <li>Write a product of five to six pages.</li>
 <li>Format using LaTeX.</li>
-<li>Place source documentation in<code>.tex</code> files under version control along with the reference codebase on Github.com.
+<li>Place source documentation in <code>.tex</code> files under version control along with the reference codebase on Github.com.
 <ul>
 <li>Ensure your codebase contains all source code necessary to reproduce your results.</li>
 <li>This should include scripts of some sort, likely <code>.sh</code> or <code>Makefile</code><br>
@@ -277,6 +307,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -387,6 +419,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

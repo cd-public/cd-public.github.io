@@ -7,7 +7,7 @@
 
 ---
 title: BTCinC
-subtitle: "Final, Sliding Due Date"
+subtitle: "Final Product"
 
 format: 
   html:
@@ -20,7 +20,8 @@ format:
 
 *With the completion of the Merkle, you essentially have a working blockchain already. The final project is to make the blockchain look good.*
 
-- MS CS students must select and submit one of the following options, with a final publication date of 1 May at 10 PM PT.
+- MS CS students must select and publish one of the following options by 1 May at 10 PM PT.
+    - If you are anxious about meeting the deadline, the first option with extensive library support is the most manageable option.
 - BS CS students interested in research, engineering, or computer science should choose an appropriate option and publish by 9 May at 3 PM.
 - Undergraduate students in other populations should simply aim to complete all the homeworks, but may wish to pursue an option as an enrichment opportunity in conversation with the course instructor.
 
@@ -33,7 +34,8 @@ format:
 * Extend the chain's length by one within the workflow.
     * Use a very low proof-of-work to not trigger provisioning guards intended to prevent bitcoin mining within Actions. [Read more.](https://therecord.media/github-investigating-crypto-mining-campaign-abusing-its-server-infrastructure?ref=rehackedhub.com)
 * Save the output as an artifact.
-* Perform necessary work to ensure artifacts can be checked into version control.
+* Perform necessary work to ensure artifacts can be checked into version control.   
+    * Stack Overflow recommends [git-auto-commit-action](https://github.com/stefanzweifel/git-auto-commit-action)
 * Use these artifacts as the basis for future blocks.
 
 ## Option two: Theoretical contribution
@@ -58,7 +60,7 @@ format:
 * Format the description in IEEE format.
 * Write a product of five to six pages.
 * Format using LaTeX.
-* Place source documentation in`.tex` files under version control along with the reference codebase on Github.com.
+* Place source documentation in `.tex` files under version control along with the reference codebase on Github.com.
     * Ensure your codebase contains all source code necessary to reproduce your results.
     * This should include scripts of some sort, likely `.sh` or `Makefile`  
 * Include a compiled PDF or HTML document.
@@ -78,6 +80,7 @@ format:
 * Format the assessment as a technical blog post.
     * You are encouraged to publish within your portfolio or to a social platform such as LinkedIn.
     * Here is a recent example from [NetSPI](https://www.netspi.com/blog/technical-blog/web-application-pentesting/securing-your-salesforce-organization)
+    * Here is an all-time legendary blogpost from [Joel](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/)
 * Use a format similar to homework and lab specifications.
 * Use Quarto markdown rendered to HTML.
 * Include code snippets in C, Python, LaTeX, or equivalent languages like Node.js.

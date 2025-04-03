@@ -24,12 +24,20 @@ execute:
 
 # Announcements
 
-- **Welcome** to variously CS 276/CS 540
+- **Welcome** to CS 540
   - A quick digression on patterns & antipatterns
   - C relevant
-  - Starting data structures ASAP
+  - Then data structures
 - **Action Items**:
   - BigRSA due this week.
+  - Final released
+
+# Final
+
+- The final is a write-up with supporting code.
+- The "MS CS" extensions for the next 4 weeks are 3 technical papers and 1 blog.
+- I have "tech debt" on the `genrsa` and `linker` VoDs, which will help you if you get stuck on the final, but right now I could only do them poorly, rather than well.
+- Let's review [`BTCinC`](btcinc.html) and the readings.
   
 # Today
 

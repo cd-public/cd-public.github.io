@@ -2214,163 +2214,163 @@
   {
     "objectID": "merkle.html#the-bitcoin-network",
     "href": "merkle.html#the-bitcoin-network",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "The Bitcoin Network",
     "text": "The Bitcoin Network\n\nThe network operates as follows (CD:)\n\nBroadcast (Transactions)\nCollect\nWork/Mine\nBroadcast (Block)\nAccept\nExpress"
   },
   {
     "objectID": "merkle.html#incentive",
     "href": "merkle.html#incentive",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Incentive",
-    "text": "Incentive\n\nThe system only works if there’s a reason to invest in mining\n\nMining require compute power, and increasing powerful hardware over time.\nMining requires electricity\nMining requires high throughput internet access\nMining is high risk, as being the nonce-discovering node is unlikely.\n\n\nBy convention, the first transaction in a block is a special transaction that starts a new coin owned by the creator of the block.\n\nclass Block: def __init__(self, some_trns, prev_blck, many_zero = 1): self.some_trns = tuple(some_trns.insert(0, Coin(my_public_key, None, None)))\nThe successful miner may invent a coin out of thin air (well, out of CPU)\nThis is where coins come from!\nThey are legitimized by the block being accepted, same as any other transaction"
+    "text": "Incentive\n\nThe system only works if there’s a reason to invest in mining\n\nThe incentive can also be funded with transaction fees\n\n\nIf you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.\nThis is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.\nTransaction fees allow inflationless mining.\nThe last bitcoin (21M’th) will be mined circa 2140 and the system will be fee-only at that time.\n\nThe incentive may help encourage nodes to stay honest.\n\nSN, paraphrased: Fees will likely be more lucrative than theft.\nCD: Attackers will likely be political motivated to destabilize the currency."
   },
   {
     "objectID": "merkle.html#incentive-1",
     "href": "merkle.html#incentive-1",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Incentive",
     "text": "Incentive\n\nThe system only works if there’s a reason to invest in mining\n\nThe incentive can also be funded with transaction fees\n\n\nIf you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.\nThis is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.\nTransaction fees allow inflationless mining.\nThe last bitcoin (21M’th) will be mined circa 2140 and the system will be fee-only at that time.\n\nThe incentive may help encourage nodes to stay honest.\n\nSN, paraphrased: Fees will likely be more lucrative than theft.\nCD: Attackers will likely be political motivated to destabilize the currency."
   },
   {
     "objectID": "merkle.html#pruning",
     "href": "merkle.html#pruning",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Pruning",
     "text": "Pruning\n\nBitcoin scaling is a real problem, but\nThere’s a lot of ways to handle that.\nOnly the most recent transaction on a coin must be saved, for example.\n\nOnce the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded to save disk space.\n\nThis is done using a little thing called “Merkle Tree” which happens to be…\nA Directed Acyclic Graph\n\n\n\n\nSouthwest Chief at Laguna, February 2020\n\n\nGraph Theory: Cool, Fun, Practical"
   },
   {
     "objectID": "merkle.html#merkle-tree",
     "href": "merkle.html#merkle-tree",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Merkle Tree",
     "text": "Merkle Tree\n\nDisclosure: Wikipedia claims Merkle Trees are a computer science topic:\n\nIn cryptography and computer science, a hash tree or Merkle tree is a tree in which…\n\nI am a computer scientist.\nI’m sorry! I think they’re really cool!\nAnyways a ‘tree’ is a DAG where:\n\nThere is a root node, with no incoming edges\nEvery other edge has exactly one incoming edge\n\n\n\n\n\nTree (computer science)\n\n\nI should probably say “hash tree” (descriptive name) but I’m really used to hearing “Merkle tree”."
   },
   {
     "objectID": "merkle.html#merkle-tree-1",
     "href": "merkle.html#merkle-tree-1",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Merkle Tree",
     "text": "Merkle Tree\n\nNew term: Leaf (or leaf node)\n\nA leaf is a vertex (or node) of a tree with no outgoing edges.\n\nIn a hash tree, a leaf node contains some data and a hash of that data. # Github Copilot wrote this given the name class HashTreeLeaf: def __init__(self, data): self.data = data self.hash = hash(data) def __hash__(self): return self.hash"
   },
   {
     "objectID": "merkle.html#merkle-tree-2",
     "href": "merkle.html#merkle-tree-2",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Merkle Tree",
     "text": "Merkle Tree\n\nEvery other node n contains:\n\nA hash\nComputed over the the hashs\nOf the nodes, for which\nn has a corresponding outgoing edge.\n\nTo my knowledge, all Merkle/hash trees are binary trees\n\nA binary tree is a tree in which no node has more than two outgoing edges.\n\n# Github Copilot wrote this given the name class HashTreeNode: def __init__(self, left, rite): assert(left != None) # added by cd self.left = left self.rite = rite self.hash = hash(left)^hash(rite) def __hash__(self): return self.hash\nThis allows non-leaf nodes to have one or two outgoing edges."
   },
   {
     "objectID": "merkle.html#binary-tree-ops",
     "href": "merkle.html#binary-tree-ops",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Binary Tree Ops",
     "text": "Binary Tree Ops\n\nBinary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.\nThey are not in scope here.\nIf you need to implement a Merkle tree, find someone else’s “binary search tree” code and add the hashing to it.\nGenerative AIs (all, not just Github Copilot) can usually do BSTs in any given language.\nThey cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.\nRealistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes)."
   },
   {
     "objectID": "merkle.html#merkle-tree-3",
     "href": "merkle.html#merkle-tree-3",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Merkle Tree",
     "text": "Merkle Tree\n\nThis is a very good visualization:\n\nAll data/coins/transactions are in leaf nodes\nExtremely difficulty to falsify anything, due to all the computed hashes\nOld transactions can be discarded\nOld enough trees may be empty (!!!) if all constituent coins are spent.\nThis is likely since the most used coins are… the most used coins."
   },
   {
     "objectID": "merkle.html#merkle-tree-4",
     "href": "merkle.html#merkle-tree-4",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Merkle Tree",
     "text": "Merkle Tree\n\nThis is a very good visualization of pruning:\n\n\nThis is a Satoshi Nakamoto graphic."
   },
   {
     "objectID": "merkle.html#pruning-use",
     "href": "merkle.html#pruning-use",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Pruning Use",
     "text": "Pruning Use\n\nI am unable to characterize expected savings to pruning:\n\nUsers report around 100x (500GB to 5GB)\nMost coins appear to be part of zero transactions\nSome large clusters of coins, like SN’s, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.\nSo coin velocity, median/average transactions, frequency are all very difficult to characterize.\nAlso likely volatile.\n\nIn general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.\nIn general: Hard for competing standards to catch on."
   },
   {
     "objectID": "merkle.html#pruning-efficacy",
     "href": "merkle.html#pruning-efficacy",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Pruning Efficacy",
     "text": "Pruning Efficacy\n\nWe can see how much better one Merkle tree is if maximally pruned.\n\nHave around 4k transactions per block\nSo for binary Merkle trees, that is log2(4k) ~= 12 levels\nThat is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.\nΣ 2_n_ = 2_n+1_-1, or &gt;&gt;&gt; sigma = lambda x : sum([2 ** n for n in range(x+1)]) &gt;&gt;&gt; close = lambda x : 2 ** (x + 1) - 1 # for \"closed form\" &gt;&gt;&gt; for x in range(50): ... assert(close(x) == sigma(x)) ... &gt;&gt;&gt;\nAny unpruned tree would have 2^13-1 internal and 2^12 leaf nodes\nA tree with one remaining transaction would have on leaf node and two internal nodes per ‘level’\nThat is, 2*12 internal and 1 leaf node. &gt;&gt;&gt; savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 ) &gt;&gt;&gt; savin(10) 0.006838163464669489 &gt;&gt;&gt; savin(12) 0.002034670790266135"
   },
   {
     "objectID": "merkle.html#on-memory-usage",
     "href": "merkle.html#on-memory-usage",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "On Memory Usage",
     "text": "On Memory Usage\n\nArithmetic!\n\nA block header with no transactions would be about 80 bytes. If we suppose blocks are generated every 10 minutes, 80 bytes * 6 * 24 * 365 = 4.2MB per year.\n\nI don’t think that estimate is accurate but I’m not sure why it wouldn’t be. I think SN is only counting the block headers, not the trees?\n\nWith computer systems typically selling with 2GB of RAM as of 2008, and Moore’s Law predicting current growth of 1.2GB per year, storage should not be a problem even if the block headers must be kept in memory\n\nIn 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)\n\nIt is possible to verify payments without running a full network node.\n\nSN notes you can just submit a transaction and if it’s accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories."
   },
   {
     "objectID": "merkle.html#transactions",
     "href": "merkle.html#transactions",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Transactions",
     "text": "Transactions\n\nWe previously imagined a coin contains:\n\nThe public key of the current owner\nThe record of all previous owners\nThe signature of the previous owner, generated over (1) and (2)\n\nThese are all integers, more or less, that can be verified. &gt;&gt;&gt; Coin(*[randint(0,1024 * 1024) for _ in range(3)]) &lt;Coin object at 0x7f765208eb90&gt; # NOT verified\nWell… there’s actually no reason to have a single former owner or future owner.\nSo transactions can have multiple inputs before being bundled in hash trees.\nWe can think of them as dictionaries of send/recieve signatures and values.\n\nAfter this semester, we will change ownership of evening classes! &gt;&gt;&gt; Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1} {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1} hash(...)) &lt;Coin object at 0x7f765208eb90&gt;\nThis has a de facto negative transaction fee (it’s a bad metaphor)\n\nMostly: This allows transactions to not all be off the same price.\nThis allows using a unique ID for transactions and still spend all at once."
   },
   {
     "objectID": "merkle.html#multi-transaction",
     "href": "merkle.html#multi-transaction",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Multi Transaction",
     "text": "Multi Transaction\n\nWe can visualize as follows:\n\n\nThis is a Satoshi Nakamoto graphic."
   },
   {
     "objectID": "merkle.html#privacy",
     "href": "merkle.html#privacy",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Privacy",
     "text": "Privacy\n\nThe necessity to announce all transactions publicly precludes this method, but privacy can still be maintained by breaking the flow of information in another place: by keeping public keys anonymous.\n\n\nSN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.\nCD claims the considerable metadata leaks are a marked loss in privacy, but that’s okay.\nBanks have full knowledge and routinely have e.g. data breaches, illegal ad targetting, etc.\nWells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization\nThis ’big banks perspective actually isn’t too far off.\n\nThis is similar to the level of information released by stock exchanges\n\nLastly - if you have been part of n transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.\n\nAs an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner."
   },
   {
     "objectID": "merkle.html#privacy-1",
     "href": "merkle.html#privacy-1",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Privacy",
     "text": "Privacy\n\nWe can visualize as follows:\n\n\nThis is a Satoshi Nakamoto graphic."
   },
   {
     "objectID": "merkle.html#bonus-calculations",
     "href": "merkle.html#bonus-calculations",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Bonus: Calculations",
     "text": "Bonus: Calculations\n\nSN closes with a brief essay on probability, including calculations in the C programming language\nAlso known as: my favorite thing.\nRegard the following as bonus slides, but that are really cool!"
   },
   {
     "objectID": "merkle.html#calculations",
     "href": "merkle.html#calculations",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Calculations",
     "text": "Calculations\n\nWe consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.\n\n\nIn the (quite) early days, gaining a control of a majority of miners was regarded as impossible.\nIn 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.\nRead more on Wikipedia\nGHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.\nIn any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed."
   },
   {
     "objectID": "merkle.html#calculations-1",
     "href": "merkle.html#calculations-1",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Calculations",
     "text": "Calculations\n\nWe consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.\n\n\nWe use a “Binomial Random Walk”\n\nWe progress along the integer number line, that is, {…, -1, 0, 1, 2…}\nThe value given is the length lead maintained by the “honest” (non-attacker) chain.\nSo if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.\n\nAttacker outpacing is equivalent to the “Gambler’s Ruin” problem.\n\nGambler has infinite $ and targets breakeven in potentially infinite time\n\nSN uses mathematical notation, I’ll use Python. def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk): assert(prob_next_hnst + prob_next_attk == 1) z = attk_blck_bhnd p, q = prob_next_hnst, prob_next_attk if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z\nprob_attk_ctch(z, p, q) is the probabilty an attacker z blocks behind an honest chain catches up given that the attack controls fraction share q ∈ [0,1] of the total nodes."
   },
   {
     "objectID": "merkle.html#calculations-2",
     "href": "merkle.html#calculations-2",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Calculations",
     "text": "Calculations\n\nWe consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.\n\n\nMuch easier if we consider a single attacker calculating their catchup probability. def prob_ctch(blck_bhnd, node_frac): z, p, q = blck_bhnd, 1 - node_frac, node_frac if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z\nThese numbers are actually higher than I intuitively expected, using e.g. GHash.io’s 40% (assuming GHash.io somehow became compromised) &gt;&gt;&gt;&gt; {n:prob_ctch(n, .4) for n in range(1,10,2)} {1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946} &gt;&gt;&gt; {n/10:prob_ctch(3, n/10) for n in range(1,5)} {0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}"
   },
   {
     "objectID": "merkle.html#calculations-3",
     "href": "merkle.html#calculations-3",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "Calculations",
     "text": "Calculations\n\nGiven our assumption that p &gt; q, the probability drops exponentially as the number of blocks the attacker has to catch up with increases.\n\n\nIt occurs to me I can write this in .js with a canvas element.\n\nfunction qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById(‘q’).value const z = document.getElementById(‘z’).value const c = document.getElementById(‘plot’).getContext(“2d”) c.strokeStyle = “white” c.clearRect(0,0,800,800) c.strokeStyle = “black” for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } Set q ∈ (0,.5) Set z &gt; 0"
   },
   {
     "objectID": "merkle.html#code",
     "href": "merkle.html#code",
-    "title": "bchain",
+    "title": "Graphs",
     "section": "code",
-    "text": "code\n&lt;script&gt; function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext(\"2d\") c.strokeStyle = \"white\" c.clearRect(0,0,800,800) c.strokeStyle = \"black\" for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } &lt;/script&gt; &lt;input value=\".4\" type=\"number\" min=\"0\" max=\"0.5\" id=\"q\"&gt; &lt;button onclick=\"draw()\" type=\"button\"&gt;Set &lt;em&gt;q&lt;/em&gt; ∈ (0,.5)&lt;/button&gt; &lt;input value=\"5\" type=\"number\" min=\"1\" id=\"z\"&gt; &lt;button onclick=\"draw()\" type=\"button\"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0 &lt;/button&gt;&lt;br&gt; &lt;canvas style=\"background-color:white\" id=\"plot\" width=\"800\" height=\"800\"&gt;&lt;/canvas&gt;\nFIN\n\n\nDistributed consensus is non-trivial.\nIt tends to rely on math in the most classical sense of the term.\nIt allows a lot of new possibilities.\nIt uses a lot of cloud technologies.\nIt powers a lot of cloud technologies."
+    "text": "code\n&lt;script&gt; function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext(\"2d\") c.strokeStyle = \"white\" c.clearRect(0,0,800,800) c.strokeStyle = \"black\" for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } &lt;/script&gt; &lt;input value=\".4\" type=\"number\" min=\"0\" max=\"0.5\" id=\"q\"&gt; &lt;button onclick=\"draw()\" type=\"button\"&gt;Set &lt;em&gt;q&lt;/em&gt; ∈ (0,.5)&lt;/button&gt; &lt;input value=\"5\" type=\"number\" min=\"1\" id=\"z\"&gt; &lt;button onclick=\"draw()\" type=\"button\"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0 &lt;/button&gt;&lt;br&gt; &lt;canvas style=\"background-color:white\" id=\"plot\" width=\"800\" height=\"800\"&gt;&lt;/canvas&gt;"
   },
   {
     "objectID": "list_t.html",
@@ -2546,5 +2546,243 @@
     "title": "BTCinC",
     "section": "",
     "text": "The script should alter either the ownership or the history of a transaction.\n\nRecall that doing so requires constructing a new chain of greater length than the original, attacked chain.\n\nThe attack need not be feasible.\nDescribe the costs and benefits of the attack.\nComment on whether an attacker could justify the expense.\nDiscuss whether other attack vectors.\n\nThink about factors such as plain-text private key storage, are more likely.\nThe discussion on Snowden (in the RSA lecture) are most informative here.\n\nComment on which technologies used in class are the least secure.\nFormat the assessment as a technical blog post.\n\nYou are encouraged to publish within your portfolio or to a social platform such as LinkedIn.\nHere is a recent example from NetSPI\n\nUse a format similar to homework and lab specifications.\nUse Quarto markdown rendered to HTML.\nInclude code snippets in C, Python, LaTeX, or equivalent languages like Node.js."
+  },
+  {
+    "objectID": "merkle.html#graphs",
+    "href": "merkle.html#graphs",
+    "title": "Graphs",
+    "section": "Graphs",
+    "text": "Graphs\n\nThere are many ways to understand graphs, but I actually think graph theory is quite accessible.\nI think it’s also easier when using a running example.\nI will also use a running example, Amtrak 🚄\n\nOr perhaps… a training example?\nI am training… to run?????\n???????????"
+  },
+  {
+    "objectID": "merkle.html#graph-definition",
+    "href": "merkle.html#graph-definition",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nA graph is an ordered pair.\n\nThat is: two things, in a fixed order.\nAn ordered pair can be thought of as a sequence of length 2\na = \"one thing\"\nb = \"another thing\"\nordered_pair = [a,b]\nAn ordered pair can be thought of as a tuple of length 2, a 2-ple.\na &lt;- \"one thing\"\nb &lt;- \"another thing\"\nordered_pair &lt;- c(a,b)\nA graph is not a set:\n&gt;&gt;&gt; [a,b][0]\n'one thing'\n&gt;&gt;&gt; {a,b}[0]\n&lt;stdin&gt;:1: SyntaxWarning: 'set' object is not subscriptable; perhaps you missed a comma?\nTraceback (most recent call last):\n  File \"&lt;stdin&gt;\", line 1, in &lt;module&gt;\nTypeError: 'set' object is not subscriptable"
+  },
+  {
+    "objectID": "merkle.html#aside-sets-and-pairs",
+    "href": "merkle.html#aside-sets-and-pairs",
+    "title": "Graphs",
+    "section": "Aside: Sets and pairs",
+    "text": "Aside: Sets and pairs\n\nTake a number plane (click):\n\n\ny=2\n\n\nx=-2 \n\n\n x=2\n\ny=2"
+  },
+  {
+    "objectID": "merkle.html#aside-sets-and-pairs-1",
+    "href": "merkle.html#aside-sets-and-pairs-1",
+    "title": "Graphs",
+    "section": "Aside: Sets and pairs",
+    "text": "Aside: Sets and pairs\n\nDenote ordered pair (.5,1.5) in red.\n\n\ny=2\n\n\nx=-2 \n\n\n x=2\n\ny=2"
+  },
+  {
+    "objectID": "merkle.html#pair-definition",
+    "href": "merkle.html#pair-definition",
+    "title": "Graphs",
+    "section": "Pair: Definition",
+    "text": "Pair: Definition\n\nWe construct pairs from sets.\n\nAn ordered pair is a set of cardinality two. (2 elements)\nOne element of the set is a set of cardinality one. (1 element)\nThe other element of the set is a set of cardinality two (2 elements)\nThe element of the set of cardinality one is one of the two elements of the set of cardinality two."
+  },
+  {
+    "objectID": "merkle.html#pair-definition-1",
+    "href": "merkle.html#pair-definition-1",
+    "title": "Graphs",
+    "section": "Pair: Definition",
+    "text": "Pair: Definition\n\nThe element of both sets is regarded as the first element.\nThis doesn’t work in Python since Python sets can’t contain other sets:\n\n&gt;&gt;&gt; [a,b] # ordered pair\n['one thing', 'another thing']\n&gt;&gt;&gt; {{a},{a,b}} # ordered pair with sets\nTraceback (most recent call last):\n  File \"&lt;stdin&gt;\", line 1, in &lt;module&gt;\nTypeError: unhashable type: 'set'\n&gt;&gt;&gt;\n\nBut this is an implementation hurdle, and not a logical one.\nDefine: An ordered pair is a set of two elements, a set containing the head element of the pair, and a set containing both elements of the pair."
+  },
+  {
+    "objectID": "merkle.html#graph-definition-1",
+    "href": "merkle.html#graph-definition-1",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nA graph is an ordered pair \\(G\\)\nWe denote the two elements of the pair as:\n\n\\(V\\) for vertices\n\\(E\\) for edges \\[\nG = (V, E) := \\{ \\{V\\}, \\{V,E\\}\\}\n\\]"
+  },
+  {
+    "objectID": "merkle.html#graph-definition-2",
+    "href": "merkle.html#graph-definition-2",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nAn Amtrak is an ordered pair\nWe denote the two elements of the pair as:\n\nStations for train stations used by Amtrak passengers, and\nTrains which Amtrak passengers ride between stations.\n\n\nAmtrak = (Stations, Trains)"
+  },
+  {
+    "objectID": "merkle.html#graph-definition-3",
+    "href": "merkle.html#graph-definition-3",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nRestrict our example to the PDX&lt;-&gt;SEA 6x daily trains:\n\n\n\n\nCENTRALIA\nOLYMPIA/LACEY\nSEATTLE\nTUKWILA\n\n\nKELSO/LONGVIEW\nPORTLAND\nTACOMA\nVANCOUVER WA\n\n\n\n\nE is a set of elements termed ‘edges’, ‘links’, or ‘lines’\n\nThe edges are pairs of vertices\nNow we have to make a decision…\nIn an undirected graph, edges are unordered pairs (sets of cardinality two)\nIn an directed graph, edges are ordered pairs (not subsets then)\nAmtrak is undirected - all connections are bidirectional.\n\nThat is, for all stations in Amtrak, if there is outgoing route to some other station, there is an incoming route from that same station."
+  },
+  {
+    "objectID": "merkle.html#graph-definition-4",
+    "href": "merkle.html#graph-definition-4",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nE is a set of elements termed ‘edges’, ‘links’, or ‘lines’\n\nThe edges are pairs of vertices\n\nNow we have to make a decision…\n\nIn an undirected graph, edges are unordered pairs (sets of cardinality two)\nIn an directed graph, edges are ordered pairs (not subsets then)\n\nAmtrak is undirected - all connections are bidirectional.\n\nThat is, for all stations in Amtrak, if there is outgoing route to some other station, there is an incoming route from that same station.\n\nHadoop is directed.\n\nThe NameNode may forward Python scripts to the DataNodes with ‘-file’\nDataNodes may not pass scripts back (or they have no Hadoop-ly way to do so).\n\nThe internet is directed.\n\nWe may use ‘curl’ to download files from a url, but going the other way (creating files at a url) is highly nontrivial.\nWe use Github to do this (in this class) but that means we don’t have an ‘edge’ directly to a url - Github has an edge and just lets us use it."
+  },
+  {
+    "objectID": "merkle.html#graph-definition-5",
+    "href": "merkle.html#graph-definition-5",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nE is a set of pairs of vertices\n\nLet’s look at some pairs… are these edges?\n\n\n\n\n\nCENTRALIA\nOLYMPIA/LACEY\nSEATTLE\nTUKWILA\n\n\n\n\nKELSO/LONGVIEW\nPORTLAND\nTACOMA\nVANCOUVER WA\n\n\n\n\nLet’s take a look at the route with the stations in order of geography rather than alphabet:\nSEATTLE\nTUKWILA\nTACOMA\nOLYMPIA/LACEY\nCENTRALIA\nKELSO/LONGVIEW\nVANCOUVER WA\nPORTLAND\nThe first pair - Centralia and Keslo/Longview - is an edge.\n\nWe see that these two stations are adjacent, between Olympia and Vancouver WA.\n\nThe others, like Seattle and Tacoma, are not edges.\n\nWe can go from Seattle to Tacoma, but we stop at Tukwila in between\nSo there is no train from Seattle to Tacoma - only from Seattle to Tukwila, and Tukwila to Tacoma\n\nThis graph is undirected - Seattle is next to Tukwila, and Tukwila is next to Seattle"
+  },
+  {
+    "objectID": "merkle.html#graph-definition-6",
+    "href": "merkle.html#graph-definition-6",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nE is a set of pairs of stations\n\nOur edges are pairs of adjacent stations\nThere are 8 stations so there are 7 edges\n\n\n\n\n\n(SEATTLE, TUKWILA)\n(CENTRALIA, KELSO/LONGVIEW)\n\n\n\n\n(TUKWILA, TACOMA)\n(KELSO/LONGVIEW, VANCOUVER WA)\n\n\n(TACOMA, OLYMPIA/LACEY)\n(VANCOUVER WA, PORTLAND)\n\n\n(OLYMPIA/LACEY, CENTRALIA)\n\n\n\n\n\nI use tuple notion here, with parens, but it would be equally proper to use set notatation for an undirected graph.\nAlso I maintained geographic ordering (as a convenience) but it would be more proper to have no particular order since E is a set.\n\n\n\n\n{CENTRALIA, KELSO/LONGVIEW}\n{TACOMA, OLYMPIA/LACEY}\n\n\n\n\n{KELSO/LONGVIEW, VANCOUVER WA}\n{TUKWILA, TACOMA}\n\n\n{OLYMPIA/LACEY, CENTRALIA}\n{VANCOUVER WA, PORTLAND}\n\n\n{SEATTLE, TUKWILA}"
+  },
+  {
+    "objectID": "merkle.html#graph-definition-7",
+    "href": "merkle.html#graph-definition-7",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nWe can express G using only sets over elements of stations (this is basically JSON):\nG = {\n  V = {\n    SEATTLE,\n    TUKWILA,\n    TACOMA,\n    OLYMPIA/LACEY,\n    CENTRALIA,\n    KELSO/LONGVIEW,\n    VANCOUVER WA\n    PORTLAND,\n  }, \n  {\n    V,\n    E = {\n              {\n                  TUKWILA,\n                  TACOMA\n              },\n              {\n                  TACOMA,\n                  OLYMPIA/LACEY\n              },\n              {\n                  OLYMPIA/LACEY,\n                  CENTRALIA\n              },\n              {\n                  CENTRALIA,\n                  KELSO/LONGVIEW\n              },\n              {\n                  KELSO/LONGVIEW,\n                  VANCOUVER WA\n              },\n              {\n                  VANCOUVER WA,\n                  PORTLAND\n              }\n          }\n    }\n}"
+  },
+  {
+    "objectID": "merkle.html#graph-definition-8",
+    "href": "merkle.html#graph-definition-8",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nWe can express G using only sets over elements of stations (this is basically JSON):\nG = {\n  V = {\n    SEATTLE,\n    TUKWILA,\n    TACOMA,\n    OLYMPIA/LACEY,\n    CENTRALIA,\n    KELSO/LONGVIEW,\n    VANCOUVER WA\n    PORTLAND,\n  }, \n  {\n    V,\n    E = {\n              {\n                  TUKWILA,\n                  TACOMA\n              },\n              {\n                  TACOMA,\n                  OLYMPIA/LACEY\n              },\n              {\n                  OLYMPIA/LACEY,\n                  CENTRALIA\n              },\n              {\n                  CENTRALIA,\n                  KELSO/LONGVIEW\n              },\n              {\n                  KELSO/LONGVIEW,\n                  VANCOUVER WA\n              },\n              {\n                  VANCOUVER WA,\n                  PORTLAND\n              }\n          }\n    }\n}"
+  },
+  {
+    "objectID": "merkle.html#graph-definition-9",
+    "href": "merkle.html#graph-definition-9",
+    "title": "Graphs",
+    "section": "Graph: Definition",
+    "text": "Graph: Definition\n\nWe can express G using only sets over elements of stations (this is basically JSON):\nG = {\n  V = {\n    SEATTLE,\n    TUKWILA,\n    TACOMA,\n    OLYMPIA/LACEY,\n    CENTRALIA,\n    KELSO/LONGVIEW,\n    VANCOUVER WA\n    PORTLAND,\n  }, \n  {\n    V,\n    E = {\n              {\n                  TUKWILA,\n                  TACOMA\n              },\n              {\n                  TACOMA,\n                  OLYMPIA/LACEY\n              },\n              {\n                  OLYMPIA/LACEY,\n                  CENTRALIA\n              },\n              {\n                  CENTRALIA,\n                  KELSO/LONGVIEW\n              },\n              {\n                  KELSO/LONGVIEW,\n                  VANCOUVER WA\n              },\n              {\n                  VANCOUVER WA,\n                  PORTLAND\n              }\n          }\n    }\n}"
+  },
+  {
+    "objectID": "merkle.html#graph-exercise",
+    "href": "merkle.html#graph-exercise",
+    "title": "Graphs",
+    "section": "Graph: Exercise",
+    "text": "Graph: Exercise\n\nAmtrak has recently added a number of regional lines, includin the Hiawatha, with service from Milwaukee to the world’s greatest city, Chicago.\n\nFrom the grandeur of Grant Park’s Buckingham Fountain to iconic museums and skyscrapers, see for yourself why Chicago was once dubbed “Paris on the Prairie.” Engage in retail therapy on the Magnificent Mile or root for the home team within the friendly confines of famed Wrigley Field.\n\nAs an exercise, construct the graph of the Hiawatha route using the JSON-ish notation I used for Cascades.\nThe route is described here and contains five stations.\nYou may use the three letter codes like “MKE” and “CHI” as a notational convenience if you would like.\nAs a bonus: Write valid json. Here’s a tester.\n\nFun fact: Chicago Union Station is designated with Chicago’s three letter code “CHI” - beating out Midway (MDW) and even the worlds busiest airport from 1963-1998 - O’Hare (ORD) #Trains🚆\n```json G = { V = { SEATTLE, TUKWILA, TACOMA, OLYMPIA/LACEY, CENTRALIA, KELSO/LONGVIEW, VANCOUVER WA PORTLAND, }, { V, E = { { TUKWILA, TACOMA }, { TACOMA, OLYMPIA/LACEY }, { OLYMPIA/LACEY, CENTRALIA }, { CENTRALIA, KELSO/LONGVIEW }, { KELSO/LONGVIEW, VANCOUVER WA }, { VANCOUVER WA, PORTLAND } } } } }"
+  },
+  {
+    "objectID": "merkle.html#dags",
+    "href": "merkle.html#dags",
+    "title": "Graphs",
+    "section": "DAGS",
+    "text": "DAGS\n\nThe “better way” is a directed acyclic graph, or “DAG”.\n\nVector version of Image:Tred-G.png, Public domain, via Wikimedia Commons\n“In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles.” We already know what a directed graph is (in excruciating detail)"
+  },
+  {
+    "objectID": "merkle.html#cycles",
+    "href": "merkle.html#cycles",
+    "title": "Graphs",
+    "section": "Cycles",
+    "text": "Cycles\nWe’ll build cycles real quick, then back to cloud.\n\nE is a set of pairs of elements of V.\nWe can think of edges in a graph as a homogenous binary relation.\n\nHomogenous: From a set (the set of vertices) to itself.\nBinary: Over two elements (just like edges)\nRelation: A set\n\n“Transitive closures” are defined over homogenous binary relations, so we can take a “transitive closure” over edges."
+  },
+  {
+    "objectID": "merkle.html#cartesian-product",
+    "href": "merkle.html#cartesian-product",
+    "title": "Graphs",
+    "section": "Cartesian product",
+    "text": "Cartesian product\n\nA relation R over a set S is a set of pairs of elements of S\n\nOr: a subset of the set of all pairs of elements\n\nWe denote all pairs using a “Cartesian product”:\n\nS × S\n\nFor example, over the set of primary colors C:\n\nC = { B, G, R }\n\nThe Cartesian product is all pairs:\n\nC × C = { (B, G), (B, R), (G, B), (G, R),(R, B), (R, G) }\n\nOrder matters."
+  },
+  {
+    "objectID": "merkle.html#relation",
+    "href": "merkle.html#relation",
+    "title": "Graphs",
+    "section": "Relation",
+    "text": "Relation\n\nA relation R over a set S is a set of pairs of elements of S\n\nOr: a subset of the set of all pairs of elements in is transitive\n\nWe begin with the Cartesian product:\n\nC × C = { (B, G), (B, R), (G, B), (G, R),(R, B), (R, G) }\n\nWe consider a subset of C × C: colors in “wavelength” order, which we term W\n\nR has a higher wavelength than G\n\n\n(R, G) ∈ W ⊂ C × C\n\nG has a higher wavelength than B\n\n(G, B) ∈ W ⊂ C × C\n\nAs a notional convenience, this is often expressed as, with elements as lower case letters, gWb\n\ngWb := (G, B) ∈ W ⊂ C × C"
+  },
+  {
+    "objectID": "merkle.html#transitivity",
+    "href": "merkle.html#transitivity",
+    "title": "Graphs",
+    "section": "Transitivity",
+    "text": "Transitivity\n\nSo we take relation W over a set C to be the following:\n\nW ⊂ C × C = { (R, G), (G, B) }\nW = { rWg, gWb }\n\nWhat does this tell us about the relation between r and b?\nWell, so far, nothing. But…\n\nif r has a higher wavelength than g\nand g has a great wavelength than b\ndoes it follow that r has a great wavelength than b?\n\n\nrWb\n\nThis is called transitivity or the transitive property\n\nTransitivity := ∀ x, y, z: xRy and yRz ⇒ xRz"
+  },
+  {
+    "objectID": "merkle.html#closure",
+    "href": "merkle.html#closure",
+    "title": "Graphs",
+    "section": "Closure",
+    "text": "Closure\n\nOur initial relation was not transitive.\n\nW = { rWg, gWb }\n\nAs in the Amtrak case, we considered only adjacent elements as a convenience, but that doesn’t tell us if e.g. we can get from Seattle to Eugene.\nTo do that, we need to to preserve transitivity - and we do so using the notion of transitive closure\nWe denote the transitive closure R⁺\n\nThe transitive closure R⁺ of some relation R must contain all elements of R.\n\n\nR⁺ ⊃ R\n∀ xRy : xR⁺y\n∀ {x, y} ∈ R, ∃ {x, y} ∈ R⁺"
+  },
+  {
+    "objectID": "merkle.html#closure-1",
+    "href": "merkle.html#closure-1",
+    "title": "Graphs",
+    "section": "Closure",
+    "text": "Closure\n\nWe denote the transitive closure R⁺\n\nThe transitive closure R⁺ of some relation R must contain all elements of R.\n\n\nR⁺ ⊃ R\n\nThe transitive closure R⁺ of some relation R must be transitive.\n\n∀ x, y, z: xR⁺y and yR⁺z ⇒ xR⁺z\n∀ {x, y}, {y, z} ∈ R, ∃ {x, z} ∈ R⁺\n\nNote: since this is a “for all”, it means as we are required to add new elements to maintain transitivity, transitivity must apply to those new elements.\nSo, if we add SeattleAmtrakTacoma because we have SeattleAmtrakTukwila and TukwilaAmtrakTacoma…\nWe will then have to add SeattleAmtrakOlympia because Amtrak also contains TukwilaAmtrakOlympia\nMaybe this looks a little nicer with 3 letter station names and and train numbers (for Cascades 503) rather than just “Amtrak”:\n\nsea503⁺tac\nsea503⁺olw"
+  },
+  {
+    "objectID": "merkle.html#closure-2",
+    "href": "merkle.html#closure-2",
+    "title": "Graphs",
+    "section": "Closure",
+    "text": "Closure\n\nWe denote the transitive closure R⁺\n\nThe transitive closure R⁺ of some relation R must contain all elements of R.\n\n\nR⁺ ⊃ R\n\nThe transitive closure R⁺ of some relation R must be transitive.\n\n∀ x, y, z: xR⁺y and yR⁺z ⇒ xR⁺z\n\nR⁺ must be the smallest possible relation for that is a transitive superset of R.\n\nCartesian Product is always transitive and a superset, but not always the smallest satisfying set.\n\n\nR⁺ : ∀ R’ ⊂ S × S: R’ ⊃ R and Transitive(R’) : |R⁺| &lt; |R’| and R⁺ ⊃ R and Transitive(R’)"
+  },
+  {
+    "objectID": "merkle.html#cycles-1",
+    "href": "merkle.html#cycles-1",
+    "title": "Graphs",
+    "section": "Cycles",
+    "text": "Cycles\n\nWe use transitive closure to define cycles\n\nWe consider a graph\n\n\nG = (V, E)\n\nWe note that E is a homogenous binary relation over V\nWe consider that E⁺ the transitive closure of E\n\nE⁺ ⊃ E\n\nG contains a cycle (has the property of being cyclic) if E⁺ contains an edge from a node to itself.\n\nCyclic(G) := ∃ v : vE⁺v\nCyclic(G = (V, E)) := ∃ v ∈ V: {v, v} ∈ E⁺\n\nSome notes:\n\nCycles are defined to be non-trivial, which means they don’t contain “loops”, so or an edge from a node to itself.\n\nWe don’t think about this with Amtrak because we don’t take a train from Portland to Portland\n\nCircuits, walks, paths, and trails are also defined in graph theory and are related.\nDirect paths and undirected paths are, of course, distinct but intuitively so.\n\nCascades 503, which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.\nThe Cascades route, which runs service between Vancouver BC and Eugene, has both edges."
+  },
+  {
+    "objectID": "merkle.html#dags-1",
+    "href": "merkle.html#dags-1",
+    "title": "Graphs",
+    "section": "DAGS",
+    "text": "DAGS\n“In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles.”\n\nSo it is a graph\n\nG = (V, E)\n\nIt is directed, so E is a set of ordered pairs\n\nOrdered(e) ∀ e ∈ E\n\nIt contains no cycles\n\n¬Cyclic(G)\n¬∃ v ∈ V: vE⁺v"
+  },
+  {
+    "objectID": "merkle.html#dags-2",
+    "href": "merkle.html#dags-2",
+    "title": "Graphs",
+    "section": "DAGS",
+    "text": "DAGS\n\nCascades 503 is a directed acyclic graph.\n\nIt has edges from all relative northern stations to all relative southern stations for all stations between Seattle and Portland inclusive.\n\nColor wavelength is a directed acyclic graph.\n\nThere is no color that is both higher wavelength and lower wavelength than some other color.\n\nThe sentence syntax tree from nltk is a directed acyclic graph.\n\n\n\nSentences (S) contain words or phrases, and phrases (xP) contain words, but no phrases contain a sentence or words contain a phrase.\nMapReduce is a directed acyclic graph.\n\nNeither Map nor Reduce accept as input anything that they have output, or is constructed from their outputs."
+  },
+  {
+    "objectID": "merkle.html#dags-3",
+    "href": "merkle.html#dags-3",
+    "title": "Graphs",
+    "section": "DAGS",
+    "text": "DAGS\n\nDirected Acyclic Graphs generalize MapReduce ```json { “word_x_tagcount”: { “key_value_pairs” : { “input” : “filename:text”, ““:”word:tag”, ““:”word_x_tag:1”, “output”: “word_x_tag:count” } } }"
+  },
+  {
+    "objectID": "merkle.html#fin",
+    "href": "merkle.html#fin",
+    "title": "Graphs",
+    "section": "FIN",
+    "text": "FIN\n\nDistributed consensus is non-trivial.\nIt tends to rely on math in the most classical sense of the term.\nIt allows a lot of new possibilities.\nIt uses a lot of cloud technologies.\nIt powers a lot of cloud technologies."
+  },
+  {
+    "objectID": "merkle.html#pair-definition-2",
+    "href": "merkle.html#pair-definition-2",
+    "title": "Graphs",
+    "section": "Pair: Definition",
+    "text": "Pair: Definition\n\nAn ordered pair of two elements is a set of two elements, a set containing the head item in the pair, and a set containing both items in the pair.\n\nWe denote this set ‘p’\n\n\n(a, b) := p : { {a} , {a, b} }\n\nExtract the head item by taking the intersection of all of the elements of p\n\nI denote this ‘Head(p)’\n\n\nHead(p) := x : x ∈ ∩ p\nHead(p) := x : ∀ Y ∈ p : x ∈ Y\n\nThe tail is the sole element of the union that is not an element of the intersection, with the caveat that we do not consider the case in which the head and tail differ\n\nI denote this ‘Tail(p)’\n\n\nTail(p) := x : x ∈ ∪ p  ∩ p\nTail(p) := x : ∃ Y₁, Y₂ ∈ p : x ∈ Y₁ and x ∉ Y₂\nThis can be generalized to construct sequences out of sets, and to create graphs out of sets, mostly as a curiousity."
+  },
+  {
+    "objectID": "merkle.html#pair-definition-3",
+    "href": "merkle.html#pair-definition-3",
+    "title": "Graphs",
+    "section": "Pair: Definition",
+    "text": "Pair: Definition\n\nAn ordered pair of two elements is a set of two elements, a set containing the head item in the pair, and a set containing both items in the pair.\n\nWe denote this set ‘p’\n\n\n(a, b) := p : { {a} , {a, b} }"
+  },
+  {
+    "objectID": "merkle.html#head",
+    "href": "merkle.html#head",
+    "title": "Graphs",
+    "section": "“Head”",
+    "text": "“Head”\n\nExtract the head item by taking the intersection of all of the elements of p\n\nI denote this ‘Head(p)’\n\n\n\\[\n\\begin{align*}\n\\text{Head}(p) &:= x : x \\in \\bigcap p \\\\\n\\text{Head}(p) &:= x : \\forall Y \\in p : x \\in Y\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "merkle.html#tail",
+    "href": "merkle.html#tail",
+    "title": "Graphs",
+    "section": "“Tail”",
+    "text": "“Tail”\n\nThe tail is the sole element of the union that is not an element of the intersection, with the caveat that we do not consider the case in which the head and tail differ\n\nI denote this ‘Tail(p)’\n\n\n\\[\n\\begin{align*}\n\\text{Tail}(p) &:= x : x \\in \\bigcup p \\setminus \\bigcap p \\\\\n\\text{Tail}(p) &:= x : \\exists Y_1, Y_2 \\in p : x \\in Y_1 \\land x \\notin Y_2\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "merkle.html#nodes-vertices-or-v",
+    "href": "merkle.html#nodes-vertices-or-v",
+    "title": "Graphs",
+    "section": "Nodes, Vertices, or \\(V\\)",
+    "text": "Nodes, Vertices, or \\(V\\)\n\nLet us consider the “Amtrak Cascades”\nThe set of vertices is the set of stations:\n\n\n\n\n\n\n\n\n\n\n\nALBANY\nEVERETT\nPORTLAND\nTUKWILA\nEUGENE\n\n\nBELLINGHAM\nKELSO/LONGVIEW\nSALEM\nVANCOUVER BC\nOREGON CITY\n\n\nCENTRALIA\nMOUNT VERNON\nSEATTLE\nVANCOUVER WA\nTACOMA\n\n\nEDMONDS\nOLYMPIA/LACEY\nSTANWOOD"
   }
 ]

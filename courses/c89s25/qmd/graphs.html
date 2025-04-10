@@ -507,8 +507,8 @@ Prof.&nbsp;Calvin
 </ul>
 </section>
 
-<section id="aside-sets-and-pairs" class="title-slide slide level1 center">
-<h1>Aside: Sets and pairs</h1>
+<section id="aside-pairs" class="title-slide slide level1 center">
+<h1>Aside: Pairs</h1>
 <ul>
 <li>Take a number plane (click):</li>
 </ul>
@@ -539,8 +539,8 @@ function draw1()
 }</script>
 </section>
 
-<section id="aside-sets-and-pairs-1" class="title-slide slide level1 center">
-<h1>Aside: Sets and pairs</h1>
+<section id="aside-pairs-1" class="title-slide slide level1 center">
+<h1>Aside: Pairs</h1>
 <ul>
 <li>Denote ordered pair (.5,1.5) in <span style="color:red">red</span>.</li>
 </ul>
@@ -936,7 +936,7 @@ PORTLAND</code></pre></li>
 <li>We will define rigorously.</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><a style="filter: invert(1);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a></p>
+<p><a style="filter: invert(.9);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a></p>
 </div></div>
 </section>
 
@@ -1012,16 +1012,16 @@ C \times C = \{ (G, Y), (G, R), (Y, R), (Y, G),(R, G), (R, Y) \}
 C \times C = \{ (G, Y), (G, R), (Y, R), (Y, G),(R, G), (R, Y) \}
 \]</span></p>
 <ul>
-<li>We consider a subset of <span class="math inline">\(C \times C\)</span> that is “safe”</li>
+<li>Define traffic light <span class="math inline">\(L \subset C \times C\)</span></li>
 </ul>
 </section>
 
-<section id="safety" class="title-slide slide level1 center">
-<h1>Safety</h1>
+<section id="properties" class="title-slide slide level1 center">
+<h1>Properties</h1>
 <ul>
-<li>Construst <span class="math inline">\(L\)</span>, the traffic light relation
+<li>Construct <span class="math inline">\(L\)</span>, the traffic light relation
 <ul>
-<li>Yellow must precede Red <span class="math display">\[
+<li>No red without prior yellow <span class="math display">\[
   (Y,X) \in L \implies X = R
   \]</span></li>
 <li>All colors must appear in both positions <span class="math display">\[
@@ -1033,41 +1033,144 @@ C \times C = \{ (G, Y), (G, R), (Y, R), (Y, G),(R, G), (R, Y) \}
 
 <section id="this-gives" class="title-slide slide level1 center">
 <h1>This gives</h1>
-<p><span class="math display">\[
+<ul>
+<li>The relation then is <span class="math display">\[
 L = \{ (G, Y), (Y, R), (R, G)\}
-\]</span></p>
-<p>(R, G) ∈ <em>W</em> ⊂ <em>C</em> × <em>C</em></p>
-<ul>
-<li>G has a higher wavelength than B</li>
+\]</span></li>
+<li>We not this is a subset of <span class="math inline">\(C \times C\)</span></li>
 </ul>
-<p>(G, B) ∈ <em>W</em> ⊂ <em>C</em> × <em>C</em></p>
-<ul>
-<li>As a notional convenience, this is often expressed as, with elements as lower case letters, <em>gWb</em></li>
-</ul>
-<p><em>gWb</em> := (G, B) ∈ <em>W</em> ⊂ <em>C</em> × <em>C</em></p>
 </section>
 
-<section id="transitivity" class="title-slide slide level1 center">
-<h1>Transitivity</h1>
+<section id="notation-1" class="title-slide slide level1 center">
+<h1>Notation</h1>
 <ul>
-<li>So we take relation <em>W</em> over a set <em>C</em> to be the following:</li>
-</ul>
-<p><em>W</em> ⊂ <em>C</em> × <em>C</em> = { (R, G), (G, B) }</p>
-<p><em>W</em> = { <em>rWg</em>, <em>gWb</em> }</p>
+<li>Variety of ways to express this.
 <ul>
-<li>What does this tell us about the relation between r and b?</li>
-<li>Well, so far, nothing. But…
+<li>Function application
 <ul>
-<li>if r has a higher wavelength than g</li>
-<li>and g has a great wavelength than b</li>
-<li>does it follow that r has a great wavelength than b?</li>
+<li><code>L(G) = Y</code></li>
+</ul></li>
+<li>Infix notation
+<ul>
+<li><code>gLy</code></li>
+</ul></li>
 </ul></li>
 </ul>
-<p><em>rWb</em></p>
+</section>
+
+<section id="matrix" class="title-slide slide level1 center">
+<h1>Matrix</h1>
 <ul>
-<li>This is called <strong>transitivity</strong> or the transitive property</li>
+<li>Starting state on top, ending state on side</li>
 </ul>
-<p><strong>Transitivity</strong> := ∀ <em>x</em>, <em>y</em>, <em>z</em>: <em>xRy</em> and <em>yRz</em> ⇒ <em>xRz</em></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(G\)</span></th>
+<th><span class="math inline">\(Y\)</span></th>
+<th><span class="math inline">\(R\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(G\)</span></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y\)</span></td>
+<td></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R\)</span></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Astute blah blah its 9 bits</li>
+</ul>
+</section>
+
+<section id="rainbow" class="title-slide slide level1 center">
+<h1>Rainbow</h1>
+<ul>
+<li>Vs. traffic light, we can take “wavelength” where colors are sorted by something physics something optics help I don’t know this stuff.</li>
+</ul>
+<p><a title="Eric Rolph at English Wikipedia, CC BY-SA 2.5 <https://creativecommons.org/licenses/by-sa/2.5>, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Double-alaskan-rainbow.jpg"><img width="100%" alt="Double-alaskan-rainbow" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Double-alaskan-rainbow.jpg/512px-Double-alaskan-rainbow.jpg?20070714083004"></a></p>
+</section>
+
+<section id="rainbow-1" class="title-slide slide level1 center">
+<h1>Rainbow</h1>
+<ul>
+<li>We note red is higher than yellow which is higher than green.
+<ul>
+<li>Green is higher than <em>nothing</em> or <span class="math inline">\(\varnothing\)</span></li>
+</ul></li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(G\)</span></th>
+<th><span class="math inline">\(Y\)</span></th>
+<th><span class="math inline">\(R\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(G\)</span></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y\)</span></td>
+<td></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="rainbow-2" class="title-slide slide level1 center">
+<h1>Rainbow</h1>
+<ul>
+<li><p>We note that Rainbow <span class="math inline">\(B\)</span> (<span class="math inline">\(R\)</span> is taken) is also a binary relation.</p></li>
+<li><p>We will explore its properties. <span class="math display">\[
+B \subset C \times C = \{ (R,Y), (Y,G) \}
+\]</span></p></li>
+<li><p>We additionally note that while <span class="math inline">\(R\)</span> is immediately above <span class="math inline">\(Y\)</span>, it is <em>also</em> above <span class="math inline">\(G\)</span></p></li>
+</ul>
+</section>
+
+<section id="transitivitity" class="title-slide slide level1 center">
+<h1>Transitivitity</h1>
+<ul>
+<li>Transitivity is over relation <span class="math inline">\(R\)</span> as follows.</li>
+</ul>
+<p><span class="math display">\[
+((a, b) \in R \land (b, c) \in R) \implies (a, c) \in R
+\]</span></p>
+<ul>
+<li>For us, that would be, <span class="math display">\[
+((R, Y) \in B \land (Y,G) \in B) \implies (R, G) \in B
+\]</span></li>
+<li>In the rainbow case, this is true, <span class="math inline">\(R\)</span> appears above <span class="math inline">\(G\)</span> in the rainbow because <span class="math inline">\(R\)</span> is above <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y\)</span> is above <span class="math inline">\(G\)</span>.</li>
+</ul>
 </section>
 
 <section id="closure" class="title-slide slide level1 center">
@@ -1075,66 +1178,126 @@ L = \{ (G, Y), (Y, R), (R, G)\}
 <ul>
 <li>Our initial relation was not transitive.</li>
 </ul>
-<p><em>W</em> = { <em>rWg</em>, <em>gWb</em> }</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(G\)</span></th>
+<th><span class="math inline">\(Y\)</span></th>
+<th><span class="math inline">\(R\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(G\)</span></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y\)</span></td>
+<td></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>As in the Amtrak case, we considered only adjacent elements as a convenience, but that doesn’t tell us if e.g.&nbsp;we can get from Seattle to Eugene.</li>
-<li>To do that, we need to to preserve transitivity - and we do so using the notion of <strong>transitive closure</strong></li>
-<li>We denote the transitive closure <em>R⁺</em>
-<ul>
-<li>The transitive closure <em>R⁺</em> of some relation <em>R</em> must contain all elements of <em>R</em>.</li>
-</ul></li>
 </ul>
-<p><em>R⁺</em> ⊃ <em>R</em></p>
-<p>∀ <em>xRy</em> : <em>xR⁺y</em></p>
-<p>∀ {<em>x</em>, <em>y</em>} ∈ <em>R</em>, ∃ {<em>x</em>, <em>y</em>} ∈ <em>R⁺</em></p>
 </section>
 
 <section id="closure-1" class="title-slide slide level1 center">
 <h1>Closure</h1>
 <ul>
-<li>We denote the transitive closure <em>R⁺</em>
-<ul>
-<li>The transitive closure <em>R⁺</em> of some relation <em>R</em> must contain all elements of <em>R</em>.</li>
-</ul></li>
-</ul>
-<p><em>R⁺</em> ⊃ <em>R</em></p>
-<ul>
-<li>The transitive closure <em>R⁺</em> of some relation <em>R</em> must be transitive.</li>
-</ul>
-<p>∀ <em>x</em>, <em>y</em>, <em>z</em>: <em>xR⁺y</em> and <em>yR⁺z</em> ⇒ <em>xR⁺z</em></p>
-<p>∀ {<em>x</em>, <em>y</em>}, {<em>y</em>, <em>z</em>} ∈ <em>R</em>, ∃ {<em>x</em>, <em>z</em>} ∈ <em>R⁺</em></p>
-<ul>
-<li>Note: since this is a “for all”, it means as we are required to add new elements to maintain transitivity, transitivity must apply to those new elements.</li>
-<li>So, if we add <em>SeattleAmtrakTacoma</em> because we have <em>SeattleAmtrakTukwila</em> and <em>TukwilaAmtrakTacoma</em>…</li>
-<li>We will then have to add <em>SeattleAmtrakOlympia</em> because <em>Amtrak</em> also contains <em>TukwilaAmtrakOlympia</em></li>
-<li>Maybe this looks a little nicer with 3 letter station names and and train numbers (for Cascades 503) rather than just “Amtrak”:
-<ul>
-<li><em>sea503⁺tac</em></li>
-<li><em>sea503⁺olw</em></li>
-</ul></li>
+<li>To do that, we need to to preserve transitivity - and we do so using the notion of <strong>transitive closure</strong></li>
+<li>A closure is an operation over sets, and in the case of binary relations, which are sets of pairs, is an operation over the relation itself, or the sets of pairs themselves (which are equivalent).</li>
 </ul>
 </section>
 
 <section id="closure-2" class="title-slide slide level1 center">
 <h1>Closure</h1>
 <ul>
-<li>We denote the transitive closure <em>R⁺</em>
+<li>We denote the transitive closure of some relation <span class="math inline">\(R\)</span> as <span class="math inline">\(R^+\)</span></li>
+<li>First, the transitive closure <em>R⁺</em> of some relation <em>R</em> must contain all elements of <em>R</em>.</li>
+</ul>
+<p><span class="math display">\[
+R^+ \supseteq R
+\]</span></p>
 <ul>
-<li>The transitive closure <em>R⁺</em> of some relation <em>R</em> must contain all elements of <em>R</em>.</li>
-</ul></li>
+<li>We recall we can use set operations like superset on <span class="math inline">\(R\)</span> as it is a set of pairs, in this case ordered.</li>
 </ul>
 <p><em>R⁺</em> ⊃ <em>R</em></p>
+</section>
+
+<section id="superset-review" class="title-slide slide level1 center">
+<h1>Superset review</h1>
 <ul>
-<li>The transitive closure <em>R⁺</em> of some relation <em>R</em> must be transitive.</li>
+<li>That means that for all pairs (of colors, for example) in the binary relation <span class="math inline">\(R\)</span>, each one of them is also in <span class="math inline">\(R^+\)</span></li>
 </ul>
-<p>∀ <em>x</em>, <em>y</em>, <em>z</em>: <em>xR⁺y</em> and <em>yR⁺z</em> ⇒ <em>xR⁺z</em></p>
+<p><span class="math display">\[
+\forall p \in R, p \in R^+
+\]</span></p>
+<p><span class="math display">\[
+\forall x,y \in S, (x,y) \in R \subset S \times S \implies (x,y) \in R^+
+\]</span></p>
+</section>
+
+<section id="closure-3" class="title-slide slide level1 center">
+<h1>Closure</h1>
+<ul>
+<li>The transitive closure <span class="math inline">\(R^+\)</span> of some relation <span class="math inline">\(R\)</span> must be transitive.</li>
+<li>Recall:</li>
+</ul>
+<p><span class="math display">\[
+((a, b) \in R \land (b, c) \in R) \implies (a, c) \in R
+\]</span></p>
+</section>
+
+<section id="discussion" class="title-slide slide level1 center">
+<h1>Discussion</h1>
+<ul>
+<li>Note: since this is a “for all”, it means as we are required to add new elements to maintain transitivity, transitivity must apply to those new elements.</li>
+<li>So, if we add <em>SeattleAmtrakTacoma</em> because we have <em>SeattleAmtrakTukwila</em> and <em>TukwilaAmtrakTacoma</em>…</li>
+<li>We will then have to add <em>SeattleAmtrakOlympia</em> because <em>Amtrak</em> also contains <em>TukwilaAmtrakOlympia</em></li>
+</ul>
+</section>
+
+<section id="color-example" class="title-slide slide level1 center">
+<h1>Color Example</h1>
+<ul>
+<li>If in rainbow relation <span class="math inline">\(B\)</span> we find <span style="color:red"><span class="math inline">\(R\)</span></span> is higher in the rainbow than <span style="color:yellow"><span class="math inline">\(Y\)</span></span> and <span style="color:yellow"><span class="math inline">\(Y\)</span></span> is higher in the rainbow than <span style="color:green"><span class="math inline">\(G\)</span></span> then <span class="math display">\[
+\{ (R,Y), (Y,G) \} \subseteq B
+\]</span></li>
+<li>The transitive closure adds at least one additional element. <span class="math display">\[
+\{ (R,Y), (Y,G), (R,G) \} \subseteq B^+
+\]</span></li>
+</ul>
+</section>
+
+<section id="closure-4" class="title-slide slide level1 center">
+<h1>Closure</h1>
 <ul>
 <li><em>R⁺</em> must be the smallest possible relation for that is a transitive superset of <em>R</em>.
 <ul>
 <li>Cartesian Product is always transitive and a superset, but not always the smallest satisfying set.</li>
 </ul></li>
 </ul>
-<p><em>R⁺</em> : ∀ <em>R’</em> ⊂ <em>S</em> × <em>S</em>: <em>R’</em> ⊃ <em>R</em> and <strong>Transitive</strong>(<em>R’</em>) : |<em>R⁺</em>| &lt; |<em>R’</em>| and <em>R⁺</em> ⊃ <em>R</em> and <strong>Transitive</strong>(<em>R’</em>)</p>
+</section>
+
+<section id="a-note-on-graphs" class="title-slide slide level1 center">
+<h1>A note on graphs</h1>
+<ul>
+<li>By the way those binary relations are graph edges between graph nodes (the elements of the original set).</li>
+<li>And by the way those edges are pointers.</li>
+<li>Okay keep going.</li>
+</ul>
 </section>
 
 <section id="cycles-1" class="title-slide slide level1 center">
@@ -1142,83 +1305,259 @@ L = \{ (G, Y), (Y, R), (R, G)\}
 <ul>
 <li>We use transitive closure to define cycles
 <ul>
-<li>We consider a graph</li>
+<li>We consider a graph <span class="math inline">\(G\)</span></li>
 </ul></li>
 </ul>
-<p><em>G</em> = (<em>V</em>, <em>E</em>)</p>
+<p><span class="math display">\[
+G = (V, E) := \{ \{V\}, \{V,E\}\}
+\]</span></p>
 <ul>
-<li>We note that <em>E</em> is a homogenous binary relation over <em>V</em></li>
-<li>We consider that <em>E⁺</em> the transitive closure of <em>E</em></li>
+<li>We note that <span class="math inline">\(E\)</span> is a homogenous binary relation over <span class="math inline">\(V\)</span></li>
+<li>Take <span class="math inline">\(E^+\)</span> the transitive closure of <span class="math inline">\(E\)</span></li>
 </ul>
-<p><em>E⁺</em> ⊃ <em>E</em></p>
+</section>
+
+<section id="cycles-2" class="title-slide slide level1 center">
+<h1>Cycles</h1>
 <ul>
-<li><em>G</em> contains a cycle (has the property of being cyclic) if <em>E⁺</em> contains an edge from a node to itself.</li>
+<li><span class="math inline">\(G\)</span> contains a cycle (has the property of being cyclic) if <span class="math inline">\(E^+\)</span> contains an edge from a node to itself.</li>
 </ul>
-<p><strong>Cyclic</strong>(<em>G</em>) := ∃ <em>v</em> : <em>vE⁺v</em></p>
-<p><strong>Cyclic</strong>(<em>G</em> = (<em>V</em>, <em>E</em>)) := ∃ <em>v</em> ∈ <em>V</em>: {<em>v</em>, <em>v</em>} ∈ E⁺</p>
+<p><span class="math inline">\(\text{Cyclic}(G = (V, E)) := \exists v \in V: \{v, v\} \in E^+\)</span></p>
+</section>
+
+<section id="note" class="title-slide slide level1 center">
+<h1>Note</h1>
 <ul>
-<li>Some notes:
-<ul>
-<li>Cycles are defined to be non-trivial, which means they don’t contain “loops”, so or an edge from a node to itself.
+<li>Cycles are defined to be non-trivial, which means they don’t contain “loops”, so an edge from a node to itself.
 <ul>
 <li>We don’t think about this with Amtrak because we don’t take a train from Portland to Portland</li>
 </ul></li>
+</ul>
+</section>
+
+<section id="other-terms" class="title-slide slide level1 center">
+<h1>Other Terms</h1>
+<ul>
 <li>Circuits, walks, paths, and trails are also defined in graph theory and are related.</li>
 <li>Direct paths and undirected paths are, of course, distinct but intuitively so.
 <ul>
-<li>Cascades 503, which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.</li>
-<li>The Cascades route, which runs service between Vancouver BC and Eugene, has both edges.</li>
-</ul></li>
+<li>Cascades 503, a train which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.</li>
+<li>The Cascades route, which runs service between Vancouver, BC and Eugene, has both edges.</li>
 </ul></li>
 </ul>
 </section>
 
 <section id="dags-1" class="title-slide slide level1 center">
-<h1>DAGS</h1>
-<p>“In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles.”</p>
+<h1>DAGs</h1>
+<div class="{columns}">
+<div class="column" style="width:70%;">
 <ul>
-<li>So it is a graph</li>
-</ul>
-<p><em>G</em> = (<em>V</em>, <em>E</em>)</p>
+<li>A graph <span class="math inline">\(G = (V,E)\)</span> is a directed, acyclic graph if:
 <ul>
-<li>It is directed, so <em>E</em> is a set of ordered pairs</li>
+<li>It’s edges are directed, that is, <span class="math inline">\(E\)</span> is a set of ordered pairs, and</li>
+<li>The transitive closure of it’s edges <span class="math inline">\(E^+\)</span> contains no identity pairs.</li>
+</ul></li>
 </ul>
-<p><strong>Ordered</strong>(<em>e</em>) ∀ <em>e</em> ∈ <em>E</em></p>
-<ul>
-<li>It contains no cycles</li>
-</ul>
-<p>¬<strong>Cyclic</strong>(<em>G</em>)</p>
-<p>¬∃ <em>v</em> ∈ <em>V</em>: <em>vE⁺v</em></p>
+</div><div class="column" style="width:30%;">
+<p><a style="filter: invert(.9);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a></p>
+</div></div>
 </section>
 
 <section id="dags-2" class="title-slide slide level1 center">
-<h1>DAGS</h1>
+<h1>DAGs</h1>
 <ul>
 <li>Cascades 503 is a directed acyclic graph.
 <ul>
 <li>It has edges from all relative northern stations to all relative southern stations for all stations between Seattle and Portland inclusive.</li>
 </ul></li>
-<li>Color wavelength is a directed acyclic graph.
+<li>Amtrak Cascades is not a DAG
 <ul>
-<li>There is no color that is both higher wavelength and lower wavelength than some other color.</li>
+<li>It is not directed - SLM-&gt;PDX or PDX-&gt;SLM</li>
+<li>It contains cycles - PDX-&gt;SLM-&gt;PDX</li>
 </ul></li>
-<li>The sentence syntax tree from nltk is a directed acyclic graph.</li>
 </ul>
+</section>
 
-<img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Noun_phrase_chunking_with_NLTK.svg/2560px-Noun_phrase_chunking_with_NLTK.svg.png" class="r-stretch"><ul>
-<li>Sentences (S) contain words or phrases, and phrases (<em>x</em>P) contain words, but no phrases contain a sentence or words contain a phrase.</li>
-<li>MapReduce is a directed acyclic graph.
+<section id="dags-3" class="title-slide slide level1 center">
+<h1>DAGs</h1>
 <ul>
-<li>Neither Map nor Reduce accept as input anything that they have output, or is constructed from their outputs.</li>
+<li>Color wavelength is a directed acyclic graph.</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="960" height="480" viewbox="0.00 0.00 188.04 67.02" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 63.02)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-63.02 184.04,-63.02 184.04,4 -4,4"></polygon>
+<!-- R -->
+<g id="node1" class="node">
+<title>R</title>
+<ellipse fill="none" stroke="#ffffff" cx="18" cy="-18.01" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-13.81" font-family="Times,serif" font-size="14.00" fill="#ffffff">R</text>
+</g>
+<!-- Y -->
+<g id="node2" class="node">
+<title>Y</title>
+<ellipse fill="none" stroke="#ffffff" cx="90.01" cy="-41.01" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="90.01" y="-36.81" font-family="Times,serif" font-size="14.00" fill="#ffffff">Y</text>
+</g>
+<!-- R&#45;&gt;Y -->
+<g id="edge1" class="edge">
+<title>R-&gt;Y</title>
+<path fill="none" stroke="#ffffff" d="M35.24,-23.34C43.43,-26.03 53.56,-29.36 62.81,-32.4"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="61.78,-35.75 72.37,-35.55 63.97,-29.1 61.78,-35.75"></polygon>
+</g>
+<!-- G -->
+<g id="node3" class="node">
+<title>G</title>
+<ellipse fill="none" stroke="#ffffff" cx="162.03" cy="-18.01" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="162.03" y="-13.81" font-family="Times,serif" font-size="14.00" fill="#ffffff">G</text>
+</g>
+<!-- R&#45;&gt;G -->
+<g id="edge2" class="edge">
+<title>R-&gt;G</title>
+<path fill="none" stroke="#ffffff" d="M36.17,-16.39C46.53,-15.49 60.01,-14.46 72,-14.01 88,-13.41 92.02,-13.41 108.02,-14.01 116.36,-14.32 125.42,-14.92 133.65,-15.55"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="133.61,-19.06 143.86,-16.39 134.18,-12.08 133.61,-19.06"></polygon>
+</g>
+<!-- Y&#45;&gt;G -->
+<g id="edge3" class="edge">
+<title>Y-&gt;G</title>
+<path fill="none" stroke="#ffffff" d="M107.25,-35.68C115.44,-32.99 125.57,-29.66 134.83,-26.62"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="135.98,-29.92 144.39,-23.48 133.8,-23.27 135.98,-29.92"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="dags-4" class="title-slide slide level1 center">
+<h1>DAGs</h1>
+<ul>
+<li>A traffic light is not a directed graph but not an acyclic graph.</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="960" height="480" viewbox="0.00 0.00 188.04 67.01" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 63.01)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-63.01 184.04,-63.01 184.04,4 -4,4"></polygon>
+<!-- Y -->
+<g id="node1" class="node">
+<title>Y</title>
+<ellipse fill="none" stroke="#ffffff" cx="18.01" cy="-18.01" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="18.01" y="-13.81" font-family="Times,serif" font-size="14.00" fill="#ffffff">Y</text>
+</g>
+<!-- R -->
+<g id="node2" class="node">
+<title>R</title>
+<ellipse fill="none" stroke="#ffffff" cx="90.02" cy="-41.01" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="90.02" y="-36.81" font-family="Times,serif" font-size="14.00" fill="#ffffff">R</text>
+</g>
+<!-- Y&#45;&gt;R -->
+<g id="edge1" class="edge">
+<title>Y-&gt;R</title>
+<path fill="none" stroke="#ffffff" d="M35.25,-23.34C43.44,-26.03 53.57,-29.36 62.82,-32.4"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="61.79,-35.75 72.39,-35.55 63.98,-29.1 61.79,-35.75"></polygon>
+</g>
+<!-- G -->
+<g id="node3" class="node">
+<title>G</title>
+<ellipse fill="none" stroke="#ffffff" cx="162.03" cy="-18.01" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="162.03" y="-13.81" font-family="Times,serif" font-size="14.00" fill="#ffffff">G</text>
+</g>
+<!-- R&#45;&gt;G -->
+<g id="edge2" class="edge">
+<title>R-&gt;G</title>
+<path fill="none" stroke="#ffffff" d="M107.26,-35.68C115.45,-32.99 125.58,-29.66 134.83,-26.62"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="135.99,-29.92 144.4,-23.48 133.8,-23.27 135.99,-29.92"></polygon>
+</g>
+<!-- G&#45;&gt;Y -->
+<g id="edge3" class="edge">
+<title>G-&gt;Y</title>
+<path fill="none" stroke="#ffffff" d="M143.86,-16.39C133.49,-15.49 120.01,-14.46 108.02,-14.01 92.03,-13.41 88.01,-13.41 72.02,-14.01 63.68,-14.32 54.63,-14.92 46.39,-15.55"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="45.86,-12.08 36.18,-16.39 46.43,-19.06 45.86,-12.08"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="dags-5" class="title-slide slide level1 center">
+<h1>DAGs</h1>
+<ul>
+<li>Friendship, via mutual enthusiastic consent, is a neither directed nor, necessarily, acyclic.</li>
+<li>Facebook is not a DAG.</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="960" height="480" viewbox="0.00 0.00 199.70 89.06" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 85.06)">
+<title>G</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-85.06 195.7,-85.06 195.7,4 -4,4"></polygon>
+<!-- n -->
+<g id="node1" class="node">
+<title>n</title>
+<ellipse fill="none" stroke="#ffffff" cx="40.53" cy="-40.53" rx="40.56" ry="40.56"></ellipse>
+<text text-anchor="middle" x="40.53" y="-36.33" font-family="Times,serif" font-size="14.00" fill="#ffffff">Thelma</text>
+</g>
+<!-- m -->
+<g id="node2" class="node">
+<title>m</title>
+<ellipse fill="none" stroke="#ffffff" cx="154.38" cy="-40.53" rx="37.14" ry="37.14"></ellipse>
+<text text-anchor="middle" x="154.38" y="-36.33" font-family="Times,serif" font-size="14.00" fill="#ffffff">Louise</text>
+</g>
+<!-- n&#45;&#45;m -->
+<g id="edge1" class="edge">
+<title>n--m</title>
+<path fill="none" stroke="#ffffff" d="M81.28,-40.53C92.83,-40.53 105.39,-40.53 116.75,-40.53"></path>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="cs-major-dag" class="title-slide slide level1 center">
+<h1>CS Major DAG</h1>
+<p><a style="filter: invert(1);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://cd-public.github.io/advising/cse.html"><img height="80%" alt="Tred-G" src="https://cd-public.github.io/advising/photos/cse.png"></a></p>
+</section>
+
+<section id="today-2" class="title-slide slide level1 center">
+<h1>Today</h1>
+<ul>
+<li>✓ Graphs
+<ul>
+<li>✓ DAGs</li>
+<li>Trees</li>
 </ul></li>
 </ul>
 </section>
 
 <section>
-<section id="dags-3" class="title-slide slide level1 center">
-<h1>DAGS</h1>
+<section id="trees-1" class="title-slide slide level1 center">
+<h1>Trees</h1>
 <ul>
-<li><em>Directed Acyclic Graphs generalize MapReduce</em> ```json { “word_x_tagcount”: { “key_value_pairs” : { “input” : “filename:text”, ““:”word:tag”, ““:”word_x_tag:1”, “output”: “word_x_tag:count” } } }</li>
+<li>A tree is DAG where every node has at most one incoming edge.</li>
 </ul>
 </section>
 <section id="incentive" class="slide level2">
@@ -1514,9 +1853,10 @@ L = \{ (G, Y), (Y, R), (R, G)\}
 <section id="code" class="slide level2">
 <h2>code</h2>
 <p><code>&lt;script&gt; function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } &lt;/script&gt; &lt;input value=".4" type="number" min="0" max="0.5" id="q"&gt; &lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;q&lt;/em&gt; ∈ (0,.5)&lt;/button&gt; &lt;input value="5" type="number" min="1" id="z"&gt; &lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0 &lt;/button&gt;&lt;br&gt; &lt;canvas style="background-color:white" id="plot" width="800" height="800"&gt;&lt;/canvas&gt;</code></p>
+<p>FIN</p>
 </section>
-<section id="fin" class="slide level2">
-<h2>FIN</h2>
+<section class="slide level2">
+
 <ul>
 <li>Distributed consensus is non-trivial.</li>
 <li>It tends to rely on math in the most classical sense of the term.</li>

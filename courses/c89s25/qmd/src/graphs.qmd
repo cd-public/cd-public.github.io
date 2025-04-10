@@ -91,7 +91,7 @@ TypeError: 'set' object is not subscriptable
 ```
 * [I just set them up just to knock them down.](https://www.youtube.com/watch?v=dvf--10EYXw)
 
-# Aside: Sets and pairs
+# Aside: Pairs
 
 -  Take a number plane (click):
 
@@ -118,7 +118,7 @@ function draw1()
 }</script>
 
 
-# Aside: Sets and pairs
+# Aside: Pairs
 
 * Denote ordered pair (.5,1.5) in <span style="color:red">red</span>. 
 
@@ -395,7 +395,7 @@ Amtrak = (Stations, Trains)
 :::{.column width=50%}
 
 
-<a style="filter: invert(1);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a>
+<a style="filter: invert(.9);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a>
 
 :::
 
@@ -460,12 +460,12 @@ $$
 C \times C = \{ (G, Y), (G, R), (Y, R), (Y, G),(R, G), (R, Y) \}
 $$ 
 
-* We consider a subset of $C \times C$ that is "safe"
+* Define traffic light $L \subset C \times C$
 
-# Safety
+# Properties
 
-* Construst $L$, the traffic light relation
-    * Yellow must precede Red
+* Construct $L$, the traffic light relation
+    * No red without prior yellow
         $$
         (Y,X) \in L \implies X = R
         $$ 
@@ -476,169 +476,287 @@ $$
 
 # This gives
 
+- The relation then is
 $$
 L = \{ (G, Y), (Y, R), (R, G)\}
 $$
+- We not this is a subset of $C \times C$
 
+# Notation
 
+- Variety of ways to express this.
+    - Function application
+        - `L(G) = Y`
+    - Infix notation
+        - `gLy`
 
-(R, G) ∈ *W* ⊂ *C* × *C*
+# Matrix      
 
-* G has a higher wavelength than B
+- Starting state on top, ending state on side
 
-(G, B) ∈ *W* ⊂ *C* × *C*
+||$G$|$Y$|$R$|
+|-|-|-|-|
+$G$||x||
+|$Y$|||x|
+|$R$|x|||
 
-* As a notional convenience, this is often expressed as, with elements as lower case letters, *gWb*
+- Astute blah blah its 9 bits
 
-*gWb* := (G, B) ∈ *W* ⊂ *C* × *C*
+# Rainbow
 
-# Transitivity
+- Vs. traffic light, we can take "wavelength" where colors are sorted by something physics something optics help I don't know this stuff.
 
-* So we take relation *W* over a set *C* to be the following:
+<a title="Eric Rolph at English Wikipedia, CC BY-SA 2.5 &lt;https://creativecommons.org/licenses/by-sa/2.5&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Double-alaskan-rainbow.jpg"><img width="100%" alt="Double-alaskan-rainbow" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Double-alaskan-rainbow.jpg/512px-Double-alaskan-rainbow.jpg?20070714083004"></a>
 
-*W* ⊂ *C* × *C* = { (R, G), (G, B) }
+# Rainbow
 
-*W* = { *rWg*, *gWb* }
+- We note red is higher than yellow which is higher than green.
+    - Green is higher than *nothing* or $\varnothing$
 
-* What does this tell us about the relation between r and b?
-* Well, so far, nothing. But...
-    * if r has a higher wavelength than g
-    * and g has a great wavelength than b
-    * does it follow that r has a great wavelength than b?
+||$G$|$Y$|$R$|
+|-|-|-|-|
+$G$||x||
+|$Y$|||x|
+|$R$||||
 
-*rWb*
+# Rainbow
 
-* This is called **transitivity** or the transitive property
+- We note that Rainbow $B$ ($R$ is taken) is also a binary relation.
+- We will explore its properties.
+$$
+B \subset C \times C = \{ (R,Y), (Y,G) \}
+$$
 
-**Transitivity** := ∀ *x*, *y*, *z*: *xRy* and *yRz* ⇒ *xRz*
+- We additionally note that while $R$ is immediately above $Y$, it is *also* above $G$
+
+# Transitivitity
+
+* Transitivity is over relation $R$  as follows.
+
+$$ 
+((a, b) \in R \land (b, c) \in R) \implies (a, c) \in R
+$$
+
+* For us, that would be,
+$$
+((R, Y) \in B \land (Y,G) \in B) \implies (R, G) \in B
+$$
+* In the rainbow case, this is true, $R$ appears above $G$ in the rainbow because $R$ is above $Y$ and $Y$ is above $G$.
 
 # Closure
 
 * Our initial relation was not transitive.
 
-*W* = { *rWg*, *gWb* }
+||$G$|$Y$|$R$|
+|-|-|-|-|
+$G$||x||
+|$Y$|||x|
+|$R$||||
 
 * As in the Amtrak case, we considered only adjacent elements as a convenience, but that doesn't tell us if e.g. we can get from Seattle to Eugene.
-* To do that, we need to to preserve transitivity - and we do so using the notion of **transitive closure**
-* We denote the transitive closure *R⁺*
-    * The transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
-
-*R⁺* ⊃ *R*
-
-∀ *xRy* : *xR⁺y*
-
-∀ {*x*, *y*} ∈ *R*, ∃ {*x*, *y*} ∈ *R⁺*
 
 # Closure
 
-* We denote the transitive closure *R⁺*
-    * The transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
+* To do that, we need to to preserve transitivity - and we do so using the notion of **transitive closure**
+* A closure is an operation over sets, and in the case of binary relations, which are sets of pairs, is an operation over the relation itself, or the sets of pairs themselves (which are equivalent).
+
+# Closure
+
+* We denote the transitive closure of some relation $R$ as $R^+$
+* First, the transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
+
+$$
+R^+ \supseteq R
+$$
+
+* We recall we can use set operations like superset on $R$ as it is a set of pairs, in this case ordered.
 
 *R⁺* ⊃ *R*
 
-* The transitive closure *R⁺* of some relation *R* must be transitive.
+# Superset review
 
-∀ *x*, *y*, *z*: *xR⁺y* and *yR⁺z* ⇒ *xR⁺z*
+- That means that for all pairs (of colors, for example) in the binary relation $R$, each one of them is also in $R^+$
 
-∀ {*x*, *y*}, {*y*, *z*} ∈ *R*, ∃ {*x*, *z*} ∈ *R⁺*
+$$
+\forall p \in R, p \in R^+
+$$
+
+$$
+\forall x,y \in S, (x,y) \in R \subset S \times S \implies (x,y) \in R^+
+$$
+
+
+# Closure
+
+* The transitive closure $R^+$ of some relation $R$ must be transitive.
+* Recall:
+
+$$ 
+((a, b) \in R \land (b, c) \in R) \implies (a, c) \in R
+$$
+
+
+# Discussion
 
 * Note: since this is a "for all", it means as we are required to add new elements to maintain transitivity, transitivity must apply to those new elements.
 * So, if we add *SeattleAmtrakTacoma* because we have *SeattleAmtrakTukwila* and *TukwilaAmtrakTacoma*...
 * We will then have to add *SeattleAmtrakOlympia* because *Amtrak* also contains *TukwilaAmtrakOlympia*
-* Maybe this looks a little nicer with 3 letter station names and and train numbers (for Cascades 503) rather than just "Amtrak":
-    * *sea503⁺tac*
-    * *sea503⁺olw*
+
+# Color Example
+
+* If in rainbow relation $B$ we find <span style="color:red">$R$</span> is higher in the rainbow than <span style="color:yellow">$Y$</span> and <span style="color:yellow">$Y$</span> is higher in the rainbow than <span style="color:green">$G$</span> then 
+$$
+\{ (R,Y), (Y,G) \} \subseteq B
+$$
+* The transitive closure adds at least one additional element.
+$$
+\{ (R,Y), (Y,G), (R,G) \} \subseteq B^+
+$$
 
 # Closure
-
-* We denote the transitive closure *R⁺*
-    * The transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
-
-*R⁺* ⊃ *R*
-
-* The transitive closure *R⁺* of some relation *R* must be transitive.
-
-∀ *x*, *y*, *z*: *xR⁺y* and *yR⁺z* ⇒ *xR⁺z*
 
 * *R⁺* must be the smallest possible relation for that is a transitive superset of *R*.
     * Cartesian Product is always transitive and a superset, but not always the smallest satisfying set.
 
-*R⁺* : ∀ *R'* ⊂ *S* × *S*:
-*R'* ⊃ *R* and **Transitive**(*R'*) :
-|*R⁺*| < |*R'*| and *R⁺* ⊃ *R* and **Transitive**(*R'*)
+# A note on graphs
+
+* By the way those binary relations are graph edges between graph nodes (the elements of the original set).
+* And by the way those edges are pointers.
+* Okay keep going.
 
 # Cycles
 
 * We use transitive closure to define cycles
-    * We consider a graph
+    * We consider a graph $G$
 
-*G* = (*V*, *E*)
+$$
+G = (V, E) := \{ \{V\}, \{V,E\}\}
+$$
 
-* We note that *E* is a homogenous binary relation over *V*
-* We consider that *E⁺* the transitive closure of *E*
+* We note that $E$ is a homogenous binary relation over $V$
+* Take $E^+$ the transitive closure of $E$
 
-*E⁺* ⊃ *E*
+# Cycles
 
-* *G* contains a cycle (has the property of being cyclic) if *E⁺* contains an edge from a node to itself.
+* $G$ contains a cycle (has the property of being cyclic) if $E^+$ contains an edge from a node to itself.
 
-**Cyclic**(*G*) := ∃ *v* : *vE⁺v*
+$\text{Cyclic}(G = (V, E)) := \exists v \in V: \{v, v\} \in E^+$
 
-**Cyclic**(*G* = (*V*, *E*)) := ∃ *v* ∈ *V*: {*v*, *v*} ∈ E⁺
+# Note
 
-* Some notes:
-    * Cycles are defined to be non-trivial, which means they don't contain "loops", so or an edge from a node to itself.
-        * We don't think about this with Amtrak because we don't take a train from Portland to Portland
-    * Circuits, walks, paths, and trails are also defined in graph theory and are related.
-    * Direct paths and undirected paths are, of course, distinct but intuitively so.
-        * Cascades 503, which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.
-        * The Cascades route, which runs service between Vancouver BC and Eugene, has both edges.
+* Cycles are defined to be non-trivial, which means they don't contain "loops", so  an edge from a node to itself.
+    * We don't think about this with Amtrak because we don't take a train from Portland to Portland
 
-# DAGS
+# Other Terms
 
-"In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles."
+* Circuits, walks, paths, and trails are also defined in graph theory and are related.
+* Direct paths and undirected paths are, of course, distinct but intuitively so.
+    * Cascades 503, a train which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.
+    * The Cascades route, which runs service between Vancouver, BC and Eugene, has both edges.
 
-* So it is a graph
 
-*G* = (*V*, *E*)
+# DAGs
 
-* It is directed, so *E* is a set of ordered pairs
+::::{columns}
 
-**Ordered**(*e*) ∀ *e* ∈ *E*
+:::{.column width=70%}
+  
 
-* It contains no cycles
+- A graph $G = (V,E)$ is a directed, acyclic graph if:
+    - It's edges are directed, that is, $E$ is a set of ordered pairs, and
+    - The transitive closure of it's edges $E^+$ contains no identity pairs.
+:::
 
-¬**Cyclic**(*G*)
+:::{.column width=30%}
 
-¬∃ *v* ∈ *V*: *vE⁺v*
 
-# DAGS
+<a style="filter: invert(.9);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a>
+
+:::
+
+::::
+
+
+# DAGs
 
 * Cascades 503 is a directed acyclic graph.
     * It has edges from all relative northern stations to all relative southern stations for all stations between Seattle and Portland inclusive.
+* Amtrak Cascades is not a DAG
+    * It is not directed - SLM->PDX or PDX->SLM
+    * It contains cycles - PDX->SLM->PDX
+
+# DAGs
+
 * Color wavelength is a directed acyclic graph.
-    * There is no color that is both higher wavelength and lower wavelength than some other color.
-* The sentence syntax tree from nltk is a directed acyclic graph.
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=LR; bgcolor="#191919";
+  node [fontcolor = "#ffffff", color = "#ffffff"]
+  edge [color = "#ffffff",fontcolor = "#ffffff"]
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Noun_phrase_chunking_with_NLTK.svg/2560px-Noun_phrase_chunking_with_NLTK.svg.png)
+  node [shape=circle];
 
-* Sentences (S) contain words or phrases, and phrases (*x*P) contain words, but no phrases contain a sentence or words contain a phrase.
-* MapReduce is a directed acyclic graph.
-    * Neither Map nor Reduce accept as input anything that they have output, or is constructed from their outputs.
+  R -> Y
+  R -> G
+  Y -> G
 
-# DAGS
-
-* *Directed Acyclic Graphs generalize MapReduce*
-```json
-{
-    "word_x_tagcount": {
-        "key_value_pairs" : {
-            "input" : "filename:text",
-            "": "word:tag",
-            "": "word_x_tag:1",
-            "output": "word_x_tag:count"
-        }
-    }
 }
+```
+
+# DAGs
+
+* A traffic light is not a directed graph but not an acyclic graph.
+
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=LR; bgcolor="#191919";
+  node [fontcolor = "#ffffff", color = "#ffffff"]
+  edge [color = "#ffffff",fontcolor = "#ffffff"]
+
+  node [shape=circle];
+
+  Y -> R
+  R -> G
+  G -> Y
+}
+```
+
+# DAGs
+
+* Friendship, via mutual enthusiastic consent, is a neither directed nor, necessarily, acyclic.
+* Facebook is not a DAG.
+
+```{dot}
+//| echo: false
+graph G {
+  graph [rankdir="LR"];
+  bgcolor="#191919";
+  node [fontcolor = "#ffffff", color = "#ffffff", shape=circle];
+  edge [color = "#ffffff",fontcolor = "#ffffff"];
+  n [label="Thelma"];
+  m [label="Louise"];
+  n -- m;
+}
+```
+
+# CS Major DAG
+
+<a style="filter: invert(1);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://cd-public.github.io/advising/cse.html"><img height="80%" alt="Tred-G" src="https://cd-public.github.io/advising/photos/cse.png"></a>
+
+# Today
+
+- &check; Graphs
+    - &check; DAGs
+    - Trees
+
+# Trees
+
+- A tree is DAG where every node has at most one incoming edge.
+
+
+
 
 Incentive
 ---------

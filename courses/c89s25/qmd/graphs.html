@@ -391,7 +391,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Graphs</h1>
-  <p class="subtitle">Week 0xB I</p>
+  <p class="subtitle">Week 0xC I</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -413,13 +413,13 @@ Prof.&nbsp;Calvin
 <li>Graphs, to introduce
 <ul>
 <li>DAGs</li>
-</ul></li>
 <li>Trees, to introduce,</li>
 <li>Hash or Merkle trees</li>
 </ul></li>
+</ul></li>
 <li><strong>Action Items</strong>:
 <ul>
-<li>tree_t after this</li>
+<li><code>heap_t</code> after this, but really after “Merkle”</li>
 </ul></li>
 </ul>
 </section>
@@ -1553,320 +1553,690 @@ G = (V, E) := \{ \{V\}, \{V,E\}\}
 </ul>
 </section>
 
-<section>
 <section id="trees-1" class="title-slide slide level1 center">
 <h1>Trees</h1>
 <ul>
-<li>A tree is DAG where every node has at most one incoming edge.</li>
+<li>A tree is DAG where every node has at most one incoming edge.
+<ul>
+<li><span class="math inline">\(\exists\)</span> undirected trees but we do not consider them.</li>
+</ul></li>
+<li>A graph <span class="math inline">\(G = (V, E)\)</span> is a tree if <span class="math display">\[
+\forall v \in V : |\{(v',v) \in E\}| \leq 1
+\]</span></li>
+<li>For all verticies, the cardinality of the set of incoming edges is less than or equal to one.</li>
 </ul>
 </section>
-<section id="incentive" class="slide level2">
-<h2>Incentive</h2>
+
+<section id="decision-trees" class="title-slide slide level1 center">
+<h1>Decision Trees</h1>
+<p><a title="User:Gokul Jadhav, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Manual_decision_tree.jpg"><img width="256" alt="Manual decision tree" src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Manual_decision_tree.jpg?20080718223209"></a></p>
+</section>
+
+<section id="decision-trees-1" class="title-slide slide level1 center">
+<h1>Decision Trees</h1>
+<p><a style="filter: invert(.9);" title="IPWAI, CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0>, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:DecisionCalcs.jpg"><img width="512" alt="DecisionCalcs" src="https://upload.wikimedia.org/wikipedia/commons/4/48/DecisionCalcs.jpg?20120618060749"></a></p>
+</section>
+
+<section id="river-systems" class="title-slide slide level1 center">
+<h1>River Systems</h1>
+<p><a title="Kmusser, CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0>, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Columbiarivermap.png"><img width="512" alt="Columbiarivermap" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Columbiarivermap.png/512px-Columbiarivermap.png?20220901045624"></a></p>
+</section>
+
+<section id="data-structure" class="title-slide slide level1 center">
+<h1>Data Structure</h1>
+<p><a style="filter: invert(.9);" title="Paddy3118, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg"><img width="256" alt="A rooted, non-binary, tree" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tree_%28computer_science%29.svg/256px-Tree_%28computer_science%29.svg.png?20191020090628"></a></p>
+</section>
+
+<section id="why-trees" class="title-slide slide level1 center">
+<h1>Why trees?</h1>
 <ul>
-<li><p>The system only works if there’s a reason to invest in mining</p>
-<blockquote>
-<p>The incentive can also be funded with transaction fees</p>
-</blockquote>
+<li>If trying to store data, really only need one unique path to the data.</li>
+<li>If trying to assure integrity of data with hashing, really only need to hash once.</li>
+</ul>
+</section>
+
+<section id="sample-tree" class="title-slide slide level1 center">
+<h1>Sample Tree</h1>
 <ul>
-<li><p>If you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.</p></li>
-<li><p>This is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.</p></li>
-<li><p>Transaction fees allow inflationless mining.</p></li>
-<li><p>The last bitcoin (21M’th) will be mined circa 2140 and the system will be fee-only at that time.</p>
-<blockquote>
-<p>The incentive may help encourage nodes to stay honest.</p>
-</blockquote></li>
-<li><p>SN, paraphrased: Fees will likely be more lucrative than theft.</p></li>
-<li><p>CD: Attackers will likely be political motivated to destabilize the currency.</p></li>
+<li>By convention, given a directed edge <span class="math inline">\((v,v`)\)</span>, vertex <span class="math inline">\(v\)</span> is denoted the parent and vertex <span class="math inline">\(v`\)</span> is denoted the child.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a></a><span class="kw">struct</span> tree_struct <span class="op">{</span></span>
+<span id="cb9-2"><a></a>    <span class="dt">void</span> <span class="op">*</span>data<span class="op">;</span></span>
+<span id="cb9-3"><a></a>    <span class="dt">size_t</span> num_children<span class="op">;</span></span>
+<span id="cb9-4"><a></a>    <span class="kw">struct</span> tree_struct <span class="op">*</span>children<span class="op">;</span></span>
+<span id="cb9-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="binary-tree" class="title-slide slide level1 center">
+<h1>Binary Tree</h1>
+<ul>
+<li>In computing, we often use binary trees, which are equivalently expressive and have other nice properties.</li>
+<li>Commonly, the two children are referred to as “right” and “left”</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a></a><span class="kw">struct</span> binary_tree_struct <span class="op">{</span></span>
+<span id="cb10-2"><a></a>    <span class="dt">void</span> <span class="op">*</span>data<span class="op">;</span></span>
+<span id="cb10-3"><a></a>    <span class="kw">struct</span> binary_tree_struct <span class="op">*</span>left<span class="op">;</span></span>
+<span id="cb10-4"><a></a>    <span class="kw">struct</span> binary_tree_struct <span class="op">*</span>rite<span class="op">;</span></span>
+<span id="cb10-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="by-the-way" class="title-slide slide level1 center">
+<h1>By The Way</h1>
+<ul>
+<li>It would have been fairly straightforward to implement <code>list_t</code> using trees.</li>
+<li>Just why bother…
+<ul>
+<li>Minimally, can use just the right or left side and you have a linked list.</li>
 </ul></li>
 </ul>
 </section>
-<section id="pruning" class="slide level2">
-<h2>Pruning</h2>
+
+<section id="bst" class="title-slide slide level1 center">
+<h1>BST</h1>
 <ul>
-<li><p>Bitcoin scaling is a real problem, but</p></li>
-<li><p>There’s a lot of ways to handle that.</p></li>
-<li><p>Only the most recent transaction on a coin must be saved, for example.</p>
-<blockquote>
-<p>Once the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded to save disk space.</p>
-</blockquote></li>
-<li><p>This is done using a little thing called “Merkle Tree” which happens to be…</p></li>
-<li><p>A Directed Acyclic Graph</p></li>
+<li>In 100-level CS classes, students often implement a binary search tree.</li>
+<li>These trees store lower values on lesser/left side</li>
+<li>It basically implements quicksort in structures.</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="https://commons.wikimedia.org/wiki/File:Southwest_Chief_at_Laguna,_February_2020.jpg" title="Jerry Huddleston from Hampton, Minnesota, US, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons"><img data-src="Blockchain_files/Southwest_Chief_at_Laguna,_February_2020.jpg" alt="Southwest Chief at Laguna, February 2020"></a></p>
-<figcaption>Southwest Chief at Laguna, February 2020</figcaption>
-</figure>
+</section>
+
+<section id="merkle" class="title-slide slide level1 center">
+<h1>Merkle</h1>
+<ul>
+<li>In this class, we will do instead a Merkle tree or hash tree.</li>
+<li>Merkle trees are unsorted but they are verified, which is what we want to do with our transactions.</li>
+<li>In a block, we then store the root, the ultimate ancestor of all nodes, and store the transactions elsewhere.</li>
+<li>This verifies the entire transaction tree.</li>
+</ul>
+</section>
+
+<section id="merkle-1" class="title-slide slide level1 center">
+<h1>Merkle</h1>
+<p><a style="filter: invert(1);" title="Azaghal, CC0, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Hash_Tree.svg"><img width="80%" alt="Graphical representation of the Merkle Tree. Illustration by David Göthberg" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Hash_Tree.svg"></a></p>
+</section>
+
+<section id="tree-terms" class="title-slide slide level1 center">
+<h1>Tree Terms</h1>
+<ul>
+<li>Connected</li>
+<li>Root</li>
+<li>Leaf</li>
+<li>Parent</li>
+<li>Child</li>
+<li>Height/depth</li>
+<li>Size</li>
+</ul>
+</section>
+
+<section id="connected" class="title-slide slide level1 center">
+<h1>Connected</h1>
+<ul>
+<li>Trees are <em>connected</em>
+<ul>
+<li>That is, if we take the transitive closure of edges</li>
+<li>There is an edge from one node to every other node.</li>
+<li>The transitive closure of the edges is the set of paths.</li>
+</ul></li>
+<li>Connectedness is usually defined over undirected graphs.</li>
+</ul>
+</section>
+
+<section id="root" class="title-slide slide level1 center">
+<h1>Root</h1>
+<ul>
+<li>The root is the node which has a path to every other edge.</li>
+<li>It is the “ancestor” of all nodes.</li>
+<li>Often in computing, we treat a descriptor or pointer to the root as a descriptor or pointer to the graph.</li>
+<li>A Bitcoin block contains a “Merkle root” of a transaction tree.</li>
+</ul>
+</section>
+
+<section id="leaf" class="title-slide slide level1 center">
+<h1>Leaf</h1>
+<ul>
+<li>Not every node has outgoing edges.</li>
+<li>We refer to nodes without such edges as leafs (leaves?)</li>
+</ul>
+</section>
+
+<section id="diagram" class="title-slide slide level1 center">
+<h1>Diagram</h1>
+<div class="{columns}">
+<div class="column" style="width:50%;">
+<ul>
+<li><code>2</code> is the root</li>
+<li><code>{2, 10, 5, 11, 4}</code> are lea[fs/ves]</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><a style="filter: invert(.9);" title="Paddy3118, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg"><img width="256" alt="A rooted, non-binary, tree" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tree_%28computer_science%29.svg/256px-Tree_%28computer_science%29.svg.png?20191020090628"></a></p>
+</div></div>
+</section>
+
+<section id="parentchild" class="title-slide slide level1 center">
+<h1>Parent/Child</h1>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="960" height="480" viewbox="0.00 0.00 180.42 79.41" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 75.41)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-75.41 176.42,-75.41 176.42,4 -4,4"></polygon>
+<!-- Parent -->
+<g id="node1" class="node">
+<title>Parent</title>
+<ellipse fill="none" stroke="#ffffff" cx="35.71" cy="-35.71" rx="35.92" ry="35.92"></ellipse>
+<text text-anchor="middle" x="35.71" y="-31.51" font-family="Times,serif" font-size="14.00" fill="#ffffff">Parent</text>
+</g>
+<!-- Child -->
+<g id="node2" class="node">
+<title>Child</title>
+<ellipse fill="none" stroke="#ffffff" cx="139.91" cy="-35.71" rx="32.5" ry="32.5"></ellipse>
+<text text-anchor="middle" x="139.91" y="-31.51" font-family="Times,serif" font-size="14.00" fill="#ffffff">Child</text>
+</g>
+<!-- Parent&#45;&gt;Child -->
+<g id="edge1" class="edge">
+<title>Parent-&gt;Child</title>
+<path fill="none" stroke="#ffffff" d="M71.6,-35.71C79.82,-35.71 88.67,-35.71 97.16,-35.71"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="97.27,-39.21 107.27,-35.71 97.27,-32.21 97.27,-39.21"></polygon>
+</g>
+</g>
+</svg>
 </div>
-<p><em>Graph Theory: Cool, Fun, Practical</em></p>
-</section>
-<section id="merkle-tree" class="slide level2">
-<h2>Merkle Tree</h2>
-<ul>
-<li><p>Disclosure: Wikipedia claims Merkle Trees are a computer science topic:</p>
-<blockquote>
-<p>In cryptography and computer science, a hash tree or Merkle tree is a tree in which…</p>
-</blockquote></li>
-<li><p>I am a computer scientist.</p></li>
-<li><p>I’m sorry! I think they’re really cool!</p></li>
-<li><p>Anyways a ‘tree’ is a DAG where:</p>
-<ul>
-<li>There is a root node, with no incoming edges</li>
-<li>Every other edge has exactly one incoming edge</li>
-</ul></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg" title="Paddy3118, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons"><img data-src="Blockchain_files/Tree_(computer_science).svg.png" alt="Tree (computer science)"></a></p>
-<figcaption>Tree (computer science)</figcaption>
-</figure>
+<p></p></figure><p></p>
 </div>
-<p>I should probably say “hash tree” (descriptive name) but I’m really used to hearing “Merkle tree”.</p>
+</div>
+</div>
 </section>
-<section id="merkle-tree-1" class="slide level2">
-<h2>Merkle Tree</h2>
+
+<section id="heightdepth" class="title-slide slide level1 center">
+<h1>Height/Depth</h1>
+<div class="{columns}">
+<div class="column" style="width:50%;">
 <ul>
-<li>New term: Leaf (or leaf node)
+<li>The height or depth of a tree is the maximum number of edges from some root to a leaf.</li>
+<li>For this tree it is 3</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource py number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="bu">len</span>(((<span class="dv">5</span>,<span class="dv">3</span>),(<span class="dv">3</span>,<span class="dv">2</span>),(<span class="dv">2</span>,<span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-fig-width="400px" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="400" height="480" viewbox="0.00 0.00 206.00 260.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-256 202,-256 202,4 -4,4"></polygon>
+<!-- 5 -->
+<g id="node1" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#ffa07a" cx="99" cy="-234" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">5</text>
+</g>
+<!-- 3 -->
+<g id="node2" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#ffa07a" cx="72" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">3</text>
+</g>
+<!-- 5&#45;&gt;3 -->
+<g id="edge1" class="edge">
+<title>5-&gt;3</title>
+<path fill="none" stroke="#ffa07a" d="M92.74,-216.76C89.5,-208.37 85.47,-197.93 81.83,-188.5"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="85.09,-187.22 78.23,-179.15 78.56,-189.74 85.09,-187.22"></polygon>
+</g>
+<!-- 7 -->
+<g id="node5" class="node">
+<title>7</title>
+<ellipse fill="none" stroke="#ffffff" cx="126" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">7</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g id="edge2" class="edge">
+<title>5-&gt;7</title>
+<path fill="none" stroke="#ffffff" d="M105.26,-216.76C108.5,-208.37 112.53,-197.93 116.17,-188.5"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="119.44,-189.74 119.77,-179.15 112.91,-187.22 119.44,-189.74"></polygon>
+</g>
+<!-- 2 -->
+<g id="node3" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#ffa07a" cx="18" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">2</text>
+</g>
+<!-- 3&#45;&gt;2 -->
+<g id="edge3" class="edge">
+<title>3-&gt;2</title>
+<path fill="none" stroke="#ffa07a" d="M61.33,-147.17C53.79,-137.39 43.52,-124.08 34.87,-112.87"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="37.53,-110.58 28.65,-104.8 31.98,-114.86 37.53,-110.58"></polygon>
+</g>
+<!-- 4 -->
+<g id="node6" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#ffffff" cx="72" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g id="edge4" class="edge">
+<title>3-&gt;4</title>
+<path fill="none" stroke="#ffffff" d="M72,-143.7C72,-135.98 72,-126.71 72,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="75.5,-118.1 72,-108.1 68.5,-118.1 75.5,-118.1"></polygon>
+</g>
+<!-- 1 -->
+<g id="node4" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#ffa07a" cx="18" cy="-18" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">1</text>
+</g>
+<!-- 2&#45;&gt;1 -->
+<g id="edge7" class="edge">
+<title>2-&gt;1</title>
+<path fill="none" stroke="#ffa07a" d="M18,-71.7C18,-63.98 18,-54.71 18,-46.11"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="21.5,-46.1 18,-36.1 14.5,-46.1 21.5,-46.1"></polygon>
+</g>
+<!-- 6 -->
+<g id="node7" class="node">
+<title>6</title>
+<ellipse fill="none" stroke="#ffffff" cx="126" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">6</text>
+</g>
+<!-- 7&#45;&gt;6 -->
+<g id="edge5" class="edge">
+<title>7-&gt;6</title>
+<path fill="none" stroke="#ffffff" d="M126,-143.7C126,-135.98 126,-126.71 126,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="129.5,-118.1 126,-108.1 122.5,-118.1 129.5,-118.1"></polygon>
+</g>
+<!-- 8 -->
+<g id="node8" class="node">
+<title>8</title>
+<ellipse fill="none" stroke="#ffffff" cx="180" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="180" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g id="edge6" class="edge">
+<title>7-&gt;8</title>
+<path fill="none" stroke="#ffffff" d="M136.67,-147.17C144.21,-137.39 154.48,-124.08 163.13,-112.87"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="166.02,-114.86 169.35,-104.8 160.47,-110.58 166.02,-114.86"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+
+<section id="height" class="title-slide slide level1 center">
+<h1>Height</h1>
+<div class="{columns}">
+<div class="column" style="width:50%;">
 <ul>
-<li>A leaf is a vertex (or node) of a tree with no outgoing edges.</li>
+<li>The height of a <em>node</em> is what the height of the subtree of which it is a root would be.</li>
+<li>The node labelled <code>3</code> is of height 2.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-fig-width="400px" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="400" height="480" viewbox="0.00 0.00 206.00 260.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-256 202,-256 202,4 -4,4"></polygon>
+<!-- 3 -->
+<g id="node1" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#ffa07a" cx="72" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">3</text>
+</g>
+<!-- 2 -->
+<g id="node2" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#ffa07a" cx="18" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">2</text>
+</g>
+<!-- 3&#45;&gt;2 -->
+<g id="edge3" class="edge">
+<title>3-&gt;2</title>
+<path fill="none" stroke="#ffa07a" d="M61.33,-147.17C53.79,-137.39 43.52,-124.08 34.87,-112.87"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="37.53,-110.58 28.65,-104.8 31.98,-114.86 37.53,-110.58"></polygon>
+</g>
+<!-- 4 -->
+<g id="node6" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#ffffff" cx="72" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g id="edge4" class="edge">
+<title>3-&gt;4</title>
+<path fill="none" stroke="#ffffff" d="M72,-143.7C72,-135.98 72,-126.71 72,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="75.5,-118.1 72,-108.1 68.5,-118.1 75.5,-118.1"></polygon>
+</g>
+<!-- 1 -->
+<g id="node3" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#ffa07a" cx="18" cy="-18" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">1</text>
+</g>
+<!-- 2&#45;&gt;1 -->
+<g id="edge7" class="edge">
+<title>2-&gt;1</title>
+<path fill="none" stroke="#ffa07a" d="M18,-71.7C18,-63.98 18,-54.71 18,-46.11"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="21.5,-46.1 18,-36.1 14.5,-46.1 21.5,-46.1"></polygon>
+</g>
+<!-- 5 -->
+<g id="node4" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#ffffff" cx="99" cy="-234" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">5</text>
+</g>
+<!-- 5&#45;&gt;3 -->
+<g id="edge1" class="edge">
+<title>5-&gt;3</title>
+<path fill="none" stroke="#ffffff" d="M92.74,-216.76C89.5,-208.37 85.47,-197.93 81.83,-188.5"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="85.09,-187.22 78.23,-179.15 78.56,-189.74 85.09,-187.22"></polygon>
+</g>
+<!-- 7 -->
+<g id="node5" class="node">
+<title>7</title>
+<ellipse fill="none" stroke="#ffffff" cx="126" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">7</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g id="edge2" class="edge">
+<title>5-&gt;7</title>
+<path fill="none" stroke="#ffffff" d="M105.26,-216.76C108.5,-208.37 112.53,-197.93 116.17,-188.5"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="119.44,-189.74 119.77,-179.15 112.91,-187.22 119.44,-189.74"></polygon>
+</g>
+<!-- 6 -->
+<g id="node7" class="node">
+<title>6</title>
+<ellipse fill="none" stroke="#ffffff" cx="126" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">6</text>
+</g>
+<!-- 7&#45;&gt;6 -->
+<g id="edge5" class="edge">
+<title>7-&gt;6</title>
+<path fill="none" stroke="#ffffff" d="M126,-143.7C126,-135.98 126,-126.71 126,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="129.5,-118.1 126,-108.1 122.5,-118.1 129.5,-118.1"></polygon>
+</g>
+<!-- 8 -->
+<g id="node8" class="node">
+<title>8</title>
+<ellipse fill="none" stroke="#ffffff" cx="180" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="180" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g id="edge6" class="edge">
+<title>7-&gt;8</title>
+<path fill="none" stroke="#ffffff" d="M136.67,-147.17C144.21,-137.39 154.48,-124.08 163.13,-112.87"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="166.02,-114.86 169.35,-104.8 160.47,-110.58 166.02,-114.86"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+
+<section id="depth" class="title-slide slide level1 center">
+<h1>Depth</h1>
+<div class="{columns}">
+<div class="column" style="width:50%;">
+<ul>
+<li>The depth of a <em>node</em> is what the height of the subtree of which it is the lowest leaf would be.</li>
+<li>The node labelled <code>4</code> is of depth 2.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-fig-width="400px" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="400" height="480" viewbox="0.00 0.00 206.00 260.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-256 202,-256 202,4 -4,4"></polygon>
+<!-- 5 -->
+<g id="node1" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#ffa07a" cx="99" cy="-234" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">5</text>
+</g>
+<!-- 3 -->
+<g id="node2" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#ffa07a" cx="72" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">3</text>
+</g>
+<!-- 5&#45;&gt;3 -->
+<g id="edge1" class="edge">
+<title>5-&gt;3</title>
+<path fill="none" stroke="#ffa07a" d="M92.74,-216.76C89.5,-208.37 85.47,-197.93 81.83,-188.5"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="85.09,-187.22 78.23,-179.15 78.56,-189.74 85.09,-187.22"></polygon>
+</g>
+<!-- 7 -->
+<g id="node5" class="node">
+<title>7</title>
+<ellipse fill="none" stroke="#ffffff" cx="126" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">7</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g id="edge2" class="edge">
+<title>5-&gt;7</title>
+<path fill="none" stroke="#ffffff" d="M105.26,-216.76C108.5,-208.37 112.53,-197.93 116.17,-188.5"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="119.44,-189.74 119.77,-179.15 112.91,-187.22 119.44,-189.74"></polygon>
+</g>
+<!-- 2 -->
+<g id="node3" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#ffffff" cx="18" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">2</text>
+</g>
+<!-- 3&#45;&gt;2 -->
+<g id="edge3" class="edge">
+<title>3-&gt;2</title>
+<path fill="none" stroke="#ffffff" d="M61.33,-147.17C53.79,-137.39 43.52,-124.08 34.87,-112.87"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="37.53,-110.58 28.65,-104.8 31.98,-114.86 37.53,-110.58"></polygon>
+</g>
+<!-- 4 -->
+<g id="node4" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#ffa07a" cx="72" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g id="edge4" class="edge">
+<title>3-&gt;4</title>
+<path fill="none" stroke="#ffa07a" d="M72,-143.7C72,-135.98 72,-126.71 72,-118.11"></path>
+<polygon fill="#ffa07a" stroke="#ffa07a" points="75.5,-118.1 72,-108.1 68.5,-118.1 75.5,-118.1"></polygon>
+</g>
+<!-- 1 -->
+<g id="node8" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#ffffff" cx="18" cy="-18" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">1</text>
+</g>
+<!-- 2&#45;&gt;1 -->
+<g id="edge7" class="edge">
+<title>2-&gt;1</title>
+<path fill="none" stroke="#ffffff" d="M18,-71.7C18,-63.98 18,-54.71 18,-46.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="21.5,-46.1 18,-36.1 14.5,-46.1 21.5,-46.1"></polygon>
+</g>
+<!-- 6 -->
+<g id="node6" class="node">
+<title>6</title>
+<ellipse fill="none" stroke="#ffffff" cx="126" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">6</text>
+</g>
+<!-- 7&#45;&gt;6 -->
+<g id="edge5" class="edge">
+<title>7-&gt;6</title>
+<path fill="none" stroke="#ffffff" d="M126,-143.7C126,-135.98 126,-126.71 126,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="129.5,-118.1 126,-108.1 122.5,-118.1 129.5,-118.1"></polygon>
+</g>
+<!-- 8 -->
+<g id="node7" class="node">
+<title>8</title>
+<ellipse fill="none" stroke="#ffffff" cx="180" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="180" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffffff">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g id="edge6" class="edge">
+<title>7-&gt;8</title>
+<path fill="none" stroke="#ffffff" d="M136.67,-147.17C144.21,-137.39 154.48,-124.08 163.13,-112.87"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="166.02,-114.86 169.35,-104.8 160.47,-110.58 166.02,-114.86"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+
+<section id="size" class="title-slide slide level1 center">
+<h1>Size</h1>
+<div class="{columns}">
+<div class="column" style="width:50%;">
+<ul>
+<li>The size is generally taken to be the number of nodes.
+<ul>
+<li>It is separately, useful, sometimes, to count only lea[fs/ves].</li>
 </ul></li>
-<li>In a hash tree, a leaf node contains some data and a hash of that data. <code># Github Copilot wrote this given the name class HashTreeLeaf: def __init__(self, data): self.data = data self.hash = hash(data) def __hash__(self): return self.hash</code></li>
 </ul>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-fig-width="400px" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="400" height="480" viewbox="0.00 0.00 206.00 260.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>finite_automata</title>
+<polygon fill="#191919" stroke="transparent" points="-4,4 -4,-256 202,-256 202,4 -4,4"></polygon>
+<!-- 5 -->
+<g id="node1" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#ffa07a" cx="99" cy="-234" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">5</text>
+</g>
+<!-- 3 -->
+<g id="node2" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#ffa07a" cx="72" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">3</text>
+</g>
+<!-- 5&#45;&gt;3 -->
+<g id="edge1" class="edge">
+<title>5-&gt;3</title>
+<path fill="none" stroke="#ffffff" d="M92.74,-216.76C89.5,-208.37 85.47,-197.93 81.83,-188.5"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="85.09,-187.22 78.23,-179.15 78.56,-189.74 85.09,-187.22"></polygon>
+</g>
+<!-- 7 -->
+<g id="node3" class="node">
+<title>7</title>
+<ellipse fill="none" stroke="#ffa07a" cx="126" cy="-162" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">7</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g id="edge2" class="edge">
+<title>5-&gt;7</title>
+<path fill="none" stroke="#ffffff" d="M105.26,-216.76C108.5,-208.37 112.53,-197.93 116.17,-188.5"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="119.44,-189.74 119.77,-179.15 112.91,-187.22 119.44,-189.74"></polygon>
+</g>
+<!-- 2 -->
+<g id="node4" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#ffa07a" cx="18" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">2</text>
+</g>
+<!-- 3&#45;&gt;2 -->
+<g id="edge3" class="edge">
+<title>3-&gt;2</title>
+<path fill="none" stroke="#ffffff" d="M61.33,-147.17C53.79,-137.39 43.52,-124.08 34.87,-112.87"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="37.53,-110.58 28.65,-104.8 31.98,-114.86 37.53,-110.58"></polygon>
+</g>
+<!-- 4 -->
+<g id="node5" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#ffa07a" cx="72" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g id="edge4" class="edge">
+<title>3-&gt;4</title>
+<path fill="none" stroke="#ffffff" d="M72,-143.7C72,-135.98 72,-126.71 72,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="75.5,-118.1 72,-108.1 68.5,-118.1 75.5,-118.1"></polygon>
+</g>
+<!-- 6 -->
+<g id="node6" class="node">
+<title>6</title>
+<ellipse fill="none" stroke="#ffa07a" cx="126" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="126" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">6</text>
+</g>
+<!-- 7&#45;&gt;6 -->
+<g id="edge5" class="edge">
+<title>7-&gt;6</title>
+<path fill="none" stroke="#ffffff" d="M126,-143.7C126,-135.98 126,-126.71 126,-118.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="129.5,-118.1 126,-108.1 122.5,-118.1 129.5,-118.1"></polygon>
+</g>
+<!-- 8 -->
+<g id="node7" class="node">
+<title>8</title>
+<ellipse fill="none" stroke="#ffa07a" cx="180" cy="-90" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="180" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g id="edge6" class="edge">
+<title>7-&gt;8</title>
+<path fill="none" stroke="#ffffff" d="M136.67,-147.17C144.21,-137.39 154.48,-124.08 163.13,-112.87"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="166.02,-114.86 169.35,-104.8 160.47,-110.58 166.02,-114.86"></polygon>
+</g>
+<!-- 1 -->
+<g id="node8" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#ffa07a" cx="18" cy="-18" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#ffa07a">1</text>
+</g>
+<!-- 2&#45;&gt;1 -->
+<g id="edge7" class="edge">
+<title>2-&gt;1</title>
+<path fill="none" stroke="#ffffff" d="M18,-71.7C18,-63.98 18,-54.71 18,-46.11"></path>
+<polygon fill="#ffffff" stroke="#ffffff" points="21.5,-46.1 18,-36.1 14.5,-46.1 21.5,-46.1"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
 </section>
-<section id="merkle-tree-2" class="slide level2">
-<h2>Merkle Tree</h2>
+
+<section id="today-3" class="title-slide slide level1 center">
+<h1>Today</h1>
 <ul>
-<li><p>Every other node <em>n</em> contains:</p>
+<li>✓ Graphs
 <ul>
-<li>A hash</li>
-<li>Computed over the the hashs</li>
-<li>Of the nodes, for which</li>
-<li><em>n</em> has a corresponding outgoing edge.</li>
+<li>✓ DAGs</li>
+<li>✓ Trees</li>
 </ul></li>
-<li><p>To my knowledge, all Merkle/hash trees are binary trees</p>
-<ul>
-<li>A binary tree is a tree in which no node has more than two outgoing edges.</li>
-</ul>
-<p><code># Github Copilot wrote this given the name class HashTreeNode: def __init__(self, left, rite): assert(left != None) # added by cd self.left = left self.rite = rite self.hash = hash(left)^hash(rite) def __hash__(self): return self.hash</code></p></li>
-<li><p>This allows non-leaf nodes to have one or two outgoing edges.</p></li>
-</ul>
-</section>
-<section id="binary-tree-ops" class="slide level2">
-<h2>Binary Tree Ops</h2>
-<ul>
-<li>Binary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.</li>
-<li>They are not in scope here.</li>
-<li>If you need to implement a Merkle tree, find someone else’s “binary search tree” code and add the hashing to it.</li>
-<li>Generative AIs (all, not just Github Copilot) can usually do BSTs in any given language.</li>
-<li>They cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.</li>
-<li>Realistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes).</li>
-</ul>
-</section>
-<section id="merkle-tree-3" class="slide level2">
-<h2>Merkle Tree</h2>
-<ul>
-<li>This is a very good visualization:<br>
-<a href="https://commons.wikimedia.org/wiki/File:Hash_Tree.svg" title="Azaghal, CC0, via Wikimedia Commons"><img data-src="Blockchain_files/Hash_Tree.svg.png" alt="Hash Tree"></a></li>
-<li>All data/coins/transactions are in leaf nodes</li>
-<li>Extremely difficulty to falsify anything, due to all the computed hashes</li>
-<li>Old transactions can be discarded</li>
-<li>Old enough trees may be empty (!!!) if all constituent coins are spent.</li>
-<li>This is <em>likely</em> since the most used coins are… the most used coins.</li>
-</ul>
-</section>
-<section id="merkle-tree-4" class="slide level2">
-<h2>Merkle Tree</h2>
-<ul>
-<li>This is a very good visualization of pruning:</li>
 </ul>
 
-<img data-src="Blockchain_files/Reclaiming Disk Space.png" class="r-stretch"><p>This is a Satoshi Nakamoto graphic.</p>
-</section>
-<section id="pruning-use" class="slide level2">
-<h2>Pruning Use</h2>
-<ul>
-<li>I am unable to characterize expected savings to pruning:
-<ul>
-<li>Users report around 100x (500GB to 5GB)</li>
-<li>Most coins appear to be part of zero transactions</li>
-<li>Some large clusters of coins, like SN’s, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.</li>
-<li>So coin velocity, median/average transactions, frequency are all very difficult to characterize.</li>
-<li>Also likely volatile.</li>
-</ul></li>
-<li>In general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.</li>
-<li>In general: Hard for competing standards to catch on.</li>
-</ul>
-</section>
-<section id="pruning-efficacy" class="slide level2">
-<h2>Pruning Efficacy</h2>
-<ul>
-<li>We can see how much better one Merkle tree is if maximally pruned.
-<ul>
-<li>Have around 4k transactions per block</li>
-<li>So for binary Merkle trees, that is log2(4k) ~= 12 levels</li>
-<li>That is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.</li>
-<li>Σ 2_n_ = 2_n+1_-1, or <code>&gt;&gt;&gt; sigma = lambda x : sum([2 ** n for n in range(x+1)]) &gt;&gt;&gt; close = lambda x : 2 ** (x + 1) - 1 # for "closed form" &gt;&gt;&gt; for x in range(50): ... assert(close(x) == sigma(x)) ... &gt;&gt;&gt;</code></li>
-<li>Any unpruned tree would have 2^13-1 internal and 2^12 leaf nodes</li>
-<li>A tree with one remaining transaction would have on leaf node and two internal nodes per ‘level’</li>
-<li>That is, 2*12 internal and 1 leaf node. <code>&gt;&gt;&gt; savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 ) &gt;&gt;&gt; savin(10) 0.006838163464669489 &gt;&gt;&gt; savin(12) 0.002034670790266135</code></li>
-</ul></li>
-</ul>
-</section>
-<section id="on-memory-usage" class="slide level2">
-<h2>On Memory Usage</h2>
-<ul>
-<li><p>Arithmetic!</p>
-<blockquote>
-<p>A block header with no transactions would be about 80 bytes. If we suppose blocks are generated every 10 minutes, 80 bytes * 6 * 24 * 365 = 4.2MB per year.</p>
-</blockquote></li>
-<li><p>I don’t think that estimate is accurate but I’m not sure why it wouldn’t be. I think SN is only counting the block headers, not the trees?</p>
-<blockquote>
-<p>With computer systems typically selling with 2GB of RAM as of 2008, and Moore’s Law predicting current growth of 1.2GB per year, storage should not be a problem even if the block headers must be kept in memory</p>
-</blockquote></li>
-<li><p>In 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)</p>
-<blockquote>
-<p>It is possible to verify payments without running a full network node.</p>
-</blockquote></li>
-<li><p>SN notes you can just submit a transaction and if it’s accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories.</p></li>
-</ul>
-</section>
-<section id="transactions" class="slide level2">
-<h2>Transactions</h2>
-<ul>
-<li>We previously imagined a coin contains:
-<ol type="1">
-<li>The public key of the current owner</li>
-<li>The record of all previous owners</li>
-<li>The signature of the previous owner, generated over (1) and (2)</li>
-</ol></li>
-<li>These are all integers, more or less, that can be verified. <code>&gt;&gt;&gt; Coin(*[randint(0,1024 * 1024) for _ in range(3)]) &lt;Coin object at 0x7f765208eb90&gt; # NOT verified</code></li>
-<li>Well… there’s actually no reason to have a single former owner or future owner.</li>
-<li>So transactions can have multiple inputs before being bundled in hash trees.</li>
-<li>We can think of them as dictionaries of send/recieve signatures and values.
-<ul>
-<li>After this semester, we will change ownership of evening classes! <code>&gt;&gt;&gt; Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1} {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1} hash(...)) &lt;Coin object at 0x7f765208eb90&gt;</code></li>
-<li>This has a de facto negative transaction fee (it’s a bad metaphor)
-<ul>
-<li>Mostly: This allows transactions to not all be off the same price.</li>
-<li>This allows using a unique ID for transactions and still spend all at once.</li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
-<section id="multi-transaction" class="slide level2">
-<h2>Multi Transaction</h2>
-<ul>
-<li>We can visualize as follows:</li>
-</ul>
 
-<img data-src="Blockchain_files/1w.png" class="r-stretch"><p>This is a Satoshi Nakamoto graphic.</p>
 </section>
-<section id="privacy" class="slide level2">
-<h2>Privacy</h2>
-<blockquote>
-<p>The necessity to announce all transactions publicly precludes this method, but privacy can still be maintained by breaking the flow of information in another place: by keeping public keys anonymous.</p>
-</blockquote>
-<ul>
-<li><p>SN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.</p></li>
-<li><p>CD claims the considerable metadata leaks are a marked loss in privacy, but that’s okay.</p></li>
-<li><p>Banks have full knowledge and routinely have e.g.&nbsp;data breaches, illegal ad targetting, etc.</p></li>
-<li><p><a href="https://www.justice.gov/opa/pr/wells-fargo-agrees-pay-3-billion-resolve-criminal-and-civil-investigations-sales-practices">Wells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization</a></p></li>
-<li><p>This ’big banks perspective actually isn’t too far off.</p>
-<blockquote>
-<p>This is similar to the level of information released by stock exchanges</p>
-</blockquote></li>
-<li><p>Lastly - if you have been part of <em>n</em> transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.</p>
-<blockquote>
-<p>As an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner.</p>
-</blockquote></li>
-</ul>
-</section>
-<section id="privacy-1" class="slide level2">
-<h2>Privacy</h2>
-<ul>
-<li>We can visualize as follows:</li>
-</ul>
-
-<img data-src="Blockchain_files/1_bE7DuVZlL_LVNe8R1t_qJA.png" class="r-stretch"><p>This is a Satoshi Nakamoto graphic.</p>
-</section>
-<section id="bonus-calculations" class="slide level2">
-<h2>Bonus: Calculations</h2>
-<ul>
-<li>SN closes with a brief essay on probability, including calculations in the C programming language</li>
-<li>Also known as: my favorite thing.</li>
-<li>Regard the following as bonus slides, but that are really cool!</li>
-</ul>
-</section>
-<section id="calculations" class="slide level2">
-<h2>Calculations</h2>
-<blockquote>
-<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.</p>
-</blockquote>
-<ul>
-<li>In the (quite) early days, gaining a control of a majority of miners was regarded as impossible.</li>
-<li>In 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.</li>
-<li>Read more on <a href="https://en.wikipedia.org/wiki/GHash.io">Wikipedia</a></li>
-<li>GHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.</li>
-<li>In any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed.</li>
-</ul>
-</section>
-<section id="calculations-1" class="slide level2">
-<h2>Calculations</h2>
-<blockquote>
-<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.</p>
-</blockquote>
-<ul>
-<li>We use a “Binomial Random Walk”
-<ul>
-<li>We progress along the integer number line, that is, {…, -1, 0, 1, 2…}</li>
-<li>The value given is the length lead maintained by the “honest” (non-attacker) chain.</li>
-<li>So if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.</li>
-</ul></li>
-<li>Attacker outpacing is equivalent to the “Gambler’s Ruin” problem.
-<ul>
-<li>Gambler has infinite $ and targets breakeven in potentially infinite time</li>
-</ul></li>
-<li>SN uses mathematical notation, I’ll use Python. <code>def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk): assert(prob_next_hnst + prob_next_attk == 1) z = attk_blck_bhnd p, q = prob_next_hnst, prob_next_attk if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z</code></li>
-<li>prob_attk_ctch(z, p, q) is the probabilty an attacker <em>z</em> blocks behind an honest chain catches up given that the attack controls fraction share <em>q</em> ∈ [0,1] of the total nodes.</li>
-</ul>
-</section>
-<section id="calculations-2" class="slide level2">
-<h2>Calculations</h2>
-<blockquote>
-<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.</p>
-</blockquote>
-<ul>
-<li>Much easier if we consider a single attacker calculating their catchup probability. <code>def prob_ctch(blck_bhnd, node_frac): z, p, q = blck_bhnd, 1 - node_frac, node_frac if (p &lt;= q): return 1 if (p &gt; q): return (q / p) ** z</code></li>
-<li>These numbers are actually higher than I intuitively expected, using e.g.&nbsp;GHash.io’s 40% (assuming GHash.io somehow became compromised) <code>&gt;&gt;&gt;&gt; {n:prob_ctch(n, .4) for n in range(1,10,2)} {1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946} &gt;&gt;&gt; {n/10:prob_ctch(3, n/10) for n in range(1,5)} {0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}</code></li>
-</ul>
-</section>
-<section id="calculations-3" class="slide level2">
-<h2>Calculations</h2>
-<blockquote>
-<p>Given our assumption that <em>p &gt; q</em>, the probability drops exponentially as the number of blocks the attacker has to catch up with increases.</p>
-</blockquote>
-<ul>
-<li>It occurs to me I can write this in .js with a canvas element.</li>
-</ul>
-<p>function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById(‘q’).value const z = document.getElementById(‘z’).value const c = document.getElementById(‘plot’).getContext(“2d”) c.strokeStyle = “white” c.clearRect(0,0,800,800) c.strokeStyle = “black” for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } Set <em>q</em> ∈ (0,.5) Set <em>z</em> &gt; 0</p>
-</section>
-<section id="code" class="slide level2">
-<h2>code</h2>
-<p><code>&lt;script&gt; function qz(z, q) { const p = 1 - q if (p &lt;= q) { return 1 } else if (p &gt; q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i &lt; 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } &lt;/script&gt; &lt;input value=".4" type="number" min="0" max="0.5" id="q"&gt; &lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;q&lt;/em&gt; ∈ (0,.5)&lt;/button&gt; &lt;input value="5" type="number" min="1" id="z"&gt; &lt;button onclick="draw()" type="button"&gt;Set &lt;em&gt;z&lt;/em&gt; &gt; 0 &lt;/button&gt;&lt;br&gt; &lt;canvas style="background-color:white" id="plot" width="800" height="800"&gt;&lt;/canvas&gt;</code></p>
-<p>FIN</p>
-</section>
-<section class="slide level2">
-
-<ul>
-<li>Distributed consensus is non-trivial.</li>
-<li>It tends to rely on math in the most classical sense of the term.</li>
-<li>It allows a lot of new possibilities.</li>
-<li>It uses a lot of cloud technologies.</li>
-<li>It powers a lot of cloud technologies.</li>
-</ul>
-
-
-</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

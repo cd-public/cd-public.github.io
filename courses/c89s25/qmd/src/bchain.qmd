@@ -2,7 +2,7 @@
 title: bchain
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0xA II"
+subtitle: "Week 0xB II"
 institute: Crypto
 format: 
     revealjs: 
@@ -170,8 +170,8 @@ execute:
 # Verify
 
 - The general public:
-    - Decrpyts the ciphertext with out **public key**
-    - SHA256 hashes thes the decrypted text
+    - Decrypts the ciphertext with our **public key**
+    - SHA256 hashes the decrypted text
     - If the hash matches our released hash, then it had to be us and the transaction is valid.
 
 # 

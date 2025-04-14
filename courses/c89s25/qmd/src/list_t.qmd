@@ -21,7 +21,7 @@ format:
 
 ::: {#review .collapse .multi-collapse}
 
-### Goal: Implement the Rivest–Shamir–Adleman public-key cryptosystem
+### Goal: Implement a data structure.
 
 
 - This is the first of two "data structures" assignments, implementing the "chain" of blockchain.

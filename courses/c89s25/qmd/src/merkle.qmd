@@ -1,8 +1,8 @@
 ---
-title: Graphs
+title: Merkle
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0xB I"
+subtitle: "Week 0xC II"
 institute: Crypto
 format: 
     revealjs: 
@@ -25,18 +25,18 @@ execute:
 # Announcements
 
 - **Welcome** to variously CS 276/CS 540
-  - Graphs, to introduce
-    - DAGs
-  - Trees, to introduce,
-  - Hash or Merkle trees
+  - Trees, ish
+    - Heaps
+    - Merkle Trees
 - **Action Items**:
-  - tree_t after this
+  - Time for `heap_t`'s of fun
 
 # Today
 
-- Graphs
-    - DAGs
-    - Trees
+- Trees, ish
+  - Heaps
+  - Merkle Trees
+- Aside: Tx's
 
 # Trees
 
@@ -48,354 +48,511 @@ execute:
     - A set of "edges" which are pairs of nodes
         - They may be ordered pairs or not.
 
+# Blockchain
 
-# Graphs
+- Blockchain is a 1-ary tree
+    - Usually called a link(ed) list in computing
+    - Sometimes called a sequence, depending on which mathematical object.
 
-* There are many ways to understand graphs, but I actually think graph theory is quite accessible.
-* I think it's also easier when using a running example.
-* I will also use a running example, Amtrak 🚄
-    * Or perhaps... a training example?
-    * I am training... to run?????
-    * ???????????
-    
-# Amtrak 🚄
+```{dot}
+//| echo: false
+//| fig-height: 200px
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
 
-<center>
-<img style="border-radius: 50%;height:100%" src="https://www.amtrak.com/content/dam/projects/dotcom/english/public/images/Carousel/Landing_Feature_03.gif">
-</center>
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
 
-# Graph: Definition
-
-* A graph is an **ordered pair**.
-    * That is: two things, in a fixed order.
-    * An ordered pair can be thought of as a sequence of length 2
-        
-        ```{.python}
-        a = "one thing"
-        b = "another thing"
-        ordered_pair = [a,b]
-        ```
-
-# Not Sets
-        
-* A graph is not a set:
-        
-```{.python}
->>> [a,b][0]
-'one thing'
->>> {a,b}[0]
-<stdin>:1: SyntaxWarning: 'set' object is not subscriptable; perhaps you missed a comma?
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: 'set' object is not subscriptable
-```
-* [I just set them up just to knock them down.](https://www.youtube.com/watch?v=dvf--10EYXw)
-
-# Aside: Sets and pairs
-
--  Take a number plane (click):
-
-<p><span style="position:relative;left:275px">y=2</span></p>
-<p><span style="position:relative;top:-190px">x=-2</span>
-<span style="vertical-align:middle;" onclick="draw1();">
-  <canvas id="plot1"  width="400" height="400" style="background-color:white"></canvas>
-</span>
-<span style="position:relative;top:-190px">x=2</span>
-<p><span style="position:relative;left:275px">y=2</span></p>
-<script>
-function draw1()
-{
-	const plot1 = document.getElementById("plot1") ;
-	const ctx1 = plot1.getContext("2d");
-	ctx1.fillStyle = "black";	
-	ctx1.fillRect(200, 0, 5, 400) ;
-	ctx1.fillRect(0, 200, 400, 5) ;
-	
-	ctx1.fillRect(195, 100, 15, 5) ;
-	ctx1.fillRect(195, 300, 15, 5) ;
-	ctx1.fillRect(100, 195, 5, 15) ;
-	ctx1.fillRect(300, 195, 5, 15) ;
-}</script>
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
 
-# Aside: Sets and pairs
+    0 [label="{gen |esi}|{sbl|ock}"];
+    1 [label="{prev |Tx's}|{time|once}"];
+    2 [label="{prev |Tx's}|{time|once}"];
 
-* Denote ordered pair (.5,1.5) in <span style="color:red">red</span>. 
-
-<p><span style="position:relative;left:275px">y=2</span></p>
-<p><span style="position:relative;top:-190px">x=-2</span>
-<span style="vertical-align:middle;" onclick="draw2();">
-  <canvas id="plot2"  width="400" height="400" style="background-color:white"></canvas>
-</span>
-<span style="position:relative;top:-190px">x=2</span>
-<p><span style="position:relative;left:275px">y=2</span></p>
-<script>
-function draw2()
-{
-	const plot1 = document.getElementById("plot2") ;
-	const ctx1 = plot1.getContext("2d");
-	ctx1.fillStyle = "black";	
-	ctx1.fillRect(200, 0, 5, 400) ;
-	ctx1.fillRect(0, 200, 400, 5) ;
-	
-	ctx1.fillRect(195, 100, 15, 5) ;
-	ctx1.fillRect(195, 300, 15, 5) ;
-	ctx1.fillRect(100, 195, 5, 15) ;
-	ctx1.fillRect(300, 195, 5, 15) ;
-	ctx1.fillStyle = "red";	
-	ctx1.fillRect(245, 45, 10, 10) ;
-	ctx1.fillRect(245, 45, 10, 10) ;
-}</script>
-
-# Pair: Definition
-
-* We construct pairs from sets.
-    * An ordered pair is a set of cardinality two. (2 elements)
-    * One element of the set is a set of cardinality one. (1 element)
-    * The other element of the set is a set of cardinality two (2 elements)
-    * The element of the set of cardinality one is one of the two elements of the set of cardinality two.
-
-# Pair: Definition
-
-* The element of both sets is regarded as the first element.
-* This doesn't work in Python since Python sets can't contain other sets:
-        
-```{.python}
->>> [a,b] # ordered pair
-['one thing', 'another thing']
->>> {{a},{a,b}} # ordered pair with sets
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: unhashable type: 'set'
->>>
-```
-* But this is an implementation hurdle, and not a logical one.
-
-# Pair: Definition
-
-::: {.callout-note appearance="simple"}
-
-# Ordered Pair
-
-An ordered pair is a set of two elements, a set containing the head element of the pair, and a set containing both elements of the pair.
-
-:::
-
-```{.lisp}
-(a, b) := p : { {a} , {a, b} }
+    0 -> 1
+    1 -> 2
+    2 -> "..."
+}
 ```
 
-# "Head"
+# `list_t`
 
-* Extract the head item by taking the intersection of all of the elements of p
-    * I denote this 'Head(p)'
+- A `list_t` is a 1-ary tree
 
-$$
-\begin{align*}
-\text{Head}(p) &:= x : x \in \bigcap p \\
-\text{Head}(p) &:= x : \forall Y \in p : x \in Y
-\end{align*}
-$$
+```{dot}
+//| echo: false
+//| fig-height: 200px
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
 
-# "Tail"
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
 
-* The tail is the sole element of the union that is not an element of the intersection, with the caveat that we do not consider the case in which the head and tail differ
-    * I denote this 'Tail(p)'
-
-$$
-\begin{align*}
-\text{Tail}(p) &:= x : x \in \bigcup p \setminus \bigcap p \\
-\text{Tail}(p) &:= x : \exists Y_1, Y_2 \in p : x \in Y_1 \land x \notin Y_2
-\end{align*}
-$$
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
 
-# Graph: Definition
+    0 [label="data|next"];
+    1 [label="data|next"];
+    2 [label="data|null"];
 
-* A graph is an **ordered pair** $G$
-* We denote the two elements of the pair as:
-    * $V$ for vertices
-    * $E$ for edges
-$$
-G = (V, E) := \{ \{V\}, \{V,E\}\}
-$$
+    0 -> 1
+    1 -> 2
+}
+```
 
-# In Amtrak
+# mocha 2-tree
 
-* $V$, the vertices or nodes, stations or stops or cities,
-    * like Portland and Seattle, or
-    * like Kings St Station and Central Station
-* $E$, the edges, are the connections to adjacent stations
-    * like Portland and Oregon City, or Portland and Vancouver, WA.
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
 
-# Graph: Definition
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
 
-* An `Amtrak` is an **ordered pair**
-* We denote the two elements of the pair as:
-    * Stations for train stations used by Amtrak passengers, and
-    * Trains which Amtrak passengers ride between stations.
-
-Amtrak = (Stations, Trains)
-
-# Nodes, Vertices, or $V$
-
-* Let us consider the "Amtrak Cascades"
-* The set of vertices is the set of stations:
-
-||||||
-| --------------- | --------------- | --------------- | ------------ | ---|
-| ALBANY        | EVERETT         | PORTLAND        | TUKWILA      | EUGENE          |
-| BELLINGHAM      | KELSO/LONGVIEW  | SALEM           | VANCOUVER BC | OREGON CITY     |
-| CENTRALIA       | MOUNT VERNON    | SEATTLE         | VANCOUVER WA | TACOMA          |  
-| EDMONDS         | OLYMPIA/LACEY   | STANWOOD        |
-
-# Nodes, Vertices, or $V$
-
-* Restrict our example to the PDX<->SEA 6x daily trains:
-
-|||||
-| -------------- | ------------- | --------- | ---------- |
-| CENTRALIA      | OLYMPIA/LACEY | SEATTLE   | TUKWILA    |
-| KELSO/LONGVIEW | PORTLAND      | TACOMA    | VANCOUVER WA |
-
-# Edges or $E$
-
-* $E$ is a set of elements termed 'edges', 'links', or 'lines'
-    * The edges are pairs of vertices
-    * In an *undirected graph*, edges are unordered pairs (sets of cardinality two)
-    * In an *directed graph*, edges are ordered pairs (not subsets then)
-    * Amtrak is undirected, trains are directed.
-
-# Directionality
-
-* The internet is directed.
-    * We may use 'curl' to download files from a url, but going the other way (creating files at a url) is highly nontrivial.
-* Pointers are directed.
-    * Recall, `*p` refers to the value at location `p`.
-    * `**p` does not refer to to `p`, rather, we would use `&` to go in the reverse direction.
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
 
-# Route
+    0 [label="hot?"];
+    11 [label="small?"];
+    12 [label="small?"];
+    21 [label="togo?"];
+    22 [label="togo?"];
+    23 [label="togo?"];
+    24 [label="togo?"];
 
-* Order north-to-south:
+    0 -> 11 [label="y"]
+    0 -> 12 [label="n"]
+    11 -> 21 [label="y"]
+    11 -> 22 [label="n"]
+    12 -> 23 [label="y"]
+    12 -> 24 [label="n"]
+}
+```
+
+# Common Case
+
+- Usually in computing, I use trees to store "stuff"
+    - In a SQL database, I used a b-tree to store... data, I guess
+    - In a binary search tree, I sort elements of sets with total orders, like integers or words
+    - In OS page table, I store memory locations.
+
+# Our Case
+
+- We will store *digests* in nodes and transactions in leavefes.
+    - So, 256 bits
+- Leaves a transaction "record"
+
+# Transaction review
+
+- Recall:
+    - A bitcoin transaction and a bitcoin coin are identical
+    - A coin is a *chain of ownership*
+    - Own a coin by being the most recent owner.
+
+# Transaction review
+
+- Recall:
+    - A transaction contains:
+        - A sender
+        - A receiver
+        - An amount.
+    - A sender/receiver is not a person par se but a public key
+
+# Transaction
+
+- Something like this:
+```{.c filename="tx.h"}
+#define KEY_SIZE 4096 / 8 * sizeof(an_int)
+
+typedef uint64_t an_int;
+
+struct tx_struct {
+    an_int send_n[KEY_SIZE]; /* 4096 bit sender modulus */
+    an_int recv_n[KEY_SIZE]; /* 4096 bit recver modulus */
+    uint64_t amount;         /* $\exists$ ~2.1 quadrillion atomics, ~2^50 */
+}
+```
+
+# In Practice
+
+- `64 + 64 + 1 == 129`
+- Can't RSA things bigger than $n$, so must RSA in chunks
+- `129 / 3 == 129 // 3 == 43`
+- Each 43 word block would be encrypted into a 64 word block.
+```{.c filename="tx.h"}
+struct signed_tx_struct {
+    an_int send_n[KEY_SIZE];    /* needed to decrypt */
+    an_int chunks[3][KEY_SIZE]; /* 3 chunks of up to size 64 */
+    uint32_t digest[8];           /* sha256 */
+}
+```
+
+# So basically
+
+- Make a `tx_struct`
+- Cast it to a `uint64_t` array
+    - RSA encrypt with private key each third into `chunks`
+    - SHA hash into `digest`
+- Load thirds into `signed_tx_struct`
+- Prefix with public key. 
+
+# How do ensure?
+
+- We want to have confidence in these transactions.
+- Easy - hash them, and save the hashes. 
+- But wait - that's a lot of hashes to hold onto...
+- And it is unreasonable to store potentially thousands of hashes in each block!
+
+# Hash tree
+
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+    0 [label="Merkle Root"];
+    11 [label="SHA digest"];
+    12 [label="SHA digest"];
+    21 [label="SHA digest"];
+    22 [label="SHA digest"];
+    23 [label="SHA digest"];
+    24 [label="SHA digest"];
+    31 [label="Tx0"];
+    32 [label="Tx1"];
+    33 [label="Tx2"];
+    34 [label="Tx3"];
+
+    0 -> 11 
+    0 -> 12 
+    11 -> 21 
+    11 -> 22 
+    12 -> 23 
+    12 -> 24 
+    21 -> 31 
+    22 -> 32 
+    23 -> 33 
+    24 -> 34 
+}
+```
+
+# In practice
+
+1. Place on transaction in linear data structure, like a stack or array list
+1. Hash each transaction, store the results (!!! non-trivial)
+1. For each pair of hashes, compute the hash of the concatenation of the two hashes and store the results
+1. Repeat until there is a single hash, the "Merkle root"
+
+# Tree Terms
+
+- [Complete](https://xlinux.nist.gov/dads/HTML/completetree.html)
+
+- **Definition**: A tree in which every level, except possibly the deepest, is entirely filled. At depth n, the height of the tree, all nodes are as far left as possible. 
+
+# Tree Terms
+
+- [Perfect](https://xlinux.nist.gov/dads/HTML/completetree.html)
+
+- **Definition**: A k-ary tree with all leaf nodes at same depth. All internal nodes have degree k. 
+- *Note: Authors differ in their definitions. This is called "complete" by [CLR90, page 95].*
+- I take CLR as ground truth (more often 2nd+ edition as "CLRS")
+
+
+# Complete
+
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  5 -> 3
+  5 -> 7
+  3 -> 2
+  3 -> 4
+  7 -> 6
+  7 -> 8
+
+}
+```
+
+# Complete
+
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  5 -> 3
+  5 -> 7
+  3 -> 2
+  3 -> 4
+  7 -> 6
+
+}
+```
+
+# Complete
+
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  5 -> 3
+  5 -> 7
+  3 -> 2
+  3 -> 4
+  7 -> 6
+  7 -> 8
+  2 -> 1
+
+}
+```
+# Incomplete
+
+
+```{dot}
+//| echo: false
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  5 -> 3
+  5 -> 7
+  3 -> 2
+  7 -> 6
+  7 -> 8
+
+}
+```
+
+# Takeaway
+
+- In a complete tree, we can always place all leafves in a linear data structure, like an array.
+- In a complete binary (2-ary) tree, there will be (roughly) the same number of non-leaf and leaf nodes
+
+# Naive
+
+- We may be tempted to do this 
+
+```{.c}
+struct hash_tree_struct {
+    uint32_t digest[8];
+    struct hash_tree_struct *left;
+    struct hash_tree_struct *rite;
+}
+```
+
+- This could in fact work, mostly, but leads to some problems.
+    - How do you tell if a pointer points to a leaf or not?
+
     
-    ```
-    SEATTLE
-    TUKWILA
-    TACOMA
-    OLYMPIA/LACEY
-    CENTRALIA
-    KELSO/LONGVIEW
-    VANCOUVER WA
-    PORTLAND
-    ```
-    
-* Centralia and Keslo/Longview is an edge.
-* The others, like Seattle and Tacoma, are not edges.
-
-# Edges or $E$
-
-* Our edges are pairs of *adjacent* stations
-* There are 8 stations so there are 7 edges
-
-|||
-| ----------------- | ------------------- |
-| (SEATTLE,         TUKWILA)       | (CENTRALIA,       KELSO) |
-| (TUKWILA,         TACOMA)        | (KELSO, VANCOUVER) |
-| (TACOMA,          OLYMPIA) | (VANCOUVER,   PORTLAND)      |
-| (OLYMPIA,   CENTRALIA)   |                     |
-
-
-# Notation
-
-
-* I use tuple notion here, with parens, but it would be equally proper to use set notatation for an undirected graph.
-* Also I maintained geographic ordering (as a convenience) but it would be more proper to have no particular order since E is a set.
-
-
-# Graph: Definition
-
-* We can express G using only sets over elements of stations (this is basically JSON):
-    
-    ```json
-    G = {
-      V = {
-        SEATTLE,
-        TUKWILA,
-        TACOMA,
-        OLYMPIA/LACEY,
-        CENTRALIA,
-        KELSO/LONGVIEW,
-        VANCOUVER WA
-        PORTLAND,
-      }, 
-      {
-        V,
-        E = {
-                  {
-                      TUKWILA,
-                      TACOMA
-                  },
-                  {
-                      TACOMA,
-                      OLYMPIA/LACEY
-                  },
-                  {
-                      OLYMPIA/LACEY,
-                      CENTRALIA
-                  },
-                  {
-                      CENTRALIA,
-                      KELSO/LONGVIEW
-                  },
-                  {
-                      KELSO/LONGVIEW,
-                      VANCOUVER WA
-                  },
-                  {
-                      VANCOUVER WA,
-                      PORTLAND
-                  }
-              }
-        }
-    }
-    ```
-
-# Graph: Exercise
-
-* Amtrak recently added lines, including the Hiawatha, with service from Milwaukee to the world's greatest city, Chicago.
-    
-    > From the grandeur of Grant Park’s Buckingham Fountain to iconic museums and skyscrapers, see for yourself why Chicago was once dubbed “Paris on the Prairie.” Engage in retail therapy on the Magnificent Mile or root for the home team within the friendly confines of famed Wrigley Field.
-    
-# Graph: Exercise
-
-* As an exercise, construct the graph of the Hiawatha route using the JSON-ish notation I used for Cascades.
-* The route is described [here](https://www.amtrak.com/routes/hiawatha-train.html) and contains five stations.
-* You may use the three letter codes like "MKE" and "CHI" as a notational convenience if you would like.
-* As a bonus: Write valid json. Here's a [tester](https://jsonformatter.curiousconcept.com/#).
-
 # Today
 
-- &check; Graphs
-    - DAGs
-    - Trees
+- &check; Trees, ish
+  - Heaps
+  - Merkle Trees
+- &check; Aside: Tx's
 
-# DAGs
+# Heap
+
+# Heaps
+
+- To motivate our technique for Merkle trees, we are going to make a digression to the heap abstract data type, also called a priority queue.
+- Vs. other graph representations, heaps can be implemented by store nodes *only* and deriving edges from a e.g.  node's index in an array.
+
+# Why "Priority"
+
+- A heap is a nonlinear (but linearizable*) data structure which *sorts* data... kinda.
+- A heap always has some minimal or maximal value, within the the collection, in its initial position, or root.
+
+# Make one
+
+# Empty Heap
 
 ::::{columns}
 
 :::{.column width=50%}
   
+- Heaps are usually based on binary trees so we'll make an example.
+- Start with an empty heap it looks like this:
 
-* A DAG is a "directed acyclic graph".
-* We will define rigorously.
+:::
+
+:::{.column width=50%}
+
+- There's nothing here
+
+:::
+
+::::
+
+# Initial Value
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- Insert `128` as an initial value
+- `128` is the maximium, and also the root/initial value
 
 :::
 
 :::{.column width=50%}
 
 
-<a style="filter: invert(1);" title="Vector version of Image:Tred-G.png, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Tred-G.svg"><img height="100%" alt="Tred-G" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Tred-G.svg"></a>
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  128
+
+}
+```
+
+:::
+
+::::
+
+
+# Insert 64
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- To Insert a value, we Insert an unpopulated node that would make a complete tree of appropriate size.
+- In this case, in a binary tree, the first "child" of `128`
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  empty [label=""]
+
+  128 -> empty
+
+}
+```
 
 :::
 
@@ -403,502 +560,1836 @@ Amtrak = (Stations, Trains)
 
 
 
-# Cycles
+# Insert 64
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- Place `64` here
+- `64` is $\leq$ `128` so this is "A-OK"
+    - "A-OK" is short for "Ada, Oklahoma" in honor of Ada Lovelace, the first computer scientist
+    - (This isn't true)
+
+:::
+
+:::{.column width=50%}
 
 
-* *E* is a set of pairs of elements of *V*.
-* We can think of edges in a graph as a homogenous binary relation.
-    * Homogenous: From a set (the set of vertices) to itself.
-    * Binary: Over two elements (just like edges)
-    * Relation: A set (of pairs)
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
 
-# Closures
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
 
-* "Transitive closures" are defined over homogenous binary relations, so we can take a "transitive closure" over edges.
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-# Cartesian product
+  128 -> 064
 
-* A relation $R$ over a set $S$ is a set of pairs of elements of $S$
-    * Or: a subset of the set of all pairs of elements
-
-# Use $\times$
-
-* We denote all pairs using a "Cartesian product":
-
-* $S \times S$ in LaTeX 
-
-```{.tex}
-S \times S
+}
 ```
 
-* <em>S</em> &times; <em>S</em> in HTML
-```{.html}
-<em>S</em> &times; <em>S</em>
+:::
+
+::::
+
+# Insert 192
+
+::::{columns}
+
+:::{.column width=50%}
+  
+
+- To Insert a value, we Insert an unpopulated node that would make a complete tree of appropriate size.
+- In this case, in a binary tree, the second "child" of `128`
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  128 -> 064
+  empty [label=""]
+  128 -> empty
+
+}
 ```
 
-# Colors
+:::
 
-* For example, over the set of traffic light colors $C$:
-$$
-C = \{ G, Y, R \}
-$$
-* The Cartesian product is all pairs:
+::::
 
-$$
-C \times C = \{ (G, Y), (G, R), (Y, R), (Y, G),(R, G), (R, Y) \}
-$$ 
+# Insert 192
 
-* Order matters.
+::::{columns}
 
-# Relation
+:::{.column width=50%}
+  
 
-* A relation *R* over a set *S* is a set of pairs of elements of *S*
-    * Or: a subset of the set of all pairs of elements in is transitive
-* We begin with the Cartesian product:
+- Place `192` here.
+- Big "uh oh"
 
-$$
-C \times C = \{ (G, Y), (G, R), (Y, R), (Y, G),(R, G), (R, Y) \}
-$$ 
+:::
 
-* We consider a subset of $C \times C$ that is "safe"
+:::{.column width=50%}
 
-# Safety
 
-* Construst $L$, the traffic light relation
-    * Yellow must precede Red
-        $$
-        (Y,X) \in L \implies X = R
-        $$ 
-    * All colors must appear in both positions
-        $$
-        \forall X \in C, \exists Y, Z \in C : \{ (X,Y), (Z,X) \} \subset L
-        $$ 
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
 
-# This gives
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
 
-$$
-L = \{ (G, Y), (Y, R), (R, G)\}
-$$
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
 
+  128 -> 064
+  128 -> 192
 
-(R, G) ∈ *W* ⊂ *C* × *C*
+}
+```
 
-* G has a higher wavelength than B
+:::
 
-(G, B) ∈ *W* ⊂ *C* × *C*
+::::
 
-* As a notional convenience, this is often expressed as, with elements as lower case letters, *gWb*
 
-*gWb* := (G, B) ∈ *W* ⊂ *C* × *C*
+# Heapify
 
-# Transitivity
+::::{columns}
 
-* So we take relation *W* over a set *C* to be the following:
+:::{.column width=50%}
+  
 
-*W* ⊂ *C* × *C* = { (R, G), (G, B) }
+- We do an operation often called "heapify"
+- In a loop
+    - Swap new value with its parent
+    - Terminate when (1) parent is greater or (2) no parent.
+- So swap `192` and `128`
 
-*W* = { *rWg*, *gWb* }
+:::
 
-* What does this tell us about the relation between r and b?
-* Well, so far, nothing. But...
-    * if r has a higher wavelength than g
-    * and g has a great wavelength than b
-    * does it follow that r has a great wavelength than b?
+:::{.column width=50%}
 
-*rWb*
 
-* This is called **transitivity** or the transitive property
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
 
-**Transitivity** := ∀ *x*, *y*, *z*: *xRy* and *yRz* ⇒ *xRz*
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
 
-# Closure
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-* Our initial relation was not transitive.
 
-*W* = { *rWg*, *gWb* }
+  192 -> 064
+  192 -> 128
 
-* As in the Amtrak case, we considered only adjacent elements as a convenience, but that doesn't tell us if e.g. we can get from Seattle to Eugene.
-* To do that, we need to to preserve transitivity - and we do so using the notion of **transitive closure**
-* We denote the transitive closure *R⁺*
-    * The transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
+}
+```
 
-*R⁺* ⊃ *R*
+:::
 
-∀ *xRy* : *xR⁺y*
+::::
 
-∀ {*x*, *y*} ∈ *R*, ∃ {*x*, *y*} ∈ *R⁺*
 
-# Closure
 
-* We denote the transitive closure *R⁺*
-    * The transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
 
-*R⁺* ⊃ *R*
+# Insert 96
 
-* The transitive closure *R⁺* of some relation *R* must be transitive.
+::::{columns}
 
-∀ *x*, *y*, *z*: *xR⁺y* and *yR⁺z* ⇒ *xR⁺z*
+:::{.column width=50%}
+  
+- To Insert a value, we Insert an unpopulated node that would make a complete tree of appropriate size.
+- In this case, in a binary tree, the first "child" of `064`
 
-∀ {*x*, *y*}, {*y*, *z*} ∈ *R*, ∃ {*x*, *z*} ∈ *R⁺*
+:::
 
-* Note: since this is a "for all", it means as we are required to add new elements to maintain transitivity, transitivity must apply to those new elements.
-* So, if we add *SeattleAmtrakTacoma* because we have *SeattleAmtrakTukwila* and *TukwilaAmtrakTacoma*...
-* We will then have to add *SeattleAmtrakOlympia* because *Amtrak* also contains *TukwilaAmtrakOlympia*
-* Maybe this looks a little nicer with 3 letter station names and and train numbers (for Cascades 503) rather than just "Amtrak":
-    * *sea503⁺tac*
-    * *sea503⁺olw*
+:::{.column width=50%}
 
-# Closure
 
-* We denote the transitive closure *R⁺*
-    * The transitive closure *R⁺* of some relation *R* must contain all elements of *R*.
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
 
-*R⁺* ⊃ *R*
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
 
-* The transitive closure *R⁺* of some relation *R* must be transitive.
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-∀ *x*, *y*, *z*: *xR⁺y* and *yR⁺z* ⇒ *xR⁺z*
 
-* *R⁺* must be the smallest possible relation for that is a transitive superset of *R*.
-    * Cartesian Product is always transitive and a superset, but not always the smallest satisfying set.
+  192 -> 064
+  192 -> 128
+  empty [label=""]
+  064 -> empty
 
-*R⁺* : ∀ *R'* ⊂ *S* × *S*:
-*R'* ⊃ *R* and **Transitive**(*R'*) :
-|*R⁺*| < |*R'*| and *R⁺* ⊃ *R* and **Transitive**(*R'*)
+}
+```
 
-# Cycles
+:::
 
-* We use transitive closure to define cycles
-    * We consider a graph
+::::
 
-*G* = (*V*, *E*)
 
-* We note that *E* is a homogenous binary relation over *V*
-* We consider that *E⁺* the transitive closure of *E*
+# Insert 96
 
-*E⁺* ⊃ *E*
+::::{columns}
 
-* *G* contains a cycle (has the property of being cyclic) if *E⁺* contains an edge from a node to itself.
+:::{.column width=50%}
+  
+- Place `96` here.
 
-**Cyclic**(*G*) := ∃ *v* : *vE⁺v*
+:::
 
-**Cyclic**(*G* = (*V*, *E*)) := ∃ *v* ∈ *V*: {*v*, *v*} ∈ E⁺
+:::{.column width=50%}
 
-* Some notes:
-    * Cycles are defined to be non-trivial, which means they don't contain "loops", so or an edge from a node to itself.
-        * We don't think about this with Amtrak because we don't take a train from Portland to Portland
-    * Circuits, walks, paths, and trails are also defined in graph theory and are related.
-    * Direct paths and undirected paths are, of course, distinct but intuitively so.
-        * Cascades 503, which runs Seattle to Portland, has a Seattle to Tukwila edge but not a Tukwila to Seattle edge.
-        * The Cascades route, which runs service between Vancouver BC and Eugene, has both edges.
 
-# DAGS
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
 
-"In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles."
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
 
-* So it is a graph
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-*G* = (*V*, *E*)
 
-* It is directed, so *E* is a set of ordered pairs
+  192 -> 064
+  192 -> 128
+  064 -> 096
 
-**Ordered**(*e*) ∀ *e* ∈ *E*
+}
+```
 
-* It contains no cycles
+:::
 
-¬**Cyclic**(*G*)
+::::
 
-¬∃ *v* ∈ *V*: *vE⁺v*
 
-# DAGS
 
-* Cascades 503 is a directed acyclic graph.
-    * It has edges from all relative northern stations to all relative southern stations for all stations between Seattle and Portland inclusive.
-* Color wavelength is a directed acyclic graph.
-    * There is no color that is both higher wavelength and lower wavelength than some other color.
-* The sentence syntax tree from nltk is a directed acyclic graph.
+# Heapify
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Noun_phrase_chunking_with_NLTK.svg/2560px-Noun_phrase_chunking_with_NLTK.svg.png)
+::::{columns}
 
-* Sentences (S) contain words or phrases, and phrases (*x*P) contain words, but no phrases contain a sentence or words contain a phrase.
-* MapReduce is a directed acyclic graph.
-    * Neither Map nor Reduce accept as input anything that they have output, or is constructed from their outputs.
+:::{.column width=50%}
+  
+- `96` $\gt$ `64` so swap
+- `96` $\leq$ `192` so terminate
 
-# DAGS
+:::
 
-* *Directed Acyclic Graphs generalize MapReduce*
-```json
-{
-    "word_x_tagcount": {
-        "key_value_pairs" : {
-            "input" : "filename:text",
-            "": "word:tag",
-            "": "word_x_tag:1",
-            "output": "word_x_tag:count"
-        }
-    }
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  192 -> 096
+  192 -> 128
+  096 -> 064
+
+}
+```
+
+:::
+
+::::
+
+# Aside: Structs
+
+- It is possible to implement a heap like so:
+
+```{.c}
+struct heap_struct {
+    uint8_t data;
+    struct heap_struct *left;
+    struct heap_struct *rite;
+}
+```
+
+- In this case, storing these 8 bit values would require structs of size `8 + 64 + 64 = 136` bits.
+- An overhead of of `(136-8)/8 = 16`x (or worse as 8 bits will take a 64 bit "slot")
+
+# Aside: Arrays
+
+- Instead, realize we always Insert new elements to the... next available position.
+- This is a stack push, usually implement on top of a list or array.
+
+```{.def}
+typedef uint8_t *heap;
+```
+
+- Overhead of zero.
+
+
+# Use arrays
+
+::::{columns}
+
+:::{.column width=50%}
+
+- In theory
+  
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  192 -> 096
+  192 -> 128
+  096 -> 064
+
+}
+```
+:::
+
+:::{.column width=50%}
+
+
+- In practice
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="192|096|128|064"]
+
+}
+```
+
+:::
+
+::::
+
+# Insert 160
+
+::::{columns}
+
+:::{.column width=50%}
+
+- In theory
+  
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  192 -> 096
+  192 -> 128
+  096 -> 064
+  empty [label="",color = "#ffa07a",fontcolor = "#ffa07a"]
+  096 -> empty
+
+}
+```
+:::
+
+:::{.column width=50%}
+
+
+- In practice
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="192|096|128|064|"]
+
+}
+```
+
+:::
+
+::::
+
+
+# Insert 160
+
+::::{columns}
+
+:::{.column width=50%}
+
+- In theory
+  
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  192 -> 096
+  192 -> 128
+  096 -> 064
+  160 [color = "#ffa07a",fontcolor = "#ffa07a"]
+  096 -> 160
+
+}
+```
+:::
+
+:::{.column width=50%}
+
+
+- In practice
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="192|096|128|064|160"]
+
+}
+```
+
+:::
+
+::::
+
+
+# Heapify
+
+::::{columns}
+
+:::{.column width=50%}
+
+- In theory
+  
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  160 [color = "#ffa07a",fontcolor = "#ffa07a"]
+
+  192 -> 160
+  192 -> 128
+  160 -> 064
+  160 -> 096
+
+}
+```
+:::
+
+:::{.column width=50%}
+
+
+- In practice
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="192|<new> 160|128|064|<old> 096"]
+
+  heap:old -> heap:new [color = "#ffa07a",fontcolor = "#ffa07a"]
+
+}
+```
+
+:::
+
+::::
+
+# On Indices
+
+::::{columns}
+
+:::{.column width=50%}
+
+- Consider what happens here with respect to indices
+- `160` is Inserted as the element at zero-index location `4`
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="{0|192}|{1|096}|{2|128}|{3|064}|{4|160}"]
+
+
+}
+```
+
+:::
+
+::::
+
+
+# On Indices
+
+::::{columns}
+
+:::{.column width=50%}
+
+- After swap, `160` is at swaps at zero-index location `1`
+    - No particularly clear pattern here, to me
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="{0|192}|{1|160}|{2|128}|{3|064}|{4|096}"]
+
+
+}
+```
+
+:::
+
+::::
+
+
+
+# 1-Index
+
+::::{columns}
+
+:::{.column width=50%}
+
+- `3` also would've swapped to `1`
+    - Floor/int div by 2
+    - Wait, `4 -> 1` is an off-by-one int div
+- Index by one (`1`), not zero (`0`).
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="{1|192}|{2|160}|{3|128}|{4|064}|{5|096}"]
+}
+```
+
+:::
+
+::::
+
+
+
+# Insert 224
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`.
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="{1|192}|{2|160}|{3|128}|{4|064}|{5|096}|{6|}"]
+}
+```
+
+:::
+
+::::
+
+# Insert 224
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`
+2. Insert `224` there
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="{1|192}|{2|160}|{3|128}|{4|064}|{5|096}|{6|224}"]
+}
+```
+
+:::
+
+::::
+
+
+# Heapify
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`
+2. Insert `224` there
+3. Check `3 = 6/2`
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+
+  heap [label="{1|192}|{2|160}|{<three> 3|128}|{4|064}|{5|096}|{<six> 6|224}"]
+
+  heap:six -> heap:three [color = "#ffa07a",fontcolor = "#ffa07a"]
+}
+```
+
+:::
+
+::::
+
+
+
+# Heapify
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`
+2. Insert `224` there
+3. Check `3 = 6/2`
+4. Swap
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{1|192}|{2|160}|{<three> 3|224}|{4|064}|{5|096}|{<six> 6|128}"]
+
+  heap:six -> heap:three [color = "#ffa07a",fontcolor = "#ffa07a"]
+}
+```
+
+:::
+
+::::
+
+
+
+# Heapify
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`
+2. Insert `224` there
+3. Check `3 = 6/2`
+4. Swap
+3. Check `1 = 3/2`
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{<one> 1|192}|{2|160}|{<three> 3|224}|{4|064}|{5|096}|{<six> 6|128}"]
+
+  heap:three -> heap:one [color = "#ffa07a",fontcolor = "#ffa07a"]
+}
+```
+
+:::
+
+::::
+
+
+# Heapify
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`
+2. Insert `224` there
+3. Check `3 = 6/2`
+4. Swap
+3. Check `1 = 3/2`
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{<one> 1|192}|{2|160}|{<three> 3|224}|{4|064}|{5|096}|{<six> 6|128}"]
+
+  heap:three -> heap:one [color = "#ffa07a",fontcolor = "#ffa07a"]
+}
+```
+
+:::
+
+::::
+
+
+# Heapified
+
+::::{columns}
+
+:::{.column width=50%}
+
+1. Next index is `6`
+2. Insert `224` there
+3. Check `3 = 6/2`
+4. Swap
+5. Check `1 = 3/2`
+6. Swap
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{<one> 1|224}|{2|160}|{<three> 3|192}|{4|064}|{5|096}|{<six> 6|128}"]
+
+}
+```
+
+:::
+
+::::
+
+
+# Heapified
+
+::::{columns}
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label="{1|224}"]
+  2 [label="{2|160}"]
+  3 [label="{3|192}"] 
+  4 [label="{4|064}"]
+  5 [label="{5|096}"]
+  6 [label="{6|128}"]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+
+}
+```
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{<one> 1|224}|{2|160}|{<three> 3|192}|{4|064}|{5|096}|{<six> 6|128}"]
+
+}
+```
+
+:::
+
+::::
+
+# Today
+
+- &check; Trees, ish
+  - &check; Heaps
+  - Merkle Trees
+- &check; Aside: Tx's
+
+# Merkle
+
+- To create a Merkle tree, all non-leaf nodes are hashes and all leaf nodes are what the data type is.
+- Store the data type in array of length $n$
+- The tree requires $n-1$ non-leaf nodes
+
+# Example
+
+::::{columns}
+
+:::{.column width=50%}
+
+- Suppose these are your transactions
+    - Stored in an array (or a `list_t`!)
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{send|recv|amnt}|{A|B|1}|{B|C|2}|{C|D|3}|{F|A|7}|{G|C|2}|{A|G|4}"]
+
+}
+```
+
+
+:::
+
+::::
+
+
+# Example
+
+::::{columns}
+
+:::{.column width=50%}
+
+- In a complete binary tree, the last row is a power of 2 in size.
+    - We have 6 entries, so we will need part of a row of size 8 and part of a row of size 4
+
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{send|recv|amnt}|{A|B|1}|{B|C|2}|{C|D|3}|{F|A|7}|{G|C|2}|{A|G|4}"]
+
+}
+```
+
+
+:::
+
+::::
+
+
+
+# Example
+
+- Fill out the tree to get up to the 4-row.
+
+::::{columns}
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=""]
+  2 [label=""]
+  3 [label=""] 
+  4 [label=""]
+  5 [label=""]
+  6 [label=""]
+  7 [label=""]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+
+}
+```
+    
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{send|recv|amnt}|{A|B|1}|{B|C|2}|{C|D|3}|{F|A|7}|{G|C|2}|{A|G|4}"]
+
+}
+```
+
+
+:::
+
+::::
+
+
+
+# Example
+
+- Add additional leaves until there's enough...
+
+::::{columns}
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=""]
+  2 [label=""]
+  3 [label=""] 
+  4 [label=""]
+  5 [label=""]
+  6 [label=""]
+  7 [label=""]
+  8 [label=""]
+  9 [label=""]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+  4 -> 8
+  4 -> 9
+
+}
+```
+    
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{send|recv|amnt}|{A|B|1}|{B|C|2}|{C|D|3}|{F|A|7}|{G|C|2}|{A|G|4}"]
+
+}
+```
+
+
+:::
+
+::::
+
+
+
+# Example
+
+- More...
+
+::::{columns}
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=""]
+  2 [label=""]
+  3 [label=""] 
+  4 [label=""]
+  5 [label=""]
+  6 [label=""]
+  7 [label=""]
+  8 [label=""]
+  9 [label=""]
+  A [label=""]
+  B [label=""]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+  4 -> 8
+  4 -> 9
+  5 -> A
+  5 -> B
+
+}
+```
+    
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  heap [label="{send|recv|amnt}|{A|B|1}|{B|C|2}|{C|D|3}|{F|A|7}|{G|C|2}|{A|G|4}"]
+
+}
+```
+
+
+:::
+
+::::
+
+
+
+# Example
+
+
+::::{columns}
+
+:::{.column width=50%}
+
+
+1. Relate transactions to leaves.
+    
+
+
+:::
+
+:::{.column width=50%}
+
+
+```{dot}
+//| echo: false
+//| fig-width: 400px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=""]
+  2 [label=""]
+  3 [label=""] 
+  4 [label=""]
+  5 [label=""]
+  6 [label=""]
+  7 [label=""]
+  8 [label=""]
+  9 [label=""]
+  A [label=""]
+  B [label=""]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+  4 -> 8
+  4 -> 9
+  5 -> A
+  5 -> B
+  
+  heap [shape=record, label="{<a> A|B|1}|{<b> B|C|2}|{<c> C|D|3}|{<d> F|A|7}|{<e> G|C|2}|{<f> A|G|4}"]
+
+  7 -> heap:f
+  6 -> heap:e
+  B -> heap:d
+  A -> heap:c
+  9 -> heap:b
+  8 -> heap:a
+
+}
+```
+
+
+:::
+
+::::
+
+
+# Hash Tx's
+
+
+```{dot}
+//| echo: false
+//| fig-width: 800px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=""]
+  2 [label=""]
+  3 [label=""] 
+  4 [label=""]
+  5 [label=""]
+  6 [label="h(G,C,2)"]
+  7 [label="h(A,G,4)"]
+  8 [label="h(A,B,1)"]
+  9 [label="h(B,C,2)"]
+  A [label="h(C,D,3)"]
+  B [label="h(F,A,7)"]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+  4 -> 8
+  4 -> 9
+  5 -> A
+  5 -> B
+  
+  heap [shape=record, label="{<a> A|B|1}|{<b> B|C|2}|{<c> C|D|3}|{<d> F|A|7}|{<e> G|C|2}|{<f> A|G|4}"]
+
+  7 -> heap:f
+  6 -> heap:e
+  B -> heap:d
+  A -> heap:c
+  9 -> heap:b
+  8 -> heap:a
+
+}
+```
+
+
+
+
+# Hash Hashes
+
+
+```{dot}
+//| echo: false
+//| fig-width: 800px
+digraph finite_automata {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label="{0x1|h(*0x2,*0x3)}"]
+  2 [label="{0x2|h(*0x4,*0x5)}"]
+  3 [label="{0x3|h(*0x6,*0x7)}"] 
+  4 [label="{0x4|h(*0xA,*0xB)}"]
+  5 [label="{0x5|h(*0x8,*0x9)}"]
+  6 [label="{0x6|h(G,C,2)}"]
+  7 [label="{0x7|h(A,G,4)}"]
+  8 [label="{0x8|h(A,B,1)}"]
+  9 [label="{0x9|h(B,C,2)}"]
+  A [label="{0xA|h(C,D,3)}"]
+  B [label="{0xB|h(F,A,7)}"]
+
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+  4 -> 8
+  4 -> 9
+  5 -> A
+  5 -> B
+  
+  heap [shape=record, label="{<a> A|B|1}|{<b> B|C|2}|{<c> C|D|3}|{<d> F|A|7}|{<e> G|C|2}|{<f> A|G|4}"]
+
+  7 -> heap:f
+  6 -> heap:e
+  B -> heap:d
+  A -> heap:c
+  9 -> heap:b
+  8 -> heap:a
+
+}
+```
+
+
+
+# 
+
+
+```{dot}
+//| echo: false
+//| fig-width: 1000px
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  0 [label="{h(prev)|<here> h(root)}|{time|nonce}"]
+  1 [label="{0x1|h(*0x2,*0x3)}"]
+  2 [label="{0x2|h(*0x4,*0x5)}"]
+  3 [label="{0x3|h(*0x6,*0x7)}"] 
+  4 [label="{0x4|h(*0xA,*0xB)}"]
+  5 [label="{0x5|h(*0x8,*0x9)}"]
+  6 [label="{0x6|h(G,C,2)}"]
+  7 [label="{0x7|h(A,G,4)}"]
+  8 [label="{0x8|h(A,B,1)}"]
+  9 [label="{0x9|h(B,C,2)}"]
+  A [label="{0xA|h(C,D,3)}"]
+  B [label="{0xB|h(F,A,7)}"]
+
+  0:here -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  2 -> 5
+  3 -> 6
+  3 -> 7
+  4 -> 8
+  4 -> 9
+  5 -> A
+  5 -> B
+  
+  heap [shape=record, label="{<a> A|B|1}|{<b> B|C|2}|{<c> C|D|3}|{<d> F|A|7}|{<e> G|C|2}|{<f> A|G|4}"]
+
+  7 -> heap:f
+  6 -> heap:e
+  B -> heap:d
+  A -> heap:c
+  9 -> heap:b
+  8 -> heap:a
+
+}
+```
+
+
+
+# Today
+
+- &check; Trees, ish
+  - &check; Heaps
+  - &check; Merkle Trees
+- &check; Aside: Tx's
+
+#
+
+```{dot}
+//| echo: false
+//| fig-width: 1000px
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label="{h(prev)|<here> h(root)}|{time|nonce}"]
+  0 [label="{<there> h(prev)|<here> h(root)}|{time|nonce}"]
+  2 [label="{<there> h(prev)|<here> h(root)}|{time|nonce}"]
+  merkle [label="{<1> 0x1|h(*0x2,*0x3)}|{0x2|h(*0x4,*0x5)}|{0x3|h(*0x6,*0x7)}|{0x4|h(*0xA,*0xB)}|{0x5|h(*0x8,*0x9)}|{0x6|<6> h(G,C,2)}|{0x7|<7> h(A,G,4)}|{0x8|<8> h(A,B,1)}|{0x9|<9> h(B,C,2)}|{0xA|<A> h(C,D,3)}|{0xB|<B> h(F,A,7)}"]
+  
+  heap [shape=record, label="{send|recv|amnt}|{<a> A|B|1}|{<b> B|C|2}|{<c> C|D|3}|{<d> F|A|7}|{<e> G|C|2}|{<f> A|G|4}"]
+
+  1 -> 0:there
+  0 -> merkle:1
+  0 -> 2:there
+  merkle:7 -> heap:f
+  merkle:6 -> heap:e
+  merkle:B -> heap:d
+  merkle:A -> heap:c
+  merkle:9 -> heap:b
+  merkle:8 -> heap:a
+
+}
+```
+
+
+# 
+```{.c filename="tx.h"}
+#define KEY_SIZE 4096 / 8 * sizeof(an_int)
+
+typedef uint64_t an_int;
+typedef struct hash_struct{uint32_t digest[8];} hash_t;
+
+struct tx_struct {
+    an_int send_n[KEY_SIZE]; /* 4096 bit sender modulus */
+    an_int recv_n[KEY_SIZE]; /* 4096 bit recver modulus */
+    uint64_t amount;     /* $\exists$ ~2.1 quadrillion atomics, ~2^50 */
 }
 
-Incentive
----------
+typedef struct signed_tx_struct {
+    an_int send_n[KEY_SIZE];    /* needed to decrypt */
+    an_int chunks[3][KEY_SIZE]; /* 3 chunks of up to size 64 */
+    hash_t digest;              /* sha256 */
+} signed_tx_truct signtx;
 
-*   The system only works if there's a reason to invest in mining
-    
-    > The incentive can also be funded with transaction fees
-    
-    *   If you really want your transaction to be accepted, offer a small amount of coinage as a transaction fee.
-    *   This is done by creating a transaction with no receipient, and the default receipient is regarded as the miner.
-    *   Transaction fees allow inflationless mining.
-    *   The last bitcoin (21M'th) will be mined circa 2140 and the system will be fee-only at that time.
-        
-        > The incentive may help encourage nodes to stay honest.
-        
-    *   SN, paraphrased: Fees will likely be more lucrative than theft.
-    *   CD: Attackers will likely be political motivated to destabilize the currency.
-
-Pruning
--------
-
-*   Bitcoin scaling is a real problem, but
-*   There's a lot of ways to handle that.
-*   Only the most recent transaction on a coin must be saved, for example.
-    
-    > Once the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded to save disk space.
-    
-*   This is done using a little thing called "Merkle Tree" which happens to be...
-*   A Directed Acyclic Graph
-
-[![Southwest Chief at Laguna, February 2020](Blockchain_files/Southwest_Chief_at_Laguna,_February_2020.jpg)](https://commons.wikimedia.org/wiki/File:Southwest_Chief_at_Laguna,_February_2020.jpg "Jerry Huddleston from Hampton, Minnesota, US, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons")
-
-_Graph Theory: Cool, Fun, Practical_
-
-Merkle Tree
------------
-
-*   Disclosure: Wikipedia claims Merkle Trees are a computer science topic:
-    
-    > In cryptography and computer science, a hash tree or Merkle tree is a tree in which...
-    
-*   I am a computer scientist.
-*   I'm sorry! I think they're really cool!
-*   Anyways a 'tree' is a DAG where:
-    *   There is a root node, with no incoming edges
-    *   Every other edge has exactly one incoming edge
-
-  
-[![Tree (computer science)](Blockchain_files/Tree_(computer_science).svg.png)](https://commons.wikimedia.org/wiki/File:Tree_(computer_science).svg "Paddy3118, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons")
-
-I should probably say "hash tree" (descriptive name) but I'm really used to hearing "Merkle tree".
-
-Merkle Tree
------------
-
-*   New term: Leaf (or leaf node)
-    *   A leaf is a vertex (or node) of a tree with no outgoing edges.
-*   In a hash tree, a leaf node contains some data and a hash of that data. `# Github Copilot wrote this given the name class HashTreeLeaf: def __init__(self, data): self.data = data self.hash = hash(data) def __hash__(self): return self.hash`
-
-Merkle Tree
------------
-
-*   Every other node _n_ contains:
-    *   A hash
-    *   Computed over the the hashs
-    *   Of the nodes, for which
-    *   _n_ has a corresponding outgoing edge.
-*   To my knowledge, all Merkle/hash trees are binary trees
-    
-    *   A binary tree is a tree in which no node has more than two outgoing edges.
-    
-    `# Github Copilot wrote this given the name class HashTreeNode: def __init__(self, left, rite): assert(left != None) # added by cd self.left = left self.rite = rite self.hash = hash(left)^hash(rite) def __hash__(self): return self.hash`
-*   This allows non-leaf nodes to have one or two outgoing edges.
-
-Binary Tree Ops
----------------
-
-*   Binary trees, usually the special case of sorted binary search trees (BSTs), a mainstay of second semester CS education.
-*   They are not in scope here.
-*   If you need to implement a Merkle tree, find someone else's "binary search tree" code and add the hashing to it.
-*   Generative AIs (all, not just Github Copilot) can usually do BSTs in any given language.
-*   They cannot do Merkle trees (I checked ChatGPT, Gemini, Copilot) for some reason.
-*   Realistically, engineering teams and not individuals should write anything expected to achieve cryptographic goals (too easy to make mistakes).
-
-Merkle Tree
------------
-
-*   This is a very good visualization:  
-    [![Hash Tree](Blockchain_files/Hash_Tree.svg.png)](https://commons.wikimedia.org/wiki/File:Hash_Tree.svg "Azaghal, CC0, via Wikimedia Commons")
-*   All data/coins/transactions are in leaf nodes
-*   Extremely difficulty to falsify anything, due to all the computed hashes
-*   Old transactions can be discarded
-*   Old enough trees may be empty (!!!) if all constituent coins are spent.
-*   This is _likely_ since the most used coins are... the most used coins.
-
-Merkle Tree
------------
-
-*   This is a very good visualization of pruning:
-
-  
-![](Blockchain_files/Reclaiming%20Disk%20Space.png)
-
-This is a Satoshi Nakamoto graphic.
-
-Pruning Use
------------
-
-*   I am unable to characterize expected savings to pruning:
-    *   Users report around 100x (500GB to 5GB)
-    *   Most coins appear to be part of zero transactions
-    *   Some large clusters of coins, like SN's, are valued at tenths of trillions USD but if mobilized would probably tank the valuation.
-    *   So coin velocity, median/average transactions, frequency are all very difficult to characterize.
-    *   Also likely volatile.
-*   In general: Crypto people I trust seem to think Bitcoin is mostly unoptimized and could get a lot more streamlined.
-*   In general: Hard for competing standards to catch on.
-
-Pruning Efficacy
-----------------
-
-*   We can see how much better one Merkle tree is if maximally pruned.
-    *   Have around 4k transactions per block
-    *   So for binary Merkle trees, that is log2(4k) ~= 12 levels
-    *   That is 2^12 leaves, 2^12 nodes of above them, 2^11 nodes above those, etc.
-    *   Σ 2_n_ = 2_n+1_\-1, or `>>> sigma = lambda x : sum([2 ** n for n in range(x+1)]) >>> close = lambda x : 2 ** (x + 1) - 1 # for "closed form" >>> for x in range(50): ... assert(close(x) == sigma(x)) ... >>>`
-    *   Any unpruned tree would have 2^13-1 internal and 2^12 leaf nodes
-    *   A tree with one remaining transaction would have on leaf node and two internal nodes per 'level'
-    *   That is, 2\*12 internal and 1 leaf node. `>>> savin = lambda x : (2*x + 1) / ( 2 ** (x + 1) + 2 ** x - 1 ) >>> savin(10) 0.006838163464669489 >>> savin(12) 0.002034670790266135`
-
-On Memory Usage
----------------
-
-*   Arithmetic!
-    
-    > A block header with no transactions would be about 80 bytes. If we suppose blocks are generated every 10 minutes, 80 bytes \* 6 \* 24 \* 365 = 4.2MB per year.
-    
-*   I don't think that estimate is accurate but I'm not sure why it wouldn't be. I think SN is only counting the block headers, not the trees?
-    
-    > With computer systems typically selling with 2GB of RAM as of 2008, and Moore's Law predicting current growth of 1.2GB per year, storage should not be a problem even if the block headers must be kept in memory
-    
-*   In 2009 we see discussions of expected computing growth and decision making on memory/storage in distributed systems (!!!)
-    
-    > It is possible to verify payments without running a full network node.
-    
-*   SN notes you can just submit a transaction and if it's accepted assume the coins for it were in the correct hands. This does markedly reduce the need for individuals (but not the full network) to store transaction histories.
-
-Transactions
-------------
-
-*   We previously imagined a coin contains:
-    1.  The public key of the current owner
-    2.  The record of all previous owners
-    3.  The signature of the previous owner, generated over (1) and (2)
-*   These are all integers, more or less, that can be verified. `>>> Coin(*[randint(0,1024 * 1024) for _ in range(3)]) <Coin object at 0x7f765208eb90> # NOT verified`
-*   Well... there's actually no reason to have a single former owner or future owner.
-*   So transactions can have multiple inputs before being bundled in hash trees.
-*   We can think of them as dictionaries of send/recieve signatures and values.
-    *   After this semester, we will change ownership of evening classes! `>>> Coin({'ckd': 2, 'jr': 2, 'hc':1, 'lc': 1, 'gp': 1} {'hks': 2, 'rb': 2, 'hi':2, 'fa': 1, 'ir': 1} hash(...)) <Coin object at 0x7f765208eb90>`
-    *   This has a de facto negative transaction fee (it's a bad metaphor)
-        *   Mostly: This allows transactions to not all be off the same price.
-        *   This allows using a unique ID for transactions and still spend all at once.
-
-Multi Transaction
------------------
-
-*   We can visualize as follows:
-
-  
-![](Blockchain_files/1w.png)
-
-This is a Satoshi Nakamoto graphic.
-
-Privacy
--------
-
-> The necessity to announce all transactions publicly precludes this method, but privacy can still be maintained by breaking the flow of information in another place: by keeping public keys anonymous.
-
-*   SN claims that breaking keys (say, account numbers) from personal identifying information achieves privacy.
-*   CD claims the considerable metadata leaks are a marked loss in privacy, but that's okay.
-*   Banks have full knowledge and routinely have e.g. data breaches, illegal ad targetting, etc.
-*   [Wells Fargo Agrees to Pay $3 Billion to Resolve Criminal and Civil Investigations into Sales Practices Involving the Opening of Millions of Accounts without Customer Authorization](https://www.justice.gov/opa/pr/wells-fargo-agrees-pay-3-billion-resolve-criminal-and-civil-investigations-sales-practices)
-*   This 'big banks perspective actually isn't too far off.
-    
-    > This is similar to the level of information released by stock exchanges
-    
-*   Lastly - if you have been part of _n_ transactions, it is simple enough to use a distinct key for each, providing a slightly higher level of protection against privacy violations and any case were an attacker gains access to your key.
-    
-    > As an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner.
-    
-
-Privacy
--------
-
-*   We can visualize as follows:
-
-  
-![](Blockchain_files/1_bE7DuVZlL_LVNe8R1t_qJA.png)
-
-This is a Satoshi Nakamoto graphic.
-
-Bonus: Calculations
--------------------
-
-*   SN closes with a brief essay on probability, including calculations in the C programming language
-*   Also known as: my favorite thing.
-*   Regard the following as bonus slides, but that are really cool!
-
-Calculations
-------------
-
-> We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.
-
-*   In the (quite) early days, gaining a control of a majority of miners was regarded as impossible.
-*   In 2014, it happened: GHash.io, a mining consortium, achieved 51% of compute power.
-*   Read more on [Wikipedia](https://en.wikipedia.org/wiki/GHash.io)
-*   GHash.io voluntarily committed to a 40% cap to avoid devaluing their holdings.
-*   In any case, this risk was foreseen by SN (and, frankly, everyone else) and is discussed.
-
-Calculations
-------------
-
-> We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.
-
-*   We use a "Binomial Random Walk"
-    *   We progress along the integer number line, that is, {..., -1, 0, 1, 2...}
-    *   The value given is the length lead maintained by the "honest" (non-attacker) chain.
-    *   So if the honest chain is lenght 1010, and the attack is lenght 1000, the walk is at 10.
-*   Attacker outpacing is equivalent to the "Gambler's Ruin" problem.
-    *   Gambler has infinite $ and targets breakeven in potentially infinite time
-*   SN uses mathematical notation, I'll use Python. `def prob_attk_ctch(attk_blck_bhnd, prob_next_hnst, prob_next_attk): assert(prob_next_hnst + prob_next_attk == 1) z = attk_blck_bhnd p, q = prob_next_hnst, prob_next_attk if (p <= q): return 1 if (p > q): return (q / p) ** z`
-*   prob\_attk\_ctch(z, p, q) is the probabilty an attacker _z_ blocks behind an honest chain catches up given that the attack controls fraction share _q_ ∈ \[0,1\] of the total nodes.
-
-Calculations
-------------
-
-> We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain.
-
-*   Much easier if we consider a single attacker calculating their catchup probability. `def prob_ctch(blck_bhnd, node_frac): z, p, q = blck_bhnd, 1 - node_frac, node_frac if (p <= q): return 1 if (p > q): return (q / p) ** z`
-*   These numbers are actually higher than I intuitively expected, using e.g. GHash.io's 40% (assuming GHash.io somehow became compromised) `>>>> {n:prob_ctch(n, .4) for n in range(1,10,2)} {1: 0.6666666666666667, 3: 0.2962962962962964, 5: 0.13168724279835398, 7: 0.05852766346593512, 9: 0.026012294873748946} >>> {n/10:prob_ctch(3, n/10) for n in range(1,5)} {0.1: 0.0013717421124828536, 0.2: 0.015625, 0.3: 0.07871720116618078, 0.4: 0.2962962962962964}`
-
-Calculations
-------------
-
-> Given our assumption that _p > q_, the probability drops exponentially as the number of blocks the attacker has to catch up with increases.
-
-*   It occurs to me I can write this in .js with a canvas element.
-
-  
-function qz(z, q) { const p = 1 - q if (p <= q) { return 1 } else if (p > q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i < 800 ; i++ ) { c.fillRect(i, 800 - qz(i \* z / 800, q) \* 800, 2, 2) } }  Set _q_ ∈ (0,.5)  Set _z_ > 0  
-
-code
-----
-
-`<script> function qz(z, q) { const p = 1 - q if (p <= q) { return 1 } else if (p > q) { return Math.pow(q / p, z) } } function draw() { const q = document.getElementById('q').value const z = document.getElementById('z').value const c = document.getElementById('plot').getContext("2d") c.strokeStyle = "white" c.clearRect(0,0,800,800) c.strokeStyle = "black" for ( let i = 0 ; i < 800 ; i++ ) { c.fillRect(i, 800 - qz(i * z / 800, q) * 800, 2, 2) } } </script> <input value=".4" type="number" min="0" max="0.5" id="q"> <button onclick="draw()" type="button">Set <em>q</em> ∈ (0,.5)</button> <input value="5" type="number" min="1" id="z"> <button onclick="draw()" type="button">Set <em>z</em> > 0 </button><br> <canvas style="background-color:white" id="plot" width="800" height="800"></canvas>`
-
-FIN
----
-
-*   Distributed consensus is non-trivial.
-*   It tends to rely on math in the most classical sense of the term.
-*   It allows a lot of new possibilities.
-*   It uses a lot of cloud technologies.
-*   It powers a lot of cloud technologies.
+struct hash_tree_struct {
+    size_t  num_tx;
+    hash_t *merkle; /* malloc to 2 * numx_tx * sizeof(hash_t) */
+    signtx *txtree; /* malloc to     numx_tx * sizeof(signtx) */
+}
+```

@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">heap_t</h1>
-            <p class="subtitle lead">HW 0xC: Due Th, 17 Apr</p>
+            <p class="subtitle lead">HW 0xC: Due Th, 24 Apr</p>
                       </div>
   </div>
     
@@ -158,7 +158,7 @@ On Due Dates
 <div class="callout-body-container callout-body">
 <ul>
 <li>I am not allowed to make assignments due during finals.</li>
-<li>However, I am supportive “no excuse” late turn-ins up until the final project is due.</li>
+<li>However, I am supportive of “no excuse” late turn-ins up until the final project is due.</li>
 </ul>
 </div>
 </div>
@@ -189,17 +189,68 @@ On Due Dates
 <section id="initialize-or-construct-a-new-heap." class="level2">
 <h2 class="anchored" data-anchor-id="initialize-or-construct-a-new-heap.">Initialize or construct a new heap.</h2>
 <ul>
-<li>You may not change the type but may change the names.]</li>
+<li>You may not change the type but may change the names.</li>
 <li>Implement a max heap, wherein the maximum element per the comparison function called <code>gt</code> below is in the initial position.</li>
 <li>You may 1-index or 0-index.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">bool</span> <span class="dt">int</span><span class="op">;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> heap_struct <span class="op">{</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">size_t</span> ele_size<span class="op">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> <span class="op">(*</span>gt<span class="op">)(</span><span class="dt">void</span> <span class="op">*,</span> <span class="dt">void</span> <span class="op">*);</span> <span class="co">/* for "greater than" */</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> <span class="op">*</span>eles<span class="op">;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>heap_t heap<span class="op">(</span><span class="dt">size_t</span> ele_size<span class="op">,</span> <span class="dt">bool</span> <span class="op">(*</span>gt<span class="op">)(</span><span class="dt">void</span> <span class="op">*,</span> <span class="dt">void</span> <span class="op">*));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>I stack allocated my heap, which are welcome but not required to do.</li>
+<li>My initial heap explicitly contained zero elements.</li>
+</ul>
+</section>
+<section id="the-heap-struct" class="level2">
+<h2 class="anchored" data-anchor-id="the-heap-struct">The Heap Struct</h2>
+<ul>
+<li>I am requiring the usage of a single internal array, a function pointer, and something to track the size of elements in the array.</li>
+<li>You do not have to maintain <code>capacity</code> and there is no graceful way to avoiding maintaining <code>num_eles</code> (though non-graceful is fine) but it is probably easier to view them as required.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdbool.h&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> heap_struct <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* These may be changed, but probably are okay */</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> ele_size<span class="op">;</span> <span class="co">/* size of element */</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> num_eles<span class="op">;</span> <span class="co">/* number of elements */</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> capacity<span class="op">;</span> <span class="co">/* current capacity of the heap */</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> <span class="op">(*</span>gt<span class="op">)(</span><span class="dt">void</span> <span class="op">*,</span> <span class="dt">void</span> <span class="op">*);</span> <span class="co">/* for "greater than" */</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* You must store all data elements s.t. reachable from 1 pointer */</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="op">*</span>eles<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> heap_t<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="explanation" class="level2">
+<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
+<ul>
+<li><code>ele_size</code>
+<ul>
+<li>This heap implementation allows storage of elements of any <code>size_t</code> specifiable size.</li>
+<li>For example, it could store hash digests, <code>4096_t</code>, fixed length strengths, or <code>uint24_t</code>’s.</li>
+<li>This is a helpful exercise in reflecting on types and sizes.</li>
+</ul></li>
+<li><code>num_eles</code>
+<ul>
+<li>A heap must track its size to know where to place the next element on an insert operation.</li>
+</ul></li>
+<li><code>capacity</code>
+<ul>
+<li>You are not required to keep an internal array precisely large enough to store all elements.</li>
+<li>I only change the size of my internal array by doubling, a common rule of thumb.</li>
+<li>You can change the size of an array with novel malloc, a memcpy, and a free, or</li>
+<li>You can change the size of an array with <a href="https://www.man7.org/linux/man-pages/man3/realloc.3p.html"><code>realloc</code></a>, which is preferred but was not covered in lecture.</li>
+<li>You are not required to have a distinct <code>num_eles</code> and <code>capacity</code>, but are sufficiently encouraged to do so I made both fields mandatory.</li>
+</ul></li>
+<li><code>gt</code>
+<ul>
+<li>This is just the comparison function, without which the sorting regime of the heap is unclear and should be maintained within the data structure.</li>
+<li>I separately wanted you to see a struct with a function in it!</li>
+</ul></li>
+<li><code>eles</code>
+<ul>
+<li>This is the entries of the heap.</li>
+<li>It must satisfy the heap property of the element at the initial location being the maximum.</li>
+<li>All elements must be stored linearly in a single contigious memory block.</li>
+<li>You may index to zero <code>0</code> or one <code>1</code> at your discretion, I used zero indexing which seemed unexpectedly easier when writing the code.</li>
+</ul></li>
+</ul>
 </section>
 </div>
 </section>
@@ -208,43 +259,283 @@ On Due Dates
 <div id="header" class="collapse multi-collapse">
 <section id="insert-an-element" class="level2">
 <h2 class="anchored" data-anchor-id="insert-an-element">Insert an element</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> insert<span class="op">(</span>heap_t <span class="op">*</span>heap<span class="op">,</span> <span class="dt">void</span> <span class="op">*</span>ele_ptr<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Given the pointer to some element of appropriate size to be stored in the heap, place it in the first available location in the heap array then perform the heapify operation.</li>
+<li>Consult the slides if you are unclear on what heapify is.</li>
+</ul>
 </section>
 </div>
 </section>
 <section id="maxpop-show" class="level1">
 <h1>maxpop&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#maxpop" role="button" aria-expanded="false" aria-controls="maxpop">Show</a></h1>
 <div id="maxpop" class="collapse multi-collapse">
-<section id="initialize-or-construct-a-new-heap.-1" class="level2">
-<h2 class="anchored" data-anchor-id="initialize-or-construct-a-new-heap.-1">Initialize or construct a new heap.</h2>
+<section id="pop-the-maximal-element" class="level2">
+<h2 class="anchored" data-anchor-id="pop-the-maximal-element">Pop the maximal element</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="op">*</span>maxpop<span class="op">(</span>heap_t <span class="op">*</span>heap<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This returns a <em>heap allocated</em> copy of the former maximum value in the heap.</li>
+<li>Separately, these element is removed from the heap.</li>
+<li>Finally, the heap is rearranged to maintain the heap property using a “SiftDown” operation.</li>
+</ul>
 </section>
+<section id="sift-down" class="level2">
+<h2 class="anchored" data-anchor-id="sift-down">Sift Down</h2>
+<ul>
+<li>After a <code>maxpop</code>, the initial index - zero or one - is vacant.</li>
+<li>Overwrite this value at this location with the last element in the heap array - the rightmost leaf in the last layer.</li>
+<li>Compare this value, now at the initial position, which each of its children.</li>
+<li>Swap it with the greatest of its children.</li>
+<li>Continue to swap, or “sift down”, this value until it is either in a leaf position or is greater than both of its children.</li>
+</ul>
+</section>
+<section id="visual-demo" class="level2">
+<h2 class="anchored" data-anchor-id="visual-demo">Visual Demo</h2>
+<ul>
+<li>Begin with the default heap.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span><span class="dv">224</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">192</span><span class="op">,</span> <span class="dv">64</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">128</span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-fig-width="45%" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="NaN" height="480" viewbox="0.00 0.00 197.04 233.13" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 229.13)">
+<title>finite_automata</title>
+<!-- 1 -->
+<g id="node1" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#32fbe2" cx="128.52" cy="-199.61" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="128.52" y="-195.41" font-family="Times,serif" font-size="14.00" fill="#32fbe2">224</text>
+</g>
+<!-- 2 -->
+<g id="node2" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#32fbe2" cx="94.52" cy="-112.57" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="94.52" y="-108.37" font-family="Times,serif" font-size="14.00" fill="#32fbe2">160</text>
+</g>
+<!-- 1&#45;&gt;2 -->
+<g id="edge1" class="edge">
+<title>1-&gt;2</title>
+<path fill="none" stroke="#32fbe2" d="M119.23,-175.37C115.6,-166.3 111.38,-155.74 107.47,-145.94"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="110.65,-144.47 103.68,-136.48 104.15,-147.07 110.65,-144.47"></polygon>
+</g>
+<!-- 3 -->
+<g id="node3" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#32fbe2" cx="163.52" cy="-112.57" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="163.52" y="-108.37" font-family="Times,serif" font-size="14.00" fill="#32fbe2">192</text>
+</g>
+<!-- 1&#45;&gt;3 -->
+<g id="edge2" class="edge">
+<title>1-&gt;3</title>
+<path fill="none" stroke="#32fbe2" d="M137.9,-175.82C141.71,-166.57 146.17,-155.73 150.3,-145.7"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="153.55,-147 154.12,-136.42 147.07,-144.33 153.55,-147"></polygon>
+</g>
+<!-- 4 -->
+<g id="node4" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#32fbe2" cx="25.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="25.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">064</text>
+</g>
+<!-- 2&#45;&gt;4 -->
+<g id="edge3" class="edge">
+<title>2-&gt;4</title>
+<path fill="none" stroke="#32fbe2" d="M78.86,-92.27C69.6,-80.85 57.72,-66.21 47.53,-53.65"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="50.14,-51.3 41.12,-45.74 44.7,-55.71 50.14,-51.3"></polygon>
+</g>
+<!-- 5 -->
+<g id="node5" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#32fbe2" cx="94.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="94.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">096</text>
+</g>
+<!-- 2&#45;&gt;5 -->
+<g id="edge4" class="edge">
+<title>2-&gt;5</title>
+<path fill="none" stroke="#32fbe2" d="M94.52,-86.97C94.52,-78.95 94.52,-69.88 94.52,-61.26"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="98.02,-61.06 94.52,-51.06 91.02,-61.06 98.02,-61.06"></polygon>
+</g>
+<!-- 6 -->
+<g id="node6" class="node">
+<title>6</title>
+<ellipse fill="none" stroke="#32fbe2" cx="163.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="163.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">128</text>
+</g>
+<!-- 3&#45;&gt;6 -->
+<g id="edge5" class="edge">
+<title>3-&gt;6</title>
+<path fill="none" stroke="#32fbe2" d="M163.52,-86.97C163.52,-78.95 163.52,-69.88 163.52,-61.26"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="167.02,-61.06 163.52,-51.06 160.02,-61.06 167.02,-61.06"></polygon>
+</g>
+</g>
+</svg>
 </div>
-</section>
-<section id="l_to_h-show" class="level1">
-<h1>l_to_h&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#option" role="button" aria-expanded="false" aria-controls="option">Show</a></h1>
-<div id="option" class="collapse multi-collapse">
-<section id="challenge-problem-list-to-heap." class="level2">
-<h2 class="anchored" data-anchor-id="challenge-problem-list-to-heap.">Challenge Problem: List to heap.</h2>
-<ul>
-<li>Convert a list to heap.</li>
-<li>Was more interesting to me as a creating a novel heap and preserving the initial list, but as a challenge problem you may set your own function type.</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>heap_t l_to_h<span class="op">(</span>list_t l<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Reasonable to make an <code>h_to_l</code> as well or not, the first direction seemed more interesting to me.</li>
-</ul>
-</section>
+<p></p></figure><p></p>
 </div>
-</section>
-<section id="h_sort-show" class="level1">
-<h1>h_sort&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#h_sort" role="button" aria-expanded="false" aria-controls="h_sort">Show</a></h1>
-<div id="h_sort" class="collapse multi-collapse">
-<section id="challenge-problem-heap-sort-a-list" class="level2">
-<h2 class="anchored" data-anchor-id="challenge-problem-heap-sort-a-list">Challenge Problem: Heap sort a list</h2>
+</div>
+</div>
 <ul>
-<li>Ensure you leak no memory.</li>
-<li>I found inplace (via the void return) <em>more interesting</em> than returning a new list, but not, I would say, easier.</li>
+<li>Heap allocate a space for <code>224</code> to be returned to the client (and freed by the client).</li>
+<li>Overwrite 224 with the rightmost leaf of the final layer.
+<ul>
+<li>In this case, I also just leave this value in the array (why not?)</li>
+<li>I just won’t look at it due to it being outside of the number of elements, and it will be freed eventually.</li>
+</ul></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> h_sort<span class="op">(</span>list_t l<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span><span class="dv">128</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">192</span><span class="op">,</span> <span class="dv">64</span><span class="op">,</span> <span class="dv">96</span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-fig-width="45%" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="NaN" height="480" viewbox="0.00 0.00 162.04 233.13" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 229.13)">
+<title>finite_automata</title>
+<!-- 1 -->
+<g id="node1" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#32fbe2" cx="93.52" cy="-199.61" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="93.52" y="-195.41" font-family="Times,serif" font-size="14.00" fill="#32fbe2">128</text>
+</g>
+<!-- 2 -->
+<g id="node2" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#32fbe2" cx="59.52" cy="-112.57" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="59.52" y="-108.37" font-family="Times,serif" font-size="14.00" fill="#32fbe2">160</text>
+</g>
+<!-- 1&#45;&gt;2 -->
+<g id="edge1" class="edge">
+<title>1-&gt;2</title>
+<path fill="none" stroke="#32fbe2" d="M84.23,-175.37C80.6,-166.3 76.38,-155.74 72.47,-145.94"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="75.65,-144.47 68.68,-136.48 69.15,-147.07 75.65,-144.47"></polygon>
+</g>
+<!-- 3 -->
+<g id="node3" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#32fbe2" cx="128.52" cy="-112.57" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="128.52" y="-108.37" font-family="Times,serif" font-size="14.00" fill="#32fbe2">192</text>
+</g>
+<!-- 1&#45;&gt;3 -->
+<g id="edge2" class="edge">
+<title>1-&gt;3</title>
+<path fill="none" stroke="#32fbe2" d="M102.9,-175.82C106.71,-166.57 111.17,-155.73 115.3,-145.7"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="118.55,-147 119.12,-136.42 112.07,-144.33 118.55,-147"></polygon>
+</g>
+<!-- 4 -->
+<g id="node4" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#32fbe2" cx="25.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="25.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">064</text>
+</g>
+<!-- 2&#45;&gt;4 -->
+<g id="edge3" class="edge">
+<title>2-&gt;4</title>
+<path fill="none" stroke="#32fbe2" d="M50.23,-88.33C46.6,-79.25 42.38,-68.69 38.47,-58.9"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="41.65,-57.42 34.68,-49.44 35.15,-60.02 41.65,-57.42"></polygon>
+</g>
+<!-- 5 -->
+<g id="node5" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#32fbe2" cx="94.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="94.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">096</text>
+</g>
+<!-- 2&#45;&gt;5 -->
+<g id="edge4" class="edge">
+<title>2-&gt;5</title>
+<path fill="none" stroke="#32fbe2" d="M68.9,-88.78C72.71,-79.53 77.17,-68.68 81.3,-58.66"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="84.55,-59.95 85.12,-49.38 78.07,-57.29 84.55,-59.95"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>I check both of <code>128</code>s children, find the maximum, and compare that to <code>128</code>
+<ul>
+<li>The maximum is <code>192</code></li>
+<li>That is greater than <code>128</code></li>
+<li>So, swap.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span><span class="dv">192</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">128</span><span class="op">,</span> <span class="dv">64</span><span class="op">,</span> <span class="dv">96</span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-fig-width="45%" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="NaN" height="480" viewbox="0.00 0.00 162.04 233.13" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 229.13)">
+<title>finite_automata</title>
+<!-- 1 -->
+<g id="node1" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="#32fbe2" cx="93.52" cy="-199.61" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="93.52" y="-195.41" font-family="Times,serif" font-size="14.00" fill="#32fbe2">192</text>
+</g>
+<!-- 2 -->
+<g id="node2" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="#32fbe2" cx="59.52" cy="-112.57" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="59.52" y="-108.37" font-family="Times,serif" font-size="14.00" fill="#32fbe2">160</text>
+</g>
+<!-- 1&#45;&gt;2 -->
+<g id="edge1" class="edge">
+<title>1-&gt;2</title>
+<path fill="none" stroke="#32fbe2" d="M84.23,-175.37C80.6,-166.3 76.38,-155.74 72.47,-145.94"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="75.65,-144.47 68.68,-136.48 69.15,-147.07 75.65,-144.47"></polygon>
+</g>
+<!-- 3 -->
+<g id="node3" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="#32fbe2" cx="128.52" cy="-112.57" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="128.52" y="-108.37" font-family="Times,serif" font-size="14.00" fill="#32fbe2">128</text>
+</g>
+<!-- 1&#45;&gt;3 -->
+<g id="edge2" class="edge">
+<title>1-&gt;3</title>
+<path fill="none" stroke="#32fbe2" d="M102.9,-175.82C106.71,-166.57 111.17,-155.73 115.3,-145.7"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="118.55,-147 119.12,-136.42 112.07,-144.33 118.55,-147"></polygon>
+</g>
+<!-- 4 -->
+<g id="node4" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="#32fbe2" cx="25.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="25.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">064</text>
+</g>
+<!-- 2&#45;&gt;4 -->
+<g id="edge3" class="edge">
+<title>2-&gt;4</title>
+<path fill="none" stroke="#32fbe2" d="M50.23,-88.33C46.6,-79.25 42.38,-68.69 38.47,-58.9"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="41.65,-57.42 34.68,-49.44 35.15,-60.02 41.65,-57.42"></polygon>
+</g>
+<!-- 5 -->
+<g id="node5" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="#32fbe2" cx="94.52" cy="-25.52" rx="25.54" ry="25.54"></ellipse>
+<text text-anchor="middle" x="94.52" y="-21.32" font-family="Times,serif" font-size="14.00" fill="#32fbe2">096</text>
+</g>
+<!-- 2&#45;&gt;5 -->
+<g id="edge4" class="edge">
+<title>2-&gt;5</title>
+<path fill="none" stroke="#32fbe2" d="M68.9,-88.78C72.71,-79.53 77.17,-68.68 81.3,-58.66"></path>
+<polygon fill="#32fbe2" stroke="#32fbe2" points="84.55,-59.95 85.12,-49.38 78.07,-57.29 84.55,-59.95"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>If <code>128</code> had child nodes, I would recurse, but in the case the process terminates here as the <code>128</code> is a leaf.</li>
+<li>We notice that the heap property is satisfied - all parent nodes are greater than all of their child nodes.</li>
+</ul>
 </section>
 </div>
 </section>
@@ -257,7 +548,12 @@ On Due Dates
 <li>Versus other testers this term, I wanted to provide a more concrete file that actually used the list_t, performed operations, and issued outputs as print statements.</li>
 <li>I hope that tester is self-documenting, but would love to hear your questions!</li>
 </ul>
-<iframe width="100%" height="500em" src="https://cd-public.github.io/calvinism/?uri=https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/list_t/tester.c">
+<iframe width="100%" height="500em" src="https://cd-public.github.io/calvinism/?uri=https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/heap_t/tester.c">
+</iframe>
+<ul>
+<li>For reference, here is <code>heap_t.h</code></li>
+</ul>
+<iframe width="100%" height="200em" src="https://cd-public.github.io/calvinism/?uri=https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/heap_t/heap_t.h">
 </iframe>
 </section>
 </div>

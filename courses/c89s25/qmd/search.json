@@ -2944,7 +2944,7 @@
     "href": "heap_t.html",
     "title": "heap_t",
     "section": "",
-    "text": "On Due Dates\n\n\n\n\nI am not allowed to make assignments due during finals.\nHowever, I am supportive “no excuse” late turn-ins up until the final project is due.\n\n\n\n\nThis is the first of two “data structures” assignments, implementing the “Merkle tree” of blockchain.\nThe data stored by the structure is untyped and the heap is provided only with its size.\n\nThe same is true of the provided comparison function.\n\nIt is split over 3 files:\n\ntester.c which is an example of how some client could use heap_t\nheap_t.h which the public API you will implement, as with list_t\n\nYou may not change any lines and must use the array implementation.\nThis is learning objective of the assignment.\n\nheap_t.c where you have some freedom but will be implementing known algorithms.\nAdditionally, a Makefile is provided."
+    "text": "On Due Dates\n\n\n\n\nI am not allowed to make assignments due during finals.\nHowever, I am supportive of “no excuse” late turn-ins up until the final project is due.\n\n\n\n\nThis is the first of two “data structures” assignments, implementing the “Merkle tree” of blockchain.\nThe data stored by the structure is untyped and the heap is provided only with its size.\n\nThe same is true of the provided comparison function.\n\nIt is split over 3 files:\n\ntester.c which is an example of how some client could use heap_t\nheap_t.h which the public API you will implement, as with list_t\n\nYou may not change any lines and must use the array implementation.\nThis is learning objective of the assignment.\n\nheap_t.c where you have some freedom but will be implementing known algorithms.\nAdditionally, a Makefile is provided."
   },
   {
     "objectID": "heap_t.html#option-0x0-linked-list-lisp-list",
@@ -2986,7 +2986,7 @@
     "href": "heap_t.html#novel-tester",
     "title": "heap_t",
     "section": "Novel Tester",
-    "text": "Novel Tester\n\nVersus other testers this term, I wanted to provide a more concrete file that actually used the list_t, performed operations, and issued outputs as print statements.\nI hope that tester is self-documenting, but would love to hear your questions!"
+    "text": "Novel Tester\n\nVersus other testers this term, I wanted to provide a more concrete file that actually used the list_t, performed operations, and issued outputs as print statements.\nI hope that tester is self-documenting, but would love to hear your questions!\n\n\n\n\nFor reference, here is heap_t.h"
   },
   {
     "objectID": "bchain.html",
@@ -3000,14 +3000,14 @@
     "href": "heap_t.html#initialize-or-construct-a-new-heap.",
     "title": "heap_t",
     "section": "Initialize or construct a new heap.",
-    "text": "Initialize or construct a new heap.\n\nYou may not change the type but may change the names.]\nImplement a max heap, wherein the maximum element per the comparison function called gt below is in the initial position.\nYou may 1-index or 0-index.\n\ntypedef bool int;\n\ntypedef struct heap_struct {\n  size_t ele_size;\n  bool (*gt)(void *, void *); /* for \"greater than\" */\n  void *eles;\n}"
+    "text": "Initialize or construct a new heap.\n\nYou may not change the type but may change the names.\nImplement a max heap, wherein the maximum element per the comparison function called gt below is in the initial position.\nYou may 1-index or 0-index.\n\nheap_t heap(size_t ele_size, bool (*gt)(void *, void *));\n\nI stack allocated my heap, which are welcome but not required to do.\nMy initial heap explicitly contained zero elements."
   },
   {
     "objectID": "heap_t.html#insert-an-element",
     "href": "heap_t.html#insert-an-element",
     "title": "heap_t",
     "section": "Insert an element",
-    "text": "Insert an element"
+    "text": "Insert an element\nvoid insert(heap_t *heap, void *ele_ptr);\n\nGiven the pointer to some element of appropriate size to be stored in the heap, place it in the first available location in the heap array then perform the heapify operation.\nConsult the slides if you are unclear on what heapify is."
   },
   {
     "objectID": "heap_t.html#list-to-heap.",
@@ -3036,5 +3036,47 @@
     "title": "heap_t",
     "section": "Challenge Problem: List to heap.",
     "text": "Challenge Problem: List to heap.\n\nConvert a list to heap.\nWas more interesting to me as a creating a novel heap and preserving the initial list, but as a challenge problem you may set your own function type.\n\nheap_t l_to_h(list_t l);\n\nReasonable to make an h_to_l as well or not, the first direction seemed more interesting to me."
+  },
+  {
+    "objectID": "heap_t.html#code",
+    "href": "heap_t.html#code",
+    "title": "heap_t",
+    "section": "Code",
+    "text": "Code\n#include &lt;stdbool.h&gt;\n\ntypedef struct heap_struct {\n    /* These may be changed, but probably are okay */\n    size_t ele_size; /* size of element */\n    size_t num_eles; /* number of elements */\n    size_t capacity; /* current capacity of the heap */\n    bool (*gt)(void *, void *); /* for \"greater than\" */\n    /* You must store all data elements s.t. reachable from 1 pointer */\n    void *eles;\n} heap_t;"
+  },
+  {
+    "objectID": "heap_t.html#explanation",
+    "href": "heap_t.html#explanation",
+    "title": "heap_t",
+    "section": "Explanation",
+    "text": "Explanation\n\nele_size\n\nThis heap implementation allows storage of elements of any size_t specifiable size.\nFor example, it could store hash digests, 4096_t, fixed length strengths, or uint24_t’s.\nThis is a helpful exercise in reflecting on types and sizes.\n\nnum_eles\n\nA heap must track its size to know where to place the next element on an insert operation.\n\ncapacity\n\nYou are not required to keep an internal array precisely large enough to store all elements.\nI only change the size of my internal array by doubling, a common rule of thumb.\nYou can change the size of an array with novel malloc, a memcpy, and a free, or\nYou can change the size of an array with realloc, which is preferred but was not covered in lecture.\nYou are not required to have a distinct num_eles and capacity, but are sufficiently encouraged to do so I made both fields mandatory.\n\ngt\n\nThis is just the comparison function, without which the sorting regime of the heap is unclear and should be maintained within the data structure.\nI separately wanted you to see a struct with a function in it!\n\neles\n\nThis is the entries of the heap.\nIt must satisfy the heap property of the element at the initial location being the maximum.\nAll elements must be stored linearly in a single contigious memory block.\nYou may index to zero 0 or one 1 at your discretion, I used zero indexing which seemed unexpectedly easier when writing the code."
+  },
+  {
+    "objectID": "heap_t.html#the-heap-struct",
+    "href": "heap_t.html#the-heap-struct",
+    "title": "heap_t",
+    "section": "The Heap Struct",
+    "text": "The Heap Struct\n\nI am requiring the usage of a single internal array, a function pointer, and something to track the size of elements in the array.\nYou do not have to maintain capacity and there is no graceful way to avoiding maintaining num_eles (though non-graceful is fine) but it is probably easier to view them as required.\n\n#include &lt;stdbool.h&gt;\n\ntypedef struct heap_struct {\n    /* These may be changed, but probably are okay */\n    size_t ele_size; /* size of element */\n    size_t num_eles; /* number of elements */\n    size_t capacity; /* current capacity of the heap */\n    bool (*gt)(void *, void *); /* for \"greater than\" */\n    /* You must store all data elements s.t. reachable from 1 pointer */\n    void *eles;\n} heap_t;"
+  },
+  {
+    "objectID": "heap_t.html#pop-the-maximal-element",
+    "href": "heap_t.html#pop-the-maximal-element",
+    "title": "heap_t",
+    "section": "Pop the maximal element",
+    "text": "Pop the maximal element\nvoid *maxpop(heap_t *heap);\n\nThis returns a heap allocated copy of the former maximum value in the heap.\nSeparately, these element is removed from the heap.\nFinally, the heap is rearranged to maintain the heap property using a “SiftDown” operation."
+  },
+  {
+    "objectID": "heap_t.html#sift-down",
+    "href": "heap_t.html#sift-down",
+    "title": "heap_t",
+    "section": "Sift Down",
+    "text": "Sift Down\n\nAfter a maxpop, the initial index - zero or one - is vacant.\nOverwrite this value at this location with the last element in the heap array - the rightmost leaf in the last layer.\nCompare this value, now at the initial position, which each of its children.\nSwap it with the greatest of its children.\nContinue to swap, or “sift down”, this value until it is either in a leaf position or is greater than both of its children."
+  },
+  {
+    "objectID": "heap_t.html#visual-demo",
+    "href": "heap_t.html#visual-demo",
+    "title": "heap_t",
+    "section": "Visual Demo",
+    "text": "Visual Demo\n\nBegin with the default heap.\n\n{224, 160, 192, 64, 96, 128}\n\n\n\n\n\n\n\nfinite_automata\n\n\n1\n\n224\n\n\n\n2\n\n160\n\n\n\n1-&gt;2\n\n\n\n\n\n3\n\n192\n\n\n\n1-&gt;3\n\n\n\n\n\n4\n\n064\n\n\n\n2-&gt;4\n\n\n\n\n\n5\n\n096\n\n\n\n2-&gt;5\n\n\n\n\n\n6\n\n128\n\n\n\n3-&gt;6\n\n\n\n\n\n\n\n\n\n\n\nHeap allocate a space for 224 to be returned to the client (and freed by the client).\nOverwrite 224 with the rightmost leaf of the final layer.\n\nIn this case, I also just leave this value in the array (why not?)\nI just won’t look at it due to it being outside of the number of elements, and it will be freed eventually.\n\n\n{128, 160, 192, 64, 96}\n\n\n\n\n\n\n\nfinite_automata\n\n\n1\n\n128\n\n\n\n2\n\n160\n\n\n\n1-&gt;2\n\n\n\n\n\n3\n\n192\n\n\n\n1-&gt;3\n\n\n\n\n\n4\n\n064\n\n\n\n2-&gt;4\n\n\n\n\n\n5\n\n096\n\n\n\n2-&gt;5\n\n\n\n\n\n\n\n\n\n\n\nI check both of 128s children, find the maximum, and compare that to 128\n\nThe maximum is 192\nThat is greater than 128\nSo, swap.\n\n\n{192, 160, 128, 64, 96}\n\n\n\n\n\n\n\nfinite_automata\n\n\n1\n\n192\n\n\n\n2\n\n160\n\n\n\n1-&gt;2\n\n\n\n\n\n3\n\n128\n\n\n\n1-&gt;3\n\n\n\n\n\n4\n\n064\n\n\n\n2-&gt;4\n\n\n\n\n\n5\n\n096\n\n\n\n2-&gt;5\n\n\n\n\n\n\n\n\n\n\n\nIf 128 had child nodes, I would recurse, but in the case the process terminates here as the 128 is a leaf.\nWe notice that the heap property is satisfied - all parent nodes are greater than all of their child nodes."
   }
 ]

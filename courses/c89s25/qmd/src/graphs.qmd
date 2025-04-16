@@ -759,7 +759,7 @@ graph G {
 $$
 \forall v \in V : |\{(v',v) \in E\}| \leq 1
 $$
-- For all verticies, the cardinality of the set of incoming edges is less than or equal to one.
+- For all vertexes, the cardinality of the set of incoming edges is less than or equal to one.
 
 # Decision Trees
 
@@ -785,7 +785,7 @@ $$
 
 # Sample Tree
 
-- By convention, given a directed edge $(v,v`)$, vertex $v$ is denoted the parent and vertex $v`$ is denoted the child.
+- By convention, given a directed edge $(v,v')$, vertex $v$ is denoted the parent and vertex $v'$ is denoted the child.
 
 ```{.c}
 struct tree_struct {

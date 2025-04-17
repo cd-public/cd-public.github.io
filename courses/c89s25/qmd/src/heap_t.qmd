@@ -56,10 +56,10 @@ format:
 ```{.c}
 heap_t heap(size_t ele_size, bool (*gt)(void *, void *));
 ```
-- I stack allocated my heap, which are welcome but not required to do.
+- I stack allocated my heap, which you are welcome but not required to do.
 - My initial heap explicitly contained zero elements.
 
-## The Heap Struct
+### The Heap Struct
 
 - I am requiring the usage of a single internal array, a function pointer, and something to track the size of elements in the array.
 - You do not have to maintain `capacity` and there is no graceful way to avoiding maintaining `num_eles` (though non-graceful is fine) but it is probably easier to view them as required.
@@ -79,7 +79,7 @@ typedef struct heap_struct {
 
 ```
 
-## Explanation
+### Explanation
 
 - `ele_size`
   - This heap implementation allows storage of elements of any `size_t` specifiable size.
@@ -128,17 +128,17 @@ void insert(heap_t *heap, void *ele_ptr);
 
 ::: {#maxpop .collapse .multi-collapse}
 
-## Pop the maximal element
+## Pop the maximal element and sift down
 
 ```{.c}
 void *maxpop(heap_t *heap);
 ```
 
 - This returns a *heap allocated* copy of the former maximum value in the heap.
-- Separately, these element is removed from the heap.
+- Separately, this element is removed from the heap.
 - Finally, the heap is rearranged to maintain the heap property using a "SiftDown" operation.
 
-## Sift Down
+### Sift Down
 
 - After a `maxpop`, the initial index - zero or one - is vacant.
 - Overwrite this value at this location with the last element in the heap array - the rightmost leaf in the last layer.
@@ -146,7 +146,7 @@ void *maxpop(heap_t *heap);
 - Swap it with the greatest of its children.
 - Continue to swap, or "sift down", this value until it is either in a leaf position or is greater than both of its children.
 
-## Visual Demo
+### Visual Demo
 
 - Begin with the default heap.
 
@@ -284,7 +284,7 @@ digraph finite_automata {
 
 ## Novel Tester
 
-- Versus other testers this term, I wanted to provide a more concrete file that actually used the list_t, performed operations, and issued outputs as print statements.
+- Versus other testers this term, I wanted to provide a more concrete file that actually used the heap_t, performed operations, and issued outputs as print statements.
 - I hope that tester is self-documenting, but would love to hear your questions!
 
 <iframe width="100%" height="500em" src="https://cd-public.github.io/calvinism/?uri=https://raw.githubusercontent.com/cd-c89/crypto/refs/heads/main/heap_t/tester.c"></iframe>

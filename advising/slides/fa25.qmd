@@ -16,6 +16,30 @@ format:
         footer: "[Home](../index.html)"
 ---
 
+# Need an adviser?
+
+- Send an email:
+
+```{.email}
+registrar@willamette.edu, ckdeutschbein@willamette.edu
+```
+
+```{.email}
+Dear Registrar,
+
+I am writing to formally declare my intent to major in [Computer Science and/or Data Science]. My seven-digit student ID number is [Your Student ID Number].
+
+I have also copied my prospective advisor, Prof. Calvin, at ckdeutschbein@willamette.edu, who has offered to be my in-major adviser.
+
+Please let me know if there are any additional steps or requirements I need to complete to formalize my major declaration.
+
+Thank you for your time and support.
+
+Sincerely,
+
+[Your Preferred Name]
+```
+
 # Summaries
 
 ## CS majors

@@ -1,0 +1,196 @@
+---
+title: Fall 2025
+theme: dark
+author: Prof. Calvin
+subtitle: "Advising for CS and DATA Majors"
+institute: CS 151
+format: 
+    revealjs: 
+        code-fold: true
+        theme: dark
+        mainfont: monospace
+        slide-number: true
+        show-slide-number: all
+        width: 1050
+        height: 700
+        footer: "[Home](../index.html)"
+---
+
+# Summaries
+
+## CS majors
+
+- Take CS 152 as soon as possible.
+- Take DATA 351 earlier to help with internships.
+- Take MATH 251W sometime next year, but not necessarily fall.
+    * If you are interested in the new, post-2025 BS CS for ABET (engineering/technology) accreditation, also take CS 280 and some math.
+
+## BA CS
+
+<img src="https://cd-public.github.io/advising/photos/cs.png">   
+
+## BS CS
+
+<img style="filter:invert(.9)" src="https://cd-public.github.io/advising/photos/cse.png">
+
+## DATA majors
+
+- Take DATA 252 or its requirements, DATA 151 and DATA 152, as soon as possible.
+- Take MATH 280 or its requirement MATH 150, as soon as possible.
+- Take DATA 351 earlier to help with internships.
+
+## BS DS
+
+- Take the same classes for the BS or BS/MS next term.
+
+<img style="filter:invert(.9)" src="https://cd-public.github.io/advising/photos/ds.png">
+
+
+## Double majors?
+
+- CS 152
+- DATA 351
+- Highest of DATA 151/152/252.
+- Highest of MATH 150/280
+
+# CS Options
+
+## CS 152
+
+* Data Structures
+* CS requirement, DATA elective
+* M/W/_ 01:10 PM - 02:40 PM
+* Prof. Agbo
+* [Example final project](https://cd-public.github.io/fec_project/)
+
+
+## CS 271
+
+* Systems Programming
+* Required for new CS major, upper elective for old CS major
+* For CS 151 students, there's a placement exam just to check your comfort programming, email me!
+* M/W/_ 01:10 PM - 02:40 PM
+* This year we made Bitcoin.
+
+## CS 280
+
+* Human-Computer Interaction
+* Required for new CS major, elective for old CS major
+* Prof. Agbo
+* M/W/_ 10:20 AM - 11:50 AM
+
+## DATA 351
+* Data Management in SQL
+* CS requirement, DATA requirement
+* M/W/_ 02:50 PM - 04:20 PM
+* Prof. Jed Rembold
+
+# Other Data Options
+
+## DATA 151
+
+* Intro to Data Science
+* DATA requirement
+* 3 Sections
+    * M/W/_ 10:20 AM - 11:50 AM
+    * M/W/_ 01:10 PM - 02:40 PM
+    * T/Th_ 01:10 PM - 02:40 PM
+
+## DATA 152
+    
+* Statistics
+* DATA requirement
+* Requires DATA 151
+* T/Th_ 01:10 PM - 02:40 PM
+
+# Mathematics
+
+## MATH 150
+
+* Calculus I
+* DATA requirement, CS math option (new major)
+* 3 Sections
+    * M/W/F 08:00 AM - 09:00 AM
+    * M/W/F 09:10 AM - 10:10 AM
+    * M/W/F 01:10 PM - 02:10 PM
+* High school placement is fine!
+
+
+## MATH 251W
+
+* Foundations of Mathematics
+* CS requirement
+* Have to email the professor to get enrolled, mention you took CS 151 and Calvin sent you
+* 2 sections
+    * M/W/_ 08:40 AM - 10:10 AM
+    * M/W/F 09:10 AM - 10:10 AM
+
+
+## MATH 280
+
+* Math for Data Science
+* DATA requirement, CS math option (new major)
+* Requires MATH 150
+* M/W/_ 02:50 PM - 04:20 PM
+
+# Others
+
+* MATH 152 Calc II if have Calc I
+* MATH 249 Calc III if have Calc II
+* MATH 352 Linear Algebra if have MATH 251W
+* MATH 256 Diff Eq if have Calc III
+
+## Science
+
+* CHEM 115
+    * New CS req
+    * MWF AM slots + 3hr lab
+* PHYS 221
+    * New CS req
+    * Requires Calc II or better (MATH 152)
+    * MWF 1:10-2:10 + 3hr lab
+
+# General Education
+
+## Requirements
+
+- You need
+    - 2 semester of NEL (Non-English Language)
+    - 2 semester of WE (World Engagement)
+    - 2 semester of AH (Arts & Humanities)
+- Aross these, you should aim to get:
+    - 1 semester of PDE (Power, Difference, Equity)
+    - AH + PDE and WE + PDE in one course is fine
+    - AH + WE in one course is not allowed. 
+
+## Sciences
+
+- You need
+    - 1 semester of NS (Natural Science)
+        - BS CS gets this with PHYS/CHEM
+        - Commonly gets this with DATA 275 in spring
+    - 1 semester of SS (Social Science)
+        - ECON 115 is popular
+    - MS (Mathematical Science) is met by CS 151
+
+## Gen Eds
+
+* AES 150
+    * M/W/_ 01:10 PM - 02:40 PM
+    * PDE + AH or SS
+* ECON 115
+    * 3 AM time slots
+    * PDE + SS
+* GCS 105
+    * 2:50 - 4:20
+    * PDE + one of AH, SS, WE
+
+## History
+
+* HIST 131W
+    * 2:50 - 4:20
+    * W + PDE + one of AH, SS
+* HIST, various (262, 391W)
+    * Various MWF
+    * DE + one of AH, SS
+    * 391W also W and may be WE

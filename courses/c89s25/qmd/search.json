@@ -3085,5 +3085,1076 @@
     "title": "heap_t",
     "section": "Pop the maximal element and sift down",
     "text": "Pop the maximal element and sift down\nvoid *maxpop(heap_t *heap);\n\nThis returns a heap allocated copy of the former maximum value in the heap.\nSeparately, this element is removed from the heap.\nFinally, the heap is rearranged to maintain the heap property using a “SiftDown” operation.\n\n\nSift Down\n\nAfter a maxpop, the initial index - zero or one - is vacant.\nOverwrite this value at this location with the last element in the heap array - the rightmost leaf in the last layer.\nCompare this value, now at the initial position, which each of its children.\nSwap it with the greatest of its children.\nContinue to swap, or “sift down”, this value until it is either in a leaf position or is greater than both of its children.\n\n\n\nVisual Demo\n\nBegin with the default heap.\n\n{224, 160, 192, 64, 96, 128}\n\n\n\n\n\n\n\nfinite_automata\n\n\n1\n\n224\n\n\n\n2\n\n160\n\n\n\n1-&gt;2\n\n\n\n\n\n3\n\n192\n\n\n\n1-&gt;3\n\n\n\n\n\n4\n\n064\n\n\n\n2-&gt;4\n\n\n\n\n\n5\n\n096\n\n\n\n2-&gt;5\n\n\n\n\n\n6\n\n128\n\n\n\n3-&gt;6\n\n\n\n\n\n\n\n\n\n\n\nHeap allocate a space for 224 to be returned to the client (and freed by the client).\nOverwrite 224 with the rightmost leaf of the final layer.\n\nIn this case, I also just leave this value in the array (why not?)\nI just won’t look at it due to it being outside of the number of elements, and it will be freed eventually.\n\n\n{128, 160, 192, 64, 96}\n\n\n\n\n\n\n\nfinite_automata\n\n\n1\n\n128\n\n\n\n2\n\n160\n\n\n\n1-&gt;2\n\n\n\n\n\n3\n\n192\n\n\n\n1-&gt;3\n\n\n\n\n\n4\n\n064\n\n\n\n2-&gt;4\n\n\n\n\n\n5\n\n096\n\n\n\n2-&gt;5\n\n\n\n\n\n\n\n\n\n\n\nI check both of 128s children, find the maximum, and compare that to 128\n\nThe maximum is 192\nThat is greater than 128\nSo, swap.\n\n\n{192, 160, 128, 64, 96}\n\n\n\n\n\n\n\nfinite_automata\n\n\n1\n\n192\n\n\n\n2\n\n160\n\n\n\n1-&gt;2\n\n\n\n\n\n3\n\n128\n\n\n\n1-&gt;3\n\n\n\n\n\n4\n\n064\n\n\n\n2-&gt;4\n\n\n\n\n\n5\n\n096\n\n\n\n2-&gt;5\n\n\n\n\n\n\n\n\n\n\n\nIf 128 had child nodes, I would recurse, but in the case the process terminates here as the 128 is a leaf.\nWe notice that the heap property is satisfied - all parent nodes are greater than all of their child nodes."
+  },
+  {
+    "objectID": "logics.html#background",
+    "href": "logics.html#background",
+    "title": "Logics",
+    "section": "Background",
+    "text": "Background\nThesis Title\nMining Secure Behavior of Hardware Designs\nPlain English\nJust as there are bugs in code that makes software, modern hardware is also written in code and therefore may contain bugs. I find these bugs.\nThesis\nSpecification mining can discover properties that can be used to verify the secure behavior of closed source CISC CPU designs, properties that can be used to verify the temporal correctness of CPU designs, and hyperproperties that can be used to verify that modules, SoCs, and CPUs have secure information flow.\nSome partners\nIntel Corporation, Semiconductor Research Corporation, Synopsys, MITRE, Cycuity"
+  },
+  {
+    "objectID": "logics.html#motivations",
+    "href": "logics.html#motivations",
+    "title": "Logics",
+    "section": "Motivations",
+    "text": "Motivations\n\nComputers are just like everything else. But it can be hard to remember this!\nWhen reasonable precautions are not taken, problems arise affecting security and privacy."
+  },
+  {
+    "objectID": "logics.html#diving-in",
+    "href": "logics.html#diving-in",
+    "title": "Logics",
+    "section": "Diving In",
+    "text": "Diving In\n\nThis course is an introduction on security, and covers more than just programming!\nProgramming will be used to teach the computing portion of the course, but the focus is less on programming itself and more on general computer ssecurity principles.\nIf you come across situations where you need to know a bit more about specific programming details, there are plenty of resources online, or just ask me!"
+  },
+  {
+    "objectID": "logics.html#threat-1",
+    "href": "logics.html#threat-1",
+    "title": "Logics",
+    "section": "Threat",
+    "text": "Threat\n“Security” is incomplete as a concept.\n\nWhat is secure?\nFor whom is the ‘what’ secure?\nFrom whom is the ‘what’ secure?"
+  },
+  {
+    "objectID": "logics.html#brainstorming",
+    "href": "logics.html#brainstorming",
+    "title": "Logics",
+    "section": "Brainstorming",
+    "text": "Brainstorming\n\nWhat are some things that we think of as being secure?\n\nWhat computer systems?\nWhat non-computing things?\nIs there a boundary between these?\n\nWhat does “security” mean to you?\nWhat about “secure” as an adjective?\nWhat about “secure” as a verb?\nForm groups of 2-4 and create a definiton of “secure” and “security”. [10-15 min]"
+  },
+  {
+    "objectID": "logics.html#messaging",
+    "href": "logics.html#messaging",
+    "title": "Logics",
+    "section": "Messaging",
+    "text": "Messaging\nConsider and end-to-end messaging service.\n\nMessaging is secure.\nFor all senders and receivers the messaging is secured.\nFrom any third party the messaging service is secured."
+  },
+  {
+    "objectID": "logics.html#limitations",
+    "href": "logics.html#limitations",
+    "title": "Logics",
+    "section": "Limitations",
+    "text": "Limitations\nWhat does this leave out?\n\nCan a third party tell who uses the service?\nCan a third party tell when messages are being sent?\nCan a third party tell the length of the messages?\n\nDo these matter?\nWho decides?"
+  },
+  {
+    "objectID": "logics.html#clarity-matters",
+    "href": "logics.html#clarity-matters",
+    "title": "Logics",
+    "section": "Clarity Matters",
+    "text": "Clarity Matters\n\nIn 2019, Federal Police in Australia were taken to court.\n\nThey illegally accessed “metadata”.\nWhen caught, they lied about whether they did it or not.\nWhen caught again, they lied about how many times they did it.\nWe still don’t know if we know the extent of illegal access.\n\nForm groups of 2-4 and discuss: How can we address this environment as scientists of data and computing? [10 min]"
+  },
+  {
+    "objectID": "logics.html#threat-modeling",
+    "href": "logics.html#threat-modeling",
+    "title": "Logics",
+    "section": "Threat Modeling",
+    "text": "Threat Modeling\nA more complete solution to security analysis is threat modeling.\nA threat model typically addresses:\n\nDescription of the subject to be modeled\nAssumptions that can be checked or challenged in the future as the threat landscape changes\nPotential threats to the system\nActions that can be taken to mitigate each threat\nA way of validating the model and threats, and verification of success of actions taken\n\nRead more: OWASP.org"
+  },
+  {
+    "objectID": "logics.html#looping-back",
+    "href": "logics.html#looping-back",
+    "title": "Logics",
+    "section": "Looping back!",
+    "text": "Looping back!\nThis is what we have been doing!\nInformally\nFormally\nWhat?\nDescription of the subject to be modeled\nFor whom?\nA way of validating the model and threats, and verification of success of actions taken\nFrom whom?\nPotential threats to the system\nAny limitations?\nAssumptions that can be checked or challenged in the future as the threat landscape changes\nHow?\nActions that can be taken to mitigate each threat"
+  },
+  {
+    "objectID": "logics.html#a-messaging-service",
+    "href": "logics.html#a-messaging-service",
+    "title": "Logics",
+    "section": "A messaging service",
+    "text": "A messaging service\nFor our messaging service…\nWhat?\nA way for users to send one another messages…\nFor whom?\n…such that only the sender and intended receipient may read the content…\nFrom whom?\n…yet third parties, such as other users, the service provider, and law enforcement may not…\nAny limitations?\nthough it may be possible to determine who is sending messages and when.\nHow?\nTo be continued!"
+  },
+  {
+    "objectID": "logics.html#artifacts",
+    "href": "logics.html#artifacts",
+    "title": "Logics",
+    "section": "Artifacts",
+    "text": "Artifacts\nWe can instead proceed in four steps.\n\nDiagram: What are we building?\nIdentify threats: What could go wrong?\nMitigate:What are we doing to defend against threats?\nValidate: Have we acted on each of the previous steps?"
+  },
+  {
+    "objectID": "logics.html#process",
+    "href": "logics.html#process",
+    "title": "Logics",
+    "section": "Process",
+    "text": "Process\nI think of this as a procedural way to go from an idea, to an idea where the threats are modelled.\n\nFirst, we draw a diagram of our idea.\nThen we supplement with the risks or threats.\nThen we explain how each is addressed.\nThe last stage, validation, is completed after implementing the idea by testing and studying the service."
+  },
+  {
+    "objectID": "logics.html#signal",
+    "href": "logics.html#signal",
+    "title": "Logics",
+    "section": "Signal",
+    "text": "Signal\n“Signal is a cross-platform encrypted instant messaging service… Users can send one-to-one and group messages, which can include files, voice notes, images, and videos.”"
+  },
+  {
+    "objectID": "logics.html#diagram",
+    "href": "logics.html#diagram",
+    "title": "Logics",
+    "section": "Diagram",
+    "text": "Diagram\nSignal is a… instant messaging service."
+  },
+  {
+    "objectID": "logics.html#diagram-1",
+    "href": "logics.html#diagram-1",
+    "title": "Logics",
+    "section": "Diagram",
+    "text": "Diagram\nSignal is a… encrypted instant messaging service."
+  },
+  {
+    "objectID": "logics.html#diagram-2",
+    "href": "logics.html#diagram-2",
+    "title": "Logics",
+    "section": "Diagram",
+    "text": "Diagram\nSignal is a cross-platform encrypted instant messaging service."
+  },
+  {
+    "objectID": "logics.html#identify-threats",
+    "href": "logics.html#identify-threats",
+    "title": "Logics",
+    "section": "Identify Threats",
+    "text": "Identify Threats\nWho do you not want reading your messages?"
+  },
+  {
+    "objectID": "logics.html#identify-threats-1",
+    "href": "logics.html#identify-threats-1",
+    "title": "Logics",
+    "section": "Identify Threats",
+    "text": "Identify Threats\nWho do you not want reading your messages?"
+  },
+  {
+    "objectID": "logics.html#mitigation-and-validation",
+    "href": "logics.html#mitigation-and-validation",
+    "title": "Logics",
+    "section": "Mitigation and Validation",
+    "text": "Mitigation and Validation\nThese things are hard - but we must first ask the right questions.\n\nSignal is open source, and subject to community scrutiny.\nSignal has been demonstrated and is used by many users.\nSignal is recommended by privacy, technology, and activist communities.\nIs this enough?"
+  },
+  {
+    "objectID": "logics.html#best-practices",
+    "href": "logics.html#best-practices",
+    "title": "Logics",
+    "section": "Best Practices",
+    "text": "Best Practices\nFive techniques for success\n\nDefine the scope and depth of analysis.\nGain a visual understanding of what you’re threat modeling.\nVisually model the attack possibilities.\nIdentify threats.\nDocument of missing or weak security controls."
+  },
+  {
+    "objectID": "logics.html#define-the-scope",
+    "href": "logics.html#define-the-scope",
+    "title": "Logics",
+    "section": "Define the Scope",
+    "text": "Define the Scope\n\nDetermine stakeholders\n\nWho uses the service?\nWho provides the service?\nWho benefits from the service?\nWho does not benefit from the service?\n\nWho can answer these questions?\n\nAre they the same or different people?\nShould you do this by yourself?\nWhat do you do if you need help?"
+  },
+  {
+    "objectID": "logics.html#visual-understanding",
+    "href": "logics.html#visual-understanding",
+    "title": "Logics",
+    "section": "Visual Understanding",
+    "text": "Visual Understanding\nI made this in draw.io"
+  },
+  {
+    "objectID": "logics.html#identify-threats-2",
+    "href": "logics.html#identify-threats-2",
+    "title": "Logics",
+    "section": "Identify Threats",
+    "text": "Identify Threats\nWho do you not want reading your messages?"
+  },
+  {
+    "objectID": "logics.html#document",
+    "href": "logics.html#document",
+    "title": "Logics",
+    "section": "Document",
+    "text": "Document\nThere are established norms for secure code - what about other services?"
+  },
+  {
+    "objectID": "logics.html#now-consider",
+    "href": "logics.html#now-consider",
+    "title": "Logics",
+    "section": "Now consider",
+    "text": "Now consider\nA traffic light:\n\nDiagram: What are we building?\nIdentify threats: What could go wrong?\nMitigate: What are we doing to defend against threats?\nValidate: Have we acted on each of the previous steps?"
+  },
+  {
+    "objectID": "logics.html#artifacts-1",
+    "href": "logics.html#artifacts-1",
+    "title": "Logics",
+    "section": "Artifacts",
+    "text": "Artifacts\nWe can instead proceed in four steps.\n\nDiagram: What are we building?\nIdentify threats: What could go wrong?\nMitigate:What are we doing to defend against threats?\nValidate: Have we acted on each of the previous steps?"
+  },
+  {
+    "objectID": "logics.html#model",
+    "href": "logics.html#model",
+    "title": "Logics",
+    "section": "Model",
+    "text": "Model\nInformally\nFormally\nWhat?\nDescription of the subject to be modeled\nFor whom?\nA way of validating the model and threats, and verification of success of actions taken\nFrom whom?\nPotential threats to the system\nAny limitations?\nAssumptions that can be checked or challenged in the future as the threat landscape changes\nHow?\nActions that can be taken to mitigate each threat"
+  },
+  {
+    "objectID": "logics.html#your-turn",
+    "href": "logics.html#your-turn",
+    "title": "Logics",
+    "section": "Your turn!",
+    "text": "Your turn!\nA commercial airliner threat model:\n\nConcerns crew and passengers, a flight deck and a service station.\nShould answer What?, For whom?, From whom?, Any limitations?\nShould include a a diagram and identify threats.\n\nForm groups of 2-4 and create 3-5 slides. [30-45 min]"
+  },
+  {
+    "objectID": "logics.html#model-1",
+    "href": "logics.html#model-1",
+    "title": "Logics",
+    "section": "Model",
+    "text": "Model\nInformally\nFormally\nWhat?\nDescription of the subject to be modeled\nFor whom?\nA way of validating the model and threats, and verification of success of actions taken\nFrom whom?\nPotential threats to the system\nAny limitations?\nAssumptions that can be checked or challenged in the future as the threat landscape changes\nHow?\nActions that can be taken to mitigate each threat"
+  },
+  {
+    "objectID": "logics.html#properties-1",
+    "href": "logics.html#properties-1",
+    "title": "Logics",
+    "section": "Properties",
+    "text": "Properties\n\nSome security properties are about bad things not happening:\n\nG¬_bad_\nTerm this “safety”\n\nSome security properties are about good things happening someday:\n\nF_good_\nTerm this “liveness”\n\nThese security policies are distinct but difficult to differentiate in Kripke Structures.\nFor non-experts, it may be helpful to formulate security properties that differentiate these.\n\n“I want to be able to access my apartment sometimes but I don’t want adversaries to be able to access it ever.”"
+  },
+  {
+    "objectID": "logics.html#trace-properties",
+    "href": "logics.html#trace-properties",
+    "title": "Logics",
+    "section": "Trace Properties",
+    "text": "Trace Properties\n\nI think of properties in terms of traces\nA trace is the sequence of states through which a system passes over time.\n\nA sequence is an ordering of something. So traces are in order.\nA state is the configuration of a system at some specific time point.\nA system here is the entity that implements the security policy.\nWe emphasize the notion of over time. Traces are time-based."
+  },
+  {
+    "objectID": "logics.html#traffic-light",
+    "href": "logics.html#traffic-light",
+    "title": "Logics",
+    "section": "Traffic Light",
+    "text": "Traffic Light\n\nThink of a traffic light.\n\nIn what states may a traffic light be?\nIn what sequence may these states occur?\nDoes a traffic light implement a security policy\nDo traffic lights change over time?"
+  },
+  {
+    "objectID": "logics.html#theory-break-sorry",
+    "href": "logics.html#theory-break-sorry",
+    "title": "Logics",
+    "section": "Theory break (sorry!)",
+    "text": "Theory break (sorry!)\nA traffic light is an example of a state machine.\nA state machine is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time."
+  },
+  {
+    "objectID": "logics.html#trace-properties-1",
+    "href": "logics.html#trace-properties-1",
+    "title": "Logics",
+    "section": "Trace Properties",
+    "text": "Trace Properties\n\nA trace is the sequence of states through which a system passes over time.\n\nA sequence is an ordering of something. So traces are in order.\nA state is the configuration of a system at some specific time point.\nA system here is the entity that implements the security policy\nWe emphasize the notion of over time. Traces are time-based"
+  },
+  {
+    "objectID": "logics.html#some-examples",
+    "href": "logics.html#some-examples",
+    "title": "Logics",
+    "section": "Some Examples",
+    "text": "Some Examples\nLet’s review some traces and see if they are from a traffic light system that is operating properly.\ntrace = [\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\"\n]"
+  },
+  {
+    "objectID": "logics.html#start",
+    "href": "logics.html#start",
+    "title": "Logics",
+    "section": "Start",
+    "text": "Start\nDoes starting state matter?\ntrace = [\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\"\n]\n\ntrace = [\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\"\n]\n\ntrace = [\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\"\n]\nEnd"
+  },
+  {
+    "objectID": "logics.html#length",
+    "href": "logics.html#length",
+    "title": "Logics",
+    "section": "Length",
+    "text": "Length\nDoes length matter?\ntrace = [\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\"\n]\n\ntrace = [\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\"\n]\n\ntrace = [\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\",\n    \"YELLOW\"\n]"
+  },
+  {
+    "objectID": "logics.html#unique",
+    "href": "logics.html#unique",
+    "title": "Logics",
+    "section": "Unique",
+    "text": "Unique\nDoes the number of unique states matter?\ntrace = [\n    \"YELLOW\"\n]\n\ntrace = [\n    \"YELLOW\",\n    \"RED___\"\n]\n\ntrace = [\n    \"YELLOW\",\n    \"RED___\",\n    \"GREEN_\"\n]"
+  },
+  {
+    "objectID": "logics.html#order",
+    "href": "logics.html#order",
+    "title": "Logics",
+    "section": "order",
+    "text": "order\nDoes order matter?\ntrace = [\n    \"GREEN_\",\n    \"YELLOW\"\n]\n\ntrace = [\n    \"RED___\",\n    \"YELLOW\",\n]\n\ntrace = [\n    \"GREEN_\",\n    \"RED___\"\n]"
+  },
+  {
+    "objectID": "logics.html#sets-of-traces",
+    "href": "logics.html#sets-of-traces",
+    "title": "Logics",
+    "section": "Sets of Traces",
+    "text": "Sets of Traces\nA trace property is a set of traces.\nThe variable “property” is a list of traces.\nproperty[0] = [\"GREEN_\"]\nproperty[1] = [\"YELLOW\"]\nproperty[2] = [\"RED___\"]\nproperty[3] = [\"GREEN_\", \"YELLOW\"]"
+  },
+  {
+    "objectID": "logics.html#system-properties",
+    "href": "logics.html#system-properties",
+    "title": "Logics",
+    "section": "System Properties",
+    "text": "System Properties\n\nA security policy has some given property if all possible traces produced by a system following said security policy are traces within the given property.\nThis may be an infinite number of traces or include traces of infinite length.\nSystems may have more than one property.\n\nLogics of specification are used to specify properties - more on that latter."
+  },
+  {
+    "objectID": "logics.html#on-security",
+    "href": "logics.html#on-security",
+    "title": "Logics",
+    "section": "On Security",
+    "text": "On Security\nProperties provide a way to answer the “How?” after asking:\n\nWhat is secure?\nFor whom is the ‘what’ secure?\nFrom whom is the ‘what’ secure?"
+  },
+  {
+    "objectID": "logics.html#announcements",
+    "href": "logics.html#announcements",
+    "title": "Logics",
+    "section": "Announcements",
+    "text": "Announcements\n\nWelcome to DATA-599: Cybersecurity!\nThere was no homework but is a lingering in-class exercise.\n\nNot to worry! I have something for next week.\n\nLet’s talk about how to specify properties."
+  },
+  {
+    "objectID": "logics.html#properties-2",
+    "href": "logics.html#properties-2",
+    "title": "Logics",
+    "section": "Properties",
+    "text": "Properties\n“I want to be able to access my savings but no one else.”\n\nSafety properties are about bad things not happening:\n\nG¬_bad_\nThese are undefined transitions in Büchi automata\n“No one else may access my savings”\n\nLiveness properties are about good things happening eventually:\n\nF_good_\nThese are accepting states in Büchi automata\n“I want to be able to access my savings”"
+  },
+  {
+    "objectID": "logics.html#trace-properties-2",
+    "href": "logics.html#trace-properties-2",
+    "title": "Logics",
+    "section": "Trace Properties",
+    "text": "Trace Properties\n\nA trace is the sequence of states through which a system passes over time.\n\nA sequence is an ordering of something. So traces are in order.\nA state is the configuration of a system at some specific time point.\nA system here is the entity that implements the security policy\nWe emphasize the notion of over time. Traces are time-based"
+  },
+  {
+    "objectID": "logics.html#sets-of-traces-1",
+    "href": "logics.html#sets-of-traces-1",
+    "title": "Logics",
+    "section": "Sets of Traces",
+    "text": "Sets of Traces\nA set is an ordered collection of elements (such as sequences).\nA sequence is an ordered collection of elements (such as states).\nA trace property is a set of traces.\nA trace is a sequence of states."
+  },
+  {
+    "objectID": "logics.html#organization",
+    "href": "logics.html#organization",
+    "title": "Logics",
+    "section": "Organization",
+    "text": "Organization"
+  },
+  {
+    "objectID": "logics.html#example",
+    "href": "logics.html#example",
+    "title": "Logics",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "logics.html#enumeration",
+    "href": "logics.html#enumeration",
+    "title": "Logics",
+    "section": "Enumeration",
+    "text": "Enumeration\nLast class, we enumerated the possible traces.\nproperty[0] = [\"GREEN_\"]\nproperty[1] = [\"YELLOW\"]\nproperty[2] = [\"RED___\"]\nproperty[3] = [\"GREEN_\", \"YELLOW\"]"
+  },
+  {
+    "objectID": "logics.html#talk",
+    "href": "logics.html#talk",
+    "title": "Logics",
+    "section": "Talk",
+    "text": "Talk\nLet’s do examples as a class until we feel good about them."
+  },
+  {
+    "objectID": "logics.html#enumeration-1",
+    "href": "logics.html#enumeration-1",
+    "title": "Logics",
+    "section": "Enumeration",
+    "text": "Enumeration\nLast class, we enumerated the possible traces.\nproperty[0] = [\"GREEN_\"]\nproperty[1] = [\"YELLOW\"]\nproperty[2] = [\"RED___\"]\nproperty[3] = [\"GREEN_\", \"YELLOW\"]\nThis is bad. Why?"
+  },
+  {
+    "objectID": "logics.html#specification",
+    "href": "logics.html#specification",
+    "title": "Logics",
+    "section": "Specification",
+    "text": "Specification\nRather than enumerate, let us specify.\nThe traffic light property is\nthe set of all sequences over precisely the states {\"GREEN_\", \"YELLOW\", \"RED___\"} \nsuch that \nthe only state succeeding \"GREEN_\" is \"YELLOW\" and\nthe only state succeeding \"YELLOW\" is \"RED___\" and\nthe onle state succeeding \"RED___\" is \"GREEN_\".\nThis is still bad. Why?"
+  },
+  {
+    "objectID": "logics.html#model-checking",
+    "href": "logics.html#model-checking",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple that models a state machine.\nA state machine is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time."
+  },
+  {
+    "objectID": "logics.html#model-checking-1",
+    "href": "logics.html#model-checking-1",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, …} that models a state machine.\n\nS is a finite set of states\n\nKripke structures only work for finite state machines\nFor the sake of this class, we can imagine infinite states if needed."
+  },
+  {
+    "objectID": "logics.html#model-checking-2",
+    "href": "logics.html#model-checking-2",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, …} that models a state machine.\n\nFor a traffic light, S is:\n{\"GREEN_\", \"YELLOW\", \"RED___\"}\nFor a commerical airliner, S is all combinations of people on the airliner and locations on the airliner.\n\nOne element of S over 2 crew and 1 passenger could be:\n{[\"CRW1\", \"DECK\"], [\"CRW2\", \"SERV\"], [\"PSG1\",\"SEAT\"]}"
+  },
+  {
+    "objectID": "logics.html#model-checking-3",
+    "href": "logics.html#model-checking-3",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, …} that models a state machine.\n\nI is a subset of S, we denote this I ⊂ S\n\nAny state in I must be a state in S\nThere may be states in S that are not in I\nThese are the possible initial states of the state machine."
+  },
+  {
+    "objectID": "logics.html#model-checking-4",
+    "href": "logics.html#model-checking-4",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, …} that models a state machine.\n\nFor a traffic light, I = S\n{\"GREEN_\", \"YELLOW\", \"RED___\"}\nFor an airliner, I is all elements of S such that all passengers are seated.\n\nOne element of I and therefore S could be:\n{[\"CRW1\", \"DECK\"], [\"CRW2\", \"SERV\"], [\"PSG1\",\"SEAT\"]}\nOne element of S but not I could be:\n{[\"CRW1\", \"DECK\"], [\"CRW2\", \"SERV\"], [\"PSG1\",\"DECK\"]}"
+  },
+  {
+    "objectID": "logics.html#model-checking-5",
+    "href": "logics.html#model-checking-5",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, …} that models a state machine.\n\nS is a finite set of states\nI ⊂ S is the set of initial states."
+  },
+  {
+    "objectID": "logics.html#model-checking-6",
+    "href": "logics.html#model-checking-6",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, R, …} that models a state machine.\n\nR is a transition relation over S, we denote this R ⊂ S × S\n\nThis just means R says whether one state may be transitioned to from another.\nR expresses them enumerating sequences of length two, called ordered pairs\n\nA starting state\nAn ending state\nThese states are the states in S"
+  },
+  {
+    "objectID": "logics.html#model-checking-7",
+    "href": "logics.html#model-checking-7",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, R, …} that models a state machine.\n\nR is a transition relation over S, we denote this R ⊂ S × S\n\nThis just means R says whether one state may be transitioned to from another.\nR expresses them enumerating sequences of length two, called ordered pairs\n\nBONUS/CHALLENGE: R is left-total.\nA binary relation R ⊂ S × S is left-total if for all elements s of S there exists some ordered pair in R such that the first element of the ordered pair is s.\nR ⊂ S × S is left-total ≔ ∀ s1 ∈ S, ∃ s2 ∈ S such that (s1,s2) ∈ R"
+  },
+  {
+    "objectID": "logics.html#model-checking-8",
+    "href": "logics.html#model-checking-8",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, R, …} that models a state machine.\n\nFor a traffic light, R is:\n{(\"GREEN_\", \"YELLOW\"),\n (\"YELLOW\", \"RED___\"),\n (\"RED___\", \"GREEN_\")}\nFor a commerical airliner, R must describe how crew may not move to the service station when passengers are present and vice versa, or some other arrangement.\n\nNote: Relations may be used to to express the arrangement of people on an airliner as well as express transition relations."
+  },
+  {
+    "objectID": "logics.html#model-checking-9",
+    "href": "logics.html#model-checking-9",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, R, …} that models a state machine.\n\nS is a finite set of states\nI ⊂ S is the set of initial states.\nR ⊂ S × S is a left-total transition relation."
+  },
+  {
+    "objectID": "logics.html#model-checking-10",
+    "href": "logics.html#model-checking-10",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models a state machine.\n\nL is a labeling function over S, we denote this L ⊂ S → ???\n\nThis just means L provides a way of talking about the states in S\nWe talk about these states using atomic propositions\n\nPropositions are expressions in propositional, or zeroth order, logic.\nThey are simply true or false.\nAtomic propositions are simplest possible form of these logic expressions.\n\nL ⊂ S → 2_AP_"
+  },
+  {
+    "objectID": "logics.html#model-checking-11",
+    "href": "logics.html#model-checking-11",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions between over atomic propositions AP.\n\nL is a labeling function over S, we denote this L ⊂ S → 2_AP_\n\nGiven AP, L tells us whether each is true or false (2 options) for every given state."
+  },
+  {
+    "objectID": "logics.html#model-checking-12",
+    "href": "logics.html#model-checking-12",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions and AP.\n\nFor a traffic light, AP could be the following, expressed as a proposition set:\n{s == \"GREEN_\", \n s == \"YELLOW\", \n s == \"RED___\", \n s ∈ {\"GREEN_\", \"YELLOW\"},\n s ∈ {\"YELLOW\", \"RED___\"},\n s ∈ {\"RED___\", \"GREEN_\"}}\nPropositions are often named using single lower cases letters in italics beginning with p"
+  },
+  {
+    "objectID": "logics.html#model-checking-13",
+    "href": "logics.html#model-checking-13",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions and AP.\n\nFor a traffic light, AP could be the following:\nAP = \n[p : state == \"GREEN_\", \n q : state == \"YELLOW\", \n r : state == \"RED___\", \n s : state ∈ {\"GREEN_\", \"YELLOW\"},\n t : state ∈ {\"YELLOW\", \"RED___\"},\n u : state ∈ {\"RED___\", \"GREEN_\"}]\nThen the L would be given as :\n{(\"GREEN_\", {p, s, u}), \n (\"YELLOW\", {q, s, t}),\n (\"RED___\", {r, t, u})}"
+  },
+  {
+    "objectID": "logics.html#model-checking-14",
+    "href": "logics.html#model-checking-14",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions and AP.\n\nFor a commercial airliner, we may want to use AP more intentionally:\n\nLet p denote there are passengers at the service station.\nLet q denote there are crew at the service station.\nLet r denote there all passengers are seated.\nLet s denote at least two crew are in the flight deck."
+  },
+  {
+    "objectID": "logics.html#model-checking-15",
+    "href": "logics.html#model-checking-15",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions and AP.\n\nS is a finite set of states\nI ⊂ S is the set of initial states.\nR ⊂ S × S is a left-total transition relation.\nL ⊂ S → 2_AP_ is the labelling relation."
+  },
+  {
+    "objectID": "logics.html#model-checking-16",
+    "href": "logics.html#model-checking-16",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions and AP.\n\nS is a finite set of states and I ⊂ S is the set of initial states.\n{“GREEN_”, “YELLOW”, “RED___“}\nR ⊂ S × S is a left-total transition relation.\n{(“GREEN_”, “YELLOW”), (“YELLOW”, “RED_”), (”RED_”, “GREEN_”)}\nL ⊂ S → 2_AP_ is the labelling relation.\n{(“GREEN_”, {p, s, u}), (“YELLOW”, {q, s, t}), (“RED___“, {r, t, u})}\n\nA Kripke Structure modelling a traffic light is the 4-tuple…\n({\"GREEN_\", \"YELLOW\", \"RED___\"}, \n {\"GREEN_\", \"YELLOW\", \"RED___\"}, \n {(\"GREEN_\", \"YELLOW\"), \n  (\"YELLOW\", \"RED___\"), \n  (\"RED___\", \"GREEN_\")}, \n {(\"GREEN_\", {p, s, u}),\n  (\"YELLOW\", {q, s, t}), \n  (\"RED___\", {r, t, u})})\n…over AP…\n[p : state == \"GREEN_\",  \n q : state == \"YELLOW\",  \n r : state == \"RED___\",  \n s : state ∈ {\"GREEN_\", \"YELLOW\"},\n t : state ∈ {\"YELLOW\", \"RED___\"},\n u : state ∈ {\"RED___\", \"GREEN_\"}]"
+  },
+  {
+    "objectID": "logics.html#model-checking-17",
+    "href": "logics.html#model-checking-17",
+    "title": "Logics",
+    "section": "Model Checking",
+    "text": "Model Checking\nA Kripke Structure is a 4-tuple {S, I, R, L} that models transitions and AP.\n\nThis is still bad. Why?"
+  },
+  {
+    "objectID": "logics.html#diagrams",
+    "href": "logics.html#diagrams",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nNow that I’ve rigorously defined Kripke Structures, I am willing to tell you they are just diagrams.\n\nClarke, Edmund & Grumberg, Orna & Jha, Somesh & Lu, Yuan & Veith, Helmut. (2003). Counterexample-guided abstraction refinement for symbolic model checking. J. ACM. 50. 752-794. 10.1145/876638.876643."
+  },
+  {
+    "objectID": "logics.html#diagrams-1",
+    "href": "logics.html#diagrams-1",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nThis differs from ours, but only slightly.\n\nThe proposition labels are the same as the state name initials.\nr is the only accepted starting state.\nStates are allowed to transition to the themselves\n\nThink of this is a distinct notion of time.\n\nI describe the only thing that changes time as a change in state.\nIf we imagine that there is a transition every second, the green-to-green is needed."
+  },
+  {
+    "objectID": "logics.html#diagrams-2",
+    "href": "logics.html#diagrams-2",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\n\nWe borrow the initials-labels trick.\nWe allow all starting states.\nWe do not have states transition to themselves."
+  },
+  {
+    "objectID": "logics.html#diagrams-3",
+    "href": "logics.html#diagrams-3",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA Kripke Structure is a 4-tuple {S, I, R, L}\n\nS is the states, in blue."
+  },
+  {
+    "objectID": "logics.html#diagrams-4",
+    "href": "logics.html#diagrams-4",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA Kripke Structure is a 4-tuple {S, I, R, L}\n\nS is the states, in blue.\nI is the inital states, in orange.\nR is the relations, in purple."
+  },
+  {
+    "objectID": "logics.html#diagrams-5",
+    "href": "logics.html#diagrams-5",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA Kripke Structure is a 4-tuple {S, I, R, L}\n\nS is the states, in blue.\nI is the inital states, in orange.\nR is the relations, in purple.\nL is the labels, in black."
+  },
+  {
+    "objectID": "logics.html#limitations-1",
+    "href": "logics.html#limitations-1",
+    "title": "Logics",
+    "section": "Limitations",
+    "text": "Limitations\nKripke Structures are better than enumeration, but…\n\nRepresentation in text is difficult to understand\nShowing equivalence to traces can be difficult\n\n\nWe will introduce a better way to write out relations, then look at our Kripke Structures."
+  },
+  {
+    "objectID": "logics.html#an-example",
+    "href": "logics.html#an-example",
+    "title": "Logics",
+    "section": "An example",
+    "text": "An example\nConsider the following Kripke Structure:\n\nThe following statements are true of traces accepted by this structure:\n\np and q are true initially.\nOnce q becomes false, it never becomes true again.\nOnce q becomes false, p stays true forever.\np goes from false to true when q goes from true to true false."
+  },
+  {
+    "objectID": "logics.html#a-concretization",
+    "href": "logics.html#a-concretization",
+    "title": "Logics",
+    "section": "A concretization",
+    "text": "A concretization\nConsider the following representation:\n\nTake p to be “password checking is blocked/secured”\nTake q to be “system access is blocked/secured”\n\nA passwording service must disclose if an entered password is correct.\n\np and q are true initially.\n\nNo checking, no access\n\nOnce q becomes false, it never becomes true again.\n\nOnce logged in, we can no longer guess passwords.\n\nOnce q becomes false, p stays true forever.\n\nOnce logged in, access is not revoked.\n\n\nInfinite guesses (bad), but persistent users may not look up passwords (good)."
+  },
+  {
+    "objectID": "logics.html#goals",
+    "href": "logics.html#goals",
+    "title": "Logics",
+    "section": "Goals",
+    "text": "Goals\nWe have:\n\nA way to describe the current state of the system (AP)\n\nWe need:\n\nA way to describe relations between atomic propositions over time.\n\nConsider:\n\np and q are true initially.\nOnce q becomes false, it never becomes true again.\n\nq until not q\n\nOnce q becomes false, p stays true forever.\n\nq until not q\n\np goes from false to true when q goes from true to true false."
+  },
+  {
+    "objectID": "logics.html#next-and-until",
+    "href": "logics.html#next-and-until",
+    "title": "Logics",
+    "section": "Next and Until",
+    "text": "Next and Until\nIt often suffices to define two temporal operators:\n\nX: “next”\nU: “until”\n\nAlong with existing logical operators:\n\n¬: “not”\n∨: “or”\n\nWe need apply this over atomic propositions in AP to describe the security requirements of a system.\n&gt;"
+  },
+  {
+    "objectID": "logics.html#composition",
+    "href": "logics.html#composition",
+    "title": "Logics",
+    "section": "Composition",
+    "text": "Composition\nWith logical negation (not) and disjunction (or) we can generate other logical connectives.\np\nq\n¬_p_\np∨_q_\n¬_p_∨¬_q_\n¬(¬_p_∨¬_q_)≡p∧_q_\nTrue\nTrue\nFalse\nTrue\nFalse\nTrue\nTrue\nFalse\nFalse\nTrue\nTrue\nFalse\nFalse\nTrue\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nTrue\nFalse\nTrue\nFalse\nFor example, “and” or conjunction over two atomic propositions is equivalent to the negation or “not” of the “or” or disjunction over the negation or “not” of the two atomic propositions."
+  },
+  {
+    "objectID": "logics.html#next-and-until-1",
+    "href": "logics.html#next-and-until-1",
+    "title": "Logics",
+    "section": "Next and Until",
+    "text": "Next and Until\n\nX a\n\n* → a → * → …\n\na U b\n\na∧¬_b_ → b → * → …\na∧¬_b_ → a∧¬_b_ → b → * → …"
+  },
+  {
+    "objectID": "logics.html#linear-temporal-logic-composition",
+    "href": "logics.html#linear-temporal-logic-composition",
+    "title": "Logics",
+    "section": "Linear Temporal Logic Composition",
+    "text": "Linear Temporal Logic Composition\nName\nUsage\nMeaning\nEquivalencies\nneXt\nX p\np holds in the next time\nX p\nFuture\nF p\np holds in some future time\nTrueU_p_\nGlobal(ly)\nG p\np holds in all future times\n¬(TrueU¬_p_)\nUntil\np U q\np holds unless q, and q must hold at some point in the future\np U q\nRelease\np R q\nq holds up to and including when p holds\n¬(¬_p_ U ¬_q_)\nWeak until\np W q\np holds up to when q holds\n(p U q) ∨ G p\nMighty release\np M q\nq holds up to and including when p holds, and p must hold at some point in the future\nq U (p ∨_q_)"
+  },
+  {
+    "objectID": "logics.html#linear-temporal-logic-exercise",
+    "href": "logics.html#linear-temporal-logic-exercise",
+    "title": "Logics",
+    "section": "Linear Temporal Logic Exercise",
+    "text": "Linear Temporal Logic Exercise\nPopulate this table in groups of n. Likely 15-20 minutes.\nOperator\nTrace 1\nTrace 2\nX p\n* → p → * → …\nF p\n?\n?\nG p\n?\np U q\np∧¬_q_ → p∧¬_q_ → q → * → …\np R q\n?\n?\np W q\n?\n?\np M q\n?"
+  },
+  {
+    "objectID": "logics.html#linear-temporal-logic-traces",
+    "href": "logics.html#linear-temporal-logic-traces",
+    "title": "Logics",
+    "section": "Linear Temporal Logic Traces",
+    "text": "Linear Temporal Logic Traces\nOperator\nTrace 1\nTrace 2\nX p\n* → p → * → …\nF p\n* → p → * → …\n* → * → p → * → …\nG p\np → p → p → …\np U q\np∧¬_q_ → p∧¬_q_ → q → * → …\np R q\nq → q → p ∧ q → * → …\nq → q → q → …\np W q\np → p → q → * → …\np → p → p → …\np M q\nq → q → p ∧ q → * → …"
+  },
+  {
+    "objectID": "logics.html#shorthand",
+    "href": "logics.html#shorthand",
+    "title": "Logics",
+    "section": "Shorthand",
+    "text": "Shorthand\nLet’s introduce a wrinkle.\nThe LTL operator neXt denotes that some atomic proposition should hold true in the next time point. We can generalize this to some fixed future timepoint but using more than one next. For example, the expression:\nXXXX_p_∧¬_q_\nholds over the following trace:\n{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...\nWe extend neXt to reference a fixed future timepoint using a superscript:\nX4_p_∧¬_q_\nI term this “multinext”."
+  },
+  {
+    "objectID": "logics.html#review-question-3",
+    "href": "logics.html#review-question-3",
+    "title": "Logics",
+    "section": "Review Question 3",
+    "text": "Review Question 3\nConsider the following trace:\n{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...\nWhich of the following LTL expressions would describe this trace?\n\n¬X1_q_\n¬X2_q_\n¬X3_q_\n¬X4_q_"
+  },
+  {
+    "objectID": "logics.html#review-question-4",
+    "href": "logics.html#review-question-4",
+    "title": "Logics",
+    "section": "Review Question 4",
+    "text": "Review Question 4\nConsider the following trace:\n{p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...\nWhich of the following LTL expressions would describe this trace?\n\nq U G_p_\nq R G_p_\nq W G_p_\nq M G_p_\n\nCheck your notes or the slides!"
+  },
+  {
+    "objectID": "logics.html#review-question-5",
+    "href": "logics.html#review-question-5",
+    "title": "Logics",
+    "section": "Review Question 5",
+    "text": "Review Question 5\nConsider the following Kripke Structure:\n\nWhich of the following LTL expressions would describe this structure?\n\nq U G_p_\nq R G_p_\nq W G_p_\nq M G_p_"
+  },
+  {
+    "objectID": "logics.html#review-question-6",
+    "href": "logics.html#review-question-6",
+    "title": "Logics",
+    "section": "Review Question 6",
+    "text": "Review Question 6\nConsider the following Kripke Structure:\n\nWhich of the following LTL expressions would would describe this structure?\n\nX1_q_\nX2_q_\nX3_q_\nX4_q_"
+  },
+  {
+    "objectID": "logics.html#review-question-7",
+    "href": "logics.html#review-question-7",
+    "title": "Logics",
+    "section": "Review Question 7",
+    "text": "Review Question 7\nConsider the following Kripke Structure:\n\n10-15 min: In small groups, define an equivalent LTL expression to this structure."
+  },
+  {
+    "objectID": "logics.html#properties-3",
+    "href": "logics.html#properties-3",
+    "title": "Logics",
+    "section": "Properties",
+    "text": "Properties\n“I want to be able to access my savings but no one else.”\n\nSafety properties are about bad things not happening:\n\nG¬_bad_\nThese are undefined transitions in Büchi automata\n“No one else may access my savings”\n\nLiveness properties are about good things happening eventually:\n\nF_good_\nThese are accepting states in Büchi automata\n“I want to be able to access my savings”"
+  },
+  {
+    "objectID": "logics.html#büchi-automata",
+    "href": "logics.html#büchi-automata",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\n\nLogicians use Büchi Automata to define safety and liveness more formally.\nBüchi Automata are more expressive than Kripke Structures\nDeterministic Büchi Automata are equivalent to LTL\n\nWhat would it mean for a Kripke Structure to be deterministic?\nWhat would it mean for LTL not to be deterministic?\n\n\nWe define Büchi Automata as we did Kripke Structures, then show their usefulness."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-1",
+    "href": "logics.html#büchi-automata-1",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton either accepts or rejects infinite inputs (traces)."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-2",
+    "href": "logics.html#büchi-automata-2",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, …} that accepts traces.\n\nQ is a finite set.\n\nWe term the elements of Q to be the states of A\nThe states of A may be distinct from the unique states found within a trace.\nTraces of infinite length can be considered.\n\nQ is circles in our diagram."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-3",
+    "href": "logics.html#büchi-automata-3",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ,…} that accepts traces.\n\nΣ (sigma) is a finite set.\n\nWe term Σ the alphabet of A\nΣ is the unique states found within a trace.\nWe use Σ ω (upper case sigma raised to lower case omega) to denote infinite traces\nThese are the possible states of a trace; I term them letters."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-4",
+    "href": "logics.html#büchi-automata-4",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ,…} that accepts traces Σ ω.\n\nQ is a finite set: the states of A.\nΣ is a finite set: the alphabet of A.\n\nWe studied example traces earlier, for these:\nΣ = { {'p', 'q'}, {'p'}, {'q'} }\nWe cannot yet generate something that looks like Q, but it is similar to\nQ ≈ {'s_1', 's_2', 's_3'}"
+  },
+  {
+    "objectID": "logics.html#büchi-automata-5",
+    "href": "logics.html#büchi-automata-5",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ, δ, …} that accepts traces Σ ω.\n\nδ is a function.\n\nWe term δ (lower case delta) the transition function of A.\nδ maps combinations of states and letters to other states.\nδ : Q × Σ → Q, or\nδ ⊆ (Q × Σ ) × Q\n\nδ is like Kripke R except that it has to check both Q (model) and Σ (trace).\nδ takes a circle in the diagram and an observation and tells you the new circle in the diagram.\nΣ labels arrows between circles in the diagram."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-6",
+    "href": "logics.html#büchi-automata-6",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ, δ,…} that accepts traces.\n\nQ is a finite set: the states of A.\nΣ is a finite set: the alphabet of A.\nδ : Q × Σ → Q is a function: the transition function of A."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-7",
+    "href": "logics.html#büchi-automata-7",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ, δ, q0,…} that accepts traces Σ ω.\n\nq0 ∈ Q (say: q-naut is an element of the seq Q)\n\nWe term q0 the initial state of A.\nq0 is like I but Büchi Automata have only a single starting state.\n\nThis is because Büchi Automata have no atomic proposition labels on states, only on transitions."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-8",
+    "href": "logics.html#büchi-automata-8",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ, δ, q0,…} that accepts traces Σ ω.\n\nQ is a finite set: the states of A.\nΣ is a finite set: the alphabet of A.\nδ : Q × Σ → Q is a function: the transition function of A.\nq0 ∈ Q: is a state: the initial state of A"
+  },
+  {
+    "objectID": "logics.html#büchi-automata-9",
+    "href": "logics.html#büchi-automata-9",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ, δ, q0, F } that accepts traces Σ ω.\n\nF ⊆ Q is a non-strict subset.\n\nWe term F the acceptance condition.\nThis one looks a bit odd on slides, it looks clearer standard formatting.\n\nF is bolded\nQ is italicized\nF ⊆ Q|\n\nAn infinite trace must visit states in F an infinite number of times to be accepted.\nWe can think of finite traces as infinitely repeated their last state, which must be in F."
+  },
+  {
+    "objectID": "logics.html#büchi-automata-10",
+    "href": "logics.html#büchi-automata-10",
+    "title": "Logics",
+    "section": "Büchi Automata",
+    "text": "Büchi Automata\nA deterministic Büchi Automaton A is a tuple {Q, Σ, δ, q0, F } that accepts traces Σ ω.\n\nQ is a finite set: the states of A.\nΣ is a finite set: the alphabet of A.\nδ : Q × Σ → Q is a function: the transition function of A.\nq0 ∈ Q: is a state: the initial state of A\nF ⊆ Q is a non-strict subset: the acceptance condition"
+  },
+  {
+    "objectID": "logics.html#diagrams-6",
+    "href": "logics.html#diagrams-6",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nKripke Structures\nBüchi Automata\n\nBoth (graphs) have a circles (nodes) and arrows (edges)\n\nKripke Structures label circles (nodes)\nBüchi Automata label arrows (edges)"
+  },
+  {
+    "objectID": "logics.html#diagrams-7",
+    "href": "logics.html#diagrams-7",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ : the states of A.\nΣ : the alphabet of A.\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#diagrams-8",
+    "href": "logics.html#diagrams-8",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ : the alphabet of A.\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#diagrams-9",
+    "href": "logics.html#diagrams-9",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ = {red, green, yellow} in magenta\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#diagrams-10",
+    "href": "logics.html#diagrams-10",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ = {red, green, yellow} in magenta\nδ : Q × Σ → Q in blue\n\nTake ((q0, red), q0) as 0R0\nδ ={0R0,0G1,1G1,1Y2,2Y2,2R0}\n\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#diagrams-11",
+    "href": "logics.html#diagrams-11",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 : in orange\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#diagrams-12",
+    "href": "logics.html#diagrams-12",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 in orange\nF = {q0} or {0} in black\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#safety-and-liveness",
+    "href": "logics.html#safety-and-liveness",
+    "title": "Logics",
+    "section": "Safety and Liveness",
+    "text": "Safety and Liveness\nSafety\n\nLiveness"
+  },
+  {
+    "objectID": "logics.html#safety",
+    "href": "logics.html#safety",
+    "title": "Logics",
+    "section": "Safety",
+    "text": "Safety\n\nSome security properties are about bad things not happening:\n\nG¬_bad_\nTerm this “safety”\n\nIf a Büchi Automata is a safety property…\n\nIf the bad things happens, the system is unrecoverable.\nTherefore, any failures result from “falling off” the diagram.\nTherefore, all states are accepting states (no failures based on ending).\n\n\nSafety"
+  },
+  {
+    "objectID": "logics.html#safety-1",
+    "href": "logics.html#safety-1",
+    "title": "Logics",
+    "section": "Safety",
+    "text": "Safety\nThe closure of Büchi Automaton given by A ≔ {Q, Σ, δ, q0, F } is cl(A) ≔ {Q, Σ, δ, q0, Q }.\nThat is, cl(A) is equivalent to A if the set of accepting states F is expanded to include all of the states of A\n&lt;\nA safety property is a property given by a Büchi Automaton A ≔ {Q, Σ, δ, q0, F } such that all traces accepted by A are also accepted by its cl(A) ≔ {Q, Σ, δ, q0, Q }.\nSafety"
+  },
+  {
+    "objectID": "logics.html#safety-2",
+    "href": "logics.html#safety-2",
+    "title": "Logics",
+    "section": "Safety",
+    "text": "Safety\n\nThis means, we can develop safety properties from arrows (edges), or from δ\n\nWe see that yellow is always preceded by green or yellow.\nYellow is never preceded by red.\nSo we can say that the bad thing is red with yellow next\nG¬(red∧X_yellow_ )\nG¬(green∧X_red_ )\nG¬(yellow∧X_green_ )\n\n\nSafety"
+  },
+  {
+    "objectID": "logics.html#safety-3",
+    "href": "logics.html#safety-3",
+    "title": "Logics",
+    "section": "Safety",
+    "text": "Safety\nCould we argue that only G¬(green∧X_red_ ) is a safety property?\n15-20 min: In small groups, define the Büchi Automaton that captures *only* this safety property.\nA diagram is sufficient, but think about A ≔ {Q, Σ, δ, q0, F }\nBe prepared to demonstrate that you have created a safety property!\nSafety"
+  },
+  {
+    "objectID": "logics.html#liveness",
+    "href": "logics.html#liveness",
+    "title": "Logics",
+    "section": "Liveness",
+    "text": "Liveness\n\nSome security properties are about good things happening someday:\n\nF_good_\nTerm this “liveness”\n\nIf a Büchi Automata is a liveness property…\n\nNo matter what happens, the system is recoverable.\nTherefore, any failures result from not reaching accepting states.\nTherefore, all states should have outgoing edges covering all letters of the trace alphabet.\n\n\nLiveness"
+  },
+  {
+    "objectID": "logics.html#liveness-1",
+    "href": "logics.html#liveness-1",
+    "title": "Logics",
+    "section": "Liveness",
+    "text": "Liveness\nThe closure of Büchi Automaton given by A ≔ {Q, Σ, δ, q0, F } is cl(A) ≔ {Q, Σ, δ, q0, Q }.\nThat is, cl(A) is equivalent to A if the set of accepting states F is expanded to include all of the states of A\n&lt;\nA liveness property is a property given by a Büchi Automaton A ≔ {Q, Σ, δ, q0, F } such that cl(A) ≔ {Q, Σ, δ, q0, Q } accepts all possible traces in Σ ω.\nLiveness"
+  },
+  {
+    "objectID": "logics.html#liveness-2",
+    "href": "logics.html#liveness-2",
+    "title": "Logics",
+    "section": "Liveness",
+    "text": "Liveness\n\nThis means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.\n\nWe see that q1 has an outgoing edge labelled “yellow”.\nWe add an edge from q1 to itself that is labelled “not yellow”.\n\nAs a convenience, we say the “good thing” is the light turning green\n\nWe mark q1 as the accepting state, since it is reached when the light turns green.\n\n\nLiveness"
+  },
+  {
+    "objectID": "logics.html#liveness-3",
+    "href": "logics.html#liveness-3",
+    "title": "Logics",
+    "section": "Liveness",
+    "text": "Liveness\nCould we argue that only F_green_ is a Liveness property?\n10-15 min: In small groups, define the Büchi Automaton that captures *only* this liveness property.\nA diagram is sufficient, but think about A ≔ {Q, Σ, δ, q0, F }\nBe prepared to demonstrate that you have created a safety property!\nLiveness"
+  },
+  {
+    "objectID": "logics.html#properties-4",
+    "href": "logics.html#properties-4",
+    "title": "Logics",
+    "section": "Properties",
+    "text": "Properties\n“I want to be able to access my savings but no one else.”\n\nSafety properties are about bad things not happening:\n\nG¬_bad_\nThese are undefined transitions in Büchi automata\n“No one else may access my savings”\n\nLiveness properties are about good things happening eventually:\n\nF_good_\nThese are accepting states in Büchi automata\n“I want to be able to access my savings”"
+  },
+  {
+    "objectID": "logics.html#diagrams-13",
+    "href": "logics.html#diagrams-13",
+    "title": "Logics",
+    "section": "Diagrams",
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 in orange\nF = {q0} or {0} in black\n\nTraffic Light"
+  },
+  {
+    "objectID": "logics.html#safe-and-live",
+    "href": "logics.html#safe-and-live",
+    "title": "Logics",
+    "section": "Safe() and Live()",
+    "text": "Safe() and Live()\nWe now define Safe():\nSafe(m) excludes the “bad thing” for a Buchi automaton, which is attempting an undefined transition, because if such a “bad thing” happens at any point in the trace, the Buchi automaton will not accept that trace.\n… and Live():\nLive(m) requires the “good thing” for a Buchi automaton, which is entering an accepting state infinitely often, because we require this “good thing” to happen for trace to be accepted."
+  },
+  {
+    "objectID": "logics.html#intersection",
+    "href": "logics.html#intersection",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\nWe recall set theoretic intersection…\nIn set theory, the intersection of two sets A and B, denoted by A ∩_B_ is the set containing all elements of A that also belong to B\n… and we recall what properties are:\nA trace property is a set of traces.\nAnd now we make our claim:\n“Given a Buchi automaton m, it is not difficult to construct Buchi automata Safe(m) and Live(m) such that Safe(m) specifies a safety property, Live(m) specifies a liveness property, and the prop- erty specified by m is the intersection of those specified by Safe(m) and Live(m).”"
+  },
+  {
+    "objectID": "logics.html#example-1",
+    "href": "logics.html#example-1",
+    "title": "Logics",
+    "section": "Example",
+    "text": "Example\nConsider the following Büchi automata over the alphabet of lower case letters:\n\nSafety means G_a_ ∨ b\nSafe(m) = {\"a\", \"b\", \"aa\", \"ab\", \"ba\", \"bb\", \"aaa\", \"aab\", ... }\nLiveness means GF_a_\nLive(m) = {\"a\", \"aa\", \"ba\", \"ca\", \"da\", \"ea\", \"fa\", \"ga\", ... }\nThe intersection represents elements in both Safe(m) and Live(m)…"
+  },
+  {
+    "objectID": "logics.html#example-2",
+    "href": "logics.html#example-2",
+    "title": "Logics",
+    "section": "Example",
+    "text": "Example\nSafety means G_a_ ∨ b\nSafe(m) = {\"a\", \"b\", \"aa\", \"ab\", \"ba\", \"bb\", \"aaa\", \"aab\", ... }\nLiveness means GF_a_\nLive(m) = {\"a\", \"aa\", \"ba\", \"ca\", \"da\", \"ea\", \"fa\", \"ga\", ... }\nThe intersection represents elements in both Safe(m) and Live(m)…\nm = {\"a\", \"b\", \"aa\", \"ba\", \"aaa\", \"aba\", \"baa\", \"bba\", ... }\nTo continue to advance our understanding of the distinction, we explore how to generate Safe(m) and Live(m)."
+  },
+  {
+    "objectID": "logics.html#safe",
+    "href": "logics.html#safe",
+    "title": "Logics",
+    "section": "Safe()",
+    "text": "Safe()\nWe recall the definition of safety.\nSafe(m) excludes the “bad thing” for a Buchi automaton, which is attempting an undefined transition, because if such a “bad thing” happens at any point in the trace, the Buchi automaton will not accept that trace.\nWe recall the definition of closure.\nThe closure of Büchi Automaton given by A ≔ {Q, Σ, δ, q0, F } is cl(A) ≔ {Q, Σ, δ, q0, Q }.\nSo_cl(A)_ is equivalent to A if the set of accepting states F is expanded to include all of the states of A.\nA core “nicety” of Büchi Automata is that the safety property is the closure."
+  },
+  {
+    "objectID": "logics.html#safe-1",
+    "href": "logics.html#safe-1",
+    "title": "Logics",
+    "section": "Safe()",
+    "text": "Safe()\nA core “nicety” of Büchi Automata is that the safety property is the closure.\nSafe(m) = cl(m)\nThat is, for m ≔ {Q, Σ, δ, q0, F } is cl(m) ≔ {Q, Σ, δ, q0, Q }\nThe closure simply allows any trace without an undefined transition (or “bad thing”) to be accepted."
+  },
+  {
+    "objectID": "logics.html#live",
+    "href": "logics.html#live",
+    "title": "Logics",
+    "section": "Live()",
+    "text": "Live()\nWe recall the definition of liveness.\nLive(m) requires the “good thing” for a Buchi automaton, which is entering an accepting state infinitely often, because we require this “good thing” to happen for trace to be accepted.\nThink back to our example (emphasis added):\n“Consider the following Büchi automata over the alphabet of lower case letters”\n\nWhile safety is mostly about F, the accepting states or the double circles, liveness is mostly about Σ = {a, b, ?}, the alphabet or the possible states of the trace (NOT the states of the automata) that form the labels on arrows."
+  },
+  {
+    "objectID": "logics.html#live-1",
+    "href": "logics.html#live-1",
+    "title": "Logics",
+    "section": "Live()",
+    "text": "Live()\nSo we define liveness relative to Σ. There most be no undefined transitions (that would be safety) so we require that any letter in Σ has a defined transition at any point in time."
+  },
+  {
+    "objectID": "logics.html#live-2",
+    "href": "logics.html#live-2",
+    "title": "Logics",
+    "section": "Live()",
+    "text": "Live()\nWith the traffic light, we ensured there were no undefined transitions using logical not “¬”\nBut what does this logical not really do with respect to the alphabet?\nLiveness"
+  },
+  {
+    "objectID": "logics.html#live-3",
+    "href": "logics.html#live-3",
+    "title": "Logics",
+    "section": "Live()",
+    "text": "Live()\nLet’s look back at our original δ and Σ.\n\nδ ={0R0,0G1,1G1,1Y2,2Y2,2R0}\nΣ = {R, G, Y }\n\nTo make a liveness property, we made sure that each of {R, G, Y } had a defined place to go from each automata state. We added:\n\nδlive(m) ={0Y0,1R1,2G2}\n\nBut this is ugly, let’s look at a table\nLiveness"
+  },
+  {
+    "objectID": "logics.html#before-live",
+    "href": "logics.html#before-live",
+    "title": "Logics",
+    "section": "Before Live()",
+    "text": "Before Live()\n\nTransition Letter\nR\nG\nY\nInitial State\nNext State\nq0\nq0\nq1\nUNDEFINED\nq1\nUNDEFINED\nq1\nq2\nq2\nq0\nUNDEFINED\nq2"
+  },
+  {
+    "objectID": "logics.html#with-live",
+    "href": "logics.html#with-live",
+    "title": "Logics",
+    "section": "With Live()",
+    "text": "With Live()\n\nTransition Letter\nR\nG\nY\nInitial State\nNext State\nq0\nq0\nq1\nq0\nq1\nq1\nq1\nq2\nq2\nq0\nq2\nq2"
+  },
+  {
+    "objectID": "logics.html#problem",
+    "href": "logics.html#problem",
+    "title": "Logics",
+    "section": "Problem",
+    "text": "Problem\nThis δ doesn’t define a traffic light!\n\nδlive(m) =\n{0R0,0G1,\n 1G1,1Y2,\n 2Y2,2R0,\n 0Y0,1R1,2G2}\nΣ = {R, G, Y}\n\nWe need a way to preserve existing state transitions, while eliminating undefined transitions.\nLiveness"
+  },
+  {
+    "objectID": "logics.html#trap-state",
+    "href": "logics.html#trap-state",
+    "title": "Logics",
+    "section": "Trap State",
+    "text": "Trap State\nIntroduce new state qtrap or qt\n\nδlive(m) =\n{0R0,0G1,\n 1G1,1Y2,\n 2Y2,2R0,\n 0Yt,1Rt,2Gt}\nΣ = {R, G, Y }\nQ = {0, 1, 2, t }\n\nWe need a way to preserve existing state transitions, while eliminating undefined transitions.\nLiveness"
+  },
+  {
+    "objectID": "logics.html#trap-state-1",
+    "href": "logics.html#trap-state-1",
+    "title": "Logics",
+    "section": "Trap State",
+    "text": "Trap State\nBut how does Σ = {R, G, Y } figure in?\nA flashing red F or out light O can still be green in the future!\nThe trap transition aren’t fixed letters - they are the the rest of the alphabet!\n\nδlive(m) =\n{0R0,0G1,\n 1G1,1Y2,\n 2Y2,2R0,\n 0*t,1*t,2*t}\nΣ = {R, G, Y, F, O, … }\n\nLiveness"
+  },
+  {
+    "objectID": "logics.html#trap-state-2",
+    "href": "logics.html#trap-state-2",
+    "title": "Logics",
+    "section": "Trap State",
+    "text": "Trap State\nTransition\nLetter\n{R}\n{G}\n{Y}\nΣ/{R, G, Y }\nInitial State\nNext State\nq0\nq0\nq1\nqt\nqt\nq1\nqt\nq1\nq2\nqt\nq2\nq0\nqt\nq2\nqt"
+  },
+  {
+    "objectID": "logics.html#live-4",
+    "href": "logics.html#live-4",
+    "title": "Logics",
+    "section": "Live()",
+    "text": "Live()\nWe recall the definition of safety.\nLive(m) requires the “good thing” for a Buchi automaton, which is entering an accepting state infinitely often, because we require this “good thing” to happen for trace to be accepted.\nSo in practice, we have\nLive(m) is m augmented by an accepting trap state qt and new transition function δlive(m) which is the transition function δ extended so that it causes every undefined transition of m to put Live(m) in qt"
+  },
+  {
+    "objectID": "logics.html#overall",
+    "href": "logics.html#overall",
+    "title": "Logics",
+    "section": "Overall",
+    "text": "Overall\nMost Simple\n\nMost Correct"
+  },
+  {
+    "objectID": "logics.html#why-trap-states",
+    "href": "logics.html#why-trap-states",
+    "title": "Logics",
+    "section": "Why trap states",
+    "text": "Why trap states\nIn defense of the most correct version with trap.\n\nThis trap state captures all safety failures.\nAnything going to trap is not in Safe()\nLikewise, anything in Safe() that is accepted, is “green eventually”.\n\nThis gives “safe and green or unsafe”.\nMost Correct"
+  },
+  {
+    "objectID": "logics.html#why-trap-states-1",
+    "href": "logics.html#why-trap-states-1",
+    "title": "Logics",
+    "section": "Why trap states",
+    "text": "Why trap states\nThis gives “safe and green or unsafe”.\n\nThat is, it gives m and also something else - all unsafe traces.\nRecall: We use Σ ω (upper case sigma raised to lower case omega) to denote infinite traces.\nSo Live(m) = m ∪ Σ ω / Safe(m)\nSay “the liveness property is everything that is both safe and live, and everything that isn’t safe.”\n\nMost Correct"
+  },
+  {
+    "objectID": "logics.html#intersection-1",
+    "href": "logics.html#intersection-1",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\nSafe()\n\ncl(m)\nLive()\n\nm ∪ Σω / cl(m)"
+  },
+  {
+    "objectID": "logics.html#intersection-2",
+    "href": "logics.html#intersection-2",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\nWe take the intersection of these two sets (of traces).\n\nLive(m)∩Safe(m), that is\ncl(m)∩m∪_Σω_/ cl(m)\n\nWe consider:\n\nEverything in m is in cl(m), that is, m⊂cl(m)\nEverything in cl(m) is in Σω, that is, cl(m)⊂_Σω_\nNothing in m is in Σω/ cl(m), that is, m∩_Σω_/ cl(m)=∅\n\nLet’s take a look."
+  },
+  {
+    "objectID": "logics.html#intersection-3",
+    "href": "logics.html#intersection-3",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\n\nEverything in m is in cl(m), that is, m⊂cl(m)\nEverything in cl(m) is in Σω, that is, cl(m)⊂_Σω_"
+  },
+  {
+    "objectID": "logics.html#intersection-4",
+    "href": "logics.html#intersection-4",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\n\nEverything in m is in cl(m), that is, m⊂cl(m)\nNothing in m is in Σω/ cl(m), that is, m∩_Σω_/cl(m)=∅"
+  },
+  {
+    "objectID": "logics.html#intersection-5",
+    "href": "logics.html#intersection-5",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\n\nEverything in m is in cl(m)\nEverything in m is in m∪_Σω_/ cl(m)"
+  },
+  {
+    "objectID": "logics.html#intersection-6",
+    "href": "logics.html#intersection-6",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\nNothing in cl(m) is in m∪_Σω_/ cl(m) without being in m\n\nEverything in m is in m∪_Σω_/ cl(m) and in cl(m)"
+  },
+  {
+    "objectID": "logics.html#intersection-7",
+    "href": "logics.html#intersection-7",
+    "title": "Logics",
+    "section": "Intersection",
+    "text": "Intersection\nSafe lights are yellow before red.\nLive lights are either (1) green someday, or (2) don’t use yellow.\nSafe, live lights are (1) green someday, and (2) use yellow."
+  },
+  {
+    "objectID": "logics.html#work-time",
+    "href": "logics.html#work-time",
+    "title": "Logics",
+    "section": "Work time",
+    "text": "Work time\nSafe()\n\ncl(m)\nLive()\n\nm ∪ Σω / cl(m)"
+  },
+  {
+    "objectID": "logics.html#announcements-1",
+    "href": "logics.html#announcements-1",
+    "title": "Logics",
+    "section": "Announcements",
+    "text": "Announcements\n\nWelcome to DATA-599: Cybersecurity!\nThere was no homework but is a lingering in-class exercise.\n\nNot to worry! I have something for next week.\n\nLet’s talk about how to specify properties."
+  },
+  {
+    "objectID": "logics.html#traffic-light-1",
+    "href": "logics.html#traffic-light-1",
+    "title": "Logics",
+    "section": "Traffic Light",
+    "text": "Traffic Light\n\nThink of a traffic light.\n\nIn what states may a traffic light be?\nIn what sequence may these states occur?\nDoes a traffic light implement a security policy\nDo traffic lights change over time?"
   }
 ]

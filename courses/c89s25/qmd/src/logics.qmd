@@ -1,0 +1,2295 @@
+---
+title: Logics
+theme: dark
+author: Prof. Calvin
+subtitle: "Week 0x8 II"
+institute: Crypto
+format: 
+    revealjs: 
+        code-fold: true
+        theme: dark
+        mainfont: monospace
+        slide-number: true
+        show-slide-number: all
+        width: 1050
+        height: 700
+        footer: "[Home](../index.html)"
+
+execute:
+    echo: true
+    cache: true
+    freeze: true  # never re-render during project render
+    code-fold: false
+---
+
+# Announcements
+
+- Last Lecture
+    - Security topics unrelated to crypto
+    - Some automata theory
+- Action items
+    - `heap_t` due now
+    - `BTCinC` final is out
+
+
+# Today
+
+- Threat and Threat Models
+- (Trace) Properties
+- Kripke Structures
+- Linear Temporal Logic
+- Büchi Automata
+    - DFAs
+    - Safety & Liveness
+- CIA Triad
+
+
+# Threat
+
+- "Security" is incomplete as a concept.
+
+    *   **What** is secure?
+    *   **For whom** is the 'what' secure?
+    *   **From whom** is the 'what' secure?
+
+# Bitcoin
+
+*   **Bitcoins** are secure.
+*   **For all senders and receivers** the ownership is secured.
+*   **From any third party** the doublespending is secured.
+
+# Limitations
+
+*   Can a third party tell **who** uses the service?
+*   Can a third party tell **when** coins are being sent?
+*   Can a third party tell the **amount** of the transaction?
+
+# Models
+
+Use **threat modeling**:
+
+*   Description of the subject to be modeled
+*   Assumptions that can be checked or challenged
+*   Potential threats to the system
+*   Actions that can be taken to mitigate each threat
+*   A way of validating the model and threats
+
+Read more: [OWASP.org](https://owasp.org/www-community/Threat_Modeling)
+
+
+# 
+
+|Informally|Formally|
+|-|-|
+|**What?**|Description of the subject to be modeled|
+|**For whom?**|A way of validating the model and threats|
+|**From whom?**|Potential threats to the system|
+|**Any limitations?**|Assumptions that can be checked|
+|**How?**|Actions that can be taken to mitigate each threat|
+
+# BTC
+
+|Informally|Formally|
+|-|-|
+|**What?**|Currency|
+|**For whom?**|An economy with internet access|
+|**From whom?**|Fraud, central authority, surveillance|
+|**Any limitations?**|Public ledger|
+|**How?**|[bchain.html](bchain.html)|
+
+
+# How?
+
+We can instead proceed in **four steps**.
+
+1.   **Diagram:** What are we building?
+1.   **Identify threats:** What could go wrong?
+1.   **Mitigate:** What are we doing to defend against threats?
+1.   **Validate:** Have we acted on each of the previous steps?
+
+
+# Diagram
+
+<a style="filter:invert(1)" title="Graingert, CC0, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Bitcoin_Transaction_Visual.svg"><img width="80%" alt="The mine is closed and the key must stop working.  And this key structure has stopped already.  by the reason for moving the blueprint and will use the code to confirm the AI ​​service to verify the person instead  and generate income into the new..." src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Bitcoin_Transaction_Visual.svg"></a>
+
+# Threats
+
+- What if?
+    - Two entities have the same private key?
+    - Dishonest nodes have more compute power?
+    - Internet goes down?
+
+# Mitigate
+
+- Well...
+    - Keys are ~4096 bit...
+    - There are other more lucrative uses of compute than competing with BTC nodes
+    - If the internet goes down, coins can't be spent but persist locally
+
+# Validate
+
+- This is new!
+- Cryptobook uses "Attack Games"
+- We explore "digital signature"
+
+# [Cryptobook](https://toc.cryptobook.us/book.pdf):
+
+> We give
+the adversary the power to mount a **chosen message attack**, namely the attacker can request the
+signature on any message of his choice. Even with such power, the adversary should not be able
+to create an **existential forgery**, namely the attacker cannot output a valid message-signature
+pair $(m, \omega)$ for some new message $m$. 
+
+# [Cryptobook](https://toc.cryptobook.us/book.pdf):
+
+**Attack Game 13.1 (Signature security).** For a given signature scheme $\mathcal{S} = (\mathcal{G}, \mathcal{S}, \mathcal{V})$, (generate, sign, verify) defined over $(\mathcal{M}, \Sigma)$, (messages, signatures), and a given adversary $\mathcal{A}$, the attack game runs as follows:
+
+* The challenger runs $(pk, sk) \leftarrow \mathcal{G}()$ (private signing key, public verifying key) and sends $pk$ to $\mathcal{A}$.
+
+# [Cryptobook](https://toc.cryptobook.us/book.pdf):
+
+**Attack Game 13.1 (Signature security).** For a given signature scheme $\mathcal{S} = (\mathcal{G}, \mathcal{S}, \mathcal{V})$, (generate, sign, verify) defined over $(\mathcal{M}, \Sigma)$, (messages, signatures), and a given adversary $\mathcal{A}$, the attack game runs as follows:
+
+* $\mathcal{A}$ queries the challenger several times. For $i = 1, 2, \dots$, the $i^{th}$ signing query is a message $m_i \in \mathcal{M}$. Given $m_i$, the challenger computes $\sigma_i \leftarrow \mathcal{S}(sk, m_i)$, and then gives $\sigma_i$ to $\mathcal{A}$.
+
+
+# [Cryptobook](https://toc.cryptobook.us/book.pdf):
+
+**Attack Game 13.1 (Signature security).** For a given signature scheme $\mathcal{S} = (\mathcal{G}, \mathcal{S}, \mathcal{V})$, (generate, sign, verify) defined over $(\mathcal{M}, \Sigma)$, (messages, signatures), and a given adversary $\mathcal{A}$, the attack game runs as follows:
+
+* Eventually $\mathcal{A}$ outputs a candidate forgery pair $(m, \sigma) \in \mathcal{M} \times \Sigma$.
+
+# [Cryptobook](https://toc.cryptobook.us/book.pdf):
+
+**Attack Game 13.1 (Signature security).** For a given signature scheme $\mathcal{S} = (\mathcal{G}, \mathcal{S}, \mathcal{V})$, (generate, sign, verify) defined over $(\mathcal{M}, \Sigma)$, (messages, signatures), and a given adversary $\mathcal{A}$, the attack game runs as follows:
+
+* We say that the adversary wins the game if the following two conditions hold:
+
+$$
+\mathcal{V}(pk, m, \sigma) = \text{accept}
+$$
+
+# Techniques
+
+*   **Define the scope** and depth of analysis.
+*   Gain a **visual understanding** of what you’re threat modeling.
+*   Visually **model** the attack possibilities.
+*   **Identify** threats.
+*   **Document** of missing or weak security controls.
+
+# Scope
+
+*   Determine **stakeholders**
+    *   Who uses the service?
+    *   Who provides the service?
+    *   Who benefits from the service?
+    *   Who does not benefit from the service?
+
+# Scope
+
+*   Who can answer these questions?
+    *   Are they the same or different people?
+    *   Should you do this by yourself?
+    *   What do you do if you need help?
+
+# Visuals
+```{dot}
+//| fig-width: 1000px
+//| output-location: slide
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=record
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label="{h(prev)|<here> h(root)}|{time|nonce}"]
+  0 [label="{<there> h(prev)|<here> h(root)}|{time|nonce}"]
+  2 [label="{<there> h(prev)|<here> h(root)}|{time|nonce}"]
+  merkle [label="{<1> 0x1|h(*0x2,*0x3)}|{0x2|h(*0x4,*0x5)}|{0x3|h(*0x6,*0x7)}|{0x4|h(*0x8,*0x9)}|{0x5|h(*0xA,*0xB)}|{0x6|<6> h(G,C,2)}|{0x7|<7> h(A,G,4)}|{0x8|<8> h(A,B,1)}|{0x9|<9> h(B,C,2)}|{0xA|<A> h(C,D,3)}|{0xB|<B> h(F,A,7)}"]
+  
+  heap [shape=record, label="{send|recv|amnt}|{<e> G|C|2}|{<f> A|G|4}|{<a> A|B|1}|{<b> B|C|2}|{<c> C|D|3}|{<d> F|A|7}"]
+
+  1 -> 0:there
+  0 -> merkle:1
+  0 -> 2:there
+  merkle:7 -> heap:f
+  merkle:6 -> heap:e
+  merkle:B -> heap:d
+  merkle:A -> heap:c
+  merkle:9 -> heap:b
+  merkle:8 -> heap:a
+
+}
+```
+
+
+# Threats
+
+*   What if?
+    - Someone changes `(G,C,2)` to `(G,C,3)`
+    - `G` submits a second `(G,G,2)` next block
+    - `G` loses their private key?
+
+# Document
+
+- [https://bitcoin.org/bitcoin.pdf](https://bitcoin.org/bitcoin.pdf)
+- [https://github.com/bitcoin/bitcoin](https://github.com/bitcoin/bitcoin)
+
+# **Traffic light**
+
+*   **Diagram:** What are we building?
+*   **Identify threats:** What could go wrong?
+*   **Mitigate:** What are we doing to defend against threats?
+*   **Validate:** Have we acted on each of the previous steps?
+
+# Today
+
+- &check; Threat and Threat Models
+- (Trace) Properties
+- Kripke Structures
+- Linear Temporal Logic
+- Büchi Automata
+    - DFAs
+    - Safety & Liveness
+- CIA Triad
+
+# Properties
+
+*   An **security policy** may have **properties**.
+*   These **security policies** are distinct from the **what?** of a threat model
+*   Rather the **security policy** is the **how?** of a threat model
+
+A security policy could have the property of being **secure** if the threats of a threat model are mitigated
+
+# Trace Properties
+
+*   I think of properties in terms of **traces**
+*   A **trace** is the sequence of states through which a system passes over time.
+    *   A **sequence** is an ordered collection.
+    *   A **state** is the configuration of a system at some specific time point.
+    *   A **system** implements the security policy.
+    *   Emphasize the notion of **over time**. Traces are **time-based**.
+
+# Traffic Light
+
+*   Think of a **traffic light**.
+    *   In what **states** may a traffic light be?
+    *   In what **sequence** may these states occur?
+    *   Does a traffic light implement a **security policy**
+    *   Do traffic lights **change over time**?
+
+# State Machine
+
+- A traffic light is a **state machine**.
+
+> [A **state machine** is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time.](https://en.wikipedia.org/wiki/Finite-state_machine)
+
+- Often called "FSM" (finite state machine)
+    - I don't have a hot new start-up selling infinite states.
+
+# A Trace
+
+- We can denote the state of a traffic light by the lit color. ("Wow this class is lit.")
+- A trace may appear as:
+
+```{.python}
+trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+# Examples
+
+- Let's review some traces and see if they are from a traffic light system that is operating properly.
+```{.python}
+summarize = lambda t : "".join([s[0] for s in t])
+```
+- Can also express traces as e.g. `RGYRGYRGY`
+
+# Start
+
+- Does **starting state** matter?
+
+::::{columns}
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+:::
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_"
+]
+```
+
+:::
+
+:::{.column width=33%}
+
+```{.python}
+trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___"
+]
+```
+
+:::
+
+::::
+
+# End
+
+- Does **ending state** (terminating state) matter?
+
+   
+::::{columns}
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+:::
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_"
+]
+```
+
+:::
+
+:::{.column width=33%}
+
+```{.python}
+trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___"
+]
+```
+
+:::
+
+::::
+
+# Length
+
+- Does **length** (or perhaps size) matter?
+
+   
+::::{columns}
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "YELLOW",
+    "RED___"
+]
+```
+
+:::
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+:::
+
+:::{.column width=33%}
+
+```{.python}
+trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___",
+    "GREEN_",
+    "YELLOW",
+    "RED___"
+]
+```
+
+:::
+
+::::
+
+
+# Unique
+
+- Does **number of unique states** matter?
+
+   
+::::{columns}
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "YELLOW",
+]
+```
+
+:::
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+:::
+
+:::{.column width=33%}
+
+```{.python}
+trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+:::
+
+::::
+
+
+
+# Order
+
+- Does **order** matter?
+
+   
+::::{columns}
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "GREEN_",
+    "RED___",
+    "YELLOW"
+]
+```
+
+:::
+
+:::{.column width=33%}
+  
+```{.python}
+trace = [
+    "RED___",
+    "YELLOW",
+    "GREEN_"
+]
+```
+
+:::
+
+:::{.column width=33%}
+
+```{.python}
+trace = [
+    "RED___",
+    "GREEN_",
+    "YELLOW"
+]
+```
+
+:::
+
+::::
+
+# Sets of Traces
+::: {.callout-note}
+A **trace property** is a set of traces.
+:::
+
+- Say, variable "property" is a list of traces.
+    - *Should* be a set.
+```{.py}
+property[0] = ["GREEN_"]
+property[1] = ["YELLOW"]
+property[2] = ["RED___"]
+property[3] = ["GREEN_", "YELLOW"]
+```
+    
+
+# System Properties
+
+*   Say a system "satisfies" property $p$ if all possible traces produced by a system are in the property.
+*   This may be an infinite number of traces or include traces of infinite length.
+*   Systems may have (satisfy) more than one property.
+
+# On Security
+
+Properties provide a way to answer the "How?" after asking:
+
+*   **What** is secure?
+*   **For whom** is the 'what' secure?
+*   **From whom** is the 'what' secure?
+
+# Sets of Traces
+
+- A **set** is an ordered collection of elements (such as sequences).
+- A **sequence** is an ordered collection of elements (such as states).
+- A **trace property** is a set of traces.
+- A **trace** is a sequence of states.
+
+# Organization
+
+```{dot}
+//| echo: false
+//| fig-width: 1000px
+digraph PropertyHierarchy {
+  bgcolor="#191919";
+  node [shape=box, style=rounded, fontcolor=white, color=white];
+  edge [color=white];
+
+  PROPERTY [label="PROPERTY\nSet of traces"];
+  SET [label="SET\nUnordered elements"];
+  TRACE [label="TRACE\nSequence of states"];
+  SEQUENCE [label="SEQUENCE\nOrdered elements"];
+  STATES [label="STATES\nDescribe a system at\nsome time"];
+
+  PROPERTY -> SET;
+  PROPERTY -> TRACE;
+  TRACE -> SEQUENCE;
+  TRACE -> STATES;
+}
+```
+
+# Example
+
+```{dot}
+//| echo: false
+//| fig-width: 1000px
+digraph PropertyHierarchy {
+  bgcolor="#191919";
+  node [shape=box, style=rounded, fontcolor=white, color=white];
+  edge [color=white];
+
+  PROPERTY [label="PROPERTY\n{R,YR,GYR,RGYR}"];
+  SET [label="SET\nUnordered elements"];
+  TRACE [label="TRACE\nRGYR"];
+  SEQUENCE [label="SEQUENCE\nOrdered elements"];
+  STATES [label="STATES\n{RED___, GREEN_}"];
+
+  PROPERTY -> SET;
+  PROPERTY -> TRACE;
+  TRACE -> SEQUENCE;
+  TRACE -> STATES;
+}
+```
+
+# Enumeration
+
+- Thus far, we enumerated the possible traces.
+```{.python}
+property[0] = ["GREEN_"]
+property[1] = ["YELLOW"]
+property[2] = ["RED___"]
+property[3] = ["GREEN_", "YELLOW"]
+```    
+
+- This is bad. Why?
+
+# Specification
+
+- Rather than enumerate, let us specify.
+
+```{.email}
+The traffic light property is
+    the set of all sequences over precisely the states {"GREEN_", "YELLOW", "RED___"} such that 
+        the only state succeeding "GREEN_" is "YELLOW" and
+        the only state succeeding "YELLOW" is "RED___" and
+        the only state succeeding "RED___" is "GREEN_".
+```
+    
+# Today
+
+- &check; Threat and Threat Models
+- &check; (Trace) Properties
+- Kripke Structures
+- Linear Temporal Logic
+- Büchi Automata
+    - DFAs
+    - Safety & Liveness
+- CIA Triad
+
+
+# Model Checking
+
+- A Kripke Structure is a tuple that models a state machine.
+- Recall:
+    - A **state machine** is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time.
+    - Exactly one!
+
+# Model Checking
+
+A Kripke Structure is a tuple {_S_, ...} that models a state machine.
+
+*   _S_ is a finite set of states
+    *   Kripke structures only work for **finite** state machines
+    *   For the sake of this class, we can imagine infinite states if needed.
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, ...} that models a state machine.
+
+*   For a traffic light, _S_ is:
+    
+        {"GREEN_", "YELLOW", "RED___"}
+    
+*   For a commerical airliner, _S_ is all combinations of people on the airliner and locations on the airliner.
+    *   One element of _S_ over 2 crew and 1 passenger could be:
+        
+            {["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","SEAT"]}
+        
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
+
+*   _I_ is a subset of _S_, we denote this _I_ ⊂ _S_
+    *   Any state in _I_ must be a state in _S_
+    *   There may be states in _S_ that are not in _I_
+    *   These are the possible initial states of the state machine.
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
+
+*   For a traffic light, _I_ = _S_
+    
+        {"GREEN_", "YELLOW", "RED___"}
+    
+*   For an airliner, _I_ is all elements of _S_ such that all passengers are seated.
+    *   One element of _I_ and therefore _S_ could be:
+        
+            {["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","SEAT"]}
+        
+    *   One element of _S_ but not _I_ could be:
+        
+            {["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","DECK"]}
+        
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
+
+*   _S_ is a finite set of states
+*   _I_ ⊂ _S_ is the set of initial states.
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
+
+*   _R_ is a **transition relation** over _S_, we denote this _R_ ⊂ _S_ × _S_
+    *   This just means _R_ says whether one state may be transitioned to from another.
+    *   _R_ expresses them enumerating sequences of length two, called **ordered pairs**
+        *   A starting state
+        *   An ending state
+        *   These states are the states in _S_
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
+
+*   _R_ is a **transition relation** over _S_, we denote this _R_ ⊂ _S_ × _S_
+    *   This just means _R_ says whether one state may be transitioned to from another.
+    *   _R_ expresses them enumerating sequences of length two, called **ordered pairs**
+*   **BONUS/CHALLENGE:** _R_ is left-total.
+    
+    A binary relation _R_ ⊂ _S_ × _S_ is **left-total** if for all elements _s_ of _S_ there exists some ordered pair in _R_ such that the first element of the ordered pair is _s_.
+    
+    _R_ ⊂ _S_ × _S_ is **left-total** ≔ ∀ _s1_ ∈ _S_, ∃ _s2_ ∈ _S_ such that (_s1_,_s2_) ∈ _R_
+    
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
+
+*   For a traffic light, _R_ is:
+    
+        {("GREEN_", "YELLOW"),
+         ("YELLOW", "RED___"),
+         ("RED___", "GREEN_")}
+    
+*   For a commerical airliner, _R_ must describe how crew may not move to the service station when passengers are present and vice versa, or some other arrangement.
+    *   Note: Relations may be used to to express the arrangement of people on an airliner as well as express transition relations.
+
+Model Checking
+--------------
+
+A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
+
+*   _S_ is a finite set of states
+*   _I_ ⊂ _S_ is the set of initial states.
+*   _R_ ⊂ _S_ × _S_ is a left-total transition relation.
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models a state machine.
+
+*   _L_ is a **labeling function** over _S_, we denote this _L_ ⊂ _S_ → ???
+    *   This just means _L_ provides a way of talking about the states in _S_
+    *   We talk about these states using **atomic propositions**
+        *   Propositions are expressions in propositional, or zeroth order, logic.
+        *   They are simply true or false.
+        *   Atomic propositions are simplest possible form of these logic expressions.
+    *   _L_ ⊂ _S_ → 2_AP_
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions between over atomic propositions _AP_.
+
+*   _L_ is a **labeling function** over _S_, we denote this _L_ ⊂ _S_ → 2_AP_
+    *   Given _AP_, _L_ tells us whether each is true or false (2 options) for every given state.
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+
+*   For a traffic light, _AP_ could be the following, expressed as a proposition set:
+    
+        {s == "GREEN_", 
+         s == "YELLOW", 
+         s == "RED___", 
+         s ∈ {"GREEN_", "YELLOW"},
+         s ∈ {"YELLOW", "RED___"},
+         s ∈ {"RED___", "GREEN_"}}
+    
+*   Propositions are often named using single lower cases letters in italics beginning with _p_
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+
+*   For a traffic light, _AP_ could be the following:
+    
+        AP = 
+        [p : state == "GREEN_", 
+         q : state == "YELLOW", 
+         r : state == "RED___", 
+         s : state ∈ {"GREEN_", "YELLOW"},
+         t : state ∈ {"YELLOW", "RED___"},
+         u : state ∈ {"RED___", "GREEN_"}]
+    
+*   Then the _L_ would be given as :
+    
+        {("GREEN_", {p, s, u}), 
+         ("YELLOW", {q, s, t}),
+         ("RED___", {r, t, u})}
+    
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+
+*   For a commercial airliner, we may want to use _AP_ more intentionally:
+    *   Let _p_ denote there are passengers at the service station.
+    *   Let _q_ denote there are crew at the service station.
+    *   Let _r_ denote there all passengers are seated.
+    *   Let _s_ denote at least two crew are in the flight deck.
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+
+*   _S_ is a finite set of states
+*   _I_ ⊂ _S_ is the set of initial states.
+*   _R_ ⊂ _S_ × _S_ is a left-total transition relation.
+*   _L_ ⊂ _S_ → 2_AP_ is the labelling relation.
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+
+*   _S_ is a finite set of states and _I_ ⊂ _S_ is the set of initial states.
+
+    {"GREEN_", "YELLOW", "RED___"}
+
+*   _R_ ⊂ _S_ × _S_ is a left-total transition relation.
+
+    {("GREEN_", "YELLOW"), 
+     ("YELLOW", "RED___"), 
+     ("RED___", "GREEN_")}
+
+*   _L_ ⊂ _S_ → 2_AP_ is the labelling relation.
+
+    {("GREEN_", {p, s, u}),
+     ("YELLOW", {q, s, t}), 
+     ("RED___", {r, t, u})}
+
+A Kripke Structure modelling a traffic light is the 4-tuple...
+
+    ({"GREEN_", "YELLOW", "RED___"}, 
+     {"GREEN_", "YELLOW", "RED___"}, 
+     {("GREEN_", "YELLOW"), 
+      ("YELLOW", "RED___"), 
+      ("RED___", "GREEN_")}, 
+     {("GREEN_", {p, s, u}),
+      ("YELLOW", {q, s, t}), 
+      ("RED___", {r, t, u})})
+
+...over _AP_...
+
+    [p : state == "GREEN_",  
+     q : state == "YELLOW",  
+     r : state == "RED___",  
+     s : state ∈ {"GREEN_", "YELLOW"},
+     t : state ∈ {"YELLOW", "RED___"},
+     u : state ∈ {"RED___", "GREEN_"}]
+
+Model Checking
+--------------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+
+*   This is still bad. Why?
+
+Diagrams
+--------
+
+Now that I've rigorously defined Kripke Structures, I am willing to tell you they are just diagrams.
+
+*   Clarke, Edmund & Grumberg, Orna & Jha, Somesh & Lu, Yuan & Veith, Helmut. (2003). Counterexample-guided abstraction refinement for symbolic model checking. J. ACM. 50. 752-794. 10.1145/876638.876643.
+
+Diagrams
+--------
+
+This differs from ours, but only slightly.
+
+*   The proposition labels are the same as the state name initials.
+*   _r_ is the only accepted starting state.
+*   States are allowed to transition to the themselves
+    *   Think of this is a distinct notion of time.
+        *   I describe the only thing that changes time as a change in state.
+        *   If we imagine that there is a transition every second, the green-to-green is needed.
+
+Diagrams
+--------
+
+*   We borrow the initials-labels trick.
+*   We allow all starting states.
+*   We do not have states transition to themselves.
+
+Diagrams
+--------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_}
+
+*   _S_ is the states, in blue.
+
+Diagrams
+--------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_}
+
+*   _S_ is the states, in blue.
+*   _I_ is the inital states, in orange.
+*   _R_ is the relations, in purple.
+
+Diagrams
+--------
+
+A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_}
+
+*   _S_ is the states, in blue.
+*   _I_ is the inital states, in orange.
+*   _R_ is the relations, in purple.
+*   _L_ is the labels, in black.
+
+Limitations
+-----------
+
+Kripke Structures are better than enumeration, but...
+
+*   Representation in text is difficult to understand
+*   Showing equivalence to traces can be difficult
+
+![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZyXOm5FuHroH2uEG4BZupE8XNYP0scFZAyQ&usqp=CAU)
+
+We will introduce a better way to write out relations, then look at our Kripke Structures.
+
+An example
+----------
+
+Consider the following Kripke Structure:
+
+![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
+
+The following statements are true of traces accepted by this structure:
+
+*   `p` and `q` are true initially.
+*   Once `q` becomes false, it never becomes true again.
+*   Once `q` becomes false, `p` stays true forever.
+*   `p` goes from false to true when `q` goes from true to true false.
+
+A concretization
+----------------
+
+Consider the following representation:
+
+*   Take `p` to be "password checking is blocked/secured"
+*   Take `q` to be "system access is blocked/secured"
+
+A passwording service **must** disclose if an entered password is correct.
+
+*   `p` and `q` are true initially.
+    *   No checking, no access
+*   Once `q` becomes false, it never becomes true again.
+    *   Once logged in, we can no longer guess passwords.
+*   Once `q` becomes false, `p` stays true forever.
+    *   Once logged in, access is not revoked.
+
+Infinite guesses (bad), but persistent users may not look up passwords (good).
+
+Goals
+-----
+
+We have:
+
+*   A way to describe the current state of the system (_AP_)
+
+We need:
+
+*   A way to describe relations between atomic propositions over time.
+
+Consider:
+
+*   `p` and `q` are true **initially**.
+*   Once `q` becomes false, it never becomes true again.
+    *   `q` until not `q`
+*   Once `q` becomes false, `p` stays true forever.
+    *   `q` until not `q`
+*   `p` goes from false to true when `q` goes from true to true false.
+    
+
+Next and Until
+--------------
+
+It often suffices to define two temporal operators:
+
+*   **X**: “next”
+*   **U**: “until”
+
+Along with existing logical operators:
+
+*   **¬**: “not”
+*   **∨**: “or”
+
+We need apply this over atomic propositions in _AP_ to describe the security requirements of a system.
+
+\>
+
+Composition
+-----------
+
+With logical negation (not) and disjunction (or) we can generate other logical connectives.
+
+_p_
+
+_q_
+
+**¬**_p_
+
+_p_**∨**_q_
+
+**¬**_p_**∨****¬**_q_
+
+**¬**(**¬**_p_**∨****¬**_q_)≡_p_**∧**_q_
+
+True
+
+True
+
+False
+
+True
+
+False
+
+True
+
+True
+
+False
+
+False
+
+True
+
+True
+
+False
+
+False
+
+True
+
+True
+
+True
+
+True
+
+False
+
+False
+
+False
+
+True
+
+False
+
+True
+
+False
+
+For example, "and" or conjunction over two atomic propositions is equivalent to the negation or "not" of the "or" or disjunction over the negation or "not" of the two atomic propositions.
+
+Next and Until
+--------------
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/xu.png)
+
+**X** _a_
+
+*   \* → _a_ → \* → ...
+
+_a_ **U** _b_
+
+*   _a_**∧****¬**_b_ → _b_ → \* → ...
+*   _a_**∧****¬**_b_ → _a_**∧****¬**_b_ → _b_ → \* → ...
+
+Linear Temporal Logic Composition
+---------------------------------
+
+Name
+
+Usage
+
+Meaning
+
+Equivalencies
+
+neXt
+
+**X** _p_
+
+_p_ holds in the next time
+
+**X** _p_
+
+Future
+
+**F** _p_
+
+_p_ holds in some future time
+
+True**U**_p_
+
+Global(ly)
+
+**G** _p_
+
+_p_ holds in all future times
+
+**¬**(True**U****¬**_p_)
+
+Until
+
+_p_ **U** _q_
+
+_p_ holds unless _q_, and _q_ must hold at some point in the future
+
+_p_ **U** _q_
+
+Release
+
+_p_ **R** _q_
+
+_q_ holds up to and including when _p_ holds
+
+**¬**(**¬**_p_ **U** **¬**_q_)
+
+Weak until
+
+_p_ **W** _q_
+
+_p_ holds up to when _q_ holds
+
+(_p_ **U** _q_) ∨ **G** _p_
+
+Mighty release
+
+_p_ **M** _q_
+
+_q_ holds up to and including when _p_ holds, and _p_ must hold at some point in the future
+
+_q_ **U** (_p_ **∨**_q_)
+
+Linear Temporal Logic Exercise
+------------------------------
+
+Populate this table in groups of _n_. Likely 15-20 minutes.
+
+Operator
+
+Trace 1
+
+Trace 2
+
+**X** _p_
+
+\* → _p_ → \* → ...
+
+**F** _p_
+
+?
+
+?
+
+**G** _p_
+
+?
+
+_p_ **U** _q_
+
+_p_**∧****¬**_q_ → _p_**∧****¬**_q_ → _q_ → \* → ...
+
+_p_ **R** _q_
+
+?
+
+?
+
+_p_ **W** _q_
+
+?
+
+?
+
+_p_ **M** _q_
+
+?
+
+Linear Temporal Logic Traces
+----------------------------
+
+Operator
+
+Trace 1
+
+Trace 2
+
+**X** _p_
+
+\* → _p_ → \* → ...
+
+**F** _p_
+
+\* → _p_ → \* → ...
+
+\* → \* → _p_ → \* → ...
+
+**G** _p_
+
+_p_ → _p_ → _p_ → ...
+
+_p_ **U** _q_
+
+_p_**∧****¬**_q_ → _p_**∧****¬**_q_ → _q_ → \* → ...
+
+_p_ **R** _q_
+
+_q_ → _q_ → _p_ **∧** _q_ → \* → ...
+
+_q_ → _q_ → _q_ → ...
+
+_p_ **W** _q_
+
+_p_ → _p_ → _q_ → \* → ...
+
+_p_ → _p_ → _p_ → ...
+
+_p_ **M** _q_
+
+_q_ → _q_ → _p_ **∧** _q_ → \* → ...
+
+
+Shorthand
+---------
+
+Let's introduce a wrinkle.
+
+The LTL operator **neXt** denotes that some atomic proposition should hold true in the next time point. We can generalize this to some fixed future timepoint but using more than one next. For example, the expression:
+
+**XXXX**_p_**∧****¬**_q_
+
+holds over the following trace:
+
+    {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...
+
+We extend **neXt** to reference a fixed future timepoint using a superscript:
+
+**X**4_p_**∧****¬**_q_
+
+I term this "multinext".
+
+Review Question 3
+-----------------
+
+Consider the following trace:
+
+    {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...
+
+Which of the following LTL expressions would describe this trace?
+
+1.  **¬****X**1_q_
+2.  **¬****X**2_q_
+3.  **¬****X**3_q_
+4.  **¬****X**4_q_
+
+Review Question 4
+-----------------
+
+Consider the following trace:
+
+    {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...
+
+Which of the following LTL expressions would describe this trace?
+
+1.  _q_ **U** **G**_p_
+2.  _q_ **R** **G**_p_
+3.  _q_ **W** **G**_p_
+4.  _q_ **M** **G**_p_
+
+Check your notes or the slides!
+
+Review Question 5
+-----------------
+
+Consider the following Kripke Structure:
+
+![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
+
+Which of the following LTL expressions would describe this structure?
+
+1.  _q_ **U** **G**_p_
+2.  _q_ **R** **G**_p_
+3.  _q_ **W** **G**_p_
+4.  _q_ **M** **G**_p_
+
+Review Question 6
+-----------------
+
+Consider the following Kripke Structure:
+
+![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
+
+Which of the following LTL expressions would would describe this structure?
+
+1.  **X**1_q_
+2.  **X**2_q_
+3.  **X**3_q_
+4.  **X**4_q_
+
+Review Question 7
+-----------------
+
+Consider the following Kripke Structure:
+
+![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
+
+10-15 min: In small groups, define an equivalent LTL expression to this structure.
+
+Properties
+----------
+
+*   Some security properties are about bad things not happening:
+    *   **G****¬**_bad_
+    *   Term this "safety"
+*   Some security properties are about good things happening someday:
+    *   **F**_good_
+    *   Term this "liveness"
+*   These **security policies** are distinct but difficult to differentiate in Kripke Structures.
+*   For non-experts, it may be helpful to formulate security properties that differentiate these.
+
+"I want to be able to access my apartment sometimes but I don't want adversaries to be able to access it ever."
+
+Büchi Automata
+--------------
+
+*   Logicians use Büchi Automata to define **safety** and **liveness** more formally.
+*   Büchi Automata are more expressive than Kripke Structures
+*   Deterministic Büchi Automata are equivalent to LTL
+    *   What would it mean for a Kripke Structure to be deterministic?
+    *   What would it mean for LTL not to be deterministic?
+
+We define Büchi Automata as we did Kripke Structures, then show their usefulness.
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton either accepts or rejects infinite inputs (traces).
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, ...} that accepts traces.
+
+*   _Q_ is a finite set.
+    *   We term the elements of _Q_ to be the states of _A_
+    *   The states of _A_ may be distinct from the unique states found within a trace.
+    *   Traces of infinite length can be considered.
+*   _Q_ is circles in our diagram.
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_,...} that accepts traces.
+
+*   _Σ_ (sigma) is a finite set.
+    *   We term _Σ_ the alphabet of _A_
+    *   _Σ_ is the unique states found within a trace.
+    *   We use _Σ_ ω (upper case sigma raised to lower case omega) to denote infinite traces
+    *   These are the possible states of a trace; I term them letters.
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_,...} that accepts traces _Σ_ ω.
+
+*   _Q_ is a finite set: the states of _A_.
+*   _Σ_ is a finite set: the alphabet of _A_.
+
+We studied example traces earlier, for these:
+
+    Σ = { {'p', 'q'}, {'p'}, {'q'} }
+
+We cannot yet generate something that looks like _Q_, but it is similar to
+
+    Q ≈ {'s_1', 's_2', 's_3'}
+
+![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_, ...} that accepts traces _Σ_ ω.
+
+*   _δ_ is a function.
+    *   We term _δ_ (lower case delta) the transition function of _A_.
+    *   _δ_ maps combinations of states and letters to other states.
+    *   _δ_ : _Q_ × _Σ_ **→** _Q_, or
+    *   _δ_ ⊆ (_Q_ × _Σ_ ) × _Q_
+*   _δ_ is like Kripke _R_ except that it has to check both _Q_ (model) and _Σ_ (trace).
+*   _δ_ takes a circle in the diagram and an observation and tells you the new circle in the diagram.
+*   _Σ_ labels arrows between circles in the diagram.
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_,...} that accepts traces.
+
+*   _Q_ is a finite set: the states of _A_.
+*   _Σ_ is a finite set: the alphabet of _A_.
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ is a function: the transition function of _A_.
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_, _q0_,...} that accepts traces _Σ_ ω.
+
+*   _q0_ ∈ _Q_ (say: q-naut is an element of the seq Q)
+    *   We term _q0_ the initial state of _A_.
+    *   _q0_ is like _I_ but Büchi Automata have only a single starting state.
+        *   This is because Büchi Automata have no atomic proposition labels on states, only on transitions.
+    
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_, _q0_,...} that accepts traces _Σ_ ω.
+
+*   _Q_ is a finite set: the states of _A_.
+*   _Σ_ is a finite set: the alphabet of _A_.
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ is a function: the transition function of _A_.
+*   _q0_ ∈ _Q_: is a state: the initial state of _A_
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_, _q0_, **F** } that accepts traces _Σ_ ω.
+
+*   **F** ⊆ _Q_ is a non-strict subset.
+    *   We term **F** the acceptance condition.
+    *   This one looks a bit odd on slides, it looks clearer standard formatting.
+        *   **F** is bolded
+        *   _Q_ is italicized
+        *   F ⊆ Q|
+    *   An infinite trace must visit states in **F** an infinite number of times to be accepted.
+    *   We can think of finite traces as infinitely repeated their last state, which must be in **F**.
+
+Büchi Automata
+--------------
+
+A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_, _q0_, **F** } that accepts traces _Σ_ ω.
+
+*   _Q_ is a finite set: the states of _A_.
+*   _Σ_ is a finite set: the alphabet of _A_.
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ is a function: the transition function of _A_.
+*   _q0_ ∈ _Q_: is a state: the initial state of _A_
+*   **F** ⊆ _Q_ is a non-strict subset: the acceptance condition
+
+Diagrams
+--------
+
+Kripke Structures
+
+Büchi Automata
+
+*   Both (graphs) have a circles (nodes) and arrows (edges)
+    *   Kripke Structures label circles (nodes)
+    *   Büchi Automata label arrows (edges)
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ : the states of _A_.
+*   _Σ_ : the alphabet of _A_.
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ : transition function.
+*   _q0_ ∈ _Q_ : the initial state of _A_
+*   **F** ⊆ _Q_ : the acceptance condition
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi.png)
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ = { _q0, q1, q2_} in cyan
+*   _Σ_ : the alphabet of _A_.
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ : transition function.
+*   _q0_ ∈ _Q_ : the initial state of _A_
+*   **F** ⊆ _Q_ : the acceptance condition
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi2.png)
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ = { _q0, q1, q2_} in cyan
+*   _Σ_ = {_red, green, yellow_} in magenta
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ : transition function.
+*   _q0_ ∈ _Q_ : the initial state of _A_
+*   **F** ⊆ _Q_ : the acceptance condition
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi3.png)
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ = { _q0, q1, q2_} in cyan
+*   _Σ_ = {_red, green, yellow_} in magenta
+*   _δ_ : _Q_ × _Σ_ **→** _Q_ in blue
+    *   Take ((_q0, red_), _q0_) as `0R0`
+    *   _δ_ =`{0R0,0G1,1G1,1Y2,2Y2,2R0}`
+*   _q0_ ∈ _Q_ : the initial state of _A_
+*   **F** ⊆ _Q_ : the acceptance condition
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi4.png)
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ = {_0, 1, 2_ } in cyan
+*   _Σ_ = {_R, G, Y_ } in magenta
+*   _δ_ = `{R0G1,G1Y2,Y2R0}` in blue
+*   _q0_ or _0_ : in orange
+*   **F** ⊆ _Q_ : the acceptance condition
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi5.png)
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ = {_0, 1, 2_ } in cyan
+*   _Σ_ = {_R, G, Y_ } in magenta
+*   _δ_ = `{R0G1,G1Y2,Y2R0}` in blue
+*   _q0_ or _0_ in orange
+*   **F** = {_q0_} or {_0_} in black
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi5.png)
+
+Safety and Liveness
+-------------------
+
+Safety
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Safety
+------
+
+*   Some security properties are about bad things not happening:
+    *   **G****¬**_bad_
+    *   Term this "safety"
+*   If a Büchi Automata is a safety property...
+    *   If the bad things happens, the system is unrecoverable.
+    *   Therefore, any failures result from "falling off" the diagram.
+    *   Therefore, all states are accepting states (no failures based on ending).
+
+Safety
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+Safety
+------
+
+The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+  
+That is, _cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_
+
+<
+
+A **safety property** is a property given by a Büchi Automaton _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } such that all traces accepted by _A_ are also accepted by its _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.
+
+Safety
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+Safety
+------
+
+*   This means, we can develop safety properties from arrows (edges), or from _δ_
+    *   We see that yellow is always preceded by green or yellow.
+    *   Yellow is never preceded by red.
+    *   So we can say that the bad thing is red with yellow next
+    *   **G****¬**(_red_∧**X**_yellow_ )
+    *   **G****¬**(_green_∧**X**_red_ )
+    *   **G****¬**(_yellow_∧**X**_green_ )
+
+Safety
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+Safety
+------
+
+Could we argue that only **G****¬**(_green_∧**X**_red_ ) is a safety property?
+
+  
+
+15-20 min: In small groups, define the Büchi Automaton that captures \*only\* this safety property.
+
+  
+
+A diagram is sufficient, but think about _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+  
+
+Be prepared to demonstrate that you have created a safety property!
+
+Safety
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+Liveness
+--------
+
+*   Some security properties are about good things happening someday:
+    *   **F**_good_
+    *   Term this "liveness"
+*   If a Büchi Automata is a liveness property...
+    *   No matter what happens, the system is recoverable.
+    *   Therefore, any failures result from not reaching accepting states.
+    *   Therefore, all states should have outgoing edges covering all letters of the trace alphabet.
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Liveness
+--------
+
+The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+  
+That is, _cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_
+
+<
+
+A **liveness property** is a property given by a Büchi Automaton _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } such that _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ } accepts all possible traces in _Σ_ ω.
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Liveness
+--------
+
+*   This means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.
+    *   We see that _q1_ has an outgoing edge labelled "yellow".
+    *   We add an edge from _q1_ to itself that is labelled "not yellow".
+*   As a convenience, we say the "good thing" is the light turning green
+    *   We mark _q1_ as the accepting state, since it is reached when the light turns green.
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Liveness
+--------
+
+Could we argue that only **F**_green_ is a Liveness property?
+
+  
+
+10-15 min: In small groups, define the Büchi Automaton that captures \*only\* this liveness property.
+
+  
+
+A diagram is sufficient, but think about _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+  
+
+Be prepared to demonstrate that you have created a safety property!
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+
+Properties
+----------
+
+"I want to be able to access my savings but no one else."
+
+*   Safety properties are about bad things not happening:
+    *   **G****¬**_bad_
+    *   These are undefined transitions in Büchi automata
+    *   "No one else may access my savings"
+*   Liveness properties are about good things happening eventually:
+    *   **F**_good_
+    *   These are accepting states in Büchi automata
+    *   "I want to be able to access my savings"
+
+Diagrams
+--------
+
+_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+
+*   _Q_ = {_0, 1, 2_ } in cyan
+*   _Σ_ = {_R, G, Y_ } in magenta
+*   _δ_ = `{R0G1,G1Y2,Y2R0}` in blue
+*   _q0_ or _0_ in orange
+*   **F** = {_q0_} or {_0_} in black
+
+Traffic Light
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi5.png)
+
+Safe() and Live()
+-----------------
+
+We now define `Safe():`
+
+`Safe(m)` excludes the "bad thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing" happens at any point in the trace, the Buchi automaton will not accept that trace.
+
+... and `Live()`:
+
+`Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
+
+Intersection
+------------
+
+We recall set theoretic intersection...
+
+In set theory, the intersection of two sets _A_ and _B_, denoted by _A_ **∩**_B_ is the set containing all elements of _A_ that also belong to _B_
+
+... and we recall what properties are:
+
+A **trace property** is a set of traces.
+
+And now we make our claim:
+
+"Given a Buchi automaton `m`, it is not difficult to construct Buchi automata `Safe(m)` and `Live(m)` such that `Safe(m)` specifies a safety property, `Live(m)` specifies a liveness property, and the prop- erty specified by `m` is the intersection of those specified by Safe(m) and Live(m)."
+
+Example
+-------
+
+Consider the following Büchi automata over the alphabet of lower case letters:
+
+![](https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802)
+
+Safety means **G**_a_ **∨** _b_
+
+    Safe(m) = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }
+
+Liveness means **G****F**_a_
+
+    Live(m) = {"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }
+
+The intersection represents elements in both `Safe(m)` and `Live(m)`...
+
+Example
+-------
+
+Safety means **G**_a_ **∨** _b_
+
+    Safe(m) = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }
+
+Liveness means **G****F**_a_
+
+    Live(m) = {"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }
+
+The intersection represents elements in both `Safe(m)` and `Live(m)`...
+
+    m = {"a", "b", "aa", "ba", "aaa", "aba", "baa", "bba", ... }
+
+To continue to advance our understanding of the distinction, we explore how to generate `Safe(m)` and `Live(m)`.
+
+Safe()
+------
+
+We recall the definition of safety.
+
+`Safe(m)` excludes the "bad thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing" happens at any point in the trace, the Buchi automaton will not accept that trace.
+
+We recall the definition of closure.
+
+The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+  
+So_cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_.
+
+A core "nicety" of Büchi Automata is that **the safety property is the closure**.
+
+Safe()
+------
+
+A core "nicety" of Büchi Automata is that **the safety property is the closure**.
+
+`Safe(m)` = `cl(m)`  
+  
+That is, for `m` ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is `cl(m)` ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }
+
+The closure simply allows any trace without an undefined transition (or "bad thing") to be accepted.
+
+Live()
+------
+
+We recall the definition of liveness.
+
+`Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
+
+Think back to our example (emphasis added):
+
+"Consider the following Büchi automata **over the alphabet of lower case letters**"
+
+![](https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802)
+
+While safety is mostly about **F**, the accepting states or the double circles, liveness is mostly about _Σ_ = `{a, b, ?}`, the alphabet or the possible states of the trace (NOT the states of the automata) that form the labels on arrows.
+
+Live()
+------
+
+So we define liveness relative to _Σ_. There most be no undefined transitions (that would be safety) so we require that any letter in _Σ_ has a defined transition at any point in time. ![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Live()
+------
+
+With the traffic light, we ensured there were no undefined transitions using logical not "**¬**"
+
+  
+
+But what does this logical not really do with respect to the alphabet?
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Live()
+------
+
+Let's look back at our original _δ_ and _Σ_.
+
+*   _δ_ =`{0R0,0G1,1G1,1Y2,2Y2,2R0}`
+*   _Σ_ = {_R_, _G_, _Y_ }
+
+To make a liveness property, we made sure that each of {_R_, _G_, _Y_ } had a defined place to go from each automata state. We added:
+
+*   _δlive(m)_ =`{0Y0,1R1,2G2}`
+
+But this is ugly, let's look at a table
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Before Live()
+-------------
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi.png)
+
+   
+
+Transition Letter
+
+_R_
+
+_G_
+
+_Y_
+
+Initial State
+
+Next State
+
+**_q0_**
+
+_q0_
+
+_q1_
+
+**UNDEFINED**
+
+_q1_
+
+**UNDEFINED**
+
+_q1_
+
+_q2_
+
+_q2_
+
+_q0_
+
+**UNDEFINED**
+
+_q2_
+
+With Live()
+-----------
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+   
+
+Transition Letter
+
+_R_
+
+_G_
+
+_Y_
+
+Initial State
+
+Next State
+
+**_q0_**
+
+_q0_
+
+_q1_
+
+_q0_
+
+_q1_
+
+_q1_
+
+_q1_
+
+_q2_
+
+_q2_
+
+_q0_
+
+_q2_
+
+_q2_
+
+Problem
+-------
+
+This _δ_ doesn't define a traffic light!
+
+*   _δlive(m)_ =
+    
+        {0R0,0G1,
+         1G1,1Y2,
+         2Y2,2R0,
+         0Y0,1R1,2G2}
+    
+*   _Σ_ = {_R_, _G_, _Y_}
+
+We need a way to preserve existing state transitions, while eliminating undefined transitions.
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Trap State
+----------
+
+Introduce new state _qtrap_ or _qt_
+
+*   _δlive(m)_ =
+    
+        {0R0,0G1,
+         1G1,1Y2,
+         2Y2,2R0,
+         0Yt,1Rt,2Gt}
+    
+*   _Σ_ = {_R_, _G_, _Y_ }
+*   _Q_ = {_0_, _1_, _2_, _t_ }
+
+We need a way to preserve existing state transitions, while eliminating undefined transitions.
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/trap.png)
+
+Trap State
+----------
+
+But how does _Σ_ = {_R_, _G_, _Y_ } figure in?
+
+  
+
+A flashing red _F_ or out light _O_ can still be green in the future!
+
+  
+
+The trap transition aren't fixed letters - they are the **the rest of the alphabet!**
+
+*   _δlive(m)_ =
+    
+        {0R0,0G1,
+         1G1,1Y2,
+         2Y2,2R0,
+         0*t,1*t,2*t}
+    
+*   _Σ_ = {_R_, _G_, _Y_, _F_, _O_, ... }
+
+Liveness
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
+
+Trap State
+----------
+
+    
+
+Transition
+
+Letter
+
+_{R}_
+
+_{G}_
+
+_{Y}_
+
+_Σ_/{_R_, _G_, _Y_ }
+
+Initial State
+
+Next State
+
+**_q0_**
+
+_q0_
+
+_q1_
+
+_qt_
+
+_qt_
+
+_q1_
+
+_qt_
+
+_q1_
+
+_q2_
+
+_qt_
+
+_q2_
+
+_q0_
+
+_qt_
+
+_q2_
+
+_qt_
+
+Live()
+------
+
+We recall the definition of safety.
+
+`Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
+
+So in practice, we have
+
+`Live(m)` is `m` augmented by an accepting trap state _qt_ and new transition function _δlive(m)_ which is the transition function _δ_ extended so that it causes every undefined transition of `m` to put `Live(m)` in _qt_
+
+Overall
+-------
+
+Most Simple
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+
+Most Correct
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
+
+Why trap states
+---------------
+
+In defense of the most correct version with trap.
+
+*   This trap state captures all safety failures.
+*   Anything going to trap is not in `Safe()`
+*   Likewise, anything in `Safe()` that is accepted, is "green eventually".
+
+This gives "safe and green or unsafe".
+
+Most Correct
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
+
+Why trap states
+---------------
+
+This gives "safe and green or unsafe".
+
+*   That is, it gives `m` and also something else - all unsafe traces.
+*   Recall: We use _Σ_ ω (upper case sigma raised to lower case omega) to denote infinite traces.
+*   So `Live(m)` = `m` **∪** _Σ ω_ / `Safe(m)`
+*   Say "the liveness property is everything that is both safe and live, and everything that isn't safe."
+
+Most Correct
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
+
+Intersection
+------------
+
+Safe()
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+`cl(m)`
+
+Live()
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
+
+`m` **∪** _Σω_ / `cl(m)`
+
+Intersection
+------------
+
+We take the intersection of these two sets (of traces).
+
+*   `Live(m)`**∩**`Safe(m)`, that is
+    
+*   `cl(m)`**∩**`m`**∪**_Σω_/ `cl(m)`
+    
+
+We consider:
+
+1.  Everything in `m` is in `cl(m)`, that is, `m`**⊂**`cl(m)`
+2.  Everything in `cl(m)` is in _Σω_, that is, `cl(m)`**⊂**_Σω_
+3.  Nothing in `m` is in _Σω_/ `cl(m)`, that is, `m`**∩**_Σω_/ `cl(m)`\=_∅_
+
+Let's take a look.
+
+Intersection
+------------
+
+1.  Everything in `m` is in `cl(m)`, that is, `m`**⊂**`cl(m)`
+2.  Everything in `cl(m)` is in _Σω_, that is, `cl(m)`**⊂**_Σω_
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/m1.png)
+
+Intersection
+------------
+
+1.  Everything in `m` is in `cl(m)`, that is, `m`**⊂**`cl(m)`
+2.  Nothing in `m` is in _Σω_/ `cl(m)`, that is, `m`**∩**_Σω_/`cl(m)`\=_∅_
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/m2.png)
+
+Intersection
+------------
+
+1.  Everything in `m` is in `cl(m)`
+2.  Everything in `m` is in `m`**∪**_Σω_/ `cl(m)`
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/m1.png)
+
+Intersection
+------------
+
+Nothing in `cl(m)` is in `m`**∪**_Σω_/ `cl(m)` without being in `m`
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/m1.png)
+
+Everything in `m` is in `m`**∪**_Σω_/ `cl(m)` and in `cl(m)`
+
+Intersection
+------------
+
+Safe lights are yellow before red.
+
+Live lights are either (1) green someday, or (2) don't use yellow.
+
+Safe, live lights are (1) green someday, and (2) use yellow.
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/m3.png)
+
+Work time
+---------
+
+Safe()
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+
+`cl(m)`
+
+Live()
+
+![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
+
+`m` **∪** _Σω_ / `cl(m)`

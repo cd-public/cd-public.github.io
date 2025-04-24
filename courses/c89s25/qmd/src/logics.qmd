@@ -2,7 +2,7 @@
 title: Logics
 theme: dark
 author: Prof. Calvin
-subtitle: "Week 0x8 II"
+subtitle: "Week 0xE"
 institute: Crypto
 format: 
     revealjs: 
@@ -19,7 +19,6 @@ execute:
     echo: true
     cache: true
     freeze: true  # never re-render during project render
-    code-fold: false
 ---
 
 # Announcements
@@ -709,23 +708,18 @@ A Kripke Structure is a tuple {_S_, ...} that models a state machine.
     *   Kripke structures only work for **finite** state machines
     *   For the sake of this class, we can imagine infinite states if needed.
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, ...} that models a state machine.
 
 *   For a traffic light, _S_ is:
+`{"GREEN_", "YELLOW", "RED___"}`
     
-        {"GREEN_", "YELLOW", "RED___"}
-    
-*   For a commerical airliner, _S_ is all combinations of people on the airliner and locations on the airliner.
-    *   One element of _S_ over 2 crew and 1 passenger could be:
-        
-            {["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","SEAT"]}
+*   For a Bitcoin, it is perhaps the current owner.
+    *   Many possible, but finite, number of owners.
         
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
 
@@ -734,76 +728,53 @@ A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
     *   There may be states in _S_ that are not in _I_
     *   These are the possible initial states of the state machine.
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
 
-*   For a traffic light, _I_ = _S_
+*   For a traffic light, _I_ = _S_ `{"GREEN_", "YELLOW", "RED___"}`
     
-        {"GREEN_", "YELLOW", "RED___"}
-    
-*   For an airliner, _I_ is all elements of _S_ such that all passengers are seated.
-    *   One element of _I_ and therefore _S_ could be:
+*   For a Bitcoin, the initial state is Satoshi Nakamoto's public key.
         
-            {["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","SEAT"]}
-        
-    *   One element of _S_ but not _I_ could be:
-        
-            {["CRW1", "DECK"], ["CRW2", "SERV"], ["PSG1","DECK"]}
-        
-
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, _I_, ...} that models a state machine.
 
 *   _S_ is a finite set of states
 *   _I_ ⊂ _S_ is the set of initial states.
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
 
 *   _R_ is a **transition relation** over _S_, we denote this _R_ ⊂ _S_ × _S_
     *   This just means _R_ says whether one state may be transitioned to from another.
-    *   _R_ expresses them enumerating sequences of length two, called **ordered pairs**
-        *   A starting state
-        *   An ending state
-        *   These states are the states in _S_
+    *   Same as graph edges (if we take _S_ to be nodes)
 
-Model Checking
---------------
+# Model Checking
 
-A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
-
-*   _R_ is a **transition relation** over _S_, we denote this _R_ ⊂ _S_ × _S_
-    *   This just means _R_ says whether one state may be transitioned to from another.
-    *   _R_ expresses them enumerating sequences of length two, called **ordered pairs**
 *   **BONUS/CHALLENGE:** _R_ is left-total.
+
+:::{.callout-note}    
+A binary relation _R_ ⊂ _S_ × _S_ is **left-total** if for all elements _s_ of _S_ there exists some ordered pair in _R_ such that the first element of the ordered pair is _s_.
+:::
     
-    A binary relation _R_ ⊂ _S_ × _S_ is **left-total** if for all elements _s_ of _S_ there exists some ordered pair in _R_ such that the first element of the ordered pair is _s_.
-    
-    _R_ ⊂ _S_ × _S_ is **left-total** ≔ ∀ _s1_ ∈ _S_, ∃ _s2_ ∈ _S_ such that (_s1_,_s2_) ∈ _R_
+* _R_ ⊂ _S_ × _S_ is **left-total** ≔ ∀ _s1_ ∈ _S_, ∃ _s2_ ∈ _S_ such that (_s1_,_s2_) ∈ _R_
     
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
 
 *   For a traffic light, _R_ is:
-    
-        {("GREEN_", "YELLOW"),
-         ("YELLOW", "RED___"),
-         ("RED___", "GREEN_")}
-    
-*   For a commerical airliner, _R_ must describe how crew may not move to the service station when passengers are present and vice versa, or some other arrangement.
-    *   Note: Relations may be used to to express the arrangement of people on an airliner as well as express transition relations.
+```{.py}
+{("GREEN_", "YELLOW"),
+ ("YELLOW", "RED___"),
+ ("RED___", "GREEN_")}
+```
+*   For Bitcoin, the Cartesian product.
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
 
@@ -811,78 +782,48 @@ A Kripke Structure is a tuple {_S_, _I_, _R_, ...} that models a state machine.
 *   _I_ ⊂ _S_ is the set of initial states.
 *   _R_ ⊂ _S_ × _S_ is a left-total transition relation.
 
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models a state machine.
 
 *   _L_ is a **labeling function** over _S_, we denote this _L_ ⊂ _S_ → ???
     *   This just means _L_ provides a way of talking about the states in _S_
     *   We talk about these states using **atomic propositions**
-        *   Propositions are expressions in propositional, or zeroth order, logic.
-        *   They are simply true or false.
-        *   Atomic propositions are simplest possible form of these logic expressions.
-    *   _L_ ⊂ _S_ → 2_AP_
 
-Model Checking
---------------
+# Atomic Propositions
+
+*   Propositions are expressions in propositional, or zeroth order, logic.
+*   They are simply true or false.
+*   Atomic propositions are simplest possible form of these logic expressions.
+*   _L_ ⊂ _S_ → 2<sup>_AP_</sup>
+
+# Model Checking
 
 A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions between over atomic propositions _AP_.
 
 *   _L_ is a **labeling function** over _S_, we denote this _L_ ⊂ _S_ → 2_AP_
-    *   Given _AP_, _L_ tells us whether each is true or false (2 options) for every given state.
+    *   Given _AP_, _L_ tells us whether each is `true` or `false` (2 options) for every given state.
 
-Model Checking
---------------
-
-A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
-
-*   For a traffic light, _AP_ could be the following, expressed as a proposition set:
-    
-        {s == "GREEN_", 
-         s == "YELLOW", 
-         s == "RED___", 
-         s ∈ {"GREEN_", "YELLOW"},
-         s ∈ {"YELLOW", "RED___"},
-         s ∈ {"RED___", "GREEN_"}}
-    
-*   Propositions are often named using single lower cases letters in italics beginning with _p_
-
-Model Checking
---------------
+# Model Checking
 
 A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
 
-*   For a traffic light, _AP_ could be the following:
-    
-        AP = 
-        [p : state == "GREEN_", 
-         q : state == "YELLOW", 
-         r : state == "RED___", 
-         s : state ∈ {"GREEN_", "YELLOW"},
-         t : state ∈ {"YELLOW", "RED___"},
-         u : state ∈ {"RED___", "GREEN_"}]
-    
-*   Then the _L_ would be given as :
-    
-        {("GREEN_", {p, s, u}), 
-         ("YELLOW", {q, s, t}),
-         ("RED___", {r, t, u})}
-    
+*   For a traffic light, regard _AP_ as the bit encoding of the current state, with perhaps bits encoding "redness", "yellowness", and "greenness"
+*   These happen to be but are not required to be mutually exclusive. 
 
-Model Checking
---------------
+# AP
 
-A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
+* Or just take a "red" and "green" proposition.
+*   The easiest way to imagine this is with hexcodes
+```{.python}
+red    = 0xFF0000
+green  = 0x00FF00
+yellow = red + green
+```
+* Regard a yellow light as a light that is both red and green (after all... it is)
+    
+# Model Checking
 
-*   For a commercial airliner, we may want to use _AP_ more intentionally:
-    *   Let _p_ denote there are passengers at the service station.
-    *   Let _q_ denote there are crew at the service station.
-    *   Let _r_ denote there all passengers are seated.
-    *   Let _s_ denote at least two crew are in the flight deck.
-
-Model Checking
---------------
 
 A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and _AP_.
 
@@ -890,6 +831,8 @@ A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and
 *   _I_ ⊂ _S_ is the set of initial states.
 *   _R_ ⊂ _S_ × _S_ is a left-total transition relation.
 *   _L_ ⊂ _S_ → 2_AP_ is the labelling relation.
+
+<!--
 
 Model Checking
 --------------
@@ -939,32 +882,570 @@ A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_} that models transitions and
 
 *   This is still bad. Why?
 
-Diagrams
---------
+-->
+
+# Diagrams
 
 Now that I've rigorously defined Kripke Structures, I am willing to tell you they are just diagrams.
 
 *   Clarke, Edmund & Grumberg, Orna & Jha, Somesh & Lu, Yuan & Veith, Helmut. (2003). Counterexample-guided abstraction refinement for symbolic model checking. J. ACM. 50. 752-794. 10.1145/876638.876643.
 
-Diagrams
---------
+# Diagrams
 
-This differs from ours, but only slightly.
 
-*   The proposition labels are the same as the state name initials.
-*   _r_ is the only accepted starting state.
-*   States are allowed to transition to the themselves
-    *   Think of this is a distinct notion of time.
-        *   I describe the only thing that changes time as a change in state.
-        *   If we imagine that there is a transition every second, the green-to-green is needed.
+::::{columns}
 
-Diagrams
---------
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+    - $S := \{ S_1, S_2, S_3 \}$
+    - $I := \{ S_1 \}$
+    - $R := \{(1,2), (2,1), (2,3), (3,3)\}$
+    - $L := \{({p,q},1), ({q},2), ({p},3)\}$
 
-*   We borrow the initials-labels trick.
-*   We allow all starting states.
-*   We do not have states transition to themselves.
+:::
 
+:::{.column width=50%}
+
+<a style="filter:invert(1)" title="Original file: Ashutosh y0078
+Updated version: Ixfd64, CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:KripkeStructureExample.svg"><img width="100%" alt="KripkeStructureExample" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg"></a>
+
+:::
+
+::::
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+}
+```
+
+:::
+
+::::
+
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+    - $S := \{ S_1, S_2, S_3 \}$
+        - Denote states as numbered circles.
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<S<SUB>1</SUB>>]
+  2 [label=<S<SUB>2</SUB>>]
+  3 [label=<S<SUB>3</SUB>>]
+}
+```
+
+:::
+
+::::
+
+
+
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+    - $S := \{ S_1, S_2, S_3 \}$
+    - $I := \{ S_1, S_2, S_3 \}$
+        - Denote as incoming arrows
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  01 [label="", shape=point]
+  1 [label=<S<SUB>1</SUB>>]
+  01 -> 1
+  02 [label="", shape=point]
+  2 [label=<S<SUB>2</SUB>>]
+  02 -> 2
+  03 [label="", shape=point]
+  3 [label=<S<SUB>3</SUB>>]
+  03 -> 3
+}
+```
+
+:::
+
+::::
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+    - Skip to labels
+    - Basically have:
+        - $\{r\}$
+        - $\{g\}$
+        - $\{r,g\}$
+    - Just use that order.
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  01 [label="", shape=point]
+  1 [label=<S<SUB>1</SUB><br/><br/>{ r }>]
+  01 -> 1
+  02 [label="", shape=point]
+  2 [label=<S<SUB>2</SUB><br/><br/>{ g }>]
+  02 -> 2
+  03 [label="", shape=point]
+  3 [label=<S<SUB>3</SUB><br/><br/>{r,g}>]
+  03 -> 3
+}
+```
+
+:::
+
+::::
+
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+    - The state names are not meaningful
+    - I can make them whatever I want via $L$
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  01 [label="", shape=point]
+  1 [label=<R<br/>{ r }>]
+  01 -> 1
+  02 [label="", shape=point]
+  2 [label=<G<br/>{ g }>]
+  02 -> 2
+  03 [label="", shape=point]
+  3 [label=<Y<br/>{r,g}>]
+  03 -> 3
+}
+```
+
+:::
+
+::::
+
+
+
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+- We have our transition relation.
+- Side-to-top
+
+||R|G|Y|
+|-|-|-|-|
+|R||x||
+|G|||x|
+|Y|x|||
+
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<R<br/>{ r }>]
+  2 [label=<G<br/>{ g }>]
+  3 [label=<Y<br/>{r,g}>]
+
+  1 -> 2
+  2 -> 3
+  3 -> 1
+  01 [label="", shape=point]
+  02 [label="", shape=point]
+  03 [label="", shape=point]
+  02 -> 2
+  01 -> 1
+  03 -> 3
+}
+```
+
+:::
+
+::::
+
+
+
+# Traffic Light
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- $\{S, I, R, L\}$
+- Perhaps omit $I$ denotation.
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<R<br/>{ r }>]
+  3 [label=<Y<br/>{r,g}>]
+  2 [label=<G<br/>{ g }>]
+
+  3 -> 1
+  2 -> 3
+  1 -> 2
+}
+```
+
+:::
+
+::::
+
+# Acceptance
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- We say a trace is accepted if
+    - It starts in a start state, and
+    - For each new tracepoint, there is an edge.
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<R<br/>{ r }>]
+  3 [label=<Y<br/>{r,g}>]
+  2 [label=<G<br/>{ g }>]
+
+  3 -> 1
+  2 -> 3
+  1 -> 2
+}
+```
+
+:::
+
+::::
+
+# Acceptance
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- `R` is accepted.
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<R<br/>{ r }>]
+  3 [label=<Y<br/>{r,g}>]
+  2 [label=<G<br/>{ g }>]
+
+  0 [label="", shape="point"]
+  0 -> 1 [color = "#ffa07a"]
+  3 -> 1
+  2 -> 3
+  1 -> 2
+}
+```
+
+:::
+
+::::
+
+
+# Acceptance
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- `RG` is accepted.
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<R<br/>{ r }>]
+  3 [label=<Y<br/>{r,g}>]
+  2 [label=<G<br/>{ g }>]
+
+  0 [label="", shape="point"]
+  0 -> 1 [color = "#ffa07a"]
+  3 -> 1 
+  2 -> 3 
+  1 -> 2 [color = "#ffa07a"]
+}
+```
+
+:::
+
+::::
+
+
+# Rejection
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- `RY` is a rejected.
+    - No edge from `R` to `Y`
+
+:::
+
+:::{.column width=50%}
+
+```{dot}
+//| fig-width: 400px
+//| echo: false
+digraph block_chain {
+  rankdir=TD;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  1 [label=<R<br/>{ r }>]
+  3 [label=<Y<br/>{r,g}>]
+  2 [label=<G<br/>{ g }>]
+
+  0 [label="", shape="point"]
+  0 -> 1 [color = "#ffa07a"]
+  3 -> 1 
+  2 -> 3 
+  1 -> 2
+  1 -> 3 [style="dashed", color="red"]
+}
+```
+
+:::
+
+::::
+
+<!--
 Diagrams
 --------
 
@@ -991,31 +1472,91 @@ A Kripke Structure is a 4-tuple {_S_, _I_, _R_, _L_}
 *   _R_ is the relations, in purple.
 *   _L_ is the labels, in black.
 
-Limitations
------------
 
-Kripke Structures are better than enumeration, but...
+-->
 
-*   Representation in text is difficult to understand
-*   Showing equivalence to traces can be difficult
+# Limitations
 
-![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZyXOm5FuHroH2uEG4BZupE8XNYP0scFZAyQ&usqp=CAU)
+- Better than enumeration, but...
+    *   In text is too complex
+    *   Considering traces is difficult in nontrivial cases.
+- We will introduce a better way to write out relations, then look at our Kripke Structures.
 
-We will introduce a better way to write out relations, then look at our Kripke Structures.
 
-An example
-----------
+# TCP
 
-Consider the following Kripke Structure:
+- Consider the "famous" TCP 3-way handshake.
 
-![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/handshake-1.png" style="filter:invert(.9)">
 
-The following statements are true of traces accepted by this structure:
+- [More](https://www.geeksforgeeks.org/tcp-3-way-handshake-process/)
 
-*   `p` and `q` are true initially.
-*   Once `q` becomes false, it never becomes true again.
-*   Once `q` becomes false, `p` stays true forever.
-*   `p` goes from false to true when `q` goes from true to true false.
+
+
+# TCP
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- State is more complex.
+    - Tracking whether `SYN` and `ACK` have been received by both client and server.
+
+:::
+
+:::{.column width=50%}
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/handshake-1.png" style="filter:invert(.9)">
+
+:::
+
+::::
+
+# TCP
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- Transitions are more complex.
+    - Vs, a light which *is* red and *becomes* red.
+    - A server *is* in state, say `LISTEN` and then transitions to state `SYN-RECEIVED`.
+
+:::
+
+:::{.column width=50%}
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/handshake-1.png" style="filter:invert(.9)">
+
+:::
+
+::::
+
+# TCP
+
+::::{columns}
+
+:::{.column width=50%}
+  
+- Is this trace accepted?
+    1. `Client.SYN`
+    2. `Client.SYN` x2
+    3. `Server.SYN`
+    4. `Server.ACK`
+    5. `Client.ACK`
+
+:::
+
+:::{.column width=50%}
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/handshake-1.png" style="filter:invert(.9)">
+
+:::
+
+::::
+
+<!--
+
 
 A concretization
 ----------------
@@ -1055,362 +1596,122 @@ Consider:
 *   Once `q` becomes false, `p` stays true forever.
     *   `q` until not `q`
 *   `p` goes from false to true when `q` goes from true to true false.
+
+-->
     
+# TCP
 
-Next and Until
---------------
+::::{columns}
 
-It often suffices to define two temporal operators:
+:::{.column width=50%}
 
-*   **X**: “next”
-*   **U**: “until”
+*   Server/Client requires `SYN` initially.
+*   Server may not 'SYN' or `ACK` until seeing `SYN`
+*   Client may not `ACK` until seeing `ACK`
+*   Client must `ACK`
 
-Along with existing logical operators:
+:::
 
-*   **¬**: “not”
-*   **∨**: “or”
+:::{.column width=50%}
 
-We need apply this over atomic propositions in _AP_ to describe the security requirements of a system.
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/handshake-1.png" style="filter:invert(.9)">
 
-\>
+:::
 
-Composition
------------
+::::
+
+# Today
+
+- &check; Threat and Threat Models
+- &check; (Trace) Properties
+- &check; Kripke Structures
+- Linear Temporal Logic
+- Büchi Automata
+    - DFAs
+    - Safety & Liveness
+- CIA Triad
+
+# neXt and Until
+
+- It often suffices to define two temporal operators:
+
+    *   **X**: “neXt”
+    *   **U**: “Until”
+
+- Along with existing logical operators:
+
+    *   **¬**: “not”
+    *   **∨**: “or”
+
+- Apply these over atomic propositions in _AP_ to describe security.
+
+# Composition
 
 With logical negation (not) and disjunction (or) we can generate other logical connectives.
 
-_p_
+| $p$     | $q$     | $\neg p$    | $p \lor q$   | $\neg p \lor \neg q$ | $\neg p \lor \neg q \equiv p \land q$ |
+| :---- | :---- | :---- | :---- | :---- | :------------ |
+| True  | True  | False | True  | False | True          |
+| True  | False | False | True  | True  | False         |
+| False | True  | True  | True  | True  | False         |
+| False | False | True  | False | True  | False         |
 
-_q_
 
-**¬**_p_
+# Next and Until
 
-_p_**∨**_q_
 
-**¬**_p_**∨****¬**_q_
+<img src="https://cd-public.github.io/courses/old/secs24/slides/images/xu.png" style="filter:invert(.9)">
 
-**¬**(**¬**_p_**∨****¬**_q_)≡_p_**∧**_q_
+# Derived Unary
 
-True
+| Name           | Written:         | Meaning                                                                    | Equivalencies                 |
+| :------------- | :------------ | :------------------------------------------------------------------------- | :---------------------------- |
+| neXt           | **X** _p_      | _p_ holds in the next time                                                | **X** _p_                    |
+| Future         | **F** _p_      | _p_ holds in some future time                                             | True **U** _p_              |
+| Global(ly)     | **G** _p_      | _p_ holds future times                                              | **¬**(True **U** **¬** _p_) |
 
-True
+# Derived Binary
 
-False
+| Name           | Written:         | Meaning                                                                    | Equivalencies                 |
+| :------------- | :------------ | :------------------------------------------------------------------------- | :---------------------------- |
+| Until          | _p_ **U** _q_ | _p_ holds unless _q_, _q_ must hold eventually        | _p_ **U** _q_                |
+| Release        | _p_ **R** _q_ | _q_ holds up to and including when _p_ holds                               | **¬**(**¬** _p_ **U** **¬** _q_) |
 
-True
+# Special Binary
 
-False
+| Name           | Written:       | Meaning                                                                    | Equivalencies                 |
+| :------------- | :------------ | :------------------------------------------------------------------------- | :---------------------------- |
+| Weak until     | _p_ **W** _q_ | _p_ holds up to when _q_ holds                                             | (_p_ **U** _q_) ∨ **G** _p_  |
+| Mighty release | _p_ **M** _q_ | _q_ holds up to and including when _p_ holds, and _p_ must hold eventually | _q_ **U** (_p_ **∨** _q_) |
 
-True
 
-True
-
-False
-
-False
-
-True
-
-True
-
-False
-
-False
-
-True
-
-True
-
-True
-
-True
-
-False
-
-False
-
-False
-
-True
-
-False
-
-True
-
-False
-
-For example, "and" or conjunction over two atomic propositions is equivalent to the negation or "not" of the "or" or disjunction over the negation or "not" of the two atomic propositions.
-
-Next and Until
---------------
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/xu.png)
-
-**X** _a_
-
-*   \* → _a_ → \* → ...
-
-_a_ **U** _b_
-
-*   _a_**∧****¬**_b_ → _b_ → \* → ...
-*   _a_**∧****¬**_b_ → _a_**∧****¬**_b_ → _b_ → \* → ...
-
-Linear Temporal Logic Composition
----------------------------------
-
-Name
-
-Usage
-
-Meaning
-
-Equivalencies
-
-neXt
-
-**X** _p_
-
-_p_ holds in the next time
-
-**X** _p_
-
-Future
-
-**F** _p_
-
-_p_ holds in some future time
-
-True**U**_p_
-
-Global(ly)
-
-**G** _p_
-
-_p_ holds in all future times
-
-**¬**(True**U****¬**_p_)
-
-Until
-
-_p_ **U** _q_
-
-_p_ holds unless _q_, and _q_ must hold at some point in the future
-
-_p_ **U** _q_
-
-Release
-
-_p_ **R** _q_
-
-_q_ holds up to and including when _p_ holds
-
-**¬**(**¬**_p_ **U** **¬**_q_)
-
-Weak until
-
-_p_ **W** _q_
-
-_p_ holds up to when _q_ holds
-
-(_p_ **U** _q_) ∨ **G** _p_
-
-Mighty release
-
-_p_ **M** _q_
-
-_q_ holds up to and including when _p_ holds, and _p_ must hold at some point in the future
-
-_q_ **U** (_p_ **∨**_q_)
-
-Linear Temporal Logic Exercise
-------------------------------
-
-Populate this table in groups of _n_. Likely 15-20 minutes.
-
-Operator
-
-Trace 1
-
-Trace 2
-
-**X** _p_
-
-\* → _p_ → \* → ...
-
-**F** _p_
-
-?
-
-?
-
-**G** _p_
-
-?
-
-_p_ **U** _q_
-
-_p_**∧****¬**_q_ → _p_**∧****¬**_q_ → _q_ → \* → ...
-
-_p_ **R** _q_
-
-?
-
-?
-
-_p_ **W** _q_
-
-?
-
-?
-
-_p_ **M** _q_
-
-?
-
-Linear Temporal Logic Traces
-----------------------------
-
-Operator
-
-Trace 1
-
-Trace 2
-
-**X** _p_
-
-\* → _p_ → \* → ...
-
-**F** _p_
-
-\* → _p_ → \* → ...
-
-\* → \* → _p_ → \* → ...
-
-**G** _p_
-
-_p_ → _p_ → _p_ → ...
-
-_p_ **U** _q_
-
-_p_**∧****¬**_q_ → _p_**∧****¬**_q_ → _q_ → \* → ...
-
-_p_ **R** _q_
-
-_q_ → _q_ → _p_ **∧** _q_ → \* → ...
-
-_q_ → _q_ → _q_ → ...
-
-_p_ **W** _q_
-
-_p_ → _p_ → _q_ → \* → ...
-
-_p_ → _p_ → _p_ → ...
-
-_p_ **M** _q_
-
-_q_ → _q_ → _p_ **∧** _q_ → \* → ...
-
-
-Shorthand
----------
-
-Let's introduce a wrinkle.
-
-The LTL operator **neXt** denotes that some atomic proposition should hold true in the next time point. We can generalize this to some fixed future timepoint but using more than one next. For example, the expression:
-
-**XXXX**_p_**∧****¬**_q_
-
-holds over the following trace:
-
-    {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...
-
-We extend **neXt** to reference a fixed future timepoint using a superscript:
-
-**X**4_p_**∧****¬**_q_
-
-I term this "multinext".
-
-Review Question 3
------------------
-
-Consider the following trace:
-
-    {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...
-
-Which of the following LTL expressions would describe this trace?
-
-1.  **¬****X**1_q_
-2.  **¬****X**2_q_
-3.  **¬****X**3_q_
-4.  **¬****X**4_q_
-
-Review Question 4
------------------
-
-Consider the following trace:
-
-    {p,q}, {q  }, {p,q}, {q  }, {p  }, {p  }, {p  }, ...
-
-Which of the following LTL expressions would describe this trace?
-
-1.  _q_ **U** **G**_p_
-2.  _q_ **R** **G**_p_
-3.  _q_ **W** **G**_p_
-4.  _q_ **M** **G**_p_
-
-Check your notes or the slides!
-
-Review Question 5
------------------
-
-Consider the following Kripke Structure:
-
-![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
-
-Which of the following LTL expressions would describe this structure?
-
-1.  _q_ **U** **G**_p_
-2.  _q_ **R** **G**_p_
-3.  _q_ **W** **G**_p_
-4.  _q_ **M** **G**_p_
-
-Review Question 6
------------------
-
-Consider the following Kripke Structure:
-
-![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
-
-Which of the following LTL expressions would would describe this structure?
-
-1.  **X**1_q_
-2.  **X**2_q_
-3.  **X**3_q_
-4.  **X**4_q_
-
-Review Question 7
------------------
-
-Consider the following Kripke Structure:
-
-![](https://upload.wikimedia.org/wikipedia/commons/3/3b/KripkeStructureExample.svg)
-
-10-15 min: In small groups, define an equivalent LTL expression to this structure.
-
-Properties
-----------
+# Properties
 
 *   Some security properties are about bad things not happening:
-    *   **G****¬**_bad_
+    *   **G** $\neg$ _bad_
     *   Term this "safety"
 *   Some security properties are about good things happening someday:
-    *   **F**_good_
+    *   **F** _good_
     *   Term this "liveness"
-*   These **security policies** are distinct but difficult to differentiate in Kripke Structures.
-*   For non-experts, it may be helpful to formulate security properties that differentiate these.
 
-"I want to be able to access my apartment sometimes but I don't want adversaries to be able to access it ever."
+# Today
 
+- &check; Threat and Threat Models
+- &check; (Trace) Properties
+- &check; Kripke Structures
+- &check; Linear Temporal Logic
+- Büchi Automata
+    - DFAs
+    - Safety & Liveness
+- CIA Triad
+
+# Aside
+
+- Büchi Automata are just "DFA" (deterministic finite automata) that aren't finite.
+- They accomplish this through an uninteresting hack.
+- DFAs are the first automata taught in theory of computing and automata theory class.
+- The follow slides conclude the "sets/graphs/automata" portion of class, among other things.
+<!--
 Büchi Automata
 --------------
 
@@ -1420,15 +1721,13 @@ Büchi Automata
     *   What would it mean for a Kripke Structure to be deterministic?
     *   What would it mean for LTL not to be deterministic?
 
-We define Büchi Automata as we did Kripke Structures, then show their usefulness.
 
-Büchi Automata
---------------
+
+# Büchi Automata
 
 A deterministic Büchi Automaton either accepts or rejects infinite inputs (traces).
 
-Büchi Automata
---------------
+# Büchi Automata
 
 A deterministic Büchi Automaton _A_ is a tuple {_Q_, ...} that accepts traces.
 
@@ -1536,760 +1835,928 @@ A deterministic Büchi Automaton _A_ is a tuple {_Q_, _Σ_, _δ_, _q0_, **F** } 
 *   _q0_ ∈ _Q_: is a state: the initial state of _A_
 *   **F** ⊆ _Q_ is a non-strict subset: the acceptance condition
 
-Diagrams
---------
+-->
 
-Kripke Structures
 
-Büchi Automata
+# Finite Automata
 
-*   Both (graphs) have a circles (nodes) and arrows (edges)
-    *   Kripke Structures label circles (nodes)
-    *   Büchi Automata label arrows (edges)
+## Definition
 
-Diagrams
---------
+:::: {.columns}
 
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+::: {.column width="50%"}
+- Term this $M_1$:
+    - States
+     $$
+     q_n
+     $$
 
-*   _Q_ : the states of _A_.
-*   _Σ_ : the alphabet of _A_.
-*   _δ_ : _Q_ × _Σ_ **→** _Q_ : transition function.
-*   _q0_ ∈ _Q_ : the initial state of _A_
-*   **F** ⊆ _Q_ : the acceptance condition
+    - Transitions 
+    $$
+    \overset{\{1\}}{\longrightarrow}
+    $$
+    - Start state $q_1$
+    - Accept state $q_3$
 
-Traffic Light
+:::
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi.png)
+::: {.column width="50%"}
+```{dot filename="Finite Automata"}
+//| fig-width: 500px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
 
-Diagrams
---------
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
 
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-*   _Q_ = { _q0, q1, q2_} in cyan
-*   _Σ_ : the alphabet of _A_.
-*   _δ_ : _Q_ × _Σ_ **→** _Q_ : transition function.
-*   _q0_ ∈ _Q_ : the initial state of _A_
-*   **F** ⊆ _Q_ : the acceptance condition
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle]; 
 
-Traffic Light
+  q0 -> q1
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}"];
+}
+```
+:::
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi2.png)
+::::
 
-Diagrams
---------
+## Process
 
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+:::: {.columns}
 
-*   _Q_ = { _q0, q1, q2_} in cyan
-*   _Σ_ = {_red, green, yellow_} in magenta
-*   _δ_ : _Q_ × _Σ_ **→** _Q_ : transition function.
-*   _q0_ ∈ _Q_ : the initial state of _A_
-*   **F** ⊆ _Q_ : the acceptance condition
+::: {.column width="50%"}
 
-Traffic Light
+:::{.nonincremental}
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi3.png)
+- Term this $M_1$:
+    - States
+     $$
+     q_n
+     $$
 
-Diagrams
---------
+    - Transitions 
+    $$
+    \overset{\{1\}}{\longrightarrow}
+    $$
+    - Start state $q_1$
+    - Accept state $q_3$
 
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+:::
 
-*   _Q_ = { _q0, q1, q2_} in cyan
-*   _Σ_ = {_red, green, yellow_} in magenta
-*   _δ_ : _Q_ × _Σ_ **→** _Q_ in blue
-    *   Take ((_q0, red_), _q0_) as `0R0`
-    *   _δ_ =`{0R0,0G1,1G1,1Y2,2Y2,2R0}`
-*   _q0_ ∈ _Q_ : the initial state of _A_
-*   **F** ⊆ _Q_ : the acceptance condition
+:::
 
-Traffic Light
+::: {.column width="50%"}
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi4.png)
+- **Input**
+    - *Finite* bit string 
+    -   $\{0,1\}^n$
+- **Output**
+    - Boolean or bit
+    -   $\{0,1\}$
+-   Begin in start
+-   Read symbol
+-   Follow edge
 
-Diagrams
---------
+:::
 
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+::::
 
-*   _Q_ = {_0, 1, 2_ } in cyan
-*   _Σ_ = {_R, G, Y_ } in magenta
-*   _δ_ = `{R0G1,G1Y2,Y2R0}` in blue
-*   _q0_ or _0_ : in orange
-*   **F** ⊆ _Q_ : the acceptance condition
 
-Traffic Light
+## ''
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi5.png)
+- The inital state is $q_1$.
 
-Diagrams
---------
+```py
+[] # We'll use a Python list to represent the input.
+```
 
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
 
-*   _Q_ = {_0, 1, 2_ } in cyan
-*   _Σ_ = {_R, G, Y_ } in magenta
-*   _δ_ = `{R0G1,G1Y2,Y2R0}` in blue
-*   _q0_ or _0_ in orange
-*   **F** = {_q0_} or {_0_} in black
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
 
-Traffic Light
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi5.png)
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>, color="orange"];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle]; 
 
-Safety and Liveness
--------------------
+  q0 -> q1 [color="orange"]
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}"];
+}
+```
 
-Safety
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+## '0'
 
-Liveness
+- Find label containing `0` out of $q_1$.
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+```py
+[0] # We'll use a Python list to represent the input.
+```
 
-Safety
-------
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
 
-*   Some security properties are about bad things not happening:
-    *   **G****¬**_bad_
-    *   Term this "safety"
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>, color="orange"];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle]; 
+
+  q0 -> q1 []
+  q1 -> q1 [label="{0}", color="orange"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}"];
+}
+```
+
+## '01'
+
+- Find label containing `1` out of $q_1$.
+
+```py
+[0, 1] # We'll use a Python list to represent the input.
+```
+
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>];
+  q2 [label=<<I>q<SUB>2</SUB></I>>, color="orange"];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle]; 
+
+  q0 -> q1 []
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}", color="orange"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}"];
+}
+```
+
+## '011'
+
+- Find label containing `1` out of $q_2$.
+
+```py
+[0, 1, 1] # We'll use a Python list to represent the input.
+```
+
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle, color="orange"]; 
+
+  q0 -> q1 []
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}", color="orange"];
+  q3 -> q3 [label="{0,1}"];
+}
+```
+
+## '0110'
+
+- Find label containing `0` out of $q_3$.
+
+```py
+[0, 1, 1, 0] # We'll use a Python list to represent the input.
+```
+
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle, color="orange"]; 
+
+  q0 -> q1 []
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}", color="orange"];
+}
+```
+
+## '01101'
+
+- Find label containing `1` out of $q_3$.
+
+```py
+[0, 1, 1, 0, 1] # We'll use a Python list to represent the input.
+```
+
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle, color="orange"]; 
+
+  q0 -> q1 []
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}", color="orange"];
+}
+```
+
+## '01101'
+
+- $M_1$ accepts `[0, 1, 1, 0, 1]` by ending in $q_3$
+
+```py
+assert(M_1([0, 1, 1, 0, 1]) # M_1 as a function from bit strings to booleans.
+```
+
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>, color="orange"];
+  q2 [label=<<I>q<SUB>2</SUB></I>>, color="orange"];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle, color="orange"]; 
+
+  q0 -> q1 [color="orange"]
+  q1 -> q1 [label="{0}", color="orange"];
+  q1 -> q2 [label="{1}", color="orange"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}", color="orange"];
+  q3 -> q3 [label="{0,1}", color="orange"];
+}
+```
+
+## Exercise
+
+- Does $M_1$ accept `[0, 0, 1, 0, 1]`?
+
+```py
+[0, 0, 1, 0, 1] # M_1 as a function from bit strings to booleans.
+```
+
+```{dot filename="Finite Automata"}
+//| fig-width: 800px
+//| echo: false
+digraph finite_automata {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  node [shape=circle];
+  q0 [label="",shape=point]; 
+  q1 [label=<<I>q<SUB>1</SUB></I>>];
+  q2 [label=<<I>q<SUB>2</SUB></I>>];
+  q3 [label=<<I>q<SUB>3</SUB></I>>, shape=doublecircle]; 
+
+  q0 -> q1 []
+  q1 -> q1 [label="{0}"];
+  q1 -> q2 [label="{1}"];
+  q2 -> q1 [label="{0}"];
+  q2 -> q3 [label="{1}"];
+  q3 -> q3 [label="{0,1}"];
+}
+```
+
+## Terminology
+
+- We say that:
+    -   $A$ is the *language* of $M_1$.
+    -   $M_1$ *recognizes* $A$
+    -   $A = L(M_1)$
+- We note:
+$$
+w \in A \implies \exists i < |w| - 1 : w_i = 1 \land w_{i+1} = 1 
+$$
+
+:::{.fragment}
+
+```{.py}
+w = '01101' # for example
+assert('11' in w)
+```
+
+:::
+
+## Formal Definition
+
+A finite automaton is formally defined as a 5-*tuple*:
+
+- **$Q$** A finite, non-empty *set* of states.
+- **$\Sigma$:** A finite, non-empty *set* of input symbols called the alphabet.
+- **$\delta$:** The transition function, a mapping 
+    -   $\delta : Q \times \sigma \rightarrow Q$ 
+- **$q_0$:** The initial state, where $q_0 \in Q$.
+- **$F$:** A set of accepting states (or final states), where $F \subset Q$.
+
+## Explanation:
+
+* **States ($Q$):** Possible internal configurations - like computer memory.
+* **Alphabet ($\Sigma$):** Possible inputs - machine binary or computer I/O.
+* **Transition Function ($\delta$):** How the FA's state is updated on read.
+* **Initial State ($q_0$):** This is the state where the automaton begins its operation.
+* **Accepting States ($F$):** These determine if the FA outputs $0$ or $1$.
+
+## Our Example
+
+- $M_1 = (Q, \Sigma, \delta, q_1, \{q_3\})$
+    - $Q = \{q_1, q_2, q_3\}$
+    - $\Sigma = \{0, 1\}$
+- How to express $\delta$?
+
+:::{.fragment}
+
+| $\delta=$  | $0$ | $1$ |
+|------------|-----|-----|
+| $q_1$&vert;|$q_1$|$q_2$|
+| $q_2$&vert;|$q_1$|$q_3$|
+| $q_3$&vert;|$q_3$|$q_3$|
+
+:::
+
+## Python
+
+```{.python}
+# define q_n as a convenience
+q_1, q_2, q_3 = "q_1", "q_2", "q_3"
+# define M_1
+Q = {q_1, q_2, q_3}
+S = {0, 1}
+d = {
+    q_1 : { 0:q_1, 1:q_2 },
+    q_2 : { 0:q_1, 1:q_3 },
+    q_3 : { 0:q_3, 1:q_3 }
+}
+M_1 = (Q,S,d,q_1,{q_3})
+```
+
+## Strings/Languages
+
+-   A *string* is a **sequence** of letters $\Sigma^n$
+-   A *language* is a set of *strings*.
+-   The empty string is zero length $\Sigma^0$
+-   The empty language is the empty set $\varnothing$
+We previously used the term "trace" the way DFAs use "string".
+
+:::{.fragment}
+*We note that the empty string is not in any way related to the empty language*
+:::
+
+## Acceptance
+
+-   $M$ *accepts* string $w = w_1w_2\ldots w_n$ if:
+
+:::{.fragment}
+$$
+\forall w_i \in \Sigma : \exists r_0r_1\ldots r_n : 
+$$
+:::
+
+
+:::{.fragment}
+
+$$
+r_0 = q_0 \land 
+$$
+
+:::
+
+
+:::{.fragment}
+
+$$
+r_n \in F \land 
+$$
+
+:::
+
+
+:::{.fragment}
+
+$$
+\forall i : r_i = \delta(r_{i-1},w_i) 
+$$
+
+:::
+
+# Today
+
+- &check; Threat and Threat Models
+- &check; (Trace) Properties
+- &check; Kripke Structures
+- &check; Linear Temporal Logic
+- &check; <s>Büchi</s> Deterministic Finite Automata
+    - &check; DFAs
+    - Safety & Liveness
+- CIA Triad
+
+# Safety and Liveness
+
+- [The Paper](https://www.cs.cornell.edu/fbs/publications/RecSafeLive.pdf)
+
+> A formal characterization for safety prop-
+erties and liveness properties is given in terms of
+the structure of the Buchi automaton that specifies the property. The characterizations permit a prop-
+erty to be decomposed into a safety property and
+a liveness property whose conjunction is the original.
+
+# Traffic Light
+  
+- Büchi traffic light (traffic lights don't have to stop someday, so not DFAs)
+
+
+
+```{dot}
+//| fig-width: 700px
+//| echo: false
+digraph block_chain {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  -1 [label="", shape="point"]
+  0 [label=<S<SUB>0</SUB>>]
+  1 [label=<S<SUB>1</SUB>>]
+  2 [label=<S<SUB>2</SUB>>]
+  3 [label=<S<SUB>3</SUB>>]
+
+  -1 -> 0 
+  0 -> 1 [label="R"]
+  0 -> 2 [label="G"]
+  0 -> 3 [label="Y"]
+  1 -> 2 [label="G"]
+  2 -> 3 [label="Y"]
+  3 -> 1 [label="R"]
+}
+```
+
+
+
+# Safety
+
+*   "Bad thing won't happen"
 *   If a Büchi Automata is a safety property...
     *   If the bad things happens, the system is unrecoverable.
     *   Therefore, any failures result from "falling off" the diagram.
     *   Therefore, all states are accepting states (no failures based on ending).
 
-Safety
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
-
-Safety
-------
-
-The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+# Safety
   
-That is, _cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_
+- The unsafe thing is "green to red"
 
-<
+```{dot}
+//| fig-width: 700px
+//| echo: false
+digraph block_chain {
+  rankdir=LR;
+  bgcolor="#191919";
 
-A **safety property** is a property given by a Büchi Automaton _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } such that all traces accepted by _A_ are also accepted by its _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
 
-Safety
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+  -1 [label="", shape="point"]
+  0 [label=<S<SUB>0</SUB>>]
+  1 [label=<S<SUB>1</SUB>>]
+  2 [label=<S<SUB>2</SUB>>]
 
-Safety
-------
+  -1 -> 0 
+  0 -> 1 [label="G"]
+  0 -> 2 [label="!G"]
+  1 -> 2 [label="Y"]
+  2 -> 1 [label="G"]
+  2 -> 2 [label="!G"]
+}
+```
+
+# Accepting States
+
+- These should, properly, be denoted with double circles (as they accept)
+
+```{dot}
+//| fig-width: 700px
+//| echo: false
+digraph block_chain {
+  rankdir=LR;
+  bgcolor="#191919";
+
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=doublecircle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  -1 [label="", shape="point"]
+  0 [label=<S<SUB>0</SUB>>]
+  1 [label=<S<SUB>1</SUB>>]
+  2 [label=<S<SUB>2</SUB>>]
+
+  -1 -> 0 
+  0 -> 1 [label="G"]
+  0 -> 2 [label="!G"]
+  1 -> 2 [label="Y"]
+  2 -> 1 [label="G"]
+  2 -> 2 [label="!G"]
+}
+```
+
+# Closure
+
+- The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+  
+- That is, _cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_
+
+- That is, all circles are double circles.
+
+# Safety
+
+- A **safety property** is a property given by a Büchi Automaton _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } such that all traces accepted by _A_ are also accepted by its _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.
+- We do not require that _Q_ = **F**, just that the accepted traces are the same.
+
+
+# Safety
 
 *   This means, we can develop safety properties from arrows (edges), or from _δ_
-    *   We see that yellow is always preceded by green or yellow.
-    *   Yellow is never preceded by red.
-    *   So we can say that the bad thing is red with yellow next
-    *   **G****¬**(_red_∧**X**_yellow_ )
-    *   **G****¬**(_green_∧**X**_red_ )
-    *   **G****¬**(_yellow_∧**X**_green_ )
+    *   Traffic lights must not allow $R$ immediately after $G$?
+    *   No problem, make a state "last was $G$"
+    *   Have no defined outgoing edges labeled $R$
+*   Wait...
 
-Safety
+# LTL
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
+*   That's just LTL
+    * **G** **X** `red` $\implies \neg$ `green`
+    * **G** $\neg$ `green` $\lor$ $\neg$ **X** `red` 
+*   LTL and Büchi automata are equivalent
+    * Proof left as an exercise to the student.
+    * Possibly the most interest proof of all time.
 
-Safety
-------
+# Liveness
 
-Could we argue that only **G****¬**(_green_∧**X**_red_ ) is a safety property?
-
-  
-
-15-20 min: In small groups, define the Büchi Automaton that captures \*only\* this safety property.
-
-  
-
-A diagram is sufficient, but think about _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
-
-  
-
-Be prepared to demonstrate that you have created a safety property!
-
-Safety
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
-
-Liveness
---------
-
-*   Some security properties are about good things happening someday:
-    *   **F**_good_
-    *   Term this "liveness"
+*   "Good thing eventually" e.g. **F**_good_
 *   If a Büchi Automata is a liveness property...
     *   No matter what happens, the system is recoverable.
     *   Therefore, any failures result from not reaching accepting states.
     *   Therefore, all states should have outgoing edges covering all letters of the trace alphabet.
 
-Liveness
+# Liveness
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+- I'd argue a light must be green eventually.
 
-Liveness
---------
+```{dot}
+//| fig-width: 700px
+//| echo: false
+digraph block_chain {
+  rankdir=LR;
+  bgcolor="#191919";
 
-The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+  node [
+      fontcolor = "#ffffff",
+      color = "#ffffff",
+      shape=circle
+  ]
+
+  edge [
+      color = "#ffffff",
+      fontcolor = "#ffffff"
+  ]
+
+  -1 [label="", shape="point"]
+  0 [label=<S<SUB>0</SUB>>]
+  1 [label=<S<SUB>1</SUB>>, shape="doublecircle"]
+  2 [label=<S<SUB>2</SUB>>]
+
+  -1 -> 0 
+  0 -> 1 [label="G"]
+  0 -> 2 [label="!G"]
+  2 -> 1 [label="G"]
+  2 -> 2 [label="!G"]
+  1 -> 1 [label="σ"]
+}
+```
+
+# Liveness
+
+- The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
   
-That is, _cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_
+- That is, _cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_
 
-<
+# Liveness
 
-A **liveness property** is a property given by a Büchi Automaton _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } such that _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ } accepts all possible traces in _Σ_ ω.
+A **liveness property** is a property given by a Büchi Automaton _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } such that _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ } accepts all possible traces in _Σ_<sup>ω</sup>.
 
-Liveness
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
-
-Liveness
---------
+# Liveness
 
 *   This means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.
-    *   We see that _q1_ has an outgoing edge labelled "yellow".
-    *   We add an edge from _q1_ to itself that is labelled "not yellow".
-*   As a convenience, we say the "good thing" is the light turning green
-    *   We mark _q1_ as the accepting state, since it is reached when the light turns green.
+    *   This isn't great.
+*   It is more common to add a "trap state" which captures these transitions but does not accept.
 
-Liveness
+# Intersection
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+- We recall set theoretic intersection...
+$$
+\forall e : e \in A \lor e \in B \implies e \in A \cup B
+$$
 
-Liveness
---------
+- What are these automata accepting again?
 
-Could we argue that only **F**_green_ is a Liveness property?
-
-  
-
-10-15 min: In small groups, define the Büchi Automaton that captures \*only\* this liveness property.
-
-  
-
-A diagram is sufficient, but think about _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
-
-  
-
-Be prepared to demonstrate that you have created a safety property!
-
-Liveness
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
-
-
-Properties
-----------
-
-"I want to be able to access my savings but no one else."
-
-*   Safety properties are about bad things not happening:
-    *   **G****¬**_bad_
-    *   These are undefined transitions in Büchi automata
-    *   "No one else may access my savings"
-*   Liveness properties are about good things happening eventually:
-    *   **F**_good_
-    *   These are accepting states in Büchi automata
-    *   "I want to be able to access my savings"
-
-Diagrams
---------
-
-_A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** }
-
-*   _Q_ = {_0, 1, 2_ } in cyan
-*   _Σ_ = {_R, G, Y_ } in magenta
-*   _δ_ = `{R0G1,G1Y2,Y2R0}` in blue
-*   _q0_ or _0_ in orange
-*   **F** = {_q0_} or {_0_} in black
-
-Traffic Light
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi5.png)
-
-Safe() and Live()
------------------
-
-We now define `Safe():`
-
-`Safe(m)` excludes the "bad thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing" happens at any point in the trace, the Buchi automaton will not accept that trace.
-
-... and `Live()`:
-
-`Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
-
-Intersection
-------------
-
-We recall set theoretic intersection...
-
-In set theory, the intersection of two sets _A_ and _B_, denoted by _A_ **∩**_B_ is the set containing all elements of _A_ that also belong to _B_
-
-... and we recall what properties are:
-
+::: {.callout-note}
 A **trace property** is a set of traces.
+:::
 
-And now we make our claim:
+# Claim
 
-"Given a Buchi automaton `m`, it is not difficult to construct Buchi automata `Safe(m)` and `Live(m)` such that `Safe(m)` specifies a safety property, `Live(m)` specifies a liveness property, and the prop- erty specified by `m` is the intersection of those specified by Safe(m) and Live(m)."
+> Given a Buchi automaton `m`, it is not difficult to construct Buchi automata `Safe(m)` and `Live(m)` such that `Safe(m)` specifies a safety property, `Live(m)` specifies a liveness property, and the property specified by `m` is the intersection of those specified by Safe(m) and Live(m).
 
-Example
--------
+# Example
 
 Consider the following Büchi automata over the alphabet of lower case letters:
 
-![](https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802)
+<img width="100%" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg" style="filter:invert(.9)">
 
-Safety means **G**_a_ **∨** _b_
+# Example
 
-    Safe(m) = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }
+- Safety means **G** _a_ **∨** _b_
+    - Safe(m) = `{"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }`
+- Liveness means **G****F** _a_
+    - Live(m) = `{"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }`
+- The intersection represents elements in both `Safe(m)` and `Live(m)`...
 
-Liveness means **G****F**_a_
+# Safe()
 
-    Live(m) = {"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }
+- We recall the definition of safety.
 
-The intersection represents elements in both `Safe(m)` and `Live(m)`...
+> `Safe(m)` excludes the "bad thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing" happens at any point in the trace, the Buchi automaton will not accept that trace.
 
-Example
--------
+# Safe()
 
-Safety means **G**_a_ **∨** _b_
+- A core "nicety" of Büchi Automata is that **the safety property is the closure**.
 
-    Safe(m) = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", ... }
-
-Liveness means **G****F**_a_
-
-    Live(m) = {"a", "aa", "ba", "ca", "da", "ea", "fa", "ga", ... }
-
-The intersection represents elements in both `Safe(m)` and `Live(m)`...
-
-    m = {"a", "b", "aa", "ba", "aaa", "aba", "baa", "bba", ... }
-
-To continue to advance our understanding of the distinction, we explore how to generate `Safe(m)` and `Live(m)`.
-
-Safe()
-------
-
-We recall the definition of safety.
-
-`Safe(m)` excludes the "bad thing" for a Buchi automaton, which is attempting an undefined transition, because if such a "bad thing" happens at any point in the trace, the Buchi automaton will not accept that trace.
-
-We recall the definition of closure.
-
-The **closure** of Büchi Automaton given by _A_ ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is _cl(A)_ ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }.  
+- `Safe(m)` = `cl(m)`  
   
-So_cl(A)_ is equivalent to _A_ if the set of accepting states **F** is expanded to include all of the states of _A_.
+# Live()
 
-A core "nicety" of Büchi Automata is that **the safety property is the closure**.
+- We recall the definition of liveness.
 
-Safe()
-------
+> `Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
 
-A core "nicety" of Büchi Automata is that **the safety property is the closure**.
-
-`Safe(m)` = `cl(m)`  
-  
-That is, for `m` ≔ {_Q_, _Σ_, _δ_, _q0_, **F** } is `cl(m)` ≔ {_Q_, _Σ_, _δ_, _q0_, _Q_ }
-
-The closure simply allows any trace without an undefined transition (or "bad thing") to be accepted.
-
-Live()
-------
-
-We recall the definition of liveness.
-
-`Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
-
-Think back to our example (emphasis added):
+# Live()
 
 "Consider the following Büchi automata **over the alphabet of lower case letters**"
 
-![](https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg?20180829053802)
+<img width="100%" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Automate_de_Buchi2.jpg" style="filter:invert(.9)">
 
-While safety is mostly about **F**, the accepting states or the double circles, liveness is mostly about _Σ_ = `{a, b, ?}`, the alphabet or the possible states of the trace (NOT the states of the automata) that form the labels on arrows.
+# Live()
 
-Live()
-------
+- While safety is mostly about **F**, the accepting states or the double circles, liveness is mostly about _Σ_ = `{a, b, ?}`, the alphabet or the possible states of the trace (NOT the states of the automata) that form the labels on arrows.
 
-So we define liveness relative to _Σ_. There most be no undefined transitions (that would be safety) so we require that any letter in _Σ_ has a defined transition at any point in time. ![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+# Live()
 
-Live()
-------
+- Define liveness relative to _Σ_. 
+- There most be no undefined transitions (that would be safety) 
+- So we require that any letter in _Σ_ has a defined transition at any point in time.
 
-With the traffic light, we ensured there were no undefined transitions using logical not "**¬**"
+# Learn more
 
-  
+- [DFAs](https://cd-public.github.io/compute/qmd/starfa.html#/title-slide)
+- [Büchi automaton](https://cd-public.github.io/courses/old/secs24/slides/slides/buchi.html)
+- [LTL](https://cd-public.github.io/courses/old/secs24/slides/slides/logics.html#/title-slide)
+- [Safety & Liveness](https://cd-public.github.io/courses/old/secs24/slides/slides/partition.html#/title-slide)
 
-But what does this logical not really do with respect to the alphabet?
+# Today
 
-Liveness
+- &check; Threat and Threat Models
+- &check; (Trace) Properties
+- &check; Kripke Structures
+- &check; Linear Temporal Logic
+- &check; Automata
+- &check; Safety & Liveness
+- CIA Triad
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+# Quoth WUSTL
 
-Live()
-------
+> [The CIA Triad—Confidentiality, Integrity, and Availability—is a guiding model in information security. A comprehensive information security strategy includes policies and security controls that minimize threats to these three crucial components.](https://informationsecurity.wustl.edu/guidance/confidentiality-integrity-and-availability-the-cia-triad/)
 
-Let's look back at our original _δ_ and _Σ_.
+# Confidentiality
 
-*   _δ_ =`{0R0,0G1,1G1,1Y2,2Y2,2R0}`
-*   _Σ_ = {_R_, _G_, _Y_ }
+> Confidentiality refers to protecting information from unauthorized access.
 
-To make a liveness property, we made sure that each of {_R_, _G_, _Y_ } had a defined place to go from each automata state. We added:
+- Quoth Prof. C: That's RSA, and it is safety.
 
-*   _δlive(m)_ =`{0Y0,1R1,2G2}`
+# Integrity
 
-But this is ugly, let's look at a table
+> Integrity means data are trustworthy, complete, and have not been accidentally altered or modified by an unauthorized user.
 
-Liveness
+- Quoth Prof. C: That's SHA, and it is safety.
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
+# Availability
 
-Before Live()
--------------
+> Availability means data are accessible when you need them.
 
-![](https://cd-public.github.io/courses/old/secs24/slides/images/buchi.png)
+- Quoth Prof. C: That's liveness.
 
-   
+# Extended Pillars
 
-Transition Letter
+- Modern infosec often includes two more:
+    - Authenticity
+    - Non-repudiation
+- No great sources on this, think it's mostly people selling certs like [destcert](https://destcert.com/resources/five-pillars-information-security/#:~:text=7%20min.&text=Information%20security%20hinges%20on%20a,world%20challenges%20in%20the%20field.)
 
-_R_
+# Authenticity
 
-_G_
+> Authenticity is the property that an entity is what it claims to be. 
 
-_Y_
+- That's digital signatures, a combination of C and I
 
-Initial State
+# Non-repudiation
 
-Next State
+> Non-repudiation is defined as the ability to prove the occurrence of a claimed event or action and its originating entities.
 
-**_q0_**
+- That's proof-of-work + authenticity.
 
-_q0_
 
-_q1_
+# Today
 
-**UNDEFINED**
+- &check; Threat and Threat Models
+- &check; (Trace) Properties
+- &check; Kripke Structures
+- &check; Linear Temporal Logic
+- &check; Automata
+- &check; Safety & Liveness
+- &check; CIA Triad
 
-_q1_
+# Final Thoughts
 
-**UNDEFINED**
+- We learned this term
+    - Pointers/Mem Safety + Recursion
+    - Data Structs (List, Stack, Heap, Map, Tree)
+    - Modern development (Containers + CI)
+    - System programming (C89, Make, .sh)
+    - Cryptography (RSA, SHA)
+    - Number, Set, Graph, Automata Theory
+    - Cybersecurity (Threat Models, CIA+)
 
-_q1_
 
-_q2_
-
-_q2_
-
-_q0_
-
-**UNDEFINED**
-
-_q2_
-
-With Live()
------------
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
-
-   
-
-Transition Letter
-
-_R_
-
-_G_
-
-_Y_
-
-Initial State
-
-Next State
-
-**_q0_**
-
-_q0_
-
-_q1_
-
-_q0_
-
-_q1_
-
-_q1_
-
-_q1_
-
-_q2_
-
-_q2_
-
-_q0_
-
-_q2_
-
-_q2_
-
-Problem
--------
-
-This _δ_ doesn't define a traffic light!
-
-*   _δlive(m)_ =
-    
-        {0R0,0G1,
-         1G1,1Y2,
-         2Y2,2R0,
-         0Y0,1R1,2G2}
-    
-*   _Σ_ = {_R_, _G_, _Y_}
-
-We need a way to preserve existing state transitions, while eliminating undefined transitions.
-
-Liveness
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
-
-Trap State
-----------
-
-Introduce new state _qtrap_ or _qt_
-
-*   _δlive(m)_ =
-    
-        {0R0,0G1,
-         1G1,1Y2,
-         2Y2,2R0,
-         0Yt,1Rt,2Gt}
-    
-*   _Σ_ = {_R_, _G_, _Y_ }
-*   _Q_ = {_0_, _1_, _2_, _t_ }
-
-We need a way to preserve existing state transitions, while eliminating undefined transitions.
-
-Liveness
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/trap.png)
-
-Trap State
-----------
-
-But how does _Σ_ = {_R_, _G_, _Y_ } figure in?
-
-  
-
-A flashing red _F_ or out light _O_ can still be green in the future!
-
-  
-
-The trap transition aren't fixed letters - they are the **the rest of the alphabet!**
-
-*   _δlive(m)_ =
-    
-        {0R0,0G1,
-         1G1,1Y2,
-         2Y2,2R0,
-         0*t,1*t,2*t}
-    
-*   _Σ_ = {_R_, _G_, _Y_, _F_, _O_, ... }
-
-Liveness
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
-
-Trap State
-----------
-
-    
-
-Transition
-
-Letter
-
-_{R}_
-
-_{G}_
-
-_{Y}_
-
-_Σ_/{_R_, _G_, _Y_ }
-
-Initial State
-
-Next State
-
-**_q0_**
-
-_q0_
-
-_q1_
-
-_qt_
-
-_qt_
-
-_q1_
-
-_qt_
-
-_q1_
-
-_q2_
-
-_qt_
-
-_q2_
-
-_q0_
-
-_qt_
-
-_q2_
-
-_qt_
-
-Live()
-------
-
-We recall the definition of safety.
-
-`Live(m)` requires the "good thing" for a Buchi automaton, which is entering an accepting state infinitely often, because we require this "good thing" to happen for trace to be accepted.
-
-So in practice, we have
-
-`Live(m)` is `m` augmented by an accepting trap state _qt_ and new transition function _δlive(m)_ which is the transition function _δ_ extended so that it causes every undefined transition of `m` to put `Live(m)` in _qt_
-
-Overall
--------
-
-Most Simple
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/live.png)
-
-Most Correct
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
-
-Why trap states
----------------
-
-In defense of the most correct version with trap.
-
-*   This trap state captures all safety failures.
-*   Anything going to trap is not in `Safe()`
-*   Likewise, anything in `Safe()` that is accepted, is "green eventually".
-
-This gives "safe and green or unsafe".
-
-Most Correct
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
-
-Why trap states
----------------
-
-This gives "safe and green or unsafe".
-
-*   That is, it gives `m` and also something else - all unsafe traces.
-*   Recall: We use _Σ_ ω (upper case sigma raised to lower case omega) to denote infinite traces.
-*   So `Live(m)` = `m` **∪** _Σ ω_ / `Safe(m)`
-*   Say "the liveness property is everything that is both safe and live, and everything that isn't safe."
-
-Most Correct
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
-
-Intersection
-------------
-
-Safe()
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
-
-`cl(m)`
-
-Live()
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
-
-`m` **∪** _Σω_ / `cl(m)`
-
-Intersection
-------------
-
-We take the intersection of these two sets (of traces).
-
-*   `Live(m)`**∩**`Safe(m)`, that is
-    
-*   `cl(m)`**∩**`m`**∪**_Σω_/ `cl(m)`
-    
-
-We consider:
-
-1.  Everything in `m` is in `cl(m)`, that is, `m`**⊂**`cl(m)`
-2.  Everything in `cl(m)` is in _Σω_, that is, `cl(m)`**⊂**_Σω_
-3.  Nothing in `m` is in _Σω_/ `cl(m)`, that is, `m`**∩**_Σω_/ `cl(m)`\=_∅_
-
-Let's take a look.
-
-Intersection
-------------
-
-1.  Everything in `m` is in `cl(m)`, that is, `m`**⊂**`cl(m)`
-2.  Everything in `cl(m)` is in _Σω_, that is, `cl(m)`**⊂**_Σω_
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/m1.png)
-
-Intersection
-------------
-
-1.  Everything in `m` is in `cl(m)`, that is, `m`**⊂**`cl(m)`
-2.  Nothing in `m` is in _Σω_/ `cl(m)`, that is, `m`**∩**_Σω_/`cl(m)`\=_∅_
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/m2.png)
-
-Intersection
-------------
-
-1.  Everything in `m` is in `cl(m)`
-2.  Everything in `m` is in `m`**∪**_Σω_/ `cl(m)`
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/m1.png)
-
-Intersection
-------------
-
-Nothing in `cl(m)` is in `m`**∪**_Σω_/ `cl(m)` without being in `m`
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/m1.png)
-
-Everything in `m` is in `m`**∪**_Σω_/ `cl(m)` and in `cl(m)`
-
-Intersection
-------------
-
-Safe lights are yellow before red.
-
-Live lights are either (1) green someday, or (2) don't use yellow.
-
-Safe, live lights are (1) green someday, and (2) use yellow.
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/m3.png)
-
-Work time
----------
-
-Safe()
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/safe.png)
-
-`cl(m)`
-
-Live()
-
-![](https://cd-public.github.io/courses/old/secs24/slides/images/many.png)
-
-`m` **∪** _Σω_ / `cl(m)`

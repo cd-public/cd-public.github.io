@@ -3175,7 +3175,7 @@
     "href": "logics.html#process",
     "title": "Logics",
     "section": "Process",
-    "text": "Process\nI think of this as a procedural way to go from an idea, to an idea where the threats are modelled.\n\nFirst, we draw a diagram of our idea.\nThen we supplement with the risks or threats.\nThen we explain how each is addressed.\nThe last stage, validation, is completed after implementing the idea by testing and studying the service."
+    "text": "Process\n\n\n\n\nTerm this \\(M_1\\):\n\nStates \\[\n   q_n\n   \\]\nTransitions \\[\n  \\overset{\\{1\\}}{\\longrightarrow}\n  \\]\nStart state \\(q_1\\)\nAccept state \\(q_3\\)\n\n\n\n\n\nInput\n\nFinite bit string\n\\(\\{0,1\\}^n\\)\n\nOutput\n\nBoolean or bit\n\\(\\{0,1\\}\\)\n\nBegin in start\nRead symbol\nFollow edge"
   },
   {
     "objectID": "logics.html#signal",
@@ -3490,7 +3490,7 @@
     "href": "logics.html#model-checking-4",
     "title": "Logics",
     "section": "Model Checking",
-    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, …} that models a state machine.\n\nFor a traffic light, I = S\n{\"GREEN_\", \"YELLOW\", \"RED___\"}\nFor an airliner, I is all elements of S such that all passengers are seated.\n\nOne element of I and therefore S could be:\n{[\"CRW1\", \"DECK\"], [\"CRW2\", \"SERV\"], [\"PSG1\",\"SEAT\"]}\nOne element of S but not I could be:\n{[\"CRW1\", \"DECK\"], [\"CRW2\", \"SERV\"], [\"PSG1\",\"DECK\"]}"
+    "text": "Model Checking\nA Kripke Structure is a tuple {S, I, …} that models a state machine.\n\nFor a traffic light, I = S {\"GREEN_\", \"YELLOW\", \"RED___\"}\nFor a Bitcoin, the initial state is Satoshi Nakamoto’s public key."
   },
   {
     "objectID": "logics.html#model-checking-5",
@@ -3602,28 +3602,28 @@
     "href": "logics.html#diagrams-2",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\n\nWe borrow the initials-labels trick.\nWe allow all starting states.\nWe do not have states transition to themselves."
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 in orange\nF = {q0} or {0} in black\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-3",
     "href": "logics.html#diagrams-3",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA Kripke Structure is a 4-tuple {S, I, R, L}\n\nS is the states, in blue."
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ : the states of A.\nΣ : the alphabet of A.\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-4",
     "href": "logics.html#diagrams-4",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA Kripke Structure is a 4-tuple {S, I, R, L}\n\nS is the states, in blue.\nI is the inital states, in orange.\nR is the relations, in purple."
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ : the alphabet of A.\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-5",
     "href": "logics.html#diagrams-5",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA Kripke Structure is a 4-tuple {S, I, R, L}\n\nS is the states, in blue.\nI is the inital states, in orange.\nR is the relations, in purple.\nL is the labels, in black."
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ = {red, green, yellow} in magenta\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#limitations-1",
@@ -3665,14 +3665,14 @@
     "href": "logics.html#composition",
     "title": "Logics",
     "section": "Composition",
-    "text": "Composition\nWith logical negation (not) and disjunction (or) we can generate other logical connectives.\np\nq\n¬_p_\np∨_q_\n¬_p_∨¬_q_\n¬(¬_p_∨¬_q_)≡p∧_q_\nTrue\nTrue\nFalse\nTrue\nFalse\nTrue\nTrue\nFalse\nFalse\nTrue\nTrue\nFalse\nFalse\nTrue\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nTrue\nFalse\nTrue\nFalse\nFor example, “and” or conjunction over two atomic propositions is equivalent to the negation or “not” of the “or” or disjunction over the negation or “not” of the two atomic propositions."
+    "text": "Composition\nWith logical negation (not) and disjunction (or) we can generate other logical connectives.\n\n\n\n\n\n\n\n\n\n\n\n\\(p\\)\n\\(q\\)\n\\(\\neg p\\)\n\\(p \\lor q\\)\n\\(\\neg p \\lor \\neg q\\)\n\\(\\neg p \\lor \\neg q \\equiv p \\land q\\)\n\n\n\n\nTrue\nTrue\nFalse\nTrue\nFalse\nTrue\n\n\nTrue\nFalse\nFalse\nTrue\nTrue\nFalse\n\n\nFalse\nTrue\nTrue\nTrue\nTrue\nFalse\n\n\nFalse\nFalse\nTrue\nFalse\nTrue\nFalse\n\n\n\nFor example, “and” or conjunction over two atomic propositions is equivalent to the negation or “not” of the “or” or disjunction over the negation or “not” of the two atomic propositions."
   },
   {
     "objectID": "logics.html#next-and-until-1",
     "href": "logics.html#next-and-until-1",
     "title": "Logics",
     "section": "Next and Until",
-    "text": "Next and Until\n\nX a\n\n* → a → * → …\n\na U b\n\na∧¬_b_ → b → * → …\na∧¬_b_ → a∧¬_b_ → b → * → …"
+    "text": "Next and Until\nX a\n\n* → a → * → …\n\na U b\n\na∧¬_b_ → b → * → …\na∧¬_b_ → a∧¬_b_ → b → * → …"
   },
   {
     "objectID": "logics.html#linear-temporal-logic-composition",
@@ -3749,7 +3749,7 @@
     "href": "logics.html#büchi-automata",
     "title": "Logics",
     "section": "Büchi Automata",
-    "text": "Büchi Automata\n\nLogicians use Büchi Automata to define safety and liveness more formally.\nBüchi Automata are more expressive than Kripke Structures\nDeterministic Büchi Automata are equivalent to LTL\n\nWhat would it mean for a Kripke Structure to be deterministic?\nWhat would it mean for LTL not to be deterministic?\n\n\nWe define Büchi Automata as we did Kripke Structures, then show their usefulness."
+    "text": "Büchi Automata\n\nLogicians use Büchi Automata to define safety and liveness more formally.\nBüchi Automata are more expressive than Kripke Structures\nDeterministic Büchi Automata are equivalent to LTL\n\nWhat would it mean for a Kripke Structure to be deterministic?\nWhat would it mean for LTL not to be deterministic?"
   },
   {
     "objectID": "logics.html#büchi-automata-1",
@@ -3826,42 +3826,42 @@
     "href": "logics.html#diagrams-6",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nKripke Structures\nBüchi Automata\n\nBoth (graphs) have a circles (nodes) and arrows (edges)\n\nKripke Structures label circles (nodes)\nBüchi Automata label arrows (edges)"
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ = {red, green, yellow} in magenta\nδ : Q × Σ → Q in blue\n\nTake ((q0, red), q0) as 0R0\nδ ={0R0,0G1,1G1,1Y2,2Y2,2R0}\n\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-7",
     "href": "logics.html#diagrams-7",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ : the states of A.\nΣ : the alphabet of A.\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 : in orange\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-8",
     "href": "logics.html#diagrams-8",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ : the alphabet of A.\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 in orange\nF = {q0} or {0} in black\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-9",
     "href": "logics.html#diagrams-9",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ = {red, green, yellow} in magenta\nδ : Q × Σ → Q : transition function.\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 in orange\nF = {q0} or {0} in black\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-10",
     "href": "logics.html#diagrams-10",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = { q0, q1, q2} in cyan\nΣ = {red, green, yellow} in magenta\nδ : Q × Σ → Q in blue\n\nTake ((q0, red), q0) as 0R0\nδ ={0R0,0G1,1G1,1Y2,2Y2,2R0}\n\nq0 ∈ Q : the initial state of A\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 : in orange\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-11",
     "href": "logics.html#diagrams-11",
     "title": "Logics",
     "section": "Diagrams",
-    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 : in orange\nF ⊆ Q : the acceptance condition\n\nTraffic Light"
+    "text": "Diagrams\nA ≔ {Q, Σ, δ, q0, F }\n\nQ = {0, 1, 2 } in cyan\nΣ = {R, G, Y } in magenta\nδ = {R0G1,G1Y2,Y2R0} in blue\nq0 or 0 in orange\nF = {q0} or {0} in black\n\nTraffic Light"
   },
   {
     "objectID": "logics.html#diagrams-12",
@@ -3896,14 +3896,14 @@
     "href": "logics.html#safety-2",
     "title": "Logics",
     "section": "Safety",
-    "text": "Safety\n\nThis means, we can develop safety properties from arrows (edges), or from δ\n\nWe see that yellow is always preceded by green or yellow.\nYellow is never preceded by red.\nSo we can say that the bad thing is red with yellow next\nG¬(red∧X_yellow_ )\nG¬(green∧X_red_ )\nG¬(yellow∧X_green_ )\n\n\nSafety"
+    "text": "Safety\nThe closure of Büchi Automaton given by A ≔ {Q, Σ, δ, q0, F } is cl(A) ≔ {Q, Σ, δ, q0, Q }.\nThat is, cl(A) is equivalent to A if the set of accepting states F is expanded to include all of the states of A\n&lt;\nA safety property is a property given by a Büchi Automaton A ≔ {Q, Σ, δ, q0, F } such that all traces accepted by A are also accepted by its cl(A) ≔ {Q, Σ, δ, q0, Q }.\nSafety"
   },
   {
     "objectID": "logics.html#safety-3",
     "href": "logics.html#safety-3",
     "title": "Logics",
     "section": "Safety",
-    "text": "Safety\nCould we argue that only G¬(green∧X_red_ ) is a safety property?\n15-20 min: In small groups, define the Büchi Automaton that captures *only* this safety property.\nA diagram is sufficient, but think about A ≔ {Q, Σ, δ, q0, F }\nBe prepared to demonstrate that you have created a safety property!\nSafety"
+    "text": "Safety\n\nThis means, we can develop safety properties from arrows (edges), or from δ\n\nWe see that yellow is always preceded by green or yellow.\nYellow is never preceded by red.\nSo we can say that the bad thing is red with yellow next\nG¬(red∧X_yellow_ )\nG¬(green∧X_red_ )\nG¬(yellow∧X_green_ )\n\n\nSafety"
   },
   {
     "objectID": "logics.html#liveness",
@@ -3924,14 +3924,14 @@
     "href": "logics.html#liveness-2",
     "title": "Logics",
     "section": "Liveness",
-    "text": "Liveness\n\nThis means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.\n\nWe see that q1 has an outgoing edge labelled “yellow”.\nWe add an edge from q1 to itself that is labelled “not yellow”.\n\nAs a convenience, we say the “good thing” is the light turning green\n\nWe mark q1 as the accepting state, since it is reached when the light turns green.\n\n\nLiveness"
+    "text": "Liveness\nThe closure of Büchi Automaton given by A ≔ {Q, Σ, δ, q0, F } is cl(A) ≔ {Q, Σ, δ, q0, Q }.\nThat is, cl(A) is equivalent to A if the set of accepting states F is expanded to include all of the states of A\n&lt;\nA liveness property is a property given by a Büchi Automaton A ≔ {Q, Σ, δ, q0, F } such that cl(A) ≔ {Q, Σ, δ, q0, Q } accepts all possible traces in Σ ω.\nLiveness"
   },
   {
     "objectID": "logics.html#liveness-3",
     "href": "logics.html#liveness-3",
     "title": "Logics",
     "section": "Liveness",
-    "text": "Liveness\nCould we argue that only F_green_ is a Liveness property?\n10-15 min: In small groups, define the Büchi Automaton that captures *only* this liveness property.\nA diagram is sufficient, but think about A ≔ {Q, Σ, δ, q0, F }\nBe prepared to demonstrate that you have created a safety property!\nLiveness"
+    "text": "Liveness\n\nThis means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.\n\nWe see that q1 has an outgoing edge labelled “yellow”.\nWe add an edge from q1 to itself that is labelled “not yellow”.\n\nAs a convenience, we say the “good thing” is the light turning green\n\nWe mark q1 as the accepting state, since it is reached when the light turns green.\n\n\nLiveness"
   },
   {
     "objectID": "logics.html#properties-4",
@@ -4008,14 +4008,14 @@
     "href": "logics.html#live-2",
     "title": "Logics",
     "section": "Live()",
-    "text": "Live()\nWith the traffic light, we ensured there were no undefined transitions using logical not “¬”\nBut what does this logical not really do with respect to the alphabet?\nLiveness"
+    "text": "Live()\nSo we define liveness relative to Σ. There most be no undefined transitions (that would be safety) so we require that any letter in Σ has a defined transition at any point in time."
   },
   {
     "objectID": "logics.html#live-3",
     "href": "logics.html#live-3",
     "title": "Logics",
     "section": "Live()",
-    "text": "Live()\nLet’s look back at our original δ and Σ.\n\nδ ={0R0,0G1,1G1,1Y2,2Y2,2R0}\nΣ = {R, G, Y }\n\nTo make a liveness property, we made sure that each of {R, G, Y } had a defined place to go from each automata state. We added:\n\nδlive(m) ={0Y0,1R1,2G2}\n\nBut this is ugly, let’s look at a table\nLiveness"
+    "text": "Live()\nWith the traffic light, we ensured there were no undefined transitions using logical not “¬”\nBut what does this logical not really do with respect to the alphabet?\nLiveness"
   },
   {
     "objectID": "logics.html#before-live",
@@ -4064,7 +4064,7 @@
     "href": "logics.html#live-4",
     "title": "Logics",
     "section": "Live()",
-    "text": "Live()\nWe recall the definition of safety.\nLive(m) requires the “good thing” for a Buchi automaton, which is entering an accepting state infinitely often, because we require this “good thing” to happen for trace to be accepted.\nSo in practice, we have\nLive(m) is m augmented by an accepting trap state qt and new transition function δlive(m) which is the transition function δ extended so that it causes every undefined transition of m to put Live(m) in qt"
+    "text": "Live()\nLet’s look back at our original δ and Σ.\n\nδ ={0R0,0G1,1G1,1Y2,2Y2,2R0}\nΣ = {R, G, Y }\n\nTo make a liveness property, we made sure that each of {R, G, Y } had a defined place to go from each automata state. We added:\n\nδlive(m) ={0Y0,1R1,2G2}\n\nBut this is ugly, let’s look at a table\nLiveness"
   },
   {
     "objectID": "logics.html#overall",
@@ -4156,5 +4156,180 @@
     "title": "Logics",
     "section": "Traffic Light",
     "text": "Traffic Light\n\nThink of a traffic light.\n\nIn what states may a traffic light be?\nIn what sequence may these states occur?\nDoes a traffic light implement a security policy\nDo traffic lights change over time?"
+  },
+  {
+    "objectID": "logics.html#example-3",
+    "href": "logics.html#example-3",
+    "title": "Logics",
+    "section": "Example",
+    "text": "Example\nSafety means G_a_ ∨ b\nSafe(m) = {\"a\", \"b\", \"aa\", \"ab\", \"ba\", \"bb\", \"aaa\", \"aab\", ... }\nLiveness means GF_a_\nLive(m) = {\"a\", \"aa\", \"ba\", \"ca\", \"da\", \"ea\", \"fa\", \"ga\", ... }\nThe intersection represents elements in both Safe(m) and Live(m)…\nm = {\"a\", \"b\", \"aa\", \"ba\", \"aaa\", \"aba\", \"baa\", \"bba\", ... }\nTo continue to advance our understanding of the distinction, we explore how to generate Safe(m) and Live(m)."
+  },
+  {
+    "objectID": "logics.html#definition",
+    "href": "logics.html#definition",
+    "title": "Logics",
+    "section": "Definition",
+    "text": "Definition\n\n\n\nTerm this \\(M_1\\):\n\nStates \\[\n   q_n\n   \\]\nTransitions \\[\n  \\overset{\\{1\\}}{\\longrightarrow}\n  \\]\nStart state \\(q_1\\)\nAccept state \\(q_3\\)\n\n\n\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-1",
+    "href": "logics.html#section-1",
+    "title": "Logics",
+    "section": "’’",
+    "text": "’’\n\nThe inital state is \\(q_1\\).\n\n[] # We'll use a Python list to represent the input.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-2",
+    "href": "logics.html#section-2",
+    "title": "Logics",
+    "section": "‘0’",
+    "text": "‘0’\n\nFind label containing 0 out of \\(q_1\\).\n\n[0] # We'll use a Python list to represent the input.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-3",
+    "href": "logics.html#section-3",
+    "title": "Logics",
+    "section": "‘01’",
+    "text": "‘01’\n\nFind label containing 1 out of \\(q_1\\).\n\n[0, 1] # We'll use a Python list to represent the input.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-4",
+    "href": "logics.html#section-4",
+    "title": "Logics",
+    "section": "‘011’",
+    "text": "‘011’\n\nFind label containing 1 out of \\(q_2\\).\n\n[0, 1, 1] # We'll use a Python list to represent the input.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-5",
+    "href": "logics.html#section-5",
+    "title": "Logics",
+    "section": "‘0110’",
+    "text": "‘0110’\n\nFind label containing 0 out of \\(q_3\\).\n\n[0, 1, 1, 0] # We'll use a Python list to represent the input.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-6",
+    "href": "logics.html#section-6",
+    "title": "Logics",
+    "section": "‘01101’",
+    "text": "‘01101’\n\nFind label containing 1 out of \\(q_3\\).\n\n[0, 1, 1, 0, 1] # We'll use a Python list to represent the input.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#section-7",
+    "href": "logics.html#section-7",
+    "title": "Logics",
+    "section": "‘01101’",
+    "text": "‘01101’\n\n\\(M_1\\) accepts [0, 1, 1, 0, 1] by ending in \\(q_3\\)\n\nassert(M_1([0, 1, 1, 0, 1]) # M_1 as a function from bit strings to booleans.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#exercise",
+    "href": "logics.html#exercise",
+    "title": "Logics",
+    "section": "Exercise",
+    "text": "Exercise\n\nDoes \\(M_1\\) accept [0, 0, 1, 0, 1]?\n\n[0, 0, 1, 0, 1] # M_1 as a function from bit strings to booleans.\n\n\n\n\n\n\n\nfinite_automata\n\n\n\nq0\n\n\n\n\nq1\n\nq\n1\n\n\n\nq0-&gt;q1\n\n\n\n\n\nq1-&gt;q1\n\n\n{0}\n\n\n\nq2\n\nq\n2\n\n\n\nq1-&gt;q2\n\n\n{1}\n\n\n\nq2-&gt;q1\n\n\n{0}\n\n\n\nq3\n\n\nq\n3\n\n\n\nq2-&gt;q3\n\n\n{1}\n\n\n\nq3-&gt;q3\n\n\n{0,1}"
+  },
+  {
+    "objectID": "logics.html#terminology",
+    "href": "logics.html#terminology",
+    "title": "Logics",
+    "section": "Terminology",
+    "text": "Terminology\n\nWe say that:\n\n\\(A\\) is the language of \\(M_1\\).\n\\(M_1\\) recognizes \\(A\\)\n\\(A = L(M_1)\\)\n\nWe note: \\[\nw \\in A \\implies \\exists i &lt; |w| - 1 : w_i = 1 \\land w_{i+1} = 1\n\\]\n\n\nw = '01101' # for example\nassert('11' in w)"
+  },
+  {
+    "objectID": "logics.html#finite-automaton",
+    "href": "logics.html#finite-automaton",
+    "title": "Logics",
+    "section": "Finite Automaton",
+    "text": "Finite Automaton\n\nA finite automaton (FA), also known as a finite state machine (FSM), is a mathematical model of computation used to recognize patterns in a sequence of symbols."
+  },
+  {
+    "objectID": "logics.html#finite-automaton-1",
+    "href": "logics.html#finite-automaton-1",
+    "title": "Logics",
+    "section": "Finite Automaton",
+    "text": "Finite Automaton\n\nIn class: “finite automaton”\nReal life: mostly say “state machine”\nI used the notation *FA to denote these are not a specific kind of FA"
+  },
+  {
+    "objectID": "logics.html#formal-definition-1",
+    "href": "logics.html#formal-definition-1",
+    "title": "Logics",
+    "section": "Formal Definition",
+    "text": "Formal Definition\nA finite automaton is formally defined as a 5-tuple:\n\n\\(Q\\) A finite, non-empty set of states.\n\\(\\Sigma\\): A finite, non-empty set of input symbols called the alphabet.\n\\(\\delta\\): The transition function, a mapping\n\n\\(\\delta : Q \\times \\sigma \\rightarrow Q\\)\n\n\\(q_0\\): The initial state, where \\(q_0 \\in Q\\).\n\\(F\\): A set of accepting states (or final states), where \\(F \\subset Q\\)."
+  },
+  {
+    "objectID": "logics.html#explanation",
+    "href": "logics.html#explanation",
+    "title": "Logics",
+    "section": "Explanation:",
+    "text": "Explanation:\n\nStates (\\(Q\\)): Possible internal configurations - like computer memory.\nAlphabet (\\(\\Sigma\\)): Possible inputs - machine binary or computer I/O.\nTransition Function (\\(\\delta\\)): How the FA’s state is updated on read.\nInitial State (\\(q_0\\)): This is the state where the automaton begins its operation.\nAccepting States (\\(F\\)): These determine if the FA outputs \\(0\\) or \\(1\\)."
+  },
+  {
+    "objectID": "logics.html#our-example",
+    "href": "logics.html#our-example",
+    "title": "Logics",
+    "section": "Our Example",
+    "text": "Our Example\n\n\\(M_1 = (Q, \\Sigma, \\delta, q_1, \\{q_3\\})\\)\n\n\\(Q = \\{q_1, q_2, q_3\\}\\)\n\\(\\Sigma = \\{0, 1\\}\\)\n\nHow to express \\(\\delta\\)?\n\n\n\n\n\n\\(\\delta=\\)\n\\(0\\)\n\\(1\\)\n\n\n\n\n\\(q_1\\)|\n\\(q_1\\)\n\\(q_2\\)\n\n\n\\(q_2\\)|\n\\(q_1\\)\n\\(q_3\\)\n\n\n\\(q_3\\)|\n\\(q_3\\)\n\\(q_3\\)"
+  },
+  {
+    "objectID": "logics.html#python",
+    "href": "logics.html#python",
+    "title": "Logics",
+    "section": "Python",
+    "text": "Python\n# define q_n as a convenience\nq_1, q_2, q_3 = \"q_1\", \"q_2\", \"q_3\"\n# define M_1\nQ = {q_1, q_2, q_3}\nS = {0, 1}\nd = {\n    q_1 : { 0:q_1, 1:q_2 },\n    q_2 : { 0:q_1, 1:q_3 },\n    q_3 : { 0:q_3, 1:q_3 }\n}\nM_1 = (Q,S,d,q_1,{q_3})"
+  },
+  {
+    "objectID": "logics.html#stringslanguages",
+    "href": "logics.html#stringslanguages",
+    "title": "Logics",
+    "section": "Strings/Languages",
+    "text": "Strings/Languages\n\nA string is a sequence of letters \\(\\Sigma^n\\)\nA language is a set of strings.\nThe empty string is zero length \\(\\Sigma^0\\)\nThe empty language is the empty set \\(\\varnothing\\) We previously used the term “trace” the way DFAs use “string”.\n\n\nWe note that the empty string is not in any way related to the empty language"
+  },
+  {
+    "objectID": "logics.html#acceptance-3",
+    "href": "logics.html#acceptance-3",
+    "title": "Logics",
+    "section": "Acceptance",
+    "text": "Acceptance\n\n\\(M\\) accepts string \\(w = w_1w_2\\ldots w_n\\) if:\n\n\n\\[\n\\forall w_i \\in \\Sigma : \\exists r_0r_1\\ldots r_n :\n\\]\n\n\n\\[\nr_0 = q_0 \\land\n\\]\n\n\n\\[\nr_n \\in F \\land\n\\]\n\n\n\\[\n\\forall i : r_i = \\delta(r_{i-1},w_i)\n\\]"
+  },
+  {
+    "objectID": "logics.html#formal-definition",
+    "href": "logics.html#formal-definition",
+    "title": "Logics",
+    "section": "Formal Definition",
+    "text": "Formal Definition\nA finite automaton is formally defined as a 5-tuple:\n\n\\(Q\\) A finite, non-empty set of states.\n\\(\\Sigma\\): A finite, non-empty set of input symbols called the alphabet.\n\\(\\delta\\): The transition function, a mapping\n\n\\(\\delta : Q \\times \\sigma \\rightarrow Q\\)\n\n\\(q_0\\): The initial state, where \\(q_0 \\in Q\\).\n\\(F\\): A set of accepting states (or final states), where \\(F \\subset Q\\)."
+  },
+  {
+    "objectID": "logics.html#safety-4",
+    "href": "logics.html#safety-4",
+    "title": "Logics",
+    "section": "Safety",
+    "text": "Safety\nCould we argue that only G¬(green∧X_red_ ) is a safety property?\n15-20 min: In small groups, define the Büchi Automaton that captures *only* this safety property.\nA diagram is sufficient, but think about A ≔ {Q, Σ, δ, q0, F }\nBe prepared to demonstrate that you have created a safety property!\nSafety"
+  },
+  {
+    "objectID": "logics.html#trap-state-3",
+    "href": "logics.html#trap-state-3",
+    "title": "Logics",
+    "section": "Trap State",
+    "text": "Trap State\nTransition\nLetter\n{R}\n{G}\n{Y}\nΣ/{R, G, Y }\nInitial State\nNext State\nq0\nq0\nq1\nqt\nqt\nq1\nqt\nq1\nq2\nqt\nq2\nq0\nqt\nq2\nqt"
+  },
+  {
+    "objectID": "logics.html#liveness-4",
+    "href": "logics.html#liveness-4",
+    "title": "Logics",
+    "section": "Liveness",
+    "text": "Liveness\n\nThis means, we can study liveness properties by adding a self-loop with negation of all other outgoing edges to each automaton state.\n\nWe see that q1 has an outgoing edge labelled “yellow”.\nWe add an edge from q1 to itself that is labelled “not yellow”.\n\nAs a convenience, we say the “good thing” is the light turning green\n\nWe mark q1 as the accepting state, since it is reached when the light turns green.\n\n\nLiveness"
+  },
+  {
+    "objectID": "logics.html#liveness-5",
+    "href": "logics.html#liveness-5",
+    "title": "Logics",
+    "section": "Liveness",
+    "text": "Liveness\nCould we argue that only F_green_ is a Liveness property?\n10-15 min: In small groups, define the Büchi Automaton that captures *only* this liveness property.\nA diagram is sufficient, but think about A ≔ {Q, Σ, δ, q0, F }\nBe prepared to demonstrate that you have created a safety property!\nLiveness"
+  },
+  {
+    "objectID": "logics.html#live-5",
+    "href": "logics.html#live-5",
+    "title": "Logics",
+    "section": "Live()",
+    "text": "Live()\nWe recall the definition of safety.\nLive(m) requires the “good thing” for a Buchi automaton, which is entering an accepting state infinitely often, because we require this “good thing” to happen for trace to be accepted.\nSo in practice, we have\nLive(m) is m augmented by an accepting trap state qt and new transition function δlive(m) which is the transition function δ extended so that it causes every undefined transition of m to put Live(m) in qt"
   }
 ]

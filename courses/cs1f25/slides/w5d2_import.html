@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>import</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">import</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W5Wed: 25 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</ul>
+<li>Today and Tomorrow: Sections.
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Our thinking is developing well but I think we are struggling with <em>attention to do detail</em>
+<li>I will no longer be accepting:
+<ul><li>Code that does not run
+<li>Questions related to indentation.
+</ul>
+<li>You have now had a chance to submit 9 .py files for feedback (which I feel like I have done a pretty good job of providing?).
+<li>Correct indentation will be necessary on the forthcoming midterm.
+<ul><li>Basically: I am out of runway to grade leniently when code isn't correct.
+</section>
+
+
+<section>
+<h2>Indentation</h2>
+<ul>
+<li>These lines of code are different:
+<code class="python">def print_first_vowel(s:str):
+    for c in s:
+        if c in "aeiou":
+            print(c)
+            return
+          
+def print_all_vowels(s:str):
+    for c in s:
+        if c in "aeiou":
+            print(c)
+    return</code>
+</section>
+
+
+
+<section>
+<h2>Indentation</h2>
+<ul>
+<li>This code doesn't run, isn't commented, and it's not clear what it is intended to do.
+<code class="python">def vowel_print(s:str):
+    for c in s:
+        if c in "aeiou":
+            print(c)
+          return</code>
+<li>Ambigious name, no comments, ambigious code... No way to for me to fix this.
+</section>
+
+
+
+<section>
+<h2>Indentation</h2>
+<ul>
+<li>I am still seeing a bit of:
+<code class="python">for c in s: # line with a def, if, for, while ending with a :
+print(c) # line at the same indentation level</code>
+<li>This is never correct and was the subject of a week 1 lecture.
+<li>My appeal:<ul>
+<li>As a rule, we are expected to place spaces in the correct places in our sentences.
+<li>A sar ule wear eexp ected top laces pace sin thec or rec tp lace sin our sent ences.
+</section>
+
+
+
+<section>
+<h2>Projects</h2>
+<ul>
+<li>As we advance to working on projects, after a series of (wildly successful) problem sets:
+<ul><li>As a class, we now focus on "how to solve problems".
+<li>Typos are fine to make, but you should know how to solve the problem of typos.
+<li>Look back at e.g. the "debug" lecture for a systematic way.
+</ul>
+<li>We want to discuss: "How can we combine 'for' and 'if' statements to solve this problem?"
+<li>We don't want: "Should this line end with a colon?"
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>String patterns
+<li>String formats
+<li>Randomization
+<li>Graphics
+</section>
+
+<section>
+<h2>Methods to find string patterns</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="python">string.find(pattern)</code></td>
+<td>Returns the first index of 'pattern' in
+'string', or '-1' if
+it does not appear</td>
+</tr>
+<tr>
+<td><code class="python">string.find(pattern, k)</code></td>
+<td>Same as the one-argument version, but starts searching at index
+'k</code></td>
+</tr>
+<tr>
+<td><code class="python">string.rfind(pattern)</code></td>
+<td>Returns the last index of 'pattern' is
+'string', or '-1' if
+missing</td>
+</tr>
+<tr>
+<td><code class="python">string.rfind(pattern, k)</code></td>
+<td>Same as the one-argument version, but searches backwards from index
+'k</code></td>
+</tr>
+<tr>
+<td><code class="python">string.startswith(prefix)</code></td>
+<td>Returns 'True' if the string starts with
+'prefix</code></td>
+</tr>
+<tr>
+<td><code class="python">string.endswith(suffix)</code></td>
+<td>Returns 'True' if the string ends with
+'suffix</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+<section>
+<h2>Some examples</h2>
+<ul><li>I never use these haha.
+<table style="width:100%">
+<tr><td style="width:50%">
+<code style="max-height:900px" class="python">str = "hello world"
+str.rfind('o')
+str.rfind('lo')
+str.find('o')
+str.find('l')
+str.rfind('l')
+str.startswith("he")
+str.startswith("hl")
+str.endswith("lo")
+str.endswith("ld")
+</code>
+</td><td style="width:50%">
+<code style="max-height:900px" class="python">
+7
+3
+4
+2
+9
+True
+False
+False
+True</code></table></section>
+
+<!--
+
+<section>
+<h2>Formatting Strings</h2>
+<ul>
+<li>Sometimes we want to "pretty print" - like rightpad.
+<ul>
+<li>Or rounded to the nearest two decimal places, for example</li>
+</ul></li>
+<li>Doable with for loops but...</li>
+<li>Python gives a more streamlined method, using a <em>format
+spec</em></li>
+<li>A format spec will be given inside the '{}'<ul>
+<li>Comes after the variable/value itself</li>
+<li>There is a colon between the variable/value and the format spec</li>
+</ul>
+<code class="python">A = 10.234
+print(f"The value of A is {A:0.2f}")</code></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Shaping your format</h2>
+<ul>
+<li>A format spec is a special string that determines the desired
+format</li>
+<li>Lots we can do, but we rarely need to do it all at once</li>
+<li>The basic building blocks (square brackets just to group):
+<center>
+<br> <span style="font-family: monospace">[[fill]align]>[sign][width][,][.precision]<span
+style="color:red">[type]</span> </span>
+</center></li>
+</ul>
+<hr>
+<ul>
+<li>Type
+<ul>
+<li>How you want the object represented as a string</li>
+<li>“d” - base-10 integer</li>
+<li>“f” - float or decimal</li>
+<li>“e” - scientific notation</li>
+</ul></li>
+</ul>
+</section>
+
+
+
+<section>
+<h2>Shaping your format</h2>
+<ul>
+<li>A format spec is a special string that determines the desired
+format</li>
+<li>Lots we can do, but we rarely need to do it all at once</li>
+<li>The basic building blocks (square brackets just to group):
+<center>
+<br> <span style="font-family: monospace">[[fill]align]>[sign][width][,][.precision]<span
+style="color:red">[precision]</span>[type] </span>
+</center></li>
+</ul>
+<hr>
+<ul>
+<li>Precision
+<ul>
+<li>How many digits to display after a decimal point</li>
+<li>Details vary by conversion type</li>
+</ul></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Shaping your format</h2>
+<ul>
+<li>A format spec is a special string that determines the desired
+format</li>
+<li>Lots we can do, but we rarely need to do it all at once</li>
+<li>The basic building blocks (square brackets just to group):
+<center>
+<br> <span style="font-family: monospace">[[fill]align]>[sign][width]<span
+style="color:red">[,]</span>[.precision][type]
+</center></li>
+</ul>
+<hr>
+<ul>
+<li>Grouping?
+<ul>
+<li>A comma here indicates that numbers should be grouped in sets of 3
+and separated with a comma</li>
+</ul></li>
+</ul>
+</section>
+
+
+
+<section>
+<h2>Shaping your format</h2>
+<ul>
+<li>A format spec is a special string that determines the desired
+format</li>
+<li>Lots we can do, but we rarely need to do it all at once</li>
+<li>The basic building blocks (square brackets just to group):
+<center>
+<br> <span style="font-family: monospace">[[fill]align]>[sign]<span
+style="color:red">[width]</span>[,][.precision][type]
+</center></li>
+</ul>
+<hr>
+<ul>
+<li>Width
+<ul>
+<li>The <em>minimum</em> number of characters you want the formatted
+value to have</li>
+<li>If not otherwise specified, pads the value with space
+characters</li>
+</ul></li>
+</ul>
+</section>
+
+
+
+<section>
+<h2>Shaping your format</h2>
+<ul>
+<li>A format spec is a special string that determines the desired
+format</li>
+<li>Lots we can do, but we rarely need to do it all at once</li>
+<li>The basic building blocks (square brackets just to group):
+<center>
+<br> <span style="font-family: monospace">[[fill]align]><span
+style="color:red">[sign]</span>[width][,][.precision][type]
+</center></li>
+</ul>
+<hr>
+<ul>
+<li>If the sign of the number should be specified</li>
+<li>A '+' sign ensures all numbers will have
+either a '+' or '-'
+sign in front</li>
+<li>A space just adds a space before positive numbers (negatives would
+have a '-'sign in front)</li>
+</ul></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Shaping your format</h2>
+<ul>
+<li>A format spec is a special string that determines the desired
+format</li>
+<li>Lots we can do, but we rarely need to do it all at once</li>
+<li>The basic building blocks (square brackets just to group):
+<center>
+<br> <span style="font-family: monospace"><span
+style="color:red">[[fill]align]</span>>[sign][width][,][.precision][type]
+</center></li>
+</ul>
+<hr>
+<ul>
+<li>Fill and Align
+<ul>
+<li>How you want the text aligned if it is shorter than the minium width
+<ul>
+<li>Can be '<', '>',
+or '^' for left, right, or center
+justified</li>
+</ul></li>
+<li>Any fill characters you want to fill the empty space come before
+<ul>
+<li>Default is space</li>
+</ul></li>
+</ul>
+</section>-->
+
+</section>
+<section>
+<h2>Random</h2>
+<ul>
+<li>For Wordle, the game is only interesting if the secret word is not
+the same every time!</li>
+<li>Let’s take a moment to look at the built-inlibrary, which lets us simulate
+random processes</li>
+<code class="python">import random</code> 
+<li>Like "import karel" basically, but with an important difference:
+<li>We either must prefix with "random."
+<code class="python">>>> import random
+>>> random.random() # will be between 0 and 1
+0.14444921034146263</code> 
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Random</h2>
+<ul>
+<li>We either must prefix with "random."
+<code class="python">>>> import random
+>>> random.random() # will be between 0 and 1
+0.14444921034146263</code> 
+<li>Or say "from random import *"
+<code class="python">>>> from random import *
+>>> random() # don't need prefix with 'from _ import *'
+>>> random() # don't need prefix with 'from _ import *'
+0.1254407334152583</code>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2><code class="python">import random</code></h2>
+<ul>
+<table>
+<tbody>
+<tr >
+<td
+style="text-align: left;"><code class="python">random.randint(minv, maxv)</code></td>
+<td style="text-align: left;">Returns an integer between minv and maxv,
+inclusive</td>
+</tr>
+<tr >
+<td
+style="text-align: left;"><code class="python">random.randrange(limit)</code></td>
+<td style="text-align: left;">Returns an integer from 0 up to but not
+including limit</td>
+</tr>
+<tr >
+<td
+style="text-align: left;"><code class="python">random.randrange(start,limit)</code></td>
+<td style="text-align: left;">Returns an integer from start up to but
+not including limit</td>
+</tr>
+<tr >
+<td style="text-align: left;"><code class="python">random.random()</code></td>
+<td style="text-align: left;">Returns a random float between 0 and
+1</td>
+</tr>
+<tr >
+<td
+style="text-align: left;"><code class="python">random.uniform(minv, maxv)</code></td>
+<td style="text-align: left;">Returns a random float between minv and
+maxv</td>
+</tr>
+<tr >
+<td
+style="text-align: left;"><code class="python">random.choice(str)</code></td>
+<td style="text-align: left;">Returns a random character from the string</td>
+</tr>
+<tr >
+<td
+style="text-align: left;"><code class="python">random.shuffle(str)</code></td>
+<td style="text-align: left;">Randomly reorders the collection of characters</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+<section>
+<h2>Random Examples</h2>
+<ul>
+<code class="python" style="max-height:1100px">import random
+from english import *
+
+def random_five_letter_word():
+    random.shuffle(ENGLISH_WORDS)
+    for word in ENGLISH_WORDS:
+        if len(word) == 5:
+            return word
+
+def random_no_repeated():
+    random.shuffle(ENGLISH_WORDS)
+    for word in ENGLISH_WORDS:
+        if not contains_repeated_letters(word):
+            return word</code>
+</section>
+
+<section>
+<h2>The Portable Graphics Library</h2>
+<ul>
+<li>In this class we use 'pgl.py' which is used in Wordle
+<li>Just want to introduce it for now
+<li>Can do:
+<code class="python">import pgl</code>
+<li>Operates on the idea of a collage or cork-board</li>
+</ul>
+<figure>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="181.22mm"
+   height="99.559mm"
+   version="1.1"
+   viewBox="0 0 181.22 99.559"
+   id="svg60"
+   sodipodi:docname="CorkBoard.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs64" />
+  <sodipodi:namedview
+     id="namedview62"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.9578758"
+     inkscape:cx="328.92792"
+     inkscape:cy="188.21419"
+     inkscape:window-width="2560"
+     inkscape:window-height="1413"
+     inkscape:window-x="1080"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g58" />
+  <metadata
+     id="metadata50">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-8.9528 -14.081)"
+     id="g58">
+    <rect
+       x="10.235"
+       y="15.363"
+       width="178.66"
+       height="96.994"
+       ry="3.352"
+       fill="#c8beb7"
+       stroke="#784421"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       stroke-width="2.565"
+       id="rect52" />
+    <rect
+       class="fragment fade-right"
+       x="53.589"
+       y="37.213"
+       width="101.09"
+       height="50.546"
+       ry="3.352"
+       fill="#0cf"
+       id="rect54" />
+    <ellipse
+       class="fragment fade-up"
+       cx="121.16"
+       cy="74.931"
+       rx="43.368"
+       ry="22.284"
+       fill="#2aff80"
+       id="ellipse56" />
+  </g>
+</svg>
+</figure>
+<ul>
+<li>Newer objects can obscure older objects.</li>
+</ul>
+</section>
+
+<section id="the-pieces" class="slide level2">
+<h2>The Pieces</h2>
+<ul>
+<li>At its simplest then, we have two main parts:
+<ul>
+<li>The window (or felt-board/cork-board)
+<ul>
+<li>Created with the function
+<code>gw = GWindow(400,400) # similar to: gw = WordleGWindow() </code>
+<li>Takes two arguments: a width and a height in pixels</li>
+</ul></li>
+<li>The contents
+<ul>
+<li>A wide assortment of shapes that can be added to the scene</li>
+<li>Control over where they are placed, how large they are, what color
+they are, etc</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Blue Rectangle!</h2>
+<pre style="font-size:larger">
+<code class="python" data-line-numbers="1|2|3|4|5|6">from pgl import *
+gw = GWindow(500, 200) # like WordleGWindow
+rect = GRect(150,50,0,0) #  answer = "blimp"
+rect.set_color("Blue") # answer.upper()
+rect.set_filled(True) 
+gw.add(rect) # like word_to_row(answer)</code></pre>
+</section>
+
+
+<section>
+<h2>The Coordinate System</h2>
+<figure>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="390.46mm" height="146.14mm" version="1.1" viewBox="0 0 390.46 146.14" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <marker id="marker1717" overflow="visible" orient="auto">
+   <path transform="scale(.8)" d="m0 5.65v-11.3" fill="#008080" fill-rule="evenodd" stroke="#008080" stroke-width="1pt"/>
+  </marker>
+  <marker id="StopL" overflow="visible" orient="auto">
+   <path transform="scale(.8)" d="m0 5.65v-11.3" fill="#008080" fill-rule="evenodd" stroke="#008080" stroke-width="1pt"/>
+  </marker>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-14.342 -8.9911)">
+  <image x="64.843" y="18.88" width="339.96" height="136.25" stroke-width=".39225" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAADKCAYAAABJ7VJtAAAABHNCSVQICAgIfAhkiAAAA3hJREFU eJzt11FxQkEURMH7UoghgsAKkYAWDEXOxgTUwkm3gvk7Ncf5clszM7+P+wAAn+37+jMzM1+bdwAA LyDwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQ JPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk 8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTw ABAk8AAQJPAAECTwABAk8AAQJPAAEHTaPYC249i9AN7bWrsXUOXBA0CQwANAkMADQJDAA0CQwANA kMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQ wANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDA A0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMAD QJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANA kMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQ wANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDA A0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0DQafcA2tbavQDgf/LgASBI4AEg SOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI 4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjg ASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOAB IEjgASBI4AEgSOABIOg4X25r9wgA4Lk8eAAI+gMgAAx7yl/0WgAAAABJRU5ErkJggg== "/>
+  <g>
+   <rect x="64.843" y="8.9911" width="339.96" height="9.8886" ry=".86466" fill="#285577"/>
+   <text x="206.63153" y="15.925928" fill="#ffffff" font-family="sans-serif" font-size="7.5986px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="206.63153" y="15.925928" fill="#ffffff" stroke-width=".26458">blue_rectangle</tspan></text>
+   <circle cx="65.636" cy="18.866" r="3.3161" fill="#f60"/>
+   <text x="12.586732" y="25.491901" fill="#ff6600" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="12.586732" y="25.491901" fill="#ff6600" stroke-width=".26458">(0,0)</tspan></text>
+  </g>
+  <g fill="#008080">
+   <circle cx="167.29" cy="52.578" r="3.3161"/>
+   <text x="76.350014" y="59.203312" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="76.350014" y="59.203312" fill="#008080" stroke-width=".26458">(150,50)</tspan></text>
+   <path d="m167.68 126.82h134.9" marker-end="url(#StopL)" marker-start="url(#StopL)" stroke="#008080" stroke-width="1.119"/>
+   <path d="m311.2 121.13v-68.122" marker-end="url(#marker1717)" marker-start="url(#marker1717)" stroke="#008080" stroke-width="1.119"/>
+   <text x="199.44638" y="145.48874" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="199.44638" y="145.48874" fill="#008080" stroke-width=".26458">200 px</tspan></text>
+   <text x="313.77524" y="92.521362" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="313.77524" y="92.521362" fill="#008080" stroke-width=".26458">100 px</tspan></text>
+  </g>
+ </g>
+</svg>
+</figure>
+<ul>
+<li>Positions and distances on the screen are measured in terms of
+pixels</li>
+<ul>
+<li>Origin is in the upper left instead of lower left</li>
+<li>Vertical values increase as you move downwards</li>
+</ul></li>
+</ul>
+</section>
+
+<section >
+<h2>Other Simple Objects</h2>
+<p>Functions to create simple geometric objects: <br></p>
+<ul>
+<li>Rectangles/Squares + Circles/Ovals!
+<ul>
+<li><code class="python">GRect( x, y, width, height )</code></li>
+<li><code class="python">GOval( x, y, width, height )</code></li>
+<li>Creates a rectangle whose upper left corner is at (x,y) of the
+specified size</li>
+</ul></li>
+<li>Lines!
+<ul>
+<li><code class="python">GLine( x1, y1, x2, y2 )</code></li>
+<li>Creates a line extending from (x1,y1) to (x2,y2)</li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2>For Wordle</h2>
+<ul><li>Lower numbered rows are above higher numbered rows.
+<li>Lower numbered columns are leftward of higher numbered columns.<br><br>
+<table>
+<tr><td style="border:solid">(0,0)</td><td style="border:solid">(0,1)</td><td style="border:solid">(0,2)</td><td style="border:solid">(0,3)</td><td style="border:solid">(0,4)</td></tr>
+<tr><td style="border:solid">(1,0)</td><td style="border:solid">(1,1)</td><td style="border:solid">(1,2)</td><td style="border:solid">(1,3)</td><td style="border:solid">(1,4)</td></tr>
+<tr><td style="border:solid">(2,0)</td><td style="border:solid">(2,1)</td><td style="border:solid">(2,2)</td><td style="border:solid">(2,3)</td><td style="border:solid">(2,4)</td></tr>
+<tr><td style="border:solid">(3,0)</td><td style="border:solid">(3,1)</td><td style="border:solid">(3,2)</td><td style="border:solid">(3,3)</td><td style="border:solid">(3,4)</td></tr>
+<tr><td style="border:solid">(4,0)</td><td style="border:solid">(4,1)</td><td style="border:solid">(4,2)</td><td style="border:solid">(4,3)</td><td style="border:solid">(4,4)</td></tr>
+<tr><td style="border:solid">(5,0)</td><td style="border:solid">(5,1)</td><td style="border:solid">(5,2)</td><td style="border:solid">(5,3)</td><td style="border:solid">(5,4)</td></tr>
+</table>
+<li><code class="python">gw.set_square_letter(1, 3, '$') # example</code>
+<table>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid">$</td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+</table>
+</section>
+
+<section>
+<h2>Redact</h2>
+<ul><li>Suppose you want to take two strings, and one is secret (sh!)
+<li>Examine them to see if they have the same letters at the same position, and
+<li>"Redact" the letters that are the same in each word.
+<code class="python">def redact(word, secret):
+    for i in range(len(word)):
+        if word[i] == secret[i]:
+            word = word[:i] + '*' + word[i+1:]
+            DEBUG and print('Redact '+secret[i]+' at '+str(i))
+    return word</code>
+    </section>
+    
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</ul>
+</section>
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

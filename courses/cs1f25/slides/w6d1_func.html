@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Functions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Functions</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W6Mon: 30 Sep<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By tonight <b>11:59 PM</b>: "Project 1: Wordle"
+<ul>
+<li>My late policy is "no".
+<li>Sunday PM: ~40% have submitted no work.
+<ul><li>We had work time in every class period last week!</ul>
+<li>QUAD Center open 6 PM to 9 PM (and there are more of them than me).
+</ul>
+<li>Midterm on Friday.
+<ul><li>Practice Exams posted</li>
+<li>The next two days should be helpful on particularly questions 2-4.
+<li>There is a practice exam on Canvas where the exam will be hosted.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Function "Review"
+</section>
+
+</section>
+<section>
+<h2>Function "Review"</h2>
+<ul>
+<li>A <em>function</em> is a named code block.
+<ul>
+<li>Prevents typos</li>
+<li>Organizes thinking</li>
+</ul></li>
+<li>Some reminders about vocabulary:
+<ul>
+<li>Invoking or running a function by name is known as
+<strong>calling</strong> that function.</li>
+<li>When calling a function, pass information to a function using
+<strong>arguments</strong> or parameters.</li>
+<li>When a function completes its block of code, it
+<strong>returns</strong> to its caller.</li>
+<li>The function gives information back to the caller by
+<strong>returning a result</strong></li>
+</ul></li>
+<li>About use:
+<ul><li>Functions cannot be used before they are defined.
+<li>Code after a return is never runned (the function "ends" at return)
+</section>
+
+<section>
+<h2>"Messy" or "Dangerous" returns</h2>
+<ul>
+<li>If code works, it works.</li>
+<li>But clear thinking will serve you life/school etc.
+<li>Work directly with the boolean values when possible</li>
+<li>Try not to code patterns like the following:
+<code class="python">def is_divisible_by(x, y):
+  if x % y == 0: # just return here instead of 'if'
+      return True
+  else:
+      return False</code>
+<li>Generally speaking, we don't need to write out "True"
+<code class="python">if is_divisible_by(i,7) == True: # remove '== True'
+      print(i)</code></li>
+</ul>
+</section>
+<section>
+<h2>Argument/Parameter Purposes</h2>
+<ul>
+<li>Often functions should work in more than one case.</li>
+<li>E.g. "What is the longest no-repeat word in a certain language (not just English).
+<ul>
+<li>Imagine you were trying to accomplish the task yourself!</li>
+<li>What is the minimum amount of information you would need to
+know?</li>
+</ul></li>
+<li>There is always a balance
+<ul>
+<li>More parameters makes your function more general, to be used
+elsewhere</li>
+<li>More parameters are tedious and potentially error prone to enter if
+unnecessary</li>
+</ul></li>
+</ul>
+</section>
+
+<!--
+<section>
+<h2>Jockeying for Position</h2>
+<ul>
+<li>So far we have used a positional way to assign arguments to
+parameters
+<code class="python">>>> def func( first, second, third ):
+        print( first, second, third )
+>>> func(1,2,3)
+1 2 3
+>>> func(2,6,4)
+2 6 4</code>
+<ul>
+<li>First argument to first parameter, second to second parameter,
+etc</li>
+</ul></li>
+</ul>
+</section>
+
+
+<section id="the-word-is-key" class="slide level2">
+<h2>The Word is Key</h2>
+<ul>
+<li>Arguments may also be specified by a <em>keyword</em>, in which
+the caller precedes the argument with a parameter name and equals
+sign</li>
+<li>Always stores the argument value in the specified parameter
+<code class="python">>>> def func( first, second, third ):
+       print( first, second, third )
+>>> func(third=4, first=2, second=6)
+2 6 4</code></li>
+<li>Keyword arguments can appear in any order</li>
+<li><strong>All keyword arguments must come after any positional
+arguments!</strong></li>
+</ul>
+</section>
+<section id="default-slide-title" class="slide level2">
+<h2>Default Slide Title</h2>
+<ul>
+<li>Python allows you to specify a default value for a parameter,
+which is will use if one is not directly supplied</li>
+<li>Do so by adding an equals sign and a value after the parameter
+name
+<code class="python">def introduction(name='Jed', age=37):
+  print(f'My name is {name} and I am {age}')</code>
+<ul>
+<li>So you define default values when you define the function</li>
+</ul></li>
+<li>If providing any arguments after a default parameter, you must
+indicate them through keywords</li>
+</ul>
+</section>
+<section id="default-example" class="slide level2">
+<h2>Default Example</h2>
+<code class="python-repl" style="max-height: 800px">>>> introduction()
+My name is Jed and I am 37
+>>> introduction('Bob', 25)
+My name is Bob and I am 25
+>>> introduction('Larry')
+My name is Larry and I am 37
+>>> introduction(age=68)
+My name is Jed and I am 68</code>
+</section>-->
+
+
+<section>
+<h2>Embiggen</h2>
+<ul>
+<li>Functions can contain their own variables.
+<li>Whenever Python enters a new function, variables used within that function cease to exist when the function returns/ends.
+<code class="python">>>> x = 1
+>>> def embiggen():
+...     x = 2
+...     x = x + 2
+...     return
+...
+>>> x
+1
+>>> embiggen()
+>>> x
+1</code>
+<li>"Embiggen's x" and "my x" are different x's, and things in "embiggen" do not affect "my x"
+</ul>
+</section>
+
+
+<section>
+<h2>Taking a Walk through Vegas</h2>
+<ul>
+<code class="python">def Vegas(x): # what happens in Vegas etc etc
+    y = 2
+    for i in range(3):
+        DEBUG and print("Vegas: i = ",i,"| x = ",x,"| y = ",y)
+        x += y
+    return x
+</code>
+<li>We can test it:
+<code class="python">>>> DEBUG = True
+>>> x = 3
+>>> z = Vegas(x)
+Vegas: i =  0 | x =  3 | y =  2
+Vegas: i =  1 | x =  5 | y =  2
+Vegas: i =  2 | x =  7 | y =  2
+>>> print("Mine: x = ", x, "| z = ", z)
+Mine: x =  3 | z =  9</code>
+</section>
+<section>
+<h2>Summary of a Function Call</h2>
+<ul>
+<li >Evaluate the arguments in the context of the
+caller</li>
+<code class="python">print(2 + 2) # same as print(4)</code>
+</section>
+
+
+<section>
+<h2>Summary of a Function Call</h2>
+<ul>
+<li >Evaluate the arguments in the context of the
+caller</li>
+<code class="python">print(2 + 2) # same as print(4)</code>
+<li >Copy argument to the corresponding
+parameter variable</li>
+<code class="python">def double_print(str):
+    print(2 * str)
+
+double_print("mur") # same as print(2 * "mur")</code>
+</section>
+
+
+
+<section>
+<h2>Summary of a Function Call</h2>
+<ul>
+<li >Evaluate the arguments in the context of the
+caller
+<code class="python">print(2 + 2) # same as print(4)</code>
+<li >Copy argument to the corresponding
+parameter variable
+<code class="python">double_print("mur") # same as print(2 * "mur")</code>
+<li >Evaluate statements in the function body, using
+the variables named within the function.
+
+<code class="python">def print_n_times(x, str):
+    # n is 2, not 3, because "my n" and "double print n" differ
+    print(x * str)
+
+n = 3
+print_n_times(2, "mur") # same as print(2 * "mur")</code>
+</section>
+
+
+
+<section>
+<h2>Summary of a Function Call</h2>
+<ul>
+<li >Evaluate the arguments in the context of the
+caller
+<code class="python">print(2 + 2) # same as print(4)</code>
+<li >Copy argument to the corresponding
+parameter variable
+<code class="python">double_print("mur") # same as print(2 * "mur")</code>
+<li >Evaluate statements in the function body, using
+the variables named within the function.
+
+<code class="python">n = 3
+print_n_times(2, "mur") # same as print(2 * "mur")</code>
+<li >On 'return', compute the return value and
+substitute that value in place of the function call
+<code class="python">def repeat_n_times(x, str):
+    return x * str
+
+s = repeat_n_times(2, "mur") # same as s = 2 * 'mur'
+print(s) # prints "murmur"</code>
+</section>
+
+<section >
+<h2>Scope</h2>
+<ul>
+<li>When Python encounters a variable name in a program, it looks for
+where the variable was defined in an expanding search:
+<ul>
+<li><strong>Local</strong> - Parameters/arguments or other variables within some function. Like letters within "enter_action".
+<li><strong>Enclosing</strong> - Names inside a a calling function - like 'gw' within "enter_action"</li>
+<li><strong>Global</strong> - Things outside of any function, perhaps imported, like 'ENGLISH_WORDS' </li>
+<li><strong>Built-in</strong> - Things always defined everywhere, like "print"
+etc.</li>
+</ul></li>
+<li>The part of a program in which a name is defined in called its
+<em>scope</em></li>
+<li>Always define a function or variable before you use it.
+</section>
+
+
+<section >
+<h2>Scope</h2>
+<ul>
+<li>Functions are just a special kind of variable.
+<code style="max-height: 800px" class="python">def no_duplicates(word:str) -> bool:
+    for i in range(len(word)):
+        if word[i] in word[:i]:
+            return False
+    return True
+    
+def no_vowels(word:str) -> bool:
+    for letter in word:
+        if letter in "aeiou":
+            return False
+    return True
+    
+def longest_which_funcs(func) -> str:
+    candidate = ""
+    for word in ENGLISH_WORDS:
+        if len(word) > candidate and func(word):
+            candidate = word
+    return candidate</code>
+</section>
+
+
+
+
+<section >
+<h2>Scope</h2>
+<ul>
+<li>Functions are just a special kind of variable.
+<code style="max-height: 800px" class="python">>>> no_duplicates("aorta")
+False
+>>> no_vowels("why")
+True
+>>> longest_which_funcs(no_duplicates)
+'ambidextrously'
+>>> longest_which_funcs(no_vowels)
+'glycyls'</code>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By tonight <b>11:59 PM</b>: "Project 1: Wordle"
+<ul>
+<li>Sunday PM: ~40% have submitted no work.
+<ul><li>We had work time in every class period last week!</ul>
+<li>QUAD Center open 6 PM to 9 PM (and there are more of them than me).
+</ul>
+<li>Midterm on Friday.
+<ul><li>Practice Exams posted.</li>
+<li>The next two days should be helpful on particularly questions 2-4.
+<li>There is a practice exam on Canvas where the exam will be hosted.
+<li>More on Wednesday.
+</section>
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

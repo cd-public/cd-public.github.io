@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Strings 0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Strings 0</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W4Mon: 16 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<ul><li>If you haven't finished this yet just turn in what you have.</ul>
+<li>One Python problem using arithmetic and (probably) "for"
+<ul><li>It uses 'print' and 'return' and those two things aren't the same!</ul>
+<li>One writing problem.
+</ul>
+<li>By <em>next</em> <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<ul><li>It is about <em>strings</em>
+<li>Start <em>now</em>.
+<li>We want to get ahead of the clock on problem sets since there's a project soon.
+</ul>
+</section>
+
+<section>
+<h2>Work Day</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<code style="max-height:1000px" class="python">def divisors(n):
+    count = 0
+    for x in range(2,n):
+        if n % x == 0:
+            print(x)
+            count = count + 1
+    return count</code>
+<li>One writing problem.
+</ul>
+<li>By <em>next</em> <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<code style="max-height:1000px" class="python">def n_spaces_before(n,s):
+    print(n * ' ', s) # test - that is 'n times space plus s'</code>
+</ul>
+
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

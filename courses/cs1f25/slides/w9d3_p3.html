@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>P3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">P3</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W9Fri: 25 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Problem Set 5 for Monday.
+<li>Project 3, which is PS5 is sorta part of, out today (I hope).
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Writing files
+<li>Reading files
+<li>P5: ImageShop
+</section>
+
+<section>
+<h2>File Write</h2>
+<ul><li>Say I want to send a picture of my cat to someone with PGL.
+<li>I use PGL to make a text file and send the text file.
+<li>This is impractical but the best I can do on short notice.
+<li>The following is how <a href="https://www.w3schools.com/python/python_file_write.asp">W3Schools</a> recommends writing a text file:
+<code class="python">f = open("demofile3.txt", "w")
+f.write("Woops! I have deleted the content!")
+f.close()
+
+#open and read the file after the overwriting:
+f = open("demofile3.txt", "r")
+print(f.read()) </code>
+</section>
+
+<section>
+<h2>File Write</h2>
+<ul><li>Test it.
+<code class="python">>>> f = open("demofile3.txt", "w")
+>>> f.write("Woops! I have deleted the content!")
+34
+>>> f.close()
+>>>
+>>> #open and read the file after the overwriting:
+>>> f = open("demofile3.txt", "r")
+>>> print(f.read())
+Woops! I have deleted the content!
+>>></code>
+<li>The "30" is the number of letters written.
+<li>The "Whoops" is due to the fact this will delete any pre-existing content in the file.
+<ul><li>Generally we want this - we write to a file, check if we like it, change the code, want to start over.
+</section>
+
+
+<section>
+<h2>File Write</h2>
+<ul><li>We'll open a file. We provide a filename and an opening type - "w" is for writing.
+<code class="python">f = open("cat.txt", "w")</code>
+<li>Then we change all the "print" statements to 'f.write'
+<code class="python">for row in pixels[::10]:
+    # was 20, now 10
+    row_list = [pixel_to_letter(pixel) for pixel in row[::20]]
+    s = "".join(row_list)
+    f.write(s)</code>
+<li>This will do one annoying: print adds a newline, write does not.
+<li>This will write every '.' and '0' in the same row!
+</section>
+
+
+<section>
+<h2>File Write</h2>
+<ul><li>Add a '\n' to the end of each row.
+<code class="python">f = open("cat.txt", "w")</code>
+<li>Then we change all the "print" statements to 'f.write'
+<code class="python">for row in pixels[::20]:
+    row_list = [pixel_to_letter(pixel) for pixel in row[::10]]
+    s = "".join(row_list)
+    f.write(s + '\n') # adding an "enter" </code>
+<li><a href="imgs/cat.txt">Let's look at it!</a>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Writing files
+<li>Reading files
+<li>P5: ImageShop
+</section>
+
+<section>
+<h2>File Read</h2>
+<ul><li>Add a '\n' to the end of each row.
+<code class="python">>>> f = open("cat.txt","r")
+>>> f
+&lt;_io.TextIOWrapper name='cat.txt' mode='r' encoding='cp1252'&gt;
+>>> type(f)
+&lt;class '_io.TextIOWrapper'&gt;
+>>> s = f.read()
+>>> type(s)
+&lt;class 'str'&gt;
+>>> s</code>
+<li>s will show the characters in a row, with newline/enter characters '\n'.
+<li>print(s) will show the file.
+</section>
+
+
+<section>
+<h2>Files</h2>
+<ul><li>Usually text (.txt) files.
+<li>Next most common: common-separated values (.csv) files.
+<ul><li>Super common in data science.
+</ul>
+<li>Always do
+<code class="python">f = open(filename,mode)</code>
+<li>Filename is a string with the name of the file, like "cat.txt".
+<li>Mode is usually either "w" (write) or "r" (read)
+<li>s will show the characters in a row, with newline/enter characters '\n'.
+<li>print(s) will show the file.
+</section>
+
+
+<section>
+<h2>Files</h2>
+<ul>
+<li>Usually we write with f.write()
+<code class="python">f = open(filename,"w")
+f.write(some_text)</code>
+<li>We usually read with f.read()
+<code class="python">f = open(filename,"r")
+some_text = f.read()</code>
+<li>Generally files, especially text (.txt) files, are basically just a string with extra steps.
+<li>We'll deal with files in P5.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Writing files
+<li>&check; Reading files
+<li>P5: ImageShop
+</section>
+
+
+<section>
+<h2>Choosing Wisely</h2>
+<ul>
+<li>The Python package used to implement
+'pgl.py' also supports a mechanism to choose
+files interactively, made available through the
+'filechooser.py' library module.</li>
+<li>'filechooser.py' exports two
+functions:
+<ul>
+<li>'choose_input_file' for selecting a
+file</li>
+<li>'choose_output_file' for selecting a
+folder and filename to save a file to</li>
+</ul></li>
+<li>Both open up a file dialog that lets you select/choose a file
+<ul>
+<li>Clicking Open or Save returns the full pathname of the file</li>
+<li>Clicking Cancel returns an empty string</li>
+</ul></li>
+<li>Using it thus looks something like:
+<code class="python">filename = choose_input_file()
+s = open(filename).read()</code></li>
+</ul>
+</section>
+
+<section>
+<h2>Introducing ImageShop</h2><table><td style="vertical-align:top;width:50%">
+<ul>
+<li>While you have a PS due on Monday, the next project will be due the
+week after afterwards</li>
+<li>Taking a moment today to introduce Imageshop, and the guide will be
+posted by tomorrow</li>
+</td><td style="width:50%">
+<img src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/project3.png"></table>
+</section>
+
+<section>
+<h2>Introducing ImageShop</h2><table><td style="width:50%">
+<img src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/StartScreen.png"></td><td style="vertical-align:top;width:50%">
+<ul>
+<li>ImageShop initially has only two buttons
+<ul>
+<li>“Load” will bring up a file selection box where you can chose what
+image to display
+<ul>
+<li>Internally, this is handled by a function that returns the chosen
+file path</li>
+</ul></li>
+<li>“Flip Vertical” is the example feature button that flips an image
+vertically</li>
+</ul>
+</td></table>
+</section>
+
+
+<section>
+<h2>Big Picture</h2>
+<ul>
+<li>For each milestone:
+<ul>
+<li>Adding a new button</li>
+<li>Write code to alter an image.
+<li>Write a function that updates the image in the GWIndow via a GImage</li>
+</ul></li>
+<li>You are always free to write whatever other helper functions you
+might like!</li>
+<li>ImageShop is the first project to start leveraging multi-file
+layouts:
+<ul>
+<li>We provide
+'GrayscaleImage.py' which you should import and use.</li>
+<li>Write and import Milestone 5 in a different file (probably)</li>
+<li>I’ve <strong><em>seen</em></strong> you struggle to find individual lines of code.</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>GButtons</h2>
+<ul>
+<li>We provide a'GButton'</li>
+<li>Each 'GButton' needs a label and a corresponding function.</li>
+<li>We provide an 'add_button' function to take care of all the tedium.
+<ul>
+<li>You’ll just need to provide it a label and function name.</li>
+</ul>
+<code class="python">def add_button(label, action):</code></li>
+</ul>
+</section>
+
+<section>
+<h2>The Current Image</h2>
+<ul>
+<li>'gw.current_image' always contains the currently displayed GImage</li>
+<li>This is like 'gw.ball' but we provide it.</li>
+<li>Use 'set_image' to update 'gw.current_image'</li>
+</ul>
+</section>
+<section>
+<h2>Milestone 1</h2>
+<ul>
+<li>Milestone 1 has you adding a “Flip Horizontal” button
+<ul>
+<li>Add the button</li>
+<li>Add the action callback function</li>
+<li>Write a function to manipulate the pixels to flip the image
+horizontally</li>
+</ul></li>
+<li>Slightly more complicated than the example function, but not
+much</li>
+</ul>
+</section>
+<section>
+<h2>Milestone 2</h2>
+<ul>
+<li>Here you will add buttons to rotate the image left or right (or CW
+or CCW if you prefer)</li>
+<li>Most of the difficulty comes in keeping track of of rows and columns
+<ul>
+<li>Need to create a new list of lists of the correct dimensions</li>
+<li>Need to copy over the pixels from the original to the needed
+location in the new list</ul></ul>
+<img src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/images/svg_cache/f19b6bf1ed4f5e6e4e45c93d2d53ecf861f4ec4d.svg"
+style="width:80.0%" />
+</section>
+<section >
+<h2>Milestone 3</h2>
+<ul>
+<li>Here you’ll add a button to convert an image to grayscale</li>
+<li>Use 'grayscale.py'</li>
+</ul>
+</section>
+<section >
+<h2>Milestone 4</h2>
+<ul>
+<li>Implement <a href="https://en.wikipedia.org/wiki/Chroma_key">green screen</a> effect!</li>
+<li>When clicked, use 
+filechooser.py functions to request <em>another</em> image
+<ul>
+<li>This is overlay/foreground image.</li>
+</ul></li>
+<li>Basically, either copy from the background or the foreground image based on foreground color</li>
+<ul>
+<li>If green enough, you will copy the pixel from the
+<em>background</em> image to your pixel array</li>
+<li>If not green enough, you will copy the pixel from the
+<em>foreground</em> image to your pixel array</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<h2>Milestone 5</h2>
+<ul>
+<li>Increase contrast in images to make them easier to see.</li>
+<li>This is the hard one one, like Wordle colors.
+<li>I'd grab Prob1.py from PS5 and start working in there, then import.
+<ul>
+<li>Compute all the pixel luminosities (just check instructions)</li>
+<li>Construct a histogram of these luminosity counts (you know this)
+<ul>
+<li>Your histogram should have 256 elements, one for each possible
+luminosity</li>
+</ul></li>
+<li>Construct a cumulative histogram using your histogram (just check instructions)</li>
+<li>Use the cumulative histogram to adjust the luminosity of each pixel
+in the pixel array (just check instructions)</li>
+</ul></li>
+<li>You don’t need to display the visual histograms! That's just for you.
+<ul>
+</ul></li>
+</ul>
+</section>
+
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Let's look at images.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

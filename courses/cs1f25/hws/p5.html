@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Project 5: Adventure</title>
+		<style>
+        body {
+            font-size: 1.5em ;
+        }
+		.page {
+			width: 11.5in ;
+			margin: auto ;
+		}
+		.page_outer {
+			width: 11in;
+			box-shadow: -.1in -.1in .25in darkgray, .1in .1in .25in gray;
+			position: relative ;
+		}
+		.page_inner{
+			margin: 1in;  
+			margin-top: .5in;  
+		}
+        .details, .show, .hide:target {
+            display: none;
+        }
+        .hide:target + .show, .hide:target ~ .details {
+            display: block;
+        }
+		</style>
+		<style type="text/css" media="print">
+			.page {
+				width: 8.5in;
+				height: 11in;
+				margin: auto ;
+			}
+			.page_outer {
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner"><center>
+					<h1>Project 5: Adventure</h1>
+                    <h3>Due: Wednesday, 04 December, 11:59 PM</h3>
+                    <h3><em>Partners Allowed</em></h3>
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/jxByB0rh">https://classroom.github.com/a/jxByB0rh</a>
+                    <p><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_Adventure/">Prof. Jed Rembold's alternate instructions</a>
+                    </center>
+                    <div>
+                    <hr>
+                        <a id="hidea" href="#hidea" class="hide"><h3>A. Partners Allowed [Show]</h3></a>
+                        <a id="showa" href="#showa" class="show"><h3>A. Partners Allowed [Hide]</h3></a>
+                        <div class="details">
+                            <h4>If you partner with a student in a Prof. Jed Rembold section, ensure you both use the same link. You can find the Prof. Jed Rembold classroom link <a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_Adventure/">here</a>.</h4>
+                            <p>Because large projects like this one typically involve more than one programmer, you are encouraged to work on this project in teams of two, although you are free to work individually as well. Each person in a two-person team will receive the same grade.
+                            <p>To allow for the possibility of partners, everyone will need to make a team when accepting the assignment, even if you are just going to be working on things solo. Once one partner has made the team, the other can join it. If you accidentally join a team you did not mean to, let Professor Rembold know, and they can see about getting you removed so that you can join another. Only join an existing team if you intend to work with that person! It can help if you name your teams based on the expected team member’s names.
+                            <p>While most pairs will likely want to work on the code together, in person, there are good resources at your disposal that can help should you would want to work more remotely. If you work in a pair, you will both have access to a shared repository on GitHub. This means that, as long as you are good about uploading your files, each person can usually work on the latest version of the code without too much issue. 
+                            <p>There are some built in ways within VSCode that you can sync your local files with GitHub files as well. VSCode also has a remote sharing extension, which can essentially give you collaborative control over your code, similar to Google docs. The extension is called “Live Share” if you want to search for it within the VSCode extensions.
+                            <p><strong>In general, you should check in code frequently when working with partners.</strong>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hideb" href="#hideb" class="hide"><h3>B. Files [Show]</h3></a>
+                        <a id="showb" href="#showb" class="show"><h3>B. Files [Hide]</h3></a>
+                        <div class="details">
+                            <p>I think of this project as having three kinds of files - Adventure Python (.py) files, Teaching Machine Python (.py) files, and text (.txt) files.
+                            <hr>
+                            <h2>Files:</h2>
+                            <ul>
+                                <li>Adventure Python (.py) files - <em>Do your work in these files</em>
+                                <ul>
+                                    <li><code>Adventure.py</code> - <em>Run this file to test your program</em></li>
+                                    <li><code>AdvGame.py</code></li>
+                                    <li><code>AdvRoom.py</code></li>
+                                    <li><code>AdvItem.py</code></li>
+                                    <li><code>tokenscanner.py</code> - <em>An optional helpful file</em></li>
+                                </ul>
+                                <li>Teaching Machine Python (.py) files - <em>These are in the TeachingMachine folder</em>
+                                <ul>
+                                    <li><code>TeachingMachine.py</code></li>
+                                    <li><code>TMCourse.py</code></li>
+                                    <li><code>TMQuestion.py</code></li>
+                                </ul>
+                                <li>Text (.txt) files
+                                <ul>
+                                    <li>Various, discussed within milestones as needed.
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div>
+                        <a id="hide0" href="#hide0" class="hide"><h3>0. TM -> Adv [Show]</h3></a>
+                        <a id="show0" href="#show0" class="show"><h3>0. TM -> Adv [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Modify TMCourse and TMQuestion to make AdvGame and AdvRoom</blockquote>
+                            <p>Of the initial 4 Python files for Adventure, most of the work is incomplete. For this milestone, you will make changes to <code>AdvGame.py</code> and <code>AdvRoom.py</code>.
+                            <p>The code provide for the Teaching Machine is complete and can be used as a template. To get started on Adventure, I recommend doing the following:
+                            <ol>
+                                <li>Within <code>TMCourse.py</code> and <code>TMQuestion.py</code>:
+                                <ul>
+                                    <li>Convert all mentions of "TM" to "Adv"
+                                    <li>I replaced both Capitalized and lowercase terms for:
+                                    <ul>
+                                        <li>"course" to "game"
+                                        <li>"question" to "room"
+                                    </ul>
+                                    <li>Convert all mentions of "answer" to "passage".
+                                    <li>Convert all mentions of "text" to "long_description".
+                                    <li>I use "ctrl+h" or "cmd+h" to find and replace these mentions.
+                                </ul>
+                                <li>I moved the following methods and functions directly from the TM files to the Adv files
+                                <ul>
+                                    <li>From <code>TMCourse</code> to <code>AdvGame</code>:
+                                    <ul>
+                                        <li><code>run</code>
+                                    </ul>
+                                    <li>From <code>TMQuestion</code> to <code>AdvRoom</code>:
+                                    <ul>
+                                        <li><code>get_name</code>
+                                        <li><code>get_passages</code>
+                                        <li><code>read_room</code>
+                                    </ul>
+                                </ul>
+                                <li>For <code>AdvRoom</code>, I updated the code to support short descriptions:
+                                <ul>
+                                    <li>I updated <code>__init__</code> to set <code>self._short_description</code>
+                                    <li>I wrote the getter methods for <code>short_description</code>
+                                    <li>I modified the <code>read_room</code> function at the bottom of <code>AdvRoom</code> to provide the argument <code>text</code> twice - once as a short description and once as a long description - so that the <code>__init__</code> method would have the correct number of arguments.
+                                    <ul>
+                                        <li>We will deal with short and long descriptions in the next milestone.
+                                    </ul>
+                                </ul>
+                                <li>I added <code>read_room</code> to the import statement at the beginning of the file with <code>AdvGame</code> - initially the import statement only imports <code>AdvRoom</code>.
+                                <ul>
+                                    <li>The Teaching Machine imported first <code>read_course</code> and now <code>read_room</code>, and we will need to use <code>read_room</code>.
+                                </ul>
+                                <li>I took the code from the <code>TMCourse</code> file function <code>read_game</code> (formerly "read course") and placed it within in the <code>__init__</code> method of <code>AdvGame</code>.
+                                <ul>
+                                    <li>I had to increase the identation level by one.
+                                    <li>I had to remove the return statement.
+                                    <li>In lieu of the return statement, I:
+                                    <ul>
+                                        <li>Created a new attribute, <code>self._rooms</code>
+                                        <li>Set it equal to dictionary <code>rooms</code>
+                                        <li>Updated the <code>get_room</code> getter method.
+                                    </ul>
+                                </ul>
+                                <li>I modified the <code>__init__</code> method to work with a string that is a prefix to a file name, rather than with a Python file object:
+                                <ul>
+                                    <li>In Teaching Machine, a file is opened in <code>TeachingMachine.py</code> and <code>read_course</code> is called with this file as an argument - this is the <code>f</code> referred to in the code, such as in the following line:
+                                    <hr><code>room = read_room(f)</code><hr>
+                                    <li>In <code>Adventure.py</code>, no such file is opened and instead <code>AdvGame</code> is given a <code>DATA_FILE_PREFIX</code> which is initially set to <code>"Tiny"</code>
+                                    <hr><code>DATA_FILE_PREFIX = "Tiny"</code><hr>
+                                    <li>This prefix is sole argument to the <code>AdvGame.__init__</code> method, shown here:
+                                    <hr><code>game = AdvGame(DATA_FILE_PREFIX)</code><hr>
+                                    <li>So, I took the following code from <code>TeachingMachine.py</code>:
+                                    <hr><code>with open(filename + ".txt") as f:</code><hr>
+                                    <li>And modified it for AdvGame.
+                                    <ul>
+                                        <li>I changed <code>"filename"</code> to <code>"prefix"</code>
+                                        <li>I changed <code>".txt"</code> to <code>"Rooms.txt"</code>, the Adventure game specific suffix for rooms files
+                                        <li>I placed this <code>with</code> statement in the line immediately prior to <code>room = read_room(f)</code>, which I indented under this statement, and left other lines at their original indentation level.
+                                        <hr><pre><code>with open(prefix + "Rooms.txt") as f:
+    while not finished:
+        room = read_room(f)
+    if room is None:</code></pre><hr>
+                            <li>I ran <code>Adventure.py</code> and verified I was able to see text prompts.
+                            </ol>
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" as inputs, you are ready to move on to Milestone 1.
+                            <hr><pre><code>Outside building
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> west
+End of road
+You are at the end of a road at the top of a small hill.
+You can see a small building in the valley to the east.
+> east
+Outside building
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+></code></pre></hr>
+                        </div>
+                    </div>
+                    <hr>
+                        <div>
+                        <a id="hide1" href="#hide1" class="hide"><h3>1. <code>_short_desc</code> [Show]</h3></a>
+                        <a id="show1" href="#show1" class="show"><h3>1. <code>_short_desc</code> [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Track visits.</blockquote>
+                            <ol>
+                                <li>Update the <code>read_room</code> function in <code>AdvRoom.py</code> to handle descriptions.
+                                <ul>
+                                    <li>The short description is the zero-indexed element of the lists of strings called <code>text</code>.
+                                    <li>The long description is list slice of all strings after the zero-indexed string of the list of strings called <code>text</code>.
+                                    <li><code>short, long = text[0], text[1:]</code>
+                                </ul>
+                                <li>Update the <code>AdvRoom</code> class to have a visitation tracker.
+                                <ul>
+                                    <li>I created a <code>self.visited</code> attribute and initialized it to <code>False</code>
+                                </ul>
+                                <li>Update the <code>AdvGame.run</code> method to mark rooms as visited after visiting them.
+                                <ul>
+                                    <li>I set the room to be "visited" after printing its description.
+                                </ul>
+                                <li>Update the <code>AdvGame.run</code> method use short or long descriptions.
+                                <ul>
+                                    <li>Before printing a description, check if the room was visited.
+                                    <li>If so, print the short description.
+                                    <ul>
+                                        <li>Be advised, this may be a string instead of a list of strings depending, probably, on your code in <code>read_room</code>
+                                    </ul>
+                                    <li>If not, print the long description.
+                                    <ul>
+                                        <li>There is existing code to print the long description, which is a list of strings.
+                                        <li>You are welcome to find other ways to store the long description, most likely in <code>read_room</code>
+                                    </ul>
+                                    <li>I implement this all as a "print_text" method in <code>AdvRoom</code>, but you may do whatever you like!
+                                </ul>
+                            </ol>
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 2:
+                            <hr><pre><code>You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> west
+You are at the end of a road at the top of a small hill.
+You can see a small building in the valley to the east.
+> east
+Outside building
+></code></pre></hr>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide2" href="#hide2" class="hide"><h3>2. QUIT, HELP, and LOOK [Show]</h3></a>
+                        <a id="show2" href="#show2" class="show"><h3>2. QUIT, HELP, and LOOK [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Implementing the QUIT, HELP, and LOOK commands</blockquote>
+                            <p>So far, anything typed into Adventure corresponded to a passage which led to another room. For this milestone, we will check to see if the typed text is "QUIT", "HELP", or "LOOK" and print accordingly.
+                            <ul>
+                                <li>In response to "QUIT", run Python <code>quit()</code> which will cause Python to stop running.
+                                <li>In response to "HELP", run <code>print(HELP_TEXT)</code>
+                                <li>In response to "LOOK", print the long description of the current room.
+                            </ul>
+                            <p>The most obvious place I found to place this code was in <code>AdvGame.run</code>. I used an <code>if</code> statement to see if the <code>response</code> was a room or a command.
+                            <p>Because the description of a room is only printed when the room changes, I had to make a few changes to how <code>AdvGame.run</code> worked in general. Basically, check to see if the room has changed before before printing the room description.
+                            <p>I dealt with commands much the way I dealt with buttons in ImageShop - each named command had a corresponding function. I wrote these in <code>AdvGame</code>.
+                            <p>When you see following when running <code>Adventure.py</code> and providing first "west" then "east" then "west" as inputs, you are ready to move on to Milestone 3:
+                            <hr><pre><code>You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> west
+You are at the end of a road at the top of a small hill.
+You can see a small building in the valley to the east.
+> east
+Outside building
+> look
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> help
+Welcome to Adventure!
+Somewhere nearby is Colossal Cave, where others have found fortunes in
+&lt;many such lines of text&gt;
+want to end your adventure, say QUIT.
+> quit</code></pre>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide3" href="#hide3" class="hide"><h3>3. Items [Show]</h3></a>
+                        <a id="show3" href="#show3" class="show"><h3>3. Items [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 5 sub-milestones to help organize the assignment.</em>
+                            <em>For this milestone you will want to move from "Tiny" to "Small" prefix in Adventure.py: <code>DATA_FILE_PREFIX = "Small"</code></em>
+                            <blockquote>Implement items.</blockquote>
+                            <h4>3a: <code>read_item</code> in <code>AdvItem.py</code></h4>
+                            <p>Write the function <code>read_item</code> based on your code for <code>read_room</code>. I should note, I found this considerably easier than reading rooms. In all cases there is:
+                            <ul>
+                                <li>A line containing an item name in all caps
+                                <li>A line containing a item description
+                                <li>A line containing an initial location of the item that is either the name of a room or <code>"PLAYER"</code>
+                                <li>A blank line
+                            </ul>
+                            <p>My <code>read_item</code> either returned <code>None</code> after reading all items or an <code>AdvItem</code> object in the final line...
+                            <h4>3b: <code>AdvItem</code> class in <code>AdvItem.py</code></h4>
+                            <p>I implemented the following methods of the <code>AdvItem</code> class:
+                            <ul>
+                                <li><code>__init__</code>
+                                <li><code>__repr__</code>
+                            </ul>
+                            <p>You may also want to implement a getter method to find the initial location.
+                            <p>In <code>__repr__</code>, I simply returned the value of the description so that I was able to call <code>print()</code> on <code>AdvItem</code> instances directly, which I found easier than using a <code>AdvItem.get_description()</code> method and printing the returned string.
+                            <p>When you think your <code>AdvItem</code> methods and <code>read_object</code> function are ready, you can test them while adding objects to rooms.
+                            <h4>3c: <code>AdvRooms.items</code> attribute in <code>AdvRoom.py</code></h4>
+                            <p>I added a single attribute to the <code>AdvRoom</code> class to track what items are in a room.
+                            <p>I used a dictionary, where keys were the names and the values were the AdvItem objects.
+                            <hr><code>self.items = {}</code><hr>
+                            <p>You will need to be able to add, remove, and check for the presence of any item in a room, which naturally corresponds to three dictionary operations and three methods of the <code>AdvRoom</code> class.
+                            <h4>3d: Read items from the appropriate file within <code>AdvGame.__init__</code></h4>
+                            <p>I stored the items within the appropriate room. There is one special case, where the item is attached to the <code>PLAYER</code>, which we ignore for this milestone.
+                            <ul>
+                                <li>Open the items file:
+                                <hr><code>with open(prefix + "Items.txt") as f:</code><hr>
+                                <li>Read items for the file
+                                <ul>
+                                    <li>For each item, find the corresponding initial location.
+                                    <li>Add that item to the set of items within that location.
+                                </ul>
+                            </ul>
+                            <h4>3e: Print descriptions of items when entering rooms.</h4>
+                            <p>Update <code>AdvGame.run</code> to print all items in a room. This should be formatted as the string <code>"There is a"</code> followed by the description of the item (as a string) followed by the string <code>"here."</code>.
+                            <p>You are ready to move onto the next milestone when the set of keys is reported upon entering the relevant room, as seen below:
+                            <hr><pre><code>You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and   
+down a gully to the south.  A road runs up a small hill   
+to the west.
+> in
+You are inside a building, a well house for a large spring.
+The exit door is to the south.
+There is a set of keys here.
+> </code></pre>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide4" href="#hide4" class="hide"><h3>4. QUIT, HELP, and INVENTORY [Show]</h3></a>
+                        <a id="show4" href="#show4" class="show"><h3>4. QUIT, HELP, and INVENTORY [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Item Commands</blockquote>
+                            <p>You previously implemented "QUIT", "HELP", and "LOOK", likely as a series of statements calling helper functions, like "look_action". For this milestone, you will add three new commands: "TAKE", "DROP", and "INVENTORY".
+                            <h4>4a: Two-part commands</h4>
+                            <p>Each of "TAKE" and "DROP" are special commands that require an additional argument:
+                            <hr><pre><code>You are inside a building, a well house for a large spring.
+The exit door is to the south.
+There is a set of keys here.
+> take keys
+Taken.
+></code></pre><hr>
+                            <p>The easiest way I found to work with these multi-word commands was with the string method ".split" which works as follows:
+                            <hr><pre><code>>>> ex = "take keys"
+> ex.split()
+['take', 'keys']</code></pre><hr>
+                            <p>That is, by using the split method of a string, you will get a list of words. It also works on strings with no spaces, and simply returns a list of length one. I had a simple "if" statement to manage the case where there was an additional argument and I am dealing with a "TAKE" or "DROP".
+                            <h4>4b: AdvGame.inventory</h4>
+                            <p>In Milestone 2, we ignored the case of items that are held by the player. Add an attribute to AdvGame to keep track of the items the player is currently holding. I used a dictionary named <code>inv</code>, for "inventory".
+                            <p>You will need to update "read_item" to deal with the case where the initial location of an item is <code>"PLAYER"</code>.
+                            <h4>4c: TAKE <em>item</em></h4>
+                            <p>TAKE checks the current room to see if <em>item</em> is present. If so, the item is (1) removed from the room and (2) added to the inventory you created in 4b. If an item is taken, the game should acknowledge that by printing the text <code>"Taken"</code>.
+                            <h4>4d: DROP <em>item</em></h4>
+                            <p>DROP checks the current room to see if <em>item</em> is present. If so, the item is (1) removed from the room and (2) added to the inventory you created in 4b. If an item is taken, the game should acknowledge that by printing the text <code>"Dropped"</code>.
+                            <p>My code for "TAKE" and "DROP" was virtually identical, and it would be possible to write and helper function that does both, though not necessarily easier depending on your other design decisions.
+                            <h4>4e: INVENTORY</h4>
+                            <p>This command will list the items in the players inventory, which was implemented in 4b.
+                            <ul>
+                                <li>If there is nothing in inventory:
+                                <ul>
+                                    <li>Print <code>"You are empty-handed."</code>
+                                </ul>
+                                <li>If there is at least one item in the inventory:
+                                <ul>
+                                    <li>Print <code>"You are carrying:</code> on one line.
+                                    <li>For each item, print one line:
+                                    <ul>
+                                        <li>Print two (2) spaces <code>"  "</code>
+                                        <li>Print the description 
+                                        <ul>
+                                            <li>Like <code>"a set of keys"</code>
+                                            <li>Do not print the name, like <code>"KEYS"</code>
+                                        </ul>
+                                    </ul>
+                                </ul>
+                            </ul>
+                            <p>Here is an extended example:
+                            <hr><pre><code>There is a set of keys here.
+> inventory
+You are carrying:
+   a bottle of water
+> take keys
+Taken.
+> inventory
+You are carrying:
+   a bottle of water
+   a set of keys
+> drop water
+Dropped.
+> drop keys
+Dropped.
+> inventory
+You are empty-handed.
+></code></pre>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide5" href="#hide5" class="hide"><h3>5. Synonyms [Show]</h3></a>
+                        <a id="show5" href="#show5" class="show"><h3>5. Synonyms [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Alternative commands</blockquote>
+                            <p>The file with the <code>Synonyms.txt</code> ending contains a series of lines:
+                            <hr><pre><code>N=NORTH
+S=SOUTH
+...</code></pre><hr>
+                            <p>In each case there is:
+                            <ul>
+                                <li>A "synonym": one of more letters that is not a current command
+                                <li>An equals sign "<code>=</code>"
+                                <li>An existing command or item name,
+                            </ul>
+                            <h4>5a: Read a Synonyms file</h4>
+                            <p>Either with in <code>AdvGame.__init__</code>, or more likely within a <code>read_syns</code> function called from <code>AdvGame.__init__</code>, read each line from the appropriate file and populate a dictionary where keys are synonyms and values are commands.
+                            <p>You have sample code from <code>read_item</code> to read and process lines of text.
+                            <p>I highly recommend the use of ".split()" again, but this time with the argument <code>"="</code> in order to split on equals-sign instead of the default spaces.Here is an example:
+                            <hr><pre><code>>>> ex = "N=NORTH"
+>>> ex.split("=")
+['N', 'NORTH']
+>>></code></pre><hr>
+                            <p>Create a dictionary in <code>AdvGame</code> that contains all the synonyms as keys and the commands/items as values.
+                            <h4>5b: Update <code>run</code></h4>
+                            <p>Use synonyms in <code>AdvGame.run</code>
+                            <p>After reading in a response and possibly breaking it into two, instead of one, words, we use synonyms.
+                            <p>Check each input word, and if it is in the synonyms dictionary, update the response to include the command/item name instead.
+                            <p>This was hard for me to explain - here is an example:
+                            <hr><pre><code>>>> word = "N"
+>>> if word in syns:
+...     word = syns[word]
+... 
+>>> word
+'NORTH'</code></pre><hr>
+                            <p>Here is an extended example that uses both command ("release" and "i") and item ("bottle") synonyms:
+                            <hr><pre><code>You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+> release bottle
+Dropped.
+> i        
+You are empty-handed.
+></code></pre>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide6" href="#hide6" class="hide"><h3>6. Locked Passages [Show]</h3></a>
+                        <a id="show6" href="#show6" class="show"><h3>6. Locked Passages [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Reorganize passages to check items</blockquote>
+                            <p>We recall that dictionaries may only store one value per key.
+                            <p>The default code that read a rooms file into a dictionary would have read lines like this, in <code>SmallRooms.txt</code>:
+                            <hr><pre><code>-----
+NORTH: SlitInRock
+UP: SlitInRock
+DOWN: BeneathGrate/KEYS
+DOWN: MissingKeys</code></pre><hr>
+                            <p>Unless you changed this considerably, the first "DOWN" option would've been overwritten by the second. In this case, there would be no way to reach the "BeneathGrate" room.
+                            <p>However, now, with the benefit of items, we wish to change rooms conditionally based on whether an item is in inventory (or not).
+                            <h4>6a: Update <code>read_room</code></h4>
+                            <p>You will need to update the code in <code>read_room</code> that updates the dictionary of packages. By default, it did not check to see if a certain response was already present in the passage dictionary.
+                            <p>I recommend changing the values in the passage dictionary from strings to lists of strings. When adding things to a dictionary, I was working with three variables:
+                            <ol>
+                                <li><code>passages</code>: a dictionary where keys are directional commands and values are names of rooms
+                                <li><code>reponse</code>: a string that is a directional command (a key)
+                                <li><code>next_room</code>: a string that is the name of a room
+                            </ol>
+                            I recommend doing this as follows:
+                            <ul>
+                                <li>Check to see if a response is already in passages.
+                                <ul>
+                                    <li>If not, use <code>.split('/')</code> to convert the next_room to a list.
+                                    <ul>
+                                        <li>If there is no locked passage, the list will be of length one.
+                                        <li>If there is a locked passage, the list will contain first the appropriate room and then the appropriate key.
+                                    </ul>
+                                    <li>If so, add "next_room" to the existing list. I added it at the beginning, but that is up to you.
+                                </ul>
+                            </ul>
+                            
+                            <h4>6b: Update <code>AdvRoom.run</code></h4>
+                            <p>Probably <code>AdvGame.run</code> is reading a response from <code>input()</code> and then, checking if the response is a command or not, and if it is not a command checking if it is the name of a room. In my code, this name was used to check for passages, like so:
+                            <hr><pre><code>passages = room.get_passages()
+next_room = passages.get(response, None)</code></pre><hr>
+                            <p>However, we have now changed the values within the passages dictionary to be lists instead of strings. Specifically, they are now lists of either the names of rooms or the names of items. Previously, they were all names of rooms.
+                            <p>In brief, <code>next_room</code> (or whatever you named it) is now a list.
+                            <p>I updated <code>AdvRoom</code> to check the length of the <code>next_room</code> list.
+                            <ul>
+                                <li>If the length is one, the value at index zero is the name of the next room.
+                                <li>If the length is greater than one:
+                                <ul>
+                                    <li>Check to see if the last element of the list, which is the name of an item, is in the inventory. This is a string at index -1
+                                    <ul>
+                                        <li>If so, the name of the next room is the string immediately prior to the name of the item, in my case the string at index -2 (or index 1).
+                                        <li>Otherwise, the name of the next room is the string at the beginning of the list, the string at index 0.
+                                    </ul>
+                                </ul>
+                            </ul>
+                            <p>Here is an example of how this could work. In this case, I added a single print statement to print the next_room list. These should be removed before going to the next milestone.
+                            <hr><pre><code>> down
+['OutsideGrate']
+You are in a 20-foot depression floored with bare dirt.
+Set into the dirt is a strong steel grate mounted in
+concrete.  A dry streambed leads into the depression from
+the north.
+> down
+['MissingKeys', 'BeneathGrate', 'KEYS']
+You are in a small chamber beneath a 3x3 steel grate to
+the surface.  A low crawl over cobbles leads inward to
+the west.
+There is a brightly shining brass lamp here.
+> i
+You are carrying:
+   a bottle of water
+   a set of keys
+> up
+['OutsideGrate']
+Outside grate
+></code></pre><hr>
+                            <p>In this case, because I had the item <code>KEYS</code> in inventory, when going "down" I went to "BeneathGrate" rather than "MissingKeys".
+                            <p>I removed the print statement printing the list immediately after this test.
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide7" href="#hide7" class="hide"><h3>7. Forced Movement [Show]</h3></a>
+                        <a id="show7" href="#show7" class="show"><h3>7. Forced Movement [Hide]</h3></a>
+                        <div class="details">
+                            <blockquote>Use FORCED to show players messages</blockquote>
+                            <p>We recall a room called "MissingKeys":
+                            <hr><pre><code>NORTH: SlitInRock
+UP: SlitInRock
+DOWN: BeneathGrate/KEYS
+DOWN: MissingKeys</code></pre><hr>
+                            <p>If the player lacks <code>"KEYS"</code> and tries to go down, they go to a missing keys room that that looks like this:
+                            <hr><code><pre>MissingKeys
+-
+The grate is locked and you don't have any keys.
+-----
+FORCED: OutsideGrate</code></pre><hr>
+                            <p>In Adventure, when a message must be displayed to the player, a "fake" room is used to show the text, then FORCED places the player where they should be.
+                            <p>For this milestone, we will check to see if there is a FORCED present after updating the room, and if so, print the <strong>long description</strong> and then progress to the next room.
+                            <p>Note: We will not do this <strong>if</strong> there is a FORCED present, but <strong>while</strong> there is a FORCED present, in case there a multiple forces in a row. Be advised, a passage may be both locked (Milestone 6) and forced (Milestone 7).
+                            <p>The code in the while loop is quite similar to the earlier code in <code>AdvRoom.run</code> which checks rooms for passages and passages for rooms.
+                            <p>Here is an example of how this could work. In this case, I added a single print statement when encountering FORCED. This should be removed before submitting your code.
+                            <hr><pre><code>concrete.  A dry streambed leads into the depression from
+the north.
+> down
+DEBUG: Being forced, room name is: MissingKeys
+The grate is locked and you don't have any keys.
+Outside grate
+> down
+DEBUG: Being forced, room name is: MissingKeys
+The grate is locked and you don't have any keys.
+Outside grate
+></code></pre><hr>
+                        <p>In this case, because I lacked the item <code>KEYS</code> in inventory, when going "down" I went to "MissingKeys" then "OutsideGrate" rather than "BeneathGrate".
+                        <p>I removed the print statement immediately after this test.
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="height:1in;"> <!-- Vertical space adjuster for box shadow --></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

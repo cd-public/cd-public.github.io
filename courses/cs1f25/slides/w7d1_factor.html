@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Factor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Factor</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W7Mon: 07 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Not assessing midterm because I'm sleep deprived because my flight was overbooked (fun story for another time).
+<ul><li>Expect a more comprehensive narrative feedback by next Monday when, in theory, Wordle will have feedback too.</li>
+<li>In general it looked like most errors were counting errors, which are the errors we want to see.
+<ul><li>This class is not Intro to Doing Modular Arithmetic.</li>
+</ul>
+</ul>
+<li>Problem Set 4: Graphics is posted now, for next Monday, and will be "fun" (you get to be creative).
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Graphics Window
+<li>Shapes<ul>
+<li>Size
+<li>Location
+<li>Fills
+<li>Colors</ul>
+</section>
+
+</section>
+<section>
+<h2>Blue Rectangle!</h2>
+<pre style="font-size:larger">
+<code class="python">from pgl import *
+gw = GWindow(500, 200)
+rect = GRect(150,50,200,100)
+rect.set_color("Blue")
+rect.set_filled(True) 
+gw.add(rect)</code></pre>
+<ul><li>This is too much at once and skips steps.
+</section>
+
+
+<section>
+<h2>Graphics</h2>
+<ul><li>Step 1: Have 'pgl.py' in the same directory you are working in.</ul><br>
+<img src="imgs/pgl.png">
+</section>
+
+<section>
+<h2>Boxy Click</h2>
+<ul><li>PS4 Problem 3 is called "Clicky Box".
+<li>So today... "Boxy Click".
+<li>Once you have PGL, and are in e.g. Prob3.py or "boxy_click.py"
+<li>Start with an import:
+<pre style="font-size:larger">
+<code class="python">from pgl import *</code></pre>
+<li>This tells Python to take all the graphics stuff from pgl and let you use it.
+<li>It's a bit like another way to define functions - it's just that someone else wrote the code that defines these functions.
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul><li>To see a graphics window pop up, we use "GWindow"
+<li>But here's the thing - we can't just call GWindow, we have to give it some size.<br>
+</ul>
+<canvas width="400" height="400" style="background-color:white"></canvas>
+<ul><li>I don't have an intuitive grasp of size, but that white box is exactly 400 by 400 "pixels".
+<pre style="font-size:larger">
+<code class="python">from pgl import *
+GWindow(400,400)</code></pre>
+</section>
+
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>Graphics can be complicated, so let's build up gradually.
+<li>Projects in this class, like wordle, often place the call to GWindow inside a function.
+<code class="python">from pgl import *
+
+def do_graphics(): # example name
+    GWindow(400,400) # single indent
+</code>
+</section>
+
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>Graphics can be complicated, so let's build up gradually.
+<li>To get "do_graphics" to run when we run the file, we can't just define the function - we must call it.
+<code class="python">from pgl import *
+
+def do_graphics(): # example name
+    GWindow(400,400) # single indent
+    
+do_graphics()
+</code>
+</section>
+
+
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>In projects, this is commonly done with the following "boilerplate"
+<code class="python">from pgl import *
+
+def do_graphics(): # example name
+    GWindow(400,400) # single indent
+    
+if __name__ == '__main__':
+    do_graphics()
+</code>
+<li>I find this style confusing but it is common in this class.
+<li>It is not exactly the same as calling a function, but we can imagine it is.
+</section>
+
+
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>Now that we know what we are using from pgl, we can specify we want to include "GWindow" rather than using the (potentially confusing) * notation.
+<code class="python">from pgl import GWindow
+
+def do_graphics(): # example name
+    GWindow(400,400) # single indent
+    
+do_graphics()
+</code>
+<li>* includes every function inside pgl, versus including just GWindow.
+<li>We can add more latter!
+<li>I literally only ever use *, but the other notation is probably slightly more common.
+</section>
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>Having those unlabelled '400' can be confusing - or not - so in this class they are usually defined as variables.
+<li>In this class, and often in Python, names in all caps are treated as both:
+<ul><li>'Global' - outside of any one function
+<li>'Constant' - never changed by the code
+<code class="python">from pgl import *
+
+GW_WIDTH = 400                      # Width of window
+GW_HEIGHT = 400                     # Height of window
+
+def do_graphics(): # example name
+    GWindow(GW_WIDTH,GW_HEIGHT) # single indent
+    
+do_graphics()
+</code>
+<li>This is a legacy of languages where 'globals' and 'constants' aren't just another variable.
+</section>
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>I basically never want to write "GW_WIDTH" so I always add another name to refer to - usually 'w' and 'h'
+<code class="python">from pgl import *
+
+GW_WIDTH = 400                      # Width of window
+GW_HEIGHT = 400                     # Height of window
+
+w = GW_WIDTH
+h = GW_HEIGHT
+
+def do_graphics(): # example name
+    GWindow(w,h) # single indent
+    
+do_graphics()
+</code>
+<li>My impression: more mistakes are caused by typos than anything else so I try to manage the volume of typing going on.
+</section>
+
+
+<section>
+<h2>Upkeep</h2>
+<ul>
+<li>You can also just rename of course.
+<code class="python">from pgl import *
+
+w = 400 # width
+h = 400 # height
+
+def do_graphics():
+    GWindow(w,h)
+    
+do_graphics()
+</code>
+<li>My impression: more mistakes are caused by typos than anything else so I try to manage the volume of typing going on.
+<li>You are welcome to use this style, or the project/section leader style.
+</section>
+
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>Also I pretty much only work with squares 
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    GWindow(w,w)
+    
+do_graphics()
+</code>
+<li>This is generally how I would make a graphics window for examples, etc.
+<li>I *really* like 400 because its easy to divide up for me.
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>One last wrinkle: Set a <em>variable</em> equal to the <em>return value</em> of 'GWindow'.
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    
+do_graphics()
+</code>
+<li>In this class, this will always be 'gw' to my knowledge, but you can choose other names.
+<li>I often use 'g' or 'win'.
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>The notion of a capturing a return value in a variable is not novel.
+<li>If you perceive it as novel, check out older slides and problems like 'Vegas'.
+
+<code class="python">>>> x = 3
+>>> z = Vegas(x)
+>>> print("Mine: x = ", x, "| z = ", z)
+Mine: x =  3 | z =  9
+</code>
+<li>Emphasis this line:
+<code class="python">>>> z = Vegas(x)</code>
+</section>
+
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>Anyways, we need 'gw' to have a way to refer to the graphics window latter
+<li>We need to tell Python where to show something, like a box.
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    
+do_graphics()
+</code>
+<li>In this class, this will always be 'gw' to my knowledge, but you can choose other names.
+<li>I often use 'g' or 'win'.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Graphics, Again
+<ul><li>&check; Graphics Window
+<li>Shapes<ul>
+<li>Size
+<li>Location
+<li>Fills
+<li>Colors</ul>
+</section>
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>Let's look back at Blue Rectangle.
+<code class="python">rect = GRect(150,50,200,100)
+rect.set_color("Blue")
+rect.set_filled(True) 
+gw.add(rect)</code>
+<li>Wow - 4 different lines to add a blue rectangle?
+<li>Let's break it down.
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>GRect takes four integers - which is a lot of integers.
+<li>They are:
+<ul><li>How wide
+<li>How tall
+<li>How far from the left
+<li>How far from the top.
+</ul>
+<code class="python">rect = GRect(150,50,200,100)
+# rect.set_color("Blue")
+# rect.set_filled(True) 
+gw.add(rect)</code>
+<li>Let's just work with that for now.
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>This is code for the graphics window.
+<li>The graphics window is defined inside of "do_graphics"
+<li>So we write out graphics window code directly beneath it.
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    gw.add(rect)
+
+do_graphics()
+</code>
+<li>When we write, e.g., an essay, we write evidence for a statement right after a thesis.
+</section>
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Let's see all four at once...
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+
+<canvas id='c0' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw0()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c0").getContext("2d") ; 
+                            g.rect(150,50,200,100) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw0()">do_graphics()</button>
+</section>
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Let's only do rectangle size.
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(0,0,200,100)
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c1' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw1()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c1").getContext("2d") ; 
+                            g.rect(0,0,200,100) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw1()">do_graphics()</button>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>We can tell whether tall or wide is first by testing!
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(0,0,100,200) # was 200,100
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c2' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw2()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c2").getContext("2d") ; 
+                            g.rect(0,0,100,200) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw2()">do_graphics()</button>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>We can increase one of the locations without the other to see if the rectangle moves down or right.
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,0,200,100)
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c3' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw3()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c3").getContext("2d") ; 
+                            g.rect(150,0,200,100) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw3()">do_graphics()</button>
+</section>
+
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Ah - so rightward first. Then down.
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c4' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw4()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c4").getContext("2d") ; 
+                            g.rect(150,50,200,100) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw4()">do_graphics()</button>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<canvas id='c5' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw5()
+                        {
+                            const x = parseInt(document.getElementById("x5").value) ;
+                            const y = parseInt(document.getElementById("y5").value) ;
+                            const w = parseInt(document.getElementById("w5").value) ;
+                            const h = parseInt(document.getElementById("h5").value) ;
+                            const g = document.getElementById("c5").getContext("2d") ; 
+                            g.reset();
+                            g.rect(x,y,w,h) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<code class="python">GRect(x,y,w,h) ;</code>
+<ul>
+<span style="font-size:larger;font-family:monospace">
+x = <input id="x5" style="font-size:larger" type="number" value="150">
+y = <input id="y5" style="font-size:larger" type="number" value="50"><br>
+w = <input id="w5" style="font-size:larger" type="number" value="200">
+h = <input id="h5" style="font-size:larger" type="number" value="100"></pre><br></ul>
+<button style="font-size:larger" onclick="draw5()">do_graphics()</button>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul><li>&check; Graphics Window
+<li>Shapes<ul>
+<li>&check; Size
+<li>&check; Location
+<li>Fills
+<li>Colors</ul>
+</section>
+
+<section>
+<h2>Boxy Click</h2>
+<ul>
+<li>Let's look back at Blue Rectangle.
+<code class="python">rect = GRect(150,50,200,100)
+rect.set_color("Blue")
+rect.set_filled(True) 
+gw.add(rect)</code>
+<li>We know what the first and last do.
+<li>The others change something about the rectangle we add...
+</section>
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>What does each part do?
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    rect.set_filled(True)
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c6' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw6()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c6").getContext("2d") ; 
+                            g.fillRect(150,50,200,100) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw6()">do_graphics()</button>
+</section>
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>What does each part do?
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    rect.set_color("Blue")
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c7' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw7()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c7").getContext("2d") ; 
+                            g.strokeStyle = "blue";
+                            g.rect(150,50,200,100) ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw7()">do_graphics()</button>
+</section>
+
+
+
+<section>
+<h2>Boxy Click</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>What does each part do?
+<code class="python">from pgl import *
+
+w = 400 # width
+
+def do_graphics():
+    gw = GWindow(w,w)
+    rect = GRect(150,50,200,100)
+    rect.set_filled(True)
+    rect.set_color("Blue")
+    gw.add(rect)
+
+do_graphics()
+</code></td><td>
+<canvas id='c8' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw8()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c8").getContext("2d") ; 
+                            g.fillStyle = "blue";
+                            g.fillRect(150,50,200,100) ;
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw8()">do_graphics()</button>
+</section>
+
+
+
+
+<section>
+<h2>Factor</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Why don't we just make a "rectangle" function...
+<code class="python">def do_graphics():
+
+    def my_rect(x,y,w,h,color):
+        rect = GRect(x,y,w,h)
+        rect.set_filled(True)
+        rect.set_color(color)
+        gw.add(rect)
+        
+    gw = GWindow(400,400)
+    my_rect(000,000,200,200, "Blue")
+    my_rect(100,100,200,200, "Red")
+
+do_graphics()
+</code></td><td>
+<canvas id='c9' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function draw9()
+                        {
+                            const s = 400 ;
+                            const g = document.getElementById("c9").getContext("2d") ; 
+                            g.fillStyle = "blue";
+                            g.fillRect(000,000,200,200) ;
+                            g.fillStyle = "red";
+                            g.fillRect(100,100,200,200) ;
+                        }
+</script>
+</td>
+</table>
+<button style="font-size:larger" onclick="draw9()">do_graphics()</button>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Graphics Window
+<li>Shapes<ul>
+<li>Size
+<li>Location
+<li>Fills
+<li>Colors</ul>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Not assessing midterm because I'm sleep deprived because my flight was overbooked.
+<ul><li>Expect a more comprehensive narrative feedback by next Monday.</li>
+</ul>
+<li>Problem Set 4: Graphics is posted now, for next Monday, and will be "fun" (you get to be creative).
+</section>
+
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

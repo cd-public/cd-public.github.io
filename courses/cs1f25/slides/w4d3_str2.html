@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Strings 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Strings 2</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W4Fri: 20 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<ul><li>One on string multiplication.
+<li>One on string indices/slices.
+<li>One on string loops.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>String loops
+<li>String indices
+<li>String slices
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Two ways to look at a single character/letter in a string.
+<ul><li>1. Use a 'for' loop over the string.
+<code class="python">for letter in "cs":
+    print(letter)</code>
+<li>Print places each thing on it's own line.
+<li>Each "thing" is a letter.
+
+<code class="python">c
+s</code>
+
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: remove vowels:
+<ul><li>Use a 'for' loop over the string.
+<code class="python">for letter in "abcdef":
+    print(letter)</code>
+<li>What will this print?
+<code class="python">a
+b
+c
+d
+e
+f</code>
+<li>Say we wish to examine values. We use 'in'
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: remove vowels:
+<ul><li>We use the special "in" keyword.
+<code class="python">vowels = "aeiou"
+for letter in "abcdef":
+    print(letter, letter in vowels)</code>
+<li>What will this print?
+<code class="python">a True
+b False
+c False
+d False
+e True
+f False</code>
+<li>Say we wish to remove values. We use 'if'
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: remove vowels:
+<ul><li>We use the special "if" keyword.
+<code class="python">vowels = "aeiou"
+for letter in "abcdef":
+    if letter not in vowels:
+        print(letter)</code>
+<li>What will this print?
+<code class="python">b
+c
+d
+f</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Two ways to look at a single character/letter in a string.
+<ul><li>1. Use a 'for' loop over the string.
+<code class="python">for letter in "cs":
+    print(letter)
+</code>
+<li>2. Use a 'for' loop over the length of the string...
+<code class="python">for i in range(len('cs')):
+    print('cs'[i]) # get it? csi?
+</code>
+<li>Time to talk about <em>indices</em>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: 'i' before 'e'
+<li>Use a 'for' loop over the length of the string...
+<code class="python">word = "lied"
+# word = "veil"
+for i in range(len(word)):
+    print(word[i])</code>
+<li>See what prints:</em>
+<code class="python">l
+i
+e
+d</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: 'i' before 'e'
+<li>We are only worried about 'e' and 'i'
+<code class="python">word = "lied"
+# word = "veil"
+for index in range(len(word)):
+    if word[index] == 'i':
+        # check the letter *before* the 'i'
+        print(word[index-1])</code>
+<li>See what prints:</em>
+<code class="python">l</code>
+<li>'i' never follows an 'e', so this is okay!
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: 'i' before 'e'
+<li>We are only worried about 'e' and 'i'
+<code class="python"># word = "lied"
+word = "veil"
+for index in range(len(word)):
+    if word[index] == 'i':
+        # check the letter *before* the 'i'
+        print(word[index-1])</code>
+<li>See what prints:</em>
+<code class="python">e</code>
+<li>'i' follows an 'e', so this is bad!
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: 'i' before 'e'
+<li>Instead of printing 'e' (or not) we return false.
+<code class="python">def i_before_e(word:str) -> bool:
+    for index in range(len(word)):
+        if word[index] == 'i':
+            # check the letter *before* the 'i'
+            if word[index-1] == 'e':
+                return False
+                
+print(i_before_e('veil'))</code>
+<li>We can test:</em>
+<code class="python">False</code>
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: 'i' before 'e'
+<li>This breaks on 'lied':
+<code class="python">print(i_before_e('lied'))</code>
+<li>This should be true...
+
+<code class="python">None</code>
+
+<li>Why? We don't return True ever - we should if we get to the *end of the string* (then we know we have no more i's that might be after e's).
+
+
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Quick fix:
+<code class="python">def i_before_e(word:str) -> bool:
+    for index in range(len(word)):
+        if word[index] == 'i':
+            # check the letter *before* the 'i'
+            if word[index-1] == 'e':
+                return False
+    return True # this is indented the same as the 'for' loop</code>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Example: 'i' before 'e'
+<li>Also - we have to make sure it works if 'i' is the first letter.
+<code class="python">>>> i_before_e('icee') # its a disaster</code>
+<li>'i' is in position 0, so i_before_e checks <em>negative</em> one.
+<li>This checks the end of the list - where there is an 'e'.
+<li>
+<code class="python">def i_before_e(word:str) -> bool:
+    for index in range(1, len(word)): # fix is here.
+        if word[index] == 'i' and word[index-1] == 'e':
+                return False
+    return True # this is indented the same as the 'for' loop</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Negative indicies.
+                    <table>
+                        <!--<tr><td class="box"><td class="box">0</td><td class="box">1</td><td class="box">2</td><td class="box">3</td><td class="box">4</td><td class="box">5</td><td class="box">6</td><td class="box">7</td><td class="box">8</td><td class="box">9</td><td class="box">10</td><td class="box">11</td><td class="box">12</td><td class="box">13</td><td class="box">14</td></tr>-->
+                        <tr><td class="box">h</td><td class="box">e</td><td class="box">l</td><td class="box">l</td><td class="box">o</td><td class="box"></td><td class="box">w</td><td class="box">o</td><td class="box">r</td><td class="box">l</td><td class="box">d</td></tr>
+                        <tr><td class="box">0</td><td class="box">1</td><td class="box">2</td><td class="box">3</td><td class="box">4</td><td class="box">5</td><td class="box">6</td><td class="box">7</td><td class="box">8</td><td class="box">9</td><td class="box">10</td></tr>
+                        <tr><td class="box">-10</td><td class="box">-9</td><td class="box">-9</td><td class="box">-8</td><td class="box">-7</td><td class="box">-6</td><td class="box">-5</td><td class="box">-4</td><td class="box">-3</td><td class="box">-2</td><td class="box">-1</td></tr>
+                    </table>
+                    <li>We can try this:
+<code class="python">print("hello world"[-3])
+print("hello world"[8])</code>
+<li>These are two ways to get to the same place, like 3 lefts vs. 1 right.
+<code class="python">r
+r</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li><b>&check;</b>: String loops
+<li><b>&check;</b>: String indices
+<li>String slices
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>This is annoying:
+<code class="python">if word[index] == 'i' and word[index-1] == 'e':</code>
+<li>It doesn't have to be.
+<li>Strings are like ranges, and we give an index like we give a range.
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>We can use ranges to see certain letters:
+<code class="python">abcs = 'abcdefghijklmnopqrstuvwxyz'
+for i in range(9,20,3):
+    print(i, abcs[i])
+</code>
+<li>This was as close as I could get to a word: "jumps" no vowels.
+<code class="python">9 j
+12 m
+15 p
+18 s
+</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>We can use this with "+" to make new words...
+<code class="python">abcs = 'abcdefghijklmnopqrstuvwxyz'
+new_word = ""
+for i in range(9,20,3):
+    new_word += abcs[i]
+    
+print(new_word)</code>
+<li>This was as close as I could get to a word: "jumps" no vowels.
+<code class="python">jmps
+</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>This:
+<code class="python">new_word = ""
+for i in range(9,20,3):
+    new_word += abcs[i]</code>
+<li>is the same as this:
+<code class="python">new_word = abcs[9:20:3]</code>
+<li>Check it out:
+<code class="python">print(abcs[9:20:3])</code>
+<li>What do you see?
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Recall: This is start, end, step.
+<li>Like range, we can leave some things out. (Omit start/end to get "the rest"
+
+<table style="width:100%">
+<tr><td style="width:50%">
+   <code class="python">print("hello world"[:5])
+print("hello world"[5:])
+print("deeps"[::-1])</code>
+</td><td style="width:50%">
+   <code class="python">hello
+ world
+speed</code>
+    </td></tr></table>
+<li>Note the space before " world"!    </ul>
+
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Mostly useful on homework to check the rest of string for something (repeated letters)
+<li>Remove spaces:
+<code class="python">def remove_space(s:str) -> str: # given string, make new string
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + s[i+1:] # before space + after space
+            
+print(remove_space("hello world"))</code>
+<li>This almost works:
+<code class="python">helloworld</code>
+</section>
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Remove spaces:
+<code class="python">def remove_space(s:str) -> str: # given string, make new string
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + s[i+1:] # before space + after space
+            
+print(remove_space("world"))</code>
+<li>What if there's no space? Well, nothing prints at all!
+</section>
+
+
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Remove spaces:
+<code class="python">def space_to_underscore(s:str) -> str:
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + "_" + s[i+1:]
+    return s # return 's' if no spaces
+    
+print(space_to_underscore("hello world"))
+print(space_to_underscore("world")</code>
+<li>This only works on the first space.
+<code class="python">hello_world
+world</code>
+</section>
+
+<section>
+<h2>Strings</h2>
+<ul>
+<li>Remove spaces:
+<code class="python">def spaces_to_underscores(s:str) -> str:
+    for i in range(len(s)): # check each letter
+        if s[i] == " ": # if letter is space...
+            return s[:i] + "_" + spaces_to_underscores(s[i+1:])
+    return s # return 's' if no spaces
+    
+print(spaces_to_underscores("thats me espresso"))</code>
+<li>We already know how to remove one space, so we just remove the next space the same way.
+<code class="python">thats_me_espresso</code>
+<li>This works on any number of spaces (before only worked on exactly one).
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<code style="max-height:1000px" class="python">def n_spaces_before(n:int,s:str) -> NoneType: # print -> None
+    print(n * ' ', s) # test - that is 'n times space plus s'
+
+def spaces_to_underscores(s):
+    for i in range(len(s)):
+        if s[i] == " ":
+            return s[:i] + "_" + spaces_to_underscores(s[i+1:])
+    return s</code>
+</ul>
+</section>
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

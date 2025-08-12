@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>pgl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">pgl</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W5Fri: 27 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul>
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</ul>
+<li>Midterm next Friday.
+<ul><li>Practice Exams Posted</li>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Aside on Wordle
+<li>More graphics
+<li>More on functions
+</section>
+
+<section>
+<h2>redact</h2>
+<ul>
+<code class="python">def redact(word, secret):
+    for i in range(len(word)):
+        if word[i] == secret[i]:
+            word = word[:i] + '*' + word[i+1:] # or ' ' etc
+            DEBUG and print('Redact '+secret[i]+' at '+str(i))
+    return word</code>
+    <li>Imagine, e.g. "sassy" and "glass"
+<code class="python">>>> DEBUG = True
+>>> redact('glass','sassy')
+Redact s at 3
+'gla*s'</code>   
+</section>
+
+
+<section>
+<h2>censor</h2>
+<ul><li>May also want to keep secret whether letters are in the secret at all!
+<code class="python">def censor_letter(letter, word):
+    # remove ONLY THE FIRST case of letter in word
+    for index in range(len(word)):
+        if word[index] == letter:
+            return word[:index] + '-' + word[index+1:]
+    return word # if letter isn't present</code>
+    <li>Imagine, e.g. "s" and "sas*y"
+<code class="python">>>> censor_letter('s', 'sas*y')
+'-as*y'</code>   
+</section>
+
+
+
+
+<section>
+<h2>censor</h2>
+<ul><li>Perhaps we want to censor every letter in some secret word.
+<code class="python">def censor(word, secret):
+    for letter in secret:
+        word = censor_letter(letter, word)
+    return word</code>
+    <li>Imagine, e.g. "sas*y" and "claps"
+<code class="python">>>> censor("sas*y", "claps")
+'--s*y'</code>   
+</section>
+
+
+
+<section>
+<h2>censor</h2>
+<ul><li>If we want to debug, we need to use local variables...
+<code class="python">def censor(word, secret):
+    for letter in secret:
+        censored = censor_letter(letter, word)
+        if censored != word:
+            DEBUG and print("Censored " + letter)
+            word = censored
+    return word</code>
+    <li>Imagine, e.g. "sas*y" and "claps"
+<code class="python">Censored a
+Censored s
+'--s*y'</code>   
+</section>
+
+<section>
+<h2>Blue Rectangle!</h2>
+<pre style="font-size:larger">
+<code class="python">from pgl import *
+gw = GWindow(500, 200) # like WordleGWindow
+rect = GRect(150,50,0,0) #  answer = "blimp"
+rect.set_color("Blue") # answer.upper()
+rect.set_filled(True) 
+gw.add(rect) # like word_to_row(answer)</code></pre>
+</section>
+
+
+<section>
+<h2>The Coordinate System</h2>
+<figure>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="390.46mm" height="146.14mm" version="1.1" viewBox="0 0 390.46 146.14" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <marker id="marker1717" overflow="visible" orient="auto">
+   <path transform="scale(.8)" d="m0 5.65v-11.3" fill="#008080" fill-rule="evenodd" stroke="#008080" stroke-width="1pt"/>
+  </marker>
+  <marker id="StopL" overflow="visible" orient="auto">
+   <path transform="scale(.8)" d="m0 5.65v-11.3" fill="#008080" fill-rule="evenodd" stroke="#008080" stroke-width="1pt"/>
+  </marker>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-14.342 -8.9911)">
+  <image x="64.843" y="18.88" width="339.96" height="136.25" stroke-width=".39225" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAADKCAYAAABJ7VJtAAAABHNCSVQICAgIfAhkiAAAA3hJREFU eJzt11FxQkEURMH7UoghgsAKkYAWDEXOxgTUwkm3gvk7Ncf5clszM7+P+wAAn+37+jMzM1+bdwAA LyDwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQ JPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk 8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTwABAk8AAQJPAAECTw ABAk8AAQJPAAECTwABAk8AAQJPAAEHTaPYC249i9AN7bWrsXUOXBA0CQwANAkMADQJDAA0CQwANA kMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQ wANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDA A0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMAD QJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANA kMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQ wANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDA A0CQwANAkMADQJDAA0CQwANAkMADQJDAA0CQwANAkMADQJDAA0DQafcA2tbavQDgf/LgASBI4AEg SOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI 4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjg ASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOABIEjgASBI4AEgSOAB IEjgASBI4AEgSOABIOg4X25r9wgA4Lk8eAAI+gMgAAx7yl/0WgAAAABJRU5ErkJggg== "/>
+  <g>
+   <rect x="64.843" y="8.9911" width="339.96" height="9.8886" ry=".86466" fill="#285577"/>
+   <text x="206.63153" y="15.925928" fill="#ffffff" font-family="sans-serif" font-size="7.5986px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="206.63153" y="15.925928" fill="#ffffff" stroke-width=".26458">blue_rectangle</tspan></text>
+   <circle cx="65.636" cy="18.866" r="3.3161" fill="#f60"/>
+   <text x="12.586732" y="25.491901" fill="#ff6600" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="12.586732" y="25.491901" fill="#ff6600" stroke-width=".26458">(0,0)</tspan></text>
+  </g>
+  <g fill="#008080">
+   <circle cx="167.29" cy="52.578" r="3.3161"/>
+   <text x="76.350014" y="59.203312" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="76.350014" y="59.203312" fill="#008080" stroke-width=".26458">(150,50)</tspan></text>
+   <path d="m167.68 126.82h134.9" marker-end="url(#StopL)" marker-start="url(#StopL)" stroke="#008080" stroke-width="1.119"/>
+   <path d="m311.2 121.13v-68.122" marker-end="url(#marker1717)" marker-start="url(#marker1717)" stroke="#008080" stroke-width="1.119"/>
+   <text x="199.44638" y="145.48874" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="199.44638" y="145.48874" fill="#008080" stroke-width=".26458">200 px</tspan></text>
+   <text x="313.77524" y="92.521362" font-family="sans-serif" font-size="20.426px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="313.77524" y="92.521362" fill="#008080" stroke-width=".26458">100 px</tspan></text>
+  </g>
+ </g>
+</svg>
+</figure>
+<ul>
+<li>Positions and distances on the screen are measured in terms of
+pixels</li>
+<ul>
+<li>Origin is in the upper left instead of lower left</li>
+<li>Vertical values increase as you move downwards</li>
+</ul></li>
+</ul>
+</section>
+
+<section >
+<h2>Other Simple Objects</h2>
+<p>Functions to create simple geometric objects: <br></p>
+<ul>
+<li>Rectangles/Squares + Circles/Ovals!
+<ul>
+<li><code class="python">GRect( x, y, width, height )</code></li>
+<li><code class="python">GOval( x, y, width, height )</code></li>
+<li>Creates a rectangle whose upper left corner is at (x,y) of the
+specified size</li>
+</ul></li>
+<li>Lines!
+<ul>
+<li><code class="python">GLine( x1, y1, x2, y2 )</code></li>
+<li>Creates a line extending from (x1,y1) to (x2,y2)</li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<h2>For Wordle</h2>
+<ul><li>Lower numbered rows are above higher numbered rows.
+<li>Lower numbered columns are leftward of higher numbered columns.<br><br>
+<table>
+<tr><td style="border:solid">(0,0)</td><td style="border:solid">(0,1)</td><td style="border:solid">(0,2)</td><td style="border:solid">(0,3)</td><td style="border:solid">(0,4)</td></tr>
+<tr><td style="border:solid">(1,0)</td><td style="border:solid">(1,1)</td><td style="border:solid">(1,2)</td><td style="border:solid">(1,3)</td><td style="border:solid">(1,4)</td></tr>
+<tr><td style="border:solid">(2,0)</td><td style="border:solid">(2,1)</td><td style="border:solid">(2,2)</td><td style="border:solid">(2,3)</td><td style="border:solid">(2,4)</td></tr>
+<tr><td style="border:solid">(3,0)</td><td style="border:solid">(3,1)</td><td style="border:solid">(3,2)</td><td style="border:solid">(3,3)</td><td style="border:solid">(3,4)</td></tr>
+<tr><td style="border:solid">(4,0)</td><td style="border:solid">(4,1)</td><td style="border:solid">(4,2)</td><td style="border:solid">(4,3)</td><td style="border:solid">(4,4)</td></tr>
+<tr><td style="border:solid">(5,0)</td><td style="border:solid">(5,1)</td><td style="border:solid">(5,2)</td><td style="border:solid">(5,3)</td><td style="border:solid">(5,4)</td></tr>
+</table>
+<li><code class="python">gw.set_square_letter(1, 3, '$') # example</code>
+<table>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid">$</td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+<tr><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td><td style="border:solid"></td></tr>
+</table>
+</section>
+
+
+
+</section>
+<section>
+<h2><code class="python">GWindow</code></h2>
+<ul>
+<li>Akin to Wordle:
+<code class="python">gw = GWindow(width, height)</code>
+<li>You have several more operations:
+<table>
+<tbody>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">gw.add(object)</code></td>
+<td style="text-align: left;">Adds an object to the window</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">gw.add(object, x, y)</code></td>
+<td style="text-align: left;">Adds an object to the window after moving
+it to (x,y)</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">gw.remove(object)</code></td>
+<td style="text-align: left;">Removes an object from the window</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">gw.get_width()</code></td>
+<td style="text-align: left;">Returns the width of the graphics window
+in pixels</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">gw.get_height()</code></td>
+<td style="text-align: left;">Returns the height of the graphics window
+in pixels</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<h2><code class="python">GObject</code></h2>
+<ul>
+<li>The following are used on things like rectangles, imagine:'
+
+<code class="python">object = GRect(150,50,0,0) # like saying answer = "blimp"</code></li>
+<table>
+<tbody>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.get_x()</code></td>
+<td>Returns the x coordinate of this object</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.get_y()</code></td>
+<td>Returns the y coordinate of this object</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.get_width()</code></td>
+<td>Returns the width of this object</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.get_height()</code></td>
+<td>Returns the height of this object</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.set_color(color)</code></td>
+<td>Sets the color of the object to the specified color</td>
+</tr>
+</tbody>
+</table>
+
+<li>All coordinates and distances are measured in pixels</li>
+</ul>
+</section>
+<section>
+<h2><code class="python">GFillableObject</code></h2>
+<ul>
+<li>Some things, like Wordle letterboxes, can be filled in with a color.
+<code class="python">gw.set_square_color(row, col, color)</code>
+<li>Wordle squares are a lot like GRects...
+<code class="python">object = GRect(150,50,0,0)</code></li>
+<table>
+<tbody>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.set_filled(bool)</code></td>
+<td>Sets the fill state of the object</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.set_fill_color(color)</code></td>
+<td>Sets the color to be used to fill the interior, otherwise same as
+the outer line</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.get_fill_color()</code></td>
+<td>Gets the current color used to display the object interior</td>
+</tr>
+<tr >
+<td
+style="text-align: right;"><code class="no-highlight">object.is_filled()</code></td>
+<td>Returns True or False depending on whether the object is currently
+filled</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section >
+<table>
+<td style="width:50%">
+<ul style="font-size:larger">
+<li><button onclick="gwin()" style="font-size:larger">gw = GWindow(400,400)</button>
+<li><button onclick="add_head()" style="font-size:larger">gw.add(head)</button>
+<li><button onclick="add_reye()" style="font-size:larger">gw.add(reye)</button>
+<li><button onclick="add_leye()" style="font-size:larger">gw.add(leye)</button>
+<li><button onclick="add_mouth()" style="font-size:larger">gw.add(mouth)</button>
+<br><br><canvas width="400px" height="400px" id="gw"></td>
+<td style="width:50%;vertical-align:top;max-height:800px">
+<code class="python">gw = GWindow(400, 400)
+
+head = GOval(20, 20, 360, 360)
+head.set_fill_color("yellow")
+head.set_filled(True)
+gw.add(head)
+
+reye = GOval(110, 100, 40, 40)
+reye.set_filled(True)
+gw.add(reye)
+leye = GOval(250, 100, 40, 40)
+leye.set_filled(True)
+gw.add(leye)
+
+mouth = GLine(150,250,250,250)
+mouth.set_line_width(5)
+gw.add(mouth)</code></td>
+<script>
+const gw = document.getElementById("gw").getContext("2d") ;
+
+function gwin() {
+    gw.fillStyle = "white" ;
+    gw.fillRect(0,0,400,400) ;
+    gw.closePath() ;
+}
+
+function add_head() {
+    gw.fillStyle = "yellow" ;
+    gw.beginPath();
+    gw.ellipse(200, 200, 180, 180, 0, 0, 2 * Math.PI);
+    gw.fill() ;
+}
+
+function add_reye() {
+    gw.fillStyle = "black" ;
+    gw.beginPath();
+    gw.ellipse(130, 120, 20, 20, 0, 0, 2 * Math.PI);
+    gw.fill()
+}
+
+function add_leye() {
+    gw.fillStyle = "black" ;
+    gw.beginPath();
+    gw.ellipse(270, 120, 20, 20, 0, 0, 2 * Math.PI);
+    gw.fill()
+}
+
+
+function add_mouth() {
+    gw.fillStyle = "black" ;
+    gw.fillRect(150,250,100,5) ;
+}
+</script>
+</table>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</ul>
+</section>
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Debug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Debug</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W3Fri: 13 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<li>One writing problem.
+</ul>
+<li>By <em>next</em> <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<ul><li>It is about <em>strings</em>
+<li>I have no taught strings yet!
+<li>If you start I will help you, and I will try and upload slides early.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Debug
+<blockquote>In engineering, debugging is the process of finding the root cause of and workarounds and possible fixes for bugs.</blockquote>
+
+<blockquote>For software, debugging tactics can involve interactive debugging, control flow analysis... </blockquote>
+<li>Bugs
+<blockquote>In engineering, a bug is a design defect in an engineered system that causes an undesired result.</blockquote>
+</ul>
+</section>
+
+<section>
+<h2>interactive debugging</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>We used interactive debugging to test what happens when we "not" and integer.
+<table style="vertical-align:center">
+<tr><td width="60%"><code class="python">val % div</code></td><td style="vertical-align:top">Is non-zero if 'val' divided 'div' has <em>some</em> remainder</td>       <tr>
+<tr><td><code class="python">val % div == 0</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>no</em> remainder</td>       <tr>
+<tr><td><code class="python">bool(val % div)</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>some</em> remainder</td>       <tr>
+<tr><td><code class="python">not val % div</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>no</em> remainder</td>       <tr>
+</table></td><td style="width:50%">
+<code class="python">>>> for i in range(10,20):
+...     if i % 3 == 0:
+...             print(i)
+...     if not i % 3:
+...             print(i)
+...
+12
+12
+15
+15
+18
+18
+>>></code></td></tr></table>
+</section>
+
+<section>
+<h2>Control Flow Analysis</h2>
+<ul>
+<li>We analyzed control flow to pilot Karel.<br><br>
+<table style="width:100%">
+<thead>
+  <tr>
+    <td style="width:20%" colspan="2"></td>
+    <td style="width:80%" colspan="2"><em>Does it happen more than once?</em></td>
+  </tr>
+</thead>
+<thead>
+  <tr >
+    <td style="width:20%" colspan="2"></td>
+    <td style="width:40%;outline:solid"><b>No</b></td>
+    <td style="width:40%;outline:solid"><b>Yes</b> (it's a loop)</td>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td  rowspan="2"><em>Is it conditional <br>(do we ask Karel a question)?</em></td>
+    <td style="outline:solid"><b>No</b></td>
+    <td><ul><li>'def' functions
+    <li>Define a series of actions
+    <li>We can "call" functions
+    <li><em>Code in 'def' doesn't run unless called
+    </td>
+    <td><ul><li>'for' loop
+    <li>Code in the loop runs <em>i</em> times
+    <li>Good for repeated actions</td>
+  </tr>
+  <tr>
+    <td style="outline:solid"><b>Yes</b></td>
+    <td><ul><li>'if' statement
+    <li>Code in the statement runs <em>if</em> Karel answers "yes" to some question
+    <li>Good if what you want to do depends on walls/beepers/etc</td>
+    <td><ul><li>'while' loop
+    <li>Code in the statement runs <em>as long as</em> Karel answers "yes" to some question
+    <li>Good for completing tasks that require repeated actions.</td>
+  </tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    # we'll print the divisors here
+    return 0 # we'll return the number of divisors here
+</code><li>Probably the most important use of divisors in the universe is RSA cryptography.
+<li>Basically, it is why online banking, ecommerce, etc. are possible.
+<li>RSA works becausing of how finding factors of big numbers works.
+<li>So today, we learn to find factors of numbers (little ones).
+<li>If there are zero divisors, the number is prime (also used in RSA).
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    # we'll print the divisors here
+    return 0 # we'll return the number of divisors here
+</code><li>How can we decompose this problem?
+<ul><li>How do we know if some 'x' divides 'n'?
+<li>How do we know which 'x' to check?
+<li>How do we keep track of how many 'x' we find?
+</ul>
+<li>I imagine these are each a different problem we can solve separately.
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    # we'll print the divisors here
+    return 0 # we'll return the number of divisors here
+</code><li>How do we know if some 'x' divides 'n'?
+<li>(We know this one:)
+<code class="python">def x_divides_n(x, n):
+    return None # We return what we know, which is nothing!
+</code>
+<li>But if we want to be systematic, we should keep track of what we are doing.
+</section>
+
+<section>
+<h2>Print Statements</h2>
+<ul>
+<code class="python">def divisors(n):
+    print("Finding divisors of n =", n) # what does this print?
+    # we'll print the divisors here
+    return 0 # we'll return the number of divisors here
+</code><li>How do we know if some 'x' divides 'n'?
+<li>(We know this one:)
+<code class="python">def x_divides_n(x, n):
+    print("Finding if x =", x, "divides n =", n)
+    return None
+</code>
+<li>But if we want to be systematic, we should keep track of what we are doing.
+</section>
+
+
+<section>
+<h2>Print Statements</h2>
+<ul><li>Besides defining functions, we can use functions.
+<li>Try to find the divisors of, say, 7, then run (VS Code "play" button) the code.
+<code class="python">def divisors(n):
+    print("Finding divisors of n =", n)
+    # we'll print the divisors here
+    return 0 # we'll return the number of divisors here
+
+divisors(7)
+</code>
+<li>We'll see:
+<code class="python">Finding divisors of n = 7
+</code>
+</section>
+
+
+
+<section>
+<h2>Print Statements</h2>
+<ul>
+<code class="python">def divisors(n):
+    print("Finding divisors of n =", n) # what does this print?
+    # we'll print the divisors here
+    return 0 # we'll return the number of divisors here
+</code>
+<li>One problem - we were going to print divisors, now we're printing other stuff.
+<li>No problem - we'll make them conditional:
+<code class="python">debugging = True
+def divisors(n):
+    if debugging:
+        print("Finding divisors of n =", n)
+    return 0 # placeholder value
+</code>
+<li>We note that the zero return is a "placeholder" - it's not necessarily the right value.
+</section>
+
+
+
+<section>
+<h2>Sidebar: Short circuiting</h2>
+<ul>
+<li>We can use a special feature in Python called "short circuiting":
+
+<code class="python">False and print('ABCDEF')
+True and print('123456')
+</code>
+<li>If we run this we see only:
+<code class="python">123456
+</code>
+<li>"False and" anything is always False, so...
+<li>Python doesn't execute any code after "False and", so...
+</section>
+
+<section>
+<h2>Sidebar: Short circuiting</h2>
+<ul>
+<li>We can use a special feature in Python called "short circuiting":
+
+<code class="python">def divisors(n):
+    debugging and print('Finding divisors of n =', n)
+    return 0
+
+debugging = True
+divisors(14)
+debugging = False
+divisors(28)
+</code>
+
+<li>Try it!
+<code class="python">Finding divisors of n = 14
+</code>
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n): # print divisors, return number of
+    debugging and print('Finding divisors of n =', n)
+    return 0 # placeholder
+</code><li>How do we know if some 'x' divides 'n'?
+<code class="python">def x_divides_n(x, n):
+    debugging and print("Finding if x =", x, "divides n =", n)
+    return None
+</code>
+<li>Let's systematically approach 'x_divides_n'
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n): # print divisors, return number of
+    debugging and print('Finding divisors of n =', n)
+    return 0 # placeholder
+</code><li>How do we know if some 'x' divides 'n'?
+<code class="python">def x_divides_n(x, n):
+    debugging and print("Finding if x =", x, "divides n =", n)
+    # x divides n if x divided by n has no remainder.
+    # The modulo operator % computes remainders
+    remainder = x % n
+    debugging and print("x % n is", remainder)
+    return None
+</code>
+<li>At this point we should test 'x_divides_n'
+<li>I test on every line of code.
+</section>
+
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<li>This code was wrong.
+<code class="python">def x_divides_n(x, n):
+    debugging and print("Finding if x =", x, "divides n =", n)
+    remainder = x % n
+    debugging and print("x % n is", remainder)
+    return None
+
+x_divides_n(3, 10)
+x_divides_n(3, 9)
+</code>
+<li>Take a look:
+<code class="python">Finding if x = 3 divides n = 10
+x % n is 3
+Finding if x = 3 divides n = 9
+x % n is 3</code>
+<li>The remainder... is 3?
+</section>
+
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<li>This code was wrong.
+<code class="python">Finding if x = 3 divides n = 10
+x % n is 3
+Finding if x = 3 divides n = 9
+x % n is 3</code>
+<li>3 does divide 9... but I checked if 9 divided 3.
+<li><em>Test every line</em>
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<li>I flipped 'x' and 'n' in my remainder calculation, fix it here:
+<code class="python">def x_divides_n(x, n):
+    debugging and print("Finding if x =", x, "divides n =", n)
+    # x divides n if x divided by n has no remainder.
+    # The modulo operator % computes remainders
+    remainder = n % x
+    debugging and print("rem of n div by x is", remainder)
+    return None
+    
+x_divides_n(3,9)
+</code>
+<li>Test
+<code class="python">Finding if x = 3 divides n = 9
+rem of n div by x is 0</code>
+<li>It's good, move on.
+</section>
+
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<li>I flipped 'x' and 'n' in my remainder calculation, fix it here:
+<code class="python">def x_divides_n(x, n):
+    debugging and print("Finding if x =", x, "divides n =", n)
+    remainder = n % x
+    debugging and print("rem of n div by x is", remainder)
+    if remainder == 0 : # Then x divides n
+        return True
+    else:
+        return False
+</code>
+<li>Is this correct?
+</section>
+
+<section>
+<h2>Sidebar: 'if' statements</h2>
+<ul>
+<li>Examine this code:
+<code class="python">    if remainder == 0 : # Then x divides n
+        return True
+    else:
+        return False</code>
+<li>It is logically correct.
+<li>However, it misuses "remainder == 0":
+<ul><li>If remainder is equal to zero, it returns true.
+<li>If remainder is not equal to zero it returns false.
+</ul><li><em>The value of "remainder == 0" is the same value that is returned.</em>
+<code class="python">return remainder == 0</code>
+<li>This is 3 fewer lines and 3 fewer places to make mistakes.
+</section>
+
+
+<section>
+<h2>Sidebar: 'if' statements</h2>
+<ul>
+<li>Emphasis:
+<code class="python">return remainder == 0</code>
+<li>This is 3 fewer lines and 3 fewer places to make mistakes.
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<li>I flipped 'x' and 'n' in my remainder calculation, fix it here:
+<code class="python">def x_divides_n(x, n):
+    debugging and print("Finding if x =", x, "divides n =", n)
+    remainder = n % x
+    debugging and print("rem of n div by x is", remainder)
+    return remainder == 0  # Then x divides n</code>
+<li>Is this correct?
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    # we'll print the divisors here that aren't 1 or n
+    return 0 # we'll return the number of divisors here</code>
+<li><b>&check;</b> How do we know if some 'x' divides 'n'?
+<li>How do we know which 'x' to check?
+<ul><li>As a rule, 1 and 'n' aren't too exciting so I'll leave them out.
+<li>If you write you own: do what you want but write it down
+<li>In this class: actually read the instruction (plz)</ul>
+<li>How do we keep track of how many 'x' we find?
+</ul>
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    # we'll print the divisors here that aren't 1 or n
+    return 0 # we'll return the number of divisors here</code>
+<li>How do we know which 'x' to check?
+<ul><li>As a rule, 1 and 'n' aren't too exciting so I'll leave them out.
+</ul>
+<li>Well, let's check everything between 1 and 'n'?
+<code class="python">>>> n = 9
+>>> range(1,n)
+range(1, 9)</code>
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    for x in range(1,n):
+        x_divides_n(x,n) # can test with debug
+    return 0 # we'll return the number of divisors here</code>
+<li>Our debug statements in x_divides_n mean we can test already.
+<code class="python">>>> divisors(4)
+Finding if x = 1 divides n = 4
+rem of n div by x is 0
+Finding if x = 2 divides n = 4
+rem of n div by x is 0
+Finding if x = 3 divides n = 4
+rem of n div by x is 1
+0</code>
+<li>Whoops - I didn't exclude '1' like I thought I did.
+</section>
+
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    for x in range(2,n):
+        x_divides_n(x,n) and print(x) # short circuit
+    return 0 # we'll return the number of divisors here</code>
+<li>I...
+<ul><li><b>1.</b> Fix the range (2-to-n now), 
+<li><b>2.</b> and add a print... deviously.
+</section>
+
+
+<section>
+<h2>side by side</h2>
+<ul><code class="python">def divisors(n):
+    for x in range(2,n):
+        x_divides_n(x,n) and print(x) # short circuit
+    return 0 # we'll return the number of divisors here</code>
+<li>I can easily test with or without debug messages.
+<table style="width:100%">
+<tr><td style="width:50%">
+<code class="python">debugging = True
+divisors(4)
+</code>
+<li>We see:
+<code class="python">Does x = 2 divide n = 4
+rem of n div by x is 0
+2
+Does x = 3 divide n = 4
+rem of n div by x is 1
+0</code></td><td style="width:50%">
+   <code class="python">debugging = False
+divisors(4)</code>
+<li>We see:
+<code class="python">2
+0</code>
+    </td></tr></table></ul>
+    <p>Which is easier?
+</section>
+
+
+
+<section>
+<h2>Return value</h2>
+<ul><code class="python">def divisors(n):
+    for x in range(2,n):
+        x_divides_n(x,n) and print(x) # short circuit
+    return 0 # we'll return the number of divisors here</code>
+<li>This is wrong because it claims 4 has 0 divisors (it has 1).
+<ul><li>Or perhaps, 'interesting' divisors - up to you!
+</ul>
+<li>This will be the most common error on Problem Set 2.
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    for x in range(2,n):
+        x_divides_n(x,n) and print(x) # short circuit
+    return 0 # we'll return the number of divisors here</code>
+<li><b>&check;</b> How do we know if some 'x' divides 'n'?
+<li><b>&check;</b> How do we know which 'x' to check?
+<li>How do we keep track of how many 'x' we find?
+</ul>
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    count = 0
+    for x in range(2,n):
+        if x_divides_n(x,n):
+            print(x) # print if divisor
+    return 0 # we'll return the number of divisors here</code>
+<li>How do we keep track of how many 'x' we find?
+<ul><li>How does this help?
+</ul>
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code class="python">def divisors(n):
+    count = 0
+    for x in range(2,n):
+        if x_divides_n(x,n):
+            print(x) # print if divisor
+            count = count + 1
+            debugging and print(x,'is a div, count is', count)
+    return 0 # we'll return the number of divisors here</code>
+<li>How do we keep track of how many 'x' we find?
+<ul><li>We wrote a line of code it is time to test.
+<li>'count = count + 1' should look weird and should be tested
+</ul>
+</section>
+
+
+<section>
+<h2>Running Example</h2>
+<ul><li>We test on 4:
+<code class="python">divisors(4)
+</code>
+<li>Run it:
+<code class="python">Does x = 2 divide n = 4
+rem of n div by x is 0
+2
+2 is a div, count is 1
+Does x = 3 divide n = 4
+rem of n div by x is 1
+0</code>
+<li>That is hard to read.
+<ul><li>Either: preface debug statements with the function name...
+</ul>
+</section>
+
+
+<section>
+<h2>side by side</h2>
+<ul>
+<table style="width:100%">
+<tr><td style="width:45%">
+<code style="max-height:1000px" class="python">debugging = True
+
+def divisors(n):
+    count = 0
+    for x in range(2,n):
+        if x_divides_n(x,n):
+            print(x)
+            count = count + 1
+            debugging and print('DIVISOR:', x,'is a div, count is', count)
+    return 0
+
+def x_divides_n(x,n):
+    debugging and print("X_DIV_N:", "Does x =", x, "divide n =", n)
+    remainder = n % x
+    debugging and print("X_DIV_N:", "rem of n div by x is", remainder)
+    return remainder == 0
+    
+divisors(6)</code></td><td style="width:55%">
+   <code class="python">X_DIV_N: Does x = 2 divide n = 6
+X_DIV_N: rem of n div by x is 0
+2
+DIVISOR: 2 is a div, count is 1
+X_DIV_N: Does x = 3 divide n = 6
+X_DIV_N: rem of n div by x is 0
+3
+DIVISOR: 3 is a div, count is 2
+X_DIV_N: Does x = 4 divide n = 6
+X_DIV_N: rem of n div by x is 2
+X_DIV_N: Does x = 5 divide n = 6
+X_DIV_N: rem of n div by x is 1
+0
+>>></code>
+    </td></tr></table></ul>
+</section>
+
+<section>
+<h2>Running Example</h2>
+<ul>
+<code style="max-height:1000px" class="python">def divisors(n):
+    count = 0
+    for x in range(2,n):
+        if n % x == 0:
+            print(x)
+            count = count + 1
+            debugging and print(x,'is a div, count is', count)
+    return count</code>
+<li><b>&check;</b> How do we know if some 'x' divides 'n'?
+<li><b>&check;</b> How do we know which 'x' to check?
+<li><b>&check;</b> How do we keep track of how many 'x' we find?
+</ul>
+<p>
+<p>There is a better (fewer total loops) way to do this with a while loop. Find for up to +15% on PS2.
+<p>Above + solve in one line + verbal explanation for +100% on PS2
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<code style="max-height:1000px" class="python">def divisors(n): # this is useful
+    count = 0
+    for x in range(2,n):
+        if n % x == 0:
+            print(x)
+            count = count + 1
+    return count</code>
+<li>One writing problem.
+</ul>
+<li>By <em>next</em> <b>MONDAY 11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<code style="max-height:1000px" class="python">def n_spaces_before(n,s):
+    print(n * ' ', s) # test - that is 'n times space plus s'</code>
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

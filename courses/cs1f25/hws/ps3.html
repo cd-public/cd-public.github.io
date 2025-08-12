@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Problem Set 3: Strings</title>
+		<style>
+		.page {
+			width: 9in ;
+			height: 11.5in;
+			margin: auto ;
+		}
+		.page_outer {
+			width: 8.5in;
+			height: 11in;
+			box-shadow: -.1in -.1in .25in darkgray, .1in .1in .25in gray;
+			position: relative ;
+		}
+		.page_inner{
+			margin: 1in;  
+			margin-top: .5in;  
+		}
+		th {
+			text-align: center ;
+            height: 1.5em;
+            width: 1.5em;
+            font-weight:normal;
+		}
+		td {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+		</style>
+		<style type="text/css" media="print">
+			.page {
+				width: 8.5in;
+				height: 11in;
+				margin: auto ;
+			}
+			.page_outer {
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner"><center>
+					<h4>CS 151: Intro to Programming in Python</h4>
+					<h1>Problem Set 3: Strings</h1>
+                    <h3>Due: Monday, 23 September, 11:59 PM</h3>
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/ybD-IUqL">https://classroom.github.com/a/ybD-IUqL</a>
+                    <hr>
+                    </center>
+					<p>This is a problem set of 3-4 problems, all involving string operations.
+					<hr>
+                    <h2>Files:</h2>
+					<h3>1. <code>draw_console_pyramid</code></h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob1.py</li>
+                        </ul>
+                    </ul>
+					<h3>2. <code>contains_repeated_letters</code> and <code>longest_no_repeats</code></h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob2.py</li>
+                        </ul>
+                        <li>You will also need:
+                        <ul>
+                            <li>english.py</li>
+                        </ul>
+                    </ul>
+					<h3>3. <code>to_obenglobish</code></h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob3.py</li>
+                        </ul>
+                    </ul>
+                    <h3>Others:</h3>
+                    <ul>
+                        <li>This problem set has "pytest" support.
+                        <li>After installing pytest via <code>pip install pytest</code> at command line.
+                        <li>You may run pytest via <code>pytest</code> at command line in your PS3 folder/directory.
+                        <li>Doing so will give you feedback on your work using the following files:
+                        <ul>
+                            <li>test_ps3.py</li>
+                            <li>pytest.ini</li>
+                        </ul>
+                    </ul>
+				</div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h2>Problems:</h2>
+                    <h3>Problem 1: <code>draw_console_pyramid</code></h3>
+                    <p>The function <code>def draw_console_pyramid(n:int) -> NoneType:</code> will
+                    <ol>
+                        <li>Print 'n' lines,
+                        <li>Print only spaces ' ' and asterisks '*' in each line,
+                        <li>Print one (1) asterisk immediately, and then increase by two each row, and
+                        <li>Center the previous row of asterisks over the <em>next</em> row.
+                        <ul>
+                            <li>We term this the "pyramid" pattern.
+                        </ul>
+                    </ol>
+                    <p><b>How I solved it.</b> I used a 'for' loop over the number of rows, computed the number of space ' ' and asterisk '*' characters using the current and total number of rows, and used string multiplication and addition to build each row, which I then printed. There are at least two other very good solutions.
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> draw_console_pyramid(8)
+       *
+      ***
+     *****
+    *******
+   *********
+  ***********
+ *************
+***************</code></pre><hr>
+                    <p>It helped me to make this table. I denote spaces as empty and count from zero:
+                    <table>
+                        <!--<tr><th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th></tr>-->
+                        <tr><th>0</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>*</td></tr>
+                        <tr><th>1</th><td></td><td></td><td></td><td></td><td></td><td></td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th>2</th><td></td><td></td><td></td><td></td><td></td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th>3</th><td></td><td></td><td></td><td></td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th>4</th><td></td><td></td><td></td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th>5</th><td></td><td></td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th>6</th><td></td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th>7</th><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td></tr>
+                        <tr><th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th></tr>
+                    </table>
+                </div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 2: (Two Parts)</h3>
+                    <h4>Part A: <code>contains_repeated_letters</code></h4>
+                    <p>The function <code>contains_repeated_letters(s:str) -> bool:</code> will
+                    <ol>
+                        <li><code>return True</code> if any letter occurs more than once in 's'
+                        <li><code>return False</code> for all other cases.
+                    </ol>
+                    <p>Note that these are return values, and not printed values.
+                    <p><b>How I solved it.</b> I used a 'for' loop over the number of letters in 's', and checked if the letter at index 'i' was present in the rest of the string 's' excluding position 'i'. There are many other good solutions.
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> contains_repeated_letters("") # no repeats
+False
+>>> contains_repeated_letters("single") # no repeats
+False
+>>> contains_repeated_letters("repeating") # 'e' repeats
+True
+>>> contains_repeated_letters("!!") # '!' repeats
+True</code></pre><hr>
+                    <h4>Part B: <code>longest_no_repeats</code></h4>
+                    <p>The function <code>longest_no_repeats() -> str:</code> will return the longest word in 'ENGLISH_WORDS', which is defined in the template file.
+                    <p><b>How I solved it.</b> I started with 'candidate' (""), then used a 'for' loop of ENGLISH_WORDS, checking for greater length and repeated characters to determine if there were a new 'candidate'. At the end of the loop, I returned whatever the current 'candidate' was. There are many other good solutions.
+                    <p>It is likely non-obvious how to interact with ENGLISH_WORDS. This example code shows how to print every word. It took my computer 4 seconds.
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">def print_every_word():
+    for word in ENGLISH_WORDS:
+        print(word)</code></pre><hr>
+				</div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 3: <code>to_obenglobish</code></h3>
+                    <p>The function <code>to_obenglobish(s:str) -> str:</code> will
+                    <ul>
+                        <li>Create and return a new string, which will be identical to the old string except...
+                        <li>Any instance of the letter 'a', 'e', 'i', 'o', 'u' in the string will be prefixed with 'ob', unless...
+                        <li>It follows another of these letters, which we term "vowels", or...
+                        <li>Is an 'e' and is the final letter.
+                    </ul>
+                    <p><b>How I solved it.</b> I made a variable to track whether the previous letter was a vowel and a variable to contain the list to return. I looped over the letters in the argument/parameter string (the string that was provided) and then added each letter to the return variable, with the prefix if I encountered (1) vowel, with (2) no preceding vowel, that was not (3) an 'e' in the last position.
+                    <p>Here is another way of describing this problem:
+                    <blockquote style="font-family:sans-serif">Many people in English-speaking countries have played the Pig Latin game at some point in their lives. There are other invented “languages” in which words are created using some simple transformation of English. One such language is called Obenglobish, in which words are created by adding the letters ob before the vowels (a, e, i, o and u) in an English word. For example, under this rule, the word english gets the letters ob added before the e and the i, to form obenglobish, which is how the language got its name.</blockquote>
+
+                    <blockquote style="font-family:sans-serif">In official Obenglobish, the ob characters are only added before vowels that are pronounced, which means that a word like game would become gobame rather than gobamobe since the final e is silent. While it is impossible to implement this rule perfectly, you can do a pretty good job by adopting the rule that ob should be added before every vowel in the word except when:</blockquote>
+                    <ul>
+                        <ul style="font-family:sans-serif">
+                            <li>the vowel follows another vowel
+                            <li>the vowel is an e occurring at the end of a word
+                        </ul>
+                    </ul>
+
+                    <blockquote style="font-family:sans-serif">Write a function to_obenglobish that takes an English word as an argument and returns its Obenglobish equivalent, using the translation rules above. For example, your function should be able to output something similar to below:</blockquote>
+                    <p>Here is demo:
+                    <center style="border:dotted">
+                    <script>
+                        function to_obenglobish()
+                        {
+                            const s = document.getElementById("s").value.toLowerCase() ;
+                            const vowels = new Array("a", "e", "i", "o", "u") ;
+                            let retval = ""
+                            let good = true ;
+                            for ( let i = 0 ; i < s.length ; i++ )
+                            {
+                                if (vowels.includes(s[i]) && good)
+                                {
+                                    if (s[i] != 'e' || i != s.length - 1)
+                                    {
+                                        retval += 'ob'
+                                        good = false ;
+                                    }
+                                } else if (!vowels.includes(s[i])) {
+                                    good = true ;
+                                }
+                                retval += s[i] ;
+                            }
+                            document.getElementById("r").innerText = retval ;
+                        }
+                    </script>
+                    <input type="text" id="s"><button onclick="to_obenglobish()">Translate</button>
+                    <p id="r"><span style="color:white">__</span></p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

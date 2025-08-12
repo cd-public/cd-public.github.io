@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Problem Set 5: Histogram</title>
+		<style>
+		.page {
+			width: 9in ;
+			height: 11.5in;
+			margin: auto ;
+		}
+		.page_outer {
+			width: 8.5in;
+			height: 11in;
+			box-shadow: -.1in -.1in .25in darkgray, .1in .1in .25in gray;
+			position: relative ;
+		}
+		.page_inner{
+			margin: 1in;  
+			margin-top: .5in;  
+		}
+		th {
+			text-align: center ;
+            height: 1.5em;
+            width: 1.5em;
+            font-weight:normal;
+		}
+		td {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+            
+		}
+        code {
+            font-size: larger ;
+        }
+		</style>
+		<style type="text/css" media="print">
+			.page {
+				width: 8.5in;
+				height: 11in;
+				margin: auto ;
+			}
+			.page_outer {
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner"><center>
+					<h4>CS 151: Intro to Programming in Python</h4>
+					<h1>Problem Set 5: Histogram</h1>
+                    <h3>Due: Monday, 28 October, 11:59 PM</h3>
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/rGt0WBas">https://classroom.github.com/a/rGt0WBas</a>
+                    <hr>
+                    </center>
+					<p>This is a problem set of 2 problems, the first of which has 3 parts.
+					<hr>
+                    <h2>Files:</h2>
+					<h3>1. Histogram</h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob1.py</li>
+                        </ul>
+                        <li>You will also need:
+                        <ul>
+                            <li>pgl.py</li>
+                        </ul>
+                    </ul>
+					<h3>2. Magic Square</h3>
+                    <ul>
+                        <li>Update (only) this file:
+                        <ul>
+                            <li>Prob2.py</li>
+                        </ul>
+                    </ul>
+                    <hr>
+                    <h2>Resources on PGL (Portable Graphics Library):</h2>
+                    <ul>
+                        <li><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/PythonSummary.html">Prof. Jed Rembold notes on PGL (and more)</a>
+                        <li><a href="https://willamette.edu/~esroberts/python/pgldoc/">Prof. Eric Roberts notes on PGL</a>
+                    </ul>
+				</div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h2>Problem 1: Histogram</h2>
+                    <p>Create histogram, or bar chart, based on how many times some value occurs in a list.
+                    <p>Consider the first 16 digits of π:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">PI_DIGITS = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]</code></pre><hr>
+                    <p>This would create histogram array as follows:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">HISTOGRAM = [0, 2, 1, 2, 1, 4, 1, 1, 1, 3]</code></pre><hr>
+                    <p>We visualize the array as follows:<br><br>
+                    <img width="100%" src="imgs/ps5_1.svg">
+                    <p>That is, there are zero <code style="font-size:larger">0</code>s in PI_DIGITS, there are two <code style="font-size:larger">1</code>s in PI_DIGITS,... there are three <code style="font-size:larger">9</code>s in PI_DIGITS.
+                    <h3>Problem 1a: <code style="font-size:larger">create_histogram_array</code></h3>
+                    <p>Write a function over a list of integers that returns a new, distinct list of integers that corresponds to the histogram values.
+                    <p><code style="font-size:larger">create_histogram_array(x)[i]</code> should be equal to the number of times <code>i</code> appears in <code>x</code>.
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">create_histogram_array(data:list[int])->list[int]</code></pre><hr>
+                    <p>It can be used as follows:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> PI_DIGITS
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]
+>>> create_histogram_array(PI_DIGITS)
+[0, 2, 1, 2, 1, 4, 1, 1, 1, 3]</code></pre><hr>
+                </div>
+			</div>
+		</div>
+        		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h2>Problems:</h2>
+                    <h3>Problem 1b: <code style="font-size:larger">print_histogram</code></h3>
+                    <p>Write a function over a list of integers that prints a labelled history of asterisks representing the histogram array. It will have type:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">print_histogram(hist:list[int])->None</code></pre><hr>
+                    <p>For each integer in <code style="font-size:larger">hist</code> print:
+                    <ol>
+                        <li>The index, beginning with zero and increasing.
+                        <li>A colon followed by a space "<code style="font-size:larger">: </code>".
+                        <li>A number of 'star' or 'asterisk' characters equal to the value hist[index].
+                    </ol>
+                    <p>It is most likely easier to see an example:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> PI_DIGITS
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 5, 8, 9, 7, 9]
+>>> create_histogram_array(PI_DIGITS)
+[0, 2, 1, 2, 1, 4, 1, 1, 1, 3]
+>>> h = create_histogram_array(PI_DIGITS) 
+>>> print_histogram(h)
+0: 
+1: **
+2: *
+3: **
+4: *
+5: ****
+6: *
+7: *
+8: *
+9: ***</code></pre><hr>
+                    <p>For example, '<code style="font-size:larger">5: ****</code>' represents that
+                    <ul>
+                        <li>The digit <code style="font-size:larger">5</code> appears 4 times in PI_DIGITS, and that 
+                        <li>The value of <code style="font-size:larger">h[5]</code> is <code style="font-size:larger">4</code>
+                    </ul>
+                </div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 1c: <code>graph_histogram</code></h3>
+                    <p>Write a function that graphs the histogram in a PGL window of size width by height, probably in red on white:
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">graph_histogram(hist:list[int], width:int, height:int)</code></pre><hr>
+                    <p>For example, consider <code style="font-size:larger">graph_histogram(create_histogram_array(PI_DIGITS),400,400)</code>. I have added an outline to make the image more clear, but you do not need to add an outline.
+                    <center><img style="outline:solid" src="imgs/ps5_2.png"></center>
+                    <h4>How I solved it</h4>
+                    <p>For 1a, I created a list of length <code>max(data) + 1</code> of all zeros. I looped over data, and for each value, added one to the list index equal to the current value.
+                    <p>For 1b, I wrote a single list comprehension over the length of the histogram. I printed (the string representation of the index) plus (the formatting colon and space) plus (the histogram value times the asterisk character).
+                    <p>For 3b, I used <code>my_rect</code>. I calculated how wide each column would be, and how many pixels corresponded a histogram value of one (one of the asterisks from above). Then I looped over the histogram, adding rectangles displaced from the upperleft according to their index (from left) and histogram value less maximum value (from the top).
+				</div>
+			</div>
+		</div>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner">
+                    <h3>Problem 2: <code>is_magic_square</code></h3>
+                    <p>The function <code>is_magic_square</code> will
+                    <ul>
+                        <li>Accept a list of lists of integers.
+                        <li>Return <code>False</code> the outer list and differs in length from any of the inner lists.
+                        <ul>
+                            <li>That is, in a list of 3 lists of integers, all of the lists of integers must be of length 3.
+                        </ul>
+                        <li>Return <code>True</code> if:
+                        <ul>
+                            <li>The sum of the rows, columns and diagonals are all equal.
+                        </ul>
+                        <li>Return <code>False</code> otherwise.
+                    </ul>
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">is_magic_square(array:list[list[int]]) -> bool</code></pre><hr>
+                    <p>The following depicts a magic square of size 3x3.
+                    <img width="100%" src="imgs/ps5_3.svg">
+                    <p>There is a famous 4x4 <a href="https://en.wikipedia.org/wiki/Magic_square">magic square</a> in <a href="https://en.wikipedia.org/wiki/Melencolia_I"><em>Melencolia I</em></a> by <a href="https://en.wikipedia.org/wiki/Albrecht_D%C3%BCrer">Albrecht Dürer</a>.
+                    <a title="Albrecht Dürer
+, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Melencolia_I_(detail).jpg"><img width="256" alt="Albrecht Dürer - Melencolia I (detail)" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Albrecht_D%C3%BCrer_-_Melencolia_I_%28detail%29.jpg?20060502212031"></a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Binary Search</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Binary Search</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W13Fri: 22 Nov<br>
+</section>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Special out-of-sequence lecture Monday.
+<li>Adventure Ongoing
+<ul><li>You should be thinking about how you're going to do QUIT/HELP/LOOK</ul>
+<li>Advising ongoing
+<ul><li>If you encounter any problem, email me immediately
+<li>I'll be doing triage:
+<ul><li>If you don't get an email back quickly, either <ul>
+<li>the problem is not urgent and I'll solve it latter, or
+<li>I am fleeing a zamboni IRL and require thoughts & prayers stat.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Do things fast
+<ul><li>Not adventure relevant
+<li>Is write-good-code relevant.
+<li>Searchin'
+</section>
+
+<section>
+<h2>Throwback Wordle</h2>
+<ul>
+<li>Read in some text (hey just like adventure)
+<li>See if it's in a list of words (just like adventure)
+<li>Hella words (this is where it's different)
+<li>Do thing accordingly.
+<ul><li>Wordle's ENGLISH_WORDS had 127145 words
+<li>It's <a href="https://raw.githubusercontent.com/rembold-cs151-master/Section04/refs/heads/main/english.py">here</a>.
+<li>That would take a long time to read.
+</section>
+
+<section>
+<h2>Checking Words</h2>
+<ul>
+<li>The obvious way to see if a word is in a list is with a loop:
+<code class="python">def is_my_word_english(my_word:str)->bool:
+    for word in ENGLISH_WORDS:
+        if word == my_word:
+            return True
+    return False</code>
+<ul>
+<li>This is technically correct.
+<li>It is a special new type of wrong: algorithmically incorrect.</code>
+</section>
+
+
+<section>
+<h2>Technical vs Algorithmic Correctness</h2>
+<ul>
+<li>Say I want to make a peanut butter sandwich
+<ul><li>This is an easy assumption as it is true at all points in time</ul>
+<li>I could construct a peanut butter sandwich by:
+<ul><li>Driving to Winco Foods or equivalent
+<li>Purchasing one peanut
+<li>Driving to Lowe's Home Improvement or equivalent
+<li>Buying a grinder
+<li>Driving home
+<li>Grinding one peanut
+<li>Storing the peanut butter
+<li>Returning the grinder
+<li>Looping.
+</ul><li>This actually how I lived my life before discovering list comprehensions, now I buy 100 grinders at a time. (This is a joke it is not serious).
+</section>
+
+<section>
+<h2>Technical vs Algorithmic Correctness</h2>
+<ul>
+<li>Say I want to make a peanut butter sandwich
+<ul><li>I have 20 metric tons of peanuts and 40 grinders.
+<li>I divide the tons of peanuts into equal parts until I have 40 parts
+<li>I grind them all at once.
+</ul>
+<li>This technique of "divide-and-conquer" is just as technically correct - it still make peanut butter.
+<li>It is more algorithmically correct - it wastes less effort.
+</ul>
+</section>
+<section>
+<h2>Checking Words</h2>
+<ul>
+<li>One peanut at a time:
+<code class="python">def is_my_word_english(my_word:str)->bool:
+    for peanut in ENGLISH_WORDS:
+        if peanut == my_word:
+            return True
+    return False</code>
+<ul>
+<li>This is technically correct.
+<li>Is there a way to divide it in half?</code>
+</section>
+
+<section>
+<h2>Divide and Conquer</h2>
+<ul>
+<li>We can think of words alphabetically, and check to see if, e.g.:
+<ul><li>The first letter of a word is in the first half of the alphabet
+<code class="python">>>> abcs = 'abcdefghijklmnopqrstuvwxyz'
+>>> abcs[len(abcs)//2]
+'n'
+>>> "vesuvius" < 'n'
+False
+>>> "glissando" < 'n'
+True</code>
+
+</section>
+
+<section>
+<h2>Divide and Conquer</h2>
+<ul>
+<li>We can think of words alphabetically, and check to see if, e.g.:
+<li>If words are in alphabetical order, it is easy enough to see if a word is in the first half of the words:<code class="python">>>> words = ['abraxis', 'canopy', 'palladio', 'snafu', 'turbidity', 'unceasingly', 'zymox']
+>>> words[len(words)//2]
+'snafu'
+>>> "vesuvius" < 'snafu'
+False
+>>> "glissando" < 'snafu'
+True</code>
+</section>
+
+
+<section>
+<h2>Divide and Conquer</h2>
+<ul>
+<li>How did this work algorithimically?
+<ul><li>We took one word and a sorted list of words.
+<li>We checked if our word was more or less than the middle of the sorted list
+</ul>
+<li>Let's write that out:<code class="python">def is_first_half(my_word:str, word_list:list[str]) -> bool:
+    length = len(word_list)
+    half_length = length // 2 # we need an integer!
+    middle = word_list[middle]
+    return my_word < middle</code>
+<li>Note I do not use any if statements!
+</section>
+
+
+<section>
+<h2>Divide and Conquer</h2>
+<ul>
+<li>How did this work algorithimically?
+<ul><li>This only tells us which half a word would be in, not if it is in that half.<code class="python">def is_first_half(my_word:str, word_list:list[str]) -> bool:
+    return my_word < word_list[len(word_list) // 2]</code>
+<li>We could check the whole half but...
+<li>Checking everything is just what we want to avoid!
+<li>We can use the same trick again - keep taking halves...
+<code class="python">if is_first_half(my_word, word_list):
+    # keep only the first half
+    word_list = word_list[:half_length]
+else:
+    # keep only the second half
+    word_list = word_list[half_length:]</code>
+</section>
+
+
+
+<section>
+<h2>Divide and Conquer</h2>
+<ul>
+<li>How did this work algorithimically?
+<ul><li>We can keep talking halves until there is only one word left.
+<code class="python">while len(word_list) > 1:
+    half_length = len(word_list) // 2
+    if is_first_half(my_word, word_list):
+        # keep only the first half
+        word_list = word_list[:half_length]
+    else:
+        # keep only the second half
+        word_list = word_list[half_length:]</code>
+<li>Then we can see if that's the word we want.
+<code class="python">while len(word_list) > 2:
+    ...
+return word_list == word_list[0] # only one word left!</code>
+</section>
+
+
+<section>
+<h2>Divide and Conquer</h2>
+<ul>
+<li>Altogether
+<code class="python">def is_word(my_word:str, word_list:list[str]) -> bool:
+
+    while len(word_list) > 1:
+        half_length = len(word_list) // 2
+        if my_word < word_list[half_length]:
+            # keep only the first half
+            word_list = word_list[:half_length]
+        else:
+            # keep only the second half
+            word_list = word_list[half_length:]
+            
+    return my_word == word_list[0]</code>
+<li>More in two weeks.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Do things fast
+<ul><li>Not adventure relevant
+<li>Is write-good-code relevant.
+<li>Searchin'
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Special out-of-sequence lecture Monday.
+<ul><li>Alonzo Church's Lambda Calculus 🙏
+<li>Adventure Ongoing
+<ul><li>You should be thinking about how you're going to do QUIT/HELP/LOOK</ul>
+<li>Advising ongoing
+<ul><li>If you encounter any problem, email me immediately
+<li>I'll be doing triage:
+<ul><li>If you don't get an email back quickly, either <ul>
+<li>the problem is not urgent and I'll solve it latter, or
+<li>I am fleeing a zamboni IRL and require thoughts & prayers stat.
+</ul>
+</section>
+
+
+
+    </div>
+  </div>
+
+ 
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

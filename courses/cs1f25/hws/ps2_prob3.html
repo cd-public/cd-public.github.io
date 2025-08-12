@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Problem Set 2: divisible_by_six_or_seven</title>
+        <style>
+            p {
+                text-family: monospace;
+            }
+            td {
+                text-align: center;
+                vertical-align: top;
+            }
+            canvas{
+                margin-right: auto;
+                margin-left: auto;
+                display: block;
+            }
+         </style>
+         <script>
+             function calculate()
+             {
+                 const a = parseInt(document.getElementById("A").value) ;
+                 const b = parseInt(document.getElementById("B").value) ;
+                 const d = parseInt(document.getElementById("d").value) ;
+                 const x = a > b ? a : b ;
+                 const y = a > b ? b : a ;
+                 const z = d > y ? y : d ;
+                 document.getElementById("t").innerText = x * x + y * y - d * y ;
+                 const c = document.getElementById("c").getContext("2d") ;
+                 // normalize a + b to 400
+                 c.fillStyle = "white" ;
+                 c.fillRect(0,0,400,400) ;
+                 const s = 400 / (a + b) ;
+                 const i = a * s ;
+                 const j = b * s ;
+                 const k = d * s ;
+                 const v = i > j ? i : j ;
+                 const m = i > j ? j : i ;
+                 c.fillStyle = "red" ;
+                 c.fillRect(0, v - i, i, i) ;
+                 c.fillStyle = "blue" ;
+                 c.fillRect(0 + i - k, v - j, j, j) ;
+                 c.fillStyle = "magenta" ;
+                 c.fillRect(0 + i - k, v - m , k, m) ;
+             }
+         </script>
+	</head>
+	<body onload="calculate()">
+		<center>
+            <span style="color:red">    <code>A</code> = <input id="A" type="number" value="10"></span><br>
+            <span style="color:blue">   <code>B</code> = <input id="B" type="number" value="15"></span><br>
+            <span style="color:magenta"><code>d</code> = <input id="d" type="number" value="05"></span><br>
+            <button onclick="calculate()">Calculate</button>
+            <br>
+            <p>Area = 
+            <p id="t">?</p>
+        </center>
+        <canvas style="align:center" width="400" height="400" id="c">
+	</body>
+</html>

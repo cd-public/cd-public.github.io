@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Classes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Classes</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W10Wed: 30 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 3 next Monday.
+  <ul>
+    <li>Milestone 3 tonight
+    <li>Milestone 4a by Thursday
+    <li>Milestone 4b by Friday
+    <li>Milestone 4c by Saturday
+    </ul>
+<li>Midterm looming. Stay tuned.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Classes
+  <ul>
+<li>Editorializing
+<li>Classes and Objects
+<li>Definitions and Applications
+<li>Attributes
+<li>Initialization
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>My minority take: Classes are bad
+<ul><li>Classes bundle data and computing non-obviously.
+  <code class="python">"".join("hi","world") # this works
+join("hi","world") # this doesn't
+"".len("hi") # this doesn't
+len("hi") # this does
+</code>
+<li>Classes make tracking data confusing
+<code class="python">a, b = [1], [1]
+c = b
+c is b, c == b # True, True
+c is a, c == a # False, True</code>
+<li>I refer to this as "the Java problem" but it impacts all modern languages.
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul>
+<iframe
+  id="inlineFrameExample"
+  title="Inline Frame Example"
+  width="1800"
+  height="900"
+  src="https://www.joelonsoftware.com/2005/12/29/the-perils-of-javaschools-2/">
+</iframe>
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul>
+  <img width="100%" src="https://github.blog/wp-content/uploads/2023/11/top-programming-languages-2023.png?w=1024">
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>Takeaways
+<ul><li>Finding classes confusing is valid.
+<li>Finding classes tedious is valid.
+<li>Think critically about what you learn / are taught!
+<li>Future trends are ambigious
+<ul><li>I expect: more types, fewer classes.
+</li></ul></li></li></li></li></ul>
+<li>For DATA 151 students: R is the other kind of language - functional.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Classes
+  <ul>
+<li>&check; Editorializing
+<li>Classes and Objects
+<li>Definitions and Applications
+<li>Attributes
+<li>Initialization
+</section>
+
+<section>
+<h2>Classes and Objects</h2>
+<ul><li>A class is a kind of thing.
+  <ul><li>Like an int or a list.
+    <li>Or like CS 152
+    </ul>
+<li>An object is "instance" of a class
+  <ul><li>Like '7' or '123'
+    <li>Or like Sping 2025 Section 1
+    </li></li></ul>
+<code >&gt;&gt;&gt; list, type(list)
+(&lt;class 'list'&gt;, &lt;class 'type'&gt;) # a class
+&gt;&gt;&gt; list(), type(list()) # an object
+([], &lt;class 'list'&gt;)</code>
+</section>
+
+<section>
+<h2>Objects</h2>
+<ul><li>In Python, everything is an object or some class.
+<ul><li>An integer is an object of the int class
+  <li>A string is an object of the str class
+<li>'print' is an object of the function class
+  <ul><li>Yes - functions are a class too.
+<code class="python">&gt;&gt;&gt; def do_thing():
+...     1 == 1
+...
+&gt;&gt;&gt; type(do_thing)
+&lt;class 'function'&gt;</code><code class="python">>>> do_thing
+&lt;function do_thing at 0x00000298D0845120&gt;</code>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Classes
+  <ul>
+<li>&check; Editorializing
+<li>&check; Classes and Objects
+<li>Definitions and Application
+<li>Attributes
+<li>Initialization
+</section>
+
+
+<section>
+<h2>Define</h2>
+<ul><li>Like functions, classes are defined.
+<li>They use "class" instead of "def"
+<li>My first class was something called "Box" because I thought of it as a box within which I could store some data, like the number 7.
+  <ul><li>In this way, they are another way to do records, like we did with tuples on Monday</ul>
+<code class="python">class Box:
+    pass</code>
+<ul><li>Like functions, they need something inside for indentation - I place the term "pass".
+<li>By convention, class names are Capitalized.
+
+</section>
+
+
+
+<section>
+<h2>Apply</h2>
+<ul><li>Like functions, classes are defined.
+<code class="python">class Box:
+    pass</code>
+<li>Like functions, we use classes by taking their name and appending parens to the end.
+<code class="python">>>> b = Box()</code>
+<li>With functions, we termed this "application".
+  <ul><li>We "applied" a function, like "add these together", to some values
+  </li></ul>
+  <li>With classes, this is called "instantiation".
+    <ul><li>Rather than return a value from a function, class instantion "creates" (not returns really) an instance of the class.
+    </li></ul>
+    <li>How do these differ?
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Classes
+  <ul>
+<li>&check; Editorializing
+<li>&check; Classes and Objects
+<li>&check; Definitions and <s>Application</s>Instantiation
+<li>Attributes
+<li>Initialization
+</section>
+
+<section>
+<h2>Attributes</h2>
+<ul><li>Classes can hold data inside of them.</li>
+<li>These are basically variables inside another variable.</li>
+<li>They are officially called "attributes" and sometimes called "fields" or "properties" (if you go on Google etc).
+<li>Let's compare 'Box' to 'boxify' to see what an attribute does.
+  <table style="width:100%"><td style="width:50%">
+<code class="python">class Box:
+    pass</code></td>
+
+<td style="width:50%"><code class="python">def boxify():
+    return</code></td></table>
+</section>
+
+<section>
+<h2>Attributes</h2>
+<ul><li>Imagine we have an 'x' inside a box... an 'x' 'box' if you will.
+  <table style="width:100%"><td style="width:50%">
+<code class="python">class XBox:
+    # turn 360 walk away
+    x = 360 </code></td>
+
+<td style="width:50%"><code class="python">def xboxify():
+    # I'm so Julia
+    x = 360 </code></td></table><li>We can interface with attributes, but cannot do the same for function variables!
+  <table style="width:100%"><td style="width:50%">
+<code class="python">b = XBox()
+print(b.x) # prints 7</code></td>
+
+<td style="width:50%"><code class="python">b = xboxify()
+print(b.x) # error</code></td></table>
+</section>
+
+<section>
+<h2>Attributes</h2>
+<ul><li>Functions can return values of any types, but class instantions do not.
+  <table style="width:100%"><td style="width:50%">
+<code class="python">>>> class XBox:
+...     x = 360
+...     return x
+...
+  File "&lt;stdin&gt;", line 3
+SyntaxError: 'return' outside function</code></td>
+
+<td style="width:50%"><code class="python">>>> def xboxify():
+...     x = 360
+...     return x
+...
+>>> xboxify()
+360</code></td></table><!--=<li>We can interface with attributes, but cannot do the same for function variables!
+  <table style="width:100%"><td style="width:50%">
+<code class="python">b = XBox()
+print(b.x) # prints 7</code></td>
+
+<td style="width:50%"><code class="python">b = xboxify()
+print(b.x) # error</code></td>--></table>
+</section>
+
+
+<section>
+<h2>Attributes</h2>
+<ul><li>Imagine we have an 'x' inside a box... an 'x' 'box' if you will.
+  <table style="width:100%"><td style="width:50%">
+<code class="python">class XBox:
+    x = 360 </code></td>
+
+<td style="width:50%"><code class="python">def xboxify():
+    x = 360
+    return x</code></td></table><li>We can change attributes after instantiating the object!
+  <table style="width:100%"><td style="width:50%">
+<code class="python">b = XBox()
+b.x = 1
+print(b.x) # prints 1</code></td>
+
+<td style="width:50%"><code class="python">x = 1
+b = xboxify()
+print(b) # prints 360
+</code></td></table>
+<ul><li>We can't add 1 to the 'x' inside of xboxify because... there isn't really an 'x' there?
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Classes
+  <ul>
+<li>&check; Editorializing
+<li>&check; Classes and Objects
+<li>&check; Definitions and <s>Application</s>Instantiation
+<li>&check; Attributes
+<li>Initialization
+</section>
+
+
+<section>
+<h2>Initialization</h2>
+<ul><li>Imagine we have an 'x' inside a box... an 'x' 'box' if you will.
+  <table style="width:100%"><td style="width:50%">
+<code class="python">class XBox:
+    # loneliest #
+    x = 1 </code></td>
+
+<td style="width:50%"><code class="python">def xboxify():
+    # we are # 1
+    x = 1 </code></td></table><li>We probably don't want the same 'x' every time.
+      <li>We want to be able to do this:
+  <table style="width:100%"><td style="width:50%">
+<code class="python">b = XBox(1)</code></td>
+
+<td style="width:50%"><code class="python">b = xboxify(1)</code></td></table>
+</section>
+
+
+
+<section>
+<h2>Initialization</h2>
+<ul><li>In classes, this is resolved via initialization, which is implemented with "double underscores" like so:
+  <ul><li>Note the <em>indentation level</em></li></ul>
+  <table style="width:100%"><td style="width:50%">
+<code class="python">class XBox:
+    def __init__(self, val):
+        x = val</code></td>
+
+<td style="width:50%"><code class="python">def xboxify(val):
+    x = val
+    return x</code></td></table><li>We probably don't want the same 'x' every time.
+      <li>We want to be able to do this:
+  <table style="width:100%"><td style="width:50%">
+<code class="python">b = XBox(1)
+b.x # is 1</code></td>
+
+<td style="width:50%"><code class="python">b = xboxify(1)
+b # is 1</code></td></table>
+</section>
+
+
+<section>
+<h2>Initialization</h2>
+<ul><li>Let's examine this.</li>
+<code class="python">class XBox:
+    def __init__(self, val):
+        x = val</code>
+</section>
+
+<section>
+<h2>Initialization</h2>
+<ul><li>Let's examine this.</li>
+<code class="python">class XBox:
+    def __init__(self, val):
+        x = val</code>
+<li>'def' we already know</li>
+</section>
+
+<section>
+<h2>Initialization</h2>
+<ul><li>Let's examine this.</li>
+<code class="python">class XBox:
+    def __init__(self, val):
+        x = val</code>
+<li>'def' we already know</li>
+<li>'__init__' is a special built-in name
+  <ul><li>'init' is called when the object is instanted</li>
+    <li>It may accept arguments!</li>
+  </ul></li>
+</section>
+
+<section>
+<h2>Initialization</h2>
+<ul><li>Let's examine this.</li>
+<code class="python">class XBox:
+    def __init__(self, val):
+        x = val</code>
+<li>'def' we already know</li>
+<li>'__init__' is a special built-in name
+  <ul><li>'init' is called when the object is instanted</li>
+    <li>It may accept arguments!</li>
+  </ul></li>
+  <li>'self' refers to the object being instantiated!<ul>
+  <li>If we just say "__init__" in Python, it won't work...
+    <code class="python">>>> __init__
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+NameError: name '__init__' is not defined</code>
+</section>
+
+
+<section>
+<h2>Initialization</h2>
+<ul><li>We can print inside an init to see what's happening...</li>
+<code class="python">class XBox:
+    def __init__(self, val):
+        x = 1
+        print(x)
+        x = val
+        print(x)</code>
+<li>It prints just fine, but...</li>
+    <code class="python">>>> b = XBox(360)
+1
+360
+</code><li>We can no longer see 'x' from outside.
+<code class="python">>>> b.x
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+AttributeError: 'XBox' object has no attribute 'x'</code>
+</section>
+
+
+<section>
+<h2>Initialization</h2>
+<ul><li>We use "self.x" to refer the 'x' of the object.
+<li>Otherwise, that is just the x of the __init__ function.</li>
+<code class="python">class XBox:
+    def __init__(self, val):
+        self.x = 1
+        print(self.x)
+        self.x = val
+        print(self.x)</code>
+<li>It prints just fine, but...</li>
+    <code class="python">>>> b = XBox(9)
+1
+360
+>>> b.x
+360
+</code>
+</section>
+
+
+
+<section>
+<h2>Initialization</h2>
+<ul><li>Another way.</li>
+<code class="python">class XBox:
+    x = 360
+    def __init__(self, val):
+        print(self.x)
+        self.x = val
+        print(self.x)</code>
+<li>It prints just fine, but...</li>
+    <code class="python">>>> b = XBox(1)
+360
+1
+>>> b.x
+1
+</code>
+<li>Always remember the difference between an XBox 360 and XBox 1.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Classes
+  <ul>
+<li>&check; Editorializing
+<li>&check; Classes and Objects
+<li>&check; Definitions and <s>Application</s>Instantiation
+<li>&check; Attributes
+<li>&check; Initialization
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 3 next Monday.
+  <ul>
+    <li>Milestone 3 by tonight
+    <li>Milestone 4a by Thursday
+    <li>Milestone 4b by Friday
+    <li>Milestone 4c by Saturday
+    </ul>
+    <li>Looming midterm.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

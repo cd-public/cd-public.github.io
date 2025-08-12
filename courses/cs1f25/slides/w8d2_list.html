@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">List</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W8Wed: 16 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 2: Breakout for <em>next</em> Monday, 21 October, 11:59 PM.
+<ul><li>Should be finishing up with the paddle tonight.</ul>
+<li>Sections today and tomorrow.
+<li>On PS4 you either got a 100% or an email.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Lists
+<ul><li>Brackets
+<li>Visualizing
+<li>Operations
+<li>Mutability
+</section>
+
+
+<section>
+<h2>Lists</h2>
+<ul>
+<li>The thing computers are good at is doing the same thing multiple times
+<ul><li>Karel: Painting walls
+<li>Wordle: Doing each word
+<li>Breakout: Doing each brick
+<li>Applications: Doing a sale on Amazon
+</ul><li>Most of these repeated actions are not over the letters of a string!
+<li>So we use <em>lists</em>
+</ul>
+<p>I would argue lists were the correct way to deal with the annoying part of Wordle.
+</section>
+
+<section>
+<h2>Lists Vocab</h2>
+<ul>
+<li>A list is a <em>collection</em>
+<ul><li>It is an ordered collection, called a <em>sequence</em>.
+</ul><li>Things inside a list are called <em>elements</em> of the list.
+<li>The number of elements is the <em>length</em>.
+<li>Like strings, each element has an <em>index</em>.
+</section>
+
+
+<section>
+<h2>Example</h2>
+<ul>
+<li>Say we have a hundred bricks and five colors.
+<li>We want to color groups of twenty bricks.
+<li>We want to go through some colors in order.
+<li>So: We make a list of colors.
+</section>
+
+
+<section>
+<h2>Making a list</h2>
+<ul>
+<li>To make a list in Python...
+<ul><li>Is like making anything else.
+<li>Take the name of the list, and place is on the left side of a "single equals" assignment operator.
+<code class="python">colors = </code>
+<li>Lists are an <em>ordered collection</em> of <em>elements</em>
+<ul><li>Elements are other values (like 1) or variables (like x).</ul>
+<li>We place the elements in order, separated by commas."Red", "Orange", "Green", "Cyan", and "Blue"
+<code class="python">colors = "Red", "Orange", "Green", "Cyan", "Blue"</code>
+<li>This would be a list of strings.
+<li>Lastly, we enclose the comma separated values in square brackets []
+<code class="python">colors = ["Red", "Orange", "Green", "Cyan", "Blue"]</code>
+</section>
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> type(colors)
+&lt;class 'list'&gt;</code>
+</section>
+
+
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> type(colors)
+&lt;class 'list'&gt;</code><code class="python">>>> print(colors)
+['Red', 'Orange', 'Green', 'Cyan', 'Blue']</code>
+</section>
+
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> type(colors)
+&lt;class 'list'&gt;</code><code class="python">>>> print(colors)
+['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[0]
+'Red'</code>
+</section>
+
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> type(colors)
+&lt;class 'list'&gt;</code><code class="python">>>> print(colors)
+['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[0]
+'Red'
+>>> colors[::-1]
+['Blue', 'Cyan', 'Green', 'Orange', 'Red']</code>
+</section>
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> type(colors)
+&lt;class 'list'&gt;</code><code class="python">>>> print(colors)
+['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[0]
+'Red'
+>>> colors[::-1]
+['Blue', 'Cyan', 'Green', 'Orange', 'Red']
+>>> colors[-1]
+'Blue'</code>
+</section>
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> type(colors)
+&lt;class 'list'&gt;</code><code class="python">>>> print(colors)
+['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[0]
+'Red'
+>>> colors[::-1]
+['Blue', 'Cyan', 'Green', 'Orange', 'Red']
+>>> colors[-1]
+'Blue'
+>>> colors[::2]
+['Red', 'Green', 'Blue']</code>
+</section>
+
+
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Lists work a bit like strings...
+<code class="python">>>> colors = ["Red", "Orange", "Green", "Cyan", "Blue"]
+>>> colors[.5]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: list indices must be integers or slices, not float</code>
+</section>
+
+
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>My anxiety about difficulty using string slices was mostly anxiety about list slices, which I use much more often.
+<li>For example, as recreational insurrectionary anarchist (don't over think that), I track the Cook Partisan Voter Index quite a bit, which happens to fit neatly into a list of lists...
+<code class="Python" style="max-height:800px"> >>> CookPVI
+[['Alabama', 'R+15', '36.6%', '62.0%', '34.4%', '62.1%'], ['Alaska', 'R+8', '42.8%', '52.8%', '36.6%', '51.3%'], ['Arizona', 'R+2', '49.4%', '49.1%', '44.6%', '48.1%'], ['Arkansas', 'R+16', '34.8%', '62.4%', '33.7%', '60.6%'], ['California', 'D+13', '63.5%', '34.3%', '61.7%', '31.6%'], ['Colorado', 'D+4', '55.4%', '41.9%', '48.2%', '43.3%'], ['Connecticut', 'D+7', '59.3%', '39.2%', '54.6%', '40.9%'], ['Delaware', 'D+7', '58.7%', '39.8%', '53.1%', '41.7%'], ['District of Columbia', 'D+43', '92.2%', '5.4%', '90.9%', '4.1%'], ['Florida', 'R+3', '47.9%', '51.2%', '47.8%', '49.0%'], ['Georgia', 'R+3', '49.5%', '49.2%', '45.6%', '50.8%'], ['Hawaii', 'D+14', '63.7%', '34.3%', '62.2%', '30.0%'], ['Idaho', 'R+18', '33.1%', '63.8%', '27.5%', '59.3%'], ['Illinois', 'D+7', '57.5%', '40.6%', '55.8%', '38.8%'], ['Indiana', 'R+11', '41.0%', '57.0%', '37.9%', '56.8%'], ['Iowa', 'R+6', '44.9%', '53.1%', '41.7%', '51.2%'], ['Kansas', 'R+10', '41.6%', '56.2%', '36.1%', '56.7%'], ['Kentucky', 'R+16', '36.2%', '62.1%', '32.7%', '62.5%'], ['Louisiana', 'R+12', '39.9%', '58.5%', '38.5%', '58.1%'], ['Maine', 'D+2', '53.1%', '44.0%', '47.8%', '44.9%'], ['Maryland', 'D+14', '65.4%', '32.2%', '60.3%', '33.9%'], ['Massachusetts', 'D+15', '65.6%', '32.1%', '60.0%', '32.8%'], ['Michigan', 'R+1', '50.6%', '47.8%', '47.3%', '47.5%'], ['Minnesota', 'D+1', '52.4%', '45.3%', '46.4%', '44.9%'], ['Mississippi', 'R+11', '41.1%', '57.6%', '40.1%', '57.9%'], ['Missouri', 'R+10', '41.4%', '56.8%', '38.1%', '56.8%'], ['Montana', 'R+11', '40.6%', '56.9%', '35.8%', '56.2%'], ['Nebraska', 'R+13', '39.2%', '58.2%', '33.7%', '58.8%'], ['Nevada', 'R+1', '50.1%', '47.7%', '47.9%', '45.5%'], ['New Hampshire', 'D+1', '52.7%', '45.4%', '47.0%', '46.6%'], ['New Jersey', 'D+6', '57.3%', '41.4%', '55.5%', '41.4%'], ['New Mexico', 'D+3', '54.3%', '43.5%', '48.3%', '40.0%'], ['New York', 'D+10', '60.9%', '37.8%', '59.0%', '36.5%'], ['North Carolina', 'R+3', '48.6%', '49.9%', '46.2%', '49.8%'], ['North Dakota', 'R+20', '31.8%', '65.1%', '27.2%', '63.0%'], ['Ohio', 'R+6', '45.2%', '53.3%', '43.6%', '51.7%'], ['Oklahoma', 'R+20', '32.3%', '65.4%', '28.9%', '65.3%'], ['Oregon', 'D+6', '56.5%', '40.4%', '50.1%', '39.1%'], ['Pennsylvania', 'R+2', '50.0%', '48.8%', '47.5%', '48.2%'], ['Rhode Island', 'D+8', '59.4%', '38.6%', '54.4%', '38.9%'], ['South Carolina', 'R+8', '43.4%', '55.1%', '40.7%', '54.9%'], ['South Dakota', 'R+16', '35.6%', '61.8%', '31.7%', '61.5%'], ['Tennessee', 'R+14', '37.5%', '60.7%', '34.7%', '60.7%'], ['Texas', 'R+5', '46.5%', '52.1%', '43.2%', '52.2%'], ['Utah', 'R+13', '37.7%', '58.1%', '27.5%', '45.5%'], ['Vermont', 'D+16', '66.1%', '30.7%', '56.7%', '30.3%'], ['Virginia', 'D+3', '54.1%', '44.0%', '49.7%', '44.4%'], ['Washington', 'D+8', '58.0%', '38.8%', '52.5%', '36.8%'], ['West Virginia', 'R+22', '29.7%', '68.6%', '26.4%', '68.5%'], ['Wisconsin', 'R+2', '49.5%', '48.8%', '46.5%', '47.2%'], ['Wyoming', 'R+25', '26.6%', '69.9%', '21.9%', '68.2%']]</code>
+</section>
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>We can look at just Alamaba (Roll Tide) by taking the beginning, or zeroth, element of the list.
+<code class="Python" style="max-height:800px">>>> CookPVI[0]
+['Alabama', 'R+15', '36.6%', '62.0%', '34.4%', '62.1%']</code></section>
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Perhaps we wish to look at... every 10th state.
+<code class="Python" style="max-height:800px">>>> CookPVI[::10]
+[['Alabama', 'R+15', '36.6%', '62.0%', '34.4%', '62.1%'], ['Georgia', 'R+3', '49.5%', '49.2%', '45.6%', '50.8%'], ['Maryland', 'D+14', '65.4%', '32.2%', '60.3%', '33.9%'], ['New Jersey', 'D+6', '57.3%', '41.4%', '55.5%', '41.4%'], ['South Carolina', 'R+8', '43.4%', '55.1%', '40.7%', '54.9%'], ['Wyoming', 'R+25', '26.6%', '69.9%', '21.9%', '68.2%']]</code><li>Much easier to just look at a subset of states.
+</section>
+
+
+<section>
+<h2>List Indices</h2>
+<ul>
+<li>Perhaps we wish to print only the partisan lean of every 10th state.
+<code class="Python" style="max-height:800px">>>> for state in CookPVI[::10]:
+...     print(state[:2])
+...
+['Alabama', 'R+15']
+['Georgia', 'R+3']
+['Maryland', 'D+14']
+['New Jersey', 'D+6']
+['South Carolina', 'R+8']
+['Wyoming', 'R+25']</code><li>Much easier to just look at a subset of states.
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Lists
+<ul><li>&check; Brackets
+<li>&check; Visualizing
+<li>Operations
+<li>Mutability
+</section>
+
+
+<section>
+<h2>Operations</h2>
+<ul><li>Most things that worked with strings work with lists.
+<ul><li>String addition:
+<code class="python">>>> colors
+['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[:2] + colors[3:] # not easy being green
+['Red', 'Orange', 'Cyan', 'Blue']</code>
+<li>However, unlike strings, easy to remove one element...
+<code class="python">>>> colors = ['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[2]
+'Green'
+>>> colors.pop(2)
+'Green'
+>>> colors
+['Red', 'Orange', 'Cyan', 'Blue']</code>
+<li>'pop' takes the element at some index, removes it from the list, and returns it.
+<li>That's a lot of things all at once!
+</section>
+
+
+
+<section>
+<h2>Operations</h2>
+<ul><li>New operations
+<ul><li>We could not assign a value to an index in a string.
+<code class="python">>>> s = "hello"
+>>> s[1] = 'a'
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'str' object does not support item assignment</code>
+<li>However, in lists, we can change a single element with single equals assignment.
+<code class="python">>>> colors = ['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+>>> colors[4] = 'Pink'
+>>> colors
+['Red', 'Orange', 'Green', 'Cyan', 'Pink']</code>
+<li>This is... extremely nice.
+</section>
+
+
+
+<section>
+<h2>Use case</h2>
+<ul><li>You know what each line here does.
+<code class="python">    # Milestone 0: Bricks
+    bw, bh, bs =  BRICK_WIDTH, BRICK_HEIGHT, BRICK_SEP
+    x = bs
+    y = GWINDOW_HEIGHT * TOP_FRACTION
+    for row in range(N_ROWS):
+        for col in range(N_COLS):
+            DEBUG and print("Brick at", x, y)
+            brick = GRect(x, y, bw, bh)
+            brick.set_filled(True)
+            brick.set_color("pink")
+            gw.add(brick)
+            x += bw + bs
+        x = bs
+        y += bh + bs</code>
+</section>
+
+
+<section>
+<h2>Use case</h2>
+<ul><li>Look at the set_color line. 
+<code class="python">    # Milestone 0: Bricks
+    bw, bh, bs =  BRICK_WIDTH, BRICK_HEIGHT, BRICK_SEP
+    x = bs
+    y = GWINDOW_HEIGHT * TOP_FRACTION
+    for row in range(N_ROWS):
+        for col in range(N_COLS):
+            DEBUG and print("Brick at", x, y)
+            brick = GRect(x, y, bw, bh)
+            brick.set_filled(True)
+            brick.set_color("pink") # look here
+            gw.add(brick)
+            x += bw + bs
+        x = bs
+        y += bh + bs</code>
+</section>
+
+
+<section>
+<h2>Use case</h2>
+<ul><li>Define a list of colors... 
+<code class="python">    bw, bh, bs =  BRICK_WIDTH, BRICK_HEIGHT, BRICK_SEP
+    x = bs
+    y = GWINDOW_HEIGHT * TOP_FRACTION
+    colors = ['Red', 'Orange', 'Green', 'Cyan', 'Blue'] # new
+    for row in range(N_ROWS):
+        for col in range(N_COLS):
+            DEBUG and print("Brick at", x, y)
+            brick = GRect(x, y, bw, bh)
+            brick.set_filled(True)
+            brick.set_color("pink")
+            gw.add(brick)
+            x += bw + bs
+        x = bs
+        y += bh + bs</code>
+</section>
+
+
+<section>
+<h2>Use case</h2>
+<ul><li>Define a list of colors... 
+<code class="python">    bw, bh, bs =  BRICK_WIDTH, BRICK_HEIGHT, BRICK_SEP
+    x = bs
+    y = GWINDOW_HEIGHT * TOP_FRACTION
+    colors = ['Red', 'Orange', 'Green', 'Cyan', 'Blue']
+    for row in range(N_ROWS):
+        for col in range(N_COLS):
+            DEBUG and print("Brick at", x, y)
+            brick = GRect(x, y, bw, bh)
+            brick.set_filled(True)
+            brick.set_color(colors[row//2]) # use the list
+            gw.add(brick)
+            x += bw + bs
+        x = bs
+        y += bh + bs</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul><li>&check; Lists
+<ul><li>&check; Brackets
+<li>&check; Visualizing
+<li>&check; Operations
+<li>&check; Mutability
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 2: Breakout for <em>next</em> Monday, 21 October, 11:59 PM.
+<ul><li>Should be finishing up with the paddle tonight.</ul>
+<li>Sections today and tomorrow.
+<li>On PS4 you either got a 100% or an email.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

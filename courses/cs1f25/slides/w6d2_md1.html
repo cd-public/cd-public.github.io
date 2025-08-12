@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Review</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Review</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W6Wed: 02 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Midterm on Friday.
+<ul><li>Practice Exams posted</li>
+<li>There is a practice exam on Canvas where the exam will be hosted.
+</ul>
+<li>Sections this week on Midterm review.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Review
+<ul><li>Problem 1
+<ul><li>Numerical Arithmetic
+<li>Booleans
+<li>String Slices
+</ul>
+<li>Problem 2: Program Tracing
+<li>Problem 3
+<ul><li>For
+<li>If
+<li>Print
+<li>Return
+</ul>
+<li>Problem 4: Strings
+</section>
+
+</section>
+<section>
+<h2>Numerical Arithmetic</h2>
+<ul>
+<li>Recall PEMDAS:
+<ul>
+<li>Parenthesis ()
+<li>Exponents **
+<li>Multiplication/Division * / //
+<li>Addition/Subtract + -
+</section>
+
+<section>
+<h2>Mult > Add</h2>
+<ul>
+<li>Calculations are not left-to-right.
+<code class="python">>>> 1 + 2 * 3
+7
+</code>
+<li>The multiplication occurs prior to the addition, same as:
+<code class="python">>>> 2 * 3
+6
+>>> 1 + 6
+7</code>
+</section>
+
+<section>
+<h2>Mult/Div Together</h2>
+<ul>
+<li>The order here does not matter.
+<code class="python">>>> 5 * 6 // 3
+10
+>>> (5 * 6) // 3
+10
+>>> 5 * (6 // 3)
+10
+</code>
+<li>So they occur the same.
+</section>
+
+
+<section>
+<h2>Add/Sub Together</h2>
+<ul>
+<li>The order here does not matter.
+<code class="python">>>> 1 + 2 - 3
+0
+>>> (1 + 2) - 3
+0
+>>> 1 + (2 - 3)
+0
+</code>
+<li>So they occur the same.
+</section>
+
+
+<section>
+<h2>Mult > Add</h2>
+<ul>
+<li>Calculations are not left-to-right.
+<code class="python">>>> 1 + 2 * 3
+7
+</code>
+<li>Order does matter here:
+<code class="python">>>> (1 + 2) * 3
+9
+>>> 1 + (2 * 3)
+7</code>
+<li>Multiplication first.
+</section>
+
+
+<section>
+<h2>Exp > Mult</h2>
+<ul>
+<li>Exponentiation beats out multiplication.
+<code class="python">>>> 2 ** 1 * 3
+6
+>>> (2 ** 1) * 3
+6
+>>> 2 ** (1 * 3)
+8
+</code>
+</section>
+
+
+<section>
+<h2>Example</h2>
+<ul>
+<li>Just break things down incrementally.
+<code class="python">3 + 3 * 3 ** 3 % 3</code>
+<li>Exponents first.
+<code class="python">3 + 3 * 27 % 3 # 3 ** 3 is 27</code>
+<li>Multiply, divide, mod, right-to-left
+<code class="python">3 + 3 * 27 % 3 # 3 ** 3 is 27</code>
+<li>Multiply, divide, mod, right-to-left
+<code class="python">3 + 81 % 3 # 3 * 27 is 81</code>
+<li>Multiply, divide, mod, right-to-left
+<code class="python">3 + 0 # 81 % 3 is 0 (81 is a multiple of 3)</code>
+<li>Add, subtract right-to-left
+<code class="python">3 # 3 + 0 is 3</code>
+</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul><li>Review
+<ul><li>Problem 1
+<ul><li>&check; Numerical Arithmetic
+<li>Booleans
+<li>String Slices
+</ul>
+<li>Problem 2: Program Tracing
+<li>Problem 3
+<ul><li>For
+<li>If
+<li>Print
+<li>Return
+</ul>
+<li>Problem 4: Strings
+</section>
+
+<section>
+<h2>Numerical Arithmetic</h2>
+<ul>
+<li>Recall not / and / or
+<li>Recall "truthiness"
+</section>
+
+
+<section>
+<h2><code>not</code></h2>
+<ul><li>Changes True or False to the other.
+<code class="python">>>> not True
+False
+>>> not False
+True</code>
+</section>
+
+
+<section>
+<h2><code>and</code></h2>
+<ul><li>True if both sides are True, otherwise False
+<code class="python">>>> True and True
+True
+>>> True and False
+False
+>>> False and True
+False
+>>> False and False
+False</code>
+</section>
+
+
+
+<section>
+<h2><code>or</code></h2>
+<ul><li>True if either side is True, otherwise False
+<code class="python">>>> True or True
+True
+>>> True or False
+True
+>>> False or True
+True
+>>> False or False
+False</code>
+</section>
+
+
+<section>
+<h2><code>not > and</code></h2>
+<ul><li>Do any "not" before "and"
+<code class="python">>>> (not True) and False
+False
+>>> not (True and False)
+True
+>>> not True and False
+False</code>
+</section>
+<section>
+<h2><code>and / or</code></h2>
+<ul><li>Do "and" / "or" left-to-right
+<code class="python">>>> True and False or True
+True
+>>> (True and False) or True
+True
+>>> True and (False or True)
+True</code>
+</section>
+
+
+<section>
+<h2>Comparisons</h2>
+<ul><li>Usually we get booleans from comparisons.
+<code class="python">>>> 1 == 0
+False
+>>> 1 != 0
+True
+>>> 1 >= 0
+True
+>>> 1 <= 0
+False
+>>> 'a' in 'aieou'
+True
+>>> 'a' == 'aieou'[0]
+True</code>
+</section>
+
+
+
+<section>
+<h2>Truthiness</h2>
+<ul><li>Zero and "" are like False
+<code class="python">>>> bool(0)
+False
+>>> bool(1)
+True
+>>> bool("")
+False
+>>> bool(" ")
+True
+>>> bool(.5)
+True</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Review
+<ul><li>Problem 1
+<ul><li>&check; Numerical Arithmetic
+<li>&check; Booleans
+<li>String Slices
+</ul>
+<li>Problem 2: Program Tracing
+<li>Problem 3
+<ul><li>For
+<li>If
+<li>Print
+<li>Return
+</ul>
+<li>Problem 4: Strings
+</section>
+
+<section>
+<h2>Indices</h2>
+<ul><li>Strings (words) have indices:
+<ul><li>Each character (letter) has number corresponding to its location
+<li>Numbers begin with zero and increase by one
+<li>The numbers are all integers (whole numbers).
+<code class="python">>>> s = "hi there"
+>>> s[0]
+'h'
+>>> s[1]
+'i'
+>>> s[2]
+' '
+>>> s[3]
+'t'</code>
+</section>
+
+
+<section>
+<h2>Negative Indices</h2>
+<ul><li>Strings (words) have indices:
+<ul><li>Each character (letter) has number corresponding to its location
+<li>Negative values begin with -1 at the end of the string.
+<code class="python">>>> s = "hi there"
+>>> s[-1]
+'e'
+>>> s[-2]
+'r'
+>>> s[-3]
+'e'
+>>> s[-4]
+'h'</code>
+</section>
+
+
+<section>
+<h2>Slices</h2>
+<ul><li>Slices take part of a string, based on indices.
+<ul><li>They begin at some index, and continue up to some index.
+<code class="python">>>> s = "hi there"
+>>> s[0:4]
+'hi t'
+>>> s[2:6]
+' the'
+>>> s[-4:-2]
+'he'
+>>> s[1:-1]
+'i ther'</code>
+</section>
+
+
+<section>
+<h2>Slices</h2>
+<ul><li>Slices take part of a string, based on indices.
+<ul><li>If the first index is ommitted, it is regard as zero.
+<code class="python">>>> s = "hi there"
+>>> s[:2]
+'hi'
+>>> s[0:2]
+'hi'
+>>> s[:4]
+'hi t'
+>>> s[0:4]
+'hi t'</code>
+</section>
+
+
+
+<section>
+<h2>Slices</h2>
+<ul><li>Slices take part of a string, based on indices.
+<ul><li>If the last part is omitted, it is regard as the length of the string.
+<code class="python">>>> s = "hi there"
+>>> len(s)
+8
+>>> s[6]
+'r'
+>>> s[6:]
+'re'
+>>> s[6:8]
+'re'
+>>> s[8]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+IndexError: string index out of range</code>
+<li>NOTE: This does not correspond to a character!
+</section>
+
+
+<section>
+<h2>Slices</h2>
+<ul><li>Slices take part of a string, based on indices.
+<ul><li>There may be a third value, a step size.
+<code class="python">>>> s = "hi there"
+>>> s[:4]
+'hi t'
+>>> s[0:4:1]
+'hi t'
+>>> s[:4:1]
+'hi t'
+>>> s[:4:2]
+'h '
+>>> s[:6:2]
+'h h'</code>
+<li>Step of '2' gives every other letter.
+</section>
+
+
+
+<section>
+<h2>Slices</h2>
+<ul><li>Slices take part of a string, based on indices.
+<ul><li>There may be a third value, a step size.
+<li>We can omit start and stop indices to take the whole list.
+<code class="python">>>> s = "hi there"
+>>> s[::1]
+'hi there'
+>>> s[::2]
+'h hr'
+>>> s[::3]
+'htr'
+>>> s[::5]
+'he'
+>>> s[5]
+'e'</code>
+<li>Basically, take indices that are multiples of the step size.
+</section>
+
+
+<section>
+<h2>Slices</h2>
+<ul><li>Slices take part of a string, based on indices.
+<ul><li>There may be a third value, a step size.
+<li>We can omit start and stop indices to take the whole list.
+<li>Negative steps are permitted.
+<code class="python">>>> s = "hi there"
+>>> s[::-1]
+'ereht ih'
+>>> s[::-2]
+'eeti'
+>>> s[::-4]
+'et'
+>>> s[-4]
+'h'</code>
+<li>This is much weirder.
+<li>In practice: basically only -1 is ever used, to reverse things.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Review
+<ul><li>Problem 1
+<ul><li>&check; Numerical Arithmetic
+<li>&check; Booleans
+<li>&check; String Slices
+</ul>
+<li>Problem 2: Program Tracing
+<li>Problem 3
+<ul><li>For
+<li>If
+<li>Print
+<li>Return
+</ul>
+<li>Problem 4: Strings
+</section>
+
+<section>
+<h2>Tracing</h2>
+<ul><li>Take your time.
+<code class="python">def enigma(s:str, i:int) -> str:
+    return s[:3:-3*i]
+
+def mystery(w:str) -> str:
+    s = ""
+    for i in range(1,3):
+        s += enigma(w, i)
+    return s
+    
+print(mystery("abcdefgh"))</code>
+<li>Start at the beginning.
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul><li>Take your time.
+<code class="python">def enigma(s:str, i:int) -> str:
+    return s[:3:-3*i]
+
+def mystery(w:str) -> str:
+    s = ""
+    for i in range(1,3):
+        s += enigma(w, i)
+    return s
+    
+print(mystery("abcdefgh")) # start here</code>
+<li>"def" lines must be called, one is called at the end.
+</section>
+
+<section>
+<h2>Tracing</h2>
+<ul><li>We can imagine the code isn't in a def, like so:
+<code class="python">def enigma(s:str, i:int) -> str:
+    return s[:3:-3*i]
+
+w = "abcdefgh" # was def mystery(w:str) -> str:
+s = ""
+for i in range(1,3):
+    s += enigma(w, i)
+print(s) # was return s</code>
+<li>Same as having the code block of mystery run then print the return value.
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul><li>We can do the same with "enigma"
+<li>But we have to be careful!
+<li>"enigma s" and "mystery w" are the same
+<li>"enigma s" and "mystery s" are totally different.
+<code class="python">def enigma(s:str, i:int) -> str:
+    return s[:3:-3*i]
+
+w = "abcdefgh"
+s = ""
+for i in range(1,3):
+    s += w[:3:-3*i] # was enigma(w, i)
+print(s)</code>
+<li>Same as having the code block of mystery run then print the return value.
+</section>
+
+<section>
+<h2>Tracing</h2>
+<ul><li>Simplify.
+<code class="python">w = "abcdefgh"
+s = ""
+for i in range(1,3):
+    s += w[:3:-3*i]
+print(s)</code>
+<li>This is all that is left.
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul><li>We can expand the for loop.
+<code class="python">w = "abcdefgh"
+s = ""
+s += w[:3:-3*1]
+s += w[:3:-3*2]
+print(s)</code>
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul><li>Do some multiplications.
+<code class="python">w = "abcdefgh"
+s = ""
+s += w[:3:-3]
+s += w[:3:-6]
+print(s)</code>
+</section>
+
+<section>
+<h2>Tracing</h2>
+<ul><li>These indices:
+<ul><li>Read backwards
+<li>End at position 3 (the fourth letter, 'd')
+</ul>
+<li>So we remove those four letters and the ending indices.
+<code class="python">w = "efgh"
+s = ""
+s += w[::-3]
+s += w[::-6]
+print(s)</code>
+</section>
+
+<section>
+<h2>Tracing</h2>
+<ul>
+<li>Perhaps easier with the string right there.
+<code class="python">s = ""
+s += "efgh"[::-3]
+s += "efgh"[::-6]
+print(s)</code>
+</section>
+
+<section>
+<h2>Tracing</h2>
+<ul>
+<li>Perhaps easier with the string right there.
+<code class="python">s = ""
+s += "efgh"[::-3]
+s += "efgh"[::-6]
+print(s)</code>
+<li>For this one:
+<code class="python">"efgh"[::-3]</code>
+<ul><li>Start at the end with 'h'
+<li>Go BACKWARD g -> f -> e
+<li>This is 'he'</ul>
+<code class="python">>>> "efgh"[::-3]
+'he'</code>
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul>
+<li>Perhaps easier with the string right there.
+<code class="python">s = ""
+s += "he"
+s += "efgh"[::-6]
+print(s)</code>
+<li>For this one:
+<code class="python">"efgh"[::-6]</code>
+<ul><li>Start at the end with 'h'
+<li>There aren't 6 letters, so it's just 'h'.
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul>
+<li>Perhaps easier with the string right there.
+<code class="python">s = ""
+s += "he"
+s += "h"
+print(s)</code>
+<li>For this one:
+<code class="python">"efgh"[::-6]</code>
+<ul><li>Start at the end with 'h'
+<li>There aren't 6 letters, so it's just 'h'.
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul>
+<li>We can combine the += into a big string add.
+<code class="python">s = "" + "he" + "h"
+print(s)</code>
+</section>
+
+
+
+<section>
+<h2>Tracing</h2>
+<ul>
+<li>We do the string add...
+<code class="python">s = "heh"
+print(s)</code>
+</section>
+
+
+<section>
+<h2>Tracing</h2>
+<ul><li>That leaves us with:
+<code class="python">print("heh")</code>
+<li>When reviewing, we can check in Python:
+<code class="python">>>> def enigma(s:str, i:int) -> str:
+...     return s[:3:-3*i]
+...
+>>> def mystery(w:str) -> str:
+...     s = ""
+...     for i in range(1,3):
+...         s += enigma(w, i)
+...     return s
+...
+>>> print(mystery("abcdefgh"))
+heh</code>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Review
+<ul><li>Problem 1
+<ul><li>&check; Numerical Arithmetic
+<li>&check; Booleans
+<li>&check; String Slices
+</ul>
+<li>&check; Problem 2: Program Tracing
+<li>Problem 3
+<ul><li>For
+<li>If
+<li>Print
+<li>Return
+</ul>
+<li>Problem 4: Strings
+</section>
+
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:</code>
+</section>
+
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:
+    for i in range(n): # from zero up to n</code>
+</section>
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:
+    for i in range(n): # from zero up to n
+        print("even") # print even</code>
+</section>
+
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:
+    for i in range(n): # from zero up to n
+        if # something here
+            print("even") # print even
+        else:
+            print("odd") # or odd</code>
+<li>Even numbers are divisible by two, so...
+</section>
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:
+    for i in range(n): # from zero up to n
+        if i % 2 == 0:
+            print("even") # print even
+        else:
+            print("odd") # or odd</code>
+</section>
+
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:
+    result = 0 # return sum
+    for i in range(n): # from zero up to n
+        if i % 2 == 0:
+            print("even") # print even
+        else:
+            print("odd") # or odd
+    return result # return sum</code>
+</section>
+
+
+
+
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>def even_sum(n:int) -> int:
+    result = 0 # return sum
+    for i in range(n): # from zero up to n
+        if i % 2 == 0:
+            result += i # sum of evens
+            print("even") # print even
+        else:
+            print("odd") # or odd
+    return result # return sum</code>
+</section>
+<section>
+<h2>for / if / print / return</h2>
+<ul><li>From zero up to <em>n</em>:
+<ul><li>Print "even" or "odd" for each number, and
+<li>Return the sum of the even numbers.</ul>
+<code>>>> result = even_sum(7)
+even
+odd
+even
+odd
+even
+odd
+even
+>>> print(result)
+12</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul><li>Review
+<ul><li>Problem 1
+<ul><li>&check; Numerical Arithmetic
+<li>&check; Booleans
+<li>&check; String Slices
+</ul>
+<li>&check; Problem 2: Program Tracing
+<li>&check; Problem 3
+<ul><li>&check; For
+<li>&check; If
+<li>&check; Print
+<li>&check; Return
+</ul>
+<li>Problem 4: Strings
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Midterm on Friday.
+<ul><li>Practice Exams posted</li>
+<li>There is a practice exam on Canvas where the exam will be hosted.
+</ul>
+<li>Sections this week on Midterm review.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

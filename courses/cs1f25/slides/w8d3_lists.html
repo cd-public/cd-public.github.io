@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Lists</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Lists</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W8Fri: 18 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 2: Breakout for Monday, 21 October, 11:59 PM.
+<ul><li>Done with ball / starting collisions
+<li><code>gw.get_element_at(x, y) </code></ul>
+<li>I'll post PS5 tonight but you don't need to worry about it. Only 2 problems.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Lists
+<ul><li>Value vs Reference
+<li>Copys
+<li>List methods
+<li>Comprehensions
+</section>
+
+
+<section>
+<h2>Values</h2>
+<ul>
+<li>There is an important fundamental difference between lists and integers
+<ul><li>And strings, floats, booleans, etc...
+</ul>
+<li>A number, like '7', is a value.
+<ul><li>Values are unchanging, like strings and booleans.
+<li>A variable set to be equal to a value may <em>which value is equal to</em>
+<li>But changing a variable to a new value does not alter any underlying value, like 7.
+</section>
+
+<section>
+<h2>Values</h2>
+<ul>
+<li>We can see this using the built-in 'id' function.
+<ul><li>id gives <em>the address a value lives at within the computer</em>
+<code class="python">>>> id(7)
+140732622441080
+>>> id(8)
+140732622441112
+>>> x = 7
+>>> id(x)
+140732622441080
+>>> x = 8
+>>> id(x)
+140732622441112</code>
+<li>7 always lives at 080
+<li>8 always lives at 112
+<li>If 'x' is equal to 7, it lives at 080, but not if it equals 8.
+</section>
+
+<section>
+<h2>Values</h2>
+<ul>
+<li>When we set variables equal to a value...
+<ul><li>If we change the value of one variable, the other variable is unaltered.
+<code class="python">>>> x = 1
+>>> y = x
+>>> x = 2
+>>> print(y)
+1
+>>> id(x), id(y), id(1), id(2)
+(140732622440920, 140732622440888, 140732622440888, 140732622440920)</code>
+<li>Really, these variables are just holding keeping track of where 1 and 2 live.
+</section>
+
+<section>
+<h2>References</h2>
+<ul>
+<li>"Where something lives" is called a reference.
+<ul><li>Every time the integer 1 is used in Python, it is always "the same 1"
+<li>This is not true for lists...
+<code class="python">>>> x = [1]
+>>> y = x
+>>> x = [1]
+>>> y
+[1]
+>>> id(x), id(y)
+(2199204204928, 2199208697472)</code>
+<li>There can be more than one distinct "lists that contains 1"
+</section>
+
+
+<section>
+<h2>References</h2>
+<ul>
+<li>Sometimes, changing one variable may change another...
+<ul><li>If we set y equal to x, then they correspond to the same reference, the same list...
+<li>If we change a value in that list, it changes for both x and y, because they <em>refer</em> to the same list.
+<code class="python">>>> x = [1]
+>>> y = x
+>>> y[0] = 2
+>>> x
+[2]</code>
+<ul><li>We can make x and y both a list containing 1 (then containing 2), <b>and</b> also the same.
+</section>
+
+
+<section>
+<h2>References</h2>
+<ul>
+<li>Sometimes, changing one variable may not change another...
+<ul><li>We can check to see if the lists are the same list, and not just containing the same values.
+<li>If we change a value in that list, it changes for both x and y, because they <em>refer</em> to the same list.
+<code class="python">>>> x = [1]
+>>> y = [1]
+>>> x == y
+True
+>>> x is y
+False
+>>> x = y
+>>> x is y
+True</code>
+<li>If changing two lists that single-equals-comparison, one or both may change.
+<li>If changing two lists that 'is' operator, both change or neither.
+</section>
+
+
+<section>
+<h2>References</h2>
+<ul>
+<li>We can use references to allow functions to change the values from outside of the function.
+<ul><li>This is how gw.box works, by the way. 
+<li>'gw' is a reference.
+<code class="python">>>> x = [0]
+>>> def embiggen():
+...     x[0] = x[0] + 1
+...
+>>> x
+[0]
+>>> embiggen()
+>>> x
+[1]</code>
+<li>If you find this confusing, you are correct (it's confusing).
+</section>
+
+
+<section>
+<h2>Copies</h2>
+<ul>
+<li>My advice: Just make a new copy if you aren't sure.
+<ul><li>y = x sets y to the same reference as x.
+<li>y = x[:] creates a slice (a new reference) with all the same things as x
+<code class="python">>>> x = [1,2]
+>>> y = x
+>>> id(x), id(y)
+(2199208697472, 2199208697472)
+>>> x += [3]
+>>> x, y
+([1, 2, 3], [1, 2, 3])</code>
+<li>If you find this confusing, you are correct (it's confusing).
+</section>
+
+
+<section>
+<h2>Copies</h2>
+<ul>
+<li>My advice: Just make a new copy if you aren't sure.
+<ul><li>y = x sets y to the same reference as x.
+<li>y = x[:] creates a slice (a new reference) with all the same things as x
+<code class="python">>>> y = x[:]
+>>> x, y
+([1, 2, 3], [1, 2, 3])
+>>> id(x), id(y)
+(2199208697472, 2199204204928)
+>>> x += [4]
+>>> x, y
+([1, 2, 3, 4], [1, 2, 3])</code>
+<li>If you find this confusing, you are correct (it's confusing).
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Lists
+<ul><li>&check; Value vs Reference
+<li>&check; Copys
+<li>List methods
+<li>Comprehensions
+</section>
+
+<section>
+<h2>Common Useful List Methods</h2>
+<ul>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code class="python">x.copy()</code></td>
+<td>Returns a new list whose elements are the same as the original, same as x[:]</td>
+</tr>
+<tr class="even">
+<td><code class="python">x.append(val)</code></td>
+<td>Adds 'val' to the end of the list, same as x += [val]</td>
+</tr>
+<tr class="odd">
+<td><code class="python">x.insert(loc, val)</code></td>
+<td>Inserts 'val' at the specificed index 'loc' in `x`, pushing the rest of `x` to have an index/location that is one greater.
+</td>
+</tr>
+<tr class="even">
+<td><code class="python">x.remove(val)</code></td>
+<td>Removes the first instance of 'val' from `x` (or error)</td>
+</tr>
+<tr class="odd">
+<td><code class="python">x.reverse()</code></td>
+<td>Reverses the order of the elements in the list. Like x[::-1], but x[::-1] creates a new list (with a new id/reference)</td>
+</tr>
+<tr class="even">
+<td><code class="python">x.sort()</code></td>
+<td>Sorts the elements of the list. Returns `none`, but alters the order of the elements in `x`</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+<section>
+<h2>Sort</h2>
+<ul>
+<li>Sorts the elements of the list. Returns `none`, but alters the order of the elements in `x`
+<code class="python">>>> y = x.sort()
+>>> y
+>>> x
+[1, 2, 3, 4]
+</code>
+<li>If you find this confusing, you are correct (it's confusing).
+</section>
+
+
+<section>
+<h2>Sorted</h2>
+<ul>
+<li>'Sorted' and 'Reversed' return a new list...
+<code class="python">>>> x = [4,2,3,1]
+>>> y = sorted(x)
+>>> y
+[1, 2, 3, 4]
+>>> x
+[4, 2, 3, 1]
+</code>
+<li>I only use `sorted` and `x[::-1]` - use what works for you.
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Lists
+<ul><li>&check; Value vs Reference
+<li>&check; Copys
+<li>&check; List methods
+<li>Comprehensions
+</section>
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>By far the best feature in Python is list comprehensions.
+<ul><li>Emphasis: By far.
+</ul>
+<li>This was the div6/7 extra credit technique.
+<li>We take the square brackets of a list:
+<code class="python">div6 = [...]</code>
+<li>We place a for loop inside the list:
+<code class="python">div6 = [... for num in range(40,60)]</code>
+<li>We write the <em>expression</em> to perform over each loop iteration...
+<code class="python">div6 = [num % 6 for num in range(40,60)]</code>
+</section>
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>By far the best feature in Python is list comprehensions.
+
+
+<li>This one is complete, we can test it...
+<code class="python">>>> div6 = [num % 6 for num in range(40,60)]
+>>> div6
+[4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]</code>
+</section>
+
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>By far the best feature in Python is list comprehensions.
+
+
+<li>This one is complete, we can test it...
+<code class="python">>>> div6 = [num % 6 == 0 for num in range(40,60)]
+>>>
+>>> div6
+[False, False, True, False, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False]</code>
+</section>
+
+
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>By far the best feature in Python is list comprehensions
+
+<li>Would be easier if we could see which number corresponded to which boolean.
+<li>No problem - create a list of the number and the boolean, <em>one for each number...</em>
+<code class="python">>>> div6 = [[num,num % 6 == 0] for num in range(40,60)]
+>>>
+>>> div6
+[[40, False], [41, False], [42, True], [43, False], [44, False], [45, False], [46, False], [47, False], [48, True], [49, False], [50, False], [51, False], [52, False], [53, False], [54, True], [55, False], [56, False], [57, False], [58, False], [59, False]]</code>
+<li> That is... also impossible to read...
+</section>
+
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>We can print from <em>inside a comprehension</em>
+<code class="python">>>> [print(num,num % 6 == 0) for num in range(40,45)]
+40 False
+41 False
+42 True
+43 False
+44 False
+[None, None, None, None, None]</code>
+<li>This creates a list of None as well, but that's okay. We can ignore it.
+</section>
+
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>We can include 'if' statements after the 'for', like so...
+<li>Take a minute to look at this, it's a complex sentence.
+<code class="python">>>> [print(num) for num in range(40,45) if num % 6 == 0]
+42
+[None]</code>
+<li>This creates a list of None as well, but that's okay. We can ignore it.
+</section>
+
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>We wanted 6 or 7, let's look at that.
+<code class="python">[print(num) for num in range(40,61) if (num % 6 == 0) != (num % 7 == 0)]
+48
+49
+54
+56
+60
+[None, None, None, None, None]</code>
+<li>This creates a list of None as well - which, by the way, has a useful length.
+</section>
+
+
+
+<section>
+<h2>Comprehensions</h2>
+<ul>
+<li>We wanted 6 or 7, let's look at that.
+<code class="python">>>> def div_6_or_7(lo, hi):
+...     return len([print(num) for num in range(lo,hi+1) if (num % 6 == 0) != (num % 7 == 0)])
+...
+>>> count = div_6_or_7(40,60)
+48
+49
+54
+56
+60
+>>> print(count)
+5</code>
+<li>I constantly practiced until I could write my loops like this.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Lists
+<ul><li>&check; Value vs Reference
+<li>&check; Copys
+<li>&check; List methods
+<li>&check; Comprehensions
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 2: Breakout for Monday, 21 October, 11:59 PM.
+<ul><li>Done with ball / starting collisions
+<li><code>gw.get_element_at(x, y) </code></ul>
+<li>I'll post PS5 tonight but you don't need to worry about it. Only 2 problems.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

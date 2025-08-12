@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Project 4: Enigma</title>
+		<style>
+        body {
+            font-size: 1.5em ;
+        }
+		.page {
+			width: 11.5in ;
+			margin: auto ;
+		}
+		.page_outer {
+			width: 11in;
+			box-shadow: -.1in -.1in .25in darkgray, .1in .1in .25in gray;
+			position: relative ;
+		}
+		.page_inner{
+			margin: 1in;  
+			margin-top: .5in;  
+		}
+        .details, .show, .hide:target {
+            display: none;
+        }
+        .hide:target + .show, .hide:target ~ .details {
+            display: block;
+        }
+		</style>
+		<style type="text/css" media="print">
+			.page {
+				width: 8.5in;
+				height: 11in;
+				margin: auto ;
+			}
+			.page_outer {
+				box-shadow: none;
+			}
+			a {
+				color: black;
+				text-decoration-line: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+			<div class="page_outer">
+				<div style="height:.25in;"> <!-- Vertical space adjuster for box shadow --></div>
+				<div class="page_inner"><center>
+					<h1>Project 4: Enigma</h1>
+                    <h3>Due: Monday, 18 November, 11:59 PM</h3>
+                    <p>Github Classroom Link: <a href="https://classroom.github.com/a/x79VhtcS">https://classroom.github.com/a/x79VhtcS</a>
+                    <p><a href="https://people.willamette.edu/~esroberts/roberts-enigma/Milestones/">Prof. Eric Roberts' alternate instructions</a>
+                    <p><a href="https://jrembold.github.io/Website_Backup/class_files/cs151/Projects/Project_Enigma">Prof. Jed Rembold's alternate instructions</a>
+                    </center>
+                    <div>
+                    <hr>
+                        <a id="hide_" href="#hide_" class="hide"><h3>A. Introduction [Show]</h3></a>
+                        <a id="show_" href="#show_" class="show"><h3>A. Introduction [Hide]</h3></a>
+                        <div class="details">
+                            <p>Like Wordle, on this assignment graphics are handled for you. Write your code in <code>EnigmaConstants.py</code> or in files you create yourself and import.
+                            <p>This project is a 6 milestone project and has a reputation for being difficult. I struggled to understand the instructions and will try to explain things as best I can. You should consult heavily with Jed Rembold and Eric Roberts' instructions if mine are unclear, and ask questions as soon as you get stuck. I did better with Eric Roberts', but think most students do better with Jed Rembold's.
+                            <p>There are demos of each milestone embedded in Eric Roberts' instructions. You will want to use them. I would not have been able to do the assignment without them.
+                            <p>There is one core insight on this assignment, which is the notion of treating a string of 26 characters as a cipher. This is not an easy concept to describe in text or, to my mind, images. At any time if you are confused or stuck, think about:
+                            <ul>
+                                <li>The position of a letter in the alphabet. A is 0, B is 1, Z is 25.
+                                <li>The position of a letter in a string like "BZA...". A is 2, B is 0, Z is 1.
+                                <li>How to go back and forth between these things.
+                            </ul>
+                            <p>While that is all there is, that is a novel style of thinking to many people and will correspond to novel ways to work with strings in Python. I used helper functions that I tested extensively to handle all of these transformations.
+                            <hr>
+                            <h2>Files:</h2>
+                            <ul>
+                                <li>Update (only) this file:
+                                <ul>
+                                    <li><code>EnigmaModel.py</code></li>
+                                </ul>
+                                <li>You will also need:
+                                <ul>
+                                    <li><code>EnigmaConstants.py</code></li>
+                                    <li><code>EnigmaView.py</code></li>
+                                </ul>
+                                <li>You may wish to create:
+                                <ul>
+                                    <li><code>EnigmaRotor.py</code></li>
+                                </ul>
+                            </ul>
+                            <p><code>EnigmaModel.py</code> should a show an image as soon as you download the starter code, but will be totally non-interactive.
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div>
+                        <a id="hide0" href="#hide0" class="hide"><h3>0. <code>key_pressed</code>, <code>key_released</code>, <code>is_key_down</code> [Show]</h3></a>
+                        <a id="show0" href="#show0" class="show"><h3>0. <code>key_pressed</code>, <code>key_released</code>, <code>is_key_down</code> [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Make the keyboard active so that pressing the mouse down on a key, the view updates that key (to red).</blockquote>
+                            <p>In <code>EnigmaModel.py</code> there is a class called <code>EnigmaModel</code> which contains nine methods. For this milestone, you will update three of them.
+                            <h4>0a: <code>key_pressed</code></h4>
+                            <p><code>key_pressed</code> is basically a listener, like "click_action". In it, you will want to take the provided argument <code>letter</code> and store it.
+                            <p>The most obvious place to store the letter is within the <code>EnigmaModel</code> class. The most obvious way to do this is to create a new attribute, such as <code>self.letter</code>.
+                            <p>I tested <code>key_pressed</code> by printing <code>letter</code> along with a note that the print was coming from inside the <code>key_pressed</code> function. When testing your code, you will want to click on one of the letter keys in the bottom half of the graphics window.
+                            <h4>0b: <code>key_released</code></h4>
+                            <p><code>key_released</code> is also a listener. I used it to change the stored key value to <code>None</code> to note that a key was no longer depressed.
+                            <h4>0c: <code>is_key_down</code></h4>
+                            <p><code>is_key_down</code> is a method that takes a letter and returns a boolean. It should return <code>True</code> if the provided letter is current depressed (perhaps, is equal to <code>self.letter</code>).
+                            <p>You will be able to tell if <code>is_key_down</code> and <code>key_pressed</code> are working if when pressing a key on the lower part of the screen, it lights up (in red). You will be able to tell if <code>key_released</code> is working if the lighting stops when the click action ends.
+                            <p>Basically, the graphics window will use this method to ask "is key down?" and light up a key accordingly.
+                        </div>
+                    </div>
+                    <hr>
+                        <div>
+                        <a id="hide1" href="#hide1" class="hide"><h3>1. <code>is_lamp_on</code> [Show]</h3></a>
+                        <a id="show1" href="#show1" class="show"><h3>1. <code>is_lamp_on</code> [Hide]</h3></a>
+                        <div class="details">
+                            <p><em>This task is temporary.</em></p>
+                            <blockquote>Make the "lamps" active so that pressing the mouse down on a key, the view updates the corresponding lamp (to yellow).</blockquote>
+                            <p>In <code>EnigmaModel.py</code> there is a class called <code>EnigmaModel</code> which contains nine methods. For this milestone, you will update one, two, or three of them. I updated three.
+                            <p>Light the lamp that corresponds to the depressed key, or not. My code was almost identical to the code in <code>is_key_down</code>.
+                            <p>The most obvious way to do this is store a letter again. Also store a letter in <code>key_pressed</code> within the <code>EnigmaModel</code> class, such as <code>self.lamp</code>. For this milestone, the letter and lamp values will be the same, but that will change in future milestones.
+                            <p>You may also need to update <code>key_released</code> to turn the lamp back off.
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide2" href="#hide2" class="hide"><h3>2. <code>get_rotor_letter</code>, <code>rotor_clicked</code> [Show]</h3></a>
+                        <a id="show2" href="#show2" class="show"><h3>2. <code>get_rotor_letter</code>, <code>rotor_clicked</code> [Hide]</h3></a>
+                        <div class="details">
+                            <p><em>For this task you must create a </em><code>EnigmaRotor</code><em> class is in a new file </em><code>EnigmaRotor.py</code></p>
+                            <blockquote>Track and display the "offset" of the rotors so that by clicking on the rotors that advance by one letter.</blockquote>
+                            <ul>
+                                <li>You need a way to track the "cipher" or "permutation" of a rotor. These ciphers are provided as strings of length 26 within which each letter of the alphabet occurs once as an upper case letter.
+                                <li>You will need a way to track the "offset" of a rotor. These offsets are integers corresponding to an index of alphabet, so they range from 0 to 25.
+                                <li>You will need a way to track three such ciphers and three such offets.
+                                <ul>
+                                    <li>Create a list of three objects of the <code>EnigmaRotor</code> class.
+                                    <li>Have a way to hold a "cipher" and an "offset" in the class.
+                                </ul>
+                                <li>You will need to display the offset of the rotors. By default, <code>get_rotor_letter</code> returns 'A' which corresponds to an offset of zero.
+                                <ul>
+                                    <li>I wrote a function that I called "get_ith_letter" that takes an integer value <em>i</em> and returns the <em>i</em>th letter of the alphabet:
+                                    <hr>
+                                    <pre><code>from EnigmaConstants import * # contains ALPHABET, other helpful values
+                                    
+def get_ith_letter(i:int)->str:
+    return ALPHABET[i % 26]</code></pre><hr>
+                                    <li>You could write such a function anywhere, but most likely wherever your rotor is implement.
+                                    <li>The modulus (%) isn't necessary but might help latter.
+                                </ul>
+                             </ul>
+                        <p>Once you can click on a rotor and see it change letter, you have done the externally visible work of this assignment. However, the way you store the ciphers and offsets will impact how you progress through future milestones. Make sure you understand the code you wrote and what it means before moving on!
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide3" href="#hide3" class="hide"><h3>3. One Stage [Show]</h3></a>
+                        <a id="show3" href="#show3" class="show"><h3>3. One Stage [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Use a cipher to translate one letter to another.</blockquote>
+                            <h4>3a: <code>forward</code></h4>
+                            <h5>Where to write:</h5>
+                            <p>While ultimately encryption occurs on a key press, we can write code elsewhere, in functions or methods, and call those functions or methods within the key press method.
+                            <p>I implemented the first stage, and in fact first three stages of encryption, with a method I called "forward" inside of <code>EnigmaRotor</code>
+                            <hr><code>def forward(self:EnigmaRotor, cipher:str) -> str:</code><hr>
+                            </ol>
+                            <h5>What to write:</h5>
+                            <p>We can think of a cipher like the following image:<br><br>
+                            <img width="100%" src="imgs/p4_1.png">
+                            <p>This cipher is <code>ROTOR_PERMUTATIONS[2]</code> and also called the fast rotor. It is the first rotor used in enigma to encrypt a letter.
+                            <p>Forward encryption with this cipher would take the letter "A", the 0-indexed letter of the alphabet, and return the letter "B", the 0-indexed letter of the cipher. The circled example the cipher would take "Q", the 16-indexed letter of the alphabet, and return "I", the 16-indexed letter of the cipher.
+                            <p>To me, this felt like I was <em>applying</em> a cipher to a letter, which felt like a function. 
+                            <p>To encrypt a letter:
+                            <ul>
+                                <li>Take one arguments:
+                                <ul>
+                                    <li>A single letter, like "Q", and
+                                </ul>
+                                <li>Evaluation the letter using an attribution of the <code>EnigmaRotor</code> class.
+                                <ul>
+                                    <li>For example, an attirbute like cipher like <code>self.cipher = ROTOR_PERMUTATIONS[2]</code>
+                                </ul>
+                                <li>Return a new letter, like "I".
+                            </ul>
+                            <h5>Helper Functions</h5>
+                            <p>On this milestone, I found it very helpful to be able to take a letter and determine it's index within the alphabet. There is a very easy way to do that in Python, using .index. Here is an example:<hr>
+                            <pre><code>def get_letters_i(letter:str) -> int: # "Get letter's index "i" in the alphabet
+    return ALPHABET.index(letter)</code></pre>
+                            <hr>
+                            <p>You do not need to use this function! But using .index() will probably be very helpful.
+                            <h4>3b: Update lamp</h4>
+                            <p>In Milestone 1, you lit the lamp that corresponded to the pressed key.
+                            <p>Update that code, which may refer to <code>self.lamp</code> in method<code>key_pressed</code> within the <code>EnigmaModel</code> class.
+                            <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the resulting letter of forward encryption on the clicked letter. Use <code>ROTOR_PERMUTATIONS[2]</code>. <!--For example, you may wish to compute a new letter:<hr>
+                            <code>letter = forward(ROTOR_PERMUTATIONS[2], letter)</code><hr>-->
+                            <h5>What to test:</h5>
+                            <p>Refer back to the cipher image:<br><br>
+                            <img width="100%" src="imgs/p4_1.png">
+                            <p>Or look at the code itself:
+                            <hr><code>"BDFHJLCPRTXVZNYEIWGAKMUSQO"   # Permutation for fast rotor  </code><hr>
+                            <p>You have implemented this milestone correct when you may click the "A" key and the "B" lamp lights up. Similarly, you may click the "Q" key and the "I" lamp lights up. Consult Eric Roberts' instructions for a complete demo.
+                            <h4>3c: Use all rotors</h4>
+                            <em>Not traditionally part of milestone 3, I found it helpful to test this code separately from milestone 4.</em>
+                            <p>There are three rotors corresponding to the three ciphers.
+                            <ul>
+                                <li>Loop over the three rotors.
+                                <ul>
+                                    <li>I was surprised to learn rotor 2, then rotor 1, then rotor 0 were used.
+                                    <li>I expressed this as a for loop over <code>(2,1,0)</code>.
+                                    <li>I think <code>(2,1,0)</code> is easier to read than <code>range(2, -1, -1)</code>.
+                                </ul>
+                                <li>For each rotor:
+                                <ul>
+                                    <li>Take the current letter
+                                    <ul>
+                                        <li>For rotor 2, this is letter associated with the key press.
+                                        <li>For rotor 1, this is the letter encrypted by rotor 2.
+                                        <li>For rotor 0, this is the letter encrypted by rotor 1.
+                                        <li>I just had a variable "letter" which I updated within the loop.
+                                    </ul>
+                                    <li>Forward encrypt the letter with the appropriate cipher.
+                                    <li>Pass the new letter to either the next encryption stage or to be saved as the "lamp" value.
+                                </ul>
+                            </ul>
+                            <p>Rather than lighting the lamp that corresponds to the key, light the lamp that corresponds to what the letter of the key becomes when forward encrypted using all three rotors.
+                            <p><em>Checking your code</em> After doing the three rotors, you are ready for milestone 4. It is not that easy to check this milestone but I recommend using a debugging technique, such as the one taught in the <a href="https://cd-public.github.io/courses/cs1f24/slides/w3d3_debug.html">debug lecture</a>:
+                            <ul>
+                                <li>Create a variable named perhaps "<code>DEBUG = True</code>" at the beginning of <code>EnigmaRotor.py</code>
+                                <li>Print within "<code>DEBUG and print()</code>" statements:
+                                <ul>
+                                    <!--<li>A note when entering <code>key_pressed</code> with:
+                                    <ul>
+                                        <li>The method name.
+                                        <li>The letter provided to the method.
+                                        <li>The index of the letter in the alphabet.
+                                    </ul>-->
+                                    <li>A note before forward encryption with:
+                                    <ul>
+                                        <li>Some text saying you are in a loop about to encrypt.
+                                        <li>The current loop number.
+                                        <li>The current letter.
+                                        <li>The index of the current letter in the alphabet.
+                                        <li>The current rotor's cipher.
+                                    </ul>
+                                    <li>A note after forward encryption with:
+                                    <ul>
+                                        <li>Some text saying you are in a loop after encrypting.
+                                        <li>The current letter.
+                                        <li>Anything else you wish to know. I computed the letter's index in the cipher.
+                                    </ul>
+                                </ul>
+                                <li>I "horizontally padded" my print statements with extra spaces to align values vertically, as shown in the example below.
+                            </ul>
+                            <p>While these print statements may clutter your code, I encourage you to not to delete them. I needed them for a latter milestone. You may stop displaying them at any time by setting <code>DEBUG = False</code> at the beginning of <code>EnigmaRotor.py</code> or by changing them to comments.
+                            <p>To give you example of one thing to test, when pressing the key "A" I saw the following print out in the terminal:
+                            <pre><code>Beginning loop with i = 2
+ before forward: letter = A letter's index in abcs   = 0
+ after  forward: letter = B letter's index in cipher = 0
+Beginning loop with i = 1
+ before forward: letter = B letter's index in abcs   = 1
+ after  forward: letter = J letter's index in cipher = 1
+Beginning loop with i = 0
+ before forward: letter = J letter's index in abcs   = 9
+ after  forward: letter = Z letter's index in cipher = 9</code></pre>
+                            <p>I computed the cipher index using .index, same as with the alphabet.
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide4" href="#hide4" class="hide"><h3>4. All Stages [Show]</h3></a>
+                        <a id="show4" href="#show4" class="show"><h3>4. All Stages [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Implement reflection and reverse encryption</blockquote>
+                            <h4>4a. Reflect</h4>
+                            <p>In <code>EnigmaConstants.py</code> there is a cipher defined as follows:
+                            <hr><code>REFLECTOR_PERMUTATION = "IXUHFEZDAOMTKQJWNSRLCYPBVG"</code><hr>
+                            <p>After passing "forward" through all three rotors, the thrice-encrypted letter is "reflected" through this cipher.
+                            <ul>
+                                <li>Determine the index of the incoming letter within the alphabet OR the reflector cipher.
+                                <ul>
+                                    <li>The index of "A" would be 0 in the alphabet or 8 in the cipher.
+                                    <li>The index of "I" would be 8 in the alphabet or 0 in the cipher.
+                                    <li>The index of "Z" would be 6 or 25.
+                                </ul>
+                                <li>Determine the letter with the same index within the reflector cipher OR the alphabet.
+                                <ul>
+                                    <li>"A" would reflect to "I"
+                                    <li>"I" would reflect to "A"
+                                    <li>"Z" would reflect to "G"
+                                </ul>
+                            </ul>
+                            <p>I performed reflection with a single call to "forward" over the reflector cipher after my loop going forward through the rotors.
+                            <p>I added debugging print statements before and after my reflector.
+                            <hr>
+                            <pre><code>&ltsnipped...&gt;
+ after  forward: letter = Z letter's index in cipher = 9
+Reflecting letter = Z
+Reflected  letter = G</code></pre><hr>
+                            <p>I considered this sub-milestone complete when I could click on "A" and see "G" light up in the graphics window.
+                            <h4>4b. Reverse</h4>
+                            <p>To forward-encrypt through a rotor, we found an index in the alphabet and looked up that index in a cipher.
+                            <p>To reverse-encrypt through a rotor, we will find an index in the <em><b>cipher</b></em> and look up that index in the alphabet.
+                            <p>Note - you can test your reverse encryption on the reflector. The reflector is a special cipher that behaves the same way for forward and backward encryption.
+                            <hr><pre><code>>>> from EnigmaRotor import *
+>>> refl = EnigmaRotor(REFLECTOR_PERMUTATION)
+>>> refl.reverse("A")
+'I'
+>>> refl.forward("A")
+'I'</code></pre><hr>
+                            <p>Note that reverse-encryption will differ from forward-encryption on other rotors/ciphers.
+                            <hr><pre><code>>>> fast = EnigmaRotor(ROTOR_PERMUTATIONS[2])
+>>> fast.forward("A") 
+'B'
+>>> fast.reverse("A") 
+'T'</code></pre><hr>
+                            <p>With a working reverse, the remaining stages of encryption simply require applying this function to the appropriate letters.
+                            <h4>4c. All Stages</h4>
+                            <p>After reflection, the letter passes in a reverse direction through the rotors similarly to sub-milestone 3c.
+                            <p>There are three rotors corresponding to the three ciphers.
+                            <ul>
+                                <li>Thrice-forward-encrypt a letter by looping forward over rotors 2, 1, 0 as in 3c.
+                                <li>Reflect this letter as in 4a.
+                                <li>Reverse encrypt over the three rotors.
+                                <ul>
+                                    <li>In the reverse direction, progress from rotor 0 to 1 to 2.
+                                    <li>I expressed this as a for loop over <code>(0,1,2)</code>.
+                                </ul>
+                                <li>For each rotor:
+                                <ul>
+                                    <li>Take the current letter
+                                    <ul>
+                                        <li>For rotor 0, this is the letter that is reflected back.
+                                        <li>For rotor 1, this is the letter reverse encrypted by rotor 0.
+                                    </ul>
+                                    <li>Reverse encrypt the letter with the appropriate cipher.
+                                    <li>Pass the new letter to either the next encryption stage or to be saved as the "lamp" value.
+                                </ul>
+                            </ul>
+                            <p>You have implemented this milestone correct when you may click the "A" key and the "R" lamp lights up. Similarly, you may click the "Q" key and the "P" lamp lights up.
+                            <p>Here is an example of "Q" to "P" encryption, visualized:
+                            <img width="100%" src="imgs/p4_2.png">
+                            <p>Consult Eric Roberts' instructions for a complete demo.
+                            <p>I found it helpful to print the following. This is from pressing "Q":
+                            <hr><pre><code>=== INPUT KEY Q ===
+Forward loop with i = 2
+ before forward: letter = Q letter's index in abcs   = 16
+ after  forward: letter = I letter's index in cipher = 16
+Forward loop with i = 1
+ before forward: letter = I letter's index in abcs   = 8
+ after  forward: letter = X letter's index in cipher = 8
+Forward loop with i = 0
+ before forward: letter = X letter's index in abcs   = 23
+ after  forward: letter = R letter's index in cipher = 23
+Reflecting letter = R
+Reflected  letter = S
+Reverse loop with i = 0
+ before reverse: letter = S letter's index in cipher = 18
+ after  reverse: letter = S letter's index in abcs   = 18
+Reverse loop with i = 1
+ before reverse: letter = S letter's index in cipher = 4
+ after  reverse: letter = E letter's index in abcs   = 4
+Reverse loop with i = 2
+ before reverse: letter = E letter's index in cipher = 15
+ after  reverse: letter = P letter's index in abcs   = 15</code></pre>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a id="hide5" href="#hide5" class="hide"><h3>5. Rotate [Show]</h3></a>
+                        <a id="show5" href="#show5" class="show"><h3>5. Rotate [Hide]</h3></a>
+                        <div class="details">
+                            <em>Calvin D. broke this milestone into 3 sub-milestones to help organize the assignment.</em>
+                            <blockquote>Model the rotation of the rotors during encryption</blockquote>
+                            <h4>5a. <code>rotate</code></h4>
+                            <p>Write the function <code>rotate</code>:
+                            <hr><pre><code>def rotate(letter:str, offset:int) -> str:</code></pre><hr>
+                            <p>Given a letter and a numerical offset, return the letter that is "offset" positions further in the alphabet, looping around.
+                            <p>For an offset of <em>j</em>.
+                            <ul>
+                                <li>Calculate the index <em>i</em> of some letter in the alphabet.
+                                <li>Find the letter with index <em>j</em> + <em>i</em>.
+                                <ul>
+                                    <li>If <em>j</em> + <em>i</em> is greater than 25, "loop around" from "Z" to "A".
+                                    <li>This equivalent to (<em>j</em> + <em>i</em>) % 26.
+                                    <li>This is why I wrote <code>get_ith_letter</code> to have a modulo operation.
+                                </ul>
+                                <li>Return the letter at this index.
+                            </ul>
+                            <p>This is perhaps more easily seen with an example.
+                            <hr><pre><code>>>> rotate("A",0)
+'A'
+>>> rotate("A",1) 
+'B'
+>>> rotate("A",25) 
+'Z'
+>>> rotate("Z",1)  
+'A'
+>>> rotate("A",-1) 
+'Z'
+>>> rotate("A",3)  
+'D'</code></pre><hr>
+                            <p>I used <code>get_letters_i</code> and <code>get_ith_letter</code> to write <code>rotate</code>.
+                            <h4>5b. Use <code>rotate</code> in encryption.</h4>
+                            <p>At an offset of zero, we can use ciphers to encrypt a letter against the alphabet. However, when rotors have a non-zero offset, this corresponds to a change in which indices match to which letter. I understand this as an application of rotate.
+                            <p>For every forward and reverse rotation (but NOT for the reflection) do the following:
+                            <ul>
+                                <li>Find the offset that corresponds to the current rotor.
+                                <li>Rotate the current letter by that offset.
+                                <li>Encrypt, either forward or backward.
+                                <li>Rotate the new letter back by offset.
+                                <ul>
+                                    <li>For me, I used a negative offset to do this.
+                                </ul>
+                                <li>Optionally, add additional print statements to test this process.
+                            </ul>
+                            <h5>How to test</h5>
+                            <p>If rotors are set all have offset zero, the code should work the same way as in previous milestone. Test this first.
+                            <p>After ensuring forward and reverse encryption still work correctly, I click a single time on the rightmost rotor - the fast rotor - such that the display reads "AAB" for rotor values.
+                            <p>Pressing "A" in this "AAB" arrangement should return "Z", shown by the "Z" lamp lighting up, rather than "R" as in the "AAA" configuration.
+                            <p>I wrote detailed debugging print statements. Here is an example of the "A" to "Z" encryption in the "AAB" configuration. Note the non-zero offset values.
+                            <hr><pre><code>=== INPUT KEY A ===
+Forward loop with i = 2
+ rotating letter = A by offset = 1
+ before forward: letter = B letter's index in abcs   = 1
+ after  forward: letter = D letter's index in cipher = 1
+ rotating letter = D by offset = -1
+Forward loop with i = 1
+ rotating letter = C by offset = 0
+ before forward: letter = C letter's index in abcs   = 2
+ after  forward: letter = D letter's index in cipher = 2
+ rotating letter = D by offset = 0
+Forward loop with i = 0
+ rotating letter = D by offset = 0
+ before forward: letter = D letter's index in abcs   = 3
+ after  forward: letter = F letter's index in cipher = 3
+ rotating letter = F by offset = 0
+Reflecting letter = F
+Reflected  letter = E
+Reverse loop with i = 0
+ rotating letter = E by offset = 0
+ before reverse: letter = E letter's index in cipher = 0
+ after  reverse: letter = A letter's index in abcs   = 0
+ rotating letter = A by offset = 0
+Reverse loop with i = 1
+ rotating letter = A by offset = 0
+ before reverse: letter = A letter's index in cipher = 0
+ after  reverse: letter = A letter's index in abcs   = 0
+ rotating letter = A by offset = 0
+Reverse loop with i = 2
+ rotating letter = A by offset = 1
+ before reverse: letter = B letter's index in cipher = 0
+ after  reverse: letter = A letter's index in abcs   = 0
+ rotating letter = A by offset = -1</code></pre><hr>
+                        <p>This is generated by 13 print statements. It took only a few minutes to write all 13.
+                        <p>These outputs are quite easy to evaluate against the demo provided by Eric Roberts' as the final, which includes a visualization of the rotor. Take advantage of these statements and that visualization to ensure your code works as expected.
+                        <h4>5c. <code>advance</code></h4>
+                        <p>Write <code>advance</code> which updates rotors when a key is pressed, likely as a method of the <code>EnigmaModel</code> class that is called in the <code>key_press</code> method prior to beginning encryption.
+                        <p>Every time a key is pressed, rotors should advance.
+                        <ul>
+                            <li>When a key is pressed, the "fast" rotor advances once position. This corresponds to:
+                            <ul>
+                                <li>A single increase in one offset.
+                                <li>The rightmost letter displayed at the top of the graphics window going to the next letter.
+                                <li>This is a modular update as 25 "loops back" to 0, corresponding "A" coming after "Z".
+                            </ul>
+                            <li>When the "fast" rotor "loops back" from "Z" to "A", the medium rotor should advance one position.
+                            <li>When the "medium" rotor, loops, the "slow" rotor should advance on position.
+                        </ul>
+                        <p>Rotors should advance prior to performing encryption. So when running <code>EnigmaModel.py</code> for the first time, clicking "A" should return "Z" and not "R". Clicking "A" a second time should return "L".
+                        <p>When rotors advance on keypress, the Enigma project is complete.
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="height:1in;"> <!-- Vertical space adjuster for box shadow --></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

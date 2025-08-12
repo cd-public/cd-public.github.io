@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Methods</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Methods</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W10Fri: 01 Nov<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 3 next Monday.
+  <ul>
+    <li>Milestone 4a by Thursday
+    <li>Milestone 4b tonight
+    <li>Milestone 4c by Saturday
+    </ul>
+<li>Midterm looming. Stay tuned.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Methods
+  <ul>
+<li>Variables / Attributes
+<li>Functions / Methods
+<li>Dot notation
+<li>Getters / Setters
+<li>Dunder Methods
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>My minority take: Methods are bad
+<ul><li>Methods bundle data and computing non-obviously.
+  <code class="python">"".join("hi","world") # this works
+join("hi","world") # this doesn't
+"".len("hi") # this doesn't
+len("hi") # this does
+</code>
+<li>Methods make tracking data confusing
+<code class="python">xs = [1,2,3]
+x = xs.sort()[0] # error</code>
+<li>I refer to this as "the Java problem" but it impacts all modern languages.
+</section>
+
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>ctrl+f "Appendix: Power"
+<iframe
+  id="inlineFrameExample"
+  title="Inline Frame Example"
+  width="1800"
+  height="900"
+  src="https://paulgraham.com/icad.html">
+</iframe>
+<li>We note that Python now has the features it lacked in 2002.
+</section>
+
+<section>
+<h2>Editorializing</h2>
+<ul><li>Takeaways
+<ul><li>Finding methods confusing is valid.
+<li>Finding methods tedious is valid.
+<li>Think critically about what you learn / are taught!
+<li>Future trends are ambigious
+<ul><li>I expect: more functions, fewer classes.
+</li></ul></li></li></li></li></ul>
+<li>R is the other kind of language - functional. <a href="https://gist.github.com/cd-public/d1943702caaeb62ab7ac799840982b1b">Read more.</a>
+<li>Python... pretty much works as a functional language now too.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Methods
+  <ul>
+<li>&check; Editorializing
+<li>Variables / Attributes
+<li>Functions / Methods
+<li>Dot notation
+<li>Getters / Setters
+<li>Dunder Methods
+</section>
+
+<section>
+<h2>Variables / Attributes</h2>
+<ul><li>A variable is a value that isn't tied to an object.
+<code class="python">x = 7</code>
+<li>An attribute is a value that is tied to an object.
+<code class="python">class Box:
+    def __init__(self):
+        self.x = 7</code>
+</section>
+
+<section>
+<h2>Variables / Attributes</h2>
+<ul><li>We recall we can set a variable equal to anything... like a function.
+<code class="python">class Box:
+    def __init__(self):
+        self.x = 7
+        self.make_pos = abs # "absolute value"</code>
+<li>We can test this code:
+<code class="python">b = Box()
+print(
+    b.x,
+    abs(-2.5),
+    b.make_pos(-1.5)
+)</code>
+<li>We see:
+<code class="python">7 2.5 1.5</code>
+</section>
+
+<section>
+<h2>Variables / Attributes</h2>
+<ul><li>To make it easier to see what's happening, a break a print into multiple lines.
+  <li>This code was auto-indented by VS Code, but I would use the same style manually.
+    <li>It's an easy way to see what 3 things I'm printing, or to add comments!
+<code class="python">b = Box()
+print(
+    b.x,              # should be 7
+    abs(-2.5),        # should be 2.5
+    b.make_pos(-1.5)  # should be 1.5
+)</code>
+<li>We see:
+<code class="python">7 2.5 1.5</code>
+</section>
+
+
+<section>
+<h2>Variables / Attributes</h2>
+<ul><li>Just like numbers or strings, an attribute can be a function.
+<code class="python">class Box:
+    def __init__(self):
+        self.x = 7
+        self.make_pos = abs # "absolute value"</code>
+<li>We can also define them outside of init, like so:
+<code class="python">class Box:
+    x = 7
+    make_pos = abs # "absolute value"</code>
+<li>This code behaves identically.
+<li>The usefulness of init is just to allow us to change what e.g. 7 is.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Methods
+  <ul>
+<li>&check; Editorializing
+<li>&check; Variables / Attributes
+<li>Functions / Methods
+<li>Dot notation
+<li>Getters / Setters
+<li>Dunder Methods
+</section>
+
+
+<section>
+<h2>Functions / Methods</h2>
+<ul><li>When we define a function inside of a class, it is a method - a special kind of function.</li>
+<li>There's one wrinkle though.
+<code class="python">class Box:
+    x = 7
+    def print_x():
+        print(self.x)
+
+b = Box()
+b.print_x() # this errors</code>
+<li>We get an error:
+<code class="python">TypeError: Box.print_x() takes 0 positional arguments but 1 was given</code>
+<li>What does that mean?
+</section>
+
+
+
+<section>
+<h2>Functions / Methods</h2>
+<ul><li>We can get the same kind of error - a type error - by using a function incorrectly.</li>
+<code class="python">abs(-1,-2)</code>
+<li>We get an error:
+<code class="python">TypeError: abs() takes exactly one argument (2 given) </code>
+<li>When making an integer positive, we only accept one integer. But what about 'print_x'?
+</section>
+
+<section>
+<h2>Functions / Methods</h2>
+<ul><li>We wrote 'print_x' to need no argument, and we provide no argument, yet Python encounters an error.
+<code class="python">class Box:
+    x = 7
+    def print_x():
+        print(self.x)</code>
+<li>The hint is with how we wrote '__init__'
+<code class="python">    def __init__(self): # what is self?
+        pass
+</code>
+<li><em>Functions used as methods always have a "secret" argument: "self"</em>.
+</section>
+
+
+<section>
+<h2>Functions / Methods</h2>
+<ul><li>When we define a function inside of a class, it is a method - a special kind of function.</li>
+<li>There's one wrinkle though.
+<code class="python">class Box:
+    x = 7
+    def print_x(self): # add self
+        print(x)
+
+b = Box()
+b.print_x() # this works</code>
+<li>We get an error:
+<code class="python">7</code>
+<li>The purpose of this is to allow methods to find variables defined inside the class (like 'x'/'self.x') but not defined inside the method.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Methods
+  <ul>
+<li>&check; Editorializing
+<li>&check; Variables / Attributes
+<li>&check; Functions / Methods
+<li>Dot notation
+<li>Getters / Setters
+<li>Dunder Methods
+</section>
+
+
+<section>
+<h2>Dot notation</h2>
+<ul><li>Remember this?
+<code class="python">pixels = image.get_pixel_array()
+print(pixels[0][0])
+print(GImage.get_red(pixels[0][0]))</code>
+<li>Look here:
+<code class="python">GImage.get_red(pixels[0][0])</code>
+<li>Um.... GImage is not a variable, that's the name of a class.
+<li>Call this dot notation - we can use methods both from:
+  <ul><li>A class, like 'int' or 'box'
+    <li>An instances of a class, like '7' or 'b = Box(7)'
+</section>
+
+<section>
+<h2>Dot notation</h2>
+<ul><li>Back to 'print_x'</li>
+<li>There's one wrinkle though.
+<code class="python">class Box:
+    # no x here
+    def print_7(): # back to no self
+        print(7)
+
+Box.print_7()</code>
+<li>Doing this, we can't use variables inside box
+<ul><li>The class has no self, just like 'int' has no numerical value)</li>
+</ul><li>But we can run snippets of code that don't use anything in the object.
+<code class="python">TypeError: Box.print_x() takes 0 positional arguments but 1 was given</code>
+<li>I try to avoid using this because I find it confusing.
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Methods
+  <ul>
+<li>&check; Editorializing
+<li>&check; Variables / Attributes
+<li>&check; Functions / Methods
+<li>&check; Dot notation
+<li>Getters / Setters
+<li>Dunder Methods
+</section>
+
+
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>Willamette CS151 aggressively uses getters and setters.
+  <li>Let's look at example, with box.
+<code class="python">class Box:
+    def __init__(self, data):
+        self.val = data</code>
+<li>We could perform the following operations.
+<code class="python">>>> b = Box(13)
+>>> b.val
+13
+>>> b.val = 17
+>>> b.val
+17</code>
+</section>
+
+
+
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>By convention, some attributes' names are prefixed with "_" single underscore.
+  <li>It is "bad form" to work with these values directly.
+    <ul><li>The reason it is bad form and arguments against this claim are discussed in the early 00s blog posts I've been sharing.
+      <li>I say: Out of scope. In this class, we accept as axiomatic it is bad form.
+        <li>This, by contrast is good form <a href="https://www.youtube.com/watch?v=M8GX0cZ-xtw">Nicki Minaj - Good Form ft. Lil Wayne</a></li></ul>
+<code class="python">class Box:
+    def __init__(self, data):
+        self._val = data</code>
+<li>We can, but "shouldn't" do the following.
+<code class="python">>>> b = Box(13)
+>>> b._val # bad form, but allowed
+13</code>
+<li>Please don't do that in a job interview.
+</section>
+
+
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>By convention, some attributes' names are prefixed with "_" single underscore.
+  <li>We use methods instead
+<code class="python">class Box:
+    def __init__(self, data):
+        self._val = data
+
+    def get_val(self):
+        return self._val
+
+    def set_val(self, data):
+        self._val = data      </code>
+</section>
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>We use methods
+<table style="width:100%"><td style="width:50%">
+<code class="python">class Box:
+    def __init__(self, data):
+        self._val = data
+
+    def get_val(self):
+        return self._val
+
+    def set_val(self, data):
+        self._val = data      </code></td>
+      <td style="width:50%">
+<code class="python">>>> b = Box(13)
+>>> b._val      # bad/wrong
+13
+>>> b._val = 17 # bad/wrong
+>>> b._val      # bad/wrong
+17      </code>        
+      </td></table>
+</section>
+
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>We use methods
+<table style="width:100%"><td style="width:50%">
+<code class="python">class Box:
+    def __init__(self, data):
+        self._val = data
+
+    def get_val(self):
+        return self._val
+
+    def set_val(self, data):
+        self._val = data      </code></td>
+      <td style="width:50%">
+<code class="python">>>> b = Box(13)
+>>> b.get_val()
+13
+>>> b.set_val(17) 
+>>> b.get_val()   
+17 </code>        
+      </td></table>
+</section>
+
+
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>Pros: Can enforce, e.g. having a int
+<table style="width:100%"><td style="width:50%">
+<code class="python">class IntBox:
+    def __init__(self, data):
+        if type(data) == int:
+            self._val = data
+        else:
+            self._val = 0
+
+    def get_val(self):
+        return self._val
+
+    def set_val(self, data):
+        if type(data) == int:
+            self._val = data    </code></td>
+      <td style="width:50%">
+<code class="python">>>> b = IntBox("hi")
+>>> b.get_val()
+0
+>>> b.set_val(7)
+>>> b.get_val() 
+7
+>>> b.set_val(print) 
+>>> b.get_val()
+7</code>        
+      </td></table>
+</section>
+
+
+
+<section>
+<h2>Getters / Setters</h2>
+<ul><li>Cons: Can't use the assignment ops
+<table style="width:100%"><td style="width:50%">
+<code class="python">class IntBox:
+    def __init__(self, data):
+        if type(data) == int:
+            self._val = data
+        else:
+            self._val = 0
+
+    def get_val(self):
+        return self._val
+
+    def set_val(self, data):
+        if type(data) == int:
+            self._val = data    </code></td>
+      <td style="width:50%">
+<code class="python">>>> b = IntBox(7)
+>>> b._val *= 3 # bad form
+>>> b.get_val() 
+21
+>>> b.set_val(b.get_val() // 3) 
+>>> b.get_val()
+7</code>        
+      </td></table>
+<li>Updating values gets clunky real fast.
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Methods
+  <ul>
+<li>&check; Editorializing
+<li>&check; Variables / Attributes
+<li>&check; Functions / Methods
+<li>&check; Dot notation
+<li>&check; Getters / Setters
+<li>Dunder Methods
+</section>
+
+
+<section>
+<h2>Dunder Methods</h2>
+<ul><li>Dunder for "double underscore"
+  <li>We've seen one, __init__
+    <li>Here's the thing: Printing box is super ugly.
+<code class="python">>>> b
+&lt;test.Box object at 0x0000025528D1E9F0&gt;</code>
+<li>There's a lot of names for dunder methods that have special meanings.
+<li>__repr__ determines how something is "represented"
+<ul><li>It <strong>must</strong> return a string.
+</section>
+
+<section>
+<h2>Dunder Methods</h2>
+<ul><li>Dunder for "double underscore"
+  <li>Here's __repr__
+<code class="python">class Box:
+    def __init__(self, data):
+        self.val = data
+
+    def __repr__(self):
+        return "Box(" + str(self.val) + ")"</code>
+<li>Here's what it looks like:
+<code class="python">>>> b = Box(7)
+>>> b
+Box(7)
+>>> b.val **= 2
+>>> b   
+Box(49)</code>
+</section>
+
+<section>
+<h2>Dunder Methods</h2>
+<ul><li>Some others:
+<table>
+  <tr><td><code class="python">__str__</code></td><td>Determines what is returned when applying 'str()' to the object</td></tr>
+  <tr><td><code class="python">__abs__</code></td><td>Determines what is returned when applying 'abs()' to the object</td></tr>
+  <tr><td><code class="python">__and__</code></td><td>Determines what is returned when object 'and' object is calculated</td></tr>
+  <tr><td><code class="python">__lt__</code></td><td>Determines what is returned when object '<' object is calculated</td></tr>
+  </table>
+  <li>I use __lt__ <em>a lot</em> because I tend to want to be able to sort things.
+  <li>I never write a class without at least __init__, __repr__, and __str__, but usually __repr__ and __str__ are the same.
+  <li>I usually don't use the others. There's a full list you can find pretty easily (not linking because you should practice finding it if you need it.)
+</section>
+
+
+<section>
+<h2>Dunder Methods</h2>
+<ul><li>By the way, ints have these two...
+<code class="python">>>> x = 7
+>>> type(7)
+&lt;class 'int'&gt;</code><code class="python">>>> x.__add__(4)
+11</code>
+<li>Quite a bit of Python runs on dunder methods, just "secretly".
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>&check; Methods
+  <ul>
+<li>Variables / Attributes
+<li>Functions / Methods
+<li>Dot notation
+<li>Getters / Setters
+<li>Dunder Methods
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Project 3 next Monday.
+  <ul>
+    <li>Milestone 4a by Thursday
+    <li>Milestone 4b tonight
+    <li>Milestone 4c by Saturday
+    </ul>
+<li>Midterm looming. Stay tuned.
+</section>
+
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

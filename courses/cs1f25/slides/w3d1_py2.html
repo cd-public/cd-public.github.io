@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Arithmetic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Arithmetic</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W3Mon: 9 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+<li>Sections reminder: Wed & Thurs PM.
+<ul>
+<li>Problems: email jjrembold@, you may cc ckdeutschbein@</ul>
+<center><img src="imgs/section.png"></center>
+<li>By <em>NEXT</em> <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<li>One writing problem.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Do we need homework screencapture slides?
+<ul><li>Doing homework: It's fun.</ul>
+<li>I can live-code any homework questions.
+<ul><li>Let's crush this homework... together.</ul>
+<li>Introducing Python, cont.<ul>
+<br>
+<code class="python">if / elif / else</code>
+<br>
+<code class="python">+ - * // / % ** - # operators</code>
+<br>
+<code class="python">= == # assignment vs comparison</code>
+<br>
+<code class="python">return</code>
+</ul>
+</section>
+
+<section>
+<h2><code class="python">if / elif / else</code></h2>
+<ul><li>We know 'if', but 'else' is <b>very</b> useful on Checkerboard
+<li>E.g., place beeper after moving ONLY if moving from an unbeeped square.
+<code class="python">def check_move():
+    if no_beepers_present():
+        move()
+        put_beeper()
+    else:
+        move()</code>
+<li>What happens if we:
+<code class="python">import karel
+
+def main():
+    while front_is_clear():
+        check_move()</code>
+</section>
+
+<section>
+<h2><code class="python">if / elif / else</code></h2>
+<ul><li>'elif', short for 'else if', allows longer, more complicated checks.
+<code class="python">def sign_check(x):
+    if x < 0:
+        print("negative") 
+    elif x > 0:
+        print("positive")
+    else:
+        print("zero")</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Introducing Python, cont.<ul>
+<br>
+<code class="python">&check;: if / elif / else</code>
+<br>
+<code class="python">+ - * // / % ** - # operators</code>
+<br>
+<code class="python">= == # assignment vs comparison</code>
+<br>
+<code class="python">return</code>
+</ul>
+</section>
+
+
+<section>
+<h2>Operators</h2>
+<ul>
+<li>Most arithmetic in Python is "as expected" with a few differences.
+<li>Easy ones:
+<table>
+<tr><td>Addition</td><td>a + b</td>       <tr>
+<tr><td>Subtraction</td><td>a - b</td>    <tr>
+<tr><td>Multiplication</td><td>a * b</td> <tr>
+<tr><td>Division</td><td>a / b</td>       <tr>
+</table>
+<li>Weirder ones:
+<table>
+<tr><td>Integer Division</td><td>a // b</td><td>Leaves a "Remainder"</td><tr>
+<tr><td>Modulo</td><td>a % b</td>         <td>calculates the "Remainder"</td><tr>
+<tr><td>Exponentiation</td><td>a ** b</td><td>Note: The caret ^ is something else</td><tr>
+</table>
+</section>
+
+<section>
+<h2>Operators</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>Most arithmetic in Python is "as expected" with a few differences.
+<li>Easy ones:
+<table>
+<tr><td>Addition</td><td>a + b</td>       <tr>
+<tr><td>Subtraction</td><td>a - b</td>    <tr>
+<tr><td>Multiplication</td><td>a * b</td> <tr>
+<tr><td>Division</td><td>a / b</td>       <tr>
+</table></td><td style="width:50%">
+<code class="python">>>> 1 + 2
+3
+>>> 1 - 2
+-1
+>>> 1 * 2
+2
+>>> 1 / 2
+0.5</code></td></tr></table>
+<p>Note: Division takes whole numbers (integers) and returns numbers with a decimal ('floats').
+</section>
+
+
+<section>
+<h2>Operators</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>Most arithmetic in Python is "as expected" with a few differences.
+<li>Weirder ones:
+<table>
+<tr><td style="width:20%">Integer Division</td><td style="width:20%">a // b</td><td>Leaves a "Remainder"</td><tr>
+<tr><td>Modulo</td><td>a % b</td>         <td>calculates the "Remainder"</td><tr>
+<tr><td>Exponentiation</td><td>a ** b</td><td>Note: The caret ^ is something else</td><tr>
+</table></td><td style="width:50%">
+<code class="python">>>> 5 // 2
+2
+>>> 5 %  2
+1
+>>> 5 ** 2
+25
+>>> 5 ^  2
+7</code></td></tr></table>
+<p>It may seem weird, but % ("modulo" or "remainder") is extremely useful, and I use it more than anything except maybe + ("plus" or "addition")
+</section>
+
+
+<section>
+<h2>Two divisions</h2>
+<ul>
+<li>Integer division // is nice when we might want to calculate a value then loop that many times.
+<code class="python">>>> for i in range(5//2):
+...     print(i)
+...
+0
+1
+>>> for i in range(5/2):
+...     print(i)
+...
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;>
+TypeError: 'float' object cannot be interpreted as an integer</code>
+</section>
+
+
+<section>
+<h2><code>type()</code></h2>
+<ul>
+<li>If you ever aren't sure what something will be, ask Python with "type()"
+<code class="python">&gt;&gt;&gt; type(5/2)
+&lt;class 'float'&gt;</code>
+<code class="python">&gt;&gt;&gt; type(5//2)
+&lt;class 'int'&gt;</code></code>
+<code class="python">&gt;&gt;&gt; type(5)
+&lt;class 'int'&gt;</code>
+<code class="python">&gt;&gt;&gt; type(5.0)
+&lt;class 'float'&gt;</code></ul>
+<p>'for' loops need "&lt;class 'int'&gt;"
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Introducing Python, cont.<ul>
+<br>
+<code class="python">&check;: if / elif / else</code>
+<br>
+<code class="python">&check;: + - * // / % ** - # operators</code>
+<br>
+<code class="python">= == # assignment vs comparison</code>
+<br>
+<code class="python">return</code>
+</ul>
+</section>
+
+
+<section>
+<h2><code class="python">=</code></h2>
+<ul>
+<li>We use '=', which I term 'single equals' or 'assignment', to 'assign' a value (like 7) to a variable (like x).
+<code class="python">>>> x = 7</code>
+<li>Then x does all the things seven does.
+<code class="python">>>> 7
+7
+>>> x
+7
+>>> x + 6
+13</code>
+<p>It means "<b>make</b> this equal to that"
+</section>
+
+
+<section>
+<h2>Weird thing</h2>
+<ul>
+<li>We are allowed to set a variable, like x, equal to some arithmetic over x, like x = 1.
+<code class="python">>>> x = 7
+>>> x = x + 1
+>>> x
+8
+>>></code>
+<li>This is useful to e.g. count things. 
+<li>Imagine if we could count how many beepers Karel placed, or how many moves.
+<code class="python">def ten_even_numbers():
+    x = 0
+    for i in range(10):
+        x = x + 2
+        print(x)</code>
+</section>
+
+<section>
+<h2><code class="python">==</code></h2>
+<ul>
+<li>We use '==', which I term 'doubles equals', 'equality test', or 'comparison', to 'check' if two things, either values or variables, are equal.
+<li>'==' is kind like '+': given two things, it gives back a value - but that value is either true or false.
+<code class="python">>>> x = 7
+>>> 7 == x
+True
+>>> x == 7
+True
+>>> 6 == x
+False
+>>> 1 == 2
+False
+>>> x + 6
+13</code>
+</section>
+
+<section>
+<h2>Comparison Operators</h2>
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<ul>
+<li>Besides double equals, many other tests for equality/inequality.
+<li>Easy ones:
+<table>
+<tr><td>Greater-than-or-equal</td><td>a >= b</td>       <tr>
+<tr><td>Less-than-or-equal</td><td>a <= b</td>    <tr>
+<tr><td>Not equal</td><td>a != b</td> <tr>
+<tr><td>Greater-than</td><td>a > b</td>       <tr>
+<tr><td>Less-than</td><td>a > b</td>       <tr>
+</table></td><td style="width:50%">
+<code class="python">>>> 1 >= 2
+False
+>>> 1 <= 2
+True
+>>> 1 != 2
+True
+>>> 1 > 2
+False
+>>> 1 < 2
+True
+>>> 1 < 1
+False
+>>> 1 <= 1
+True</code></td></tr></table>
+</section>
+
+<section>
+<h2>Checking Numbers</h2>
+<ul><li>We check if numbers are even...
+<code class="python">def is_even(x): # check if x is even
+    if x % 2 == 0: # no remainder when divided by two
+        print("even") 
+    elif x % 2 == 1:
+        print("odd")
+    else:
+        print("not a whole number")</code>
+<li>Test it:
+<code class="python">>>> is_even(2)
+even
+>>> is_even(1)
+odd
+>>> is_even(1.5)
+not a whole number</code>
+</section>
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Introducing Python, cont.<ul>
+<br>
+<code class="python">&check;: if / elif / else</code>
+<br>
+<code class="python">&check;: + - * // / % ** - # operators</code>
+<br>
+<code class="python">&check;: = == # assignment vs comparison</code>
+<br>
+<code class="python">return</code>
+</ul>
+</section>
+
+<section>
+<h2>Return</h2>
+<ul>
+<li>Print is how the computer tells us things.
+<li>Sometimes we want it to tell itself things, like:<ul>
+<li>Whether some number is divisible by another number...
+<li>The greater of two numbers..
+</ul>
+<li>Print has a limitation here.
+<br>
+<code class="python">def is_even(x):
+    print(is_divisible_by(x,2))
+    
+def bigger(x,y):
+    if x > y:
+        print(x)
+    else:
+        print(y)</code>
+<li>What if I want to assign some variable 'c' to be the greater of 'a' and 'b'?
+</section>
+
+
+<section>
+<h2>Return</h2>
+<ul>
+<li>If we write "is_divisible_by" like this:
+<code class="python">def is_divisible_by(value,divisor):
+    print(value % divisor == 0) # has no remainder
+}</code>
+<li>This code won't work:
+<code class="python">def is_even(x):
+    print(is_divisible_by(x,2))
+</code>
+</section>
+
+
+<section>
+<h2>Return</h2>
+<ul>
+<li>Why? 'is_divisible_by' prints True or False, but doesn't tell 'is_even' what it prints.
+<li>The way to 'tell' a computer what happened in a def/function is with 'return':
+<code class="python">def is_divisible_by(value,divisor):
+    return (value % divisor == 0) # has no remainder</code>
+<li>We use return on its own line, and it doesn't need parenthesis or colons.
+<code class="python">def is_even(x):
+    return is_divisible_by(x,2)</code>
+<li>Something like 'front_is_blocked()" <em>return</em>ed either True or False.
+</section>
+
+
+<section>
+<h2>Return</h2>
+<ul>
+<li>We can compare the two:
+<code class="python">>>> is_divisible_by(10,2)
+True
+>>> print(is_divisible_by(10,2))
+True
+>>> x = is_divisible_by(10,2)
+>>> x
+True
+>>> if is_divisible_by(10,2):
+...     print('10 is even')
+...
+10 is even
+>>>
+</code>
+</section>
+
+<section>
+<h2>Return</h2>
+<ul>
+<li>Until you write code with zero errors on the first time...
+<li>You should never write a function (def) with no return.
+<li>Most programers expect Python to return when it does not.
+<code class="python">def is_divisible_by(value,divisor):
+    # checks if value is evenly divided by divisor
+    check = value % divisor == 0 # compare remainder to zero
+    if check: # print what we find
+        print("Value is evenly divided by divisor")
+    else:
+        print("Value is not evenly divided by divisor")
+    # do not forget to return
+    return check
+</code>
+<li>Print is for you to read, return is for the computer or for you to use.
+</section>
+
+<section>
+<h2>Exercise</h2>
+<ul>
+<li>Do "Problem Set 1: Karel"
+<ul><li>Use comments 
+<li>The first problem "newspaper" benefits from functions, and perhaps for loops
+<ul><li>It is possible, but annoying, to do without either</ul>
+<li>The second problem, "painting" benefits from 'while' loops (and could use 'if')
+<ul><li>I used four (4) 'while' loops, and no 'if' statements or 'for' loops
+</section>
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+<li>Sections reminder: Wed & Thurs PM.
+<ul>
+<li>Problems: email jjrembold@, you may cc ckdeutschbein@</ul>
+<center><img src="imgs/section.png"></center>
+<li>By <em>NEXT</em> <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
+<ul><li>One Karel problem (probably) using "if" and "while"
+<li>One Python problem using arithmetic and (probably) "for"
+<li>One writing problem.
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

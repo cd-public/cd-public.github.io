@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Breakout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Breakout</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W7Wed: 09 Oct<br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Problem Set 4: Graphics for <em>today</em> Monday, 14 October, 11:59 PM.
+<li>Project 2: Breakout for <em>next</em> Monday, 21 October, 11:59 PM.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul><li>Breakout
+<li>Timers
+</section>
+
+
+<section id="breakout-milestones" class="slide level2">
+<h2>Breakout Milestones</h2>
+<ul>
+<li>Breakout is broken up over 5 milestones</li>
+<li>You have already seen or written pieces of similar code to many of
+the milestones!
+<ul>
+<li>Milestone 1: PS4 brick pyramid</li>
+<li>Milestone 3: Section this week</li>
+</ul></li>
+</ul>
+</section>
+<section >
+<h2>Milestone 0</h2>
+<ul><li>It's called milestone 1 here. shhhh.<br></ul>
+<iframe width="60%" height="800px" style="" src="https://willamette.edu/~esroberts/cs151/Assignments/Project2/Breakout1/index.html">
+</iframe>
+</section>
+<section>
+<h2>Milestone 1</h2>
+<iframe width="60%" height="800px" src="https://willamette.edu/~esroberts/cs151/Assignments/Project2/Breakout2/index.html">
+</iframe>
+</section>
+<section >
+<h2>Milestone 2</h2>
+<iframe width="60%" height="800px" src="https://willamette.edu/~esroberts/cs151/Assignments/Project2/Breakout3/index.html">
+</iframe>
+</section>
+<section >
+<h2>Milestone 3</h2>
+<iframe width="60%" height="800px" src="https://willamette.edu/~esroberts/cs151/Assignments/Project2/Breakout4/index.html">
+</iframe>
+</section>
+<section >
+<h2>Milestone 4</h2>
+<iframe width="60%" height="800px" src="https://willamette.edu/~esroberts/cs151/Assignments/Project2/Breakout5/index.html">
+</iframe>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>&check; Breakout
+<li>Timers
+</section>
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<code style="max-height:800px" class="python">from pgl import *
+
+# same click func
+def click_func(e):
+    x = e.get_x()
+    y = e.get_y()
+    gw.box.set_location(x,y)
+
+gw = GWindow(400,400)
+
+# same as my rect, but on "gw.box"
+gw.box = GRect(400,400,50,50)
+gw.box.set_filled(True)
+gw.box.set_color('pink')
+gw.add(gw.box)
+
+gw.add_event_listener("click",click_func)
+</code></td><td>
+<canvas id='c4' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function listener4(e)
+                        {
+                            const g = document.getElementById("c4").getContext("2d") ; 
+                            g.reset() ;
+                            g.fillStyle = "pink" ;
+                            g.fillRect(e.offsetX, e.offsetY,50,50) ;
+                        }
+                    
+                        function draw4()
+                        {
+                            const g = document.getElementById("c4") ; 
+                            g.addEventListener("click", listener4, false) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw4()">gw.add_event_listener('click',click_func)</button>
+</section>
+
+
+
+<section>
+<h2>Timers</h2><ul>
+<li>For Breakout, we need something to move on its own. Rather than going where we click, let's have "floaty box".
+<ul><li>Box moves some number of pixels every time a timer runs.
+<li>Box bounces off walls.
+</ul>
+</section>
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>First, just move the box, or now a ball (why not).
+<li>That 20 is "milliseconds" I think.
+<code style="max-height:800px" class="python">from pgl import *
+
+def time_func(): # like click_func
+    gw.x += 1
+    gw.ball.set_location(gw.x,200)
+
+gw = GWindow(400,400)
+gw.x = 0 # store ball and it's x location
+gw.ball = GOval(gw.x,200,50,50) # like rect
+gw.add(gw.ball)
+gw.set_interval(time_func,20) # like listener</code></td><td>
+<canvas id='c5' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        let x5 = 0
+                        let int_id5 = false ;
+                        function listener5()
+                        {
+                            const g = document.getElementById("c5").getContext("2d") ; 
+                            g.reset() ;
+                            g.ellipse(x5,225,25,25,0,0,10) ;
+                            x5++ ;
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+                    
+                        function draw5()
+                        {
+                            x5 = 0 ;
+                            if (int_id5)
+                            {
+                                clearInterval(int_id5) ;
+                            }
+                            int_id5 = setInterval(listener5, 20) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw5()">gw.set_interval(time_func,20)</button>
+</section>
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Go fast + bounce off far wall
+<li>350 is window size less shape size.
+<code style="max-height:800px" class="python">def time_func():
+    gw.x += gw.vx
+    if gw.x > 350:
+        gw.vx = -gw.vx
+    gw.box.set_location(gw.x,200)
+
+gw = GWindow(400,400)
+
+gw.vx = 1
+gw.x = 0
+gw.box = GOval(gw.x,200,50,50)
+gw.add(gw.box)
+
+gw.set_interval(time_func,5)</code></td><td>
+<canvas id='c6' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        let x6 = 0
+                        let int_id6 = false ;
+                        let vx6 = 1 ;
+                        function listener6()
+                        {
+                            const g = document.getElementById("c6").getContext("2d") ; 
+                            g.reset() ;
+                            g.ellipse(x6,225,25,25,0,0,10) ;
+                            x6 = x6 + vx6 ;
+                            if (x6 > 375)
+                            {
+                                vx6 = -vx6 ;
+                            }
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+                    
+                        function draw6()
+                        {
+                            x6 = 0 ;
+                            if (int_id6)
+                            {
+                                clearInterval(int_id6) ;
+                            }
+                            int_id6 = setInterval(listener6, 5) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw6()">gw.set_interval(time_func,5)</button>
+</section>
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Keep bouncing, faster again.
+<li>350 is window size less shape size.
+<code style="max-height:800px" class="python">def time_func():
+    gw.x += gw.vx
+    if gw.x > 350  or gw.x < 0:
+        gw.vx = -gw.vx
+    gw.box.set_location(gw.x,200)
+
+gw = GWindow(400,400)
+
+gw.vx = 1
+gw.x = 0
+gw.box = GOval(gw.x,200,50,50)
+gw.add(gw.box)
+
+gw.set_interval(time_func,2)</code></td><td>
+<canvas id='c7' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        let x7 = 0
+                        let int_id7 = false ;
+                        let vx7 = 1 ;
+                        function listener7()
+                        {
+                            const g = document.getElementById("c7").getContext("2d") ; 
+                            g.reset() ;
+                            g.ellipse(x7,225,25,25,0,0,10) ;
+                            x7 = x7 + vx7 ;
+                            if (x7 > 375 || x7 < 25)
+                            {
+                                vx7 = -vx7 ;
+                            }
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+                    
+                        function draw7()
+                        {
+                            x7 = 25 ;
+                            if (int_id7)
+                            {
+                                clearInterval(int_id7) ;
+                            }
+                            int_id7 = setInterval(listener7, 2) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw7()">gw.set_interval(time_func,2)</button>
+</section>
+
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Move not-only-horizontally.
+<code style="max-height:800px;width:1000px" class="python">from pgl import *
+
+def time_func():
+    gw.x += gw.vx
+    gw.y += gw.vy
+    if gw.x > 350  or gw.x < 0:
+        gw.vx = -gw.vx
+    if gw.y > 350  or gw.y < 0:
+        gw.vy = -gw.vy
+    gw.box.set_location(gw.x,gw.y)
+
+gw = GWindow(400,400)
+
+gw.vx = 3
+gw.x = 0
+gw.vy = 7
+gw.y = 0
+gw.box = GOval(gw.x,200,50,50)
+gw.add(gw.box)
+
+gw.set_interval(time_func,20)</code></td><td>
+<canvas id='c8' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        let x8 = 0
+                        let vx8 = 3 ;
+                        let y8 = 0
+                        let vy8 = 7 ;
+                        let int_id8 = false ;
+                        function listener8()
+                        {
+                            const g = document.getElementById("c8").getContext("2d") ; 
+                            g.reset() ;
+                            g.ellipse(x8,y8,25,25,0,0,10) ;
+                            x8 = x8 + vx8 ;
+                            y8 = y8 + vy8 ;
+                            if (x8 > 375 || x8 < 25)
+                            {
+                                vx8 = -vx8 ;
+                            }
+                            if (y8 > 375 || y8 < 25)
+                            {
+                                vy8 = -vy8 ;
+                            }
+                            g.stroke() ; g.stroke() ; g.stroke() ; 
+                        }
+                    
+                        function draw8()
+                        {
+                            x8 = 25 ;
+                            y8 = 25 ;
+                            if (int_id8)
+                            {
+                                clearInterval(int_id8) ;
+                            }
+                            int_id8 = setInterval(listener8, 2) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw8()">gw.set_interval(time_func,20)</button>
+</section>
+
+
+
+<section>
+<h2>Today</h2>
+<ul><li>&check; Breakout
+<li>&check; Timers
+<li>Free bonus: Mousemove
+</section>
+
+
+
+
+<section>
+<h2>Events</h2>
+<table>
+<td style="vertical-align:top">
+<ul>
+<li>Follow cursor without clicking.
+<code style="max-height:800px;width:1000px" class="python">from pgl import *
+
+# same click func
+def move_func(e):
+    x = e.get_x()
+    y = e.get_y()
+    gw.box.set_location(x,y)
+
+gw = GWindow(400,400)
+
+# same as my rect, but on "gw.box"
+gw.box = GRect(400,400,50,50)
+gw.box.set_filled(True)
+gw.box.set_color('pink')
+gw.add(gw.box)
+
+gw.add_event_listener("mousemove",move_func)</code></td><td>
+<canvas id='c9' width="400" height="400" style="background-color:white"></canvas>
+                    <script>
+                        function listener9(e)
+                        {
+                            const g = document.getElementById("c9").getContext("2d") ; 
+                            g.reset() ;
+                            g.fillStyle = "pink" ;
+                            g.fillRect(e.offsetX, e.offsetY,50,50) ;
+                        }
+                    
+                        function draw9()
+                        {
+                            const g = document.getElementById("c9") ; 
+                            g.addEventListener("mousemove", listener9, false) ;
+                        }
+</script><br>
+</table>
+<button style="font-size:larger" onclick="draw9()">gw.add_event_listener("mousemove",move_func)</button>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Problem Set 4: Graphics for <em>today</em> Monday, 14 October, 11:59 PM.
+<li>Project 2: Breakout for <em>next</em> Monday, 21 October, 11:59 PM.
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

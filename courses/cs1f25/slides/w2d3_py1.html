@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Python</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Python</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W2Fri: 6 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Sections check-in.
+<ul>
+<li>Help us help you - if you have a conflict, get sick, etc. - reach out ASAP.
+</ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Do we need homework screencapture slides?
+<ul><li>Doing homework: It's fun.</ul>
+<li>I can live-code any homework questions.
+<ul><li>Let's crush this homework... together.</ul>
+<li>Introducing Python<ul>
+<li>Arithmetic
+<li>Variables
+<li>Functions
+</ul>
+</section>
+
+<section>
+<h2>Post-Karel</h2>
+<ul><li>Thus far we Karel'ed.
+<li>But what if we don't want to only navigate imaginary robots?
+<table style="width:100%">
+<tr>
+<td style="width:50%"><code style="max-height:600px" class="python">import karel
+
+def main():
+    move()</code></td>
+<td style="width:50%"><code style="max-height:600px" class="python"># no import
+
+def main():
+    move() # this won't work</code></td>
+
+</tr></table></ul>
+    <p>What does Python <em>do</em>?
+</section>
+
+<section>
+<h2>High Level</h2>
+<ul><li>Computer science as the science of solving problems.
+<li>Python as the way of specifying solutions to problems.
+<li>We used Karel to solve imaginary problems, like newspaper and painting tasks.
+<li>What do we do in Python?
+<li>Let's consider a famous example: the <a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program">"Hello, World!" program</a>
+<li>This solves the task of "How can a computer communicate data to a human?"
+</section>
+
+<section>
+<h2>Hello World!</h2>
+<ul><li>Like with Karel, we can create a file, such as hello.py
+<table style="width:100%">
+<tr>
+<td style="width:50%"><b>some_karel.py</b>
+<code style="max-height:600px" class="python">import karel
+
+def main():
+    move()</code></td>
+<td style="width:50%"><b>hello.py</b><code style="max-height:600px" class="python">print("Hello, World!")</code></td>
+
+</tr></table>
+<li>"Print" like main, is an old term.
+<li>It goes back to when computers didn't have monitors and "printed" the results of calculations!
+</section>
+
+<section>
+<h2>Make hello.py</h2>
+<ul><li>Open VS Code
+<li>File->New File
+<li>Type "hello.py" (it will be a box in the upper middle of the screen).
+<ul><li>It matters that you spell this correctly.
+<li>You may need to confirm you wish to create the file, press enter until the file appears.</ul>
+<li>Click in the main window, it may say
+
+<code style="max-height:600px" class="lisp">Open chat (Ctrl+I), or select a language (Ctrl+K M), or fill with template to get started.
+Start typing to dismiss or don't show this again.</code>
+<li>Type <code style="max-height:600px" class="python">print("hello world")</code>
+</section>
+
+
+<section>
+<h2>Running hello.py</h2>
+<ul><li>Click VS Code "play" button
+<ul><li>Top right</ul>
+<li>A window called the <b>terminal</b> will pop up at the bottom of your screen.
+<li>It will contain lots of text, but will have one line reading "hello world".
+
+</section>
+
+
+<section>
+<h2>Running hello.py</h2>
+<ul>
+<li>My experience: Students often do not read the text in the terminal.<br>
+<img width="100%" src="imgs/python_tweet.png">
+<li>That is less than a tweet of text.
+<li>I will often ask e.g. "did Python start?" to 🦗🦗🦗
+<li>Be present; be thoughtful; be curious.
+<li>This <b>terminal</b> may look scary, but it tries to help you and I know you can understand much of it.
+</section>
+
+<section>
+<h2>High Level</h2>
+<ul>
+<li>In Python, we will begin the famous example of "math problems" which I will call "arithmetic".
+<li>Here is an example of an arithmetic problem that is hard for a human and easy for a computer:
+<code style="max-height:600px" class="python">1234 * 5678 # its 7006652...
+# but I would never be able to figure that out</code>
+</section>
+
+
+<section>
+<h2>Suppose...</h2>
+<ul><li>Like many other living beings, I eat food.
+<ul><li>Vegetable check!</ul>
+<li>But how much food?
+<li>I am approximately 32 years old, eat approximately 2000 calories per day.
+<li>I couldn't even guess when I started eating 2000/day, so I'll assume always.
+<li>How can I use Python to calculate this?
+<code style="max-height:600px" class="python">2000 * 32 * 365</code>
+<li>Okay... but how does that help me?
+<li>How do I see the solution?
+</section>
+
+<section>
+<h2>cal.py</h2>
+<ul><li>Like with Karel, we can create a file, such as cal.py
+<code style="max-height:600px" class="python"># CALvinORIES
+print(2000 * 32 * 365)</code>
+<li>When we "play" we will see, in the terminal...<code class="bash">C:\Users\me>python cal.py
+23360000
+</code></td>
+<li>We'll see other stuff too! That's okay.
+</section>
+
+<section>
+<h2>=</h2>
+<ul>
+<li>We can also assign variables with the equals sign.
+<ul><li>The format is <code class="python">&lt;variable name&gt; = &lt;numerical value&gt;</code>
+<li>Variable names must not contain spaces, so usually we replace spaces with underscores '_'
+<code class="python">variable_name = 7 # one of my fav numbers </code>
+</section>
+
+<section>
+<h2>=</h2>
+<ul><li>We can use this to make arithmetic easier to understand and appreciate.<br>
+<code style="max-height:600px" class="python"># CALvinORIES
+calories_per_day = 2000
+years = 32
+days_per_year = 365
+days = years * days_per_year
+print(calories_per_day * days)</code><br><p>In the terminal...<br><code class="bash">C:\Users\me>python cal.py
+23360000
+</code>
+<ul><li>Try it!
+</section>
+
+<section>
+<h2>Review: Control Flow</h2>
+<ul>
+<table style="width:100%">
+<thead>
+  <tr>
+    <td style="width:20%" colspan="2"></td>
+    <td style="width:80%" colspan="2"><em>Does it happen more than once?</em></td>
+  </tr>
+</thead>
+<thead>
+  <tr >
+    <td style="width:20%" colspan="2"></td>
+    <td style="width:40%;outline:solid"><b>No</b></td>
+    <td style="width:40%;outline:solid"><b>Yes</b> (it's a loop)</td>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td  rowspan="2"><em>Is it conditional <br>(do we ask Karel a question)?</em></td>
+    <td style="outline:solid"><b>No</b></td>
+    <td><ul><li>'def' functions
+    <li>Define a series of actions
+    <li>We can "call" functions
+    <li><em>Code in 'def' doesn't run unless called
+    </td>
+    <td><ul><li>'for' loop
+    <li>Code in the loop runs <em>i</em> times
+    <li>Good for repeated actions</td>
+  </tr>
+  <tr>
+    <td style="outline:solid"><b>Yes</b></td>
+    <td><ul><li>'if' statement
+    <li>Code in the statement runs <em>if</em> Karel answers "yes" to some question
+    <li>Good if what you want to do depends on walls/beepers/etc</td>
+    <td><ul><li>'while' loop
+    <li>Code in the statement runs <em>as long as</em> Karel answers "yes" to some question
+    <li>Good for completing tasks that require repeated actions.</td>
+  </tr>
+</tbody>
+</table>
+</section>
+
+
+<section>
+<h2>Exercise</h2>
+<ul>
+<li>Do "Problem Set 1: Karel"
+<ul><li>Use comments 
+<li>The first problem "newspaper" benefits from functions, and perhaps for loops
+<ul><li>It is possible, but annoying, to do without either</ul>
+<li>The second problem, "painting" benefits from 'while' loops (and could use 'if')
+<ul><li>I used four (4) 'while' loops, and no 'if' statements or 'for' loops
+</section>
+
+
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>MONDAY 11:59 PM</b>: "Problem Set 1: Karel" assignment.
+<ul><li>One problem (probably) using "def" and "for"
+<li>One problem using at least "while" and maybe the other three.
+</ul>
+</section>
+
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

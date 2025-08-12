@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wordle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Wordle</h1>
+  <p class="author">Calvin (Deutschbein)</p>
+  <p class="date">W5Mon: 23 Sep</p><br>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<code class="python">def spaces_to_underscores(s:str) -> str:
+    new = ""
+    for index in range(len(s)):
+        if s[index] in " ":
+            new += "_"
+        else:
+            new += s[index]            
+    return new</code>
+    
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</ul>
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Introducing Wordle<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</section>
+
+<section>
+<h2>Wordle</h2>
+<ul><li>Project 1: Wordle is due Monday.
+<li>5 milestones, each roughly equivalent to a problem or part of a problem on a problem set.
+<li>Distinct from problem sets, each of the problems works together to create one, single, more expansive assignment.
+<li>Uses "WordleGraphics" heavily.
+<li><a href="https://willamette.edu/~esroberts/NiftyAssignments-2022/demos/Wordle.html">Demo</a>
+</section>
+
+<section>
+<h2>Wordle.py</h2>
+<ul>
+<ul><li>As a rule, you will write code inside 'enter_action' or in functions at the same indentation level as 'enter_action'
+<code class="python">from WordleGraphics import *  # WordleGWindow, N_ROWS, ...
+from english import * # ENGLISH_WORDS, is_english_word
+import random
+
+def wordle():
+    # The main function to play the Wordle game.
+
+    def enter_action():
+        # What should happen when RETURN/ENTER is pressed.
+        gw.show_message("You need to implement this method")
+
+
+    gw = WordleGWindow()
+    gw.add_enter_listener(enter_action)
+
+
+
+
+# Startup boilerplate
+if __name__ == "__main__":
+    wordle()</code>
+</section>
+
+
+
+<section>
+<h2>WordleGraphics</h2>
+<ul>
+<li>We provide "WordleGraphics" which includes the following:
+                            <table style="width: 100%">
+                            <thead>
+                            <tr>
+                            <th style="width: 55%">Function</th>
+                            <th style="width: 45%">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr     >
+                            <td><code>gw.set_square_letter(row, col, l)</code></td>
+                            <td>Sets the letter in the specified row and col</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.get_square_letter(row, col)</code></td>
+                            <td>Returns letter in the specified row and col</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.add_enter_listener(func)</code></td>
+                            <td>Specifies function run when enter pressed</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.show_message(msg)</code></td>
+                            <td>Shows a message below the squares</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.set_square_color(row, col, c)</code></td>
+                            <td>Sets the color of the specified square</td>
+                            </tr>
+                            <tr     >
+                            <!--<td><code>gw.get_square_color(row, col)</code></td>
+                            <td>Returns the color of the specified square</td>
+                            </tr>-->
+                            <tr     >
+                            <td><code>gw.set_current_row(row_idx)</code></td>
+                            <td>Sets row where typed characters appear</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.get_current_row()</code></td>
+                            <td>Returns the current row index</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.set_key_color(letter, color)</code></td>
+                            <td>Sets the color of the specified key letter</td>
+                            </tr>
+                            <tr     >
+                            <td><code>gw.get_key_color(letter)</code></td>
+                            <td>Returns the color of the specified key letter</td>
+                            </tr>
+                            </tbody>
+                            </table>
+</section>
+
+
+
+<section>
+<h2>Milestones</h2>
+<ul>
+<li>Aim to complete at least one milestone per day.
+<li>Submit your code on Github after every milestone.
+<ul><li>If your computer explodes, you lose nothing.
+</ul>
+<li>Milestones in general should be equal-to or less-than problem set problems.
+<li>But they build on each other (can't skip around).
+</section>
+
+
+<section>
+<h2>Milestone 0</h2>
+<ul>
+<li>By Tuesday 11:59 PM
+<li>Display a word
+<li>I wrote:
+<ul>
+    <li><code>word_to_row(word:str, row:int)</code>
+    <li><code>word_from_row(row:int) -> str</code>
+</ul>
+<li>I used:
+<code>gw.set_square_letter</code>
+</section>
+
+
+
+<section>
+<h2>Hint</h2>
+<ul>
+<li>Here is where I put them:
+<code class="python">def wordle():
+        # The main function to play the Wordle game.
+
+        def enter_action():
+            # What should happen when RETURN/ENTER is pressed.
+            gw.show_message("To do: enter_action")
+            
+        def word_to_row(word:str, row:int):
+            gw.show_message("To do: word_to_row")
+            
+        def word_from_row(row:int) -> str:
+            gw.show_message("To do: row_to_word")
+            return "" # placeholder</code>
+</section>
+
+
+
+<section>
+<h2>Hint</h2>
+<ul>
+<li>Look out for capitalization.
+<code class="python"># to see if a word is in ENGLISH_WORDS, make it lower case.
+guess_str = "Hello"
+guess_low = guess_str.lower()
+guess_cap = guess_str.upper()
+print(guess_str, guess_str in ENGLISH_WORDS) # Hello False
+print(guess_low, guess_low in ENGLISH_WORDS) # hello True
+print(guess_cap, guess_cap in ENGLISH_WORDS) # HELLO False
+
+# places 'H' in the upper left
+gw.set_square_letter(0,0,guess_cap[0]</code>
+<li>Here's one trick:
+<code class="python">Guess = "Hello" # use a mixed capital name for unknown
+guess = Guess.lower() # use lower if you've made lower
+GUESS = Guess.upper() # use upper if you've made upper</code>
+</section>
+
+
+<section>
+<h2>Milestone 1</h2>
+<ul>
+<li>By Wednesday 11:59 PM
+<li>Check a guess
+<li>Something like...
+<code class="python">def wordle():
+
+    def enter_action():
+        if # your code here
+            gw.show_message("That's a 5 letter English word")
+        else:
+            gw.show_message("Not in word list")</code>
+<li>I used my "row_to_word" from Milestone 0
+<li>I used "in" and "ENGLISH_WORDS", like PS3.2
+</section>
+
+
+<section>
+<h2>Milestone 2</h2>
+<ul>
+<li>By Thursday 11:59 PM
+<li>Color the letters.
+<li>I wrote <code class="python">color_row(row:int, answer:str)</code>
+<ul>
+    <li>Find and color the correct (green) letters first
+    <ul>
+        <li>Avoid coloring a letter yellow if it is in the correct position.
+        <li>Track if there's double letters - maintain a string of remaining letters, perhaps.
+    </ul>
+    <li>Find and color the present (yellow) letters next.
+    <ul>
+        <li>Track if there's double letters - maintain a string of remaining letters, perhaps.
+    </ul>
+    <li>Color remaining letters gray.
+    <li>Test your code rigorously:
+    <ul>
+        <li>Use the "Sassy" guess with "Glass" answer
+    </ul>
+    </ul>
+</ul>
+</section>
+<section>
+<h2>Milestone 2</h2>
+<ul>
+<li>By Thursday 11:59 PM
+<li>Color the letters.
+<li>We provide the following colors via <code>from WordleGraphics import *</code>
+<table style="width: 100%">
+<thead>
+<tr>
+<th style="width: 50%">Color</th>
+<th style="width: 50%">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr     >
+<td><code>CORRECT_COLOR</code></td>
+<td>A shade of green</td>
+</tr>
+<tr     >
+<td><code>PRESENT_COLOR</code></td>
+<td>A shade of brownish yellow</td>
+</tr>
+<tr     >
+<td><code>MISSING_COLOR</code></td>
+<td>A shade of gray</td>
+</tr>
+<tr     >
+<td><code>UNKNOWN_COLOR</code></td>
+<td>Initial white color</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>Milestone 3</h2>
+<ul>
+<li>By Friday 11:59 PM
+<li>Random word
+<ul>
+    <li>Generate a random 5-letter word.
+    <ul>
+        <li><code class="python">import random # we'll discuss further - don't worry</code>
+    </ul>
+    <li>Hold this word in a variable
+    <li>Evaluate a guess against this answer.
+    <li>Test your code more than once to ensure the word changes.
+    <ul>
+        <li>You may wish to share the answer via a <code>gw.show_message()</code>
+    </ul>
+</ul>
+<li>This code randomizes the order of `ENGLISH_WORDS`
+<code class="python">random.shuffle(ENGLISH_WORDS) # de-alphabetizes
+for word in ENGLISH_WORDS:
+    print(word) # prints words in a random order</code>
+</ul>
+</section>
+
+<section>
+<h2>Milestone 4</h2>
+<ul>
+<li>By Saturday 11:59 PM
+<li>Change Rows
+<ul>
+    <li>After a guess, move to the next row.
+    <ul>
+        <li>Use 'gw.set_current_row(row_idx)' and 'gw.get_current_row()'.
+    </ul>
+    <li>If the guess is equal to the answer:
+    <ul>
+        <li><code>gw.show_message("something nice not literally this")</code>
+        <li><code>gw.set_current_row(N_ROWS) # stop reading</code>
+    </ul>
+    <li>If the current row number is equal to 'N_ROWS' without a successful guess...
+    <ul>
+        <li><code>gw.show_message("reveal the answer")</code>
+    </ul>
+</ul>
+</section>
+
+
+<section>
+<h2>Milestone 5 + Extensions</h2>
+<ul>
+<li>By Monday
+<li>Finish up the last milestone and any extensions.
+<li>Get this turned in comfortably ahead of time in case there's a disaster:
+<ul><li>Influenza
+<li>Computer crash
+<li>Zamboni rampage
+<li>Cool new TV show comes out
+</ul>
+<li>Let's all get A's on this please.
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>By <b>11:59 PM</b>: "Problem Set 3: Strings" assignment.
+<code class="python">def spaces_to_underscores(s:str) -> str:
+    new = ""
+    for index in range(len(s)):
+        if s[index] in " ":
+            new += "_"
+        else:
+            new += s[index]            
+    return new</code>
+    
+<li>By <em>next</em> <b>Monday 11:59 PM</b>: "Project 1: Wordle"
+<ul><li>By Tue: Display a word
+<li>By Wed: Check a guess
+<li>By Thr: Color letters
+<li>By Fri: Random word
+<li>By Sat: Change rows
+<li>By Sun: Color keys.
+</ul>
+</section>
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

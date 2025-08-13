@@ -56,18 +56,18 @@
 
 <section>
 <h2>redact</h2>
-<ul>
+<ul><li>Imagine, e.g. "sassy" and "glass"
 <code class="python">def redact(word, secret):
     for i in range(len(word)):
         if word[i] == secret[i]:
             word = word[:i] + '*' + word[i+1:] # or ' ' etc
-            DEBUG and print('Redact '+secret[i]+' at '+str(i))
-    return word</code>
-    <li>Imagine, e.g. "sassy" and "glass"
-<code class="python">>>> DEBUG = True
->>> redact('glass','sassy')
-Redact s at 3
-'gla*s'</code>   
+            print('Redact '+secret[i]+' at '+str(i))
+    return word
+    
+redact('glass','sassy')</code>
+    <li>They overlap at the letter 's' in index 3 (the "fourth" letter)
+<code class="python">Redact s at 3
+gla*s</code>   
 </section>
 
 
@@ -79,10 +79,11 @@ Redact s at 3
     for index in range(len(word)):
         if word[index] == letter:
             return word[:index] + '-' + word[index+1:]
-    return word # if letter isn't present</code>
+    return word # if letter isn't present
+    
+censor_letter('s', 'sas*y')</code>
     <li>Imagine, e.g. "s" and "sas*y"
-<code class="python">>>> censor_letter('s', 'sas*y')
-'-as*y'</code>   
+<code class="lisp">-as*y</code>   
 </section>
 
 
@@ -94,10 +95,11 @@ Redact s at 3
 <code class="python">def censor(word, secret):
     for letter in secret:
         word = censor_letter(letter, word)
-    return word</code>
+    return word
+    
+censor("sas*y", "claps")</code>
     <li>Imagine, e.g. "sas*y" and "claps"
-<code class="python">>>> censor("sas*y", "claps")
-'--s*y'</code>   
+<code class="python">--s*y</code>   
 </section>
 
 
@@ -109,13 +111,13 @@ Redact s at 3
     for letter in secret:
         censored = censor_letter(letter, word)
         if censored != word:
-            DEBUG and print("Censored " + letter)
+            print("Censored " + letter)
             word = censored
     return word</code>
     <li>Imagine, e.g. "sas*y" and "claps"
 <code class="python">Censored a
 Censored s
-'--s*y'</code>   
+--s*y</code>   
 </section>
 
 <section>

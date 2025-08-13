@@ -186,19 +186,19 @@ My name is Jed and I am 68</code>
 <h2>Embiggen</h2>
 <ul>
 <li>Functions can contain their own variables.
-<li>Whenever Python enters a new function, variables used within that function cease to exist when the function returns/ends.
-<code class="python">>>> x = 1
->>> def embiggen():
-...     x = 2
-...     x = x + 2
-...     return
-...
->>> x
-1
->>> embiggen()
->>> x
-1</code>
+<code class="python">def embiggen():
+    x = 2
+    x = x + 2
+    return
+
+x = 1
+print("Before:", x)
+embiggen()
+print("After:", x)</code>
 <li>"Embiggen's x" and "my x" are different x's, and things in "embiggen" do not affect "my x"
+<code class="python">x = 1
+Before: 1
+After: 1</code>
 </ul>
 </section>
 
@@ -209,18 +209,18 @@ My name is Jed and I am 68</code>
 <code class="python">def Vegas(x): # what happens in Vegas etc etc
     y = 2
     for i in range(3):
-        DEBUG and print("Vegas: i = ",i,"| x = ",x,"| y = ",y)
+        print("Vegas: i = ",i,"| x = ",x,"| y = ",y)
         x += y
     return x
+    
+x = 3
+z = Vegas(x)
+print("Mine: x = ", x, "| z = ", z)
 </code>
 <li>We can test it:
-<code class="python">>>> DEBUG = True
->>> x = 3
->>> z = Vegas(x)
-Vegas: i =  0 | x =  3 | y =  2
+<code class="python">Vegas: i =  0 | x =  3 | y =  2
 Vegas: i =  1 | x =  5 | y =  2
 Vegas: i =  2 | x =  7 | y =  2
->>> print("Mine: x = ", x, "| z = ", z)
 Mine: x =  3 | z =  9</code>
 </section>
 <section>
@@ -342,14 +342,21 @@ def longest_which_funcs(func) -> str:
 <h2>Scope</h2>
 <ul>
 <li>Functions are just a special kind of variable.
-<code style="max-height: 800px" class="python">>>> no_duplicates("aorta")
-False
->>> no_vowels("why")
+<table>
+<td width="70%">
+<code style="max-height: 800px" class="python">print(no_duplicates("aorta"))
+print(no_vowels("why"))
+print(longest_which_funcs(no_duplicates))
+print(longest_which_funcs(no_vowels))</code></td>
+<td width="30%">
+<code style="max-height: 800px" class="lisp">False
 True
->>> longest_which_funcs(no_duplicates)
-'ambidextrously'
->>> longest_which_funcs(no_vowels)
-'glycyls'</code>
+ambidextrously
+glycyls</code>
+</td>
+</table>
+<li>We can use a function as the input to a function.
+
 </section>
 
 <section>

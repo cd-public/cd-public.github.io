@@ -163,11 +163,11 @@ def get_ith_letter(i:int)->str:
                             <h5>Where to write:</h5>
                             <p>While ultimately encryption occurs on a key press, we can write code elsewhere, in functions or methods, and call those functions or methods within the key press method.
                             <p>I implemented the first stage, and in fact first three stages of encryption, with a method I called "forward" inside of <code>EnigmaRotor</code>
-                            <hr><code>def forward(self:EnigmaRotor, cipher:str) -> str:</code><hr>
+                            <hr><code>def forward(self, cipher):</code><hr>
                             </ol>
                             <h5>What to write:</h5>
                             <p>We can think of a cipher like the following image:<br><br>
-                            <img width="100%" src="imgs/p4_1.png">
+                            <img width="100%" src="https://cd-public.github.io/courses/old/cs1f24/hws/imgs/p4_1.png">
                             <p>This cipher is <code>ROTOR_PERMUTATIONS[2]</code> and also called the fast rotor. It is the first rotor used in enigma to encrypt a letter.
                             <p>Forward encryption with this cipher would take the letter "A", the 0-indexed letter of the alphabet, and return the letter "B", the 0-indexed letter of the cipher. The circled example the cipher would take "Q", the 16-indexed letter of the alphabet, and return "I", the 16-indexed letter of the cipher.
                             <p>To me, this felt like I was <em>applying</em> a cipher to a letter, which felt like a function. 
@@ -185,7 +185,7 @@ def get_ith_letter(i:int)->str:
                             </ul>
                             <h5>Helper Functions</h5>
                             <p>On this milestone, I found it very helpful to be able to take a letter and determine it's index within the alphabet. There is a very easy way to do that in Python, using .index. Here is an example:<hr>
-                            <pre><code>def get_letters_i(letter:str) -> int: # "Get letter's index "i" in the alphabet
+                            <pre><code>def get_letters_i(letter): # "Get letter's index "i" in the alphabet
     return ALPHABET.index(letter)</code></pre>
                             <hr>
                             <p>You do not need to use this function! But using .index() will probably be very helpful.
@@ -196,7 +196,7 @@ def get_ith_letter(i:int)->str:
                             <code>letter = forward(ROTOR_PERMUTATIONS[2], letter)</code><hr>-->
                             <h5>What to test:</h5>
                             <p>Refer back to the cipher image:<br><br>
-                            <img width="100%" src="imgs/p4_1.png">
+                            <img width="100%" src="https://cd-public.github.io/courses/old/cs1f24/hws/imgs/p4_1.png">
                             <p>Or look at the code itself:
                             <hr><code>"BDFHJLCPRTXVZNYEIWGAKMUSQO"   # Permutation for fast rotor  </code><hr>
                             <p>You have implemented this milestone correct when you may click the "A" key and the "B" lamp lights up. Similarly, you may click the "Q" key and the "I" lamp lights up. Consult Eric Roberts' instructions for a complete demo.
@@ -340,7 +340,7 @@ Reflected  letter = G</code></pre><hr>
                             </ul>
                             <p>You have implemented this milestone correct when you may click the "A" key and the "R" lamp lights up. Similarly, you may click the "Q" key and the "P" lamp lights up.
                             <p>Here is an example of "Q" to "P" encryption, visualized:
-                            <img width="100%" src="imgs/p4_2.png">
+                            <img width="100%" src="https://cd-public.github.io/courses/old/cs1f24/hws/imgs/p4_2.png">
                             <p>Consult Eric Roberts' instructions for a complete demo.
                             <p>I found it helpful to print the following. This is from pressing "Q":
                             <hr><pre><code>=== INPUT KEY Q ===
@@ -375,7 +375,7 @@ Reverse loop with i = 2
                             <blockquote>Model the rotation of the rotors during encryption</blockquote>
                             <h4>5a. <code>rotate</code></h4>
                             <p>Write the function <code>rotate</code>:
-                            <hr><pre><code>def rotate(letter:str, offset:int) -> str:</code></pre><hr>
+                            <hr><pre><code>def rotate(letter, offset):</code></pre><hr>
                             <p>Given a letter and a numerical offset, return the letter that is "offset" positions further in the alphabet, looping around.
                             <p>For an offset of <em>j</em>.
                             <ul>

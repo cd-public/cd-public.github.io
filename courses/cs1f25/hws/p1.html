@@ -205,8 +205,8 @@ if __name__ == "__main__":
                             <p>Once you have displayed your word of choice, begin Milestone 1. You are highly encouraged to submit your code at each milestone on Github classroom.
                             <p><b>Some Notes</b> Though you have no obligation to do so, I wrote functions 
                             <ul>
-                                <li><code>word_to_row(word:str, row:int)</code>, and 
-                                <li><code>word_from_row(row:int) -> str</code>
+                                <li><code>word_to_row(word, row)</code>, and 
+                                <li><code>word_from_row(row)</code>
                             </ul>
                             while working on this milestone that served me well throughout the project.
                         </div>
@@ -222,10 +222,10 @@ if __name__ == "__main__":
             # What should happen when RETURN/ENTER is pressed.
             gw.show_message("To do: enter_action")
             
-        def word_to_row(word:str, row:int):
+        def word_to_row(word, row):
             gw.show_message("To do: word_to_row")
             
-        def word_from_row(row:int) -> str:
+        def word_from_row(row):
             gw.show_message("To do: row_to_word")
             return "" # placeholder</code></pre>
                         </div>
@@ -354,7 +354,7 @@ gw.set_square_color(0,0,CORRECT_COLOR)</code></pre><hr>
                                     <li>You may wish to share the answer via a <code>gw.show_message()</code> while you are testing.
                                 </ul>
                             </ul>
-                            <p>Personally, I wrote a new function, <code>random_five_letter_word() -> str</code>.
+                            <p>Personally, I wrote a new function, <code>random_five_letter_word()</code>.
                             <p>Once "Wordle.py" may color a guess based on a random answer, begin Milestone 4.  You are highly encouraged to submit your code at each milestone on Github classroom.
                             <p><b>Some Notes</b> The following takes <code>ENGLISH_WORDS</code>, which is alphabetical order, and causes it to be in a random order from then on. It could, for example, be part of <code>random_five_letter_word</code>.
                             <hr><pre style="font-size:larger"><code >random.shuffle(ENGLISH_WORDS) # de-alphabetizes

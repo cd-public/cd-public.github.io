@@ -29,14 +29,14 @@
 <section>
   <h1 class="title">Wordle</h1>
   <p class="author">Calvin (Deutschbein)</p>
-  <p class="date">W5Mon: 23 Sep</p><br>
+  <p class="date">W5Mon: 22 Sep</p><br>
 </section>
 
 <section>
 <h2>Announcements</h2>
 <ul>
 <li>By <b>11:59 PM</b>: "Problem Set 3: Strings" assignment.
-<code class="python">def spaces_to_underscores(s:str) -> str:
+<code class="python">def spaces_to_underscores(s):
     new = ""
     for index in range(len(s)):
         if s[index] in " ":
@@ -182,8 +182,8 @@ if __name__ == "__main__":
 <li>Display a word
 <li>I wrote:
 <ul>
-    <li><code>word_to_row(word:str, row:int)</code>
-    <li><code>word_from_row(row:int) -> str</code>
+    <li><code>word_to_row(word, row)</code>
+    <li><code>word_from_row(row)</code>
 </ul>
 <li>I used:
 <code>gw.set_square_letter</code>
@@ -202,10 +202,10 @@ if __name__ == "__main__":
             # What should happen when RETURN/ENTER is pressed.
             gw.show_message("To do: enter_action")
             
-        def word_to_row(word:str, row:int):
+        def word_to_row(word, row):
             gw.show_message("To do: word_to_row")
             
-        def word_from_row(row:int) -> str:
+        def word_from_row(row):
             gw.show_message("To do: row_to_word")
             return "" # placeholder</code>
 </section>
@@ -374,7 +374,7 @@ for word in ENGLISH_WORDS:
 <h2>Announcements</h2>
 <ul>
 <li>By <b>11:59 PM</b>: "Problem Set 3: Strings" assignment.
-<code class="python">def spaces_to_underscores(s:str) -> str:
+<code class="python">def spaces_to_underscores(s):
     new = ""
     for index in range(len(s)):
         if s[index] in " ":

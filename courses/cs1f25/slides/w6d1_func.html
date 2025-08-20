@@ -29,7 +29,7 @@
 <section>
   <h1 class="title">Functions</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W6Mon: 30 Sep<br>
+  <p class="date">W6Mon: 29 Sep<br>
 </section>
 
 <section>
@@ -315,19 +315,19 @@ etc.</li>
 <h2>Scope</h2>
 <ul>
 <li>Functions are just a special kind of variable.
-<code style="max-height: 800px" class="python">def no_duplicates(word:str) -> bool:
+<code style="max-height: 800px" class="python">def no_duplicates(word):
     for i in range(len(word)):
         if word[i] in word[:i]:
             return False
     return True
     
-def no_vowels(word:str) -> bool:
+def no_vowels(word):
     for letter in word:
         if letter in "aeiou":
             return False
     return True
     
-def longest_which_funcs(func) -> str:
+def longest_which_funcs(func):
     candidate = ""
     for word in ENGLISH_WORDS:
         if len(word) > candidate and func(word):

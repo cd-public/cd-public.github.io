@@ -143,7 +143,7 @@
                                     <hr>
                                     <pre><code>from EnigmaConstants import * # contains ALPHABET, other helpful values
                                     
-def get_ith_letter(i:int)->str:
+def get_ith_letter(i):
     return ALPHABET[i % 26]</code></pre><hr>
                                     <li>You could write such a function anywhere, but most likely wherever your rotor is implement.
                                     <li>The modulus (%) isn't necessary but might help latter.
@@ -303,18 +303,17 @@ Reflected  letter = G</code></pre><hr>
                             <p>To forward-encrypt through a rotor, we found an index in the alphabet and looked up that index in a cipher.
                             <p>To reverse-encrypt through a rotor, we will find an index in the <em><b>cipher</b></em> and look up that index in the alphabet.
                             <p>Note - you can test your reverse encryption on the reflector. The reflector is a special cipher that behaves the same way for forward and backward encryption.
-                            <hr><pre><code>>>> from EnigmaRotor import *
->>> refl = EnigmaRotor(REFLECTOR_PERMUTATION)
->>> refl.reverse("A")
-'I'
->>> refl.forward("A")
-'I'</code></pre><hr>
+                            <hr><pre><code>from EnigmaRotor import *
+refl = EnigmaRotor(REFLECTOR_PERMUTATION)
+print(refl.reverse("A"))
+print(refl.forward("A"))</code></pre><hr><pre><code>I
+I</code></pre><hr>
                             <p>Note that reverse-encryption will differ from forward-encryption on other rotors/ciphers.
-                            <hr><pre><code>>>> fast = EnigmaRotor(ROTOR_PERMUTATIONS[2])
->>> fast.forward("A") 
-'B'
->>> fast.reverse("A") 
-'T'</code></pre><hr>
+                                                        <hr><pre><code>from EnigmaRotor import *
+fast = EnigmaRotor(ROTOR_PERMUTATIONS[2])
+print(fast.forward("A"))
+print(fast.reverse("A"))</code></pre><hr><pre><code>B
+T</code></pre><hr>
                             <p>With a working reverse, the remaining stages of encryption simply require applying this function to the appropriate letters.
                             <h4>4c. All Stages</h4>
                             <p>After reflection, the letter passes in a reverse direction through the rotors similarly to sub-milestone 3c.

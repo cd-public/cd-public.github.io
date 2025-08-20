@@ -118,7 +118,8 @@
                         </ul>
                     </ol>
                     <p><b>How I solved it.</b> I used a 'for' loop over the number of rows, computed the number of space ' ' and asterisk '*' characters using the current and total number of rows, and used string multiplication and addition to build each row, which I then printed. There are at least two other very good solutions.
-                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> draw_console_pyramid(8)
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">draw_console_pyramid(8)</code></pre>
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">
        *
       ***
      *****
@@ -157,13 +158,13 @@
                     </ol>
                     <p>Note that these are return values, and not printed values.
                     <p><b>How I solved it.</b> I used a 'for' loop over the number of letters in 's', and checked if the letter at index 'i' was present in the rest of the string 's' excluding position 'i'. There are many other good solutions.
-                    <hr><pre style="font-size:larger"><code style="font-size:larger">>>> contains_repeated_letters("") # no repeats
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">print(contains_repeated_letters(""))          # no repeats
+print(contains_repeated_letters("single"))    # no repeats
+print(contains_repeated_letters("repeating")) # 'e' repeats
+print(contains_repeated_letters("!!"))        # '!' repeats</code></pre>
+                    <hr><pre style="font-size:larger"><code style="font-size:larger">False
 False
->>> contains_repeated_letters("single") # no repeats
-False
->>> contains_repeated_letters("repeating") # 'e' repeats
 True
->>> contains_repeated_letters("!!") # '!' repeats
 True</code></pre><hr>
                     <h4>Part B: <code>longest_no_repeats</code></h4>
                     <p>The function <code>longest_no_repeats():</code> will return the longest word in 'ENGLISH_WORDS', which is defined in the template file.

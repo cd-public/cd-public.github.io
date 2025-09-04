@@ -98,7 +98,7 @@ def main():
 <ul>
 <li>Introducing Python, cont.<ul>
 <br>
-<code class="python">&check;: if / elif / else</code>
+<code class="python">if / elif / else # &check;</code>
 <br>
 <code class="python">+ - * // / % ** - # operators</code>
 <br>
@@ -140,14 +140,16 @@ def main():
 <tr><td>Subtraction</td><td>a - b</td>    <tr>
 <tr><td>Multiplication</td><td>a * b</td> <tr>
 <tr><td>Division</td><td>a / b</td>       <tr>
-</table></td><td style="width:50%">
-<code class="python">>>> 1 + 2
-3
->>> 1 - 2
+</table>
+</td>
+<td style="width:25%">
+<code class="python">print(1 + 2)
+print(1 - 2)
+print(1 * 2)
+print(1 / 2)</code></td><td style="width:25%">
+<code class="python">3
 -1
->>> 1 * 2
 2
->>> 1 / 2
 0.5</code></td></tr></table>
 <p>Note: Division takes whole numbers (integers) and returns numbers with a decimal ('floats').
 </section>
@@ -164,14 +166,16 @@ def main():
 <tr><td style="width:20%">Integer Division</td><td style="width:20%">a // b</td><td>Leaves a "Remainder"</td><tr>
 <tr><td>Modulo</td><td>a % b</td>         <td>calculates the "Remainder"</td><tr>
 <tr><td>Exponentiation</td><td>a ** b</td><td>Note: The caret ^ is something else</td><tr>
-</table></td><td style="width:50%">
-<code class="python">>>> 5 // 2
-2
->>> 5 %  2
+</table></td>
+</td>
+<td style="width:25%">
+<code class="python">print(5 // 2)
+print(5 %  2)
+print(5 ** 2)
+print(5 ^  2)</code></td><td style="width:25%">
+<code class="python">2
 1
->>> 5 ** 2
 25
->>> 5 ^  2
 7</code></td></tr></table>
 <p>It may seem weird, but % ("modulo" or "remainder") is extremely useful, and I use it more than anything except maybe + ("plus" or "addition")
 </section>
@@ -181,15 +185,15 @@ def main():
 <h2>Two divisions</h2>
 <ul>
 <li>Integer division // is nice when we might want to calculate a value then loop that many times.
-<code class="python">>>> for i in range(5//2):
-...     print(i)
-...
-0
-1
->>> for i in range(5/2):
-...     print(i)
-...
-Traceback (most recent call last):
+<code class="python">for i in range(5//2):
+    print(i)
+</code>
+<li>That is allowed, this isnt:
+<code class="python">for i in range(5/2):
+    print(i)
+</code>
+<li>You'll see this:
+<code class="python">Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;>
 TypeError: 'float' object cannot be interpreted as an integer</code>
 </section>
@@ -199,25 +203,26 @@ TypeError: 'float' object cannot be interpreted as an integer</code>
 <h2><code>type()</code></h2>
 <ul>
 <li>If you ever aren't sure what something will be, ask Python with "type()"
-<code class="python">&gt;&gt;&gt; type(5/2)
-&lt;class 'float'&gt;</code>
-<code class="python">&gt;&gt;&gt; type(5//2)
-&lt;class 'int'&gt;</code></code>
-<code class="python">&gt;&gt;&gt; type(5)
-&lt;class 'int'&gt;</code>
-<code class="python">&gt;&gt;&gt; type(5.0)
-&lt;class 'float'&gt;</code></ul>
-<p>'for' loops need "&lt;class 'int'&gt;"
-</section>
-
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<code class="python">print(type(5/2))  
+print(type(5//2)) 
+print(type(5))    
+print(type(5.0))</code></td>  </ul>
+<td style="width:50%">
+<code class="bash">&lt;class 'float'&gt;
+&lt;class 'int'&gt;  
+&lt;class 'int'&gt;  
+&lt;class 'float'&gt;</code></td></table>
+<p>'for' loops need "&lt;class 'int'&gt;"</section>
 <section>
 <h2>Today</h2>
 <ul>
 <li>Introducing Python, cont.<ul>
 <br>
-<code class="python">&check;: if / elif / else</code>
+<code class="python">if / elif / else # &check;</code>
 <br>
-<code class="python">&check;: + - * // / % ** - # operators</code>
+<code class="python">+ - * // / % ** - # &check;</code>
 <br>
 <code class="python">= == # assignment vs comparison</code>
 <br>
@@ -230,15 +235,22 @@ TypeError: 'float' object cannot be interpreted as an integer</code>
 <h2><code class="python">=</code></h2>
 <ul>
 <li>We use '=', which I term 'single equals' or 'assignment', to 'assign' a value (like 7) to a variable (like x).
-<code class="python">>>> x = 7</code>
+<code class="python">x = 7</code>
 <li>Then x does all the things seven does.
-<code class="python">>>> 7
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<code class="python">print(x)  
+print(7) 
+print(x+6)    </code></td>  </ul>
+<td style="width:50%">
+<code class="python">7
 7
->>> x
-7
->>> x + 6
-13</code>
-<p>It means "<b>make</b> this equal to that"
+13</code></td></table>
+
+<li>It means "<b>make</b> this equal to that"
+<li>Be advised, this is not allowed:
+<code class="python">7 = x</code>
+<p>(We aren't allowed to set seven equal to any other value, like 3 or "hi")
 </section>
 
 
@@ -246,12 +258,11 @@ TypeError: 'float' object cannot be interpreted as an integer</code>
 <h2>Weird thing</h2>
 <ul>
 <li>We are allowed to set a variable, like x, equal to some arithmetic over x, like x = 1.
-<code class="python">>>> x = 7
->>> x = x + 1
->>> x
-8
->>></code>
-<li>This is useful to e.g. count things. 
+<code class="python">x = 7
+x = x + 1
+print(x)
+</code>
+<li>This would give 8, and is useful to e.g. count things. 
 <li>Imagine if we could count how many beepers Karel placed, or how many moves.
 <code class="python">def ten_even_numbers():
     x = 0
@@ -265,17 +276,23 @@ TypeError: 'float' object cannot be interpreted as an integer</code>
 <ul>
 <li>We use '==', which I term 'doubles equals', 'equality test', or 'comparison', to 'check' if two things, either values or variables, are equal.
 <li>'==' is kind like '+': given two things, it gives back a value - but that value is either true or false.
-<code class="python">>>> x = 7
->>> 7 == x
+
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<code class="python">x = 7
+print(7 == x)
+print(x == 7)
+print(6 == x)
+print(1 == 2)
+print(x + 6)</code></td>  </ul>
+<td style="width:50%">
+<code class="python"># Blank line to line up.
 True
->>> x == 7
 True
->>> 6 == x
 False
->>> 1 == 2
 False
->>> x + 6
-13</code>
+13</code></td></table>
+
 </section>
 
 <section>
@@ -291,20 +308,21 @@ False
 <tr><td>Not equal</td><td>a != b</td> <tr>
 <tr><td>Greater-than</td><td>a > b</td>       <tr>
 <tr><td>Less-than</td><td>a > b</td>       <tr>
-</table></td><td style="width:50%">
-<code class="python">>>> 1 >= 2
-False
->>> 1 <= 2
+</table></td><td style="width:25%">
+<code class="python">print(1 >= 2)
+print(1 <= 2)
+print(1 != 2)
+print(1 > 2)
+print(1 < 2)
+print(1 < 1)
+print(1 <= 1)</code></td>
+<td style="width:25%">
+<code class="python">False
 True
->>> 1 != 2
 True
->>> 1 > 2
 False
->>> 1 < 2
 True
->>> 1 < 1
 False
->>> 1 <= 1
 True</code></td></tr></table>
 </section>
 
@@ -319,12 +337,16 @@ True</code></td></tr></table>
     else:
         print("not a whole number")</code>
 <li>Test it:
-<code class="python">>>> is_even(2)
-even
->>> is_even(1)
+<table tyle="width:100%">
+<tr><td style="width:50%">
+<code class="python">print(is_even(2))
+print(is_even(1))
+print(is_even(1.5))</code></td>  </ul>
+<td style="width:50%">
+<code class="lisp">even
 odd
->>> is_even(1.5)
-not a whole number</code>
+not a whole number</code></td></table>
+
 </section>
 
 <section>
@@ -332,11 +354,11 @@ not a whole number</code>
 <ul>
 <li>Introducing Python, cont.<ul>
 <br>
-<code class="python">&check;: if / elif / else</code>
+<code class="python">if / elif / else # &check;</code>
 <br>
-<code class="python">&check;: + - * // / % ** - # operators</code>
+<code class="python">+ - * // / % ** - # &check;</code>
 <br>
-<code class="python">&check;: = == # assignment vs comparison</code>
+<code class="python">= == # &check;</code>
 <br>
 <code class="python">return</code>
 </ul>
@@ -370,11 +392,12 @@ def bigger(x,y):
 <li>If we write "is_divisible_by" like this:
 <code class="python">def is_divisible_by(value,divisor):
     print(value % divisor == 0) # has no remainder
-}</code>
+</code>
 <li>This code won't work:
 <code class="python">def is_even(x):
     print(is_divisible_by(x,2))
 </code>
+<li>It will print out "None", which is probably not what you want to see.
 </section>
 
 
@@ -389,26 +412,6 @@ def bigger(x,y):
 <code class="python">def is_even(x):
     return is_divisible_by(x,2)</code>
 <li>Something like 'front_is_blocked()" <em>return</em>ed either True or False.
-</section>
-
-
-<section>
-<h2>Return</h2>
-<ul>
-<li>We can compare the two:
-<code class="python">>>> is_divisible_by(10,2)
-True
->>> print(is_divisible_by(10,2))
-True
->>> x = is_divisible_by(10,2)
->>> x
-True
->>> if is_divisible_by(10,2):
-...     print('10 is even')
-...
-10 is even
->>>
-</code>
 </section>
 
 <section>
@@ -449,10 +452,8 @@ True
 <ul><li>One problem (probably) using "def" and "for"
 <li>One problem using at least "while" and maybe the other three.
 </ul>
-<li>Sections reminder: Wed & Thurs PM.
-<ul>
-<li>Problems: email jjrembold@, you may cc ckdeutschbein@</ul>
-<center><img src="imgs/section.png"></center>
+<li>Sections reminder.
+
 <li>By <em>NEXT</em> <b>MONDAY 11:59 PM</b>: "Problem Set 2: Checkers" assignment.
 <ul><li>One Karel problem (probably) using "if" and "while"
 <li>One Python problem using arithmetic and (probably) "for"

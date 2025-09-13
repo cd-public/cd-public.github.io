@@ -75,13 +75,14 @@
 <section>
 <h2><code class="python">range()</code></h2>
 <ul><li>The easiest way to examine range() is with print()
-<code class="python">>>> print(range(10))
-range(0, 10)</code>
+<code class="python">print(range(10))</code>
+<li>We see:
+<code class="python">range(0, 10)</code>
 <li>Um... what?
 <li>Okay fun fact - range just starts at zero by default, but we can change that...
-<code class="python">>>> print(range(5,10))
-range(5, 10)</code>
-<li>Variety of uses for this - usually reading a file and cutting off headings for me.
+<code class="python">print(range(5,10))</code>
+<li>We see:
+<code class="python">range(5, 10)</code>
 </section>
 
 
@@ -91,10 +92,10 @@ range(5, 10)</code>
 <ul><li>The easiest way to examine range() is with print()...
 <li>But we shouldn't just print the range itself!
 <li>We often use 'range()' with 'for'
-<code class="python">>>> for i in range(3): # smaller so its easy to work with
-...     print(i)
-...
-0
+<code class="python">for i in range(3): # smaller so its easy to work with
+    print(i)</code>
+<li>We see:
+<code class="python">0
 1
 2</code>
 <li>Recall: we say "range(3)" but we get "range(0,3)"
@@ -107,9 +108,10 @@ range(5, 10)</code>
 <section>
 <h2><code class="python">range()</code></h2>
 <ul><li>The easiest way to examine range() is with print()...
-<code class="python">>>> for i in range(4,6):
-...     print(i)
-...
+<code class="python">for i in range(4,6):
+    print(i)</code>
+<li>We see:
+<code class="python">
 4
 5</code>
 <li>We can also do non-zero starts.
@@ -118,11 +120,11 @@ range(5, 10)</code>
 <section>
 <h2><code class="python">range()</code></h2>
 <ul><li>Often we use for and range when we want to check for something, like multiples of 5.
-<code class="python">>>> for i in range(25,50):
-...     if i % 5 == 0:
-...             print(i)
-...
-25
+<code class="python">for i in range(25,50):
+    if i % 5 == 0:
+            print(i)</code>
+<li>We see:
+<code class="python">25
 30
 35
 40
@@ -136,9 +138,10 @@ range(5, 10)</code>
 <section>
 <h2><code class="python">range()</code></h2>
 <ul><li>There is a forbidden (it's not forbidden) third value that can be supplied to a range, that we usually call the step size:
-<code class="python">>>> for i in range(25,50,10):
-...     print(i)
-...
+<code class="python">for i in range(25,50,10):
+    print(i)</code>
+<li>We see:
+<code class="python">
 25
 35
 45</code>

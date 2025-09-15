@@ -29,17 +29,17 @@ format:
 - My responsibility
   - I will provide a reference solution in Python
     - The reference will differ in the following ways:
-      - They will not use, as there isn't great bit manipulation in Python without libraries.
+      - They will not work on bits, as there isn't great bit manipulation in Python without libraries.
       - I will provide an example of a *left* rotate while the assignment requires a *right* rotate.
-  - I will provide an autograder Containerfile
+  - I will provide an autograder script.
     - Following the deficiencies of the Python variant, I will also provide a "viewer".
     - I will provide sample output for the viewer.
 - Your responsibility
   - You will create a solution in C as an "macros.c" file.
     - It will contain 3 macros
-      - `CHOICE`
-      - `MEDIAN`
-      - `ROTATE` - a "right" rotate.
+      - `choice`
+      - `median`
+      - `rotate` - a "right" rotate.
   - You will create a private GitHub repository named "crypto"
     - I recommend creating a new repository of your own, not forking my repository.
     - This makes it easier to manage a private repository.

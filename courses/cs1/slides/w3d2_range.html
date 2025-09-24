@@ -152,10 +152,9 @@
 <section>
 <h2><code class="python">range()</code></h2>
 <ul><li>By the way you can make any of these values negative.
-<code class="python">>>> for i in range(15,10,-2):
-...     print(i)
-...
-15
+<code class="python">for i in range(15,10,-2):
+    print(i)
+  </code> <li>We see:</li> <code class="python">15
 13
 11</code>
 <li>For whatever reason, I'm always reversing orders:<ul>
@@ -198,45 +197,38 @@ while i > 10:
 <h2>Booleans</h2>
 <ul>
 <li>There's these things called booleans.
-<code class="python">&gt;&gt;&gt; type(1)
-&lt;class 'int'&gt;</code>
-<code class="python">&gt;&gt;&gt; type(1.0)
-&lt;class 'float'&gt;</code>
-<code class="python">&gt;&gt;&gt; type(1==1.0)
-&lt;class 'bool'&gt;
-&gt;&gt;&gt; type(False)</code>
+  <table><td>
+<code class="python">type(1)
+type(1.0)
+type(1==1.0)</code>
+  </td>
+<td>
+<code class="python">&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'bool'&gt;</code></td></table>
+<li>This is new:</li>
 <code class="python">&lt;class 'bool'&gt;</code>
 <li>'True' and 'False' are booleans and nothing else is a boolean.
 </section>
 
 <section>
 <h2>Booleans</h2>
-<table tyle="width:100%">
-<tr><td style="width:50%">
 <ul>
-<li>The is such thing as boolean arithmetic
+<li>There is such thing as boolean arithmetic
+<code class="python">a = True
+b = False</code>
 <li>Easy ones:
 <table>
-<tr><td><code class="python">a and b </code></td><td>True if 'a' and 'b' are True</td>       <tr>
-<tr><td><code class="python">a or b </code></td><td>True if 'a' or 'b' be True</td>       <tr>
-<tr><td><code class="python">not a</code></td><td>True if 'a' is not True ('a' is False)</td>       <tr>
-</table></td><td style="width:50%">
-<code class="python">>>> a = True
->>> b = False
->>> a and b
-False
->>> a or b
-True
->>> not a
-False</code></td></tr></table>
+<tr><td><code class="python">a and b </code></td><td>True if 'a' and 'b' are True</td> <td><code class="python">False</code>  </td>    <tr>
+<tr><td><code class="python">a or b </code></td><td>True if 'a' or 'b' be True</td>   <td><code class="python">True</code>     </td><tr>
+<tr><td><code class="python">not a</code></td><td>True if 'a' is not True ('a' is False)</td>  <td> <code class="python">False</code> </td>    <tr>
+</table>
 <p>In general: if you aren't sure, just check.
 </section>
 
 
 <section>
 <h2>Truthiness</h2>
-<table tyle="width:100%">
-<tr><td style="width:50%">
 <ul>
 <li>If Python expects a boolean, like in an 'if', it turns to turn whatever it gets into a boolean.
 <li>You can test by writing 'if' statements, or by turning things into booleans with 'bool()'
@@ -247,24 +239,28 @@ False</code></td></tr></table>
 <tr><td><code class="python">0.0</code></td><td style="vertical-align:top">Non-zero values are treated like True</td>       <tr>
 <tr><td><code class="python">""</code></td><td style="vertical-align:top">Imagine if we want to print nothing.</td>       <tr>
 <tr><td><code class="python">None</code></td><td style="vertical-align:top">None is the return value of a function with no return (???)</td>       <tr>
-</table></td><td style="width:50%">
-<code class="python">>>> if 0:
-...     print('hi')
-...
->>> if "":
-...     print('hi')
-...
->>> if print():
-...     print('hi')
-...
+</table>
+</section>
 
->>> if .1:
-...     print('hi')
-...
-hi
->>> bool(0)
-False</code></td></tr></table>
-<p>In general: if you aren't sure, just check.
+
+<section>
+<h2>Checking Truthiness</h2>
+<ul><li>We try:</li>
+<code class="python">if 0:
+    print('zero')
+if "":
+    print('empty')
+if print("anything"):
+    print('printing')
+if .1:
+    print('.1')
+print(bool(0))
+</code>
+<li>We see</li>
+<code class="python">anything
+.1
+False
+</code>
 </section>
 
 <section>
@@ -280,38 +276,34 @@ False</code></td></tr></table>
 <tr><td><code class="python">bool(val % div)</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>some</em> remainder</td>       <tr>
 <tr><td><code class="python">not val % div</code></td><td style="vertical-align:top">Is True if 'val' divided 'div' has <em>no</em> remainder</td>       <tr>
 </table></td><td style="width:50%">
-<code class="python">>>> for i in range(10,20):
-...     if i % 3 == 0:
-...             print(i)
-...     if not i % 3:
-...             print(i)
-...
-12
+<code class="python">for i in range(10,20):
+    if i % 3 == 0:
+            print(i)
+    if not i % 3:
+            print(i)</code><li>We see:</li>
+<code class="python">12
 12
 15
 15
 18
-18
->>></code></td></tr></table>
+18</code></td></tr></table>
 </section>
 
 
 <section>
 <h2>All together</h2>
 <ul>
-<code class="python">>>> for i in range(0,50,5):
-...     if not i % 3:
-...             print(i)
-...
-0
+<code class="python">for i in range(0,50,5):
+    if not i % 3:
+            print(i)</code><li>We see:</li>
+<code class="python">0
 15
 30
-45
->>></code>
+45</code>
 <li>Same as:
-<code class="python">>>> for i in range(50):
-...     if i % 3 == 0 and i % 5 == 0:
-...             print(i)</code></ul>
+<code class="python">for i in range(50):
+    if i % 3 == 0 and i % 5 == 0:
+            print(i)</code></ul>
 <p>I took a whole class in undergrad on "counting two ways" (it was fun!)
 </section>
 
@@ -321,19 +313,19 @@ False</code></td></tr></table>
 <h2>Disambiguate</h2>
 <ul>
 <li>If you get confused looking at something:
-<code class="python">>>> for i in range(50):
-...     if i % 3 == 0 and i % 5 == 0:
-...             print(i)</code>
+<code class="python">for i in range(50):
+    if i % 3 == 0 and i % 5 == 0:
+            print(i)</code>
 <li>Add parenthesis:
-<code class="python">>>> for i in range(50):
-...     if ((i % 3) == 0) and ((i % 5) == 0):
-...             print(i)</code>
+<code class="python">for i in range(50):
+    if ((i % 3) == 0) and ((i % 5) == 0):
+            print(i)</code>
 <li>Or use variables.
-<code class="python">>>> for i in range(50):
-...     rem3 = (i % 3)
-        rem5 = (i % 5)
-        if not rem3 and not rem5: # 'not' any remainder,
-...             print(i)</code>
+<code class="python">for i in range(50):
+    rem3 = (i % 3)
+    rem5 = (i % 5)
+    if not rem3 and not rem5: # 'not' any remainder,
+        print(i)</code>
 </section>
 
 

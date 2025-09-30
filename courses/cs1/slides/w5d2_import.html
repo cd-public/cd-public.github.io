@@ -48,16 +48,11 @@
 
 
 <section>
-<h2>Announcements</h2>
+<h2>Today</h2>
 <ul>
-<li>Our thinking is developing well but I think we are struggling with <em>attention to do detail</em>
-<li>I will no longer be accepting:
-<ul><li>Code that does not run
-<li>Questions related to indentation.
-</ul>
-<li>You have now had a chance to submit 9 .py files for feedback (which I feel like I have done a pretty good job of providing?).
-<li>Correct indentation will be necessary on the forthcoming midterm.
-<ul><li>Basically: I am out of runway to grade leniently when code isn't correct.
+<li>On indentation.
+<li>On import.
+<li>On string methods.
 </section>
 
 
@@ -100,7 +95,6 @@ def print_all_vowels(s:str):
 <li>I am still seeing a bit of:
 <code class="python">for c in s: # line with a def, if, for, while ending with a :
 print(c) # line at the same indentation level</code>
-<li>This is never correct and was the subject of a week 1 lecture.
 <li>My appeal:<ul>
 <li>As a rule, we are expected to place spaces in the correct places in our sentences.
 <li>A sar ule wear eexp ected top laces pace sin thec or rec tp lace sin our sent ences.
@@ -390,29 +384,23 @@ justified</li>
 <ul>
 <li>For Wordle, the game is only interesting if the secret word is not
 the same every time!</li>
-<li>Let’s take a moment to look at the built-inlibrary, which lets us simulate
+<li>Let’s take a moment to look at the built-in library, which lets us simulate
 random processes</li>
 <code class="python">import random</code> 
 <li>Like "import karel" basically, but with an important difference:
-<li>We either must prefix with "random."
-<code class="python">>>> import random
->>> random.random() # will be between 0 and 1
-0.14444921034146263</code> 
-</ul></li>
-</ul>
+<li>Rather than <i>replacing</i> Python, it <i>adds to</i> Python.
 </section>
 <section>
 <h2>Random</h2>
 <ul>
 <li>We either must prefix with "random."
-<code class="python">>>> import random
->>> random.random() # will be between 0 and 1
-0.14444921034146263</code> 
+<code class="python">import random
+random.random() # will be between 0 and 1
+</code>
 <li>Or say "from random import *"
-<code class="python">>>> from random import *
->>> random() # don't need prefix with 'from _ import *'
->>> random() # don't need prefix with 'from _ import *'
-0.1254407334152583</code>
+<code class="python">from random import *
+random() # don't need prefix with 'from _ import *'
+</code>
 </ul></li>
 </ul>
 </section>

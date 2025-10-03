@@ -29,7 +29,7 @@
 <section>
   <h1 class="title">Pixels</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W9Mon: 21 Oct<br>
+  <p class="date">W9Mon: 20 Oct<br>
 </section>
 
 <section>
@@ -110,26 +110,6 @@
 </ul>
 </section>
 
-
-
-<section>
-<h2>Hexcodes</h2>
-<ul>
-<li>Hexcodes represent the amount using a number in hexadecimal
-<ul><li>Hex = 6
-<li>Decimal = 10
-<li>6 + 10 = 16
-</ul>Hexadecimal is a way of writing down numerical values.
-<ul><li>0-9 is the same as in decimal, our number system.
-<li>A is like our 10
-<li>B is like our 11
-<li>...
-<li>F is like our 15
-<li>10 is like our 16
-</ul>
-<li>We term our number system decimal or "base ten" and this to be hexadecimal "base sixteen"
-</ul>
-</section>
 
 <section>
 <h2>Hexcodes</h2>
@@ -223,17 +203,16 @@
 <ul>
 <code class="python">from pgl import *
 
-max = 400
 colors = ['#FFFFFF','#FF0000','#00FF00','#0000FF']
-gw = GWindow(max,max)
+gw = GWindow(400,400)
 x = 0
 
 for color in colors:
-    r = GRect(x, 0, max // 4, max) # stripe
+    r = GRect(x, 0, 100, 400) 
     r.set_filled(True)
     r.set_color(color) # color it in
     gw.add(r)
-    x += max // 4 # move over
+    x += 100 # move over
 </code></td><td>
 <canvas id='c1' width="400" height="400" style="background-color:white"></canvas>
                     <script>
@@ -280,38 +259,13 @@ def to_color(rgbs):
 </code>
 </section>
 
-<section>
-<h2>Strings</h2>
-<ul>
-<li>We take a list of brightnesses...
-<li>...and return a string!
-<code class="python"># take some colors, in red/green/blue, like:
-# [255, 0, 0]
-# and make a hexcode, like
-# '#FF0000'
-def to_color(rgbs:list) -> str:
-</code>
-</section>
-
-
-<section>
-<h2>Strings</h2>
-<ul>
-<li>We can say that it's a list of integers like this:
-<code class="python"># e.g. [255, 0, 0] -> '#FF0000'
-def to_color(rgbs:list[int]) -> str:
-</code>
-<li>I imagine I'm saying "the things inside the list are ints"
-<li>This is optional.
-</section>
-
 
 <section>
 <h2>Strings</h2>
 <ul>
 <li>First, we turn the integers into hex!
 <code class="python"># e.g. [255, 0, 0] -> '#FF0000'
-def to_color(rgbs:list[int]) -> str:
+def to_color(rgbs):
     hexes = [hex(brightness) for brightness in rgbs]
 </code>
 <li>We can test this easily enough...
@@ -329,7 +283,7 @@ def to_color(rgbs:list[int]) -> str:
 <li>In hexcodes, each color got only two letters!
 <li>And there's no 0x!
 <li>We use `.replace` to change the 'x' to a '0'
-<code class="python">def to_color(rgbs:list[int]) -> str:
+<code class="python">def to_color(rgbs):
     hexes = [hex(brightness) for brightness in rgbs]
     hexes = [color.replace('x','0') for color in hexes]
 </code>
@@ -347,7 +301,7 @@ def to_color(rgbs:list[int]) -> str:
 <li>In hexcodes, each color got only two letters!
 <li>And there's no 0x!
 <li>We use slices to take the last two characters, which store the values we need!
-<code class="python">def to_color(rgbs:list[int]) -> str:
+<code class="python">def to_color(rgbs):
     hexes = [hex(brightness) for brightness in rgbs]
     hexes = [color.replace('x','0') for color in hexes]
     hexes = [color[-2:] for color in hexes] # last two
@@ -365,7 +319,7 @@ def to_color(rgbs:list[int]) -> str:
 <h2>Strings</h2>
 <ul>
 <li>We need a '#' before the code, and then we're done!
-<code class="python">def to_color(rgbs:list[int]) -> str:
+<code class="python">def to_color(rgbs):
     hexes = [hex(brightness) for brightness in rgbs]
     hexes = [color.replace('x','0') for color in hexes]
     hexes = [color[-2:] for color in hexes] # last two
@@ -382,7 +336,7 @@ def to_color(rgbs:list[int]) -> str:
 <h2>Strings</h2>
 <ul>
 <li>A single line is fine, if you prefer.
-<code class="python">def to_color(rgbs:list[int]) -> str:
+<code class="python">def to_color(rgbs):
     return '#' + "".join([hex(c).replace('x','0')[-2:] for c in rgbs])
 </code>
 <li>We can test this easily enough...
@@ -425,7 +379,7 @@ def my_rect(x,y,w,h,color):
     rect.set_color(color)
     gw.add(rect)
 
-def to_color(rgbs:list[int]) -> str:
+def to_color(rgbs):
     return '#' + "".join([hex(c).replace('x','0')[-2:] for c in rgbs])</code>
 </section>
 

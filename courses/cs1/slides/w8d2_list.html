@@ -272,6 +272,116 @@ TypeError: list indices must be integers or slices, not float</code>
 </section>
 
 
+<section>
+<h2>List Iteration</h2>
+<ul>
+<li>You already know how to iterate over lists!
+<li>ENGLISH_WORDS was a lists
+<li>Let's pretend were are the newspaper of record (the New York Times) and we <i>love</i> splitting the U.S. into red and blue stages.
+<code class="Python" style="max-height:800px">>>> rs = 0
+>>> ds = 0
+>>> for state in CookPVI:
+...     if "R" in state[1]:
+...         rs += 1
+...     else:
+...         ds += 1
+...
+>>> print(rs,ds)
+31 20</code></section>
+
+<section>
+<h2>GArc</h2>
+<ul>
+<li>We can plot the ratio with the GArc from PGL.
+<ul>
+<li>It's an oval missing a slice</li></ul>
+<li>We provide: x, y, w, h, start, and sweep.
+<ul><li>Start and sweep are angles given in degrees (out of 360)
+</ul>
+<li>ENGLISH_WORDS was a lists
+<li>Let's pretend were are the newspaper of record (the New York Times) and we <i>love</i> splitting the U.S. into red and blue stages.</section>
+
+<section>
+<h2>GArc</h2>
+<ul>
+<code class="Python" style="max-height:800px">from pgl import *
+
+rs, ds = 31, 20
+
+gw = GWindow(800,800)
+
+# https://people.willamette.edu/~esroberts/python/pgldoc/
+rarc = GArc(0,0,800,800,0,rs/50 * 360) # x y w h start sweep
+rarc.set_filled(True)
+rarc.set_color("Red")
+darc = GArc(0,0,800,800,0,-ds/50 * 360)
+darc.set_filled(True)
+darc.set_color("DodgerBlue")
+gw.add(rarc)
+gw.add(darc)</code></section>
+
+
+<section>
+<h2>GArc</h2>
+
+<style>
+        /*
+         * rs = 31, ds = 20
+         * Total = 50 (rs + ds)
+         * Red sector (rs): 31 / 50 = 0.62 (62%)
+         * Blue sector (ds): 20 / 50 = 0.40 (40%) - Note: The sum is 1.02,
+         * so the total must be 51 (31+20) to maintain the original ratios
+         * for a full circle, but we will use 50 for simplicity in the gradient
+         * which only needs two colors.
+         *
+         * The original code seems to imply:
+         * Red Arc: rs/50 * 360 = 31/50 * 360 = 0.62 * 360 = 223.2 degrees
+         * Blue Arc: -ds/50 * 360 = -20/50 * 360 = -0.40 * 360 = -144 degrees
+         *
+         * For a full circle conic gradient, we'll use the ratio of the parts
+         * to the total (31 + 20 = 51) to determine the sweep angle.
+         * Red stop: 31 / 51 * 360 ≈ 218.82 degrees
+         * Blue stop: (31 + 20) / 51 * 360 = 360 degrees
+        */
+        
+        :root {
+            --rs: 31;
+            --ds: 20;
+            --total: calc(var(--rs) + var(--ds)); /* 51 */
+            /* Calculate the stop angle for the red sector */
+            --red-stop: calc(var(--rs) / var(--total) * 360deg); /* ≈ 218.82deg */
+        }
+        
+        .circle-container {
+            width: 400px;
+            height: 400px;
+            /* Center the div on the page for viewing */
+            margin: 50px auto; 
+            /* To make it a circle */
+            border-radius: 50%;
+            /* Apply the conic gradient */
+            background: conic-gradient(
+                /* Start Red from the top (0deg) */
+                red 0, 
+                /* Red stops here (218.82deg) */
+                red var(--red-stop), 
+                /* Blue starts here and goes to the end (360deg) */
+                blue var(--red-stop), 
+                blue 360deg
+            );
+            /* The original GWindow might have had the red arc starting at 0 degrees
+               and sweeping positive, and the blue arc starting at 0 degrees and
+               sweeping negative. This CSS achieves a similar effect by starting
+               at the top and sweeping clockwise. If you need it to start from a 
+               different position (like the right-side 3 o'clock position), 
+               you can use `from 90deg` or `at center` for positioning. */
+        }
+    </style>
+    <div class="circle-container"></div>
+
+</section>
+
+</section>
 
 <section>
 <h2>Today</h2>

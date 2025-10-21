@@ -29,7 +29,7 @@
 <section>
   <h1 class="title">Files</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W9Wed: 23 Oct<br>
+  <p class="date">W9Wed: 22 Oct<br>
 </section>
 
 <section>
@@ -63,8 +63,8 @@
 <section>
 <h2><code class="python">GImage</code> </h2>
 <ul>
-<li>This a picture that own rights to that you may use, of my cat Juniper.
-<li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
+<li>This a picture that I own rights to that you may use, of my cat Juniper.
+<li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
 </ul>
 <img style="height:800px" src="imgs/cat.png"><br>
 </code>
@@ -75,7 +75,7 @@
 <ul>
 <li>These are free bonus slides.
 <li>When there are files we want to use that have some address on the internet:
-<ul><li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
+<ul><li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png</a>
 <li><a href="https://raw.githubusercontent.com/rembold-cs151-master/HW03/refs/heads/master/pgl.py">https://raw.githubusercontent.com/rembold-cs151-master/HW03/refs/heads/master/pgl.py</a></ul>
 <li>They can be downloaded via the "curl" command.
 <li>Curl is out of scope for this class, but fun and useful. It is a command like "python" - used at the command line.
@@ -83,7 +83,7 @@
 >>> print("hi")
 hi
 >>> exit()
-C:\Users\cd-desk> curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png -o cat.png
+C:\Users\cd-desk> curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png -o cat.png
 C:\Users\cd-desk></code>
 </section>
 
@@ -94,7 +94,7 @@ C:\Users\cd-desk></code>
 <li>These are free bonus slides.
 <li>We can use "curl" from inside Python, and in fact use any command, with Python's "system()", included in "os".
 <code class="python">>>> from os import *
->>> system("curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png -o cat.png")
+>>> system("curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png -o cat.png")
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100 2362k  100 2362k    0     0  8004k      0 --:--:-- --:--:-- --:--:-- 8064k
@@ -112,7 +112,7 @@ C:\Users\cd-desk></code>
 <code style="width:300%" class="python">from os import system
 
 system("curl https://raw.githubusercontent.com/rembold-cs151-master/HW03/refs/heads/master/pgl.py -o pgl.py")
-system("curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png -o cat.png")
+system("curl https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png -o cat.png")
 
 from pgl import *
 
@@ -195,8 +195,8 @@ print(type(pixels[0][0]))</code>
 <section>
 <h2>Refresher</h2>
 <ul>
-<li>This a picture that own rights to that you may use, of my cat Juniper.
-<li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1f24/slides/imgs/cat.png</a>
+<li>This a picture that I own rights to that you may use, of my cat Juniper.
+<li><a href="https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png">https://raw.githubusercontent.com/cd-public/cd-public.github.io/refs/heads/main/courses/cs1/slides/imgs/cat.png</a>
 </ul>
 <img style="height:800px" src="imgs/cat.png"><br>
 </code>
@@ -218,7 +218,7 @@ print(pixels[0][0])</code>
 <section>
 <h2><code class="python">GImage.get_red()</code></h2>
 <ul>
-<li>PGL stores pixels as integers, but provides a way to look at tbrightness of each color of a pixel.
+<li>PGL stores pixels as integers, but provides a way to look at brightness of each color of a pixel.
 <li>The way to look at red brightness is 'GImage.get_red', and the other colors are similar.
 <code  class="python">pixels = image.get_pixel_array()
 print(pixels[0][0])

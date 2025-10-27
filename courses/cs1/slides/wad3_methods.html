@@ -29,7 +29,7 @@
 <section>
   <h1 class="title">Methods</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W10Fri: 01 Nov<br>
+  <p class="date">W10Fri: 31 Oct<br>
 </section>
 
 <section>
@@ -141,7 +141,7 @@ print(
 
 <section>
 <h2>Variables / Attributes</h2>
-<ul><li>To make it easier to see what's happening, a break a print into multiple lines.
+<ul><li>To make it easier to see what's happening, break a print into multiple lines.
   <li>This code was auto-indented by VS Code, but I would use the same style manually.
     <li>It's an easy way to see what 3 things I'm printing, or to add comments!
 <code class="python">b = Box()
@@ -402,7 +402,7 @@ Box.print_7()</code>
 <section>
 <h2>Getters / Setters</h2>
 <ul><li>Pros: Can enforce, e.g. having a int
-<table style="width:100%"><td style="width:50%">
+		<!--<table style="width:100%"><td style="width:50%">-->
 <code class="python">class IntBox:
     def __init__(self, data):
         if type(data) == int:
@@ -415,7 +415,7 @@ Box.print_7()</code>
 
     def set_val(self, data):
         if type(data) == int:
-            self._val = data    </code></td>
+            self._val = data    </code><!--</td>
       <td style="width:50%">
 <code class="python">>>> b = IntBox("hi")
 >>> b.get_val()
@@ -426,7 +426,7 @@ Box.print_7()</code>
 >>> b.set_val(print) 
 >>> b.get_val()
 7</code>        
-      </td></table>
+      </td></table>-->
 </section>
 
 
@@ -434,7 +434,7 @@ Box.print_7()</code>
 <section>
 <h2>Getters / Setters</h2>
 <ul><li>Cons: Can't use the assignment ops
-<table style="width:100%"><td style="width:50%">
+<!--<table style="width:100%"><td style="width:50%">
 <code class="python">class IntBox:
     def __init__(self, data):
         if type(data) == int:
@@ -448,7 +448,7 @@ Box.print_7()</code>
     def set_val(self, data):
         if type(data) == int:
             self._val = data    </code></td>
-      <td style="width:50%">
+<td style="width:50%">-->
 <code class="python">>>> b = IntBox(7)
 >>> b._val *= 3 # bad form
 >>> b.get_val() 
@@ -456,7 +456,7 @@ Box.print_7()</code>
 >>> b.set_val(b.get_val() // 3) 
 >>> b.get_val()
 7</code>        
-      </td></table>
+<!-- </td></table> -->
 <li>Updating values gets clunky real fast.
 </section>
 

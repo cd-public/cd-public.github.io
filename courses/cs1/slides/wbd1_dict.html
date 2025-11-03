@@ -29,7 +29,7 @@
 <section>
   <h1 class="title">Dictionaries</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W11Mon: 04 Nov<br>
+  <p class="date">W11Mon: 03 Nov<br>
 </section>
 
 <section>
@@ -38,10 +38,7 @@
 <li>Project 3 tonight.
 <li>Midterm Friday.
 <ul><li>Practice Exam posted.
-    <li>Tuples
-    <li>Pixels
-    <li>Lists
-    <li>Types
+    <li>Think Breakout.
 </section>
 
 <section>
@@ -250,7 +247,7 @@ values:</p>
 <li>If you attempt to index out a key that doesn’t exist:
 <code class="python">>>> movie["anything bad"]
 Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in <module>
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 KeyError: 'anything bad'</code>
 <li>Wow! There is not "anything bad" in Alien: Romulus!
 </section>
@@ -420,14 +417,31 @@ consisting of a key-value pair. Iterables are weird - either use this within a f
 <ul>
 <li>My take on classes is a minority position.
 <li>Another take: Dictionaries are the "Pythonic" way to do records.
-<li>I find this to be a is a majority position, 
-<li>It is held by major language designers and most programers that use the language heavily.
+<li>I find this to be a majority position, 
+<li>It is held by major language designers and many programers that use the language heavily.
 <li>Looks at this:
 <code class="python">console = {
     'name': 'XBox',
     'vers': 360,
 }</code></li>
 <li>It is impossible for me to believe that isn't better than writing a class.</section>
+
+<section>
+    <h2>Editorializing Again</h2>
+<ul>
+<li>Perhaps the most important Python library is <strong>pandas</strong>.
+<li>It is a data frame library - like Excel or R.
+<li><strong>pandas</strong> uses dictionaries and does not often require getters and setters.
+<code class="python">>>> df = pd.DataFrame({'A': [1, 2], 'B': [3, 4]}) # dictionary
+>>> df
+     A  B
+0    1  3
+1    2  4
+>>> df.columns # not a getter
+Index(['A', 'B'], dtype='object')
+</code>
+<li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.columns.html">Read more.</a>
+<li><a href="https://pypistats.org/packages/pandas">~17 million downloads per day.</a></section>
 
 <section>
 <h2>Today</h2>
@@ -448,10 +462,7 @@ consisting of a key-value pair. Iterables are weird - either use this within a f
 <li>Project 3 tonight.
 <li>Midterm Friday.
 <ul><li>Practice Exam posted.
-    <li>Tuples
-    <li>Pixels
-    <li>Lists
-    <li>Types
+    <li>Think Breakout.
 </section>
 
 

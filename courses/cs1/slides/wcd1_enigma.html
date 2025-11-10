@@ -30,15 +30,16 @@
 <section>
   <h1 class="title">Enigma</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W12Mon: 11 Nov<br>
+  <p class="date">W12Mon: 10 Nov<br>
 </section>
 
 <section>
 <h2>Announcements</h2>
 <ul>
 <li>Midterm Sketch
-<li>Project 5 Posted
-<li>Guest Lecture Wednesday
+<li>Next Project posted
+<li>Wednesday cancelled, we'll catch up Friday
+<li>Go to your sections!
 </section>
 
 <section>
@@ -56,9 +57,9 @@
 <ul><li>The essence of P4: Enigma is cryptography.
 <li>Here are words I use to do cryptography.
 <li>"Encryption" takens a "plaintext" and produces a "cypertext".
-<li>A "cyphertext" is "encryped."
+<li>A "cyphertext" is "encrypted."
 <li>Here is a minimal example, encryption through reversal.
-<code class="python">def encrypt(plaintext:str) -> str:
+<code class="python">def encrypt(plaintext):
     cyphertext = plaintext[::-1]
     return cyphertext</code>
 <li>We imagine this as a way to keep something secret.
@@ -90,7 +91,7 @@
 <img width="100%"" src="imgs/plus3.svg">
 <li>The core insight here is we can consider each letter separately.
 <li>So we could write a function from one letter to another.
-<code class="python">def rotate(letter:str) -> str:
+<code class="python">def rotate(letter):
     pass</code>
 </section>
 
@@ -98,7 +99,7 @@
 <h2>Rotations</h2>
 <ul>
 <li>We write a function from one letter to another.
-<code class="python">def rotate(letter:str) -> str:
+<code class="python">def rotate(letter):
     pass</code>
 <li>To go from "A" to "D" we:
 <ul><li>Found the index of "A" in the alphabet
@@ -127,7 +128,7 @@
 <li>We write a function from one letter to another.
 <code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-def rotate(letter:str) -> str:
+def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)</code>
 <li>To go from "A" to "D" we:
 <ul><li>&check; Found the index of "A" in the alphabet
@@ -142,7 +143,7 @@ def rotate(letter:str) -> str:
 <li>We write a function from one letter to another.
 <code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-def rotate(letter:str) -> str:
+def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)
     ind_in_abcs += 3</code>
 <li>To go from "A" to "D" we:
@@ -157,7 +158,7 @@ def rotate(letter:str) -> str:
 <li>We write a function from one letter to another.
 <code class="python">ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-def rotate(letter:str) -> str:
+def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)
     ind_in_abcs += 3
     return ALPHABET[ind_in_abcs]</code>
@@ -173,7 +174,7 @@ def rotate(letter:str) -> str:
 <h2>Rotations</h2>
 <ul>
 <li>This is good:
-<code class="python">def rotate(letter:str) -> str:
+<code class="python">def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)
     ind_in_abcs += 3
     return ALPHABET[ind_in_abcs]</code>
@@ -201,7 +202,7 @@ IndexError: string index out of range</code>
 <h2>Rotations</h2>
 <ul>
 <li>This is good:
-<code class="python">def rotate(letter:str) -> str:
+<code class="python">def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)
     ind_in_abcs += 3
     ind_in_abcs %= len(ALPHABET)
@@ -216,7 +217,7 @@ IndexError: string index out of range</code>
 <h2>Rotations</h2>
 <ul>
 <li>Really though, we want to be able to specify how far we rotate..
-<code class="python">def rotate(letter:str, offset:int) -> str:
+<code class="python">def rotate(letter, offset):
     ind_in_abcs = ALPHABET.index(letter)
     ind_in_abcs += offset
     ind_in_abcs %= len(ALPHABET)
@@ -232,10 +233,10 @@ IndexError: string index out of range</code>
 <h2>Rotations</h2>
 <ul>
 <li>Then we can encrypt (and decrypt)
-<code class="python">def encrypt(letter:str) -> str:
+<code class="python">def encrypt(letter):
     return rotate(letter, 17)
 
-def decrypt(letter:str) -> str:
+def decrypt(letter):
     return rotate(letter, -17)</code>
 <li>Now we can rotate "Z"
 <code class="python">>>> encrypt("A")
@@ -258,7 +259,7 @@ def decrypt(letter:str) -> str:
 <h2>Rotations</h2>
 <ul>
 <li>Let's look back at fixed offset rotate:
-<code class="python">def rotate(letter:str) -> str:
+<code class="python">def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)
     ind_in_abcs += 3
     ind_in_abcs %= len(ALPHABET)
@@ -274,7 +275,7 @@ def decrypt(letter:str) -> str:
 <code class="python">CIPHER = ALPHABET[3:] + ALPHABET[:3]
 # or 'DEFGHIJKLMNOPQRSTUVWXYZABC'
 
-def rotate(letter:str) -> str:
+def rotate(letter):
     ind_in_abcs = ALPHABET.index(letter)
     return CIPHER[ind_in_abcs]</code>
 <li>We can use a string to specify how we encrypt!
@@ -289,14 +290,14 @@ def rotate(letter:str) -> str:
 <ul>
 <li>Ciphers don't only have to be rotations!
 <code class="python">ROTOR_PERMUTATIONS = [
-    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",  # Permutation for slow rotor      
-    "AJDKSIRUXBLHWTMCQGZNPYFVOE",  # Permutation for medium rotor    
-    "BDFHJLCPRTXVZNYEIWGAKMUSQO"   # Permutation for fast rotor      
+    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",  # Cipher for slow rotor      
+    "AJDKSIRUXBLHWTMCQGZNPYFVOE",  # Cipher for medium rotor    
+    "BDFHJLCPRTXVZNYEIWGAKMUSQO"   # Cipher for fast rotor      
 ]</code>
 <li>Here are three historically significant rotations.
 <li>They were discovered by cool gay people that defeated the Nazis.
 <li>"Be gay, stop war crime."
-<li>They provided with Project 4.
+<li>They provided.
 </section>
 
 
@@ -308,7 +309,7 @@ def rotate(letter:str) -> str:
 <li>I just call them ciphers (shorter)
 <code class="python">CIPHER = "BDFHJLCPRTXVZNYEIWGAKMUSQO"
 
-def encrypt(letter:str) -> str:
+def encrypt(letter):
     ind_in_abcs = ALPHABET.index(letter)
     return CIPHER[ind_in_abcs]</code>
 <li>This allows us to create codes!
@@ -319,7 +320,7 @@ def encrypt(letter:str) -> str:
 <h2>Ciphers</h2>
 <ul>
 <li>We may want to be able to use different ciphers, like the 3 from the assignment.
-<code class="python">def encrypt(cipher:str, letter:str) -> str:
+<code class="python">def encrypt(cipher, letter):
     ind_in_abcs = ALPHABET.index(letter)
     return cipher[ind_in_abcs]</code>
 <li>This way we can encrypt any letter with any cipher.
@@ -332,11 +333,11 @@ def encrypt(letter:str) -> str:
 <li>To decrypt, we go backwards, but in a novel way.
 <ul><li>Rather than finding index in the alphabet, find index in the cipher!
     <li>Rather than finding a corresponding letter in the cipher, find it in the alphabet!
-<code class="python">def encrypt(cipher:str, letter:str) -> str:
+<code class="python">def encrypt(cipher, letter):
     ind_in_abcs = ALPHABET.index(letter)
     return cipher[ind_in_abcs]
 
-def decrypt(cipher:str, letter:str) -> str:
+def decrypt(cipher, letter):
     ind_in_ciph = cipher.index(letter)
     return ALPHABET[ind_in_ciph]</code>
 <li>This way we can encrypt any letter with any cipher.
@@ -458,6 +459,18 @@ Beginning loop with i = 0
 <h2>Visualizing</h2>
 <ul><li>Right-to-left-to-right.
 <img src="imgs/EnigmaInternals4.png">
+
+</section>
+
+
+<section>
+<h2>Visualizing</h2>
+<ul><li>I also made some text-based visuals for another class.
+<li>Check out two tabs here: "Visual" and "Rotors".
+<li><a href="https://cd-public.github.io/courses/old/c89s25/qmd/enigma.html">Engima</a>
+
+</section>
+
 
  </div>
   </div>

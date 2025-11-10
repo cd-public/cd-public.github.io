@@ -82,6 +82,8 @@ format:
 
 :::
 
+<!--
+
 # Solved&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#solved" role="button" aria-expanded="false" aria-controls = "solved">Show</a>
 
 
@@ -181,6 +183,7 @@ python3 enigma.py MNBOASVTTB
 
 :::
 
+-->
 
 # Visual&nbsp;<a class="btn btn-primary" data-bs-toggle="collapse" href="#visual" role="button" aria-expanded="false" aria-controls = "visual">Show</a>
 

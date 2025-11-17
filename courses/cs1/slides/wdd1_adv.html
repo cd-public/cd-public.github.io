@@ -30,8 +30,7 @@
 <section>
   <h1 class="title">Adventure</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W13Mon: 18 Nov<br>
-</section>
+  <p class="date">W13Mon: 17 Nov<br>
 </section>
 
 <section>
@@ -40,439 +39,129 @@
 <li>Enigma Ongoing
 <ul><li>You should have at least everything but rotation by now.
 <li>Finish on time, new project is out today: Adventure.
-<li>Advising time <a href="../../../advising/slides/sp25_c151.html#/">Click</a>
 </section>
 
 <section>
-<h2>Last TeachingMachine Ideas</h2>
+<ul><a href="https://cd-public.github.io/courses/old/c89s25/qmd/enigma.html">
+<code class="python">=====|===========================================
+=    X                                          =
+=    |>>>>                                      =
+=    XYZAB                           # rotate   =
+=    >>>>|                                      =
+=        B                                      =
+=      __|_________________________             =
+=     [ ABCDEFGHIJKLMNOPQRSTUVWXYZ ] # alphabet = 
+=     [  |                         ]            =
+=     [ BDFHJLCPRTXVZNYEIWGAKMUSQO ] # fast     =
+=      ‾‾|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾             =
+=        D                                      =
+=    <<<<|                                      =
+=    ZABCD                           # rotate   =
+=    |<<<<                                      =
+=    Z                                          =
+=====|===========================================
+</code></a>
+</ul>
+</section>
+
+<section>
+<h2>Advising Time</h2>
 <ul>
-<li>Recall Teaching Machine:
-<ul><li>It reads files
-<li>It prompts users for input
-<li>It provides new prompts based on the input
-<li>It uses classes (like question) and objects of classes (like question no. 2)
+<li>Advising time. <a href="https://cd-public.github.io/advising/cse.html">Click</a>.
+<li>Check out the general education requirements. <a href="https://catalog.willamette.edu/policies/wc#general-education1">They're here.</a>
 </section>
 
 <section>
 <h2>Teaching the Adventure</h2>
 <ul>
-<li>The TeachingMachine program can process and run <em>any</em> data
-file that has the correct format
+<li><a href="https://people.willamette.edu/~jjrembold/class_files/cs151/Projects/InfAdventure/introduction/overview.html">Go here and click this.</a>
+<li>Prof. Jed Rembold and I spoke and are using the exact same write-up for this assignment.
 <ul>
-<li>Does not need to technically be a series of educational
-questions</li>
-<li>This is part of the strength of the data driven model: data is easy
-to change, programs less so</li>
-</ul></li>
-<li>Could make a sort of “Choose your own adventure” game out of
-it!
-<ul><li>Many "gameplay mechanics" fulfill learning objectives.</li>
+    <li>This is this semester's only first time assignment, and we want to gather high quality data on student success.
+    <li>Prof. Jed Rembold developed this assignment and has had more time with it and I am defering to his expertise.
 </ul>
 </section>
-<section>
-<h2>Adventure Classes</h2>
-<figure>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="371.35715mm"
-   height="175.46977mm"
-   viewBox="0 0 371.35715 175.46977"
-   version="1.1"
-   id="svg8"
-   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
-   sodipodi:docname="AdventureClasses.svg">
-  <defs
-     id="defs2">
-    <rect
-       x="414.5123"
-       y="202.74365"
-       width="84.620224"
-       height="30.187504"
-       id="rect859" />
-    <rect
-       x="326.483"
-       y="81.498177"
-       width="101.90501"
-       height="37.912415"
-       id="rect841" />
-    <rect
-       x="326.483"
-       y="81.498177"
-       width="101.90501"
-       height="37.912415"
-       id="rect855" />
-    <rect
-       x="326.483"
-       y="81.498177"
-       width="101.90501"
-       height="37.912415"
-       id="rect873" />
-    <rect
-       x="326.483"
-       y="81.498177"
-       width="101.90501"
-       height="37.912415"
-       id="rect885" />
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#474747"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="809.5044"
-     inkscape:cy="335.58264"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false"
-     inkscape:window-width="2528"
-     inkscape:window-height="1381"
-     inkscape:window-x="1096"
-     inkscape:window-y="43"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata5">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-189.0686,-37.694654)">
-    <rect
-       style="fill:none;stroke:#66d9ef;stroke-width:2.565;stroke-linecap:round;stroke-linejoin:round"
-       id="rect833"
-       width="108.55933"
-       height="70.969917"
-       x="319.82867"
-       y="38.977154"
-       ry="5.979588" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;line-height:1.25;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="334.10443"
-       y="56.216038"
-       id="text837"><tspan
-         sodipodi:role="line"
-         id="tspan835"
-         x="334.10443"
-         y="56.216038"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.264583;">Adventure</tspan></text>
-    <text
-       xml:space="preserve"
-       id="text839"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect841);fill:#ececec;fill-opacity:1;stroke:none;"
-       transform="translate(0.32302501,-12.668085)"><tspan
-         x="326.48242"
-         y="90.237567"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">The main program, </tspan></tspan><tspan
-         x="326.48242"
-         y="102.5848"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">which gets the </tspan></tspan><tspan
-         x="326.48242"
-         y="114.93203"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">program started.</tspan></tspan></text>
-    <rect
-       style="fill:none;stroke:#a6e22e;stroke-width:2.565;stroke-linecap:round;stroke-linejoin:round"
-       id="rect845"
-       width="108.55933"
-       height="70.969917"
-       x="319.82867"
-       y="140.912"
-       ry="5.979588" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;line-height:1.25;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="342.94302"
-       y="158.15089"
-       id="text849"><tspan
-         sodipodi:role="line"
-         id="tspan847"
-         x="342.94302"
-         y="158.15089"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264583;">AdvRoom</tspan></text>
-    <text
-       xml:space="preserve"
-       id="text853"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect855);fill:#ececec;fill-opacity:1;stroke:none;"
-       transform="translate(1.1598406,89.266769)"><tspan
-         x="326.48242"
-         y="90.237567"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">Maintains the data </tspan></tspan><tspan
-         x="326.48242"
-         y="102.5848"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">structure for each </tspan></tspan><tspan
-         x="326.48242"
-         y="114.93203"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">room in the cave.</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       id="text857"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect859);fill:#000000;fill-opacity:1;stroke:none;" />
-    <rect
-       style="fill:none;stroke:#a6e22e;stroke-width:2.565;stroke-linecap:round;stroke-linejoin:round"
-       id="rect863"
-       width="108.55933"
-       height="70.969917"
-       x="190.3511"
-       y="140.912"
-       ry="5.979588" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;line-height:1.25;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="213.61145"
-       y="158.15089"
-       id="text867"><tspan
-         sodipodi:role="line"
-         id="tspan865"
-         x="213.61145"
-         y="158.15089"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264583;">AdvGame</tspan></text>
-    <text
-       xml:space="preserve"
-       id="text871"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect873);fill:#ececec;fill-opacity:1;stroke:none;"
-       transform="translate(-130.58943,89.266769)"><tspan
-         x="326.48242"
-         y="90.237567"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">Contains the code </tspan></tspan><tspan
-         x="326.48242"
-         y="102.5848"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">and data necessary </tspan></tspan><tspan
-         x="326.48242"
-         y="114.93203"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">to play the game.</tspan></tspan></text>
-    <rect
-       style="fill:none;stroke:#a6e22e;stroke-width:2.565;stroke-linecap:round;stroke-linejoin:round"
-       id="rect875"
-       width="108.55933"
-       height="70.969917"
-       x="450.58392"
-       y="140.912"
-       ry="5.979588" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;line-height:1.25;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="464.9046"
-       y="158.15089"
-       id="text879"><tspan
-         sodipodi:role="line"
-         id="tspan877"
-         x="464.9046"
-         y="158.15089"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6px;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264583;">AdvItem</tspan></text>
-    <text
-       xml:space="preserve"
-       id="text883"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect885);fill:#ececec;fill-opacity:1;stroke:none;"
-       transform="translate(130.52844,89.266769)"><tspan
-         x="326.48242"
-         y="90.237567"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">Maintains the data </tspan></tspan><tspan
-         x="326.48242"
-         y="102.5848"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">structure for each </tspan></tspan><tspan
-         x="326.48242"
-         y="114.93203"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.87778px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ececec;fill-opacity:1">item in the game.</tspan></tspan></text>
-  </g>
-</svg>
 
-<figcaption> </figcaption>
-</figure>
-</section>
-<section>
-<h2>Milestone 0</h2>
-<ul>
-<li>Adapt the code from the Teaching Machine application so that it uses
-the class and method names for Adventure</li>
-<li>Once you finish this milestone, you should be able to wander around
-a bit in the game</li>
-</ul>
-<video width="70%" data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_Intro.webm">
-</video>
-</section>
-<section>
-<h2>The "SmallRooms.txt" Data File</h2>
-<ul>
-<code class="lisp" style="max-height:800px">OutsideBuilding
-Outside building
-You are standing at the end of a road before a small brick
-building.  A small stream flows out of the building and
-down a gully to the south.  A road runs up a small hill
-to the west.
------
-WEST: EndOfRoad
-UP: EndOfRoad
-NORTH: InsideBuilding
-IN: InsideBuilding
-SOUTH: Valley
-DOWN: Valley
 
-EndOfRoad
-End of road
-You are at the end of a road at the top of a small hill.
-You can see a small building in the valley to the east.
------
-EAST: OutsideBuilding
-DOWN: OutsideBuilding
-</code>
-</section>
-<section >
-<h2>Milestone 1</h2>
-<ul>
-<li>Implement a visit tracking attribute in each room.</li>
-<li>Check this flag in the code that describes a room to know which
-description to show</li>
-<li>Can either write getters and setter or write a method in AdvRoom that manages visit tracking and then prints the appropriate description.
-</ul>
-<video width="70%" data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_M2.webm">
-</video>
-</section>
 <section>
-<h2>Milestone 2</h2>
+<h2>On AI Usage</h2>
 <ul>
-<li>Implement the QUIT, HELP, and LOOK commands</li>
-<li>Adds extra commands that let the player do more than just move.
-<li>We need commands latter to do interesting things (manage items)</li>
-</ul>
-<p><br>
-<video width='70%' data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_M3.webm"></video></p>
+    <li>We are using AI within this assignment, but using it for a reason.
+    <li>For the past <em>n</em> years, efforts have been underway to modernize Adventure:
+    <ul>
+        <li>Old Adventure did not use JSON, one of the most useful technologies of all time.
+        <li>Old CS1 did not introduce APIs, one of the most useful technologies of all time.
+        <li>CS1 programs, in general, should address ethical concerns with AI usage, which New Adventure does.
+        <li>CS1 programs, in general, should explicitly address systematic exclusion within tech industry on basis of race/ethnicity/nationality and gender, which New Adventure does.
+        <li>CS1 programs, in general, should explicitly address algorithmic bias in exa-scale computing, such as OpenAI ChatGPT and Google Gemini.
+     </ul>
+     <li>We understand AI usage may be controversial.
 </section>
-<section id="milestone-4" class="slide level2">
-<h2>Milestone 3</h2>
-<ul>
-<li>Implement the "AdvItem" class</li>
-<li>Implement the methods in the "AdvRoom"
-class that make it possible to keep track of the objects in a room</li>
-<li>In the "AdvGame" class, write the code to
-put each object in its initial room (ignoring the
-"PLAYER" initial location for now)</li>
-<li>Change the code for displaying a room so that it displays a list of
-the objects in the room as well:</li>
-</ul>
-<p><br>
-<video width='70%' data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_M4.webm"></video></p>
-</section>
-<section id="the-smallobjects-data-file" class="slide level2">
-<h2>The SmallObjects data file</h2>
-<ul>
-<code class="lisp" style="max-height:800px">KEYS
-a set of keys
-InsideBuilding
 
-LAMP
-a brightly shining brass lamp
-BeneathGrate
+<section>
+<h2>On AI Usage</h2>
+<ul>
+    <li>AI usage beginning in milestone 4 becomes explicit, but has been present all term.
+    <ul>
+        <li>All recorded lectures in this class have closed captions via Google AI technologies, which I found to be higher quality <em>than my own manual transcriptions</em>.
+        <li>VS Code makes large numbers of AI API calls except outside of very specific configurations, many of which cannot be discovered without using AI augmented search terms that, themselves, make AI API calls.
+        <li>GitHub classroom makes API calls whenever updating repositories, including to populate commit messages.
+        <ul>
+            <li>When I did this project, I generated more API calls from saving my work than from doing the project.
+            <li>There is no competing technology with GitHub classroom other than self-hosting, for which the university uses Google (rather than Microsoft), but would otherwise be similar baring a special local technology deployment.
+        <li>It is likely that recent Python versions are developed by (volunteer!) developers using AI-accelerated workflows.
+     </ul>
+     </ul>
+     <li>This explicit engagement is an improvement to existing instructional norms.
+</section>
 
-ROD
-a black rod with a rusty star
-DebrisRoom
+<section>
+<h2>Learn More.</h2>
+<ul>
+    <li>I regard <a href="https://www.youtube.com/watch?v=AaU6tI2pb3M">AI is an Ethical Nightmare</a> as an accessible intro to AI ethics that has guided my own engagement on these matters.
+    <li>I regard <a href="https://cd-public.github.io/courses/old/cld24/slides/perspectives.html">this assignment</a> from my cloud computing course on perspectives on data centers as-if-not-more relevant than specific questions on AI usage to ethical considerations.
+    <li>I regard Instagram, rather than modern chatbots, as the foundational anti-social/anti-human technology used by cloud giants.
+    <ul>
+        <li>This link has a nested content warning.
+        <ul>
+            <details>
+                <summary>Content Warning : Expand for content type.</summary>
+                Self-harm and suicide.
+                <details>
+                    <summary>Content Warning : Expand for link.</summary>
+                    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6791504/">Link.</a>
+                </details>
+            </details>
+</details>
+</section>
 
-WATER
-a bottle of water
-PLAYER
-</code>
-</section>
 <section>
-<h2>Milestone 4</h2>
+<h2>Biggest Block</h2>
 <ul>
-<li>Implement the TAKE, DROP, and INVENTORY commands and any code you need to
-remember what the player is carrying</li>
-</ul>
-<p><br>
-<video width='70%' data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_M5.webm"></video></p>
+    <li>The hardest part of Adventure I expect to be, beyond just reading the volume of instructions and implementing the tasks, is differentiating <em>serialized</em> and <em>deserialized</em> JSON data.
+    <ul>
+        <li>If you print it, it will look identical.
+        <li>However, they are different types.
+        <ul>
+            <li>Sometimes, you will have a string.
+            <ul>
+                <li>To go from string-to-list-or-dictionary, use: <code class="python">json.loads(some_string)</code>
+            </ul>
+            <li>Sometimes, you will have either a list or a dictionary.
+            <ul>
+                <li>To go from list-or-dictionary-to-string, use: <code class="python">json.dumps(some_list_or_dictionary)</code>
+            </ul>
+            <li>Always, you should check the type!
+        </ul>
+     </ul>
+     <li>We can do a demo with <a href="https://cd-public.github.io/scicom/helium.json">this</a>.
 </section>
-<section>
-<h2>Milestone 5</h2>
-<ul>
-<li>Implement synonym processing so that the player can use abbreviated
-forms of the directions and alternative names for the objects</li>
-</ul>
-<p><br>
-<video width='70%' data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_M6.webm"></video></p>
-</section>
-<section id="the-smallsynonyms.txt-data-file" class="slide level2">
-<h2>The SmallSynonyms.txt data file</h2>
-<ul>
-<code class="lisp">N=NORTH
-S=SOUTH
-E=EAST
-W=WEST
-U=UP
-D=DOWN
-Q=QUIT
-L=LOOK
-I=INVENTORY
-CATCH=TAKE
-RELEASE=DROP
-BOTTLE=WATER
-</code>
-</section>
-<section>
-<h2>Milestone 6</h2>
-<ul>
-<li>Implement <em>locked passages</em>, which are passages that require
-a particular object to use</li>
-<li>Making this change using lists to manage possible next rooms given a direction.
-<li>There are many ways to solve this problem!
-</ul>
-<p><br>
-<video width='70%' data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/Adventure_M7.webm"></video></p>
-</section>
-<section>
-<h2>The SmallRooms.txt data file</h2>
-<ul>
-<code class="lisp" style="max-height:800px">OutsideGrate
-Outside grate
-You are in a 20-foot depression floored with bare dirt.
-Set into the dirt is a strong steel grate mounted in
-concrete.  A dry streambed leads into the depression from
-the north.
------
-NORTH: SlitInRock
-UP: SlitInRock
-DOWN: BeneathGrate/KEYS
-DOWN: MissingKeys
 
-MissingKeys
--
-The grate is locked and you don't have any keys.
------
-FORCED: OutsideGrate
-</code>
-</section>
 <section>
-<h2>Milestone 7</h2>
+<h2>Adventure Demo</h2>
 <ul>
-<li>Implement <em>forced motion</em>, in which the player is forced to
-immediately move from a room to a new room without issuing a command
-<ul>
-<li>Indicated by the verb <code class="python">FORCED</code></li>
-</ul></li>
-<li>Implementation of forced motion needs to allow some forced passages
-to still be locked</li>
+    <li>Quick tour of my solution.
 </ul>
-<p><br>
-<video width='70%' data-autoplay loop src="https://jrembold.github.io/Website_Backup/class_files/cs151/Slides/video/video/Adventure_M8.webm"></video></p>
 </section>
 
 

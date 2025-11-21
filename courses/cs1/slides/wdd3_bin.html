@@ -30,23 +30,23 @@
 <section>
   <h1 class="title">Binary Search</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W13Fri: 22 Nov<br>
+  <p class="date">W13Fri: 21 Nov<br>
 </section>
 </section>
 
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>Special out-of-sequence lecture Monday.
 <li>Adventure Ongoing
-<ul><li>You should be thinking about how you're going to do QUIT/HELP/LOOK</ul>
+<ul><li>You should be thinking about how to navigate between scenes</ul>
 <li>Advising ongoing
 <ul><li>If you encounter any problem, email me immediately
 <li>I'll be doing triage:
 <ul><li>If you don't get an email back quickly, either <ul>
-<li>the problem is not urgent and I'll solve it latter, or
-<li>I am fleeing a zamboni IRL and require thoughts & prayers stat.
+<li>I'm on a multi-hour trail run and/or asleep, or
+<li>I will be able to solve any problems you encounter non-urgently.
 </ul>
+<li>Either way, once you send the email it is not your problem.
 </section>
 
 
@@ -62,8 +62,8 @@
 <section>
 <h2>Throwback Wordle</h2>
 <ul>
-<li>Read in some text (hey just like adventure)
-<li>See if it's in a list of words (just like adventure)
+<li>Read in some text (hey just like wordle)
+<li>See if it's in a list of words (just like wordle)
 <li>Hella words (this is where it's different)
 <li>Do thing accordingly.
 <ul><li>Wordle's ENGLISH_WORDS had 127145 words
@@ -75,7 +75,7 @@
 <h2>Checking Words</h2>
 <ul>
 <li>The obvious way to see if a word is in a list is with a loop:
-<code class="python">def is_my_word_english(my_word:str)->bool:
+<code class="python">def is_my_word_english(my_word):
     for word in ENGLISH_WORDS:
         if word == my_word:
             return True
@@ -112,15 +112,15 @@
 <li>I divide the tons of peanuts into equal parts until I have 40 parts
 <li>I grind them all at once.
 </ul>
-<li>This technique of "divide-and-conquer" is just as technically correct - it still make peanut butter.
-<li>It is more algorithmically correct - it wastes less effort.
+<li>This technique of "divide-and-conquer" is just as technically correct - it still makes peanut butter.
+<li>It is more algorithmically correct - it wastes less effort (driving, in this case)
 </ul>
 </section>
 <section>
 <h2>Checking Words</h2>
 <ul>
 <li>One peanut at a time:
-<code class="python">def is_my_word_english(my_word:str)->bool:
+<code class="python">def is_my_word_english(my_word):
     for peanut in ENGLISH_WORDS:
         if peanut == my_word:
             return True
@@ -166,7 +166,7 @@ True</code>
 <ul><li>We took one word and a sorted list of words.
 <li>We checked if our word was more or less than the middle of the sorted list
 </ul>
-<li>Let's write that out:<code class="python">def is_first_half(my_word:str, word_list:list[str]) -> bool:
+<li>Let's write that out:<code class="python">def is_first_half(my_word, word_list):
     length = len(word_list)
     half_length = length // 2 # we need an integer!
     middle = word_list[middle]
@@ -179,7 +179,7 @@ True</code>
 <h2>Divide and Conquer</h2>
 <ul>
 <li>How did this work algorithimically?
-<ul><li>This only tells us which half a word would be in, not if it is in that half.<code class="python">def is_first_half(my_word:str, word_list:list[str]) -> bool:
+<ul><li>This only tells us which half a word would be in, not if it is in that half.<code class="python">def is_first_half(my_word, word_list):
     return my_word < word_list[len(word_list) // 2]</code>
 <li>We could check the whole half but...
 <li>Checking everything is just what we want to avoid!
@@ -208,7 +208,7 @@ else:
         # keep only the second half
         word_list = word_list[half_length:]</code>
 <li>Then we can see if that's the word we want.
-<code class="python">while len(word_list) > 2:
+<code class="python">while len(word_list) > 1:
     ...
 return word_list == word_list[0] # only one word left!</code>
 </section>
@@ -218,7 +218,7 @@ return word_list == word_list[0] # only one word left!</code>
 <h2>Divide and Conquer</h2>
 <ul>
 <li>Altogether
-<code class="python">def is_word(my_word:str, word_list:list[str]) -> bool:
+<code class="python">def is_first_half(my_word, word_list):
 
     while len(word_list) > 1:
         half_length = len(word_list) // 2
@@ -230,7 +230,7 @@ return word_list == word_list[0] # only one word left!</code>
             word_list = word_list[half_length:]
             
     return my_word == word_list[0]</code>
-<li>More in two weeks.
+<li>More Monday.
 </section>
 
 
@@ -246,18 +246,18 @@ return word_list == word_list[0] # only one word left!</code>
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>Special out-of-sequence lecture Monday.
-<ul><li>Alonzo Church's Lambda Calculus 🙏
 <li>Adventure Ongoing
-<ul><li>You should be thinking about how you're going to do QUIT/HELP/LOOK</ul>
+<ul><li>You should be thinking about how to navigate between scenes</ul>
 <li>Advising ongoing
 <ul><li>If you encounter any problem, email me immediately
 <li>I'll be doing triage:
 <ul><li>If you don't get an email back quickly, either <ul>
-<li>the problem is not urgent and I'll solve it latter, or
-<li>I am fleeing a zamboni IRL and require thoughts & prayers stat.
+<li>I'm on a multi-hour trail run and/or asleep, or
+<li>I will be able to solve any problems you encounter non-urgently.
 </ul>
+<li>Either way, once you send the email it is not your problem.
 </section>
+
 
 
 

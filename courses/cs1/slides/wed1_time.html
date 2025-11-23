@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Time</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style>
+    code{white-space: pre-wrap;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    
+		.box {
+			text-align: center ;
+            border: solid ;
+            height: 1.5em;
+            width: 1.5em;
+		}
+  </style>
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/theme/matthieu.css" id="theme">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.css">
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/dist/reveal.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="https://cd-public.github.io/slides/html_srcs/reveal.js/plugin/math/math.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Time</h1>
+  <p class="author">Calvin (Deutschbein)
+  <p class="date">W14Mon: 24 Nov<br>
+</section>
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Adventure Ongoing
+<ul><li>You should be making API calls</ul>
+<li>Advising ongoing
+<ul><li>If you encounter any problem, email me immediately
+<li>I'll be doing triage:
+<ul><li>If you don't get an email back quickly, either <ul>
+<li>I'm on a multi-hour trail run and/or asleep, or
+<li>I will be able to solve any problems you encounter non-urgently.
+</ul>
+<li>Either way, once you send the email it is not your problem.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Computer science as an experimental science.
+<li>Is write-good-code relevant.
+</section>
+
+<section>
+<h2>Refresh Binary Search</h2>
+<ul>
+<li>Altogether
+<code class="python">def check_word(my_word, word_list):
+
+    while len(word_list) > 1:
+        half_length = len(word_list) // 2
+        if my_word < word_list[half_length]:
+            # keep only the first half
+            word_list = word_list[:half_length]
+        else:
+            # keep only the second half
+            word_list = word_list[half_length:]
+            
+    return my_word == word_list[0]</code>
+</section>
+
+
+<section>
+<h2>Refresh Binary Search</h2>
+<ul>
+<li>This is algorithmically efficient!
+<code class="python">def check_word(my_word, word_list):
+    while len(word_list) > 1:
+        half_length = len(word_list) // 2
+        if my_word < word_list[half_length]:
+            word_list = word_list[:half_length]
+        else:
+            word_list = word_list[half_length:]
+    return my_word == word_list[0]</code>
+<li>It is a special new type of inefficient: technically inefficient.
+</section>
+
+
+<section>
+<h2>Refresh Binary Search</h2>
+<ul>
+<li>Examine these lines:
+<code class="python">...
+            word_list = word_list[:half_length]
+...
+            word_list = word_list[half_length:]</code>
+<li>Let's remind ourselves of how strings work <em>within</em> Python.
+</section>
+
+<section>
+<h2>The word list is big!</h2>
+<ul>
+<li>We can request it.
+<code class="python">import requests, json
+
+URL = "https://gist.githubusercontent.com/cd-public/0a09043d500a9bc3397ebcfeb5f7a4f5/raw/41d37a509cc19e0609a1637370096f30ff4a1ea3/english.json"
+r = requests.get(URL) 
+ENGLISH_WORDS = r.json()</code>
+</section>
+
+<section>
+<h2>The word list is big!</h2>
+<ul>
+<li>How big?
+<code class="python">import sys
+
+sys.getsizeof(ENGLISH_WORDS)</code>
+<li>1140568 - one million letters or one million bytes (a megabyte).
+</section>
+
+<section>
+<h2>The word list is big!</h2>
+<ul>
+<li>Then how much memory do we need to do this...
+<code class="python">word_list = word_list[:half_length]</code>
+<li>At least the first time, half a megabyte.
+<li>It probably doesn't feel like a lot (it isn't) but your computer probably noticeably slows a bit when loading the list of words.
+</section>
+
+<section>
+<h2>Don't copy!</h2>
+<ul>
+<li>But, you see, we don't need a new list.
+<li>We can just keep track of the closest point to the beginning and closest point to the end that the word can be at!
+<code class="python">    head = 0
+    tail = len(word_list) - 1
+    while tail - head > 1:
+        midl = head + (tail - head) // 2
+        if my_word < word_list[midl]:
+            # keep only the first half
+            tail = midl
+        else:
+            # keep only the second half
+            head = midl</code>
+<li>Rather than making copies of the big list of words, we just refine which part of the big list we are looking at.
+</section>
+
+<section>
+<h2>Let's watch!</h2>
+<ul>
+<li>But, you see, we don't need a new list.
+<li>We can just keep track of the closest point to the beginning and closest point to the end that the word can be at!
+<code class="python">def check_word(my_word):
+    head, tail = 0, len(ENGLISH_WORDS) - 1
+    while tail - head > 1:
+        midl = head + (tail - head) // 2
+        if my_word < ENGLISH_WORDS[midl]:
+            tail = midl
+        else:
+            head = midl
+    return my_word == ENGLISH_WORDS[head]</code>
+<li>Rather than making copies of the big list of words, we just hone in a smaller and smaller part of the list.
+</section>
+
+<section>
+<h2>Let's check it</h2>
+<ul>
+<li>Let's check:
+<ol>
+    <li>Using Python "in"
+    <li>Writing a "for" loop checking every word.
+    <li>The end of last class version, with copies.
+    <li>This version, using an index.
+</ol>
+<li>We'll introduce another new library - time!
+</section>
+
+<section>
+<h2>Time</h2>
+<ul>
+<li>We can see what time it currently is, but in a confusing way.
+<a href="https://docs.python.org/3/library/time.html#time.time"><blockquote>Return the time in seconds since the epoch as a floating-point number.</blockquote></a>
+<li>A yes, the epoch, I know what that is...
+<a href="https://docs.python.org/3/library/time.html#epoch"><blockquote>The epoch is the point where the time starts, the return value of `time.gmtime(0)`. It is January 1, 1970, 00:00:00 (UTC) on all platforms.</blockquote></a>
+<li>At time of slide creation:
+<code class="python">python -c "import time; print(time.time())"
+1763869688.1104693</code>
+<li>Mostly useful to keep track of changes in time.
+</section>
+
+<section>
+<h2>Time</h2>
+<ul>
+<li>We can measure how long it takes from someone to input something.
+<code class="python">from time import time
+
+start = time()
+print("After you press enter, the amount of time since this text appeared will be printed.")
+input()
+end = time()
+print(end-start)</code>
+</section>
+
+<section>
+<h2>Timing</h2>
+<ul><li>We can:
+<ul><li>Import time.
+<li>Create a list of words, say every hundredth word.
+<li>Create a list of the four functions.
+<li>Loop over each function:
+    <ul><li>Start the clock.
+    <li>Check each word and it's reversal.
+    <li>Stop the clock and then print the result.
+</ul>
+</section>
+
+<section>
+<h2>Sample Code</h2>
+<ul>
+<code class="python">from time import time
+
+test_set = ENGLISH_WORDS[50::100]
+funcs = [by_in, by_for, by_copy, by_index]
+
+for f in funcs:
+    start = time()
+    for word in test_set:
+        f(word), f(word[::-1])
+    print(f, time()-start)</code>
+</section>
+
+<section>
+<h2><a href="https://gist.github.com/cd-public/93220054d3d9594d329a40e38afc7c33.js">Link to .py</a></h2>
+
+<script src="https://gist.github.com/cd-public/93220054d3d9594d329a40e38afc7c33.js"></script>
+
+</section>
+
+<section>
+<h2>Results</h2>
+<ul><li>These are the results I got...
+<code class="sh">&lt;function by_in at 0x7aa67a763d90&gt; 1.5537760257720947
+&lt;function by_for at 0x7aa679869c60&gt; 4.493199586868286
+&lt;function by_copy at 0x7aa679915630&gt; 1.0388541221618652
+&lt;function by_index at 0x7aa6799156c0&gt; 0.0052835941314697266</code>
+<li>Takeaway: If you know a list is sorted, you can be (much) faster than the built-in way of doing things.
+<li>You can do things both (1) algorithmically correctly and (2) technically efficiently.
+<li>Computer science is both a mathematical and natural science.
+</section>
+
+
+<section>
+<h2>Today</h2>
+<ul>
+<li>Computer science as an experimental science.
+<li>Is write-good-code relevant.
+</section>
+
+<section>
+<h2>Announcements</h2>
+<ul>
+<li>Adventure Ongoing
+<ul><li>You should be thinking about how to navigate between scenes</ul>
+<li>Advising ongoing
+<ul><li>If you encounter any problem, email me immediately
+<li>I'll be doing triage:
+<ul><li>If you don't get an email back quickly, either <ul>
+<li>I'm on a multi-hour trail run and/or asleep, or
+<li>I will be able to solve any problems you encounter non-urgently.
+</ul>
+<li>Either way, once you send the email it is not your problem.
+</section>
+
+
+
+    </div>
+  </div>
+
+ 
+ </div>
+  </div>
+  <script>
+      Reveal.initialize({
+        progress: true,
+        slideNumber: true,
+        center: false,
+        fragmentInURL: true,
+        width: 1920,
+        height: 1200,
+        display: 'block',
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+        ],
+      });
+    </script>
+    </body>
+</html>

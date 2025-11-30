@@ -30,16 +30,16 @@
 <section>
   <h1 class="title">Mergesort</h1>
   <p class="author">Calvin (Deutschbein)
-  <p class="date">W15Mon: 02 Dec<br>
+  <p class="date">W15Mon: 01 Dec<br>
 </section>
 </section>
 
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>Follow up from binary search (Friday, Nov 22)
+<li>Follow up from binary search
 <li>Adventure Ongoing
-<ul><li>You should be DONE</ul>
+<ul><li>I would want to be done.<li>Due Wednesday at Midnight</ul>
 <li>Advising ongoing
 </ul>
 </section>
@@ -57,9 +57,9 @@
 <section>
 <h2>Throwback Wordle</h2>
 <ul>
-<li>Read in some text (hey just like adventure)
-<li>See if it's in a list of words (just like adventure)
-<li>Hella words (this is where it's different)
+<li>Read in some text
+<li>See if it's in a list of words
+<li>Hella words
 <li>Do thing accordingly.
 <ul><li>Wordle's ENGLISH_WORDS had 127145 words
 <li>It's <a href="https://raw.githubusercontent.com/rembold-cs151-master/Section04/refs/heads/main/english.py">here</a>.
@@ -87,13 +87,13 @@
 <li>Sorting can be fast, or it can be slow.
 <ul><li>Imagine I am sorting 20 metric tons of peanuts by height</ul>
 <li>I could sort my peanuts by height by...
-<ul><li>Taking one peanut at a time.
+<ul><li>Taking one peanut at a time.<ul>
 <li>Going through a height-ordered list of peanuts
 <li>Comparing my peanut with each item in the list
 <li>When I get to two peanuts that are:<ul>
 <li>Next two each other when sorted by height
 <li>Would have my current peanut between them</ul>
-<li>I place my peanut at that location
+<li>I place my peanut at that location</ul>
 <li>Then loop by grabbing another peanut and starting at the beginning of the list.
 </ul><li>This is known as "having a good time"
 </section>
@@ -114,7 +114,7 @@
 <h2>One at a time</h2>
 <ul>
 <li>Suppose we have a peanut and an ordered collection of peanuts:
-<code class="python">def add_peanut(peanut, peanuts:list)->list:
+<code class="python">def add_peanut(peanut, peanuts):
     index = 0 # we'll look at peanuts in order
     while peanut < peanuts[index]: # see if our peanut's taller
         index += 1 # if it is, we keep going
@@ -128,7 +128,7 @@
 <h2>One at a time</h2>
 <ul>
 <li>One peanut at a time:
-<code class="python">def order_peanuts(peanuts:list)->list:
+<code class="python">def order_peanuts(peanuts):
     ordered = [peanuts[0]]
     for peanut in peanuts[1:]:
         index = 0
@@ -160,7 +160,7 @@
 <ul>
 <li>We take a pile of peanuts</td>
 </td><td style="width:70%">
-<code class="python">def order_peanuts(peanuts:list)->list:</code>
+<code class="python">def order_peanuts(peanuts):</code>
 </td></table>
 </section>
 
@@ -172,7 +172,7 @@
 <li>We take a pile of peanuts
 <li>We divide in half.</td>
 </td><td style="width:70%">
-<code class="python">def order_peanuts(peanuts:list)->list:
+<code class="python">def order_peanuts(peanuts):
     half = len(peanuts) // 2
     head = peanuts[:half]
     tail = peanuts[half:]</code>
@@ -187,7 +187,7 @@
 <li>We divide in half.
 <li>We sort both halves.</td>
 </td><td style="width:70%">
-<code class="python">def order_peanuts(peanuts:list)->list:
+<code class="python">def order_peanuts(peanuts):
     half = len(peanuts) // 2
     head = peanuts[:half]
     tail = peanuts[half:]
@@ -205,7 +205,7 @@
 <li>We sort both halves.
 <li>We combine the halves.</td>
 </td><td style="width:70%">
-<code class="python">def order_peanuts(peanuts:list)->list:
+<code class="python">def order_peanuts(peanuts):
     half = len(peanuts) // 2
     head = peanuts[:half]
     tail = peanuts[half:]
@@ -225,7 +225,7 @@
 <li>We combine the halves.
 <li>If we keep talking halves, eventually we'll have (many) piles of just one peanut!</td>
 </td><td style="width:70%">
-<code class="python">def order_peanuts(peanuts:list)->list:
+<code class="python">def order_peanuts(peanuts):
     if len(peanuts) < 2:
         return peanuts
     half = len(peanuts) // 2
@@ -338,7 +338,7 @@ def order_peanuts(peanuts):
 merge = merge_peanuts
 order_peanuts_merge = order_peanuts
 
-def order_peanuts_oneat(peanuts:list)->list:
+def order_peanuts_oneat(peanuts):
     ordered = [peanuts[0]]
     for peanut in peanuts[1:]:
         index = 0
@@ -372,9 +372,9 @@ print(compares)</code>
 <section>
 <h2>Announcements</h2>
 <ul>
-<li>Follow up from binary search (Friday, Nov 22)
+<li>Follow up from binary search
 <li>Adventure Ongoing
-<ul><li>You should be DONE</ul>
+<ul><li>I would want to be done.<li>Due Wednesday at Midnight</ul>
 <li>Advising ongoing
 </ul>
 </section>
